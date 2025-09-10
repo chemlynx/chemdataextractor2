@@ -1,0 +1,75 @@
+repos:
+    # Ruff for linting and formatting
+    - repo: https://github.com/astral-sh/ruff-pre-commit
+      rev: v0.1.6
+      hooks:
+        - id: ruff
+          args: [--fix, --exit-non-zero-on-fix]
+        - id: ruff-format
+
+    # MyPy for type checking
+    - repo: https://github.com/pre-commit/mirrors-mypy
+      rev: v1.7.1
+      hooks:
+        - id: mypy
+          additional_dependencies: [types-PyYAML, types-requests,
+  types-python-dateutil]
+          args: [--install-types, --non-interactive]
+          exclude: ^(tests/|docs/)
+
+    # Basic file checks
+    - repo: https://github.com/pre-commit/pre-commit-hooks
+      rev: v4.5.0
+      hooks:
+        - id: trailing-whitespace
+        - id: end-of-file-fixer
+        - id: check-yaml
+        - id: check-added-large-files
+        - id: check-merge-conflict
+        - id: debug-statements
+
+    # Security checks
+    - repo: https://github.com/PyCQA/bandit
+      rev: 1.7.5
+      hooks:
+        - id: bandit
+          args: [-c, pyproject.toml]
+          additional_dependencies: ["bandit[toml]"]
+          exclude: ^tests/
+
+    # Dependency security
+    - repo: https://github.com/Lucas-C/pre-commit-hooks-safety
+      rev: v1.3.2
+      hooks:
+        - id: python-safety-dependencies-check
+
+    # Dead code detection (runs on changed files only)
+    - repo: local
+      hooks:
+        - id: vulture
+          name: vulture
+          entry: vulture
+          language: system
+          types: [python]
+          args: [--min-confidence=80]
+
+    # Complexity checks
+    - repo: local
+      hooks:
+        - id: radon-complexity
+          name: radon complexity
+          entry: radon
+          language: system
+          args: [cc, --min=B]
+          types: [python]
+
+    # Test coverage (only on test files)
+    - repo: local
+      hooks:
+        - id: pytest-coverage
+          name: pytest with coverage
+          entry: pytest
+          language: system
+          args: [--cov=chemdataextractor, --cov-fail-under=80]
+          files: ^tests/.*\.py$
+          pass_filenames: false
