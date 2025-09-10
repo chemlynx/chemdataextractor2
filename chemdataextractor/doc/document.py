@@ -1,96 +1,168 @@
-# -*- coding: utf-8 -*-
 """
 Document model.
 
+This module provides the Document class, which is the central orchestrator for
+chemical data extraction from scientific documents.
 """
 
-from __future__ import absolute_import
-from __future__ import division
-from __future__ import print_function
-from __future__ import unicode_literals
 
-from abc import ABCMeta, abstractproperty
-from operator import index
-from pprint import pprint
+from __future__ import annotations
+
 import collections
-import io
+import copy
 import json
 import logging
-import copy
+from abc import ABCMeta
+from abc import abstractproperty
+from typing import Any
+from typing import BinaryIO
+from typing import Dict
+from typing import List
+from typing import Optional
+from typing import Sequence
+from typing import TextIO
+from typing import Tuple
+from typing import Type
+from typing import Union
+from typing import TYPE_CHECKING
 
+try:
+    from typing_extensions import Self
+except ImportError:
+    from typing import Self  # type: ignore[attr-defined]
 
-from ..utils import memoized_property
-from .text import (
-    Paragraph,
-    Citation,
-    Footnote,
-    Heading,
-    Title,
-    Caption,
-    RichToken,
-    Sentence,
-    Cell,
-)
-from .element import CaptionedElement
-from .table import Table
-from .figure import Figure
-from .meta import MetaData
+from ..config import Config
 from ..errors import ReaderError
 from ..model.base import ModelList
+from ..model.contextual_range import ParagraphRange
+from ..model.contextual_range import SectionRange
+from ..model.contextual_range import SentenceRange
 from ..model.model import Compound
-from ..model.contextual_range import SentenceRange, ParagraphRange, SectionRange
 from ..text import get_encoding
-from ..config import Config
-from ..parse.cem import chemical_name
+from .element import CaptionedElement
+from .figure import Figure
+from .meta import MetaData
+from .table import Table
+from .text import Caption
+from .text import Cell
+from .text import Citation
+from .text import Footnote
+from .text import Heading
+from .text import Paragraph
+from .text import RichToken
+from .text import Sentence
+from .text import Title
 
+# Import type definitions
+from ..typing import ElementList
+from ..typing import ModelT
+from ..typing import RecordDict
+from ..typing import SerializedRecord
+
+if TYPE_CHECKING:
+    from ..model.base import BaseModel
+    from ..model.contextual_range import ContextualRange
+    from ..reader.base import BaseReader
+    from .element import BaseElement
+    
+    # Type aliases using forward references
+    FileInput = Union[str, BinaryIO, TextIO]
+    ElementInput = Union[str, bytes, "BaseElement"]
+    AbbreviationDef = Tuple[List[str], List[str], str]
+else:
+    # Runtime type aliases
+    FileInput = Union[str, BinaryIO, TextIO]
+    ElementInput = Union[str, bytes, Any]  # BaseElement not available at runtime
+    AbbreviationDef = Tuple[List[str], List[str], str]
 
 log = logging.getLogger(__name__)
 
 
 class BaseDocument(collections.abc.Sequence, metaclass=ABCMeta):
-    """Abstract base class for a Document."""
+    """Abstract base class for a Document.
+    
+    Provides the basic sequence interface for accessing document elements
+    and defines the abstract interface for extracting chemical records.
+    """
 
-    def __repr__(self):
+    def __repr__(self) -> str:
+        """Return string representation of the document."""
         return "<%s: %s elements>" % (self.__class__.__name__, len(self))
 
-    def __str__(self):
+    def __str__(self) -> str:
+        """Return string representation of the document."""
         return "<%s: %s elements>" % (self.__class__.__name__, len(self))
 
-    def __getitem__(self, index):
+    def __getitem__(self, index: int) -> "BaseElement":
+        """Get document element by index.
+        
+        Args:
+            index: The element index
+            
+        Returns:
+            The document element at the specified index
+        """
         return self.elements[index]
 
-    def __len__(self):
+    def __len__(self) -> int:
+        """Return the number of elements in the document.
+        
+        Returns:
+            The number of document elements
+        """
         return len(self.elements)
 
     @abstractproperty
-    def elements(self):
-        """Return a list of document elements."""
+    def elements(self) -> List["BaseElement"]:
+        """Return a list of document elements.
+        
+        Returns:
+            List of all elements in this document
+        """
         return []
 
     @abstractproperty
-    def records(self):
-        """Chemical records that have been parsed from this Document."""
-        return []
+    def records(self) -> "ModelList[BaseModel]":
+        """Chemical records that have been parsed from this Document.
+        
+        Returns:
+            List of all extracted chemical records
+        """
+        return ModelList()
 
 
 class Document(BaseDocument):
-    """A document to extract data from. Contains a list of document elements."""
+    """A document to extract data from. Contains a list of document elements.
+    
+    The Document class is the main entry point for chemical data extraction.
+    It processes scientific documents through a multi-stage pipeline:
+    
+    1. Reader stage: Converts input formats to structured elements
+    2. NLP processing: Tokenization, POS tagging, NER
+    3. Parsing: Rule-based extraction of structured data
+    4. Contextual merging: Links related information across the document
+    
+    Example:
+        >>> doc = Document.from_file('paper.pdf')
+        >>> records = doc.records
+        >>> compounds = [r for r in records if isinstance(r, Compound)]
+    """
 
-    # TODO: Add a usage example here in the documentation.
-
-    def __init__(self, *elements, **kwargs):
-        """Initialize a Document manually by passing one or more Document elements (Paragraph, Heading, Table, etc.)
-
-        Strings that are passed to this constructor are automatically wrapped into Paragraph elements.
-
-        :param list[chemdataextractor.doc.element.BaseElement|string] elements: Elements in this Document.
-        :keyword Config config: (Optional) Config file for the Document.
-        :keyword list[BaseModel] models: (Optional) Models that the Document should extract data for.
-        :keyword list[(list[str], list[str])] adjacent_sections_for_merging: (Optional) Sections that will be treated as
-            though they are adjacent for the purpose of contextual merging. All elements should be in lowercase.
-        :keyword list[chemdataextractor.doc.element.BaseElement subclass] skip_elements: (Optional) Element types to be skipped in parsing
+    def __init__(self, *elements: ElementInput, **kwargs: Any) -> None:
+        """Initialize a Document manually by passing document elements.
+        
+        Strings and byte strings are automatically wrapped into Paragraph elements.
+        
+        Args:
+            *elements: Document elements (Paragraph, Heading, Table, etc.) or strings
+            **kwargs: Additional configuration options:
+                - config: Config file for the Document
+                - models: List of models for data extraction
+                - adjacent_sections_for_merging: Section pairs treated as adjacent
+                - skip_elements: Element types to skip during parsing
+                - _should_remove_subrecord_if_merged_in: Internal flag for merging
         """
-        self._elements = []
+        self._elements: List["BaseElement"] = []
         for element in elements:
             # Convert raw text to Paragraph elements
             if isinstance(element, str):
@@ -105,53 +177,47 @@ class Document(BaseDocument):
                 element = Paragraph(element.decode(encoding))
             element.document = self
             self._elements.append(element)
-        if "config" in kwargs.keys():
-            self.config = kwargs["config"]
-        else:
-            self.config = Config()
-        if "models" in kwargs.keys():
+        # Configuration
+        self.config: Config = kwargs.get("config", Config())
+        
+        # Model configuration
+        if "models" in kwargs:
             self.models = kwargs["models"]
         else:
-            self._models = []
-        if "adjacent_sections_for_merging" in kwargs:
-            self.adjacent_sections_for_merging = copy.copy(
-                kwargs["adjacent_sections_for_merging"]
-            )
-        else:
-            self.adjacent_sections_for_merging = None
-        if "skip_elements" in kwargs:
-            self.skip_elements = kwargs["skip_elements"]
-        else:
-            self.skip_elements = []
-        if "_should_remove_subrecord_if_merged_in" in kwargs:
-            self._should_remove_subrecord_if_merged_in = kwargs[
-                "should_remove_subrecord_if_merged_in"
-            ]
-        else:
-            self._should_remove_subrecord_if_merged_in = False
+            self._models: List[Type["BaseModel"]] = []
+        
+        # Merging configuration
+        self.adjacent_sections_for_merging: Optional[List[Tuple[List[str], List[str]]]] = (
+            copy.copy(kwargs["adjacent_sections_for_merging"])
+            if "adjacent_sections_for_merging" in kwargs
+            else None
+        )
+        
+        # Element processing configuration
+        self.skip_elements: List[Type["BaseElement"]] = kwargs.get("skip_elements", [])
+        self._should_remove_subrecord_if_merged_in: bool = kwargs.get(
+            "_should_remove_subrecord_if_merged_in", False
+        )
 
-        # Sets parameters from configuration file
-        for element in elements:
+        # Set parameters from configuration file
+        for element in self._elements:
             if callable(getattr(element, "set_config", None)):
                 element.set_config()
-        self.skip_parsers = []
+        self.skip_parsers: List[Any] = []  # List of parsers to skip
         log.debug(
             "%s: Initializing with %s elements"
             % (self.__class__.__name__, len(self.elements))
         )
 
-    def add_models(self, models):
-        """
-        Add models to all elements.
-
-        Usage::
-
-            d = Document.from_file(f)
-            d.set_models([myModelClass1, myModelClass2,..])
-
-        Arguments::
-            models -- List of model classes
-
+    def add_models(self, models: List[Type["BaseModel"]]) -> None:
+        """Add models to all elements for data extraction.
+        
+        Args:
+            models: List of model classes to add for extraction
+            
+        Example:
+            >>> d = Document.from_file('paper.pdf')
+            >>> d.add_models([MeltingPoint, BoilingPoint])
         """
         log.debug("Setting models")
         self._models.extend(models)
@@ -162,65 +228,82 @@ class Document(BaseDocument):
         return
 
     @property
-    def models(self):
+    def models(self) -> List[Type["BaseModel"]]:
+        """Get the list of models configured for extraction.
+        
+        Returns:
+            List of model classes used for data extraction
+        """
         return self._models
 
     @models.setter
-    def models(self, value):
+    def models(self, value: List[Type["BaseModel"]]) -> None:
+        """Set the models for extraction and propagate to all elements.
+        
+        Args:
+            value: List of model classes to use for extraction
+        """
         self._models = value
         for element in self.elements:
             element.models = value
 
     @classmethod
-    def from_file(cls, f, fname=None, readers=None):
+    def from_file(
+        cls, 
+        f: FileInput, 
+        fname: Optional[str] = None, 
+        readers: Optional[List["BaseReader"]] = None
+    ) -> Self:
         """Create a Document from a file.
-
-        Usage::
-
-            with open('paper.html', 'rb') as f:
-                doc = Document.from_file(f)
-
-        .. note::
-
+        
+        Args:
+            f: A file-like object or path to a file
+            fname: Optional filename to help determine file format
+            readers: Optional list of readers to use. If not set, will try all default readers
+            
+        Returns:
+            A new Document instance created from the file
+            
+        Note:
             Always open files in binary mode by using the 'rb' parameter.
-
-        :param f: A file-like object or path to a file.
-        :type f: file or str
-        :param str fname: (Optional) The filename. Used to help determine file format.
-        :param list[chemdataextractor.reader.base.BaseReader] readers: (Optional) List of readers to use. If not set, Document will try all default readers,
-            which are :class:`~chemdataextractor.reader.acs.AcsHtmlReader`, :class:`~chemdataextractor.reader.rsc.RscHtmlReader`,
-            :class:`~chemdataextractor.reader.nlm.NlmXmlReader`, :class:`~chemdataextractor.reader.uspto.UsptoXmlReader`,
-            :class:`~chemdataextractor.reader.cssp.CsspHtmlReader`, :class:`~chemdataextractor.elsevier.ElsevierXmlReader`,
-            :class:`~chemdataextractor.reader.markup.XmlReader`, :class:`~chemdataextractor.reader.markup.HtmlReader`,
-            :class:`~chemdataextractor.reader.pdf.PdfReader`, and :class:`~chemdataextractor.reader.plaintext.PlainTextReader`.
+            
+        Example:
+            >>> with open('paper.html', 'rb') as f:
+            ...     doc = Document.from_file(f)
         """
         if isinstance(f, str):
-            f = io.open(f, "rb")
+            with open(f, "rb") as file:
+                return cls.from_string(file.read(), fname=fname or f, readers=readers)
         if not fname and hasattr(f, "name"):
             fname = f.name
         return cls.from_string(f.read(), fname=fname, readers=readers)
 
     @classmethod
-    def from_string(cls, fstring, fname=None, readers=None):
-        """Create a Document from a byte string containing the contents of a file.
-
-        Usage::
-
-            contents = open('paper.html', 'rb').read()
-            doc = Document.from_string(contents)
-
-        .. note::
-
-            This method expects a byte string, not a unicode string (in contrast to most methods in ChemDataExtractor).
-
-        :param bytes fstring: A byte string containing the contents of a file.
-        :param str fname: (Optional) The filename. Used to help determine file format.
-        :param list[chemdataextractor.reader.base.BaseReader] readers: (Optional) List of readers to use. If not set, Document will try all default readers,
-            which are :class:`~chemdataextractor.reader.acs.AcsHtmlReader`, :class:`~chemdataextractor.reader.rsc.RscHtmlReader`,
-            :class:`~chemdataextractor.reader.nlm.NlmXmlReader`, :class:`~chemdataextractor.reader.uspto.UsptoXmlReader`,
-            :class:`~chemdataextractor.reader.cssp.CsspHtmlReader`, :class:`~chemdataextractor.elsevier.ElsevierXmlReader`,
-            :class:`~chemdataextractor.reader.markup.XmlReader`, :class:`~chemdataextractor.reader.markup.HtmlReader`,
-            :class:`~chemdataextractor.reader.pdf.PdfReader`, and :class:`~chemdataextractor.reader.plaintext.PlainTextReader`.
+    def from_string(
+        cls, 
+        fstring: bytes, 
+        fname: Optional[str] = None, 
+        readers: Optional[List["BaseReader"]] = None
+    ) -> Self:
+        """Create a Document from a byte string containing file contents.
+        
+        Args:
+            fstring: A byte string containing the contents of a file
+            fname: Optional filename to help determine file format  
+            readers: Optional list of readers to use. If not set, will try all default readers
+            
+        Returns:
+            A new Document instance created from the byte string
+            
+        Note:
+            This method expects a byte string, not a unicode string.
+            
+        Example:
+            >>> contents = open('paper.html', 'rb').read()
+            >>> doc = Document.from_string(contents)
+            
+        Raises:
+            ReaderError: If no reader can process the input or if a unicode string is passed
         """
         if readers is None:
             from ..reader import DEFAULT_READERS
@@ -243,11 +326,14 @@ class Document(BaseDocument):
         raise ReaderError("Unable to read document")
 
     @property
-    def elements(self):
-        """
-        A list of all the elements in this document. All elements subclass from :class:`~chemdataextractor.doc.element.BaseElement`,
-        and represent things such as paragraphs or tables, and can be found in :mod:`chemdataextractor.doc.figure`,
-        :mod:`chemdataextractor.doc.table`, and :mod:`chemdataextractor.doc.text`.
+    def elements(self) -> List["BaseElement"]:
+        """All elements in this document.
+        
+        Elements subclass from BaseElement and represent document components
+        such as paragraphs, tables, figures, headings, etc.
+        
+        Returns:
+            List of all document elements
         """
         return self._elements
 
@@ -259,18 +345,14 @@ class Document(BaseDocument):
         """
         log.debug("Getting chemical records")
         records = ModelList()  # Final list of records -- output
-        records_by_el = (
-            []
-        )  # List of records by element -- used for some merging, should contain all the same records as records
+        records_by_el = []  # List of records by element -- used for some merging, should contain all the same records as records
         head_def_record = (
             None  # Most recent record from a heading, title or short paragraph
         )
         head_def_record_i = None  # Element index of head_def_record
         last_product_record = None
         title_record = None  # Records found in the title
-        record_id_el_map = (
-            {}
-        )  # A dictionary that tells what element each record ID came from. We use their IDs as the records themselves change as they are updated
+        record_id_el_map = {}  # A dictionary that tells what element each record ID came from. We use their IDs as the records themselves change as they are updated
 
         prev_records = []
         el_records = []
@@ -279,7 +361,6 @@ class Document(BaseDocument):
 
         # Main loop, over all elements in the document
         for i, el in enumerate(self.elements):
-
             if type(el) in self.skip_elements:
                 continue
 
@@ -355,9 +436,12 @@ class Document(BaseDocument):
                         sent_record = first_sent_records[0]
                         if sent_record.names:
                             longest_name = sorted(sent_record.names, key=len)[0]
-                        if sent_record.labels or (
-                            sent_record.names
-                            and len(longest_name) > len(el.sentences[0].text) / 2
+                        if (
+                            sent_record.labels
+                            or (
+                                sent_record.names
+                                and len(longest_name) > len(el.sentences[0].text) / 2
+                            )
                         ):  # TODO: Why do the length check? Maybe to make sure that the sentence mostly refers to a compound?
                             head_def_record = sent_record
                             head_def_record_i = i
@@ -616,146 +700,185 @@ class Document(BaseDocument):
 
         return cleaned_records
 
-    def get_element_with_id(self, id):
+    def get_element_with_id(self, id: str) -> Optional["BaseElement"]:
+        """Get element with the specified ID.
+        
+        Args:
+            id: Identifier to search for
+            
+        Returns:
+            Element with specified ID, or None if not found
+            
+        Note:
+            Elements can contain nested elements (captions, footnotes, table cells, etc.)
+            but this method only searches top-level elements.
         """
-        Get element with the specified ID. If one is not found, None is returned.
-
-        :param id: Identifier to search for.
-        :returns: Element with specified ID
-        :rtype: BaseElement or None
-        """
-        """Return the element with the specified ID."""
-        # Should we maintain a hashmap of ids to make this more efficient? Probably overkill.
-        # TODO: Elements can contain nested elements (captions, footnotes, table cells, etc.)
         return next((el for el in self.elements if el.id == id), None)
 
     @property
-    def figures(self):
-        """
-        A list of all :class:`~chemdataextractor.doc.figure.Figure` elements in this Document.
+    def figures(self) -> List[Figure]:
+        """All Figure elements in this Document.
+        
+        Returns:
+            List of all Figure elements
         """
         return [el for el in self.elements if isinstance(el, Figure)]
 
     @property
-    def tables(self):
-        """
-        A list of all :class:`~chemdataextractor.doc.table.Table` elements in this Document.
+    def tables(self) -> List[Table]:
+        """All Table elements in this Document.
+        
+        Returns:
+            List of all Table elements
         """
         return [el for el in self.elements if isinstance(el, Table)]
 
     @property
-    def citations(self):
-        """
-        A list of all :class:`~chemdataextractor.doc.text.Citation` elements in this Document.
+    def citations(self) -> List[Citation]:
+        """All Citation elements in this Document.
+        
+        Returns:
+            List of all Citation elements
         """
         return [el for el in self.elements if isinstance(el, Citation)]
 
     @property
-    def footnotes(self):
-        """
-        A list of all :class:`~chemdataextractor.doc.text.Footnote` elements in this Document.
-
-        .. note::
-
-            Elements (e.g. Tables) can contain nested Footnotes which are not taken into account.
+    def footnotes(self) -> List[Footnote]:
+        """All Footnote elements in this Document.
+        
+        Returns:
+            List of all Footnote elements
+            
+        Note:
+            Elements (e.g. Tables) can contain nested Footnotes which are not included.
         """
         # TODO: Elements (e.g. Tables) can contain nested Footnotes
         return [el for el in self.elements if isinstance(el, Footnote)]
 
     @property
-    def titles(self):
-        """
-        A list of all :class:`~chemdataextractor.doc.text.Title` elements in this Document.
+    def titles(self) -> List[Title]:
+        """All Title elements in this Document.
+        
+        Returns:
+            List of all Title elements
         """
         return [el for el in self.elements if isinstance(el, Title)]
 
     @property
-    def headings(self):
-        """
-        A list of all :class:`~chemdataextractor.doc.text.Heading` elements in this Document.
+    def headings(self) -> List[Heading]:
+        """All Heading elements in this Document.
+        
+        Returns:
+            List of all Heading elements
         """
         return [el for el in self.elements if isinstance(el, Heading)]
 
     @property
-    def paragraphs(self):
-        """
-        A list of all :class:`~chemdataextractor.doc.text.Paragraph` elements in this Document.
+    def paragraphs(self) -> List[Paragraph]:
+        """All Paragraph elements in this Document.
+        
+        Returns:
+            List of all Paragraph elements
         """
         return [el for el in self.elements if isinstance(el, Paragraph)]
 
     @property
-    def captions(self):
-        """
-        A list of all :class:`~chemdataextractor.doc.text.Caption` elements in this Document.
+    def captions(self) -> List[Caption]:
+        """All Caption elements in this Document.
+        
+        Returns:
+            List of all Caption elements
         """
         return [el for el in self.elements if isinstance(el, Caption)]
 
     @property
-    def captioned_elements(self):
-        """
-        A list of all :class:`~chemdataextractor.doc.element.CaptionedElement` elements in this Document.
+    def captioned_elements(self) -> List[CaptionedElement]:
+        """All CaptionedElement elements in this Document.
+        
+        Returns:
+            List of all CaptionedElement elements
         """
         return [el for el in self.elements if isinstance(el, CaptionedElement)]
 
     @property
-    def metadata(self):
-        """Return metadata information"""
+    def metadata(self) -> MetaData:
+        """Return metadata information.
+        
+        Returns:
+            The first MetaData element found in the document
+            
+        Raises:
+            IndexError: If no metadata element is found
+        """
         return [el for el in self.elements if isinstance(el, MetaData)][0]
 
     @property
-    def abbreviation_definitions(self):
-        """
-        A list of all abbreviation definitions in this Document. Each abbreviation is in the form
-        (:class:`str` abbreviation, :class:`str` long form of abbreviation, :class:`str` ner_tag)
+    def abbreviation_definitions(self) -> List[AbbreviationDef]:
+        """All abbreviation definitions in this Document.
+        
+        Each abbreviation is a tuple of (short_form, long_form, ner_tag).
+        
+        Returns:
+            List of abbreviation definition tuples
         """
         return [ab for el in self.elements for ab in el.abbreviation_definitions]
 
     @property
-    def ner_tags(self):
-        """
-        A list of all Named Entity Recognition tags in this Document.
-        If a word was found not to be a named entity, the named entity tag is None,
-        and if it was found to be a named entity, it can have either a tag of 'B-CM' for a beginning of a
-        mention of a chemical or 'I-CM' for the continuation of a mention.
+    def ner_tags(self) -> List[Optional[str]]:
+        """All Named Entity Recognition tags in this Document.
+        
+        Returns:
+            List of NER tags. None for non-entities, 'B-CM' for beginning
+            of chemical mentions, 'I-CM' for continuation of mentions.
         """
         return [n for el in self.elements for n in el.ner_tags]
 
     @property
-    def cems(self):
-        """
-        A list of all Chemical Entity Mentions in this document as :class:`~chemdataextractor.doc.text.Span`
+    def cems(self) -> List[Any]:  # TODO: Type as List[Span] when Span is typed
+        """All Chemical Entity Mentions in this document.
+        
+        Returns:
+            List of unique chemical entity mention Spans
         """
         return list(set([n for el in self.elements for n in el.cems]))
 
     @property
-    def definitions(self):
+    def definitions(self) -> List[Dict[str, Any]]:
+        """All recognized definitions within this Document.
+        
+        Returns:
+            List of definition dictionaries
         """
-        Return a list of all recognised definitions within this Document
-        """
-        # TODO: What's the type of this?
         return list([defn for el in self.elements for defn in el.definitions])
 
-    def serialize(self):
+    def serialize(self) -> Dict[str, Any]:
+        """Convert Document to Python dictionary.
+        
+        Returns:
+            Dictionary with 'type': 'document' and 'elements' containing
+            serialized representations of all document elements.
         """
-        Convert Document to Python dictionary. The dictionary will always contain the key 'type', which will be 'document',
-        and the key 'elements', which contains a dictionary representation of each of the elements of the document.
-        """
-        # Serialize fields to a dict
-        elements = []
-        for element in self.elements:
-            elements.append(element.serialize())
-        data = {"type": "document", "elements": elements}
-        return data
+        elements = [element.serialize() for element in self.elements]
+        return {"type": "document", "elements": elements}
 
-    def to_json(self, *args, **kwargs):
-        """Convert Document to JSON string. The content of the JSON will be equivalent
-        to that of :meth:`serialize`.
-        The document itself will be under the key 'elements',
-        and there will also be the key 'type', which will always be 'document'.
-        Any arguments for :func:`json.dumps` can be passed into this function."""
+    def to_json(self, *args: Any, **kwargs: Any) -> str:
+        """Convert Document to JSON string.
+        
+        Args:
+            *args: Arguments passed to json.dumps
+            **kwargs: Keyword arguments passed to json.dumps
+            
+        Returns:
+            JSON string representation of the document
+        """
         return json.dumps(self.serialize(), *args, **kwargs)
 
-    def _repr_html_(self):
+    def _repr_html_(self) -> str:
+        """Return HTML representation for Jupyter notebook display.
+        
+        Returns:
+            HTML string representation of the document
+        """
         html_lines = ['<div class="cde-document">']
         for element in self.elements:
             html_lines.append(element._repr_html_())
@@ -812,7 +935,7 @@ class Document(BaseDocument):
                                 sentence
                             )
         for parser, sentences in zip(
-            self._batch_parsers, sentences_for_parser_at_index
+            self._batch_parsers, sentences_for_parser_at_index, strict=False
         ):
             records_dict = parser.batch_parse_sentences(sentences)
             parser._batch_parsed_records_dict = records_dict
@@ -898,7 +1021,7 @@ class Document(BaseDocument):
         try:
             index_a = self.elements.index(element_a)
             index_b = self.elements.index(element_b)
-        except ValueError as e:
+        except ValueError:
             raise ValueError(
                 f"Elements {index_a} and {index_b} not in elements for this document"
             )

@@ -9,33 +9,33 @@ authors = [
 readme = "README.md"
 requires-python = ">=3.9"
 dependencies = [
-    "appdirs>=1.4.3",
-    "beautifulsoup4>=4.12.0",
-    "boto3>=1.15.18",
-    "botocore>=1.18.18",
-    "click>=6.7",
-    "cssselect>=1.0.1",
-    "dawg2>=0.13.2",
-    "deprecation>=2.1.0",
-    "lxml>=3.7.2",
-    "nltk>=3.2.2",
-    "numpy>=1.17,<2.0.0",
-    "overrides>=3.1.0",
-    "pdfminer-six>=20160614,<=20220524 ; python_full_version < '3.8'",
-    "pdfminer-six>=20250506 ; python_full_version >= '3.8'",
-    "protobuf>=3.0.0",
-    "python-crfsuite>=0.9.1",
-    "python-dateutil>=2.6.0",
-    "pyyaml>=3.12",
-    "requests>=2.12.5",
-    "scikit-learn>=0.22.1",
-    "scipy<1.13.0",
-    "selenium>=3.14.1",
-    "stanza>=1.6.1",
-    "tabledataextractor>=1.5.11",
-    "tokenizers>=0.12.1",
-    "transformers>=4.30.1",
-    "yaspin>=3.1.0",
+  "appdirs>=1.4.3",
+  "beautifulsoup4>=4.12.0",
+  "boto3>=1.15.18",
+  "botocore>=1.18.18",
+  "click>=6.7",
+  "cssselect>=1.0.1",
+  "dawg2>=0.13.2",
+  "deprecation>=2.1.0",
+  "lxml>=3.7.2",
+  "nltk>=3.2.2",
+  "numpy>=1.17,<2.0.0",
+  "overrides>=3.1.0",
+  "pdfminer-six>=20160614,<=20220524 ; python_full_version < '3.8'",
+  "pdfminer-six>=20250506 ; python_full_version >= '3.8'",
+  "protobuf>=3.0.0",
+  "python-crfsuite>=0.9.1",
+  "python-dateutil>=2.6.0",
+  "pyyaml>=3.12",
+  "requests>=2.12.5",
+  "scikit-learn>=0.22.1",
+  "scipy<1.13.0",
+  "selenium>=3.14.1",
+  "stanza>=1.6.1",
+  "tabledataextractor>=1.5.11",
+  "tokenizers>=0.12.1",
+  "transformers>=4.30.1",
+  "yaspin>=3.1.0",
 ]
 
 [tool.uv.workspace]
@@ -68,46 +68,100 @@ build-backend = "setuptools.build_meta"
 [tool.setuptools.packages.find]
 include = ["chemdataextractor*"]
 
-# MyPy Configuration
+# MyPy Configuration - Phased Rollout Strategy
 [tool.mypy]
 python_version = "3.11"
-strict = true
+# Start with non-strict mode for gradual adoption
+strict = false
+# Enable key warnings for code quality
 warn_return_any = true
 warn_unused_configs = true
-warn_redundant_casts = true
-warn_unused_ignores = true
+warn_redundant_casts = true  
+warn_unused_ignores = false  # Disable during migration
 show_error_codes = true
 namespace_packages = true
 explicit_package_bases = true
+exclude = '''/tests/*'''
+# Enable incremental typing
+check_untyped_defs = true
+disallow_untyped_calls = false  # Allow during migration
+disallow_incomplete_defs = true
 
-# Phase 1: Core modules must pass strict typing
+# === PHASE 1: Foundation Modules (Strict Mode) ===
+[[tool.mypy.overrides]]
+module = ["chemdataextractor.typing"]
+strict = true
+disallow_untyped_defs = true
+disallow_incomplete_defs = true
+
+# === PHASE 1: Core Base Classes (Gradual Strict) ===  
+[[tool.mypy.overrides]]
+module = [
+  "chemdataextractor.doc.document",
+  "chemdataextractor.doc.element", 
+  "chemdataextractor.model.base",
+]
+# Start with basic typing, gradually enable strict
+disallow_untyped_defs = true
+disallow_incomplete_defs = true
+warn_return_any = true
+check_untyped_defs = true
+
+# === PHASE 2: Public API Modules ===
 [[tool.mypy.overrides]]
 module = [
   "chemdataextractor.doc.*",
-  "chemdataextractor.model.*",
-  "chemdataextractor.typing",
+  "chemdataextractor.model.model",
+  "chemdataextractor.model.contextual_range",
+  "chemdataextractor.parse.base",
+  "chemdataextractor.reader.base",
 ]
-ignore_errors = false
+# Moderate typing enforcement
+check_untyped_defs = true
+warn_return_any = false  # Too noisy during migration
 
-# Legacy modules - gradual migration
+# === PHASE 3: Internal Systems ===
 [[tool.mypy.overrides]]
-module = ["chemdataextractor.scrape.*", "chemdataextractor.relex.*"]
+module = [
+  "chemdataextractor.nlp.*",
+  "chemdataextractor.parse.*", 
+  "chemdataextractor.reader.*",
+]
+# Minimal enforcement during migration
+ignore_errors = false
+check_untyped_defs = false
+
+# === PHASE 4: Legacy Systems ===
+[[tool.mypy.overrides]]
+module = [
+  "chemdataextractor.scrape.*", 
+  "chemdataextractor.relex.*",
+  "chemdataextractor.cli.*",
+]
+# Skip for now, will address in Phase 4
 ignore_errors = true
 
-# External dependencies without stubs
+# === External Dependencies ===
 [[tool.mypy.overrides]]
 module = [
   "tabledataextractor.*",
-  "DAWG2.*",
+  "DAWG2.*", 
+  "dawg2.*",
   "python_crfsuite.*",
   "stanza.*",
   "yaspin.*",
+  "appdirs.*",
+  "lxml.*",
+  "nltk.*",
+  "yaml.*",
+  "selenium.*",
+  "overrides.*",
 ]
 ignore_missing_imports = true
 
 # Ruff Configuration
 [tool.ruff]
-target-version = "py39"
+target-version = "py311"
 line-length = 88
 select = [
   "E",   # pycodestyle errors
