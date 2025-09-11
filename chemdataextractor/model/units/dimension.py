@@ -1,12 +1,30 @@
 """
-Base types for dimensions. Refer to the example on :ref:`creating new units and dimensions<creating_units>` for more detail on how to create your own dimensions.
+Base types for dimensions and units.
+
+Provides the foundational classes for representing physical dimensions
+and their associated units in ChemDataExtractor's unit system.
+
+Refer to the example on :ref:`creating new units and dimensions<creating_units>` 
+for more detail on how to create your own dimensions.
 
 .. codeauthor:: Taketomo Isazawa <ti250@cam.ac.uk>
 """
 
+from __future__ import annotations
 
 import copy
 from abc import ABCMeta
+from typing import TYPE_CHECKING
+from typing import Any
+from typing import Optional
+from typing import Union
+
+if TYPE_CHECKING:
+    from .unit import Unit
+
+# Type aliases for dimension system
+UnitDict = dict[Unit, float]  # Maps units to their powers
+DimensionValue = Union[int, float]  # Numeric dimension values
 
 
 @property

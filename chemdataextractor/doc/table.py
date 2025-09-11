@@ -7,8 +7,13 @@ Table document elements
 
 """
 
+from __future__ import annotations
 
 import logging
+from typing import TYPE_CHECKING
+from typing import Any
+from typing import Optional
+from typing import Union
 
 from tabledataextractor import Table as TdeTable
 from tabledataextractor import TrivialTable as TrivialTdeTable
@@ -19,16 +24,37 @@ from ..model.base import ModelList
 from ..utils import memoized_property
 from .element import CaptionedElement
 
+if TYPE_CHECKING:
+    from ..doc.document import Document
+    from ..model.base import BaseModel
+    from ..parse.base import BaseParser
+
+# Type aliases for table processing
+TableData = list[list[Any]]  # Raw table data structure
+CDETable = list[list[Cell]]  # CDE table with Cell objects
+CDETables = list[CDETable]  # List of CDE tables
+CategoryTable = list[Any]  # Table category data
+TableRecords = ModelList  # Collection of extracted model records
+
 log = logging.getLogger(__name__)
 log.setLevel(logging.INFO)
 
 
 class Table(CaptionedElement):
-    """
-    Main Table object. Relies on TableDataExtractor.
+    """Main Table object for processing tabular data in scientific documents.
+    
+    Relies on TableDataExtractor for parsing and ChemDataExtractor for extraction.
+    Handles complex table structures with chemical entities, quantities, and properties.
     """
 
-    def __init__(self, caption, label=None, table_data=[], models=None, **kwargs):
+    def __init__(
+        self, 
+        caption: CaptionedElement, 
+        label: Optional[str] = None, 
+        table_data: Optional[TableData] = None, 
+        models: Optional[list[BaseModel]] = None, 
+        **kwargs: Any
+    ) -> None:
         """
         In addition to the parameters below, any keyword arguments supported by TableDataExtractor.TdeTable
         can be passed in as keyword arguments and they will be passed on to TableDataExtractor.TdeTable.
@@ -53,6 +79,8 @@ class Table(CaptionedElement):
         :param Document document: (Optional) The document containing this element.
         :param Any id: (Optional) Some identifier for this element. Must be equatable.
         """
+        if table_data is None:
+            table_data = []
         super(Table, self).__init__(
             caption=caption, label=label, models=models, **kwargs
         )
@@ -76,7 +104,7 @@ class Table(CaptionedElement):
                 self.heading = None
 
     @memoized_property
-    def cde_tables(self):
+    def cde_tables(self) -> CDETables:
         """
         CDE tables are lists of lists of Cells, that are used for the purpose of parsing
         in CDE. For other purposes, the underlying TDE table (`tde_table`) is probably more useful.

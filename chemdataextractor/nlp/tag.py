@@ -1,8 +1,12 @@
 #!/usr/bin/env python
 """
-Tagger implementations. Used for part-of-speech tagging and named entity recognition.
+Tagger implementations for part-of-speech tagging and named entity recognition.
 
+Provides abstract base classes and concrete implementations for chemistry-aware
+POS tagging and chemical entity mention (CEM) tagging using CRF models.
 """
+from __future__ import annotations
+
 import logging
 import pickle
 import random
@@ -10,6 +14,9 @@ import re
 from abc import ABCMeta
 from abc import abstractmethod
 from collections import defaultdict
+from typing import TYPE_CHECKING
+from typing import Any
+from typing import Optional
 
 import dawg
 import pycrfsuite
@@ -19,81 +26,46 @@ from ..data import find_data
 from ..data import load_model
 from .lexicon import Lexicon
 
+if TYPE_CHECKING:
+    pass
+
+# Type aliases for tagging
+Token = tuple[str, str]  # (word, tag) pair
+TaggedSentence = list[Token]  # List of tagged tokens
+TagList = list[str]  # List of tags
+TokenList = list[str]  # List of token strings
+
 log = logging.getLogger(__name__)
 
 
-POS_TAG_TYPE = "pos_tag"
-NER_TAG_TYPE = "ner_tag"
+POS_TAG_TYPE: str = "pos_tag"
+NER_TAG_TYPE: str = "ner_tag"
 
 
 class BaseTagger(metaclass=ABCMeta):
-    """
-    Abstract tagger class from which all taggers inherit.
+    """Abstract base class for all taggers.
 
-    Subclasses must implement at least one of the following sets of methods for tagging:
+    Provides the interface for part-of-speech tagging and named entity recognition.
+    Subclasses must implement at least one tagging method combination:
 
-    - ``legacy_tag()``
-    - ``tag()``
-    - ``batch_tag()``
-    - ``can_tag()`` and ``tag_for_type()``
-    - ``can_tag()`` and ``can_batch_tag()`` and ``batch_tag_for_type()``
+    - ``legacy_tag()`` - Single sentence, legacy interface
+    - ``tag()`` - Single sentence, modern interface
+    - ``batch_tag()`` - Multiple sentences, modern interface
+    - ``can_tag()`` + ``tag_for_type()`` - Type-specific single sentence
+    - ``can_tag()`` + ``can_batch_tag()`` + ``batch_tag_for_type()`` - Type-specific batch
 
-    The above interface is called when required by classes including :class:`~chemdataextractor.doc.text.Sentence` or
-    :class:`~chemdataextractor.doc.document.Document`, depending on whether only the tag for a sentence is required or
-    for the whole document.
-
-    If the user has implemented more than one of the combinations above, the order of presedence for the
-    tagging methods is as follows:
-
-    - ``batch_tag_for_type()``
-    - ``tag_for_type()``
-    - ``batch_tag()``
-    - ``tag()``
-    - ``legacy_tag()``
-
-    Most users should not have to implement the top two options, and the default impelementations are discussed in the
-    documentation for :class:`~chemdataextractor.nlp.tag.EnsembleTagger` instead of here.
-
-    An implementation of the other tagging methods should have the following signatures and
-    should be implemented in the following cases:
-
-    - **tag(self, list(** :class:`~chemdataextractor.doc.text.RichToken` **) tokens) -> list(** :class:`~chemdataextractor.doc.text.RichToken` **, obj)**
-      Take a list of all the tokens from an element, and return a list of (token, tag) pairs.
-      This should be the default implementation for any new tagger. More information on how to create a new tagger can be found at
-      :ref:`in this guide<creating_taggers>`.
-
-    - **batch_tag(self, list(list(** :class:`~chemdataextractor.doc.text.RichToken` **)) sents) -> list(list(** :class:`~chemdataextractor.doc.text.RichToken` **, obj))**
-      Take a list of lists of all the tokens from all the elements in a document, and return a list of lists of (token, tag) pairs.
-      One thing to note is that the resulting list of lists of (token, tag) pairs need not be in the same order as the incoming list
-      of lists of tokens, so some sorting can be done if, for example, bucketing of sentences by their lengths is desired.
-      In addition to ``tag``, the ``batch_tag`` method should be implemented instead of the ``tag`` method in cases where the taggers rely on
-      backends that are more performant when tagging multiple sentences, and the tagger will be called for every element.
-      More information can be found in :ref:`in this guide<creating_taggers>`.
-
-      .. note::
-        If a tagger only has ``batch_tag`` implemented, the tagger will fail when applied to an element that does not belong to a document.
-
-    - **legacy_tag(self, list(obj tokens) -> (list(obj), obj)**
-      ``legacy_tag`` corresponds to the ``tag`` method in ChemDataExtractor 2.0 and earlier. This has been renamed
-      ``legacy_tag`` due to its complexity in that it could be called with either a list of strings or a list of (token, PoS tag) pairs.
-      This made it incompatible with the new taggers in their current form. ChemDataExtractor 2.1 will call this method with a list of strings
-      instead of a list of (token, PoS tag) pairs. This should only be used for converting previously written taggers with as few
-      code changes as possible, as shown in the :ref:`migration guide<migration_guide_2_1>`.
-
-    To express intent to the ChemDataExtractor framework that the tagger can tag for a certain tag type, you should implement the
-    ``can_tag`` method, which takes a tag type and returns a boolean. The default implementation, provided by this class,
-    looks at the ``tag_type`` attribute of the tagger and returns True if it matches the tag type provided.
-
-    .. warning::
-        While the :class:`~chemdataextractor.doc.text.RichToken` class maintains backwards compatibility in most cases, e.g. parsers by assigning
-        the ``1`` key in dictionary-style lookup with the combined PoS and NER tag, calling this key in an NER or PoS tagger will cause
-        your script to crash. To avoid this, please change any previous bits of code such as ``token[1]`` to ``token["ner_tag"]`` or ``token.ner_tag``.
+    Method precedence order (highest to lowest):
+    1. ``batch_tag_for_type()``
+    2. ``tag_for_type()``
+    3. ``batch_tag()``
+    4. ``tag()``
+    5. ``legacy_tag()``
     """
 
-    tag_type = ""
-    """
-    The tag type for this tagger. When this tag type is asked for from the token, as described in :class:`~chemdataextractor.doc.text.RichToken`, this
-    tagger will be called.
+    tag_type: str = ""
+    """The tag type for this tagger (e.g., 'pos_tag', 'ner_tag').
+    
+    When this tag type is requested from a token, this tagger will be called.
     """
 
     @deprecated(
@@ -119,31 +91,37 @@ class BaseTagger(metaclass=ABCMeta):
         )
         return accuracy
 
-    def can_tag(self, tag_type):
-        """
-        Whether this tagger can tag the given tag type.
+    def can_tag(self, tag_type: str) -> bool:
+        """Check if this tagger can tag the given tag type.
 
-        :param obj tag_type: The tag type which the system wants to tag. Usually a string.
-        :returns: True if this parser can tag the given tag type
-        :rtype: bool
+        Args:
+            tag_type: str - The tag type to check (e.g., 'pos_tag', 'ner_tag')
+
+        Returns:
+            bool - True if this tagger can tag the given tag type
         """
         return tag_type == self.tag_type
 
-    def can_batch_tag(self, tag_type):
-        """
-        Whether this tagger can batch tag the given tag type.
+    def can_batch_tag(self, tag_type: str) -> bool:
+        """Check if this tagger can batch tag the given tag type.
 
-        :param obj tag_type: The tag type which the system wants to batch tag. Usually a string.
-        :returns: True if this parser can tag the given tag type
-        :rtype: bool
+        Args:
+            tag_type: str - The tag type to check for batch tagging
+
+        Returns:
+            bool - True if this tagger can batch tag the given tag type
         """
         return False
 
 
 class EnsembleTagger(BaseTagger):
-    """
-    A class for taggers which act on the results of multiple other taggers.
-    This could also be done by simply adding each tagger to the sentence and having
+    """Ensemble tagger that combines results from multiple taggers.
+
+    Allows combining multiple tagging strategies or models for improved
+    accuracy through consensus or voting mechanisms.
+
+    Attributes:
+        taggers: list[BaseTagger] - List of individual taggers to combine
     the taggers each act on the results from the other taggers by accessing RichToken attributes,
     but an EnsembleTagger allows for the user to add one tagger instead,
     cleaning up the interface.

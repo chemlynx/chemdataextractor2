@@ -1,12 +1,20 @@
 """
 Word and sentence tokenizers.
 
+Provides chemistry-aware tokenization for processing scientific text.
+Includes specialized tokenizers that handle chemical names, formulas,
+and technical terminology correctly.
 """
+
+from __future__ import annotations
 
 import logging
 import re
 from abc import ABCMeta
 from abc import abstractmethod
+from typing import TYPE_CHECKING
+from typing import Iterator
+from typing import Optional
 
 from deprecation import deprecated
 from tokenizers import BertWordPieceTokenizer
@@ -16,41 +24,70 @@ from ..data import load_model
 from ..text import GREEK
 from ..text import bracket_level
 
+if TYPE_CHECKING:
+    pass
+
+# Type aliases for tokenization
+TokenSpan = tuple[int, int]  # Start and end positions of tokens
+TokenList = list[str]  # List of token strings
+
 log = logging.getLogger(__name__)
 
 
 class BaseTokenizer(metaclass=ABCMeta):
-    """Abstract base class from which all Tokenizer classes inherit.
+    """Abstract base class for all tokenizer classes.
 
-    Subclasses must implement a ``span_tokenize(text)`` method that returns a list of integer offset tuples that
-    identify tokens in the text.
-
+    Provides the fundamental interface for tokenizing text into words or sentences.
+    Subclasses must implement ``span_tokenize()`` to return token positions.
+    
+    All tokenizers work with character-level spans to preserve exact text positions,
+    which is crucial for maintaining alignment with the original document structure.
     """
 
     @deprecated(
         deprecated_in="2.0",
         details="Deprecated in favour of looking at the tokens from the Sentence object.",
     )
-    def tokenize(self, s):
+    def tokenize(self, s: str) -> TokenList:
         """Return a list of token strings from the given sentence.
+        
+        DEPRECATED: Use span_tokenize() and sentence objects instead.
 
-        :param string s: The sentence string to tokenize.
-        :rtype: iter(str)
+        Args:
+            s: str - The sentence string to tokenize
+            
+        Returns:
+            list[str] - List of token strings
         """
         return [s[start:end] for start, end in self.span_tokenize(s)]
 
     @abstractmethod
-    def span_tokenize(self, s):
-        """Return a list of integer offsets that identify tokens in the given sentence.
+    def span_tokenize(self, s: str) -> list[TokenSpan]:
+        """Return token positions as (start, end) offset pairs.
+        
+        The core tokenization method that all subclasses must implement.
+        Returns character-level positions that can be used to extract tokens
+        while preserving exact alignment with the original text.
 
-        :param string s: The sentence string to tokenize.
-        :rtype: iter(tuple(int, int))
+        Args:
+            s: str - The sentence string to tokenize
+            
+        Returns:
+            list[tuple[int, int]] - List of (start, end) character positions
         """
         return
 
 
-def regex_span_tokenize(s, regex):
-    """Return spans that identify tokens in s split using regex."""
+def regex_span_tokenize(s: str, regex: re.Pattern[str] | str) -> Iterator[TokenSpan]:
+    """Return token spans using regular expression splitting.
+    
+    Args:
+        s: str - Input text to tokenize
+        regex: re.Pattern[str] | str - Regular expression pattern for splitting
+        
+    Yields:
+        tuple[int, int] - Token (start, end) positions
+    """
     left = 0
     for m in re.finditer(regex, s, re.U):
         right, next = m.span()
@@ -61,24 +98,47 @@ def regex_span_tokenize(s, regex):
 
 
 class SentenceTokenizer(BaseTokenizer):
-    """Sentence tokenizer that uses the Punkt algorithm by Kiss & Strunk (2006)."""
+    """Sentence tokenizer using the Punkt algorithm by Kiss & Strunk (2006).
+    
+    Implements unsupervised sentence boundary detection optimized for
+    scientific text with chemical terminology and abbreviations.
+    
+    Attributes:
+        model: str - Path to the trained Punkt model file
+    """
 
-    model = "models/punkt_english.pickle"  # This is available from NLTK
+    model: str = "models/punkt_english.pickle"  # This is available from NLTK
 
-    def __init__(self, model=None):
+    def __init__(self, model: Optional[str] = None) -> None:
+        """Initialize sentence tokenizer.
+        
+        Args:
+            model: Optional[str] - Path to custom Punkt model file
+        """
         self.model = model if model is not None else self.model
-        self._tokenizer = None
+        self._tokenizer: Optional[object] = None  # NLTK tokenizer instance
         log.debug("%s: Initializing with %s" % (self.__class__.__name__, self.model))
 
-    def get_sentences(self, text):
+    def get_sentences(self, text: object) -> list[object]:  # Text -> list[Sentence]
+        """Get sentence objects from text using tokenization.
+        
+        Args:
+            text: Text - Text object to sentence-tokenize
+            
+        Returns:
+            list[Sentence] - List of sentence objects
+        """
         spans = self.span_tokenize(text.text)
         return text._sentences_from_spans(spans)
 
-    def span_tokenize(self, s):
-        """Return a list of integer offsets that identify sentences in the given text.
+    def span_tokenize(self, s: str) -> list[TokenSpan]:
+        """Return sentence boundary positions in the text.
 
-        :param string s: The text to tokenize into sentences.
-        :rtype: iter(tuple(int, int))
+        Args:
+            s: str - The text to tokenize into sentences
+            
+        Returns:
+            list[tuple[int, int]] - List of (start, end) sentence positions
         """
         if self._tokenizer is None:
             self._tokenizer = load_model(self.model)
@@ -88,16 +148,29 @@ class SentenceTokenizer(BaseTokenizer):
 
 
 class ChemSentenceTokenizer(SentenceTokenizer):
-    """Sentence tokenizer that uses the Punkt algorithm by Kiss & Strunk (2006), trained on chemistry text."""
+    """Chemistry-specialized sentence tokenizer.
+    
+    Uses the Punkt algorithm trained on chemistry literature to better handle
+    chemical abbreviations, formulas, and domain-specific terminology.
+    """
 
-    model = "models/punkt_chem-1.0.pickle"
+    model: str = "models/punkt_chem-1.0.pickle"
 
 
 class WordTokenizer(BaseTokenizer):
-    """Standard word tokenizer for generic English text."""
+    """Standard word tokenizer for generic English text.
+    
+    Implements rule-based word tokenization with special handling for
+    punctuation, dashes, arrows, and other common text patterns.
+    
+    Attributes:
+        SPLIT: list[str] - Sequences that trigger token boundaries
+        SPLIT_BEFORE: list[str] - Sequences that start new tokens
+        SPLIT_AFTER: list[str] - Sequences that end current tokens
+    """
 
     #: Split before and after these sequences, wherever they occur, unless entire token is one of these sequences
-    SPLIT = [
+    SPLIT: list[str] = [
         "----",
         "––––",  # \u2013 en dash
         "————",  # \u2014 em dash
@@ -255,7 +328,7 @@ class WordTokenizer(BaseTokenizer):
         ("'twas", 2),
     ]
     #: Don't split these sequences.
-    NO_SPLIT = {"mm-hm", "mm-mm", "o-kay", "uh-huh", "uh-oh", "wanna-be"}
+    NO_SPLIT: set[str] = {"mm-hm", "mm-mm", "o-kay", "uh-huh", "uh-oh", "wanna-be"}
     #: Don't split around hyphens with these prefixes
     NO_SPLIT_PREFIX = {
         "e",
@@ -323,9 +396,14 @@ class WordTokenizer(BaseTokenizer):
     #: Don't split around hyphens if only these characters before or after.
     NO_SPLIT_CHARS = "0123456789,'\"“”„‟‘’‚‛`´′″‴‵‶‷⁗"
 
-    def __init__(self, split_last_stop=True):
+    def __init__(self, split_last_stop: bool = True) -> None:
+        """Initialize word tokenizer.
+        
+        Args:
+            split_last_stop: bool - Whether to split off final full stops (default: True)
+        """
         #: Whether to split off the final full stop (unless preceded by NO_SPLIT_STOP). Default True.
-        self.split_last_stop = split_last_stop
+        self.split_last_stop: bool = split_last_stop
 
     def _split_span(self, span, index, length=0):
         """Split a span into two or three separate spans at certain indices."""

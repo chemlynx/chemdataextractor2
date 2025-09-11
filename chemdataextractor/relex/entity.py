@@ -1,26 +1,47 @@
 """
-Extraction pattern object
+Entity objects for relationship extraction.
+
+Defines entities that participate in chemical relationships,
+including their text spans, tags, and parsing expressions.
 """
+
+from __future__ import annotations
+
 import copy
+from typing import TYPE_CHECKING
+from typing import Any
+from typing import Optional
+from typing import Union
 
 import six
 
 from ..parse import Group
 from ..parse import join
 
+if TYPE_CHECKING:
+    from ..parse.base import BaseParserElement
+
+# Type aliases for entities
+EntityTag = Union[str, list[str]]  # Tag(s) for entity classification
+TextSpan = tuple[int, int]  # Start and end positions in text
+
 
 class Entity:
-    """A base entity, the fundamental unit of a Relation"""
+    """A base entity, the fundamental unit of a Relation.
+    
+    Represents a chemical entity (compound, property, etc.) that participates
+    in relationships extracted from text.
+    """
 
-    def __init__(self, text, tag, parse_expression, start, end):
-        """Create a new Entity
+    def __init__(self, text: str, tag: EntityTag, parse_expression: BaseParserElement, start: int, end: int) -> None:
+        """Create a new Entity.
 
-        Arguments:
-            text {str} -- The text of the entity
-            tag {str or list} -- name of the entity
-            parse_expression -- how the entity is identified in text
-            start {int} -- The index of the Entity in tokens
-            end {int} -- The end index of the entity in tokens
+        Args:
+            text: The text content of the entity
+            tag: Classification tag(s) for the entity
+            parse_expression: Parser element used to identify this entity in text
+            start: Starting token index of the entity
+            end: Ending token index of the entity
         """
         self.text = six.text_type(text)
         self.tag = tag

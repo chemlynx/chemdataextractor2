@@ -1,14 +1,33 @@
 """
-Parser for finding quantities and units
+Parser for finding quantities and units in chemical text.
+
+Provides functionality for extracting numeric values, units, and their combinations
+from chemical literature text. Handles complex patterns including ranges, errors,
+and unit conversions.
 
 :codeauthor: Taketomo Isazawa (ti250@cam.ac.uk)
 """
 
+from __future__ import annotations
+
 import logging
 import re
 from fractions import Fraction
+from typing import TYPE_CHECKING
+from typing import Any
+from typing import Optional
+from typing import Union
 
 from deprecation import deprecated
+
+if TYPE_CHECKING:
+    from ..model.units.dimension import Dimension
+
+# Type aliases for quantity parsing
+NumericValue = Union[int, float]  # Numeric values
+ValueList = list[float]  # List of extracted values
+UnitString = str  # String representation of units
+MagnitudeDict = dict[Any, float]  # Magnitude multipliers
 
 from ..utils import memoize
 from .actions import join
@@ -22,7 +41,7 @@ from .elements import W
 
 log = logging.getLogger(__name__)
 
-magnitudes_dict = {
+magnitudes_dict: MagnitudeDict = {
     R("c(enti)?", group=0): -2.0,
     R("k(ilo)?", group=0): 3.0,
     R("M(ega)?", group=0): 6.0,
@@ -183,19 +202,26 @@ def construct_quantity_re(*models):
     return re.compile(units_regex)
 
 
-def extract_error(string):
-    """
-    Extract the error from a string
+def extract_error(string: Optional[str]) -> Optional[float]:
+    """Extract the error from a string containing a value with uncertainty.
 
     Usage::
 
         test_string = '150±5'
         end_value = extract_error(test_string)
-        print(end_value) # 5
+        print(end_value)  # 5.0
 
-    :param str string: A representation of the value and error as a string
-    :returns: The error expressed as a float .
-    :rtype: float
+    Args:
+        string: A representation of the value and error as a string
+
+    Returns:
+        The error expressed as a float, or None if no error found
+
+    Example:
+        >>> extract_error("25.3±0.1")
+        0.1
+        >>> extract_error("100")
+        None
     """
     if string is None:
         return None
@@ -217,20 +243,30 @@ def extract_error(string):
     return error
 
 
-def extract_value(string):
-    """
-    Takes a string and returns a list of floats representing the string given.
+def extract_value(string: Optional[str]) -> Optional[ValueList]:
+    """Extract numeric values from a string, handling ranges and single values.
+
+    Takes a string and returns a list of floats representing the values found.
+    Handles ranges (e.g., "150 to 160") and single values (e.g., "25.5").
 
     Usage::
 
         test_string = '150 to 160'
         end_value = extract_value(test_string)
-        print(end_value) # [150., 160.]
+        print(end_value)  # [150.0, 160.0]
 
-    :param str string: A representation of the values as a string
-    :returns: The value expressed as a list of floats of length 1 if the value had no range,
-        and as a list of floats of length 2 if it was a range.
-    :rtype: list(float)
+    Args:
+        string: A representation of the values as a string
+
+    Returns:
+        List of floats - length 1 for single values, length 2 for ranges,
+        or None if no values found
+
+    Example:
+        >>> extract_value("150 to 160")
+        [150.0, 160.0]
+        >>> extract_value("25.5")
+        [25.5]
     """
     if string is None:
         return None

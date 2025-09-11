@@ -1,7 +1,16 @@
 """
-Cluster of phrase objects and associated cluster dictionaries
+Cluster objects for grouping similar patterns in relationship extraction.
+
+Clusters group similar phrases and patterns together for learning
+common extraction rules in the Snowball algorithm.
 """
+
+from __future__ import annotations
+
 from collections import OrderedDict
+from typing import TYPE_CHECKING
+from typing import Any
+from typing import Optional
 
 import numpy as np
 from scipy import spatial
@@ -13,19 +22,28 @@ from .relationship import Relation
 from .utils import mode_rows
 from .utils import subfinder
 
+if TYPE_CHECKING:
+    from .phrase import Phrase
+
+# Type aliases for clustering
+PhraseList = list[Phrase]  # List of phrases in a cluster
+ClusterDict = OrderedDict[str, Any]  # Dictionary of cluster properties
+DistanceMatrix = np.ndarray  # Matrix of distances between patterns
+
 
 class Cluster:
-    """
-    Base Snowball Cluster, used to combine similar phrases
+    """Base Snowball Cluster for grouping similar phrases.
+    
+    Used to combine similar phrases and patterns in the Snowball algorithm
+    for learning relationship extraction rules.
     """
 
-    def __init__(self, label=None, learning_rate=0.5):
-        """Create a new cluster
+    def __init__(self, label: Optional[str] = None, learning_rate: float = 0.5) -> None:
+        """Create a new cluster.
 
-        Keyword Arguments:
-            label {str} -- The label of this cluster (default: {None})
-            order {list} -- The order of entities that all phrases in this cluster must share (default: {None})
-            learning_rate {float} -- How quickly to update confidences based on new information (default: {0.5})
+        Args:
+            label: The label identifier for this cluster
+            learning_rate: How quickly to update confidences based on new information (0.0-1.0)
         """
 
         self.label = label

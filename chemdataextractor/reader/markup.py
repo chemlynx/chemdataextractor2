@@ -1,12 +1,23 @@
 """
 XML and HTML readers based on lxml.
 
+Provides base classes and utilities for parsing structured markup documents
+(XML, HTML) into ChemDataExtractor document elements.
 """
+
+from __future__ import annotations
 
 import logging
 from abc import ABCMeta
 from abc import abstractmethod
 from collections import defaultdict
+from typing import TYPE_CHECKING
+from typing import Any
+from typing import Optional
+from typing import Union
+
+if TYPE_CHECKING:
+    from ..doc.element import BaseElement
 
 from lxml import etree
 from lxml.etree import XMLParser

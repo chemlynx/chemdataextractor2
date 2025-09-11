@@ -1,12 +1,20 @@
 """
 Named entity recognition (NER) for Chemical entity mentions (CEM).
 
-This was the default NER system up to version 2.0, while the new NER is
-included in new_cem.
+Provides the legacy CEM tagging system that was default through version 2.0.
+Includes CRF-based models, dictionary taggers, and ensemble methods for
+identifying chemical entities in scientific text.
+
+Note: The new NER system is in new_cem.py
 """
+
+from __future__ import annotations
 
 import logging
 import re
+from typing import TYPE_CHECKING
+from typing import Any
+from typing import Optional
 
 from ..text import bracket_level
 from .lexicon import ChemLexicon
@@ -16,11 +24,18 @@ from .tag import CrfTagger
 from .tag import DictionaryTagger
 from .tag import EnsembleTagger
 
+if TYPE_CHECKING:
+    pass
+
+# Type aliases for CEM tagging
+CEMTag = str  # Chemical entity mention tag (e.g., 'B-CM', 'I-CM')
+TokenTags = list[tuple[str, CEMTag]]  # List of (token, tag) pairs
+
 log = logging.getLogger(__name__)
 
 
 #: Token endings to ignore when considering stopwords and deriving spans
-IGNORE_SUFFIX = [
+IGNORE_SUFFIX: list[str] = [
     # Many of these are now unnecessary due to tokenization improvements, but not much harm in leaving them here.
     "-",
     "'s",
@@ -2221,31 +2236,51 @@ class _CompatibilityToken:
 
 
 class CiDictCemTagger(DictionaryTagger):
-    """Case-insensitive CEM dictionary tagger."""
+    """Case-insensitive CEM dictionary tagger.
+    
+    Uses chemical lexicon for fast dictionary-based entity recognition
+    without case sensitivity requirements.
+    """
 
-    tag_type = NER_TAG_TYPE
-    lexicon = ChemLexicon()
-    model = "models/cem_dict-1.0.pickle"
+    tag_type: str = NER_TAG_TYPE
+    lexicon: ChemLexicon = ChemLexicon()
+    model: str = "models/cem_dict-1.0.pickle"
 
 
 class CsDictCemTagger(DictionaryTagger):
-    """Case-sensitive CEM dictionary tagger."""
+    """Case-sensitive CEM dictionary tagger.
+    
+    Uses chemical lexicon for fast dictionary-based entity recognition
+    with exact case matching requirements.
+    """
 
-    tag_type = NER_TAG_TYPE
+    tag_type: str = NER_TAG_TYPE
     lexicon = ChemLexicon()
     model = "models/cem_dict_cs-1.0.pickle"
     case_sensitive = True
 
 
 class CrfCemTagger(CrfTagger):
-    """"""
+    """CRF-based chemical entity mention tagger.
+    
+    Uses Conditional Random Fields to identify chemical entities in text.
+    Trained on chemistry literature with features including word shapes,
+    lexicon matches, and contextual patterns.
+    
+    Attributes:
+        tag_type: str - NER tag type for chemical entities
+        model: str - Path to trained CRF model file
+        lexicon: ChemLexicon - Chemical terminology lexicon
+        clusters: bool - Whether to use word clustering features
+        params: dict - CRF training/inference parameters
+    """
 
-    tag_type = NER_TAG_TYPE
-    model = "models/cem_crf_chemdner_cemp-1.0.pickle"
-    lexicon = ChemLexicon()
-    clusters = True
+    tag_type: str = NER_TAG_TYPE
+    model: str = "models/cem_crf_chemdner_cemp-1.0.pickle"
+    lexicon: ChemLexicon = ChemLexicon()
+    clusters: bool = True
 
-    params = {
+    params: dict[str, Any] = {
         "c1": 1.0,  # Coefficient for L1 regularization (OWL-QN). Default 0.
         "c2": 0.001,  # Coefficient for L2 regularization. Default 1.
         "max_iterations": 200,  # The maximum number of iterations for L-BFGS optimization. Default INT_MAX.

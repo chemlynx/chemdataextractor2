@@ -15,8 +15,14 @@ Any parse_expressions set in the model should have an added action to ensure tha
 .. codeauthor:: Juraj Mavračić <jm2111@cam.ac.uk>
 """
 
+from __future__ import annotations
+
 import copy
 import logging
+from typing import TYPE_CHECKING
+from typing import Any
+from typing import Optional
+from typing import Union
 
 from lxml.builder import E
 
@@ -40,10 +46,20 @@ from .quantity import extract_units
 from .quantity import magnitudes_dict
 from .quantity import value_element
 
+if TYPE_CHECKING:
+    from ..doc.text import Cell
+    from ..model.base import BaseModel
+    from .base import BaseParserElement
+
+# Type aliases for auto parsing
+ParseResult = tuple[list[Any], int]  # Parse result with tokens and position
+ParserFunction = callable[[ParseResult], bool]  # Function to validate parse results
+EntityList = list[BaseParserElement]  # List of parser elements
+
 log = logging.getLogger(__name__)
 
 
-def construct_unit_element(dimensions, max_power=None):
+def construct_unit_element(dimensions: Any, max_power: Optional[int] = None) -> Optional[BaseParserElement]:
     """
     Construct an element for detecting units for the dimensions given.
     Any magnitude modifiers (e.g. kilo) will be automatically handled.
@@ -164,7 +180,7 @@ def _clean_units_results(tokens, start, result):
         return [E(result[0].tag, new_text)]
 
 
-def construct_category_element(category_dict):
+def construct_category_element(category_dict: dict[str, Any]) -> Optional[BaseParserElement]:
     """
     Construct an element for detecting categories.
 
@@ -182,7 +198,7 @@ def construct_category_element(category_dict):
     return (R(pattern=category_regex))("raw_value").add_action(merge)
 
 
-def match_dimensions_of(model):
+def match_dimensions_of(model: BaseModel) -> ParserFunction:
     """
     Produces a function that checks whether the given results of parsing match the
     dimensions of the model provided.
@@ -203,7 +219,7 @@ def match_dimensions_of(model):
     return check_match
 
 
-def create_entities_list(entities):
+def create_entities_list(entities: EntityList) -> BaseParserElement:
     """
     For a list of Base parser entities, creates an entity of structure. For example, with 4 entities in the list, the output is::
 
@@ -219,15 +235,31 @@ def create_entities_list(entities):
 
 
 class BaseAutoParser(BaseParser):
-    model = None
-    _specifier = None
-    _root_phrase = None
+    """Base class for automatic parsers that extract data without user-defined rules.
+    
+    Automatically constructs parsing expressions based on model field definitions
+    and handles both sentence and table parsing contexts.
+    """
+    
+    model: Optional[type[BaseModel]] = None
+    _specifier: Optional[BaseParserElement] = None
+    _root_phrase: Optional[BaseParserElement] = None
 
-    def __init__(self):
+    def __init__(self) -> None:
         super(BaseAutoParser, self).__init__()
-        self._trigger_property = None
+        self._trigger_property: Optional[str] = None
 
-    def interpret(self, results, start, end):
+    def interpret(self, results: Any, start: int, end: int) -> list[BaseModel]:
+        """Interpret parse results and extract model instances.
+        
+        Args:
+            results: Parse results from the parser
+            start: Start position in the text
+            end: End position in the text
+            
+        Yields:
+            Extracted model instances that meet requirements
+        """
         if results is None:
             return
 
@@ -463,14 +495,23 @@ class AutoSentenceParser(BaseAutoParser, BaseSentenceParser):
 
 
 class AutoTableParser(BaseAutoParser, BaseTableParser):
-    """Additions for automated parsing of tables"""
+    """Automatic parser for extracting structured data from table cells.
+    
+    Constructs parsing expressions automatically based on model field definitions
+    and chemical entity recognition patterns for table-based data extraction.
+    """
 
-    def __init__(self, chem_name=(cem | chemical_label | lenient_chemical_label)):
+    def __init__(self, chem_name: BaseParserElement = (cem | chemical_label | lenient_chemical_label)) -> None:
+        """Initialize AutoTableParser with chemical name recognition.
+        
+        Args:
+            chem_name: Parser element for recognizing chemical names
+        """
         super(AutoTableParser, self).__init__()
-        self.chem_name = chem_name
+        self.chem_name: BaseParserElement = chem_name
 
     @property
-    def root(self):
+    def root(self) -> BaseParserElement:
         # is always found, our models currently rely on the compound
         chem_name = self.chem_name
         try:

@@ -1,11 +1,20 @@
 """
 Chemical entity mention parser elements.
+
+Provides parser elements for recognizing and extracting chemical entities
+from scientific text, including chemical names, formulas, and identifiers.
+
 ..codeauthor:: Matt Swain (mcs07@cam.ac.uk)
 ..codeauthor:: Callum Court (cc889@cam.ac.uk)
-
 """
 
+from __future__ import annotations
+
 import logging
+from typing import TYPE_CHECKING
+
+if TYPE_CHECKING:
+    from .base import BaseParserElement
 
 from .actions import join
 from .base import BaseSentenceParser

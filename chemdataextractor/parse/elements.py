@@ -1,7 +1,13 @@
 """
-Parser elements.
+Parser elements for ChemDataExtractor grammar-based parsing.
 
+This module provides the core parsing elements used to construct grammar rules
+for extracting structured chemical data from text. Elements like W (Word), 
+I (Case-insensitive), R (Regex), Optional, and Group form the building blocks
+of all chemical data extraction parsers.
 """
+
+from __future__ import annotations
 
 import collections
 import copy
@@ -10,23 +16,58 @@ import re
 import sys
 import types
 from copy import deepcopy
+from typing import TYPE_CHECKING
+from typing import Any
+from typing import Callable
+from typing import Optional
+from typing import Union
 
 from lxml.builder import E
+
+if TYPE_CHECKING:
+    from ..doc.text import Sentence
+
+# Type aliases for parsing
+ParseAction = Callable[[list[Any]], Any]  # Function that processes parse results
+ParseCondition = Callable[[list[Any]], bool]  # Function that validates parse results
+TokenList = list[str]  # List of token strings
+ParseResults = list[Any]  # Results from parsing operations
 
 log = logging.getLogger(__name__)
 
 
 class ParseException(Exception):
-    """Exception thrown by a ParserElement when it doesn't match input."""
+    """Exception thrown by a ParserElement when it doesn't match input.
+    
+    Provides detailed information about parsing failures including position,
+    tokens, and the parser element that failed.
+    """
 
-    def __init__(self, tokens, i=0, msg=None, element=None):
-        self.i = i
-        self.msg = msg
-        self.tokens = tokens
-        self.element = element
+    def __init__(self, tokens: TokenList, i: int = 0, msg: Optional[str] = None, element: Optional[BaseParserElement] = None) -> None:
+        """Initialize a ParseException.
+        
+        Args:
+            tokens: The list of tokens being parsed
+            i: The index position where parsing failed
+            msg: Optional error message
+            element: The parser element that caused the failure
+        """
+        super().__init__()
+        self.i: int = i
+        self.msg: Optional[str] = msg
+        self.tokens: TokenList = tokens
+        self.element: Optional[BaseParserElement] = element
 
     @classmethod
-    def wrap(cls, parse_exception):
+    def wrap(cls, parse_exception: ParseException) -> ParseException:
+        """Wrap another ParseException with this class.
+        
+        Args:
+            parse_exception: The exception to wrap
+            
+        Returns:
+            New ParseException instance
+        """
         return cls(
             parse_exception.tokens,
             parse_exception.loc,
@@ -34,7 +75,12 @@ class ParseException(Exception):
             parse_exception.element,
         )
 
-    def __str__(self):
+    def __str__(self) -> str:
+        """Return string representation of the exception.
+        
+        Returns:
+            Formatted error message with position information
+        """
         return "%s (at token %d)" % (self.msg, self.i)
 
 
@@ -59,40 +105,84 @@ def safe_name(name):
 
 
 class BaseParserElement:
-    """Abstract base parser element class."""
+    """Abstract base parser element class.
+    
+    The foundation class for all parsing elements in ChemDataExtractor.
+    Provides common functionality for matching, scanning, and transforming text patterns.
+    """
 
-    def __init__(self):
-        self.name = None
-        #: str or None: name for BaseParserElement. This is used to set the name of the Element when a result is found
-        self.actions = []
-        #: list(chemdataextractor.parse.actions): list of actions that will be applied to the results after parsing. Actions are functions with arguments of (tokens, start, result)
-        self.streamlined = False
-        self.condition = None
-
-    def set_action(self, *fns):
-        self.actions = fns
-        return self
-
-    def add_action(self, *fns):
-        self.actions += fns
-        return self
-
-    def with_condition(self, condition):
+    def __init__(self) -> None:
+        """Initialize a BaseParserElement.
+        
+        Sets up the basic attributes needed for parsing operations.
         """
-        Add a condition to the parser element. The condition must be a function that takes
-        a match and return True or False, i.e. a function which takes tuple(list(Element), int)
-        and returns bool. If the function evaluates True, the match is kept, while if the function
-        evaluates False, the match is discarded. The condition is executed after any other actions.
+        self.name: Optional[str] = None
+        #: Name for BaseParserElement. Used to set the name of the Element when a result is found
+        self.actions: list[ParseAction] = []
+        #: List of actions that will be applied to the results after parsing
+        self.streamlined: bool = False
+        self.condition: Optional[ParseCondition] = None
+
+    def set_action(self, *fns: ParseAction) -> BaseParserElement:
+        """Set the parse actions for this element.
+        
+        Args:
+            *fns: Parse action functions to set
+            
+        Returns:
+            Self for method chaining
+        """
+        self.actions = list(fns)
+        return self
+
+    def add_action(self, *fns: ParseAction) -> BaseParserElement:
+        """Add parse actions to this element.
+        
+        Args:
+            *fns: Parse action functions to add
+            
+        Returns:
+            Self for method chaining
+        """
+        self.actions += list(fns)
+        return self
+
+    def with_condition(self, condition: ParseCondition) -> BaseParserElement:
+        """Add a condition to the parser element.
+        
+        The condition must be a function that takes a match and return True or False,
+        i.e. a function which takes tuple(list(Element), int) and returns bool. If the 
+        function evaluates True, the match is kept, while if the function evaluates 
+        False, the match is discarded. The condition is executed after any other actions.
+        
+        Args:
+            condition: Function to validate parse results
+            
+        Returns:
+            Self for method chaining
         """
         self.condition = condition
         return self
 
-    def copy(self):
+    def copy(self) -> BaseParserElement:
+        """Create a copy of this parser element.
+        
+        Returns:
+            New BaseParserElement instance with copied attributes
+        """
         new = copy.copy(self)
         new.actions = self.actions[:]
         return new
 
-    def set_name(self, name):
+    def set_name(self, name: str) -> BaseParserElement:
+        """Set the name for this parser element.
+        
+        Args:
+            name: The name to assign to this element
+            
+        Returns:
+            New BaseParserElement with the specified name
+        """
         new = self.copy()
         new.name = name
         return new

@@ -1,38 +1,71 @@
 """
-Abbreviation detection.
+Abbreviation detection for chemical text.
 
+Implements abbreviation detection algorithms based on Schwartz & Hearst (2003)
+optimized for chemical and scientific terminology.
 """
+
+from __future__ import annotations
 
 import logging
 import re
+from typing import TYPE_CHECKING
+from typing import Any
+from typing import Optional
 
 from ..text import bracket_level
+
+if TYPE_CHECKING:
+    pass
+
+# Type aliases for abbreviation detection
+AbbreviationDef = tuple[list[str], list[str], str]  # (definition_tokens, abbrev_tokens, abbrev_str)
 
 log = logging.getLogger(__name__)
 
 
 class AbbreviationDetector:
-    """Detect abbreviation definitions in a list of tokens.
-
-    Similar to the algorithm in Schwartz & Hearst 2003.
+    """Detect abbreviation definitions in chemical text.
+    
+    Implements an algorithm similar to Schwartz & Hearst (2003) for identifying
+    abbreviations and their full definitions in scientific literature.
+    
+    Attributes:
+        abbr_min: int - Minimum abbreviation length
+        abbr_max: int - Maximum abbreviation length  
+        abbr_equivs: list[str] - String equivalents for abbreviation matching
     """
 
     # TODO: Extend to Greek characters (custom method instead of .isalnum())
 
     #: Minimum abbreviation length
-    abbr_min = 3
+    abbr_min: int = 3
     #: Maximum abbreviation length
-    abbr_max = 10
+    abbr_max: int = 10
     #: String equivalents to use when detecting abbreviations.
-    abbr_equivs = []
+    abbr_equivs: list[str] = []
 
-    def __init__(self, abbr_min=None, abbr_max=None, abbr_equivs=None):
+    def __init__(self, abbr_min: Optional[int] = None, abbr_max: Optional[int] = None, abbr_equivs: Optional[list[str]] = None) -> None:
+        """Initialize abbreviation detector.
+        
+        Args:
+            abbr_min: Optional[int] - Minimum abbreviation length
+            abbr_max: Optional[int] - Maximum abbreviation length
+            abbr_equivs: Optional[list[str]] - String equivalents for matching
+        """
         self.abbr_min = abbr_min if abbr_min is not None else self.abbr_min
         self.abbr_max = abbr_max if abbr_max is not None else self.abbr_max
         self.abbr_equivs = abbr_equivs if abbr_equivs is not None else self.abbr_equivs
 
-    def _is_allowed_abbr(self, tokens):
-        """Return True if text is an allowed abbreviation."""
+    def _is_allowed_abbr(self, tokens: list[str]) -> bool:
+        """Check if token sequence is an allowed abbreviation.
+        
+        Args:
+            tokens: list[str] - Token sequence to check
+            
+        Returns:
+            bool - True if sequence forms a valid abbreviation
+        """
         num_hyph = tokens.count("-")
         # Abbreviations should contain at most 2 tokens; number tokens minus number of hyphens minus the number of tokens due to splitting on hyphens
         if len(tokens) - 2 * num_hyph <= 2:

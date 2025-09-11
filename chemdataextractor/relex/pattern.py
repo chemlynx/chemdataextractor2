@@ -1,30 +1,61 @@
 """
-Extraction pattern object
+Extraction pattern objects for relationship learning.
+
+Patterns represent learned linguistic structures that can identify
+relationships between chemical entities in text.
+
+Note: Modify generate_cde_element() function to adapt the changes of phrase.py.
+If any prefix/middle/suffix are empty (blank), do not add it to the resulting phrase.
+Modified by jz449
 """
 
-"""
-   Modify generate_cde_element() function to adapt the changes of phrase.py.
-   If any prefix/middle/suffix are empty (blank), do not add it to the resulting phrase.
-   Modified by jz449
-"""
+from __future__ import annotations
+
+from typing import TYPE_CHECKING
+from typing import Any
+from typing import Optional
 
 from ..parse.elements import And
 from ..parse.elements import I
 
+if TYPE_CHECKING:
+    from .entity import Entity
+    from .relationship import Relation
+
+# Type aliases for pattern learning
+PatternElements = list[Any]  # Elements that make up a pattern
+EntityList = list[Entity]  # List of entities in a pattern
+RelationList = list[Relation]  # List of relations associated with a pattern
+
 
 class Pattern:
-    """Pattern object, fundamentally the same as a phrase except assigned a confidence"""
+    """Pattern object for representing learned extraction patterns.
+    
+    Fundamentally similar to a phrase but includes confidence scoring
+    for pattern quality assessment.
+    """
 
     def __init__(
         self,
-        entities=None,
-        elements=None,
-        label=None,
-        sentences=None,
-        order=None,
-        relations=None,
-        confidence=0,
-    ):
+        entities: Optional[EntityList] = None,
+        elements: Optional[PatternElements] = None,
+        label: Optional[str] = None,
+        sentences: Optional[list[str]] = None,
+        order: Optional[list[int]] = None,
+        relations: Optional[RelationList] = None,
+        confidence: float = 0.0,
+    ) -> None:
+        """Initialize a Pattern.
+        
+        Args:
+            entities: Entities involved in this pattern
+            elements: Parser elements that make up the pattern
+            label: Cluster label for this pattern
+            sentences: Example sentences containing this pattern
+            order: Order of entities in the pattern
+            relations: Relations associated with this pattern
+            confidence: Confidence score for pattern quality
+        """
         self.cluster_label = label
         self.elements = elements
         self.entities = entities

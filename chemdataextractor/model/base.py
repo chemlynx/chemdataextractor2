@@ -32,13 +32,14 @@ from ..parse.elements import I
 from ..parse.elements import W
 
 # Import type definitions
-from ..typing import ModelT
-from ..typing import T
+from ..types import ModelT
+from ..types import T
 from .confidence_pooling import min_value
 from .contextual_range import DocumentRange
 from .contextual_range import SentenceRange
 
 if TYPE_CHECKING:
+    from ..parse.base import BaseParser
     from ..parse.base import BaseParserElement
     from .contextual_range import ContextualRange
 
@@ -650,30 +651,30 @@ class BaseModel(metaclass=ModelMeta):
         example_record2["model_field.string_field"]
     """
 
-    fields = {}
-    parsers = [AutoSentenceParser(), AutoTableParser()]
-    specifier = None
-    _updated = False
+    fields: dict[str, BaseType] = {}
+    parsers: list[BaseParser] = [AutoSentenceParser(), AutoTableParser()]
+    specifier: Optional[BaseType] = None
+    _updated: bool = False
 
-    def __init__(self, **raw_data):
+    def __init__(self, **raw_data: Any) -> None:
         """"""
-        self._values = {}
-        self._confidences = {}
+        self._values: dict[str, Any] = {}
+        self._confidences: dict[str, Optional[float]] = {}
         for key, value in raw_data.items():
             setattr(self, key, value)
         # Set defaults
         for key, field in self.fields.items():
             if key not in raw_data:
                 setattr(self, key, copy.copy(field.default))
-        self._record_method = None
-        self.was_updated = self._updated
+        self._record_method: Optional[str] = None
+        self.was_updated: bool = self._updated
         # Keep track of the number of times we've merged contextually.
         # This is then used to diminish the confidence if we've merged many times.
-        self._contextual_merge_count = 0
-        self._no_merge_ranges = {}
+        self._contextual_merge_count: int = 0
+        self._no_merge_ranges: dict[str, ContextualRange] = {}
 
     @classmethod
-    def deserialize(cls, serialized):
+    def deserialize(cls, serialized: dict[str, Any]) -> Self:
         record = cls()
         flattened_serialized = cls._flatten_serialized(serialized)
         cleaned_serialized = [
@@ -1135,24 +1136,34 @@ class BaseModel(metaclass=ModelMeta):
         """
         return other.is_superset(self)
 
-    def merge_contextual(self, other, distance=SentenceRange()):
-        """
+    def merge_contextual(self, other: BaseModel, distance: ContextualRange = SentenceRange()) -> bool:
+        """Merge contextual fields from another model within specified distance.
+        
         Merges any fields marked contextual with additional information from other provided that:
 
         - other is of the same type and they don't have any conflicting fields
 
         or
 
-        - other is a model type that is part of this model and that field is currently set to be the default value or the field can be merged with the other.
+        - other is a model type that is part of this model and that field is currently 
+          set to be the default value or the field can be merged with the other.
 
         .. note::
 
-            This method mutates the model it's called on **and** returns it.
+            This method mutates the model it's called on **and** returns a boolean.
 
-        :param other: The other model to merge into this model
-        :type other: BaseModel
-        :return: A merged model
-        :rtype: BaseModel
+        Args:
+            other: The other model to merge into this model
+            distance: Maximum distance for contextual merging
+            
+        Returns:
+            True if any fields were merged, False otherwise
+            
+        Example:
+            >>> compound = Compound(names=['benzene'])
+            >>> mp = MeltingPoint(value=[80.1], units='°C')
+            >>> mp.merge_contextual(compound, distance=SentenceRange())
+            True
         """
         # TODO(ti250): Add behaviour to actually take the distance into account
 
@@ -1243,41 +1254,49 @@ class BaseModel(metaclass=ModelMeta):
                 did_merge = False
         return did_merge
 
-    def contextual_range(self, field_name):
-        """
-        The contextual range for a field. Override this method to allow for contextual ranges to change with time.
+    def contextual_range(self, field_name: str) -> ContextualRange:
+        """Get the contextual range for a field.
+        
+        Override this method to allow for contextual ranges to change with time.
 
-        :param str field_name: The name of the field for which to calculate the contextual range
-        :return: The contextual range for the field given the current record
-        :rtype: ContextualRange
+        Args:
+            field_name: The name of the field for which to calculate the contextual range
+            
+        Returns:
+            The contextual range for the field given the current record
         """
         return self.fields[field_name].contextual_range
 
-    def no_merge_range(self, field_name):
-        """
-        A range within which the model should not be merging the field
+    def no_merge_range(self, field_name: str) -> ContextualRange:
+        """Get the range within which the model should not merge the field.
 
-        :param str field_name: The name of the field for which to calculate the contextual range
-        :return: The contextual range within which the field should not be merged given the current record
-        :rtype: ContextualRange
+        Args:
+            field_name: The name of the field for which to calculate the no-merge range
+            
+        Returns:
+            The contextual range within which the field should not be merged
         """
         if field_name in self._no_merge_ranges:
             return self._no_merge_ranges[field_name]
         return 0 * SentenceRange()
 
-    def merge_all(self, other, strict=True, distance=SentenceRange()):
-        """
+    def merge_all(self, other: BaseModel, strict: bool = True, distance: ContextualRange = SentenceRange()) -> bool:
+        """Merge all compatible fields from another model, regardless of contextual setting.
+        
         Merges any properties between other and self, regardless of whether that field is contextual.
         Checks to make sure that there are no conflicts between the values contained in self and those in other.
 
         .. note::
 
-            This method mutates the model it's called on **and** returns it.
+            This method mutates the model it's called on **and** returns a boolean.
 
-        :param other: The other model to merge into this model
-        :type other: BaseModel
-        :return: A merged model
-        :rtype: BaseModel
+        Args:
+            other: The other model to merge into this model
+            strict: Whether to perform strict compatibility checking
+            distance: Maximum distance for merging
+            
+        Returns:
+            True if any fields were merged, False otherwise
         """
 
         log.debug(self.serialize())
@@ -1350,7 +1369,15 @@ class BaseModel(metaclass=ModelMeta):
                 did_merge = False
         return did_merge
 
-    def merge_confidence(self, other, field_name):
+    def merge_confidence(self, other: BaseModel, field_name: str) -> None:
+        """Merge confidence values for a specific field.
+        
+        Keeps the lower confidence value between this model and the other.
+        
+        Args:
+            other: The other model to merge confidence from
+            field_name: The field name to merge confidence for
+        """
         # Keep the lower confidence value
         self_confidence = self.get_confidence(field_name, pooling_method=lambda x: None)
         other_confidence = other.get_confidence(
@@ -1366,10 +1393,16 @@ class BaseModel(metaclass=ModelMeta):
             )
             self.set_confidence(field_name, new_confidence)
 
-    def _compatible(self, other):
-        """
-        Checks whether two records seem to be compatible for the purposes of merging.
+    def _compatible(self, other: BaseModel) -> bool:
+        """Check whether two records are compatible for merging.
+        
         This means no conflicting fields, unless `ignore_when_merging` is set.
+        
+        Args:
+            other: The other model to check compatibility with
+            
+        Returns:
+            True if models are compatible for merging, False otherwise
         """
         match = False
         if type(other) == type(self):
@@ -1423,7 +1456,15 @@ class BaseModel(metaclass=ModelMeta):
                     break
         return match
 
-    def _should_keep_both_records(self, other):
+    def _should_keep_both_records(self, other: BaseModel) -> bool:
+        """Determine if both records should be kept after merging.
+        
+        Args:
+            other: The other model to check against
+            
+        Returns:
+            True if both records should be preserved, False otherwise
+        """
         should_keep_both = False
         if type(other) == type(self):
             # Check if the other seems to be describing the same thing as self.
@@ -1539,34 +1580,35 @@ class BaseModel(metaclass=ModelMeta):
         return subrecords_set
 
     @property
-    def binding_properties(self):
-        """
-        A dictionary of all binding properties in this model, and their values.
+    def binding_properties(self) -> dict[str, Any]:
+        """Get all binding properties in this model and their values.
 
         .. note::
 
             This function only returns those properties that are immediately binding for this
             model, and not for any submodels.
 
-        :returns: A dictionary with the names of all binding fields as the keys and their values as the values.
-        :rtype: {str: Any}
+        Returns:
+            Dictionary with the names of all binding fields as keys and their values
         """
-        binding_properties = {}
+        binding_properties: dict[str, Any] = {}
         for field_name, field in self.fields.items():
             if field.binding and self[field_name]:
                 binding_properties[field_name] = self[field_name]
         return binding_properties
 
-    def _binding_compatible(self, other, binding_properties=None):
-        """
-        Whether two models are compatible in terms of their binding properties.
+    def _binding_compatible(self, other: BaseModel, binding_properties: Optional[dict[str, Any]] = None) -> bool:
+        """Check whether two models are compatible in terms of their binding properties.
+        
         For example, if this model had a compound associated with it and the field was binding,
         a model that is associated with another compound will not be merged in.
 
-        :param BaseModel other: The other model that will be checked for compatibility with the binding properties in this model
-        :param {str: Any} binding_properties: Any binding properties from a model that contains this model
-        :returns: Whether the two models are compatible in terms of their binding properties.
-        :rtype: bool
+        Args:
+            other: The other model that will be checked for compatibility
+            binding_properties: Any binding properties from a model that contains this model
+            
+        Returns:
+            Whether the two models are compatible in terms of their binding properties
         """
         if binding_properties is None:
             binding_properties = self.binding_properties
@@ -1597,7 +1639,12 @@ class BaseModel(metaclass=ModelMeta):
                         return False
         return True
 
-    def _consolidate_binding(self, binding_properties=None):
+    def _consolidate_binding(self, binding_properties: Optional[dict[str, Any]] = None) -> None:
+        """Consolidate binding properties across model fields.
+        
+        Args:
+            binding_properties: Binding properties to consolidate
+        """
         # TODO: This doesn't update all the confidences for the submodels yet
         if binding_properties is None:
             binding_properties = self.binding_properties
@@ -1769,7 +1816,16 @@ class ModelList(MutableSequence):
         self.models = new_models
 
 
-def sort_merge_candidates(merge_candidates, adjust_by_confidence=True):
+def sort_merge_candidates(merge_candidates: list[tuple[ContextualRange, BaseModel]], adjust_by_confidence: bool = True) -> list[tuple[ContextualRange, BaseModel]]:
+    """Sort merge candidates by distance and optionally by confidence.
+    
+    Args:
+        merge_candidates: List of tuples containing (distance, merge_candidate)
+        adjust_by_confidence: Whether to adjust sorting by confidence scores
+        
+    Returns:
+        Sorted list of merge candidates
+    """
     # merge_candidates is a list of tuples (distance, merge candidate)
     if adjust_by_confidence:
         return sorted(

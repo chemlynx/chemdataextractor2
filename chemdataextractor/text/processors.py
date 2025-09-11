@@ -1,13 +1,18 @@
 """
-Text processors.
+Text processors for cleaning and normalizing text.
 
+Provides various text processing utilities for preparing chemical text
+for parsing and extraction operations.
 """
+
+from __future__ import annotations
 
 import logging
 import re
 import urllib.parse
 from abc import ABCMeta
 from abc import abstractmethod
+from typing import Optional
 
 from . import APOSTROPHES
 from . import EMAIL_RE
@@ -16,15 +21,20 @@ log = logging.getLogger(__name__)
 
 
 class BaseProcessor(metaclass=ABCMeta):
-    """Abstract processor class from which all processors inherit. Subclasses must implement a ``__call__()`` method."""
+    """Abstract processor class from which all processors inherit.
+    
+    Subclasses must implement a ``__call__()`` method to process text.
+    """
 
     @abstractmethod
-    def __call__(self, text):
-        """Process the text.
+    def __call__(self, text: str) -> Optional[str]:
+        """Process the input text.
 
-        :param string text: The input text.
-        :returns: The processed text or None.
-        :rtype: string or None
+        Args:
+            text: The input text to process
+
+        Returns:
+            The processed text, or None if text should be discarded
         """
         return text
 

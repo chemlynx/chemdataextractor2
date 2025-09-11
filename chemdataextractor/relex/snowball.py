@@ -1,6 +1,12 @@
 """
-The Snowball Relationship Extraction algorithm
+The Snowball Relationship Extraction algorithm.
+
+Implements semi-supervised relationship extraction using the Snowball algorithm
+for discovering patterns and relationships between chemical entities in text.
 """
+
+from __future__ import annotations
+
 import copy
 import logging
 import os
@@ -9,10 +15,23 @@ from importlib.resources import files
 from itertools import combinations
 from itertools import product
 from os.path import basename
+from typing import TYPE_CHECKING
+from typing import Any
+from typing import Optional
+from typing import Union
 
 import numpy as np
 import six
 from playsound import playsound
+
+if TYPE_CHECKING:
+    from ..doc.text import Sentence as DocumentSentence
+    from ..model.base import BaseModel
+
+# Type aliases for relationship extraction
+PatternList = list[Any]  # List of learned patterns
+EntityPair = tuple[Entity, Entity]  # Pair of entities in a relationship
+ConfidenceScore = float  # Confidence score for patterns/relationships
 
 from ..doc.document import Document
 from ..doc.text import Sentence
@@ -30,18 +49,24 @@ log = logging.getLogger(__name__)
 
 
 class Snowball(BaseSentenceParser):
-    """
-    Main Snowball class
+    """Main Snowball relationship extraction algorithm.
 
-    ::Usage: Define a Chemdataextractor Model
-        ```snowball = Snowball(model=my_relationhip)```
-        Then train the system on a corpus
-        ```snowball.train(corpus)```
-        This will generate an online training system
+    Implements semi-supervised learning for discovering relationships between
+    chemical entities using pattern-based extraction and iterative bootstrapping.
 
-    ::params:
+    Usage:
+        Define a ChemDataExtractor Model::
+        
+            snowball = Snowball(model=my_relationship)
+            
+        Then train the system on a corpus::
+        
+            snowball.train(corpus)
+            
+        This will generate patterns for extracting the specified relationship type.
 
-    For full detail see the associated paper: https://www.nature.com/articles/sdata2018111
+    Parameters:
+        For full detail see the associated paper: https://www.nature.com/articles/sdata2018111
 
         tc: The minimum confidence of a model in order to be accepted
         tsim: Minimum similarity between sentences in order for them to be clustered
