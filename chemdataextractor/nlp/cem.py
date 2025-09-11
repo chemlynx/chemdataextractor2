@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Named entity recognition (NER) for Chemical entity mentions (CEM).
 
@@ -6,18 +5,16 @@ This was the default NER system up to version 2.0, while the new NER is
 included in new_cem.
 """
 
-from __future__ import absolute_import
-from __future__ import division
-from __future__ import print_function
-from __future__ import unicode_literals
 import logging
 import re
 
-
 from ..text import bracket_level
 from .lexicon import ChemLexicon
-from .tag import EnsembleTagger, CrfTagger, DictionaryTagger, NER_TAG_TYPE, POS_TAG_TYPE
-
+from .tag import NER_TAG_TYPE
+from .tag import POS_TAG_TYPE
+from .tag import CrfTagger
+from .tag import DictionaryTagger
+from .tag import EnsembleTagger
 
 log = logging.getLogger(__name__)
 
@@ -2123,26 +2120,26 @@ STOPLIST = {
 #: Regular expressions that define disallowed chemical entity mentions. Note: the entity text is passed as lowercase.
 STOP_RES = [
     "^(http|ftp)://",  # URL
-    "\.(com|uk|eu|org|net)$",  # URL
-    "^\d{4}-\d{3}[\dx]$",  # ISSN
-    "^[\w\-\.\+%]{4,} @ \w[\w\-\.]+\.(com?|edu|gov|ac)(\.[\w\-\.]+)?$",  # email
-    "^[\d,:\- ]*\d{4,}[\d,:\- ]*$",  # numbers
-    "\d{3,} , \d{3,}",  # numbers
-    "(\d\d+\.\d+|\d\.\d\d+)",  # numbers
-    "\d and \d",  # numbers
-    "^(\[\d+\]\s*)+$",  # numbers
-    "^\d+$",  # numbers
-    "= \d",  # numbers
-    "^\+?\d[ \d-]$",  # phone numbers
+    r"\.(com|uk|eu|org|net)$",  # URL
+    r"^\d{4}-\d{3}[\dx]$",  # ISSN
+    r"^[\w\-\.\+%]{4,} @ \w[\w\-\.]+\.(com?|edu|gov|ac)(\.[\w\-\.]+)?$",  # email
+    r"^[\d,:\- ]*\d{4,}[\d,:\- ]*$",  # numbers
+    r"\d{3,} , \d{3,}",  # numbers
+    r"(\d\d+\.\d+|\d\.\d\d+)",  # numbers
+    r"\d and \d",  # numbers
+    r"^(\[\d+\]\s*)+$",  # numbers
+    r"^\d+$",  # numbers
+    r"= \d",  # numbers
+    r"^\+?\d[ \d-]$",  # phone numbers
     "cm-1",  # units
-    "^(compound|ligand|chemical|dye|derivative|complex|example|intermediate|product|formulae?)s? [a-z\d]{1,3}",  # labels
-    "(b3lyp|31g\(d,p\)|td-dft)",
-    "et al\.?$",
-    "^(ep|wo|us)\s*\d\s*\d\d[\d\s]*([AB]\d)?($|\s*and)",  # patent numbers
-    "^(pre|post)-\d\d\d\d",  # common mistake
-    "\d ml$",  # properties
-    "\.(png|gif|jpg|txt|html|docx?|xlsx?)$",  # File extensions
-    "^(tel|fax)\s*:?\s*\+?\s*\d",  # phone numbers
+    r"^(compound|ligand|chemical|dye|derivative|complex|example|intermediate|product|formulae?)s? [a-z\d]{1,3}",  # labels
+    r"(b3lyp|31g\(d,p\)|td-dft)",
+    r"et al\.?$",
+    r"^(ep|wo|us)\s*\d\s*\d\d[\d\s]*([AB]\d)?($|\s*and)",  # patent numbers
+    r"^(pre|post)-\d\d\d\d",  # common mistake
+    r"\d ml$",  # properties
+    r"\.(png|gif|jpg|txt|html|docx?|xlsx?)$",  # File extensions
+    r"^(tel|fax)\s*:?\s*\+?\s*\d",  # phone numbers
 ]
 
 #: Regular expressions defining collections of words that should be split if joined by hyphens or -to-
@@ -2154,15 +2151,15 @@ SPLITS = [
     "^(sugar|phospate)$",
     "^(azide|alkyne|alkene|alkane)$",
     "^(arginine|cysteine|glycine|aspartic acid|glutamate|dopamine|serotonin|acetone|methanol|ethanol|EtOH|MeOH|AcOEt|melatonin|leucine|alanine|histidine|isoleucine|lysine|threonine|tryptophan|nicotine|gentamicin|ATP|FITC|biotin|tamoxifen|catechin|asparagine)$",
-    "^(Ala|Arg|Asn|Asp|Cys|Glu|Gln|Gly|His|Ile|Leu|Lys|Met|Phe|Pro|Ser|Thr|Trp|Tyr|Val)(?:\(?\d+\)?)?$",
-    "^(\(?1\)?H|\(?1[45]\)?N|\(?1[234]\)?C|\(?19\)?F)$",
-    "^(F|Cl|Zn[OS]|H\(?2\)?O(\(?2\)?)?|Ni\(OH\)\(?2\)?|(NiF|SnO|TiO|NO)\(?2\)?|(Al|Y|Fe)\(?2\)?O\(?3\)?|CaCO\(?3\)?)$",
+    r"^(Ala|Arg|Asn|Asp|Cys|Glu|Gln|Gly|His|Ile|Leu|Lys|Met|Phe|Pro|Ser|Thr|Trp|Tyr|Val)(?:\(?\d+\)?)?$",
+    r"^(\(?1\)?H|\(?1[45]\)?N|\(?1[234]\)?C|\(?19\)?F)$",
+    r"^(F|Cl|Zn[OS]|H\(?2\)?O(\(?2\)?)?|Ni\(OH\)\(?2\)?|(NiF|SnO|TiO|NO)\(?2\)?|(Al|Y|Fe)\(?2\)?O\(?3\)?|CaCO\(?3\)?)$",
     "^(ester|amide)$",
 ]
 
 # Special case boundary adjustments (only used for cems output)
 SPECIALS = [
-    "(?:^|-)([CONS])-\w+ases?$",
+    r"(?:^|-)([CONS])-\w+ases?$",
     "(?:^|-)(S)-(sulfonates?)$",
     "^(GABA)-(benzodiazepine|A)$",
     "^(ZnO|Au|Ag)-NPs?$",  # Nanoparticles
@@ -2171,22 +2168,22 @@ SPECIALS = [
     "^(N|S)-(?:acetyl|nitros|hydroxyl)(?:ation|ated)$",
     "^-(NO2|CH3|F|Cl|Br|OH)$",  # Remove leading dash
     "^(.+)[²³]?⁺$",  # Remove trailing superscript plus \u207a
-    "^δ(\([^\(]+\).+)$",  # Remove leading δ \u03b4 but keep opening bracket if the closing bracket is within name
-    "^δ\((.+)\)?$",  # Otherwise remove leading δ \u03b4 and opening bracket
-    "^(Ala|Arg|Asn|Asp|Cys|Glu|Gln|Gly|His|Ile|Leu|Lys|Met|Phe|Pro|Ser|Thr|Trp|Tyr|Val)-?\(?\d+\)?$",
-    "^(\w{4,})(?:\)?-to-\(?|\+)(\w{4,})$",
+    r"^δ(\([^\(]+\).+)$",  # Remove leading δ \u03b4 but keep opening bracket if the closing bracket is within name
+    r"^δ\((.+)\)?$",  # Otherwise remove leading δ \u03b4 and opening bracket
+    r"^(Ala|Arg|Asn|Asp|Cys|Glu|Gln|Gly|His|Ile|Leu|Lys|Met|Phe|Pro|Ser|Thr|Trp|Tyr|Val)-?\(?\d+\)?$",
+    r"^(\w{4,})(?:\)?-to-\(?|\+)(\w{4,})$",
     "^(.+)(?:-| )(?:linker|activated|gated|mediated|containing|doped|labeled|coated|enriched|catalyzed|modified|···)(?:-| )(.+)$",
-    "^(.+)\s?···\s?(.+)$",
-    "^(.+[A-Z])\+([A-Z].+)$",  # Split on plus surrounded by uppercase alpha
-    "^([^\(\)]+\w)\+(\w[^\(\)]+)$",  # Split on plus surrounded by any letter or number provided no brackets
-    "^(.+\(\d+[A-Za-z]*\)) and (.+)$",  # Split on bracketed alphanumeric label followed by and
-    "^(.+)\.$",  # Trim off final punctuation
+    r"^(.+)\s?···\s?(.+)$",
+    r"^(.+[A-Z])\+([A-Z].+)$",  # Split on plus surrounded by uppercase alpha
+    r"^([^\(\)]+\w)\+(\w[^\(\)]+)$",  # Split on plus surrounded by any letter or number provided no brackets
+    r"^(.+\(\d+[A-Za-z]*\)) and (.+)$",  # Split on bracketed alphanumeric label followed by and
+    r"^(.+)\.$",  # Trim off final punctuation
     #'^((?:.* )acid)-(.+)$',
     # TODO: Slash-separated names? ', ' separated? ' and ' separated? Probably have a min length limit
 ]
 
 
-class _CompatibilityToken(object):
+class _CompatibilityToken:
     """
     A wrapper around tokens to ensure backwards compatibility when using RichTokens.
 
@@ -2583,7 +2580,7 @@ class LegacyCemTagger(EnsembleTagger):
                         # print('BLADJUST: %s - %s' % (tokens[i-1][0], entity))
                         tags[i - 1] = "B-CM"
                         tags[i] = "I-CM"
-                    elif not bracket_level(entity) == 0:
+                    elif bracket_level(entity) != 0:
                         # Filter entities that overall don't have balanced brackets
                         tags[i:end_i] = [None] * (end_i - i)
                     else:
@@ -2594,7 +2591,7 @@ class LegacyCemTagger(EnsembleTagger):
                             and entity_tokens[-3] == "("
                         ):
                             if re.match(
-                                "^(\d{1,2}[A-Za-z]?|I|II|III|IV|V|VI|VII|VIII|IX)$",
+                                r"^(\d{1,2}[A-Za-z]?|I|II|III|IV|V|VI|VII|VIII|IX)$",
                                 entity_tokens[-2],
                             ):
                                 log.debug(

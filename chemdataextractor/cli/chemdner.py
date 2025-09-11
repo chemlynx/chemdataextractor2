@@ -1,19 +1,15 @@
-# -*- coding: utf-8 -*-
 """
 Command line tools for dealing with CHEMDNER corpus.
 
 """
 
-from __future__ import absolute_import
-from __future__ import division
-from __future__ import print_function
 from collections import defaultdict
 
 import click
 
-
 from ..doc.document import Document
-from ..doc.text import Title, Paragraph
+from ..doc.text import Paragraph
+from ..doc.text import Title
 
 
 @click.group(name="chemdner")

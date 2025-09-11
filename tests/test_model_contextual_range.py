@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 test_model_contextual_range
 ~~~~~~~~~~~~~~~~~
@@ -7,20 +6,24 @@ Test contextual ranges.
 
 """
 
-from __future__ import absolute_import
-from __future__ import division
-from __future__ import print_function
-from __future__ import unicode_literals
 import logging
 import unittest
-import os
 
-from chemdataextractor.model.contextual_range import ContextualRange, DocumentRange, SectionRange, ParagraphRange, SentenceRange
-from chemdataextractor.model import BaseModel, ModelType, StringType, TemperatureModel, Compound
-from chemdataextractor.parse.auto import AutoSentenceParser
-from chemdataextractor.parse.elements import R, I
 from chemdataextractor.doc.document import Document
-from chemdataextractor.doc.text import Paragraph, Heading, Title
+from chemdataextractor.doc.text import Heading
+from chemdataextractor.doc.text import Paragraph
+from chemdataextractor.doc.text import Title
+from chemdataextractor.model import BaseModel
+from chemdataextractor.model import Compound
+from chemdataextractor.model import ModelType
+from chemdataextractor.model import StringType
+from chemdataextractor.model import TemperatureModel
+from chemdataextractor.model.contextual_range import DocumentRange
+from chemdataextractor.model.contextual_range import ParagraphRange
+from chemdataextractor.model.contextual_range import SectionRange
+from chemdataextractor.model.contextual_range import SentenceRange
+from chemdataextractor.parse.auto import AutoSentenceParser
+from chemdataextractor.parse.elements import R
 
 logging.basicConfig(level=logging.DEBUG)
 log = logging.getLogger(__name__)
@@ -33,7 +36,9 @@ class InnerModel(BaseModel):
 
 class OuterModel(BaseModel):
     string_field = StringType(contextual=True, contextual_range=SectionRange())
-    model_field = ModelType(InnerModel, contextual=True, contextual_range=SectionRange())
+    model_field = ModelType(
+        InnerModel, contextual=True, contextual_range=SectionRange()
+    )
 
 
 class BoilingPoint(TemperatureModel):
@@ -110,14 +115,20 @@ class TestContextualRange(unittest.TestCase):
 
         inner_model_b = InnerModel(string_field_2="test_string_2")
         outer_model_a.merge_contextual(inner_model_b, distance=ParagraphRange())
-        self.assertEqual(outer_model_a.get("model_field").get("string_field"), "test_string")
-        self.assertEqual(outer_model_a.get("model_field").get("string_field_2"), "test_string_2")
+        self.assertEqual(
+            outer_model_a.get("model_field").get("string_field"), "test_string"
+        )
+        self.assertEqual(
+            outer_model_a.get("model_field").get("string_field_2"), "test_string_2"
+        )
 
     def parse_document_1(self, expected):
         doc = Document(
             Title("Boiling behaviour"),
             Heading("H2O investigation"),
-            Paragraph("It's great, and we investigate how H2O behaves in this paper. Stay hydrated!"),
+            Paragraph(
+                "It's great, and we investigate how H2O behaves in this paper. Stay hydrated!"
+            ),
             Heading("Methodology"),
             Paragraph("What do you expect here?"),
             Heading("Results"),
@@ -133,32 +144,30 @@ class TestContextualRange(unittest.TestCase):
     def test_contextual_range_during_parsing(self):
         expected = [
             {
-                'BoilingPoint':
-                {
-                    'raw_value': '373',
-                    'raw_units': 'K',
-                    'value': [373.0],
-                    'units': 'Kelvin^(1.0)',
-                    'specifier': 'boiling'
+                "BoilingPoint": {
+                    "raw_value": "373",
+                    "raw_units": "K",
+                    "value": [373.0],
+                    "units": "Kelvin^(1.0)",
+                    "specifier": "boiling",
                 }
             }
         ]
         self.parse_document_1(expected)
 
     def test_contextual_range_during_parsing_2(self):
-        BoilingPoint.compound.contextual_range = 2 * SectionRange() + 10 * ParagraphRange()
+        BoilingPoint.compound.contextual_range = (
+            2 * SectionRange() + 10 * ParagraphRange()
+        )
         expected = [
             {
-                'BoilingPoint':
-                {
-                    'raw_value': '373',
-                    'raw_units': 'K',
-                    'value': [373.0],
-                    'units': 'Kelvin^(1.0)',
-                    'specifier': 'boiling',
-                    'compound': {
-                        'Compound': {'names': ['H2O']}
-                    },
+                "BoilingPoint": {
+                    "raw_value": "373",
+                    "raw_units": "K",
+                    "value": [373.0],
+                    "units": "Kelvin^(1.0)",
+                    "specifier": "boiling",
+                    "compound": {"Compound": {"names": ["H2O"]}},
                 }
             }
         ]
@@ -168,21 +177,18 @@ class TestContextualRange(unittest.TestCase):
         BoilingPoint.compound.contextual_range = DocumentRange()
         expected = [
             {
-                'BoilingPoint':
-                {
-                    'raw_value': '373',
-                    'raw_units': 'K',
-                    'value': [373.0],
-                    'units': 'Kelvin^(1.0)',
-                    'specifier': 'boiling',
-                    'compound': {
-                        'Compound': {'names': ['H2O']}
-                    },
+                "BoilingPoint": {
+                    "raw_value": "373",
+                    "raw_units": "K",
+                    "value": [373.0],
+                    "units": "Kelvin^(1.0)",
+                    "specifier": "boiling",
+                    "compound": {"Compound": {"names": ["H2O"]}},
                 }
             }
         ]
         self.parse_document_1(expected)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     unittest.main()

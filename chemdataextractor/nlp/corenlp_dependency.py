@@ -1,15 +1,18 @@
-from .dependency import Dependency, IndexTagger
-from .tag import BaseTagger, EnsembleTagger
-from ..data import Package, find_data, PACKAGES
-
-import socketserver
-import os
 import atexit
-from yaspin import yaspin
+import os
+import socketserver
 
 import stanza
 from stanza.server import CoreNLPClient
+from yaspin import yaspin
 
+from ..data import PACKAGES
+from ..data import Package
+from ..data import find_data
+from .dependency import Dependency
+from .dependency import IndexTagger
+from .tag import BaseTagger
+from .tag import EnsembleTagger
 
 corenlp_loc = "models/corenlp"
 

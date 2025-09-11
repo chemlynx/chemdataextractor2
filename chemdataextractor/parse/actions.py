@@ -1,13 +1,8 @@
-# -*- coding: utf-8 -*-
 """
 Actions to perform during parsing.
 
 """
 
-from __future__ import absolute_import
-from __future__ import division
-from __future__ import print_function
-from __future__ import unicode_literals
 import logging
 import re
 
@@ -15,7 +10,6 @@ from lxml.builder import E
 from lxml.etree import strip_tags
 
 from ..text import HYPHENS
-
 
 log = logging.getLogger(__name__)
 

@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-# -*- coding: utf-8 -*-
 """
 test_nlp_pos
 ~~~~~~~~~~~~
@@ -8,16 +7,12 @@ Tests for part-of-speech tagging.
 
 """
 
-from __future__ import absolute_import
-from __future__ import division
-from __future__ import print_function
-from __future__ import unicode_literals
 import logging
 import unittest
 
 from chemdataextractor.doc.text import Text
-from chemdataextractor.nlp import ApPosTagger, ChemApPosTagger
-
+from chemdataextractor.nlp import ApPosTagger
+from chemdataextractor.nlp import ChemApPosTagger
 
 logging.basicConfig(level=logging.DEBUG)
 log = logging.getLogger(__name__)
@@ -33,16 +28,34 @@ class TestApPosTagger(unittest.TestCase):
     def test_tag_simple(self):
         """Test the PerceptronTagger on a simple sentence."""
         self.assertEqual(
-            [('And', 'CC'), ('now', 'RB'), ('for', 'IN'), ('something', 'NN'), ('completely', 'RB'), ('different', 'JJ')],
-            self.t.legacy_tag(['And', 'now', 'for', 'something', 'completely', 'different'])
+            [
+                ("And", "CC"),
+                ("now", "RB"),
+                ("for", "IN"),
+                ("something", "NN"),
+                ("completely", "RB"),
+                ("different", "JJ"),
+            ],
+            self.t.legacy_tag(
+                ["And", "now", "for", "something", "completely", "different"]
+            ),
         )
 
     def test_text_sentence(self):
         """Test tagging through the Text and Sentence API."""
-        t = Text('And now for something completely different', pos_tagger=ApPosTagger())
+        t = Text("And now for something completely different", pos_tagger=ApPosTagger())
         self.assertEqual(
-            [[(u'And', u'CC'), (u'now', u'RB'), (u'for', u'IN'), (u'something', u'NN'), (u'completely', u'RB'), (u'different', u'JJ')]],
-            t.pos_tagged_tokens
+            [
+                [
+                    ("And", "CC"),
+                    ("now", "RB"),
+                    ("for", "IN"),
+                    ("something", "NN"),
+                    ("completely", "RB"),
+                    ("different", "JJ"),
+                ]
+            ],
+            t.pos_tagged_tokens,
         )
 
 
@@ -56,18 +69,36 @@ class TestChemApPosTagger(unittest.TestCase):
     def test_tag_simple(self):
         """Test the ChemApPosTagger  on a simple sentence."""
         self.assertEqual(
-            [('And', 'CC'), ('now', 'RB'), ('for', 'IN'), ('something', 'NN'), ('completely', 'RB'), ('different', 'JJ')],
-            self.t.legacy_tag(['And', 'now', 'for', 'something', 'completely', 'different'])
+            [
+                ("And", "CC"),
+                ("now", "RB"),
+                ("for", "IN"),
+                ("something", "NN"),
+                ("completely", "RB"),
+                ("different", "JJ"),
+            ],
+            self.t.legacy_tag(
+                ["And", "now", "for", "something", "completely", "different"]
+            ),
         )
 
     def test_text_sentence(self):
         """Test tagging through the Text and Sentence API."""
-        t = Text('And now for something completely different')
+        t = Text("And now for something completely different")
         self.assertEqual(
-            [[(u'And', u'CC'), (u'now', u'RB'), (u'for', u'IN'), (u'something', u'NN'), (u'completely', u'RB'), (u'different', u'JJ')]],
-            t.pos_tagged_tokens
+            [
+                [
+                    ("And", "CC"),
+                    ("now", "RB"),
+                    ("for", "IN"),
+                    ("something", "NN"),
+                    ("completely", "RB"),
+                    ("different", "JJ"),
+                ]
+            ],
+            t.pos_tagged_tokens,
         )
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     unittest.main()

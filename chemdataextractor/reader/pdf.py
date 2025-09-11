@@ -1,26 +1,25 @@
-# -*- coding: utf-8 -*-
 """
 PDF document reader.
 
 """
 
-from __future__ import absolute_import
-from __future__ import division
-from __future__ import print_function
-from __future__ import unicode_literals
 import io
 
 from pdfminer.converter import PDFPageAggregator
-from pdfminer.layout import LAParams, LTTextLine, LTTextBox, LTFigure
+from pdfminer.layout import LAParams
+from pdfminer.layout import LTFigure
+from pdfminer.layout import LTTextBox
+from pdfminer.layout import LTTextLine
 from pdfminer.pdfdocument import PDFDocument
-from pdfminer.pdfinterp import PDFResourceManager, PDFPageInterpreter
+from pdfminer.pdfinterp import PDFPageInterpreter
+from pdfminer.pdfinterp import PDFResourceManager
 from pdfminer.pdfpage import PDFPage
 from pdfminer.pdfparser import PDFParser
 
 from ..doc.document import Document
 from ..doc.text import Paragraph
-from .base import BaseReader
 from ..errors import ReaderError
+from .base import BaseReader
 
 
 class PdfReader(BaseReader):

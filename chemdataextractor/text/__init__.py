@@ -1,18 +1,12 @@
-# -*- coding: utf-8 -*-
 """
 Tools for processing text.
 
 """
 
-from __future__ import absolute_import
-from __future__ import division
-from __future__ import print_function
-from __future__ import unicode_literals
 import re
 import unicodedata
 
 from bs4 import UnicodeDammit
-
 
 #: Control characters.
 CONTROLS = {

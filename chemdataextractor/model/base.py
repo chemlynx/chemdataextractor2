@@ -13,22 +13,16 @@ import json
 import logging
 import math
 from abc import ABCMeta
+from collections.abc import Callable
 from collections.abc import MutableSequence
-from typing import Any
-from typing import Callable
-from typing import ClassVar
-from typing import Dict
-from typing import Generic
-from typing import List
-from typing import Optional
-from typing import Set
-from typing import Tuple
-from typing import Type
-from typing import Union
 from typing import TYPE_CHECKING
+from typing import Any
+from typing import Generic
+from typing import Optional
+from typing import Union
 
 try:
-    from typing_extensions import Self
+    from typing import Self
 except ImportError:
     from typing import Self  # type: ignore[attr-defined]
 
@@ -36,15 +30,13 @@ from ..parse.auto import AutoSentenceParser
 from ..parse.auto import AutoTableParser
 from ..parse.elements import I
 from ..parse.elements import W
-from .confidence_pooling import min_value
-from .contextual_range import DocumentRange
-from .contextual_range import SentenceRange
 
 # Import type definitions
 from ..typing import ModelT
-from ..typing import RecordDict
-from ..typing import SerializedRecord
 from ..typing import T
+from .confidence_pooling import min_value
+from .contextual_range import DocumentRange
+from .contextual_range import SentenceRange
 
 if TYPE_CHECKING:
     from ..parse.base import BaseParserElement
@@ -55,14 +47,14 @@ log = logging.getLogger(__name__)
 
 class BaseType(Generic[T], metaclass=ABCMeta):
     """Base class for all field types in ChemDataExtractor models.
-    
+
     BaseType implements the descriptor protocol to provide type-safe field access
     and automatic value processing for model instances.
-    
+
     Type Parameters:
         T: The type of value this field stores and returns
     """
-    
+
     # This is assigned by ModelMeta to match the attribute on the Model
     name: Optional[str] = None
 
@@ -81,7 +73,7 @@ class BaseType(Generic[T], metaclass=ABCMeta):
         never_merge: bool = False,
     ) -> None:
         """Initialize a BaseType field descriptor.
-        
+
         Args:
             default: The default value for this field if none is set
             null: Include in serialized output even if value is None
@@ -119,21 +111,23 @@ class BaseType(Generic[T], metaclass=ABCMeta):
         self._default_parse_expression = parse_expression
         # When a record is created from a table, these are filled with row/col header category strings
         # which helps merging based on same row/column category
-        self.table_row_categories: Optional[List[str]] = None
-        self.table_col_categories: Optional[List[str]] = None
+        self.table_row_categories: Optional[list[str]] = None
+        self.table_col_categories: Optional[list[str]] = None
 
     def reset(self) -> None:
         """Reset the parse expression to the initial value."""
         if self.updatable:
             self.parse_expression = copy.copy(self._default_parse_expression)
 
-    def __get__(self, instance: Optional[BaseModel], owner: Type[BaseModel]) -> Union[T, Self]:
+    def __get__(
+        self, instance: Optional[BaseModel], owner: type[BaseModel]
+    ) -> Union[T, Self]:
         """Descriptor for retrieving a value from a field in a Model.
-        
+
         Args:
             instance: The model instance, or None if accessed from class
             owner: The model class
-            
+
         Returns:
             The field descriptor if accessed from class, otherwise the field value
         """
@@ -149,7 +143,7 @@ class BaseType(Generic[T], metaclass=ABCMeta):
 
     def __set__(self, instance: BaseModel, value: T) -> None:
         """Descriptor for assigning a value to a field in a Model.
-        
+
         Args:
             instance: The model instance
             value: The value to assign
@@ -158,10 +152,10 @@ class BaseType(Generic[T], metaclass=ABCMeta):
 
     def process(self, value: Any) -> T:
         """Convert an assigned value into the desired data format for this field.
-        
+
         Args:
             value: The raw value to process
-            
+
         Returns:
             The processed value in the correct type for this field
         """
@@ -169,11 +163,11 @@ class BaseType(Generic[T], metaclass=ABCMeta):
 
     def serialize(self, value: T, primitive: bool = False) -> Any:
         """Serialize this field value for output.
-        
+
         Args:
             value: The field value to serialize
             primitive: Whether to serialize to primitive types only
-            
+
         Returns:
             The serialized representation of the value
         """
@@ -185,10 +179,10 @@ class BaseType(Generic[T], metaclass=ABCMeta):
 
     def is_empty(self, value: T) -> bool:
         """Return whether a value is considered empty for this field.
-        
+
         Args:
             value: The value to check
-            
+
         Returns:
             True if the value is considered empty, False otherwise
         """
@@ -200,12 +194,12 @@ class StringType(BaseType[Optional[str]]):
 
     def process(self, value: Any) -> Optional[str]:
         """Convert value to a unicode string.
-        
+
         Useful in case lxml _ElementUnicodeResult are passed from parser.
-        
+
         Args:
             value: The value to convert to string
-            
+
         Returns:
             The string representation of the value, or None if value is None
         """
@@ -213,10 +207,10 @@ class StringType(BaseType[Optional[str]]):
 
     def is_empty(self, value: Optional[str]) -> bool:
         """Check if string value is empty.
-        
+
         Args:
             value: The string value to check
-            
+
         Returns:
             True if value is None, empty string, or not a string; False otherwise
         """
@@ -230,10 +224,10 @@ class FloatType(BaseType[Optional[float]]):
 
     def process(self, value: Any) -> Optional[float]:
         """Convert value to a float.
-        
+
         Args:
             value: The value to convert to float
-            
+
         Returns:
             The float representation of the value, or None if value is None
         """
@@ -243,10 +237,10 @@ class FloatType(BaseType[Optional[float]]):
 
     def is_empty(self, value: Optional[float]) -> bool:
         """Check if float value is empty.
-        
+
         Args:
             value: The float value to check
-            
+
         Returns:
             True if value is None; False otherwise
         """
@@ -257,28 +251,28 @@ class FloatType(BaseType[Optional[float]]):
 
 class ModelType(BaseType[Optional[ModelT]]):
     """A field type for nested model instances.
-    
+
     Type Parameters:
         ModelT: The type of model this field contains
     """
-    
-    def __init__(self, model: Type[ModelT], **kwargs: Any) -> None:
+
+    def __init__(self, model: type[ModelT], **kwargs: Any) -> None:
         """Initialize a ModelType field.
-        
+
         Args:
             model: The model class this field will contain
             **kwargs: Additional field configuration options
         """
-        self.model_class: Type[ModelT] = model
+        self.model_class: type[ModelT] = model
         self.model_name: str = self.model_class.__name__
         super(ModelType, self).__init__(**kwargs)
 
     def process(self, value: Any) -> Optional[ModelT]:
         """Process a value into a model instance.
-        
+
         Args:
             value: The value to process
-            
+
         Returns:
             The model instance if value is of correct type, None otherwise
         """
@@ -287,13 +281,15 @@ class ModelType(BaseType[Optional[ModelT]]):
         else:
             return None
 
-    def serialize(self, value: Optional[ModelT], primitive: bool = False) -> Optional[Dict[str, Any]]:
+    def serialize(
+        self, value: Optional[ModelT], primitive: bool = False
+    ) -> Optional[dict[str, Any]]:
         """Serialize the nested model.
-        
+
         Args:
             value: The model instance to serialize
             primitive: Whether to serialize to primitive types only
-            
+
         Returns:
             The serialized model, or None if value is None
         """
@@ -303,10 +299,10 @@ class ModelType(BaseType[Optional[ModelT]]):
 
     def is_empty(self, value: Optional[ModelT]) -> bool:
         """Check if the model value is empty.
-        
+
         Args:
             value: The model instance to check
-            
+
         Returns:
             True if value is None or the model instance is empty; False otherwise
         """
@@ -315,17 +311,22 @@ class ModelType(BaseType[Optional[ModelT]]):
         return True
 
 
-class ListType(BaseType[Optional[List[T]]]):
+class ListType(BaseType[Optional[list[T]]]):
     """A field type for lists of values processed by a nested field type.
-    
+
     Type Parameters:
         T: The type of items in the list (determined by the nested field)
     """
-    
-    def __init__(self, field: BaseType[T], default: Optional[List[T]] = None, 
-                 sorted_: bool = False, **kwargs: Any) -> None:
+
+    def __init__(
+        self,
+        field: BaseType[T],
+        default: Optional[list[T]] = None,
+        sorted_: bool = False,
+        **kwargs: Any,
+    ) -> None:
         """Initialize a ListType field.
-        
+
         Args:
             field: The field type for processing individual list items
             default: Default value for the list (empty list if None)
@@ -334,12 +335,12 @@ class ListType(BaseType[Optional[List[T]]]):
         """
         super(ListType, self).__init__(**kwargs)
         self.field: BaseType[T] = field
-        self.default: List[T] = default if default is not None else []
+        self.default: list[T] = default if default is not None else []
         self.sorted: bool = sorted_
 
-    def __set__(self, instance: BaseModel, value: Optional[List[Any]]) -> None:
+    def __set__(self, instance: BaseModel, value: Optional[list[Any]]) -> None:
         """Descriptor for assigning a value to a ListField in a Model.
-        
+
         Args:
             instance: The model instance
             value: The list value to assign
@@ -353,13 +354,15 @@ class ListType(BaseType[Optional[List[T]]]):
                 processed = sorted(processed)
             instance._values[self.name] = processed
 
-    def serialize(self, value: Optional[List[T]], primitive: bool = False) -> Optional[List[Any]]:
+    def serialize(
+        self, value: Optional[list[T]], primitive: bool = False
+    ) -> Optional[list[Any]]:
         """Serialize the list field.
-        
+
         Args:
             value: The list to serialize
             primitive: Whether to serialize to primitive types only
-            
+
         Returns:
             The serialized list, or None if value is None or empty
         """
@@ -368,12 +371,12 @@ class ListType(BaseType[Optional[List[T]]]):
         else:
             return None
 
-    def is_empty(self, value: Optional[List[T]]) -> bool:
+    def is_empty(self, value: Optional[list[T]]) -> bool:
         """Check if the list value is empty.
-        
+
         Args:
             value: The list value to check
-            
+
         Returns:
             True if value is None or empty list; False otherwise
         """
@@ -391,10 +394,15 @@ class InferredProperty(BaseType[T]):
     :attr:`~chemdataextractor.model.units.quantity_model.QuantityModel.raw_value`.
     """
 
-    def __init__(self, field: BaseType[T], origin_field: str, 
-                 inferrer: Callable[[Any, BaseModel], T], **kwargs: Any) -> None:
+    def __init__(
+        self,
+        field: BaseType[T],
+        origin_field: str,
+        inferrer: Callable[[Any, BaseModel], T],
+        **kwargs: Any,
+    ) -> None:
         """Initialize an InferredProperty field.
-        
+
         Args:
             field: The field type expected as a result of inference
             origin_field: The name of the field from which to infer the value
@@ -408,13 +416,15 @@ class InferredProperty(BaseType[T]):
         self.inferrer: Callable[[Any, BaseModel], T] = inferrer
         super(InferredProperty, self).__init__(**kwargs)
 
-    def __get__(self, instance: Optional[BaseModel], owner: Type[BaseModel]) -> Union[T, Self]:
+    def __get__(
+        self, instance: Optional[BaseModel], owner: type[BaseModel]
+    ) -> Union[T, Self]:
         """Get the inferred value, computing it if necessary.
-        
+
         Args:
             instance: The model instance
             owner: The model class
-            
+
         Returns:
             The field descriptor if accessed from class, otherwise the inferred value
         """
@@ -432,10 +442,10 @@ class InferredProperty(BaseType[T]):
 
     def process(self, value: Any) -> T:
         """Process a value using the nested field's processing logic.
-        
+
         Args:
             value: The value to process
-            
+
         Returns:
             The processed value
         """
@@ -443,11 +453,11 @@ class InferredProperty(BaseType[T]):
 
     def serialize(self, value: T, primitive: bool = False) -> Any:
         """Serialize the inferred value using the nested field's serialization.
-        
+
         Args:
             value: The value to serialize
             primitive: Whether to serialize to primitive types only
-            
+
         Returns:
             The serialized value
         """
@@ -455,26 +465,28 @@ class InferredProperty(BaseType[T]):
 
     def is_empty(self, value: T) -> bool:
         """Check if the inferred value is empty using the nested field's logic.
-        
+
         Args:
             value: The value to check
-            
+
         Returns:
             True if the value is considered empty, False otherwise
         """
         return self.field.is_empty(value)
 
 
-class SetType(BaseType[Optional[Set[T]]]):
+class SetType(BaseType[Optional[set[T]]]):
     """A field type for sets of values processed by a nested field type.
-    
+
     Type Parameters:
         T: The type of items in the set (determined by the nested field)
     """
-    
-    def __init__(self, field: BaseType[T], default: Optional[Set[T]] = None, **kwargs: Any) -> None:
+
+    def __init__(
+        self, field: BaseType[T], default: Optional[set[T]] = None, **kwargs: Any
+    ) -> None:
         """Initialize a SetType field.
-        
+
         Args:
             field: The field type for processing individual set items
             default: Default value for the set (empty set if None)
@@ -482,11 +494,11 @@ class SetType(BaseType[Optional[Set[T]]]):
         """
         super(SetType, self).__init__(**kwargs)
         self.field: BaseType[T] = field
-        self.default: Set[T] = default if default is not None else set()
+        self.default: set[T] = default if default is not None else set()
 
-    def __set__(self, instance: BaseModel, value: Optional[Set[Any]]) -> None:
+    def __set__(self, instance: BaseModel, value: Optional[set[Any]]) -> None:
         """Descriptor for assigning a value to a SetField in a Model.
-        
+
         Args:
             instance: The model instance
             value: The set value to assign
@@ -499,13 +511,15 @@ class SetType(BaseType[Optional[Set[T]]]):
                 self.field.process(v) for v in value if v is not None
             )
 
-    def serialize(self, value: Optional[Set[T]], primitive: bool = False) -> Optional[List[Any]]:
+    def serialize(
+        self, value: Optional[set[T]], primitive: bool = False
+    ) -> Optional[list[Any]]:
         """Serialize the set field to a sorted list for JSON compatibility.
-        
+
         Args:
             value: The set to serialize
             primitive: Whether to serialize to primitive types only
-            
+
         Returns:
             A sorted list representation, or None if value is None or empty
         """
@@ -517,12 +531,12 @@ class SetType(BaseType[Optional[Set[T]]]):
         rec_list = list(self.field.serialize(v, primitive=primitive) for v in value)
         return sorted(rec_list)
 
-    def is_empty(self, value: Optional[Set[T]]) -> bool:
+    def is_empty(self, value: Optional[set[T]]) -> bool:
         """Check if the set value is empty.
-        
+
         Args:
             value: The set value to check
-            
+
         Returns:
             True if value is None or empty set; False otherwise
         """
@@ -534,27 +548,28 @@ class SetType(BaseType[Optional[Set[T]]]):
 class ModelMeta(ABCMeta):
     """Metaclass for BaseModel that collects field descriptors and sets up parsers."""
 
-    def __new__(mcs, name: str, bases: Tuple[type, ...], 
-                attrs: Dict[str, Any]) -> Type[BaseModel]:
+    def __new__(
+        mcs, name: str, bases: tuple[type, ...], attrs: dict[str, Any]
+    ) -> type[BaseModel]:
         """Create a new model class with field descriptors and parsers configured.
-        
+
         Args:
             name: The name of the new class
             bases: Base classes
             attrs: Class attributes dictionary
-            
+
         Returns:
             The new model class
         """
         cls = super(ModelMeta, mcs).__new__(mcs, name, bases, attrs)
-        fields: Dict[str, BaseType] = {}
-        
+        fields: dict[str, BaseType] = {}
+
         # Inherit fields from base classes
         for base in bases:
-            if hasattr(base, 'fields'):
+            if hasattr(base, "fields"):
                 for field_name, field in base.fields.items():
                     fields[field_name] = copy.copy(field)
-        
+
         # Add fields from this class
         for attr_name, attr_value in attrs.items():
             if isinstance(attr_value, BaseType):
@@ -562,7 +577,7 @@ class ModelMeta(ABCMeta):
                 attr_value.name = str(attr_name)
                 fields[attr_name] = attr_value
         cls.fields = fields
-        
+
         # Configure parsers
         parsers = []
         for parser in cls.parsers:
@@ -574,7 +589,7 @@ class ModelMeta(ABCMeta):
 
     def __setattr__(cls, key: str, value: Any) -> None:
         """Set attribute on model class, handling BaseType fields specially.
-        
+
         Args:
             key: The attribute name
             value: The attribute value
@@ -585,13 +600,13 @@ class ModelMeta(ABCMeta):
         return super(ModelMeta, cls).__setattr__(key, value)
 
     @property
-    def required_fields(cls) -> List[str]:
+    def required_fields(cls) -> list[str]:
         """Get a list of all required field paths for this model.
-        
+
         Returns:
             List of required field names, with nested fields using '__' separator
         """
-        output: List[str] = []
+        output: list[str] = []
         for key, field in cls.fields.items():
             if hasattr(field, "model_class"):
                 nest_req_fields = field.model_class.required_fields

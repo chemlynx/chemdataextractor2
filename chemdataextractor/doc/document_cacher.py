@@ -1,8 +1,9 @@
-from .text import RichToken, Subsentence
+import json
 import os
 import shutil
-import json
-import unicodedata
+
+from .text import RichToken
+from .text import Subsentence
 
 
 def get_document_configuration(document):

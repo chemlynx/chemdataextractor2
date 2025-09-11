@@ -1,13 +1,8 @@
-# -*- coding: utf-8 -*-
 """
 Declarative scraping framework for extracting structured data from HTML and XML documents.
 
 """
 
-from __future__ import absolute_import
-from __future__ import division
-from __future__ import print_function
-from __future__ import unicode_literals
 
 #: Block level HTML elements
 BLOCK_ELEMENTS = {
@@ -99,28 +94,31 @@ INLINE_ELEMENTS = {
 }
 
 
-from .clean import Cleaner, clean, clean_html, clean_markup
-from .entity import Entity, EntityList, DocumentEntity
-from .fields import (
-    StringField,
-    IntField,
-    FloatField,
-    BoolField,
-    DateTimeField,
-    EntityField,
-    UrlField,
-)
-from .scraper import (
-    HtmlFormat,
-    XmlFormat,
-    GetRequester,
-    PostRequester,
-    UrlScraper,
-    RssScraper,
-    SearchScraper,
-)
-from .selector import Selector, SelectorList
-from .pub.elsevier import ElsevierHtmlDocument, ElsevierXmlDocument
+from .clean import Cleaner
+from .clean import clean
+from .clean import clean_html
+from .clean import clean_markup
+from .entity import DocumentEntity
+from .entity import Entity
+from .entity import EntityList
+from .fields import BoolField
+from .fields import DateTimeField
+from .fields import EntityField
+from .fields import FloatField
+from .fields import IntField
+from .fields import StringField
+from .fields import UrlField
+from .pub.elsevier import ElsevierHtmlDocument
+from .pub.elsevier import ElsevierXmlDocument
 from .pub.nlm import NlmXmlDocument
 from .pub.rsc import RscHtmlDocument
 from .pub.springer import SpringerXmlDocument
+from .scraper import GetRequester
+from .scraper import HtmlFormat
+from .scraper import PostRequester
+from .scraper import RssScraper
+from .scraper import SearchScraper
+from .scraper import UrlScraper
+from .scraper import XmlFormat
+from .selector import Selector
+from .selector import SelectorList

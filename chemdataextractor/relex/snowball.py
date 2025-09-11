@@ -1,39 +1,33 @@
-# -*- coding: utf-8 -*-
 """
 The Snowball Relationship Extraction algorithm
 """
 import copy
-import io
+import logging
 import os
 import pickle
-from collections import OrderedDict
+from importlib.resources import files
 from itertools import combinations
+from itertools import product
+from os.path import basename
 
 import numpy as np
 import six
-import pprint
-from ..doc.document import Document, Paragraph
-from ..model.base import BaseModel
-from ..parse.auto import AutoSentenceParser
+from playsound import playsound
+
+from ..doc.document import Document
 from ..doc.text import Sentence
-from ..model import Compound, FloatType
-from ..parse import Any, I, OneOrMore, Optional, R, W, ZeroOrMore, join, merge
-from ..parse.cem import chemical_name
+from ..model import FloatType
+from ..parse.auto import AutoSentenceParser
+from ..parse.auto import BaseSentenceParser
 from .cluster import Cluster
 from .entity import Entity
 from .phrase import Phrase
 from .relationship import Relation
-from .utils import match, vectorise, KnuthMorrisPratt
-from lxml import etree
-from itertools import product
-from ..parse.auto import BaseSentenceParser, BaseAutoParser
-import logging
-
-from os.path import basename
-from playsound import playsound
-from importlib.resources import files
+from .utils import KnuthMorrisPratt
+from .utils import match
 
 log = logging.getLogger(__name__)
+
 
 class Snowball(BaseSentenceParser):
     """
@@ -59,19 +53,21 @@ class Snowball(BaseSentenceParser):
         learning_rate: How fast new confidences update based on new data (1 means new confidence is always taken, 0 means no update, )
     """
 
-    def __init__(self, model,
-                 tc=0.95,
-                 tsim=0.95,
-                 prefix_weight=0.1,
-                 middle_weight=0.8,
-                 suffix_weight=0.1,
-                 prefix_length=1,
-                 suffix_length=1,
-                 learning_rate=0.5,
-                 max_candidate_combinations=400,
-                 save_dir='chemdataextractor/relex/data/',
-                 play_sound=False):
-
+    def __init__(
+        self,
+        model,
+        tc=0.95,
+        tsim=0.95,
+        prefix_weight=0.1,
+        middle_weight=0.8,
+        suffix_weight=0.1,
+        prefix_length=1,
+        suffix_length=1,
+        learning_rate=0.5,
+        max_candidate_combinations=400,
+        save_dir="chemdataextractor/relex/data/",
+        play_sound=False,
+    ):
         self.model = model
         self.relations = []
         self.phrases = []
@@ -82,7 +78,6 @@ class Snowball(BaseSentenceParser):
         self.save_dir = save_dir
         self.save_file_name = model.__name__
         self.play_sound = play_sound
-
 
         # params
         if not 0 <= tc <= 1.0:
@@ -123,49 +118,76 @@ class Snowball(BaseSentenceParser):
             self -- A Snowball Instance
         """
 
-        f = open(path, 'rb')
+        f = open(path, "rb")
         return pickle.load(f)
 
     def save(self):
-        """ Write all snowball settings to file for loading later"""
+        """Write all snowball settings to file for loading later"""
         save_dir = self.save_dir
         if not os.path.exists(save_dir):
             os.makedirs(save_dir)
 
-        with open(save_dir + self.save_file_name + '.pkl', 'wb') as f:
+        with open(save_dir + self.save_file_name + ".pkl", "wb") as f:
             pickle.dump(self, f)
 
-        with io.open(save_dir + self.save_file_name + '_clusters.txt', 'w+', encoding='utf-8') as f:
-            s = "Cluster set contains " + \
-                six.text_type(len(self.clusters)) + " clusters."
+        with open(
+            save_dir + self.save_file_name + "_clusters.txt", "w+", encoding="utf-8"
+        ) as f:
+            s = (
+                "Cluster set contains "
+                + six.text_type(len(self.clusters))
+                + " clusters."
+            )
             f.write(s + "\n")
             for c in self.clusters:
-                s = "Cluster " + six.text_type(c.label) + " contains " + six.text_type(
-                    len(c.phrases)) + " phrases"
+                s = (
+                    "Cluster "
+                    + six.text_type(c.label)
+                    + " contains "
+                    + six.text_type(len(c.phrases))
+                    + " phrases"
+                )
                 f.write(s + "\n")
                 for phrase in c.phrases:
                     f.write("\t " + phrase.full_sentence + "\n")
-                f.write(u"The cluster centroid pattern is: ")
+                f.write("The cluster centroid pattern is: ")
                 p = c.pattern
-                f.write(six.text_type(p.to_string()) +
-                        " with confidence score " + six.text_type(p.confidence) + "\n")
+                f.write(
+                    six.text_type(p.to_string())
+                    + " with confidence score "
+                    + six.text_type(p.confidence)
+                    + "\n"
+                )
 
-        with io.open(save_dir + self.save_file_name + '_patterns.txt', 'w+', encoding='utf-8') as f:
+        with open(
+            save_dir + self.save_file_name + "_patterns.txt", "w+", encoding="utf-8"
+        ) as f:
             for c in self.clusters:
                 p = c.pattern
-                f.write(six.text_type(p.to_string()) +
-                        " with confidence score " + str(p.confidence) + "\n\n")
+                f.write(
+                    six.text_type(p.to_string())
+                    + " with confidence score "
+                    + str(p.confidence)
+                    + "\n\n"
+                )
 
-        with io.open(save_dir + self.save_file_name + '_relations.txt', 'w+', encoding='utf-8') as wf:
+        with open(
+            save_dir + self.save_file_name + "_relations.txt", "w+", encoding="utf-8"
+        ) as wf:
             for c in self.clusters:
                 for phrase in c.phrases:
                     for relation in phrase.relations:
-                        wf.write(six.text_type(relation) + " Confidence:  " + six.text_type(relation.confidence) + '\n')
+                        wf.write(
+                            six.text_type(relation)
+                            + " Confidence:  "
+                            + six.text_type(relation.confidence)
+                            + "\n"
+                        )
 
         return
 
     def set_learning_rate(self, alpha):
-        self.learning_rate =  alpha
+        self.learning_rate = alpha
         for cluster in self.clusters:
             cluster.learning_rate = alpha
         return
@@ -179,11 +201,11 @@ class Snowball(BaseSentenceParser):
         if isinstance(corpus, str):
             corpus_list = os.listdir(corpus)
             for i, file_name in enumerate(corpus_list[skip:]):
-                print('{}/{}:'.format(i + skip + 1, len(corpus_list)), ' ', file_name)
+                print(f"{i + skip + 1}/{len(corpus_list)}:", " ", file_name)
                 f = os.path.join(corpus, file_name)
                 self.train_from_file(f)
         else:
-            assert(isinstance(corpus, list))
+            assert isinstance(corpus, list)
             for s in corpus[skip:]:
                 if isinstance(s, Sentence):
                     self.train_from_sentence(s)
@@ -197,12 +219,12 @@ class Snowball(BaseSentenceParser):
         Arguments:
             f {str} -- the file path to parse
         """
-        f = open(filename, 'rb')
+        f = open(filename, "rb")
         d = Document().from_file(f)
 
         # if 'train_from_document' found any candidates, print the file to a log so that
         # files used for training are saved automatically
-        f_log = open('snowball_training_set.txt', 'a')
+        f_log = open("snowball_training_set.txt", "a")
         if self.train_from_document(d):
             print(basename(filename), file=f_log)
         f_log.close()
@@ -243,17 +265,17 @@ class Snowball(BaseSentenceParser):
             candidate_found = True
             print("\n\n")
             print(s)
-            print('\n')
+            print("\n")
             for i, candidate in enumerate(candidate_relationships):
                 candidate_dict[str(i)] = candidate
-                print("Candidate " + str(i) + ' ' + str(candidate) + '\n')
+                print("Candidate " + str(i) + " " + str(candidate) + "\n")
 
             if self.play_sound:
-                sound_file = files('chemdataextractor') / 'eval/sound.mp3'
+                sound_file = files("chemdataextractor") / "eval/sound.mp3"
                 playsound(sound_file)
-            res = six.moves.input("...: ").replace(' ', '')
+            res = six.moves.input("...: ").replace(" ", "")
             if res:
-                chosen_candidate_idx = res.split(',')
+                chosen_candidate_idx = res.split(",")
                 chosen_candidates = []
                 for cci in chosen_candidate_idx:
                     if cci in candidate_dict.keys():
@@ -263,7 +285,7 @@ class Snowball(BaseSentenceParser):
                 if chosen_candidates:
                     self.update(s.raw_tokens, chosen_candidates)
         return candidate_found
-    
+
     def required_fulfilled(self, model, entities_dict):
         """Recursive check for requiredd entities on nested models
 
@@ -274,36 +296,45 @@ class Snowball(BaseSentenceParser):
         model_name = model.__name__.lower()
         for field in model.fields:
             # print(model_name, field)
-            if hasattr(model.fields[field], 'model_class'):
+            if hasattr(model.fields[field], "model_class"):
                 # print(field, "is a submodel, required = ", model.fields[field].required)
-                if model.fields[field].required and not self.required_fulfilled(model.fields[field].model_class, entities_dict):
+                if model.fields[field].required and not self.required_fulfilled(
+                    model.fields[field].model_class, entities_dict
+                ):
                     return False
             else:
-                if model.fields[field].required and not model_name + '__' + field in entities_dict.keys():
+                if (
+                    model.fields[field].required
+                    and model_name + "__" + field not in entities_dict.keys()
+                ):
                     # print("Model %s missing field %s" % (model_name, field))
                     return False
         return True
-    
+
     def filter_incomplete(self, model, entities_dict):
-        """ Remove entities from the dict if the relationship isnt complete """
+        """Remove entities from the dict if the relationship isnt complete"""
         model_name = model.__name__.lower()
         for field in model.fields:
-            if hasattr(model.fields[field], 'model_class'):
-                entities_dict = self.filter_incomplete(model.fields[field].model_class, entities_dict)
+            if hasattr(model.fields[field], "model_class"):
+                entities_dict = self.filter_incomplete(
+                    model.fields[field].model_class, entities_dict
+                )
             else:
-                if model.fields[field].required and not model_name + '__' + field in entities_dict.keys():
+                if (
+                    model.fields[field].required
+                    and model_name + "__" + field not in entities_dict.keys()
+                ):
                     # If the field is required by the model, but its not in the entities dict
                     # print("Entities dict %s missing field %s" % (model_name, field))
                     # Delete all fields of this model from entities_dict
-                    key = model_name + '__'
-                    dict_keys = [ i for i in entities_dict.keys()]
+                    key = model_name + "__"
+                    dict_keys = [i for i in entities_dict.keys()]
                     for entity_key in dict_keys:
                         if entity_key.startswith(key):
                             entities_dict.pop(entity_key, None)
                     break
 
         return entities_dict
-
 
     def candidates(self, tokens):
         """Find all candidate relationships of self.model within a sentence
@@ -324,7 +355,7 @@ class Snowball(BaseSentenceParser):
         all_models = list(set(self.model.flatten()))
         for model in all_models:
             # Skip the compound model
-            if model.__name__ == 'Compound':
+            if model.__name__ == "Compound":
                 continue
             # print(model.__name__)
             sentence_parser.model = model
@@ -342,18 +373,21 @@ class Snowball(BaseSentenceParser):
         # print(detected)
         toks = [tok[0] for tok in tokens]
         for text, tag, parse_expression in detected:
-            text_length = len(text.split(' '))
+            text_length = len(text.split(" "))
             pattern = [s[0] for s in Sentence(text).tokens]
             text_length = len(pattern)
             start_indices = [s for s in KnuthMorrisPratt(toks, pattern)]
 
             if isinstance(tag, tuple):
-                tag = '__'.join(tag)
+                tag = "__".join(tag)
 
             # Add to dictionary  if it doesn't exist
             if tag not in entities_dict.keys():
                 entities_dict[tag] = []
-            entities = [Entity(text, tag, parse_expression, index, index + text_length) for index in start_indices]
+            entities = [
+                Entity(text, tag, parse_expression, index, index + text_length)
+                for index in start_indices
+            ]
 
             # Add entities to dictionary if new
             for entity in entities:
@@ -365,9 +399,11 @@ class Snowball(BaseSentenceParser):
             if len(entities_dict[k]) > 1:
                 to_pop = []
                 for i in range(len(entities)):
-                    for j in range(i+1, len(entities)):
+                    for j in range(i + 1, len(entities)):
                         if entities[i].start == entities[j].start:
-                            to_pop.append([i, j][np.argmin([entities[i].end, entities[j].end])])
+                            to_pop.append(
+                                [i, j][np.argmin([entities[i].end, entities[j].end])]
+                            )
                 for p in to_pop:
                     entities_dict[k].pop(p)
 
@@ -412,13 +448,19 @@ class Snowball(BaseSentenceParser):
         else:
             for tag, field in model.fields.items():
                 #: Nested models
-                if hasattr(field, 'model_class'):
-                    for nested_entity in self.retrieve_entities(field.model_class, result.xpath('./' + tag)):
+                if hasattr(field, "model_class"):
+                    for nested_entity in self.retrieve_entities(
+                        field.model_class, result.xpath("./" + tag)
+                    ):
                         yield nested_entity
                 else:
-                    text_list = result.xpath('./' + tag + '/text()')
+                    text_list = result.xpath("./" + tag + "/text()")
                     for text in text_list:
-                        yield (text, (model.__name__.lower(), tag), field.parse_expression)
+                        yield (
+                            text,
+                            (model.__name__.lower(), tag),
+                            field.parse_expression,
+                        )
 
     def update(self, sentence_tokens, relations=[]):
         """Update the learned extraction pattern clusters based on the incoming sentence and relation
@@ -428,7 +470,9 @@ class Snowball(BaseSentenceParser):
             relation {list} -- The Relation objects that are in the sentence
         """
         #: Create a new phrase from the sentence and corresponding relations
-        new_phrase = Phrase(sentence_tokens, relations, self.prefix_length, self.suffix_length)
+        new_phrase = Phrase(
+            sentence_tokens, relations, self.prefix_length, self.suffix_length
+        )
         # print("New Phrase", new_phrase)
         self.cluster(new_phrase)
         self.save()
@@ -441,7 +485,9 @@ class Snowball(BaseSentenceParser):
             phrase {Phrase} -- The Phrase to cluster
         """
         if len(self.clusters) == 0:
-            cluster0 = Cluster(str(self.cluster_counter), learning_rate=self.learning_rate)
+            cluster0 = Cluster(
+                str(self.cluster_counter), learning_rate=self.learning_rate
+            )
             cluster0.add_phrase(phrase)
             self.clusters.append(cluster0)
         else:
@@ -470,9 +516,14 @@ class Snowball(BaseSentenceParser):
         for cluster in self.clusters:
             # Only compare clusters that have the same ordering of entities
             if phrase.order == cluster.order:
-
                 # Check the level of similarity to the cluster pattern
-                similarity = match(phrase, cluster, self.prefix_weight, self.middle_weight, self.suffix_weight)
+                similarity = match(
+                    phrase,
+                    cluster,
+                    self.prefix_weight,
+                    self.middle_weight,
+                    self.suffix_weight,
+                )
 
                 if similarity >= self.minimum_cluster_similarity_score:
                     cluster.add_phrase(phrase)
@@ -481,7 +532,9 @@ class Snowball(BaseSentenceParser):
         if phrase_added is False:
             self.cluster_counter += 1
             # create a new cluster
-            new_cluster = Cluster(str(self.cluster_counter), learning_rate=self.learning_rate)
+            new_cluster = Cluster(
+                str(self.cluster_counter), learning_rate=self.learning_rate
+            )
             new_cluster.add_phrase(phrase)
             self.clusters.append(new_cluster)
 
@@ -506,14 +559,17 @@ class Snowball(BaseSentenceParser):
         unique_names = set()
         for i in candidate_relations:
             for j in i.entities:
-                if j.tag == 'compound__names':
+                if j.tag == "compound__names":
                     unique_names.add(j.text)
 
         number_of_unique_name = len(unique_names)
         product = num_candidates * number_of_unique_name
         if product <= self.max_candidate_combinations:
-            all_combs = [i for r in range(1, number_of_unique_name + 1) for i in combinations(candidate_relations, r)]
-
+            all_combs = [
+                i
+                for r in range(1, number_of_unique_name + 1)
+                for i in combinations(candidate_relations, r)
+            ]
 
         # Create a candidate phrase for each possible combination
         all_candidate_phrases = []
@@ -521,7 +577,9 @@ class Snowball(BaseSentenceParser):
             rels = [r for r in combination]
             new_rels = copy.copy(rels)
 
-            candidate_phrase = Phrase([t[0] for t in tokens], new_rels, self.prefix_length, self.suffix_length)
+            candidate_phrase = Phrase(
+                [t[0] for t in tokens], new_rels, self.prefix_length, self.suffix_length
+            )
             all_candidate_phrases.append(candidate_phrase)
 
         # Only pick the phrase with the best confidence score
@@ -539,10 +597,16 @@ class Snowball(BaseSentenceParser):
             for cluster in self.clusters:
                 if candidate_phrase.order != cluster.order:
                     continue
-                match_score = match(candidate_phrase, cluster, self.prefix_weight, self.middle_weight, self.suffix_weight)
+                match_score = match(
+                    candidate_phrase,
+                    cluster,
+                    self.prefix_weight,
+                    self.middle_weight,
+                    self.suffix_weight,
+                )
                 # print("Match score %f" % match_score)
                 if match_score >= self.minimum_cluster_similarity_score:
-                    confidence_term *= (1.0 - (match_score * cluster.pattern.confidence))
+                    confidence_term *= 1.0 - (match_score * cluster.pattern.confidence)
 
                 if match_score > best_match_score:
                     best_match_cluster = cluster
@@ -557,7 +621,10 @@ class Snowball(BaseSentenceParser):
                 best_candidate_phrase_score = phrase_confidence_score
                 best_candidate_cluster = best_match_cluster
 
-        if best_candidate_phrase and best_candidate_phrase_score >= self.minimum_relation_confidence:
+        if (
+            best_candidate_phrase
+            and best_candidate_phrase_score >= self.minimum_relation_confidence
+        ):
             for candidate_relation in best_candidate_phrase.relations:
                 candidate_relation.confidence = best_candidate_phrase_score
             # update the knowlegde base
@@ -571,34 +638,39 @@ class Snowball(BaseSentenceParser):
                     yield model
 
     def _get_data(self, field_name, field, relation_data):
-        if hasattr(field, 'model_class'): # temperature, compound
+        if hasattr(field, "model_class"):  # temperature, compound
             field_result = relation_data[field_name]  # {spec. val. units}
 
             if field_result is None and field.required and not field.contextual:
-                raise TypeError('Could not find element for ' + str(field_name))
+                raise TypeError("Could not find element for " + str(field_name))
             elif field_result is None:
                 return None
 
             field_data = {}
-            for subfield_name, subfield in six.iteritems(field.model_class.fields):  # compound, names
+            for subfield_name, subfield in six.iteritems(
+                field.model_class.fields
+            ):  # compound, names
                 data = self._get_data(subfield_name, subfield, field_result)
                 if data is not None:
                     field_data.update(data)
             field_object = field.model_class(**field_data)
-            log.debug('Created for' + field_name)
+            log.debug("Created for" + field_name)
             log.debug(field_object)
             return {field_name: field_object}
-        elif hasattr(field, 'field'):
+        elif hasattr(field, "field"):
             # Case that we have listtype
             # Always only takes the first found one though
             field = field.field
             field_data = self._get_data(field_name, field, relation_data)
             if field_data is not None:
-                if field_name not in field_data.keys() or field_data[field_name] is None:
+                if (
+                    field_name not in field_data.keys()
+                    or field_data[field_name] is None
+                ):
                     return None
                 field_data = [field_data[field_name]]
             elif field_data is None and field.required and not field.contextual:
-                raise TypeError('Could not find element for ' + str(field_name))
+                raise TypeError("Could not find element for " + str(field_name))
             elif field_data is None:
                 return None
             return {field_name: field_data}
@@ -608,7 +680,7 @@ class Snowball(BaseSentenceParser):
             except KeyError:
                 return {}
             if field_result is None and field.required and not field.contextual:
-                raise TypeError('Could not find element for ' + str(field_name))
+                raise TypeError("Could not find element for " + str(field_name))
             return {field_name: field_result}
 
     def interpret(self, relation):
@@ -619,8 +691,8 @@ class Snowball(BaseSentenceParser):
         """
         # print("\n\n", "Interpreting")
         # Set the confidence field if not already set
-        if not 'confidence' in self.model.fields.keys():
-            setattr(self.model, 'confidence', FloatType())
+        if "confidence" not in self.model.fields.keys():
+            self.model.confidence = FloatType()
 
         # Get the serialized relation data
         relation_data = relation.serialize()
@@ -632,33 +704,33 @@ class Snowball(BaseSentenceParser):
         for model in models:
             model_name = model.__name__.lower()
             if model_name == self.model.__name__.lower():
-                is_root_instance=True
+                is_root_instance = True
             else:
-                is_root_instance=False
+                is_root_instance = False
 
             model_data = {}
             if model_name not in relation_data.keys():
                 continue
 
-            if 'specifier' in relation_data[model_name].keys():
-                model_data['specifier'] = relation_data[model_name]['specifier']
-            model_data['confidence'] = relation_data['confidence']
+            if "specifier" in relation_data[model_name].keys():
+                model_data["specifier"] = relation_data[model_name]["specifier"]
+            model_data["confidence"] = relation_data["confidence"]
 
-            if hasattr(model, 'dimensions') and not model.dimensions:
+            if hasattr(model, "dimensions") and not model.dimensions:
                 # the specific entities of a DimensionlessModel are retrieved explicitly and packed into a dictionary
-                raw_value = relation_data[model_name]['raw_value']
+                raw_value = relation_data[model_name]["raw_value"]
                 value = self.extract_value(raw_value)
                 error = self.extract_error(raw_value)
 
-                model_data.update({"raw_value": raw_value,
-                                        "value": value,
-                                        "error": error})
+                model_data.update(
+                    {"raw_value": raw_value, "value": value, "error": error}
+                )
 
-            elif hasattr(model, 'dimensions') and model.dimensions:
+            elif hasattr(model, "dimensions") and model.dimensions:
                 # the specific entities of a QuantityModel are retrieved explicitly and packed into a dictionary
                 # print(etree.tostring(result))
-                raw_value = relation_data[model_name]['raw_value']
-                raw_units = relation_data[model_name]['raw_units']
+                raw_value = relation_data[model_name]["raw_value"]
+                raw_units = relation_data[model_name]["raw_units"]
                 value = self.extract_value(raw_value)
                 error = self.extract_error(raw_value)
                 units = None
@@ -666,17 +738,29 @@ class Snowball(BaseSentenceParser):
                     units = self.extract_units(raw_units, strict=True)
                 except TypeError as e:
                     log.debug(e)
-                model_data.update({"raw_value": raw_value,
-                                        "raw_units": raw_units,
-                                        "value": value,
-                                        "error": error,
-                                        "units": units})
-            elif hasattr(model, 'category') and model.category:
-                raw_value = relation_data[model_name]['raw_value']
+                model_data.update(
+                    {
+                        "raw_value": raw_value,
+                        "raw_units": raw_units,
+                        "value": value,
+                        "error": error,
+                        "units": units,
+                    }
+                )
+            elif hasattr(model, "category") and model.category:
+                raw_value = relation_data[model_name]["raw_value"]
                 model_data.update({"raw_value": raw_value})
 
             for field_name, field in six.iteritems(model.fields):
-                if field_name not in ['raw_value', 'raw_units', 'value', 'units', 'error', 'specifier', 'confidence']:
+                if field_name not in [
+                    "raw_value",
+                    "raw_units",
+                    "value",
+                    "units",
+                    "error",
+                    "specifier",
+                    "confidence",
+                ]:
                     try:
                         data = self._get_data(field_name, field, relation_data)
                         if data is not None:
@@ -687,13 +771,12 @@ class Snowball(BaseSentenceParser):
                         log.debug(e)
             model_instance = model(**model_data)
             model_instances.append((model_instance, is_root_instance))
-        
+
         root_model_instance = [i[0] for i in model_instances if i[1]][0]
         for m in model_instances:
             if m[1]:
                 continue
             root_model_instance.merge_all(m[0])
-        
 
         # records the parser that was used to generate this record, can be used for evaluation
         root_model_instance.record_method = self.__class__.__name__

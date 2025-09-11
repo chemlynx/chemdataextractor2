@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Chemical entity mention parser elements.
 ..codeauthor:: Matt Swain (mcs07@cam.ac.uk)
@@ -6,53 +5,23 @@ Chemical entity mention parser elements.
 
 """
 
-from __future__ import absolute_import
-from __future__ import division
-from __future__ import print_function
-from __future__ import unicode_literals
-from abc import abstractproperty, abstractmethod
 import logging
-import re
-from lxml import etree
 
-from .actions import join, fix_whitespace, merge
-from .common import (
-    roman_numeral,
-    cc,
-    nnp,
-    hyph,
-    nns,
-    nn,
-    cd,
-    ls,
-    optdelim,
-    rbrct,
-    lbrct,
-    sym,
-    jj,
-    hyphen,
-    quote,
-    dt,
-    delim,
-)
-from .base import BaseSentenceParser, BaseTableParser
-from .elements import (
-    I,
-    R,
-    W,
-    T,
-    ZeroOrMore,
-    Optional,
-    Not,
-    Group,
-    End,
-    Start,
-    OneOrMore,
-    Any,
-    SkipTo,
-    Every,
-)
+from .actions import join
+from .base import BaseSentenceParser
+from .base import BaseTableParser
 from .cem_factory import _CemFactory
+from .common import cc
+from .common import lbrct
+from .common import optdelim
+from .common import rbrct
+from .elements import Group
+from .elements import I
+from .elements import OneOrMore
+from .elements import Optional
+from .elements import SkipTo
+from .elements import Start
+from .elements import ZeroOrMore
 
 log = logging.getLogger(__name__)
 

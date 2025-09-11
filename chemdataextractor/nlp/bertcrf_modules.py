@@ -4,10 +4,10 @@ https://github.com/allenai/allennlp/blob/v0.9.0/allennlp/modules/time_distribute
 https://github.com/allenai/allennlp/blob/v0.9.0/allennlp/data/tokenizers/token.py
 """
 
-from typing import List, NamedTuple
+from typing import NamedTuple
 
-from overrides import overrides
 import torch
+from overrides import overrides
 
 
 class TimeDistributed(torch.nn.Module):
@@ -32,8 +32,7 @@ class TimeDistributed(torch.nn.Module):
         self._module = module
 
     @overrides
-    def forward(self, *inputs, pass_through: List[str] = None, **kwargs):
-
+    def forward(self, *inputs, pass_through: list[str] = None, **kwargs):
         pass_through = pass_through or []
 
         reshaped_inputs = [

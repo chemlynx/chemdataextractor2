@@ -22,7 +22,7 @@ If you use the Snowball algorithm in particular, please cite the following:
 
 If you use the automatically generated parsers or TableDataExtractor, please cite the following:
 
-    Juraj Mavračić, Callum J. Court, Taketomo Isazawa, Stephen R. Elliott, Jacqueline M. Cole: "ChemDataExtractor 2.0: Auto-Populated Ontologies for Materials Science", 
+    Juraj Mavračić, Callum J. Court, Taketomo Isazawa, Stephen R. Elliott, Jacqueline M. Cole: "ChemDataExtractor 2.0: Auto-Populated Ontologies for Materials Science",
     J. Chem. Inf. Model. **2021**, *61* (9), pp 4280–4289 10.1021/acs.jcim.1c00446
 
     Embley, D.W., Krishnamoorthy, M.S., Nagy, G., and Seth, S. **2016** Converting heterogeneous statistical tables on the web to searchable databases. Int. J. Doc. Anal. Recognit., *19* (2), 119–138.
@@ -31,7 +31,7 @@ If you use the automatically generated parsers or TableDataExtractor, please cit
 
 If you use the new Named Entity Recognition system from v2.1+, please cite the following:
 
-    Taketomo Isazawa, Jacqueline M. Cole: "Single Model for Organic and Inorganic Chemical Named Entity Recognition in ChemDataExtractor", 
+    Taketomo Isazawa, Jacqueline M. Cole: "Single Model for Organic and Inorganic Chemical Named Entity Recognition in ChemDataExtractor",
     J. Chem. Inf. Model. **2022**, *62* (5), pp 1207-1213 10.1021/acs.jcim.1c01199
 
 

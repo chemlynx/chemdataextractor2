@@ -1,14 +1,10 @@
-# -*- coding: utf-8 -*-
 """
 Error classes for ChemDataExtractor.
 
 """
 
-from __future__ import absolute_import
-from __future__ import division
-from __future__ import print_function
-from __future__ import unicode_literals
-from typing import Any, Tuple, Union
+from typing import Any
+from typing import Union
 
 
 class ChemDataExtractorError(Exception):
@@ -30,7 +26,7 @@ class ConfigurationError(Exception):
     Originally implemented by AllenNLP.
     """
 
-    def __reduce__(self) -> Union[str, Tuple[Any, ...]]:
+    def __reduce__(self) -> Union[str, tuple[Any, ...]]:
         return type(self), (self.message,)
 
     def __init__(self, message: str):

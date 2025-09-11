@@ -1,23 +1,18 @@
-# -*- coding: utf-8 -*-
 """
 Figure document elements.
 :codeauthor:: Callum Court (cc889@cam.ac.uk)
 """
 
-from __future__ import absolute_import
-from __future__ import division
-from __future__ import print_function
-from __future__ import unicode_literals
 import logging
 
+from ..model import Compound
+from ..model import ModelList
 from .element import CaptionedElement
-from ..model import ModelList, Compound
 
 log = logging.getLogger(__name__)
 
 
 class Figure(CaptionedElement):
-
     def __init__(self, caption, label=None, links=None, models=None, **kwargs):
         """
         Create a new Figure element, to interface with FDE

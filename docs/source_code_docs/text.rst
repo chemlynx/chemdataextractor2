@@ -35,4 +35,3 @@ Useful tools for processing text
 .. automodule:: chemdataextractor.text.processors
     :members:
     :undoc-members:
-

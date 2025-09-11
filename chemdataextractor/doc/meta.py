@@ -1,17 +1,15 @@
-# -*- coding: utf-8 -*-
 """
 MetaData Document elements
 
 """
-from .element import BaseElement
-from ..model.base import ModelList
 import logging
+
+from .element import BaseElement
 
 log = logging.getLogger(__name__)
 
 
 class MetaData(BaseElement):
-
     def __init__(self, data):
         super(MetaData, self).__init__()
         self._data = data

@@ -1,25 +1,20 @@
-# -*- coding: utf-8 -*-
 """
 Word and sentence tokenizers.
 
 """
 
-from __future__ import absolute_import
-from __future__ import division
-from __future__ import print_function
-from __future__ import unicode_literals
-from abc import ABCMeta, abstractmethod
-from deprecation import deprecated
 import logging
 import re
+from abc import ABCMeta
+from abc import abstractmethod
 
-
-from ..text import bracket_level, GREEK
-from ..data import load_model, find_data
-
-from lxml import etree
-
+from deprecation import deprecated
 from tokenizers import BertWordPieceTokenizer
+
+from ..data import find_data
+from ..data import load_model
+from ..text import GREEK
+from ..text import bracket_level
 
 log = logging.getLogger(__name__)
 
@@ -370,7 +365,7 @@ class WordTokenizer(BaseTokenizer):
             self.split_last_stop
             and nextspan is None
             and text not in self.NO_SPLIT_STOP
-            and not text[-3:] == "..."
+            and text[-3:] != "..."
         ):
             if text[-1] == ".":
                 return self._split_span(span, -1)
@@ -481,8 +476,8 @@ class WordTokenizer(BaseTokenizer):
         # Includes: \u0020 \u00A0 \u1680 \u180E \u2000 \u2001 \u2002 \u2003 \u2004 \u2005 \u2006 \u2007 \u2008 \u2009 \u200A \u202F \u205F \u3000
         spans = [
             (left, right)
-            for left, right in regex_span_tokenize(s, "\s+")
-            if not left == right
+            for left, right in regex_span_tokenize(s, r"\s+")
+            if left != right
         ]
         i = 0
         # Recursively split spans according to rules
@@ -644,12 +639,12 @@ class ChemWordTokenizer(WordTokenizer):
     )
     #: Don't split on hyphen if the prefix matches this regular expression
     NO_SPLIT_PREFIX_ENDING = re.compile(
-        "(^\(.*\)|^[\d,'\"“”„‟‘’‚‛`´′″‴‵‶‷⁗Α-Ωα-ω]+|ano|ato|azo|boc|bromo|cbz|chloro|eno|fluoro|fmoc|ido|ino|io|iodo|mercapto|nitro|ono|oso|oxalo|oxo|oxy|phospho|telluro|tms|yl|ylen|ylene|yliden|ylidene|ylidyn|ylidyne)$",
+        "(^\\(.*\\)|^[\\d,'\"“”„‟‘’‚‛`´′″‴‵‶‷⁗Α-Ωα-ω]+|ano|ato|azo|boc|bromo|cbz|chloro|eno|fluoro|fmoc|ido|ino|io|iodo|mercapto|nitro|ono|oso|oxalo|oxo|oxy|phospho|telluro|tms|yl|ylen|ylene|yliden|ylidene|ylidyn|ylidyne)$",
         re.U,
     )
     #: Don't split on hyphen if prefix or suffix match this regular expression
     NO_SPLIT_CHEM = re.compile(
-        "([\-α-ω]|\d+,\d+|\d+[A-Z]|^d\d\d?$|acetic|acetyl|acid|acyl|anol|azo|benz|bromo|carb|cbz|chlor|cyclo|ethan|ethyl|fluoro|fmoc|gluc|hydro|idyl|indol|iene|ione|iodo|mercapto|n,n|nitro|noic|o,o|oxalo|oxo|oxy|oyl|onyl|phen|phth|phospho|pyrid|telluro|tetra|tms|ylen|yli|zole|alpha|beta|gamma|delta|epsilon|theta|kappa|lambda|sigma|omega)",
+        r"([\-α-ω]|\d+,\d+|\d+[A-Z]|^d\d\d?$|acetic|acetyl|acid|acyl|anol|azo|benz|bromo|carb|cbz|chlor|cyclo|ethan|ethyl|fluoro|fmoc|gluc|hydro|idyl|indol|iene|ione|iodo|mercapto|n,n|nitro|noic|o,o|oxalo|oxo|oxy|oyl|onyl|phen|phth|phospho|pyrid|telluro|tetra|tms|ylen|yli|zole|alpha|beta|gamma|delta|epsilon|theta|kappa|lambda|sigma|omega)",
         re.U | re.I,
     )
     #: Don't split on hyphen if the prefix is one of these sequences
@@ -1459,7 +1454,7 @@ class ChemWordTokenizer(WordTokenizer):
             self.split_last_stop
             and nextspan is None
             and text not in self.NO_SPLIT_STOP
-            and not text[-3:] == "..."
+            and text[-3:] != "..."
         ):
             if text[-1] == ".":
                 return self._split_span(span, -1)
@@ -1525,7 +1520,7 @@ class ChemWordTokenizer(WordTokenizer):
             return self._split_span(span, 2, 1)
 
         # Split things like \d+\.\d+([a-z]+) e.g. UV-vis/IR peaks with bracketed strength/shape
-        m = re.match("^(\d+\.\d+|\d{3,})(\([a-z]+\))$", text, re.I)
+        m = re.match(r"^(\d+\.\d+|\d{3,})(\([a-z]+\))$", text, re.I)
         if m:
             return self._split_span(span, m.start(2), 1)
 
@@ -1596,19 +1591,19 @@ class ChemWordTokenizer(WordTokenizer):
                     return self._split_span(span, i, 1)
                 if before and before[-1] == "-":
                     # If preceding is -, split around -> unless in chemical name
-                    if not text == "->" and not self._is_saccharide_arrow(
+                    if text != "->" and not self._is_saccharide_arrow(
                         before[:-1], after
                     ):
                         return self._split_span(span, i - 1, 2)
-            elif char is "→" and not self._is_saccharide_arrow(before, after):
+            elif char == "→" and not self._is_saccharide_arrow(before, after):
                 # TODO: 'is' should be '=='... this never splits!?
                 # Split around → unless in chemical name
                 return self._split_span(span, i, 1)
             elif (
                 char == "("
                 and self._is_number(before)
-                and not "(" in after
-                and not ")" in after
+                and "(" not in after
+                and ")" not in after
             ):
                 # Split around open bracket after a number
                 return self._split_span(span, i, 1)
@@ -1658,7 +1653,7 @@ class ChemWordTokenizer(WordTokenizer):
                 if lowerafter == "nmr":
                     split = True  # Always split NMR off end
                 elif bracket_level(text) == 0 and (
-                    not bracket_level(after) == 0 or not bracket_level(before) == 0
+                    bracket_level(after) != 0 or bracket_level(before) != 0
                 ):
                     split = False  # Don't split if within brackets
                 elif after and after[0] == ">":
@@ -1915,7 +1910,7 @@ class BertWordTokenizer(ChemWordTokenizer):
                 and offset[0] == current_span[1]
                 and i < len(zipped) - 1
                 and zipped[i + 1][0][0] == offset[1]
-                and re.match("\d+$", s[zipped[i + 1][0][0] : zipped[i + 1][0][1]])
+                and re.match(r"\d+$", s[zipped[i + 1][0][0] : zipped[i + 1][0][1]])
             ):
                 i += 1
                 offset, token = zipped[i]

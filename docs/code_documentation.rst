@@ -185,12 +185,3 @@ API Reference
    text.latex
    text.normalize
    text.processors
-
-
-
-
-
-
-
-
-

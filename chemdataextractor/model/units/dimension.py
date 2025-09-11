@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Base types for dimensions. Refer to the example on :ref:`creating new units and dimensions<creating_units>` for more detail on how to create your own dimensions.
 
@@ -7,8 +6,7 @@ Base types for dimensions. Refer to the example on :ref:`creating new units and 
 
 
 import copy
-from abc import abstractmethod, ABCMeta
-from ..base import BaseModel, BaseType, FloatType, StringType, ListType
+from abc import ABCMeta
 
 
 @property
@@ -34,7 +32,6 @@ def standard_units(self, value):
 
 
 class _DimensionMeta(ABCMeta):
-
     def __new__(mcs, name, bases, attrs):
         cls = super(_DimensionMeta, mcs).__new__(mcs, name, bases, attrs)
         if (
@@ -81,7 +78,7 @@ class Dimension(metaclass=_DimensionMeta):
     """
 
     units_dict = {}
-    """
+    r"""
     Used for extracting units with these dimensions.
     It is of type dictionary{:class:`chemdataextractor.parse.element` : :class:`~chemdataextractor.model.units.unit.Unit` or :class:`None`}.
 
@@ -137,13 +134,11 @@ class Dimension(metaclass=_DimensionMeta):
     """
 
     def __truediv__(self, other):
-
         other_inverted = other ** (-1.0)
         new_model = self * other_inverted
         return new_model
 
     def __pow__(self, other):
-
         # Handle case that we have no dimensions, so we don't get things like dimensionless units squared.
         if isinstance(self, Dimensionless) or other == 0:
             new_model = Dimensionless()
@@ -294,7 +289,7 @@ class Dimension(metaclass=_DimensionMeta):
         if self._dimensions is not None:
             name_list = []
             for key, value in self._dimensions.items():
-                name_list.append((type(key).__name__ + "^(" + str(value) + ")  "))
+                name_list.append(type(key).__name__ + "^(" + str(value) + ")  ")
             for name in sorted(name_list):
                 string += name
             string = string[:-2]

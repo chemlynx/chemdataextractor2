@@ -1,30 +1,23 @@
-# -*- coding: utf-8 -*-
 """
 Tools for normalizing text.
 
 """
 
-from __future__ import absolute_import
-from __future__ import division
-from __future__ import print_function
-from __future__ import unicode_literals
-from abc import ABCMeta, abstractmethod
 import re
 import unicodedata
+from abc import ABCMeta
+from abc import abstractmethod
 
-
-from . import (
-    CONTROLS,
-    HYPHENS,
-    QUOTES,
-    DOUBLE_QUOTES,
-    ACCENTS,
-    SINGLE_QUOTES,
-    APOSTROPHES,
-    SLASHES,
-    TILDES,
-    MINUSES,
-)
+from . import ACCENTS
+from . import APOSTROPHES
+from . import CONTROLS
+from . import DOUBLE_QUOTES
+from . import HYPHENS
+from . import MINUSES
+from . import QUOTES
+from . import SINGLE_QUOTES
+from . import SLASHES
+from . import TILDES
 from .processors import BaseProcessor
 
 

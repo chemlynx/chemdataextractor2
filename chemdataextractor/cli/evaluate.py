@@ -1,12 +1,8 @@
-# -*- coding: utf-8 -*-
 """
 Commands for running evaluations.
 
 """
 
-from __future__ import absolute_import
-from __future__ import division
-from __future__ import print_function
 import copy
 import json
 import logging
@@ -14,8 +10,9 @@ import os
 
 import click
 
-from ..reader import RscHtmlReader, AcsHtmlReader, NlmXmlReader
-
+from ..reader import AcsHtmlReader
+from ..reader import NlmXmlReader
+from ..reader import RscHtmlReader
 
 log = logging.getLogger(__name__)
 
@@ -46,7 +43,7 @@ def run(input):
     records = [
         record
         for record in records
-        if not record.keys() == ["names"] and not record.keys() == ["labels"]
+        if record.keys() != ["names"] and record.keys() != ["labels"]
     ]
     with open("%s-out.json" % os.path.splitext(input.name)[0], "w") as outf:
         json.dump(records, outf, indent=2)

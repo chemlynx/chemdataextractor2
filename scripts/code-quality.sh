@@ -14,4 +14,4 @@ uv run bandit -r chemdataextractor/ -f json -o bandit-report.json
 uv run bandit -r chemdataextractor/
 
 echo "=== Dependency security check ==="
-uv run safety check
+uv run safety scan

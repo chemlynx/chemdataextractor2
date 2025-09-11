@@ -1,14 +1,19 @@
-# -*- coding: utf-8 -*-
 """
 Parser for automatic parsing, without user-written parsing rules, implemeting the DepIE algorithm
 """
-from .auto import AutoSentenceParser, match_dimensions_of, construct_unit_element
+import copy
+
+from lxml.builder import E
+
 from ..model import ModelType
-from .cem import cem, chemical_label, lenient_chemical_label
+from .auto import AutoSentenceParser
+from .auto import construct_unit_element
+from .auto import match_dimensions_of
+from .cem import cem
+from .cem import chemical_label
+from .cem import lenient_chemical_label
 from .elements import Group
 from .quantity import value_element
-import copy
-from lxml.builder import E
 
 
 class _LabelledRange:
@@ -41,7 +46,7 @@ class _LabelledRange:
         return False
 
     def __str__(self):
-        return "_LabelledRange(data: {}, range:{}".format(self.data, self.range)
+        return f"_LabelledRange(data: {self.data}, range:{self.range}"
 
     def __repr__(self):
         return str(self)
@@ -505,7 +510,6 @@ def _find_associated(parents, children, remove_children, sentence):
                     parent_blocked_paths.add(j)
 
         for child_index, labelled_child_range in enumerate(children):
-
             child_blocked_paths = set()
             for i, el in enumerate(children):
                 if i != child_index:

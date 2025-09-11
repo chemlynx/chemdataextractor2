@@ -1,24 +1,13 @@
-# -*- coding: utf-8 -*-
 """
 Parser for finding Categories
 
 :codeauthor: Callum Court (cc889@cam.ac.uk)
 """
 
-from __future__ import absolute_import
-from __future__ import division
-from __future__ import print_function
-from __future__ import unicode_literals
 import logging
-import re
 
-from fractions import Fraction
-from abc import abstractproperty
-
-from .common import lbrct, rbrct
-from .actions import merge, join
-from .elements import W, I, R, T, Optional, Any, OneOrMore, Not, ZeroOrMore
-from ..utils import memoize
+from .actions import merge
+from .elements import R
 
 log = logging.getLogger(__name__)
 

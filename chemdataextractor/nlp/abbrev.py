@@ -1,23 +1,17 @@
-# -*- coding: utf-8 -*-
 """
 Abbreviation detection.
 
 """
 
-from __future__ import absolute_import
-from __future__ import division
-from __future__ import print_function
-from __future__ import unicode_literals
 import logging
 import re
 
 from ..text import bracket_level
 
-
 log = logging.getLogger(__name__)
 
 
-class AbbreviationDetector(object):
+class AbbreviationDetector:
     """Detect abbreviation definitions in a list of tokens.
 
     Similar to the algorithm in Schwartz & Hearst 2003.
@@ -50,7 +44,7 @@ class AbbreviationDetector(object):
                 # Check the number of characters in abbrev_text and if it contains balanced brackets or no brackets
                 if abbr_text[0].isalnum() and any(c.isalpha() for c in abbr_text):
                     # Disallow property values
-                    if re.match("^\d+(\.\d+)?(g|m[lL]|cm)$", abbr_text):
+                    if re.match(r"^\d+(\.\d+)?(g|m[lL]|cm)$", abbr_text):
                         # int or float followed by "q" or "ml" or "cm"
                         # TODO: generalize to any units
                         return False
@@ -177,7 +171,7 @@ class AbbreviationDetector(object):
                 # Ignore non-alphanumeric  # TODO: Greek!
                 if not current.isalnum():
                     continue
-                while (l_i >= 0 and not long[l_i].lower() == current) or (
+                while (l_i >= 0 and long[l_i].lower() != current) or (
                     a_i == 0 and l_i > 0 and long[l_i - 1].isalnum()
                 ):
                     # The letters in an abbreviation should appear in the long name

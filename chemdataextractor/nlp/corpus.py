@@ -1,26 +1,20 @@
-# -*- coding: utf-8 -*-
 """
 Tools for reading and writing text corpora.
 
 """
 
-from __future__ import absolute_import
-from __future__ import division
-from __future__ import print_function
-from __future__ import unicode_literals
 import gc
 
-from nltk.corpus import (
-    ChunkedCorpusReader,
-    TaggedCorpusReader,
-    PlaintextCorpusReader,
-    BracketParseCorpusReader,
-)
-from nltk.corpus.reader.util import read_line_block, tagged_treebank_para_block_reader
+from nltk.corpus import BracketParseCorpusReader
+from nltk.corpus import ChunkedCorpusReader
+from nltk.corpus import PlaintextCorpusReader
+from nltk.corpus import TaggedCorpusReader
+from nltk.corpus.reader.util import read_line_block
+from nltk.corpus.reader.util import tagged_treebank_para_block_reader
 from nltk.tokenize import RegexpTokenizer
 
 
-class LazyCorpusLoader(object):
+class LazyCorpusLoader:
     """Derived from NLTK LazyCorpusLoader."""
 
     def __init__(self, name, reader_cls, *args, **kwargs):
@@ -67,7 +61,7 @@ class LazyCorpusLoader(object):
 def _make_bound_method(func, self):
     """Magic for creating bound methods (used for _unload)."""
 
-    class Foo(object):
+    class Foo:
         def meth(self):
             pass
 
@@ -185,7 +179,7 @@ medpost = LazyCorpusLoader(
     "medpost",
     TaggedCorpusReader,
     "data/medpost",
-    "tag_.+\.pos",
+    r"tag_.+\.pos",
 )
 
 #:

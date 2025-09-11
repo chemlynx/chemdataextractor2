@@ -18,38 +18,30 @@ import datetime
 import logging
 import math
 import re
-from typing import Dict, List, Optional, Tuple
+from typing import Optional
 
-
+import numpy as np
 import torch
 import torch.nn as nn
-import numpy as np
-from transformers import (
-    AutoConfig,
-    AutoModel,
-    BertTokenizer,
-    DataCollatorWithPadding,
-    DataCollatorForTokenClassification,
-    DefaultDataCollator,
-    PretrainedConfig,
-    PreTrainedModel,
-)
+from transformers import AutoConfig
+from transformers import AutoModel
+from transformers import BertTokenizer
+from transformers import PretrainedConfig
+from transformers import PreTrainedModel
 from yaspin import yaspin
 
 from ..data import find_data
 from ..errors import ConfigurationError
 from .bertcrf_modules import TimeDistributed
 from .bertcrf_modules import Token as BertCrfToken
-from .crf import (ConditionalRandomField,
-                                       allowed_transitions)
-from .tag import BaseTagger, NER_TAG_TYPE
-from .util import (
-    combine_initial_dims,
-    get_device_of,
-    get_range_vector,
-    uncombine_initial_dims,
-)
-
+from .crf import ConditionalRandomField
+from .crf import allowed_transitions
+from .tag import NER_TAG_TYPE
+from .tag import BaseTagger
+from .util import combine_initial_dims
+from .util import get_device_of
+from .util import get_range_vector
+from .util import uncombine_initial_dims
 
 log = logging.getLogger(__name__)
 
@@ -62,7 +54,7 @@ class ProcessedTextTagger(BaseTagger):
     """
 
     tag_type = "processed_text"
-    number_pattern = re.compile("([\+\-–−]?\d+(([\.・,\d])+)?)")
+    number_pattern = re.compile(r"([\+\-–−]?\d+(([\.・,\d])+)?)")
     number_string = "<nUm>"
 
     def tag(self, tokens):
@@ -80,6 +72,7 @@ class _BertCrfTokenTagger(BaseTagger):
     Class to get the BertCrf token corresponding to a CDE token.
     Intended for internal use with BertCrfTagger.
     """
+
     tag_type = "_bertcrftoken"
 
     def tag(self, tokens):
@@ -99,7 +92,7 @@ class BertCrfConfig(PretrainedConfig):
         dropout=0.1,
         label_namespace: str = "labels",
         label_encoding: Optional[str] = None,
-        index_and_label: List[Tuple[int, str]] = None,
+        index_and_label: list[tuple[int, str]] = None,
         constrain_crf_decoding: bool = True,
         include_start_end_transitions: bool = True,
         model_name_or_path: str = None,
@@ -117,7 +110,6 @@ class BertCrfConfig(PretrainedConfig):
 
 
 class BertCrfTagger(BaseTagger):
-
     model = "models/hf_bert_crf_tagger"
     tag_type = NER_TAG_TYPE
 
@@ -213,7 +205,6 @@ class BertCrfTagger(BaseTagger):
         # Count amount of wordpieces accumulated
         pieces_accumulated = 0
         for token in token_wordpiece_ids:
-
             # For initial offsets, the current value of ``offset`` is the start of
             # the current wordpiece, so add it to ``offsets`` and then increment it.
             offsets.append(offset)
@@ -278,13 +269,12 @@ class BertCrfTagger(BaseTagger):
         start_time = datetime.datetime.now()
 
         # Divide up the sentence so that we don't get sentences longer than BERT can handle
-        all_bertcrftokens, sentence_subsentence_map = self._get_subsentences(
-            sents)
+        all_bertcrftokens, sentence_subsentence_map = self._get_subsentences(sents)
 
         # Create batches
         all_bertcrftokens = sorted(all_bertcrftokens, key=len)
         instances = self._create_batches(all_bertcrftokens)
-        
+
         instance_time = datetime.datetime.now()
         log.debug("".join(["Created instances:", str(instance_time - start_time)]))
         log.debug("Num Batches: %d", len(instances))
@@ -366,7 +356,11 @@ class BertCrfTagger(BaseTagger):
             divided_sents = []
             sents_current = []
             for sent in all_bertcrftokens:
-                if (len(sent) > current_list_min_sequence_length + new_list_sequence_delta and len(sents_current) > min_batch_size) or len(sents_current) > max_batch_size:
+                if (
+                    len(sent)
+                    > current_list_min_sequence_length + new_list_sequence_delta
+                    and len(sents_current) > min_batch_size
+                ) or len(sents_current) > max_batch_size:
                     divided_sents.append(sents_current)
                     sents_current = [sent]
                     current_list_min_sequence_length = len(sent)
@@ -432,7 +426,6 @@ class BertCrfModel(PreTrainedModel):
     config_class = BertCrfConfig  # Required for saving/loading
 
     def __init__(self, config):
-
         super().__init__(config)
         self.bert_model = AutoModel.from_config(
             AutoConfig.from_pretrained(config.model_name_or_path)
@@ -475,7 +468,6 @@ class BertCrfModel(PreTrainedModel):
         return {label: index for index, label in self.index_and_label}
 
     def forward(self, input_ids, offsets, crf_mask, token_type_ids=None):
-
         if token_type_ids is None:
             token_type_ids = torch.zeros_like(input_ids)
 
@@ -515,8 +507,8 @@ class BertCrfModel(PreTrainedModel):
         return output
 
     def forward_on_instances(
-        self, instances: Dict[str, torch.Tensor]
-    ) -> List[Dict[str, np.ndarray]]:
+        self, instances: dict[str, torch.Tensor]
+    ) -> list[dict[str, np.ndarray]]:
         """
         Takes a list of  :class:`~allennlp.data.instance.Instance`s, converts that text into
         arrays using this model's :class:`Vocabulary`, passes those arrays through
@@ -541,7 +533,7 @@ class BertCrfModel(PreTrainedModel):
             instances = {k: v.to(self.device) for k, v in instances.items()}
             outputs = self.decode(self(**instances))
 
-            instance_separated_output: List[Dict[str, np.ndarray]] = [
+            instance_separated_output: list[dict[str, np.ndarray]] = [
                 {} for _ in range(batch_size)
             ]
             for name, output in list(outputs.items()):
@@ -558,7 +550,7 @@ class BertCrfModel(PreTrainedModel):
                     instance_output[name] = batch_element
             return instance_separated_output
 
-    def decode(self, output_dict: Dict[str, torch.Tensor]) -> Dict[str, torch.Tensor]:
+    def decode(self, output_dict: dict[str, torch.Tensor]) -> dict[str, torch.Tensor]:
         """
         Converts the tag ids to the actual tags.
         ``output_dict["tags"]`` is a list of lists of tag_ids,

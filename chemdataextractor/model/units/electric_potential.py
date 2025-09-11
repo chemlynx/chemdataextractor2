@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Units and models for electric potential
 
@@ -6,19 +5,15 @@ Units and models for electric potential
 
 """
 
-from __future__ import absolute_import
-from __future__ import division
-from __future__ import print_function
-from __future__ import unicode_literals
 
+import logging
+
+from ...parse.elements import R
+from .charge import Charge
+from .dimension import Dimension
+from .energy import Energy
 from .quantity_model import QuantityModel
 from .unit import Unit
-from .dimension import Dimension
-from .charge import Charge
-from .energy import Energy
-from ...parse.elements import W, I, R, Optional, Any, OneOrMore, Not, ZeroOrMore
-from ...parse.actions import merge, join
-import logging
 
 log = logging.getLogger(__name__)
 
@@ -32,7 +27,6 @@ class ElectricPotentialModel(QuantityModel):
 
 
 class ElectricPotentialUnit(Unit):
-
     def __init__(self, magnitude=0.0, powers=None):
         super(ElectricPotentialUnit, self).__init__(
             ElectricPotential(), magnitude, powers
@@ -40,7 +34,6 @@ class ElectricPotentialUnit(Unit):
 
 
 class Volt(ElectricPotentialUnit):
-
     def convert_value_to_standard(self, value):
         return value
 

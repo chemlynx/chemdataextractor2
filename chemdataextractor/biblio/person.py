@@ -1,19 +1,13 @@
-# -*- coding: utf-8 -*-
 """
 Tools for parsing people's names from strings into various name components.
 
 """
 
-from __future__ import absolute_import
-from __future__ import division
-from __future__ import print_function
-from __future__ import unicode_literals
 import re
 import string
 
 from ..text import QUOTES
 from ..text.latex import latex_to_unicode
-
 
 ORCID_RE = re.compile(r"^\d{4}-\d{4}-\d{4}-\d{4}$")
 
@@ -527,29 +521,27 @@ class PersonName(dict):
             self["lastname"] = self._clean(" ".join(ltokens), capitalize="name")
         tokens = self._tokenize(comps)
         tokens = self._strip(tokens, self._is_title, "title")
-        if not "lastname" in self:
+        if "lastname" not in self:
             tokens = self._strip(tokens, self._is_suffix, "suffix", True)
         voni = []
         end = len(tokens) - 1
-        if not "prefix" in self:
+        if "prefix" not in self:
             for i, token in enumerate(reversed(tokens)):
                 if self._is_prefix(token):
-                    if (i == 0 and end > 0) or (
-                        not "lastname" in self and not i == end
-                    ):
+                    if (i == 0 and end > 0) or ("lastname" not in self and i != end):
                         voni.append(end - i)
                 else:
                     if (i == 0 and "lastname" in self) or voni:
                         break
         if voni:
-            if not "lastname" in self:
+            if "lastname" not in self:
                 self["lastname"] = self._clean(
                     " ".join(tokens[voni[0] + 1 :]), capitalize="name"
                 )
             self["prefix"] = self._clean(" ".join(tokens[voni[-1] : voni[0] + 1]))
             tokens = tokens[: voni[-1]]
         else:
-            if not "lastname" in self:
+            if "lastname" not in self:
                 self["lastname"] = self._clean(tokens.pop(), capitalize="name")
         if tokens:
             self["firstname"] = self._clean(tokens.pop(0), capitalize="name")

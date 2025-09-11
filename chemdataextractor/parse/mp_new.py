@@ -1,25 +1,32 @@
-# -*- coding: utf-8 -*-
 """
 Melting Point parser using the QuantityParser framework
 
 """
 
-from __future__ import absolute_import
-from __future__ import division
-from __future__ import print_function
-from __future__ import unicode_literals
 import logging
 import re
 
 from lxml import etree
 
-from .cem import cem, chemical_label, lenient_chemical_label, solvent_name
-from .common import lbrct, dt, rbrct
 from ..utils import first
 from .actions import merge
-from .quantity import value_element
 from .base import BaseSentenceParser
-from .elements import W, I, R, Optional, Any, OneOrMore, Not, ZeroOrMore
+from .cem import cem
+from .cem import chemical_label
+from .cem import lenient_chemical_label
+from .cem import solvent_name
+from .common import dt
+from .common import lbrct
+from .common import rbrct
+from .elements import Any
+from .elements import I
+from .elements import Not
+from .elements import OneOrMore
+from .elements import Optional
+from .elements import R
+from .elements import W
+from .elements import ZeroOrMore
+from .quantity import value_element
 
 log = logging.getLogger(__name__)
 
@@ -27,19 +34,22 @@ prefix = (
     Optional(I("a")).hide()
     + (
         Optional(lbrct) + W("Tm") + Optional(rbrct)
-        | R("^m\.?pt?\.?$", re.I)
-        | I("melting") + Optional((I("point") | I("temperature") | I("range")))
-        | R("^m\.?$", re.I) + Optional(I(".")) + R("^pt?\.?$", re.I) + Optional(I("."))
+        | R(r"^m\.?pt?\.?$", re.I)
+        | I("melting") + Optional(I("point") | I("temperature") | I("range"))
+        | R(r"^m\.?$", re.I)
+        + Optional(I("."))
+        + R(r"^pt?\.?$", re.I)
+        + Optional(I("."))
     ).hide()
     + Optional(lbrct + W("Tm") + rbrct)
     + Optional(W("=") | I("of") | I("was") | I("is") | I("at")).hide()
     + Optional(I("in") + I("the") + I("range") + Optional(I("of")) | I("about")).hide()
 )
 
-delim = R("^[:;\.,]$")
+delim = R(r"^[:;\.,]$")
 
 # TODO: Consider allowing degree symbol to be optional. The prefix should be restrictive enough to stop false positives.
-units = ((W("°") + R(r"^[CFK]\.?$")) | W("K\.?") | W("°C"))("raw_units").add_action(
+units = ((W("°") + R(r"^[CFK]\.?$")) | W(r"K\.?") | W("°C"))("raw_units").add_action(
     merge
 )
 

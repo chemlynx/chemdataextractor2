@@ -1,9 +1,9 @@
-import logging
-import logging.config
-import stanza
-from ..nlp.tag import BaseTagger, EnsembleTagger
 from collections import namedtuple
 
+import stanza
+
+from ..nlp.tag import BaseTagger
+from ..nlp.tag import EnsembleTagger
 
 # current_level = logging.root.level
 # To counteract stanza messing up the log level
@@ -20,7 +20,6 @@ class IndexTagger(BaseTagger):
 
 
 class _DependencyTagger(BaseTagger):
-
     tag_type = "dependency"
 
     def __init__(self):

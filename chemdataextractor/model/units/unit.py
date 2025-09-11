@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Base types for making units. Refer to the example on :ref:`creating new units and dimensions<creating_units>` for more detail on how to create your own units.
 
@@ -6,21 +5,37 @@ Base types for making units. Refer to the example on :ref:`creating new units an
 """
 
 
+from __future__ import annotations
+
 import copy
-from abc import abstractmethod
+from typing import TYPE_CHECKING
+from typing import Any
+from typing import Optional
+
+from ..base import BaseType
 from .dimension import Dimensionless
-from ..base import BaseModel, BaseType, FloatType, StringType, ListType
+
+if TYPE_CHECKING:
+    from ..base import BaseModel
+    from .dimension import Dimension
 
 
-class UnitType(BaseType):
+class UnitType(BaseType[Optional["Unit"]]):
+    """A field containing a :class:`Unit` of some type.
+    
+    Field descriptor for handling unit values in chemical models.
+    Ensures dimensional consistency when units are assigned.
     """
-    A field containing a :class:`Unit` of some type.
-    """
 
-    def __set__(self, instance, value):
-        """
-        Make sure that any units assigned to models have the same dimensions
-        as the model.
+    def __set__(self, instance: BaseModel, value: Any) -> None:
+        """Set unit value with dimensional validation.
+        
+        Ensures that any units assigned to models have the same dimensions
+        as the model. Invalid units are set to None.
+        
+        Args:
+            instance: BaseModel - The model instance
+            value: Any - The unit value to assign
         """
 
         if hasattr(value, "dimensions"):
@@ -31,64 +46,90 @@ class UnitType(BaseType):
         else:
             instance._values[self.name] = None
 
-    def process(self, value):
+    def process(self, value: Any) -> Optional["Unit"]:
+        """Process and validate unit value.
+        
+        Args:
+            value: Any - The value to process
+            
+        Returns:
+            Optional[Unit] - Processed unit or None if invalid
+        """
         if isinstance(value, Unit):
             return value
         return None
 
-    def serialize(self, value, primitive=False):
+    def serialize(self, value: Optional["Unit"], primitive: bool = False) -> str:
+        """Serialize unit to string representation.
+        
+        Args:
+            value: Optional[Unit] - The unit to serialize
+            primitive: bool - Whether to use primitive serialization (unused)
+            
+        Returns:
+            str - String representation of the unit
+        """
         return str(value**1.0)
 
-    def is_empty(self, value):
+    def is_empty(self, value: Any) -> bool:
+        """Check if unit value is empty.
+        
+        Args:
+            value: Any - The value to check
+            
+        Returns:
+            bool - True if value is not a valid Unit
+        """
         if isinstance(value, Unit):
             return False
         return True
 
 
 class MetaUnit(type):
-    """
-    Metaclass to ensure that all subclasses of :class:`Unit` take the magnitude into account
-    when converting to standard units.
+    """Metaclass to ensure that all subclasses of :class:`Unit` take magnitude into account.
+    
+    Ensures that all subclasses of Unit properly handle magnitude when converting
+    to and from standard units by wrapping conversion methods.
     """
 
-    def __new__(mcs, name, bases, attrs):
+    def __new__(mcs, name: str, bases: tuple[type, ...], attrs: dict[str, Any]) -> type:
         cls = type.__new__(mcs, name, bases, attrs)
 
         if hasattr(cls, "convert_value_to_standard"):
-            sub_convert_to_standard = getattr(cls, "convert_value_to_standard")
+            sub_convert_to_standard = cls.convert_value_to_standard
 
             def new_convert_to_standard(self, value):
                 val = value * 10 ** (self.magnitude + self.base_magnitude)
                 return sub_convert_to_standard(self, val)
 
-            setattr(cls, "convert_value_to_standard", new_convert_to_standard)
+            cls.convert_value_to_standard = new_convert_to_standard
 
         if hasattr(cls, "convert_value_from_standard"):
-            sub_convert_from_standard = getattr(cls, "convert_value_from_standard")
+            sub_convert_from_standard = cls.convert_value_from_standard
 
             def new_convert_from_standard(self, value):
                 val = value * 10 ** (-1 * (self.magnitude + self.base_magnitude))
                 return sub_convert_from_standard(self, val)
 
-            setattr(cls, "convert_value_from_standard", new_convert_from_standard)
+            cls.convert_value_from_standard = new_convert_from_standard
 
         if hasattr(cls, "convert_error_to_standard"):
-            sub_convert_err_to_standard = getattr(cls, "convert_error_to_standard")
+            sub_convert_err_to_standard = cls.convert_error_to_standard
 
             def new_convert_err_to_standard(self, value):
                 val = value * 10 ** (self.magnitude + self.base_magnitude)
                 return sub_convert_err_to_standard(self, val)
 
-            setattr(cls, "convert_error_to_standard", new_convert_err_to_standard)
+            cls.convert_error_to_standard = new_convert_err_to_standard
 
         if hasattr(cls, "convert_error_from_standard"):
-            sub_convert_err_from_standard = getattr(cls, "convert_error_from_standard")
+            sub_convert_err_from_standard = cls.convert_error_from_standard
 
             def new_convert_err_from_standard(self, value):
                 val = value * 10 ** (-1 * (self.magnitude + self.base_magnitude))
                 return sub_convert_err_from_standard(self, val)
 
-            setattr(cls, "convert_error_from_standard", new_convert_err_from_standard)
+            cls.convert_error_from_standard = new_convert_err_from_standard
 
         if hasattr(cls, "constituent_units") and cls.constituent_units is not None:
             cls.base_magnitude = cls.constituent_units.magnitude
@@ -106,7 +147,7 @@ class MetaUnit(type):
         return cls
 
 
-class Unit(object, metaclass=MetaUnit):
+class Unit(metaclass=MetaUnit):
     """
     Object represeting units. Implement subclasses of this for basic units.
     Units like meters, seconds, and Kelvins are already implemented in ChemDataExtractor.
@@ -161,62 +202,76 @@ class Unit(object, metaclass=MetaUnit):
             constituent_units = Gram(magnitude=3.0) * Meter() * (Second()) ** (-2.0)
     """
 
-    def __init__(self, dimensions, magnitude=0.0, powers=None):
-        """
-        Creates a unit object. Subclass Unit to create concrete units. For examples,
-        see lengths.py and times.py
+    def __init__(self, dimensions: Dimension, magnitude: float = 0.0, powers: Optional[dict["Unit", float]] = None) -> None:
+        """Create a unit object.
+        
+        Subclass Unit to create concrete units. For examples, see lengths.py and times.py
 
-        :param Dimension dimensions: The dimensions this unit is for, e.g. Temperature
-        :param float magnitude: (Optional) The magnitude of the unit. e.g. km would be meters with an magnitude of 3
-        :param powers: (Optional) For representing any more complicated units, e.g. m/s may have this parameter set to {Meter():1.0, Second():-1.0}
-        :type powers: dict[Unit : float]
+        Args:
+            dimensions: Dimension - The dimensions this unit is for (e.g., Temperature)
+            magnitude: float - The magnitude of the unit (e.g., km would be meters with magnitude of 3)
+            powers: Optional[dict[Unit, float]] - For complex units (e.g., m/s: {Meter():1.0, Second():-1.0})
         """
         self.dimensions = dimensions
         self.magnitude = magnitude
         self.powers = powers
 
-    def convert_value_to_standard(self, value):
-        """
-        Converts from this unit to the standard value, usually the SI unit.
+    def convert_value_to_standard(self, value: float) -> float:
+        """Convert from this unit to the standard value, usually the SI unit.
+        
         Overload this in child classes when implementing new units.
 
-        :param float value: The value to convert to standard units
+        Args:
+            value: float - The value to convert to standard units
+            
+        Returns:
+            float - The value converted to standard units
         """
         for unit, power in self.powers.items():
             value = unit.convert_value_to_standard(value ** (1 / power)) ** power
         return value
 
-    def convert_value_from_standard(self, value):
-        """
-        Converts to this unit from the standard value, usually the SI unit.
+    def convert_value_from_standard(self, value: float) -> float:
+        """Convert to this unit from the standard value, usually the SI unit.
+        
         Overload this in child classes when implementing new units.
 
-        :param float value: The value to convert from standard units
+        Args:
+            value: float - The value to convert from standard units
+            
+        Returns:
+            float - The value converted from standard units
         """
         for unit, power in self.powers.items():
             value = unit.convert_value_from_standard(value ** (1 / power)) ** power
         return value
 
-    def convert_error_to_standard(self, error):
-        """
-        Converts from this error to the standard value, usually the SI unit.
-        Overload this in child classes when implementing new units
+    def convert_error_to_standard(self, error: float) -> float:
+        """Convert error from this unit to the standard value, usually the SI unit.
+        
+        Overload this in child classes when implementing new units.
 
-        :param float error: The error to convert to standard units
-        :return float error: The error converted to standard units:
+        Args:
+            error: float - The error to convert to standard units
+            
+        Returns:
+            float - The error converted to standard units
         """
 
         for unit, power in self.powers.items():
             error = unit.convert_error_to_standard(error ** (1 / power)) ** power
         return error
 
-    def convert_error_from_standard(self, error):
-        """
-        Converts to this error from the standard value, usually the SI unit.
-        Overload this in child classes when implementing new units
+    def convert_error_from_standard(self, error: float) -> float:
+        """Convert error to this unit from the standard value, usually the SI unit.
+        
+        Overload this in child classes when implementing new units.
 
-        :param float error: The error to convert from standard units
-        :return float error: The error converted from standard units:
+        Args:
+            error: float - The error to convert from standard units
+            
+        Returns:
+            float - The error converted from standard units
         """
 
         for unit, power in self.powers.items():
@@ -229,13 +284,28 @@ class Unit(object, metaclass=MetaUnit):
     and units need not be accounted for.
     """
 
-    def __truediv__(self, other):
+    def __truediv__(self, other: "Unit") -> "Unit":
+        """Divide this unit by another unit.
+        
+        Args:
+            other: Unit - The unit to divide by
+            
+        Returns:
+            Unit - The resulting unit
+        """
         other_inverted = other ** (-1.0)
         new_unit = self * other_inverted
         return new_unit
 
-    def __pow__(self, other):
-
+    def __pow__(self, other: float) -> "Unit":
+        """Raise this unit to a power.
+        
+        Args:
+            other: float - The power to raise to
+            
+        Returns:
+            Unit - The resulting unit
+        """
         # Handle dimensionless units so we don't get things like dimensionless units squared.
         if isinstance(self, DimensionlessUnit) or other == 0:
             new_unit = DimensionlessUnit(magnitude=self.magnitude * other)
@@ -253,8 +323,15 @@ class Unit(object, metaclass=MetaUnit):
             self.dimensions**other, powers=powers, magnitude=self.magnitude * other
         )
 
-    def __mul__(self, other):
-
+    def __mul__(self, other: "Unit") -> "Unit":
+        """Multiply this unit by another unit.
+        
+        Args:
+            other: Unit - The unit to multiply by
+            
+        Returns:
+            Unit - The resulting unit
+        """
         dimensions = self.dimensions * other.dimensions
         powers = {}
         # normalised_values is created as searching for keys won't always work
@@ -306,7 +383,15 @@ class Unit(object, metaclass=MetaUnit):
 
     # eq and hash implemented so Units can be used as keys in dictionaries
 
-    def __eq__(self, other):
+    def __eq__(self, other: Any) -> bool:
+        """Check equality with another unit.
+        
+        Args:
+            other: Any - The object to compare with
+            
+        Returns:
+            bool - True if units are equal
+        """
         if not isinstance(other, Unit):
             return False
         if self.powers:
@@ -328,7 +413,12 @@ class Unit(object, metaclass=MetaUnit):
                 return True
         return False
 
-    def __hash__(self):
+    def __hash__(self) -> int:
+        """Generate hash for this unit.
+        
+        Returns:
+            int - Hash value for this unit
+        """
         string = str(self.__class__.__name__)
         string += str(self.dimensions.__hash__())
         string += str(float(self.magnitude))
@@ -339,14 +429,19 @@ class Unit(object, metaclass=MetaUnit):
         #         string += str(key)
         return string.__hash__()
 
-    def __str__(self):
+    def __str__(self) -> str:
+        """String representation of this unit.
+        
+        Returns:
+            str - String representation
+        """
         string = ""
         if self.magnitude != 0:
             string += "(10^" + str(self.magnitude) + ") * "
         name_list = []
         if self.powers is not None:
             for key, value in self.powers.items():
-                name_list.append((type(key).__name__ + "^(" + str(value) + ")  "))
+                name_list.append(type(key).__name__ + "^(" + str(value) + ")  ")
             for name in sorted(name_list):
                 string += name
             string = string[:-2]
@@ -356,18 +451,40 @@ class Unit(object, metaclass=MetaUnit):
 
 
 class DimensionlessUnit(Unit):
-    """Special case to handle dimensionless quantities."""
+    """Special case to handle dimensionless quantities.
+    
+    Represents quantities that have no physical dimensions,
+    such as ratios, percentages, or pure numbers.
+    """
 
-    def __init__(self, magnitude=0.0):
-        """
-        :param float magnitude: The magnitude of the unit.
+    def __init__(self, magnitude: float = 0.0) -> None:
+        """Initialize dimensionless unit.
+        
+        Args:
+            magnitude: float - The magnitude of the unit
         """
         self.dimensions = Dimensionless()
         self.magnitude = magnitude
         self.powers = None
 
-    def convert_to_standard(self, value):
+    def convert_to_standard(self, value: float) -> float:
+        """Convert to standard (identity operation for dimensionless).
+        
+        Args:
+            value: float - The value to convert
+            
+        Returns:
+            float - The same value (no conversion needed)
+        """
         return value
 
-    def convert_from_standard(self, value):
+    def convert_from_standard(self, value: float) -> float:
+        """Convert from standard (identity operation for dimensionless).
+        
+        Args:
+            value: float - The value to convert
+            
+        Returns:
+            float - The same value (no conversion needed)
+        """
         return value

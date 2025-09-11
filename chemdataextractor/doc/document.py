@@ -5,7 +5,6 @@ This module provides the Document class, which is the central orchestrator for
 chemical data extraction from scientific documents.
 """
 
-
 from __future__ import annotations
 
 import collections
@@ -14,20 +13,15 @@ import json
 import logging
 from abc import ABCMeta
 from abc import abstractproperty
+from typing import TYPE_CHECKING
 from typing import Any
 from typing import BinaryIO
-from typing import Dict
-from typing import List
 from typing import Optional
-from typing import Sequence
 from typing import TextIO
-from typing import Tuple
-from typing import Type
 from typing import Union
-from typing import TYPE_CHECKING
 
 try:
-    from typing_extensions import Self
+    from typing import Self
 except ImportError:
     from typing import Self  # type: ignore[attr-defined]
 
@@ -39,6 +33,8 @@ from ..model.contextual_range import SectionRange
 from ..model.contextual_range import SentenceRange
 from ..model.model import Compound
 from ..text import get_encoding
+
+# Import type definitions
 from .element import CaptionedElement
 from .figure import Figure
 from .meta import MetaData
@@ -53,34 +49,27 @@ from .text import RichToken
 from .text import Sentence
 from .text import Title
 
-# Import type definitions
-from ..typing import ElementList
-from ..typing import ModelT
-from ..typing import RecordDict
-from ..typing import SerializedRecord
-
 if TYPE_CHECKING:
     from ..model.base import BaseModel
-    from ..model.contextual_range import ContextualRange
     from ..reader.base import BaseReader
     from .element import BaseElement
-    
+
     # Type aliases using forward references
     FileInput = Union[str, BinaryIO, TextIO]
     ElementInput = Union[str, bytes, "BaseElement"]
-    AbbreviationDef = Tuple[List[str], List[str], str]
+    AbbreviationDef = tuple[list[str], list[str], str]
 else:
     # Runtime type aliases
     FileInput = Union[str, BinaryIO, TextIO]
     ElementInput = Union[str, bytes, Any]  # BaseElement not available at runtime
-    AbbreviationDef = Tuple[List[str], List[str], str]
+    AbbreviationDef = tuple[list[str], list[str], str]
 
 log = logging.getLogger(__name__)
 
 
 class BaseDocument(collections.abc.Sequence, metaclass=ABCMeta):
     """Abstract base class for a Document.
-    
+
     Provides the basic sequence interface for accessing document elements
     and defines the abstract interface for extracting chemical records.
     """
@@ -93,12 +82,12 @@ class BaseDocument(collections.abc.Sequence, metaclass=ABCMeta):
         """Return string representation of the document."""
         return "<%s: %s elements>" % (self.__class__.__name__, len(self))
 
-    def __getitem__(self, index: int) -> "BaseElement":
+    def __getitem__(self, index: int) -> BaseElement:
         """Get document element by index.
-        
+
         Args:
             index: The element index
-            
+
         Returns:
             The document element at the specified index
         """
@@ -106,42 +95,42 @@ class BaseDocument(collections.abc.Sequence, metaclass=ABCMeta):
 
     def __len__(self) -> int:
         """Return the number of elements in the document.
-        
+
         Returns:
             The number of document elements
         """
         return len(self.elements)
 
     @abstractproperty
-    def elements(self) -> List["BaseElement"]:
+    def elements(self) -> list[BaseElement]:
         """Return a list of document elements.
-        
+
         Returns:
             List of all elements in this document
         """
         return []
 
     @abstractproperty
-    def records(self) -> "ModelList[BaseModel]":
+    def records(self):
         """Chemical records that have been parsed from this Document.
-        
+
         Returns:
             List of all extracted chemical records
         """
-        return ModelList()
+        return []
 
 
 class Document(BaseDocument):
     """A document to extract data from. Contains a list of document elements.
-    
+
     The Document class is the main entry point for chemical data extraction.
     It processes scientific documents through a multi-stage pipeline:
-    
+
     1. Reader stage: Converts input formats to structured elements
     2. NLP processing: Tokenization, POS tagging, NER
     3. Parsing: Rule-based extraction of structured data
     4. Contextual merging: Links related information across the document
-    
+
     Example:
         >>> doc = Document.from_file('paper.pdf')
         >>> records = doc.records
@@ -150,9 +139,9 @@ class Document(BaseDocument):
 
     def __init__(self, *elements: ElementInput, **kwargs: Any) -> None:
         """Initialize a Document manually by passing document elements.
-        
+
         Strings and byte strings are automatically wrapped into Paragraph elements.
-        
+
         Args:
             *elements: Document elements (Paragraph, Heading, Table, etc.) or strings
             **kwargs: Additional configuration options:
@@ -162,7 +151,7 @@ class Document(BaseDocument):
                 - skip_elements: Element types to skip during parsing
                 - _should_remove_subrecord_if_merged_in: Internal flag for merging
         """
-        self._elements: List["BaseElement"] = []
+        self._elements: list[BaseElement] = []
         for element in elements:
             # Convert raw text to Paragraph elements
             if isinstance(element, str):
@@ -179,42 +168,41 @@ class Document(BaseDocument):
             self._elements.append(element)
         # Configuration
         self.config: Config = kwargs.get("config", Config())
-        
+
         # Model configuration
         if "models" in kwargs:
             self.models = kwargs["models"]
         else:
-            self._models: List[Type["BaseModel"]] = []
-        
+            self._models: list[type[BaseModel]] = []
+
         # Merging configuration
-        self.adjacent_sections_for_merging: Optional[List[Tuple[List[str], List[str]]]] = (
+        self.adjacent_sections_for_merging: Optional[list[tuple[list[str], list[str]]]] = (
             copy.copy(kwargs["adjacent_sections_for_merging"])
             if "adjacent_sections_for_merging" in kwargs
             else None
         )
-        
+
         # Element processing configuration
-        self.skip_elements: List[Type["BaseElement"]] = kwargs.get("skip_elements", [])
+        self.skip_elements: list[type[BaseElement]] = kwargs.get("skip_elements", [])
         self._should_remove_subrecord_if_merged_in: bool = kwargs.get(
             "_should_remove_subrecord_if_merged_in", False
         )
 
         # Set parameters from configuration file
-        for element in self._elements:
+        for element in elements:
             if callable(getattr(element, "set_config", None)):
                 element.set_config()
-        self.skip_parsers: List[Any] = []  # List of parsers to skip
+        self.skip_parsers: list[Any] = []  # List of parsers to skip
         log.debug(
-            "%s: Initializing with %s elements"
-            % (self.__class__.__name__, len(self.elements))
+            "%s: Initializing with %s elements" % (self.__class__.__name__, len(self.elements))
         )
 
-    def add_models(self, models: List[Type["BaseModel"]]) -> None:
+    def add_models(self, models: list[type[BaseModel]]) -> None:
         """Add models to all elements for data extraction.
-        
+
         Args:
             models: List of model classes to add for extraction
-            
+
         Example:
             >>> d = Document.from_file('paper.pdf')
             >>> d.add_models([MeltingPoint, BoilingPoint])
@@ -228,18 +216,18 @@ class Document(BaseDocument):
         return
 
     @property
-    def models(self) -> List[Type["BaseModel"]]:
+    def models(self) -> list[type[BaseModel]]:
         """Get the list of models configured for extraction.
-        
+
         Returns:
             List of model classes used for data extraction
         """
         return self._models
 
     @models.setter
-    def models(self, value: List[Type["BaseModel"]]) -> None:
+    def models(self, value: list[type[BaseModel]]) -> None:
         """Set the models for extraction and propagate to all elements.
-        
+
         Args:
             value: List of model classes to use for extraction
         """
@@ -249,24 +237,24 @@ class Document(BaseDocument):
 
     @classmethod
     def from_file(
-        cls, 
-        f: FileInput, 
-        fname: Optional[str] = None, 
-        readers: Optional[List["BaseReader"]] = None
+        cls,
+        f: FileInput,
+        fname: Optional[str] = None,
+        readers: Optional[list[BaseReader]] = None,
     ) -> Self:
         """Create a Document from a file.
-        
+
         Args:
             f: A file-like object or path to a file
             fname: Optional filename to help determine file format
             readers: Optional list of readers to use. If not set, will try all default readers
-            
+
         Returns:
             A new Document instance created from the file
-            
+
         Note:
             Always open files in binary mode by using the 'rb' parameter.
-            
+
         Example:
             >>> with open('paper.html', 'rb') as f:
             ...     doc = Document.from_file(f)
@@ -280,28 +268,28 @@ class Document(BaseDocument):
 
     @classmethod
     def from_string(
-        cls, 
-        fstring: bytes, 
-        fname: Optional[str] = None, 
-        readers: Optional[List["BaseReader"]] = None
+        cls,
+        fstring: bytes,
+        fname: Optional[str] = None,
+        readers: Optional[list[BaseReader]] = None,
     ) -> Self:
         """Create a Document from a byte string containing file contents.
-        
+
         Args:
             fstring: A byte string containing the contents of a file
-            fname: Optional filename to help determine file format  
+            fname: Optional filename to help determine file format
             readers: Optional list of readers to use. If not set, will try all default readers
-            
+
         Returns:
             A new Document instance created from the byte string
-            
+
         Note:
             This method expects a byte string, not a unicode string.
-            
+
         Example:
             >>> contents = open('paper.html', 'rb').read()
             >>> doc = Document.from_string(contents)
-            
+
         Raises:
             ReaderError: If no reader can process the input or if a unicode string is passed
         """
@@ -326,12 +314,12 @@ class Document(BaseDocument):
         raise ReaderError("Unable to read document")
 
     @property
-    def elements(self) -> List["BaseElement"]:
+    def elements(self) -> list[BaseElement]:
         """All elements in this document.
-        
+
         Elements subclass from BaseElement and represent document components
         such as paragraphs, tables, figures, headings, etc.
-        
+
         Returns:
             List of all document elements
         """
@@ -346,9 +334,7 @@ class Document(BaseDocument):
         log.debug("Getting chemical records")
         records = ModelList()  # Final list of records -- output
         records_by_el = []  # List of records by element -- used for some merging, should contain all the same records as records
-        head_def_record = (
-            None  # Most recent record from a heading, title or short paragraph
-        )
+        head_def_record = None  # Most recent record from a heading, title or short paragraph
         head_def_record_i = None  # Element index of head_def_record
         last_product_record = None
         title_record = None  # Records found in the title
@@ -423,10 +409,7 @@ class Document(BaseDocument):
             # Paragraph with multiple sentences
             # We assume that if the first sentence of a paragraph contains only 1 ID Record, we can treat it as a header definition record, unless directly proceeding a header def record
             elif isinstance(el, Paragraph) and len(el.sentences) > 0:
-                if not (
-                    isinstance(self.elements[i - 1], Heading)
-                    and head_def_record_i == i - 1
-                ):
+                if not (isinstance(self.elements[i - 1], Heading) and head_def_record_i == i - 1):
                     first_sent_records = el.sentences[0].records
                     if (
                         len(first_sent_records) == 1
@@ -484,10 +467,7 @@ class Document(BaseDocument):
                     if hasattr(record, "compound"):
                         # We have property values but no names or labels... try merge those from previous records
                         if isinstance(el, Paragraph) and (
-                            head_def_record
-                            or last_product_record
-                            or last_id_record
-                            or title_record
+                            head_def_record or last_product_record or last_id_record or title_record
                         ):
                             # head_def_record from heading takes priority if the heading directly precedes the paragraph ( NOPE: or the last_id_record has no name)
                             if (
@@ -568,9 +548,7 @@ class Document(BaseDocument):
                 other_r_compound = None
                 if isinstance(other_r, Compound):
                     other_r_compound = other_r
-                elif hasattr(other_r, "compound") and isinstance(
-                    other_r.compound, Compound
-                ):
+                elif hasattr(other_r, "compound") and isinstance(other_r.compound, Compound):
                     other_r_compound = other_r.compound
                 if r_compound and other_r_compound:
                     # Strip whitespace and lowercase to compare names
@@ -602,9 +580,7 @@ class Document(BaseDocument):
                         and onames_std is not None
                         and (
                             any(n in rnames_std for n in onames_std)
-                            or any(
-                                l in r_compound.labels for l in other_r_compound.labels
-                            )
+                            or any(l in r_compound.labels for l in other_r_compound.labels)
                         )
                     ):
                         r_compound.merge(other_r_compound)
@@ -645,9 +621,7 @@ class Document(BaseDocument):
                 backwards_index = i - offset
                 forwards_index = i + offset
                 if backwards_index >= 0 and len(records_by_el[backwards_index]) != 0:
-                    backwards_el = record_id_el_map[
-                        id(records_by_el[backwards_index][0])
-                    ]
+                    backwards_el = record_id_el_map[id(records_by_el[backwards_index][0])]
                     distance = self._element_distance(el, backwards_el)
                     # If we're going backwards, we should iterate over the corresponding record backwards
                     # as those at the end will be closest to the current record
@@ -659,8 +633,7 @@ class Document(BaseDocument):
                     forwards_el = record_id_el_map[id(records_by_el[forwards_index][0])]
                     distance = self._element_distance(el, forwards_el)
                     merge_candidates.extend(
-                        (distance, candidate)
-                        for candidate in records_by_el[forwards_index]
+                        (distance, candidate) for candidate in records_by_el[forwards_index]
                     )
                 offset += 1
 
@@ -700,15 +673,15 @@ class Document(BaseDocument):
 
         return cleaned_records
 
-    def get_element_with_id(self, id: str) -> Optional["BaseElement"]:
+    def get_element_with_id(self, id: str) -> Optional[BaseElement]:
         """Get element with the specified ID.
-        
+
         Args:
             id: Identifier to search for
-            
+
         Returns:
             Element with specified ID, or None if not found
-            
+
         Note:
             Elements can contain nested elements (captions, footnotes, table cells, etc.)
             but this method only searches top-level elements.
@@ -716,39 +689,39 @@ class Document(BaseDocument):
         return next((el for el in self.elements if el.id == id), None)
 
     @property
-    def figures(self) -> List[Figure]:
+    def figures(self) -> list[Figure]:
         """All Figure elements in this Document.
-        
+
         Returns:
             List of all Figure elements
         """
         return [el for el in self.elements if isinstance(el, Figure)]
 
     @property
-    def tables(self) -> List[Table]:
+    def tables(self) -> list[Table]:
         """All Table elements in this Document.
-        
+
         Returns:
             List of all Table elements
         """
         return [el for el in self.elements if isinstance(el, Table)]
 
     @property
-    def citations(self) -> List[Citation]:
+    def citations(self) -> list[Citation]:
         """All Citation elements in this Document.
-        
+
         Returns:
             List of all Citation elements
         """
         return [el for el in self.elements if isinstance(el, Citation)]
 
     @property
-    def footnotes(self) -> List[Footnote]:
+    def footnotes(self) -> list[Footnote]:
         """All Footnote elements in this Document.
-        
+
         Returns:
             List of all Footnote elements
-            
+
         Note:
             Elements (e.g. Tables) can contain nested Footnotes which are not included.
         """
@@ -756,45 +729,45 @@ class Document(BaseDocument):
         return [el for el in self.elements if isinstance(el, Footnote)]
 
     @property
-    def titles(self) -> List[Title]:
+    def titles(self) -> list[Title]:
         """All Title elements in this Document.
-        
+
         Returns:
             List of all Title elements
         """
         return [el for el in self.elements if isinstance(el, Title)]
 
     @property
-    def headings(self) -> List[Heading]:
+    def headings(self) -> list[Heading]:
         """All Heading elements in this Document.
-        
+
         Returns:
             List of all Heading elements
         """
         return [el for el in self.elements if isinstance(el, Heading)]
 
     @property
-    def paragraphs(self) -> List[Paragraph]:
+    def paragraphs(self) -> list[Paragraph]:
         """All Paragraph elements in this Document.
-        
+
         Returns:
             List of all Paragraph elements
         """
         return [el for el in self.elements if isinstance(el, Paragraph)]
 
     @property
-    def captions(self) -> List[Caption]:
+    def captions(self) -> list[Caption]:
         """All Caption elements in this Document.
-        
+
         Returns:
             List of all Caption elements
         """
         return [el for el in self.elements if isinstance(el, Caption)]
 
     @property
-    def captioned_elements(self) -> List[CaptionedElement]:
+    def captioned_elements(self) -> list[CaptionedElement]:
         """All CaptionedElement elements in this Document.
-        
+
         Returns:
             List of all CaptionedElement elements
         """
@@ -803,30 +776,30 @@ class Document(BaseDocument):
     @property
     def metadata(self) -> MetaData:
         """Return metadata information.
-        
+
         Returns:
             The first MetaData element found in the document
-            
+
         Raises:
             IndexError: If no metadata element is found
         """
         return [el for el in self.elements if isinstance(el, MetaData)][0]
 
     @property
-    def abbreviation_definitions(self) -> List[AbbreviationDef]:
+    def abbreviation_definitions(self) -> list[AbbreviationDef]:
         """All abbreviation definitions in this Document.
-        
+
         Each abbreviation is a tuple of (short_form, long_form, ner_tag).
-        
+
         Returns:
             List of abbreviation definition tuples
         """
         return [ab for el in self.elements for ab in el.abbreviation_definitions]
 
     @property
-    def ner_tags(self) -> List[Optional[str]]:
+    def ner_tags(self) -> list[Optional[str]]:
         """All Named Entity Recognition tags in this Document.
-        
+
         Returns:
             List of NER tags. None for non-entities, 'B-CM' for beginning
             of chemical mentions, 'I-CM' for continuation of mentions.
@@ -834,26 +807,26 @@ class Document(BaseDocument):
         return [n for el in self.elements for n in el.ner_tags]
 
     @property
-    def cems(self) -> List[Any]:  # TODO: Type as List[Span] when Span is typed
+    def cems(self) -> list[Any]:  # TODO: Type as List[Span] when Span is typed
         """All Chemical Entity Mentions in this document.
-        
+
         Returns:
             List of unique chemical entity mention Spans
         """
         return list(set([n for el in self.elements for n in el.cems]))
 
     @property
-    def definitions(self) -> List[Dict[str, Any]]:
+    def definitions(self) -> list[dict[str, Any]]:
         """All recognized definitions within this Document.
-        
+
         Returns:
             List of definition dictionaries
         """
         return list([defn for el in self.elements for defn in el.definitions])
 
-    def serialize(self) -> Dict[str, Any]:
+    def serialize(self) -> dict[str, Any]:
         """Convert Document to Python dictionary.
-        
+
         Returns:
             Dictionary with 'type': 'document' and 'elements' containing
             serialized representations of all document elements.
@@ -863,11 +836,11 @@ class Document(BaseDocument):
 
     def to_json(self, *args: Any, **kwargs: Any) -> str:
         """Convert Document to JSON string.
-        
+
         Args:
             *args: Arguments passed to json.dumps
             **kwargs: Keyword arguments passed to json.dumps
-            
+
         Returns:
             JSON string representation of the document
         """
@@ -875,7 +848,7 @@ class Document(BaseDocument):
 
     def _repr_html_(self) -> str:
         """Return HTML representation for Jupyter notebook display.
-        
+
         Returns:
             HTML string representation of the document
         """
@@ -931,9 +904,7 @@ class Document(BaseDocument):
                             sentences_for_parser_at_index.append([sentence])
                         else:
                             batch_parser_index = self._batch_parsers.index(parser)
-                            sentences_for_parser_at_index[batch_parser_index].append(
-                                sentence
-                            )
+                            sentences_for_parser_at_index[batch_parser_index].append(sentence)
         for parser, sentences in zip(
             self._batch_parsers, sentences_for_parser_at_index, strict=False
         ):
@@ -997,17 +968,13 @@ class Document(BaseDocument):
     def preceding_sentences(self, sentence, num_preceding=2):
         sentences = self.sentences
         sentence_index = sentences.index(sentence)
-        adjacent_sentences = sentences[
-            max(0, sentence_index - num_preceding) : sentence_index
-        ]
+        adjacent_sentences = sentences[max(0, sentence_index - num_preceding) : sentence_index]
         return adjacent_sentences
 
     def following_sentences(self, sentence, num_following=2):
         sentences = self.sentences
         sentence_index = sentences.index(sentence)
-        adjacent_sentences = sentences[
-            sentence_index + 1 : sentence_index + num_following + 1
-        ]
+        adjacent_sentences = sentences[sentence_index + 1 : sentence_index + num_following + 1]
         return adjacent_sentences
 
     def _element_distance(self, element_a, element_b):
@@ -1022,9 +989,7 @@ class Document(BaseDocument):
             index_a = self.elements.index(element_a)
             index_b = self.elements.index(element_b)
         except ValueError:
-            raise ValueError(
-                f"Elements {index_a} and {index_b} not in elements for this document"
-            )
+            raise ValueError(f"Elements {index_a} and {index_b} not in elements for this document")
         if index_a == index_b:
             return SentenceRange()
         if index_a > index_b:
@@ -1064,11 +1029,7 @@ class Document(BaseDocument):
         return False
 
     def _are_adjacent_sections_for_merging(self, section_a, section_b):
-        if (
-            self.adjacent_sections_for_merging is None
-            or section_a is None
-            or section_b is None
-        ):
+        if self.adjacent_sections_for_merging is None or section_a is None or section_b is None:
             return False
         section_a = section_a.lower()
         section_b = section_b.lower()

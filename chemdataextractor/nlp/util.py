@@ -1,8 +1,10 @@
-import torch
-from chemdataextractor.errors import ConfigurationError
-from typing import List, Optional
-import math
 import logging
+import math
+from typing import Optional
+
+import torch
+
+from chemdataextractor.errors import ConfigurationError
 
 logger = logging.getLogger(__name__)
 
@@ -63,7 +65,7 @@ def uncombine_initial_dims(
 def viterbi_decode(
     tag_sequence: torch.Tensor,
     transition_matrix: torch.Tensor,
-    tag_observations: Optional[List[int]] = None,
+    tag_observations: Optional[list[int]] = None,
     allowed_start_transitions: torch.Tensor = None,
     allowed_end_transitions: torch.Tensor = None,
     top_k: int = None,
@@ -127,7 +129,6 @@ def viterbi_decode(
     )
 
     if has_start_end_restrictions:
-
         if allowed_end_transitions is None:
             allowed_end_transitions = torch.zeros(num_tags)
         if allowed_start_transitions is None:

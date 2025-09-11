@@ -1,5 +1,5 @@
-from collections import namedtuple
 import copy
+from collections import namedtuple
 
 CoordinatedGroup = namedtuple("CoordinatedGroup", ["root", "content"])
 
@@ -37,7 +37,7 @@ def _multiply(subsentences, coordinated_group, prev_location, min_index):
     return mul_subsentences
 
 
-class SubsentenceExtractor(object):
+class SubsentenceExtractor:
     """
     Extract subsentences (i.e. clauses) from bulk text, as described in the paper
     "Automated Construction of a Photocatalysis Dataset for Water-Splitting Applications",
@@ -382,7 +382,6 @@ class SubsentenceExtractor(object):
         return operations
 
 
-class NoneSubsentenceExtractor(object):
-
+class NoneSubsentenceExtractor:
     def subsentences(self, sentence):
         return [sentence.tokens]

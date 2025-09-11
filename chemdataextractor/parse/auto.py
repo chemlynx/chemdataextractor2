@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Parser for automatic parsing, without user-written parsing rules.
 Mainly used for tables.
@@ -16,37 +15,30 @@ Any parse_expressions set in the model should have an added action to ensure tha
 .. codeauthor:: Juraj Mavračić <jm2111@cam.ac.uk>
 """
 
-from __future__ import absolute_import
-from __future__ import division
-from __future__ import print_function
-from __future__ import unicode_literals
+import copy
 import logging
 
-import copy
-
-from .cem import cem, chemical_label, lenient_chemical_label
-from .actions import merge, join
-from .elements import (
-    W,
-    I,
-    R,
-    T,
-    Optional,
-    Any,
-    OneOrMore,
-    Not,
-    ZeroOrMore,
-    Group,
-    SkipTo,
-    Or,
-    NoMatch,
-)
-from ..utils import first
-from .quantity import magnitudes_dict, value_element, extract_units, lbrct, rbrct
-from .base import BaseSentenceParser, BaseParser, BaseTableParser
-
 from lxml.builder import E
-import xml.etree.ElementTree as etree
+
+from ..utils import first
+from .actions import merge
+from .base import BaseParser
+from .base import BaseSentenceParser
+from .base import BaseTableParser
+from .cem import cem
+from .cem import chemical_label
+from .cem import lenient_chemical_label
+from .elements import Group
+from .elements import NoMatch
+from .elements import OneOrMore
+from .elements import Optional
+from .elements import R
+from .elements import SkipTo
+from .elements import W
+from .elements import ZeroOrMore
+from .quantity import extract_units
+from .quantity import magnitudes_dict
+from .quantity import value_element
 
 log = logging.getLogger(__name__)
 
@@ -135,7 +127,6 @@ def _clean_units_results(tokens, start, result):
         # For each type of bracket, we clean the unmatched brackets
         cleaned_texts = copy.copy(texts)
         for bracket_type, value in brackets.items():
-
             # Strip opening brackets
             if value > 0:
                 count = 0
@@ -364,7 +355,6 @@ class BaseAutoParser(BaseParser):
 
 
 class AutoSentenceParser(BaseAutoParser, BaseSentenceParser):
-
     def __init__(
         self, lenient=False, chem_name=(cem | chemical_label), activate_to_range=False
     ):

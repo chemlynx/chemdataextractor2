@@ -1,20 +1,21 @@
-# -*- coding: utf-8 -*-
 """
 Part of speech tagging commands.
 
 """
 
-from __future__ import absolute_import
-from __future__ import division
-from __future__ import print_function
 import logging
 
 import click
 
-from ..doc import Document, Text
-from ..nlp.corpus import genia_training, wsj_training, wsj_evaluation, genia_evaluation
-from ..nlp.pos import TAGS, ChemApPosTagger, ChemCrfPosTagger
-
+from ..doc import Document
+from ..doc import Text
+from ..nlp.corpus import genia_evaluation
+from ..nlp.corpus import genia_training
+from ..nlp.corpus import wsj_evaluation
+from ..nlp.corpus import wsj_training
+from ..nlp.pos import TAGS
+from ..nlp.pos import ChemApPosTagger
+from ..nlp.pos import ChemCrfPosTagger
 
 log = logging.getLogger(__name__)
 
@@ -130,7 +131,7 @@ def train(ctx, output, corpus, clusters):
         wsj_sents = list(wsj_training.tagged_sents())
         # For WSJ, remove all tokens with -NONE- tag
         for i, wsj_sent in enumerate(wsj_sents):
-            wsj_sents[i] = [t for t in wsj_sent if not t[1] == "-NONE-"]
+            wsj_sents[i] = [t for t in wsj_sent if t[1] != "-NONE-"]
 
     if corpus == "genia" or corpus == "wsj+genia":
         genia_sents = list(genia_training.tagged_sents())
@@ -196,7 +197,7 @@ def evaluate(ctx, model, corpus, clusters):
         evaluation = wsj_evaluation
         sents = list(evaluation.tagged_sents())
         for i, wsj_sent in enumerate(sents):
-            sents[i] = [t for t in wsj_sent if not t[1] == "-NONE-"]
+            sents[i] = [t for t in wsj_sent if t[1] != "-NONE-"]
     elif corpus == "genia":
         evaluation = genia_evaluation
         sents = list(evaluation.tagged_sents())
@@ -239,7 +240,7 @@ def train_perceptron(ctx, output, corpus, clusters):
         wsj_sents = list(wsj_training.tagged_sents())
         # For WSJ, remove all tokens with -NONE- tag
         for i, wsj_sent in enumerate(wsj_sents):
-            wsj_sents[i] = [t for t in wsj_sent if not t[1] == "-NONE-"]
+            wsj_sents[i] = [t for t in wsj_sent if t[1] != "-NONE-"]
 
     if corpus == "genia" or corpus == "wsj+genia":
         genia_sents = list(genia_training.tagged_sents())
@@ -303,7 +304,7 @@ def evaluate_perceptron(ctx, model, corpus):
         evaluation = wsj_evaluation
         sents = list(evaluation.tagged_sents())
         for i, wsj_sent in enumerate(sents):
-            sents[i] = [t for t in wsj_sent if not t[1] == "-NONE-"]
+            sents[i] = [t for t in wsj_sent if t[1] != "-NONE-"]
     elif corpus == "genia":
         evaluation = genia_evaluation
         sents = list(evaluation.tagged_sents())

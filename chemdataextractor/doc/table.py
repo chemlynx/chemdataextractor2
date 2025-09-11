@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Table document elements
 
@@ -8,24 +7,17 @@ Table document elements
 
 """
 
-from __future__ import absolute_import
-from __future__ import division
-from __future__ import print_function
-from __future__ import unicode_literals
 
 import logging
-import copy
 
-
-from .element import CaptionedElement
 from tabledataextractor import Table as TdeTable
 from tabledataextractor import TrivialTable as TrivialTdeTable
 from tabledataextractor.exceptions import TDEError
+
 from ..doc.text import Cell
-from ..model.model import Compound
-from ..model.base import ModelList, ModelType
+from ..model.base import ModelList
 from ..utils import memoized_property
-from pprint import pprint
+from .element import CaptionedElement
 
 log = logging.getLogger(__name__)
 log.setLevel(logging.INFO)
@@ -69,7 +61,7 @@ class Table(CaptionedElement):
             self.tde_table = TdeTable(table_data, **kwargs)
 
         except (TDEError, TypeError) as e:
-            log.error("TableDataExtractor 'Table' error: {}".format(e))
+            log.error(f"TableDataExtractor 'Table' error: {e}")
             log.info("Attempting TableDataExtractor 'TrivialTable' interpretation.")
 
             try:
@@ -78,7 +70,7 @@ class Table(CaptionedElement):
                     table_data, standardize_empty_data=True, **kwargs
                 )
             except (TDEError, TypeError) as e:
-                log.error("TableDataExtractor 'TrivialTable' error: {}".format(e))
+                log.error(f"TableDataExtractor 'TrivialTable' error: {e}")
                 self.tde_subtables = []
                 self.tde_table = None
                 self.heading = None

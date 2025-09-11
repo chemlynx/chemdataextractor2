@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 chemdataextractor.units.temperatures.py
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -9,20 +8,16 @@ Units and models for energy.
 
 """
 
-from __future__ import absolute_import
-from __future__ import division
-from __future__ import print_function
-from __future__ import unicode_literals
 
-from .quantity_model import QuantityModel
-from .unit import Unit
-from .dimension import Dimension
-from .mass import Mass
-from .length import Length
-from .time import Time
-from ...parse.elements import W, I, R, Optional, Any, OneOrMore, Not, ZeroOrMore
-from ...parse.actions import merge, join
 import logging
+
+from ...parse.elements import R
+from .dimension import Dimension
+from .length import Length
+from .mass import Mass
+from .quantity_model import QuantityModel
+from .time import Time
+from .unit import Unit
 
 log = logging.getLogger(__name__)
 
@@ -32,18 +27,15 @@ class Energy(Dimension):
 
 
 class EnergyModel(QuantityModel):
-
     dimensions = Energy()
 
 
 class EnergyUnit(Unit):
-
     def __init__(self, magnitude=0.0, powers=None):
         super(EnergyUnit, self).__init__(Energy(), magnitude, powers)
 
 
 class Joule(EnergyUnit):
-
     def convert_value_to_standard(self, value):
         return value
 
@@ -58,7 +50,6 @@ class Joule(EnergyUnit):
 
 
 class ElectronVolt(EnergyUnit):
-
     def convert_value_to_standard(self, value):
         return value * 1.6021766208e-19
 

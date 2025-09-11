@@ -1,64 +1,47 @@
-# -*- coding: utf-8 -*-
 """
 Text-based document elements.
 
 """
 
-from __future__ import absolute_import
-from __future__ import division
-from __future__ import print_function
-from __future__ import unicode_literals
-from abc import abstractproperty
 import collections
 import logging
 import re
-from pprint import pprint
-from deprecation import deprecated
 import unicodedata
+from abc import abstractproperty
 
+from deprecation import deprecated
 
-from ..model.base import ModelList, sort_merge_candidates
-from ..nlp.lexicon import ChemLexicon, Lexicon
-from ..nlp.cem import (
-    IGNORE_PREFIX,
-    IGNORE_SUFFIX,
-    SPECIALS,
-    SPLITS,
-    CiDictCemTagger,
-    CsDictCemTagger,
-    CrfCemTagger,
-)
-from ..nlp.new_cem import CemTagger
+from ..model.base import ModelList
+from ..model.base import sort_merge_candidates
+from ..model.contextual_range import SentenceRange
+from ..model.model import Compound
 from ..nlp.abbrev import ChemAbbreviationDetector
-from ..nlp.tag import NoneTagger, POS_TAG_TYPE, NER_TAG_TYPE
-from ..nlp.pos import ChemCrfPosTagger, CrfPosTagger, ApPosTagger, ChemApPosTagger
+from ..nlp.cem import IGNORE_PREFIX
+from ..nlp.cem import IGNORE_SUFFIX
+from ..nlp.cem import SPECIALS
+from ..nlp.cem import SPLITS
+from ..nlp.dependency import DependencyTagger
+from ..nlp.dependency import IndexTagger
+from ..nlp.lexicon import ChemLexicon
+from ..nlp.new_cem import CemTagger
+from ..nlp.pos import ChemCrfPosTagger
+from ..nlp.subsentence import NoneSubsentenceExtractor
+from ..nlp.subsentence import SubsentenceExtractor
+from ..nlp.tag import NER_TAG_TYPE
+from ..nlp.tag import POS_TAG_TYPE
+from ..nlp.tag import NoneTagger
 
 # from ..nlp.tokenize import ChemSentenceTokenizer, ChemWordTokenizer, regex_span_tokenize, SentenceTokenizer, WordTokenizer, FineWordTokenizer, ChemTokWordTokenizer, SpacyTokenizer
-from ..nlp.tokenize import (
-    BertWordTokenizer,
-    ChemSentenceTokenizer,
-    regex_span_tokenize,
-    SentenceTokenizer,
-    WordTokenizer,
-)
-from ..nlp.subsentence import SubsentenceExtractor, NoneSubsentenceExtractor
-from ..nlp.dependency import DependencyTagger, IndexTagger
-from ..text import CONTROL_RE
-from ..utils import memoized_property, first
-from .element import BaseElement
+from ..nlp.tokenize import BertWordTokenizer
+from ..nlp.tokenize import ChemSentenceTokenizer
+from ..nlp.tokenize import regex_span_tokenize
+from ..parse.cem import cem_phrase
+from ..parse.cem import chemical_name
 from ..parse.definitions import specifier_definition
-from ..parse.cem import chemical_name, cem_phrase
 from ..parse.quantity import construct_quantity_re
-from ..model.model import (
-    Compound,
-    NmrSpectrum,
-    IrSpectrum,
-    UvvisSpectrum,
-    MeltingPoint,
-    GlassTransition,
-)
-from ..model.contextual_range import SentenceRange
-
+from ..utils import first
+from ..utils import memoized_property
+from .element import BaseElement
 
 log = logging.getLogger(__name__)
 cem_tagger = CemTagger()
@@ -535,7 +518,6 @@ class Text(collections.abc.Sequence, BaseText):
 
 
 class Title(Text):
-
     def __init__(self, text, **kwargs):
         super(Title, self).__init__(text, **kwargs)
         self.models = []
@@ -545,7 +527,6 @@ class Title(Text):
 
 
 class Heading(Text):
-
     def __init__(self, text, **kwargs):
         super(Heading, self).__init__(text, **kwargs)
         self.models = []
@@ -556,7 +537,6 @@ class Heading(Text):
 
 
 class Paragraph(Text):
-
     def __init__(self, text, **kwargs):
         super(Paragraph, self).__init__(text, **kwargs)
         # default_parsers = [CompoundParser(), ChemicalLabelParser(), NmrParser(), IrParser(), UvvisParser(), MpParser(),
@@ -568,7 +548,6 @@ class Paragraph(Text):
 
 
 class Footnote(Text):
-
     def __init__(self, text, **kwargs):
         super(Footnote, self).__init__(text, **kwargs)
         # default_parsers = [ContextParser(), CaptionContextParser()]
@@ -595,7 +574,6 @@ class Citation(Text):
 
 
 class Caption(Text):
-
     def __init__(self, text, **kwargs):
         super(Caption, self).__init__(text, **kwargs)
         self.models = []
@@ -814,7 +792,7 @@ class Sentence(BaseText):
                         ner_tags[i - 1] = None
                     if i < len(self.raw_tokens) - 1 and self.raw_tokens[i + 1] == ")":
                         ner_tags[i + 1] = None
-                    if not old_ner_tags == ner_tags[i : i + len(abbr)]:
+                    if old_ner_tags != ner_tags[i : i + len(abbr)]:
                         log.debug(
                             "Correcting abbreviation tag: %s (%s): %s -> %s"
                             % (
@@ -883,7 +861,9 @@ class Sentence(BaseText):
 
             # Do splits
             split_spans = []
-            comps = list(regex_span_tokenize(currenttext, "(-|\+|\)?-to-\(?|···|/|\s)"))
+            comps = list(
+                regex_span_tokenize(currenttext, r"(-|\+|\)?-to-\(?|···|/|\s)")
+            )
             if len(comps) > 1:
                 for split in SPLITS:
                     if all(
@@ -1294,7 +1274,6 @@ class Cell(Sentence):
 
         tokens.append(separator_token)
         for col_category_sent in cell.col_categories_sents:
-
             for token in col_category_sent.tokens:
                 token.start = token.start + span_offset
                 token.end = token.end + span_offset
@@ -1335,7 +1314,7 @@ class Cell(Sentence):
         return elements
 
 
-class Span(object):
+class Span:
     """A text span within a sentence."""
 
     def __init__(self, text, start, end):

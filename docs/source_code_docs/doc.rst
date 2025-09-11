@@ -50,4 +50,3 @@ Logic for reading/creating documents. That is, splitting documents down into its
 .. automodule:: chemdataextractor.doc.text
     :members:
     :undoc-members:
-

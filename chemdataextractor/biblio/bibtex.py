@@ -1,21 +1,16 @@
-# -*- coding: utf-8 -*-
 """
 BibTeX parser.
 
 """
 
-from __future__ import absolute_import
-from __future__ import division
-from __future__ import print_function
-from __future__ import unicode_literals
-from collections import OrderedDict
 import json
 import re
+from collections import OrderedDict
 
 from ..text.latex import latex_to_unicode
 
 
-class BibtexParser(object):
+class BibtexParser:
     """A class for parsing a BibTeX string into JSON or a python data structure.
 
     Example usage:

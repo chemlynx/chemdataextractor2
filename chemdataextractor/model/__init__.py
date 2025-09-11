@@ -1,23 +1,19 @@
-# -*- coding: utf-8 -*-
 """
 Classes for representing chemical models.
 
 """
 
-from __future__ import absolute_import
-from __future__ import division
-from __future__ import print_function
-from __future__ import unicode_literals
 
-from .base import (
-    BaseType,
-    StringType,
-    FloatType,
-    ModelType,
-    ListType,
-    BaseModel,
-    ModelList,
-    InferredProperty,
-)
+from .base import BaseModel
+from .base import BaseType
+from .base import FloatType
+from .base import InferredProperty
+from .base import ListType
+from .base import ModelList
+from .base import ModelType
+from .base import StringType
+from .contextual_range import DocumentRange
+from .contextual_range import ParagraphRange
+from .contextual_range import SectionRange
+from .contextual_range import SentenceRange
 from .model import *
-from .contextual_range import DocumentRange, SectionRange, ParagraphRange, SentenceRange

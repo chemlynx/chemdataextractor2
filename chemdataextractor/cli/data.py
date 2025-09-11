@@ -1,18 +1,14 @@
-# -*- coding: utf-8 -*-
 """
 Data and model management interface.
 
 """
 
-from __future__ import absolute_import
-from __future__ import division
-from __future__ import print_function
 import logging
 
 import click
 
-from ..data import PACKAGES, get_data_dir
-
+from ..data import PACKAGES
+from ..data import get_data_dir
 
 log = logging.getLogger(__name__)
 

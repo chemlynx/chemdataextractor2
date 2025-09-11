@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Elsevier XML reader
 
@@ -9,23 +8,21 @@ Readers for Elsevier XML files.
 
 """
 
-from __future__ import absolute_import
-from __future__ import division
-from __future__ import print_function
-from __future__ import unicode_literals
 
-from ..scrape.clean import clean, Cleaner
-from ..doc.table import Cell, Table
-from ..doc.text import Caption
-from ..doc.meta import MetaData
-from .markup import XmlReader
-from lxml import etree
 import re
+
+from lxml import etree
+
+from ..doc.meta import MetaData
+from ..doc.table import Cell
+from ..scrape.clean import Cleaner
+from ..scrape.clean import clean
+from .markup import XmlReader
 
 
 def remove_if_reference(el):
     text = el.text
-    check_regex = re.compile("\[\d")
+    check_regex = re.compile(r"\[\d")
     if check_regex.match(text) or text.isnumeric():
         return None
     return el
@@ -103,13 +100,13 @@ class ElsevierXmlReader(XmlReader):
 
     cleaners = [clean, fix_elsevier_xml_whitespace, els_xml_whitespace, strip_els_xml]
 
-    etree.FunctionNamespace("http://www.elsevier.com/xml/svapi/article/dtd").prefix = (
-        "default"
-    )
+    etree.FunctionNamespace(
+        "http://www.elsevier.com/xml/svapi/article/dtd"
+    ).prefix = "default"
     etree.FunctionNamespace("http://www.elsevier.com/xml/bk/dtd").prefix = "bk"
-    etree.FunctionNamespace("http://www.elsevier.com/xml/common/cals/dtd").prefix = (
-        "cals"
-    )
+    etree.FunctionNamespace(
+        "http://www.elsevier.com/xml/common/cals/dtd"
+    ).prefix = "cals"
     etree.FunctionNamespace("http://www.elsevier.com/xml/common/dtd").prefix = "ce"
     etree.FunctionNamespace("http://www.elsevier.com/xml/ja/dtd").prefix = "ja"
     etree.FunctionNamespace("http://www.w3.org/1998/Math/MathML").prefix = "mml"
@@ -119,16 +116,16 @@ class ElsevierXmlReader(XmlReader):
     etree.FunctionNamespace(
         "http://www.elsevier.com/xml/common/struct-bib/dtd"
     ).prefix = "sb"
-    etree.FunctionNamespace("http://www.elsevier.com/xml/common/table/dtd").prefix = (
-        "tb"
-    )
+    etree.FunctionNamespace(
+        "http://www.elsevier.com/xml/common/table/dtd"
+    ).prefix = "tb"
     etree.FunctionNamespace("http://www.w3.org/1999/xlink").prefix = "xlink"
     etree.FunctionNamespace("http://www.elsevier.com/xml/xocs/dtd").prefix = "xocs"
     etree.FunctionNamespace("http://purl.org/dc/elements/1.1/").prefix = "dc"
     etree.FunctionNamespace("http://purl.org/dc/terms/").prefix = "dcterms"
-    etree.FunctionNamespace("http://prismstandard.org/namespaces/basic/2.0/").prefix = (
-        "prism"
-    )
+    etree.FunctionNamespace(
+        "http://prismstandard.org/namespaces/basic/2.0/"
+    ).prefix = "prism"
     etree.FunctionNamespace("http://www.w3.org/2001/XMLSchema-instance").prefix = "xsi"
 
     root_css = "default|full-text-retrieval-response"
@@ -241,7 +238,7 @@ class ElsevierXmlReader(XmlReader):
                 for i in range(colspan):
                     for j in range(rowspan):
                         rownum = row + j
-                        if not rownum in hdict:
+                        if rownum not in hdict:
                             hdict[rownum] = {}
                         while colnum in hdict[rownum]:
                             colnum += 1

@@ -1,21 +1,18 @@
-# -*- coding: utf-8 -*-
 """
 Readers for documents from Springer.
 
 .. codeauthor:: Callum Court
 
 """
-from __future__ import absolute_import
-from __future__ import division
-from __future__ import print_function
-from __future__ import unicode_literals
 from lxml import etree
-
 from lxml.html import HTMLParser
-from ..text import get_encoding
-from .markup import HtmlReader, XmlReader
-from ..scrape.clean import clean, Cleaner, strip_html
+
+from ..scrape.clean import Cleaner
+from ..scrape.clean import clean
+from ..scrape.clean import strip_html
 from ..scrape.pub.springer import tidy_springer_references
+from ..text import get_encoding
+from .markup import HtmlReader
 
 clean_springer_html = Cleaner(
     fix_whitespace=True, strip_xpath=".//sub | .//em | .//strong"
@@ -92,7 +89,6 @@ def fix_springer_table_whitespace(document):
 
 
 class SpringerHtmlReader(HtmlReader):
-
     cleaners = [
         clean,
         springer_html_whitespace,

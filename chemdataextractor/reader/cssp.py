@@ -1,20 +1,12 @@
-# -*- coding: utf-8 -*-
 """
 Readers for ChemSpider SyntheticPages.
 
 """
 
-from __future__ import absolute_import
-from __future__ import division
-from __future__ import print_function
-from __future__ import unicode_literals
 import logging
 
 from ..doc.text import Footnote
-from ..scrape.pub.rsc import replace_rsc_img_chars
-from ..scrape.clean import clean
 from .markup import HtmlReader
-
 
 log = logging.getLogger(__name__)
 

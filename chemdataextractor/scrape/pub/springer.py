@@ -1,20 +1,23 @@
-# -*- coding: utf-8 -*-
 """
 Tools for scraping documents from Springer, Biomed Central and Chemistry Central XML files.
 
 """
 
-from __future__ import absolute_import
-from __future__ import division
-from __future__ import print_function
-from __future__ import unicode_literals
 import logging
 
 from ...text.normalize import normalize
-from ...text.processors import Chain, LStrip, RStrip, Discard, RAdd
+from ...text.processors import Chain
+from ...text.processors import Discard
+from ...text.processors import LStrip
+from ...text.processors import RAdd
+from ...text.processors import RStrip
 from ..clean import Cleaner
-from ..entity import Entity, DocumentEntity
-from ..fields import StringField, EntityField, UrlField, IntField
+from ..entity import DocumentEntity
+from ..entity import Entity
+from ..fields import EntityField
+from ..fields import IntField
+from ..fields import StringField
+from ..fields import UrlField
 
 log = logging.getLogger(__name__)
 

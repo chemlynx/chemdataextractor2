@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Functionality to enable multi-turn question answering for information extraction in ChemDataExtractor
 
@@ -6,15 +5,17 @@ Functionality to enable multi-turn question answering for information extraction
 """
 
 import torch
+from transformers.pipelines import pipeline
+
 from ..doc.text import Subsentence
 from ..model.contextual_range import SentenceRange
 from ..parse.auto import AutoSentenceParser
-from ..parse.base import BaseSentenceParser
-from ..parse.elements import NoMatch, OneOrMore, Optional, SkipTo
+from ..parse.elements import NoMatch
+from ..parse.elements import OneOrMore
+from ..parse.elements import Optional
+from ..parse.elements import SkipTo
 from ..parse.quantity import value_element
 from ..utils import memoized_property
-
-from transformers.pipelines import pipeline
 
 
 class Question(NoMatch):
@@ -406,7 +407,7 @@ class MultiTurnQAParser(AutoSentenceParser):
 
                 try:
                     answer["answer"] = question.postprocess_answer(answer["answer"])
-                except ValueError as e:
+                except ValueError:
                     answer = None
 
                 if (

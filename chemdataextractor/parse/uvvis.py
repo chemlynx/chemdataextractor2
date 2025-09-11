@@ -1,33 +1,32 @@
-# -*- coding: utf-8 -*-
 """
 UV-vis text parser.
 
 """
 
-from __future__ import absolute_import
-from __future__ import division
-from __future__ import print_function
-from __future__ import unicode_literals
 import logging
 import re
 
-
-from .common import hyphen
-from .base import BaseSentenceParser
 from ..utils import first
 from .actions import strip_stop
-from .elements import W, I, T, R, Optional, ZeroOrMore, OneOrMore
+from .base import BaseSentenceParser
 from .cem import chemical_name
-
+from .common import hyphen
+from .elements import I
+from .elements import OneOrMore
+from .elements import Optional
+from .elements import R
+from .elements import T
+from .elements import W
+from .elements import ZeroOrMore
 
 log = logging.getLogger(__name__)
 
 
-delim = R("^[;:,\./]$").hide()
+delim = R(r"^[;:,\./]$").hide()
 
 solvent = chemical_name("solvent")
 units = Optional(W("/")).hide() + W("nm")("units")
-value = R("^\d{3,4}(\.\d+)?\.?$")("value").add_action(strip_stop)
+value = R(r"^\d{3,4}(\.\d+)?\.?$")("value").add_action(strip_stop)
 shape = (
     R("^(m|medium|w|weak|s|strong|n|narrow|b|broad|sh|sharp)$", re.I)("shape")
     + Optional(I("peak")).hide()

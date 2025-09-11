@@ -3,19 +3,19 @@ Conditional random field
 Implemented by AllenNLP 2.5.0
 """
 
-from typing import List, Tuple, Dict, Union
+from typing import Union
 
 import torch
 
 from chemdataextractor.errors import ConfigurationError
 from chemdataextractor.nlp import util as util
 
-VITERBI_DECODING = Tuple[List[int], float]  # a list of tags, and a viterbi score
+VITERBI_DECODING = tuple[list[int], float]  # a list of tags, and a viterbi score
 
 
 def allowed_transitions(
-    constraint_type: str, labels: Dict[int, str]
-) -> List[Tuple[int, int]]:
+    constraint_type: str, labels: dict[int, str]
+) -> list[tuple[int, int]]:
     """
     Given labels and a constraint type, returns the allowed transitions. It will
     additionally include transitions for the start and end states, which are used
@@ -190,7 +190,7 @@ class ConditionalRandomField(torch.nn.Module):
     def __init__(
         self,
         num_tags: int,
-        constraints: List[Tuple[int, int]] = None,
+        constraints: list[tuple[int, int]] = None,
         include_start_end_transitions: bool = True,
     ) -> None:
         super().__init__()
@@ -350,7 +350,7 @@ class ConditionalRandomField(torch.nn.Module):
 
     def viterbi_tags(
         self, logits: torch.Tensor, mask: torch.BoolTensor = None, top_k: int = None
-    ) -> Union[List[VITERBI_DECODING], List[List[VITERBI_DECODING]]]:
+    ) -> Union[list[VITERBI_DECODING], list[list[VITERBI_DECODING]]]:
         """
         Uses viterbi algorithm to find most likely tags for the given inputs.
         If constraints are applied, disallows all other transitions.
@@ -388,19 +388,15 @@ class ConditionalRandomField(torch.nn.Module):
         transitions[:num_tags, :num_tags] = constrained_transitions.data
 
         if self.include_start_end_transitions:
-            transitions[
-                start_tag, :num_tags
-            ] = self.start_transitions.detach() * self._constraint_mask[
-                start_tag, :num_tags
-            ].data + -10000.0 * (
-                1 - self._constraint_mask[start_tag, :num_tags].detach()
+            transitions[start_tag, :num_tags] = (
+                self.start_transitions.detach()
+                * self._constraint_mask[start_tag, :num_tags].data
+                + -10000.0 * (1 - self._constraint_mask[start_tag, :num_tags].detach())
             )
-            transitions[
-                :num_tags, end_tag
-            ] = self.end_transitions.detach() * self._constraint_mask[
-                :num_tags, end_tag
-            ].data + -10000.0 * (
-                1 - self._constraint_mask[:num_tags, end_tag].detach()
+            transitions[:num_tags, end_tag] = (
+                self.end_transitions.detach()
+                * self._constraint_mask[:num_tags, end_tag].data
+                + -10000.0 * (1 - self._constraint_mask[:num_tags, end_tag].detach())
             )
         else:
             transitions[start_tag, :num_tags] = -10000.0 * (

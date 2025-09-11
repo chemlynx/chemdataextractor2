@@ -1,20 +1,16 @@
-# -*- coding: utf-8 -*-
 """
 Text processors.
 
 """
 
-from __future__ import absolute_import
-from __future__ import division
-from __future__ import print_function
-from __future__ import unicode_literals
-from abc import ABCMeta, abstractmethod
 import logging
 import re
-
 import urllib.parse
-from . import EMAIL_RE, APOSTROPHES
+from abc import ABCMeta
+from abc import abstractmethod
 
+from . import APOSTROPHES
+from . import EMAIL_RE
 
 log = logging.getLogger(__name__)
 
@@ -33,7 +29,7 @@ class BaseProcessor(metaclass=ABCMeta):
         return text
 
 
-class Chain(object):
+class Chain:
     """Apply a series of processors in turn. Stops if a processors returns None."""
 
     def __init__(self, *callables):
@@ -47,7 +43,7 @@ class Chain(object):
         return value
 
 
-class Discard(object):
+class Discard:
     """Return None if value matches a string."""
 
     def __init__(self, *match):
@@ -59,7 +55,7 @@ class Discard(object):
         return value
 
 
-class LAdd(object):
+class LAdd:
     """Add a substring to the start of a value."""
 
     def __init__(self, substring):
@@ -69,7 +65,7 @@ class LAdd(object):
         return "%s%s" % (self.substring, value)
 
 
-class RAdd(object):
+class RAdd:
     """Add a substring to the end of a value."""
 
     def __init__(self, substring):
@@ -79,7 +75,7 @@ class RAdd(object):
         return "%s%s" % (value, self.substring)
 
 
-class LStrip(object):
+class LStrip:
     """Remove a substring from the start of a value."""
 
     def __init__(self, *substrings):
@@ -92,7 +88,7 @@ class LStrip(object):
         return value
 
 
-class RStrip(object):
+class RStrip:
     """Remove a substring from the end of a value."""
 
     def __init__(self, *substrings):
@@ -130,7 +126,7 @@ def strip_querystring(url):
     return p.scheme + "://" + p.netloc + p.path
 
 
-class Substitutor(object):
+class Substitutor:
     """Perform a list of substitutions defined by regex on text.
 
     Useful to clean up text where placeholders are used in place of actual unicode characters.

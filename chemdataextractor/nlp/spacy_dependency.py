@@ -1,7 +1,9 @@
 import spacy
 
-from .dependency import Dependency, IndexTagger
-from .tag import BaseTagger, EnsembleTagger
+from .dependency import Dependency
+from .dependency import IndexTagger
+from .tag import BaseTagger
+from .tag import EnsembleTagger
 
 
 class _SpacyDependencyTagger(BaseTagger):

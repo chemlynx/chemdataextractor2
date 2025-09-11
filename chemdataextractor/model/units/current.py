@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Units and models for electrical current.
 
@@ -6,16 +5,13 @@ Units and models for electrical current.
 
 """
 
-from __future__ import absolute_import
-from __future__ import division
-from __future__ import print_function
-from __future__ import unicode_literals
 
+import logging
+
+from ...parse.elements import R
+from .dimension import Dimension
 from .quantity_model import QuantityModel
 from .unit import Unit
-from .dimension import Dimension
-from ...parse.elements import R
-import logging
 
 log = logging.getLogger(__name__)
 

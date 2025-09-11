@@ -76,8 +76,8 @@ strict = false
 # Enable key warnings for code quality
 warn_return_any = true
 warn_unused_configs = true
-warn_redundant_casts = true  
-warn_unused_ignores = false  # Disable during migration
+warn_redundant_casts = true
+warn_unused_ignores = false   # Disable during migration
 show_error_codes = true
 namespace_packages = true
 explicit_package_bases = true
@@ -94,11 +94,11 @@ strict = true
 disallow_untyped_defs = true
 disallow_incomplete_defs = true
 
-# === PHASE 1: Core Base Classes (Gradual Strict) ===  
+# === PHASE 1: Core Base Classes (Gradual Strict) ===
 [[tool.mypy.overrides]]
 module = [
   "chemdataextractor.doc.document",
-  "chemdataextractor.doc.element", 
+  "chemdataextractor.doc.element",
   "chemdataextractor.model.base",
 ]
 # Start with basic typing, gradually enable strict
@@ -118,13 +118,13 @@ module = [
 ]
 # Moderate typing enforcement
 check_untyped_defs = true
-warn_return_any = false  # Too noisy during migration
+warn_return_any = false   # Too noisy during migration
 
 # === PHASE 3: Internal Systems ===
 [[tool.mypy.overrides]]
 module = [
   "chemdataextractor.nlp.*",
-  "chemdataextractor.parse.*", 
+  "chemdataextractor.parse.*",
   "chemdataextractor.reader.*",
 ]
 # Minimal enforcement during migration
@@ -134,7 +134,7 @@ check_untyped_defs = false
 # === PHASE 4: Legacy Systems ===
 [[tool.mypy.overrides]]
 module = [
-  "chemdataextractor.scrape.*", 
+  "chemdataextractor.scrape.*",
   "chemdataextractor.relex.*",
   "chemdataextractor.cli.*",
 ]
@@ -145,7 +145,7 @@ ignore_errors = true
 [[tool.mypy.overrides]]
 module = [
   "tabledataextractor.*",
-  "DAWG2.*", 
+  "DAWG2.*",
   "dawg2.*",
   "python_crfsuite.*",
   "stanza.*",
@@ -162,7 +162,9 @@ ignore_missing_imports = true
 # Ruff Configuration
 [tool.ruff]
 target-version = "py311"
-line-length = 88
+line-length = 100
+
+[tool.ruff.lint]
 select = [
   "E",   # pycodestyle errors
   "W",   # pycodestyle warnings
@@ -181,11 +183,11 @@ ignore = [
   "ARG002", # unused method arguments
 ]
 
-[tool.ruff.per-file-ignores]
+[tool.ruff.lint.per-file-ignores]
 "tests/*" = ["ARG", "S101"] # Allow assert in tests
 "__init__.py" = ["F401"]    # Allow unused imports in __init__.py
 
-[tool.ruff.isort]
+[tool.ruff.lint.isort]
 known-first-party = ["chemdataextractor"]
 force-single-line = true
 

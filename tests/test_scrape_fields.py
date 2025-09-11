@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 test_scrape_fields
 ~~~~~~~~~~~~~~~~~~
@@ -7,24 +6,23 @@ Test scraping using different field classes.
 
 """
 
-from __future__ import absolute_import
-from __future__ import division
-from __future__ import print_function
-from __future__ import unicode_literals
 import datetime
 import logging
 import unittest
 
-from chemdataextractor.scrape.fields import StringField, IntField, FloatField, BoolField, DateTimeField
 from chemdataextractor.scrape.entity import Entity
+from chemdataextractor.scrape.fields import BoolField
+from chemdataextractor.scrape.fields import DateTimeField
+from chemdataextractor.scrape.fields import FloatField
+from chemdataextractor.scrape.fields import IntField
+from chemdataextractor.scrape.fields import StringField
 from chemdataextractor.scrape.selector import Selector
-
 
 logging.basicConfig(level=logging.DEBUG)
 log = logging.getLogger(__name__)
 
 
-HTML = '''
+HTML = """
 <html>
   <body>
     <h1>Book Title</h1>
@@ -40,16 +38,17 @@ HTML = '''
     </div>
   </body>
 </html>
-'''
+"""
 
 
 class BookChapter(Entity):
     """An entity with various different field types."""
-    book = StringField('body>h1::text')
-    number = IntField('.chnum::text')
-    price = FloatField('.cost::text', re='\$(.+)')
-    public = BoolField('p::text', re='Public: (.+)')
-    updated = DateTimeField('p::text', re='Last updated on (.+).')
+
+    book = StringField("body>h1::text")
+    number = IntField(".chnum::text")
+    price = FloatField(".cost::text", re=r"\$(.+)")
+    public = BoolField("p::text", re="Public: (.+)")
+    updated = DateTimeField("p::text", re="Last updated on (.+).")
     next_url = StringField('#next::attr("href")', lower=True)
 
 
@@ -62,7 +61,7 @@ class TestFieldScrape(unittest.TestCase):
 
     def test_string(self):
         """Test StringField."""
-        self.assertEqual(self.scraped.book, 'Book Title')
+        self.assertEqual(self.scraped.book, "Book Title")
 
     def test_int(self):
         """Test IntField."""
@@ -82,19 +81,22 @@ class TestFieldScrape(unittest.TestCase):
 
     def test_lowerstring(self):
         """Test LowerStringField."""
-        self.assertEqual(self.scraped.next_url, 'chapter3.html')
+        self.assertEqual(self.scraped.next_url, "chapter3.html")
 
     def test_serialize(self):
         """Test serialization to python dictionary."""
-        self.assertEqual(self.scraped.serialize(), {
-            'book': u'Book Title',
-            'next_url': u'chapter3.html',
-            'number': 2,
-            'price': 2.99,
-            'public': True,
-            'updated': '2003-09-24T00:00:00'
-        })
+        self.assertEqual(
+            self.scraped.serialize(),
+            {
+                "book": "Book Title",
+                "next_url": "chapter3.html",
+                "number": 2,
+                "price": 2.99,
+                "public": True,
+                "updated": "2003-09-24T00:00:00",
+            },
+        )
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     unittest.main()

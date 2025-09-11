@@ -1,18 +1,14 @@
-# -*- coding: utf-8 -*-
 """
 Tokenizer command line interface.
 
 """
 
-from __future__ import absolute_import
-from __future__ import division
-from __future__ import print_function
 import logging
 
 import click
 
-from ..doc import Document, Text
-
+from ..doc import Document
+from ..doc import Text
 
 log = logging.getLogger(__name__)
 
@@ -48,7 +44,9 @@ def train_punkt(ctx, input, output, abbr, colloc):
     """Train Punkt sentence splitter using sentences in input."""
     click.echo("chemdataextractor.tokenize.train_punkt")
     import pickle
-    from nltk.tokenize.punkt import PunktSentenceTokenizer, PunktTrainer
+
+    from nltk.tokenize.punkt import PunktSentenceTokenizer
+    from nltk.tokenize.punkt import PunktTrainer
 
     punkt = PunktTrainer()
     # Set these to true to include collocations more leniently, then increase MIN_COLLOC_FREQ to restrict again

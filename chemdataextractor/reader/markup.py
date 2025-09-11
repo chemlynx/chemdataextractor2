@@ -1,44 +1,36 @@
-# -*- coding: utf-8 -*-
 """
 XML and HTML readers based on lxml.
 
 """
 
-from __future__ import absolute_import
-from __future__ import division
-from __future__ import print_function
-from __future__ import unicode_literals
 import logging
-from abc import abstractmethod, ABCMeta
+from abc import ABCMeta
+from abc import abstractmethod
 from collections import defaultdict
 
 from lxml import etree
 from lxml.etree import XMLParser
 from lxml.html import HTMLParser
 
-
-from ..errors import ReaderError
 from ..doc.document import Document
-from ..doc.text import (
-    Title,
-    Heading,
-    Paragraph,
-    Caption,
-    Citation,
-    Footnote,
-    Text,
-    Sentence,
-    Cell,
-)
+from ..doc.figure import Figure
 from ..doc.meta import MetaData
 from ..doc.table import Table
-from ..doc.figure import Figure
+from ..doc.text import Caption
+from ..doc.text import Cell
+from ..doc.text import Citation
+from ..doc.text import Footnote
+from ..doc.text import Heading
+from ..doc.text import Paragraph
+from ..doc.text import Sentence
+from ..doc.text import Text
+from ..doc.text import Title
+from ..errors import ReaderError
 from ..scrape import INLINE_ELEMENTS
 from ..scrape.clean import clean
 from ..scrape.csstranslator import CssXmlTranslator
 from ..text import get_encoding
 from .base import BaseReader
-
 
 log = logging.getLogger(__name__)
 
@@ -167,7 +159,7 @@ class LxmlReader(BaseReader, metaclass=ABCMeta):
         for next_element in elements[1:]:
             try:
                 element += element_cls(" ") + next_element
-            except TypeError as e:
+            except TypeError:
                 log.warning(
                     "Adding of two objects was skipped. {} and {} cannot be added.".format(
                         str(type(element)), str(type(next_element))
@@ -208,7 +200,7 @@ class LxmlReader(BaseReader, metaclass=ABCMeta):
                 for i in range(colspan):
                     for j in range(rowspan):
                         rownum = row + j
-                        if not rownum in hdict:
+                        if rownum not in hdict:
                             hdict[rownum] = {}
                         while colnum in hdict[rownum]:
                             colnum += 1
@@ -311,7 +303,7 @@ class LxmlReader(BaseReader, metaclass=ABCMeta):
         result = root.xpath(query, smart_strings=False)
         if type(result) is not list:
             result = [result]
-        log.debug("Selecting XPath: {}: {}".format(query, result))
+        log.debug(f"Selecting XPath: {query}: {result}")
         return result
 
     def _css(self, query, root):

@@ -1,27 +1,22 @@
-# -*- coding: utf-8 -*-
 """
 Tools for cleaning up XML/HTML by removing tags entirely or replacing with their contents.
 
 """
 
-from __future__ import absolute_import
-from __future__ import division
-from __future__ import print_function
-from __future__ import unicode_literals
 import copy
 import logging
 import re
-from lxml.etree import fromstring, tostring
+
+from lxml.etree import fromstring
+from lxml.etree import tostring
 from lxml.html import fromstring as html_fromstring
 
-
 from . import BLOCK_ELEMENTS
-
 
 log = logging.getLogger(__name__)
 
 
-class Cleaner(object):
+class Cleaner:
     """Clean HTML or XML by removing tags completely or replacing with their contents.
 
     A Cleaner instance provides a ``clean_markup`` method::

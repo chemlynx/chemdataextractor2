@@ -2,30 +2,33 @@
 Basic property parser template for Quantity Models
 """
 
-from __future__ import absolute_import
-from __future__ import division
-from __future__ import print_function
-from __future__ import unicode_literals
 import logging
-from lxml import etree
-from .cem import cem, chemical_label, lenient_chemical_label, chemical_name
-from .common import lbrct, dt, rbrct
+
 from ..utils import first
-from ..nlp.tokenize import ChemWordTokenizer, ChemSentenceTokenizer
-from .actions import merge, join, fix_whitespace, flatten
+from .actions import join
+from .auto import BaseAutoParser
+from .auto import construct_unit_element
+from .auto import match_dimensions_of
+from .auto import value_element
 from .base import BaseSentenceParser
-from .elements import W, I, R, T, Optional, Any, OneOrMore, Not, ZeroOrMore, Group, End
-from .auto import (
-    construct_unit_element,
-    match_dimensions_of,
-    value_element,
-    BaseAutoParser,
-    construct_category_element,
-)
+from .cem import cem
+from .cem import chemical_label
+from .cem import chemical_name
+from .common import lbrct
+from .common import rbrct
+from .elements import Any
+from .elements import Group
+from .elements import I
+from .elements import Not
+from .elements import OneOrMore
+from .elements import Optional
+from .elements import R
+from .elements import W
+from .elements import ZeroOrMore
 
 log = logging.getLogger(__name__)
 
-delim = R("^[:;\.,]$")
+delim = R(r"^[:;\.,]$")
 
 
 class QuantityModelTemplateParser(BaseAutoParser, BaseSentenceParser):
@@ -393,11 +396,11 @@ class MultiQuantityModelTemplateParser(BaseAutoParser, BaseSentenceParser):
         """List of cems e.g. cem1, cem2, cem3 and cem4"""
         return Group(
             self.single_cem
-            + Optional(lbrct + R("^\d+$") + rbrct).hide()
-            + ZeroOrMore(delim.hide() | self.single_cem | R("^\d+$"))
+            + Optional(lbrct + R(r"^\d+$") + rbrct).hide()
+            + ZeroOrMore(delim.hide() | self.single_cem | R(r"^\d+$"))
             + (I("and") | I("or")).hide()
             + self.single_cem
-            + Optional(lbrct + R("^\d+$") + rbrct).hide()
+            + Optional(lbrct + R(r"^\d+$") + rbrct).hide()
             + Optional(I("compounds") | I("samples"))
         )("cem_list")
 
@@ -738,7 +741,6 @@ class MultiQuantityModelTemplateParser(BaseAutoParser, BaseSentenceParser):
         for i, v in enumerate(
             raw_values_list[::-1]
         ):  # Reverse order to make sure we get a unit
-
             raw_value = first(v.xpath("./text()"))
             requirements = True
             try:
@@ -859,7 +861,6 @@ class MultiQuantityModelTemplateParser(BaseAutoParser, BaseSentenceParser):
         for i, v in enumerate(
             raw_values_list[::-1]
         ):  # Reverse order to make sure we get a unit
-
             raw_value = first(v.xpath("./text()"))
             requirements = True
             try:

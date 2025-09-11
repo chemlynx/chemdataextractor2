@@ -27,11 +27,11 @@ Contents:
     1. [Creating a New Property Parser](#65-creating-a-new-property-parser)
     1. ["Where Do I Find...?"](#66-where-do-i-find)
     1. [Getting Help](#67-getting-help)
-    
+
 
 ## 1. The ChemDataExtractor Toolkit
 
-The ChemDataExtractor toolkit is an advanced natural language processing pipeline for extracting chemical property information from the scientific literature. A full description of the theory behind the toolkit can be found in the original paper: 
+The ChemDataExtractor toolkit is an advanced natural language processing pipeline for extracting chemical property information from the scientific literature. A full description of the theory behind the toolkit can be found in the original paper:
 
 *Swain, M. C., & Cole, J. M. "ChemDataExtractor: A Toolkit for Automated Extraction of Chemical Information from the Scientific Literature",
 J. Chem. Inf. Model. 2016, 56 (10), pp 1894--1904 10.1021/acs.jcim.6b00207*.
@@ -96,9 +96,9 @@ In order to function, ChemDataExtractor requires a variety of data files, such a
 
 ```$ cde data download```
 
-This will download all the necessary data files to the data directory. Run 
+This will download all the necessary data files to the data directory. Run
 
-```$ cde data where``` 
+```$ cde data where```
 
 to see where this is.
 
@@ -161,7 +161,7 @@ Once read, documents are represented by a single linear stream of `element` obje
  Paragraph('The first paragraph of text...'),
  ...]
  ```
- 
+
 Element types include Title, Heading, Paragraph, Citation, Table, Figure, Caption and Footnote. You can retrieve a specific element by its index within the document:
 
 ```python
@@ -177,7 +177,7 @@ You can also get the individual sentences of a paragraph:
 [Sentence('1,4-Dibromoanthracene was prepared from 1,4-diaminoanthraquinone.', 0, 65),
  Sentence('1H NMR spectra were recorded on a 300 MHz BRUKER DPX300 spectrometer.', 66, 135)]
  ```
- 
+
 Or the individual tokens:
 
 ```python
@@ -222,7 +222,7 @@ As you are joining the Molecular Engineering Group to work with ChemDataExtracto
 
 You will need to have your own github account. Go to [GitHub](https://github.com) and set up an account if you do not already have one. We also recommend signing up for the [Github Student Pack](https://education.github.com/pack) in order to get unlimited private repositories, simply sign up with your *@cam* email address.
 
-Next, contact either Callum Court (cc889@cam.ac.uk) or Ed Beard (ejb207@cam.ac.uk) with your github username requesting a development branch on the private repository. You will then be confirmed as a collaborator on the project, enabling you to create a development branch. You will also be invited to join the discussion on the ChemDataExtractor Developers [Slack group](https://chemdataextractor-dev.slack.com), this is a forum for all developers of ChemDataExtractor to discuss upcoming meetings, functionality ideas and general performance enhancements. 
+Next, contact either Callum Court (cc889@cam.ac.uk) or Ed Beard (ejb207@cam.ac.uk) with your github username requesting a development branch on the private repository. You will then be confirmed as a collaborator on the project, enabling you to create a development branch. You will also be invited to join the discussion on the ChemDataExtractor Developers [Slack group](https://chemdataextractor-dev.slack.com), this is a forum for all developers of ChemDataExtractor to discuss upcoming meetings, functionality ideas and general performance enhancements.
 
 ### 3.1 Cloning the Repository
 
@@ -258,7 +258,7 @@ Tests are small scripts written to ensure that a new bit of code is behaving as 
 2.  ``` System Tests```: End-to-end or larger tests that check the whole software pipeline
 
 ### 4.1 Unit Tests
-ChemDataExtactor Unit Tests are built using the python [unittest](https://docs.python.org/2/library/unittest.html) package. 
+ChemDataExtactor Unit Tests are built using the python [unittest](https://docs.python.org/2/library/unittest.html) package.
 
 Whilst writing new functionality, you should create a class for each function to be tested which should inherit from  `unittest.TestCase`, and populate this class with test functions. Each function should test a specific aspect of the code, and should be subdivided into 3 sections :
 
@@ -268,45 +268,45 @@ Whilst writing new functionality, you should create a class for each function to
 
 For example, let's test the melting point parser in ```chemdataextractor.parse.mp.py```:
 
-```python 
-import unittest  
-from lxml import etree  
-  
-from chemdataextractor.doc.text import Sentence, Paragraph  
-from chemdataextractor.parse.mp import mp_phrase  
-  
-class TestParseMp(unittest.TestCase):  
+```python
+import unittest
+from lxml import etree
+
+from chemdataextractor.doc.text import Sentence, Paragraph
+from chemdataextractor.parse.mp import mp_phrase
+
+class TestParseMp(unittest.TestCase):
     def test_mp1(self):
-    
+
     	# Declaration
 	s = Sentence('Colorless solid (81% yield, 74.8 mg, 0.22 mmol); mp 77.2â-77.5 Â°C.')
-	expected = '<mp_phrase><mp><value>77.2-77.5</value><units>Â°C</units></mp></mp_phrase>' 
-	
+	expected = '<mp_phrase><mp><value>77.2-77.5</value><units>Â°C</units></mp></mp_phrase>'
+
 	# Testing
-	result = next(mp_phrase.scan(s.tagged_tokens))[0] 
-	
-	#Assertion  
+	result = next(mp_phrase.scan(s.tagged_tokens))[0]
+
+	#Assertion
 	self.assertEqual(expected, etree.tostring(result, encoding='unicode'))
   ```
 Here you can see `s` is declared as the input sentence object. `expected` is a string representation of the anticipated XML output. The input is then fed into the function to be tested, `mp_phrase`, and the output of this checked against `expected` using the `assertEqual()` function. Assert functions are used by `unittest` to determine whether a test has passed or failed - `assertEqual()` passes a test when it's two arguments are the same, but there is a whole suite of them that are worth checking out.
 
 Note this is just one simple test of the function. You should include multiple different tests, with many different cases to prove that the function works as expected. **One single test of a simple case is not enough for your code to pass through the code review.**
 
-### 4.2 System Tests 
-System tests are used to check the entire software pipeline is behaving correctly for specific examples. They can be useful for identifying things overlooked by the unit tests, or bugs that occur when different units of the software interface with each other. You should only really need to write them when you want to check how your code interacts with something else, or if you find a different example that hasn't already been included in a whole-system test. System tests can be longer and require larger processing power than unit tests, but also don't need to be run as frequently - just running them before a major commit will be enough in most cases. 
+### 4.2 System Tests
+System tests are used to check the entire software pipeline is behaving correctly for specific examples. They can be useful for identifying things overlooked by the unit tests, or bugs that occur when different units of the software interface with each other. You should only really need to write them when you want to check how your code interacts with something else, or if you find a different example that hasn't already been included in a whole-system test. System tests can be longer and require larger processing power than unit tests, but also don't need to be run as frequently - just running them before a major commit will be enough in most cases.
 
 ### 4.3 Submitting and Running Your Tests
-As outlined in the [Contributing](#3-contributing-your-code) section, whenever you have completed a new section of code, or updated the functionality of old code, you can create a pull request asking for this code to be made permanent on the master branch. 
-All tests will automatically be run on any code uploaded to GitHub. Your pull requests to the master will only be merged once all of these have passed. This includes any new tests, which must be provided alongside the new code. If the tests pass, and the code reviewer has no comments or change requests, your code will be merged. 
+As outlined in the [Contributing](#3-contributing-your-code) section, whenever you have completed a new section of code, or updated the functionality of old code, you can create a pull request asking for this code to be made permanent on the master branch.
+All tests will automatically be run on any code uploaded to GitHub. Your pull requests to the master will only be merged once all of these have passed. This includes any new tests, which must be provided alongside the new code. If the tests pass, and the code reviewer has no comments or change requests, your code will be merged.
 
 **NOTE: Passing all tests is not the only requirement for new commits to be successfull merged, your code must also follow the [Style Guidelines](#5-style-guidelines)**
 
-You should thoroughly check that your code is ready to be committed by running all tests in advance. It is quicker for you, and the code reviewer, to complete pull requests if you have tested your code in advance. 
+You should thoroughly check that your code is ready to be committed by running all tests in advance. It is quicker for you, and the code reviewer, to complete pull requests if you have tested your code in advance.
 
 You can perform tests using the [PyTest](https://docs.pytest.org/en/latest/) package. To install it, run:
- 
+
   ```$ pip install -U pytest```
-  
+
 Then simply ``cd`` into the folder you wish to test. and in the command line and run `$ pytest`. All tests beginning with the prefix 'test' in their filename will be run. Alternatively if you're using the PyCharm IDE, you can run tests individually inside your working environment.
 
 As we are all very busy, it may take some time for pull requests to be fully merged.
@@ -315,15 +315,15 @@ As we are all very busy, it may take some time for pull requests to be fully mer
 For this project each file in `chemdataextractor` should be partnered with an appropriate test file in the `chemdataextractor.tests` folder. Make sure the name of each file follows the format ``` test_<cdedirectory>_<cdefile>.py```, to emulate the file structure used in the main body of code - this makes it easier to troubleshoot where in the code something has gone wrong when a test fails. There should be separate folders for unit tests and system tests.
 
 ### 4.5 Testing Tips!
-* The _golden rule_ of testing is **put time in now,  save time later**. 
-Well tested code makes the debugging process much more bearable and can give you reassurance that your code is doing what it's supposed to. 
+* The _golden rule_ of testing is **put time in now,  save time later**.
+Well tested code makes the debugging process much more bearable and can give you reassurance that your code is doing what it's supposed to.
 
 * Where possible write tests in parallel with your code development.
 This makes it a lot easier to cover all potential problems at the time when you encounter them. It also makes it more likely that your code will be accepted.
 
 
 ## 5. Style Guidelines
-In general, please try to follow the [PEP8 style guide](https://www.python.org/dev/peps/pep-0008/), but the most important rule is **BE CONSISTENT**. It makes it much easier for everyone reading your code to follow along if it is consistently formatted and well documented. It will also be easier for you to come back to old code if you followed these guidelines from the beginning. Therefore, please try to do documentation and testing as you go, rather than at the end of a development cycle. Of course, there are always cases where the style guide has not been followed. If you find these cases, then you are very welcome to reformat the code and submit a pull-request outlining the changes. If you have a particular reason for not following the guidelines, you must provide an explanation in the code review stage. 
+In general, please try to follow the [PEP8 style guide](https://www.python.org/dev/peps/pep-0008/), but the most important rule is **BE CONSISTENT**. It makes it much easier for everyone reading your code to follow along if it is consistently formatted and well documented. It will also be easier for you to come back to old code if you followed these guidelines from the beginning. Therefore, please try to do documentation and testing as you go, rather than at the end of a development cycle. Of course, there are always cases where the style guide has not been followed. If you find these cases, then you are very welcome to reformat the code and submit a pull-request outlining the changes. If you have a particular reason for not following the guidelines, you must provide an explanation in the code review stage.
 
 ## 5.1 Boilerplate
 At the start of each new file you create within `chemdataextractor`, please place the following boilerplate:
@@ -366,7 +366,7 @@ def from_string(self, fstring, fname=None, readers=None):
         :param bytes fstring: A byte string containing the contents of a file.
         :param string fname: (Optional) The filename. Used to help determine file format.
         :param list[chemdataextractor.reader.base.BaseReader] readers: (Optional) List of readers to use.
-        
+
         :raises: ReaderError: If specified readers are not found
         """
 ```
@@ -382,7 +382,7 @@ A good practice to ensure your code is correctly formatted is to run [PyLint](ht
 This section provides an overview of some more complex ChemDataExtractor functionality. It also aims to solve common problems encountered when new to the ChemDataExtractor interface.
 
 ## 6.1 IDE's or the Command Line
-If you prefer programming in via command line, ChemDataExtractor has a neat command line interface, found in the ```chemdataextractor.cli``` package. 
+If you prefer programming in via command line, ChemDataExtractor has a neat command line interface, found in the ```chemdataextractor.cli``` package.
 
 Most commonly, new developers tend to use Integrated Development Environments (IDEs) for python programming. There are many choices of IDE to chose from. The most commonly used in the group is [PyCharm](https://www.jetbrains.com/pycharm/). PyCharm has thousands of useful plugins that will make your development process easier. Including plugins for autoformatting your code to the style guidelines, a powerful debugger and automated git integration. JetBrains also provide free premium subscriptions for students, giving you access to other useful tools.
 
@@ -428,7 +428,7 @@ You may instead be interested in searching papers from an entire journal. To ret
 ```python
 from crossref.restful import Works
 
-journal_title = 'Physica B: Condensed Matter' 
+journal_title = 'Physica B: Condensed Matter'
 prefix = '10.1016'. # Elsevier
 save_file_name = 'physb_dois.txt'
 
@@ -449,24 +449,24 @@ for idx, item in enumerate(w1):
     f.write('https://api.elsevier.com/content/article/doi/' + doi + '\n')
 ```
 
-To the download the HTML articles we can simply use the [requests](http://docs.python-requests.org/en/master/) package to retrieve the files via their URL. 
+To the download the HTML articles we can simply use the [requests](http://docs.python-requests.org/en/master/) package to retrieve the files via their URL.
 
 Each journal / publisher is different, and so you will likely have to write multiple different tools to get papers from multiple sources.
 
 ### 6.2.1 Scraping Specific Publishers
 
-In order to scrape from most publishers, you will need an account and an API key. Once you have these, you may scrape 
+In order to scrape from most publishers, you will need an account and an API key. Once you have these, you may scrape
 HTML articles and other metadata, within the limits of that specific publisher.
 
-NOTE: Although it may be possible to scrape content from a publisher without an API key, it is very important that you do 
-not attempt to do so without an account and your own key. If you do this, the publishers may prevent us scraping 
+NOTE: Although it may be possible to scrape content from a publisher without an API key, it is very important that you do
+not attempt to do so without an account and your own key. If you do this, the publishers may prevent us scraping
 from them in the future.
 
-***Elsevier*** 
+***Elsevier***
 
-First, create an account at <https://dev.elsevier.com/user/login> . Once you've done this, head over to 
-<https://dev.elsevier.com/>, and in the `My API Key` section, select `Create API Key`. You will be asked to give your 
-key a label. This is just a name for your specific API key and can be whatever you wish. A toy example of scraping a 
+First, create an account at <https://dev.elsevier.com/user/login> . Once you've done this, head over to
+<https://dev.elsevier.com/>, and in the `My API Key` section, select `Create API Key`. You will be asked to give your
+key a label. This is just a name for your specific API key and can be whatever you wish. A toy example of scraping a
 DOI and its corresponding HTML using an Elsevier API key is shown below:
 
 ```python
@@ -495,11 +495,11 @@ More information can be found at <https://dev.elsevier.com/technical_documentati
 
 ## 6.3 Document Readers
 
-The document readers present in the ```chemdataextractor.reader``` package are a set of tools for identifying the elements of scientific docucments. The HTML and XML from each publisher is slightly different, meaning we once again need multiple different readers. New users are often confused about the structure of these readers, and so this section attempts to explain their functionality more clearly. 
+The document readers present in the ```chemdataextractor.reader``` package are a set of tools for identifying the elements of scientific docucments. The HTML and XML from each publisher is slightly different, meaning we once again need multiple different readers. New users are often confused about the structure of these readers, and so this section attempts to explain their functionality more clearly.
 
 As an example, lets look at the ```chemdataextractor.reader.rsc.RscHtmlReader``` class.
 
-```python 
+```python
 class RscHtmlReader(HtmlReader):
     """Reader for HTML documents from the RSC."""
 
@@ -539,7 +539,7 @@ You will see in the above code that we have specified a number of cleaners. Clea
 	<p>This is a result that was retrieved from
 		<a><sup><span class=sup_ref>[1]</span><sup></a>.
 	</p>
-</div>                                                                                              
+</div>
 ```
 When parsing, ChemDataExtractor will output:
 
@@ -618,7 +618,7 @@ If you look around at other properties, you will see that they can have contextu
 
 Next, we need to add our new property to the ```Compound``` class
 
-```python 
+```python
 class Compound(BaseModel):
     names = ListType(StringType())
     labels = ListType(StringType())
@@ -631,15 +631,15 @@ class Compound(BaseModel):
     quantum_yields = ListType(ModelType(QuantumYield))
     fluorescence_lifetimes = ListType(ModelType(FluorescenceLifetime))
     electrochemical_potentials = ListType(ModelType(ElectrochemicalPotential))
-    
+
     # My new properties
     boiling_points = ListType(ModelType(BoilingPoint))
 ```
-Note, we make the boiling points have ```ListType``` because a single compound could have multiple boiling points given in the document. 
+Note, we make the boiling points have ```ListType``` because a single compound could have multiple boiling points given in the document.
 
 **Step 2: Writing a Parser**
 
-Now we need to create the logic that actually extracts boiling points from the text. Currently, ChemDataExtractor uses nested rules (called grammars) to extract chemical properties. These parsers are defined in the ```chemdataextractor.parse``` package. For example, have a look at the melting point parser in ```chemdataextractor.parse.mp.py```. This contains a number of statements that are used to define the melting point relationship. 
+Now we need to create the logic that actually extracts boiling points from the text. Currently, ChemDataExtractor uses nested rules (called grammars) to extract chemical properties. These parsers are defined in the ```chemdataextractor.parse``` package. For example, have a look at the melting point parser in ```chemdataextractor.parse.mp.py```. This contains a number of statements that are used to define the melting point relationship.
 
 It seems very complicated at first, but let's break the first statement down into its consituent parts:
 
@@ -654,7 +654,7 @@ Here, we have created a variable prefix, that contains the logic for identifying
 * ```R```: A regular expression rule
 * ```T```: A Part-of-Speech tag
 
-Tokens can be joined using the + symbol, and or logic can be formed using the | symbol. 
+Tokens can be joined using the + symbol, and or logic can be formed using the | symbol.
 
 There are also a number of `ParseElementEnhance` classes that can be used, found in the ```chemdataextractor.parse.elements.py``` file:
 
@@ -676,9 +676,9 @@ This will clearly match any temperature unit, and as such we tag the rule as 'un
 * ```join```: Join tokens into a single string with spaces between.
 * ```flatten```: Replace all child results with their text contents.
 
-So now we are able to create our own property parsing rules. Create a file ```bp.py``` in the parse package. Some very simple logic for extracting boiling points might be: 
+So now we are able to create our own property parsing rules. Create a file ```bp.py``` in the parse package. Some very simple logic for extracting boiling points might be:
 
-```python 
+```python
 from chemdataextractor.parse import R, I, W, Optional, merge
 from chemdataextractor.parse.base import BaseParser
 from chemdataextractor.utils import first
@@ -748,14 +748,14 @@ Of course, real world examples are much more complex than this, and a large amou
 **Table Parsers**
 
 ChemDataExtractor parses tables in a similar way. In ```chemdataextractor.parse.table.py``` you will find the logic for finding chemical relationships from tables. As an exercise try to write a table parser for the boiling point relationship we just created. You will need to define a way to find boiling points in table headers, then a parser for the cells. Available table parsers can be found in ```chemdataextractor.doc.table.py```.
-        
+
 ## 6.6 "Where do I find...?"
 
 The most common questions about ChemDataExtractor usually involve trying to find functionality or asking where best to put new functionality. Below is a list of the general roles each of the packages perform:
 
 * ```biblio```: Misc tools for parsing bibliographic information such as bibtex files, author names etc.
 * ```cli```: Command line interfact tools
-* ```doc```: Logic for reading/creating documents. That is, splitting documents down into its various elements. 
+* ```doc```: Logic for reading/creating documents. That is, splitting documents down into its various elements.
 * ```nlp```: Tools for performing the NLP stages, such as POS tagging, Word clustering, CNER, Abbreviation detection
 * ```parse```: Chemical property parsers
 * ```Reader```: Document readers
@@ -767,4 +767,3 @@ If you have new functionality that doesn't fit into one of these categories. You
 
 ## 6.7 Getting Help
 If you are completely lost or have a seemingly unsolvable problem with ChemDataExtractor, first post in the [developers group](https://chemdataextractor-dev.slack.com), and someone else will try to help you with your problem. If you find a bug that needs to be fixed, please mark the bug as an issue on the Github repository.
-

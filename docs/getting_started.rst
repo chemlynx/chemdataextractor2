@@ -117,39 +117,3 @@ Below is a list of the general roles each of the packages perform:
     * ``relex``: Anything related to Snowball
     * ``scrape``: Scrapers for the various data sources
     * ``text``: Useful tools for processing text
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

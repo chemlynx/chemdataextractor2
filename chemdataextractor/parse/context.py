@@ -1,4 +1,3 @@
-# # -*- coding: utf-8 -*-
 # """
 # Parser for sentences that provide contextual information, such as apparatus, solvent, and temperature.
 

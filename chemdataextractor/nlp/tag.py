@@ -1,28 +1,23 @@
 #!/usr/bin/env python
-# -*- coding: utf-8 -*-
 """
 Tagger implementations. Used for part-of-speech tagging and named entity recognition.
 
 """
-from __future__ import print_function
-from __future__ import unicode_literals
-from __future__ import division
-from abc import ABCMeta, abstractmethod
-from collections import defaultdict
-from deprecation import deprecated
-import io
 import logging
 import pickle
 import random
 import re
+from abc import ABCMeta
+from abc import abstractmethod
+from collections import defaultdict
 
 import dawg
 import pycrfsuite
+from deprecation import deprecated
 
-
-from ..data import load_model, find_data
+from ..data import find_data
+from ..data import load_model
 from .lexicon import Lexicon
-
 
 log = logging.getLogger(__name__)
 
@@ -283,7 +278,7 @@ class RegexTagger(BaseTagger):
         return tags
 
 
-class AveragedPerceptron(object):
+class AveragedPerceptron:
     """Averaged Perceptron implementation.
 
     Based on implementation by Matthew Honnibal, released under the MIT license.
@@ -350,12 +345,12 @@ class AveragedPerceptron(object):
 
     def save(self, path):
         """Save the pickled model weights."""
-        with io.open(path, "wb") as fout:
+        with open(path, "wb") as fout:
             return pickle.dump(dict(self.weights), fout)
 
     def load(self, path):
         """Load the pickled model weights."""
-        with io.open(path, "rb") as fin:
+        with open(path, "rb") as fin:
             self.weights = pickle.load(fin)
 
 
@@ -630,7 +625,7 @@ class DictionaryTagger(BaseTagger):
             start_token = token_at_index[start_i]
             end_token = token_at_index[end_i]
             # Possible for match to start in 'I' token from prev match. Merge matches by not overwriting to 'B'.
-            if not tags[start_token] == "I-%s" % self.entity:
+            if tags[start_token] != "I-%s" % self.entity:
                 tags[start_token] = "B-%s" % self.entity
             tags[start_token + 1 : end_token + 1] = ["I-%s" % self.entity] * (
                 end_token - start_token

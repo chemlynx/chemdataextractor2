@@ -70,4 +70,3 @@ Tools for performing the NLP stages, such as POS tagging, Word clustering, CNER,
 .. automodule:: chemdataextractor.nlp.tokenize
     :members:
     :undoc-members:
-

@@ -1,28 +1,23 @@
-# -*- coding: utf-8 -*-
 """
 An entity to extract.
 
 """
 
-from __future__ import absolute_import
-from __future__ import division
-from __future__ import print_function
-from __future__ import unicode_literals
-from collections.abc import Sequence
 import json
 import logging
+from collections.abc import Sequence
 
-
-from .base import BaseEntity, EntityMeta
-from .fields import StringField, DateTimeField, UrlField
 from ..text.normalize import normalize
-
+from .base import BaseEntity
+from .base import EntityMeta
+from .fields import DateTimeField
+from .fields import StringField
+from .fields import UrlField
 
 log = logging.getLogger(__name__)
 
 
 class Entity(BaseEntity, metaclass=EntityMeta):
-
     fields = {}
 
     def __init__(self, selector):

@@ -1,19 +1,14 @@
 #!/usr/bin/env python
-# -*- coding: utf-8 -*-
 """
 Tools for converting LaTeX to unicode.
 
 """
 
-from __future__ import absolute_import
-from __future__ import division
-from __future__ import print_function
-from __future__ import unicode_literals
 import re
 import string
 
-
-from . import NAME_SMALL, SMALL
+from . import NAME_SMALL
+from . import SMALL
 
 
 def latex_to_unicode(text, capitalize=False):
@@ -32,7 +27,7 @@ def latex_to_unicode(text, capitalize=False):
                 brac_count -= 1
             if brac_count > 0:
                 res.append(c)
-            elif capitalize == "upper" or (i == 0 and not capitalize == "lower"):
+            elif capitalize == "upper" or (i == 0 and capitalize != "lower"):
                 res.append(c.upper())
             elif capitalize == "sentence" and (
                 i > 2 and text[i - 1] == " " and text[i - 2] == "."

@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 test_doc_document
 ~~~~~~~~~~~~~~~~~
@@ -7,20 +6,20 @@ Test the Document class.
 
 """
 
-from __future__ import absolute_import
-from __future__ import division
-from __future__ import print_function
-from __future__ import unicode_literals
 import logging
-import unittest
 import os
+import unittest
 
-from chemdataextractor.doc.document import Document
-from chemdataextractor.doc.text import Paragraph, Title, Heading, Caption, Footnote, Sentence, RichToken
-from chemdataextractor.nlp.tag import BaseTagger
 from chemdataextractor.config import Config
-from chemdataextractor.model import Compound, NmrSpectrum, IrSpectrum, UvvisSpectrum, MeltingPoint, GlassTransition
+from chemdataextractor.doc.document import Document
+from chemdataextractor.doc.text import Caption
+from chemdataextractor.doc.text import Footnote
+from chemdataextractor.doc.text import Heading
+from chemdataextractor.doc.text import Paragraph
+from chemdataextractor.doc.text import Sentence
+from chemdataextractor.doc.text import Title
 from chemdataextractor.nlp import *
+from chemdataextractor.nlp.tag import BaseTagger
 
 logging.basicConfig(level=logging.DEBUG)
 log = logging.getLogger(__name__)
@@ -31,7 +30,9 @@ class TestText(unittest.TestCase):
 
     @staticmethod
     def get_config():
-        test_config_path = os.path.join(os.path.dirname(os.path.realpath(__file__)), 'data', 'test_config.yml')
+        test_config_path = os.path.join(
+            os.path.dirname(os.path.realpath(__file__)), "data", "test_config.yml"
+        )
         return Config(test_config_path)
 
     # TODO: Allow importing models defaults from config files
@@ -52,7 +53,13 @@ class TestText(unittest.TestCase):
 
     def test_default_models(self):
         # Add some sort of test for ContextParser type stuff?
-        d = Document(Title('Test'), Paragraph('Test'), Footnote('Test'), Heading('Test'), Caption('Test'))
+        d = Document(
+            Title("Test"),
+            Paragraph("Test"),
+            Footnote("Test"),
+            Heading("Test"),
+            Caption("Test"),
+        )
         title_m = d.titles[0].models
         heading_m = d.headings[0].models
         paragraph_m = d.paragraphs[0].models
@@ -65,7 +72,7 @@ class TestText(unittest.TestCase):
         self.assertEqual(captions_m, [])
 
     def test_set_cem(self):
-        d = Document(Title('Test'), config=self.get_config())
+        d = Document(Title("Test"), config=self.get_config())
         title = d.titles[0]
         self.assertEqual(type(title.pos_tagger), CrfPosTagger)
         self.assertEqual(type(title.ner_tagger), CemTagger)
@@ -74,7 +81,7 @@ class TestText(unittest.TestCase):
         self.assertEqual(type(title.word_tokenizer), WordTokenizer)
 
     def test_no_cem_set(self):
-        d = Document(Title('Test'))
+        d = Document(Title("Test"))
         title = d.titles[0]
         self.assertEqual(type(title.pos_tagger), ChemCrfPosTagger)
         self.assertEqual(type(title.ner_tagger), CemTagger)

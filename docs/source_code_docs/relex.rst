@@ -56,6 +56,3 @@ For performing semi-supervised chemical Relationship Extraction using the Snowba
 .. automodule:: chemdataextractor.relex.utils
     :members:
     :undoc-members:
-
-
-

@@ -1,22 +1,17 @@
-# -*- coding: utf-8 -*-
 """
 Parser elements.
 
 """
 
-from __future__ import absolute_import
-from __future__ import division
-from __future__ import print_function
-from __future__ import unicode_literals
 import collections
 import copy
 import logging
 import re
+import sys
+import types
 from copy import deepcopy
 
 from lxml.builder import E
-import sys
-import types
 
 log = logging.getLogger(__name__)
 
@@ -63,7 +58,7 @@ def safe_name(name):
     return XML_SAFE_TAGS.get(name, name)
 
 
-class BaseParserElement(object):
+class BaseParserElement:
     """Abstract base parser element class."""
 
     def __init__(self):
@@ -120,7 +115,7 @@ class BaseParserElement(object):
         while i < length and matches < max_matches:
             try:
                 results, next_i = self.parse(tokens, i)
-            except ParseException as err:
+            except ParseException:
                 # print(err.msg)
                 i += 1
             else:
@@ -269,7 +264,6 @@ class Any(BaseParserElement):
 
 
 class NoMatch(BaseParserElement):
-
     def _parse_tokens(self, tokens, i, actions=True):
         raise ParseException(tokens, i, "NoMatch will not match any tokens", self)
 

@@ -8,20 +8,18 @@ used throughout the codebase for robust type annotation support.
 from __future__ import annotations
 
 from typing import Any
-from typing import Dict
-from typing import List
 from typing import Protocol
 from typing import TypeVar
 
 try:
-    from typing_extensions import NotRequired
-    from typing_extensions import Self
+    from typing import NotRequired
+    from typing import Self
+
     from typing_extensions import TypedDict
 except ImportError:
+    from typing import NotRequired
+    from typing import Self
     from typing import TypedDict  # type: ignore[attr-defined]
-
-    from typing_extensions import NotRequired
-    from typing_extensions import Self
 
 # Core TypeVars for generic programming
 T = TypeVar("T")  # Generic type parameter for BaseType descriptors
@@ -38,7 +36,7 @@ ContextualRange = "chemdataextractor.model.contextual_range.ContextualRange"
 class Serializable(Protocol):
     """Protocol for objects that can be serialized to dictionaries."""
 
-    def serialize(self, primitive: bool = False) -> Dict[str, Any]:
+    def serialize(self, primitive: bool = False) -> dict[str, Any]:
         """Serialize object to dictionary representation."""
         ...
 
@@ -68,17 +66,17 @@ class ParserConfig(TypedDict):
 class ModelConfig(TypedDict):
     """Configuration for model behavior."""
 
-    parsers: List[Any]  # BaseParser - avoiding circular import
+    parsers: list[Any]  # BaseParser - avoiding circular import
     contextual_range: Any  # ContextualRange
     required: NotRequired[bool]
     contextual: NotRequired[bool]
 
 
 # Type aliases for common patterns
-RecordDict = Dict[str, Any]
-SerializedRecord = Dict[str, RecordDict]
-ElementList = List[Any]  # List[BaseElement]
-ModelList = List[Any]  # List[BaseModel]
+RecordDict = dict[str, Any]
+SerializedRecord = dict[str, RecordDict]
+ElementList = list[Any]  # List[BaseElement]
+ModelList = list[Any]  # List[BaseModel]
 
 __all__ = [
     "T",

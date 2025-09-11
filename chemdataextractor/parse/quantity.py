@@ -1,25 +1,24 @@
-# -*- coding: utf-8 -*-
 """
 Parser for finding quantities and units
 
 :codeauthor: Taketomo Isazawa (ti250@cam.ac.uk)
 """
 
-from __future__ import absolute_import
-from __future__ import division
-from __future__ import print_function
-from __future__ import unicode_literals
 import logging
 import re
-
-import copy
 from fractions import Fraction
+
 from deprecation import deprecated
 
-from .common import lbrct, rbrct
-from .actions import merge, join
-from .elements import W, I, R, T, Optional, Any, OneOrMore, Not, ZeroOrMore
 from ..utils import memoize
+from .actions import join
+from .actions import merge
+from .common import lbrct
+from .common import rbrct
+from .elements import I
+from .elements import Optional
+from .elements import R
+from .elements import W
 
 log = logging.getLogger(__name__)
 
@@ -36,28 +35,28 @@ magnitudes_dict = {
 }
 
 # A regex pattern to match a number which can potentially have a decimal point and numbers after it, e.g. 123.4
-_number_pattern = re.compile("(\d+\.?(?:\d+)?)")
+_number_pattern = re.compile(r"(\d+\.?(?:\d+)?)")
 # A regex pattern to match a number which can potentially have a decimal point and also a minus sign, e.g. -123.4
-_negative_number_pattern = re.compile("(-?\d+\.?(?:\d+)?)")
+_negative_number_pattern = re.compile(r"(-?\d+\.?(?:\d+)?)")
 # A regex pattern to match simple numbers (i.e. those without a decimal point), e.g. 123
-_simple_number_pattern = re.compile("(\d+(?!\d+))")
+_simple_number_pattern = re.compile(r"(\d+(?!\d+))")
 # A regex pattern to match a number with an error attached to it, e.g. 123.4±5
-_error_pattern = re.compile("(\d+\.?(?:\d+)?)|(±)")
+_error_pattern = re.compile(r"(\d+\.?(?:\d+)?)|(±)")
 # A regex pattern to match a potentially negative number (potentially with numbers below the decimal point) in a fraction, e.g. -123.4/5
-_fraction_or_decimal_pattern = re.compile("-?\d\d*(\.\d\d*)?(/?-?\d\d*(\.\d\d*)?)?")
+_fraction_or_decimal_pattern = re.compile(r"-?\d\d*(\.\d\d*)?(/?-?\d\d*(\.\d\d*)?)?")
 # A regex pattern to match a forward slash (/) that is not followed by a digit. Used to disambiguate between units to the power of fractions and
 # units divided by other units.
-_unit_fraction_pattern = re.compile("(/[^\d])")
+_unit_fraction_pattern = re.compile(r"(/[^\d])")
 # A regex pattern to match either opening or closing brackets
-_brackets_pattern = re.compile("(\()|(\))")
+_brackets_pattern = re.compile(r"(\()|(\))")
 # A regex pattern to match forward slashes
 _slash_pattern = re.compile("/")
 # A regex pattern to match a closing bracket
-_end_bracket_pattern = re.compile("\)\w*")
+_end_bracket_pattern = re.compile(r"\)\w*")
 # A regex pattern to match an opening bracket
-_open_bracket_pattern = re.compile("/\(")
+_open_bracket_pattern = re.compile(r"/\(")
 # A regex pattern to match a unit being divided by another
-_division_pattern = re.compile("[/]\D*")
+_division_pattern = re.compile(r"[/]\D*")
 # A regex pattern containing all the shorthand single letter magnitude indicators, that could be misconstrued as units
 _magnitude_indicators = re.compile("[pnµmTGMkc]")
 
@@ -165,19 +164,19 @@ def construct_quantity_re(*models):
     if len(units_dict) == 0:
         return None
     # Case where we have a token that's just brackets
-    units_regex += "(\((?!\d))|(\)|\])|\-|"
+    units_regex += r"(\((?!\d))|(\)|\])|\-|"
     # Handle all the units
     for element, unit in units_dict.items():
         # if unit is not None:
         units_regex += "(" + element.pattern + ")|"
-    units_regex += "(\/)"
+    units_regex += r"(\/)"
     # Case when we have powers, or one or more units
-    units_regex2 = units_regex + "|([\+\-–−]?\d+(\.\d+)?)"
+    units_regex2 = units_regex + r"|([\+\-–−]?\d+(\.\d+)?)"
     units_regex2 += "))+$"
     units_regex += "))+"
     units_regex += units_regex2[:-2] + "*"
     units_regex = (
-        "^((?P<split>[\+\-–−]?\d+([\.\-\−]?\d+)?)|((?P<split2>.*)(\(|\/|\[)))"
+        r"^((?P<split>[\+\-–−]?\d+([\.\-\−]?\d+)?)|((?P<split2>.*)(\(|\/|\[)))"
         + units_regex
     )
     units_regex += "$"
@@ -202,7 +201,7 @@ def extract_error(string):
         return None
     string = _clean_value_string(string)
     split_by_num_and_error = [
-        r for r in re.split("(\d+\.?(?:\d+)?)|(±)|(\()", string) if r and r != " "
+        r for r in re.split(r"(\d+\.?(?:\d+)?)|(±)|(\()", string) if r and r != " "
     ]
     error = None
     for index, value in enumerate(split_by_num_and_error):
@@ -333,7 +332,7 @@ def _extract_brackets_error(string):
     :returns: The error
     :rtype: float
     """
-    split_by_brackets = [r for r in re.split("(\))|(\()", string) if r]
+    split_by_brackets = [r for r in re.split(r"(\))|(\()", string) if r]
     val_string = _find_value_strings(string)[0]
     magnitude = _get_magnitude(val_string)
     magnitude = magnitude if magnitude < 0 else 0
@@ -410,7 +409,7 @@ def extract_units(string, dimensions, strict=False):
     # Split string at numbers, /s, and brackets, so we have the units tokenized into the right units for later processing stages.
     try:
         split_string = _split(string)
-    except IndexError as e:
+    except IndexError:
         if not strict:
             return None
         else:
@@ -638,7 +637,6 @@ def _find_powers(units_list):
     base_power = 1.0
     # Go through list of found units/substrings and associate a power with each of them. Ignores brackets in the loop, which are handled in _remove_brackets
     while i in range(len(units_list)):
-
         element = units_list[i][1]
         power = base_power
         if element[0] == "/":

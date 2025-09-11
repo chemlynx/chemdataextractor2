@@ -1,23 +1,16 @@
-# -*- coding: utf-8 -*-
 """
 Tools for loading and caching data files.
 
 """
 
-from __future__ import absolute_import
-from __future__ import division
-from __future__ import print_function
-from __future__ import unicode_literals
-import io
 import logging
 import os
+import pickle
+import tarfile
+import zipfile
 
 import appdirs
 import requests
-import zipfile
-import tarfile
-import os
-import pickle
 from yaspin import yaspin
 
 from .config import config
@@ -31,7 +24,7 @@ SERVER_ROOT = "http://data.chemdataextractor.org/"
 AUTO_DOWNLOAD = True
 
 
-class Package(object):
+class Package:
     """Data package."""
 
     def __init__(
@@ -117,9 +110,9 @@ class Package(object):
             download_path = self.local_path + ".zip"
         elif self.untar:
             download_path = self.local_path + ".tar.gz"
-        with io.open(download_path, "wb") as f:
+        with open(download_path, "wb") as f:
             with yaspin(
-                text="Couldn't find {}, downloading".format(self.path), side="right"
+                text=f"Couldn't find {self.path}, downloading", side="right"
             ).simpleDots:
                 for chunk in r.iter_content(
                     chunk_size=1024 * 1024
@@ -178,9 +171,9 @@ def load_model(path):
         return cached
     log.debug("Loading model %s" % path)
     try:
-        with io.open(abspath, "rb") as f:
+        with open(abspath, "rb") as f:
             model = pickle.load(f)
-    except IOError:
+    except OSError:
         raise ModelNotFoundError(
             "Could not load %s. Have you run `cde data download`?" % path
         )

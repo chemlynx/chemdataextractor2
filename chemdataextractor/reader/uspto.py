@@ -1,21 +1,16 @@
-# -*- coding: utf-8 -*-
 """
 Readers for USPTO patents.
 
 """
 
-from __future__ import absolute_import
-from __future__ import division
-from __future__ import print_function
-from __future__ import unicode_literals
-
-from ..scrape.clean import clean
 
 # from ..doc.table import Table
 from ..doc.table import Table
-from ..doc.text import Caption, Footnote, Cell
+from ..doc.text import Caption
+from ..doc.text import Cell
+from ..doc.text import Footnote
+from ..scrape.clean import clean
 from .markup import XmlReader
-
 
 # TODO: The below has only been tested with us-patent-grant-v42
 
@@ -115,7 +110,7 @@ class UsptoXmlReader(XmlReader):
                 for i in range(colspan):
                     for j in range(rowspan):
                         rownum = row + j
-                        if not rownum in hdict:
+                        if rownum not in hdict:
                             hdict[rownum] = {}
                         while colnum in hdict[rownum]:
                             colnum += 1
@@ -196,7 +191,7 @@ class UsptoXmlReader(XmlReader):
                 for i in range(colspan):
                     for j in range(rowspan):
                         rownum = row + j
-                        if not rownum in hdict:
+                        if rownum not in hdict:
                             hdict[rownum] = {}
                         while colnum in hdict[rownum]:
                             colnum += 1

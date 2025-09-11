@@ -1,52 +1,47 @@
-# -*- coding: utf-8 -*-
 """
 Base types for making quantity models.
+
+Provides base classes for physical quantity models that can automatically
+extract values, units, and errors from chemical literature.
 
 :codeauthor: Taketomo Isazawa (ti250@cam.ac.uk)
 """
 
-from __future__ import absolute_import
-from __future__ import division
-from __future__ import print_function
-from __future__ import unicode_literals
 
-import copy
-from abc import ABCMeta
-from ..base import (
-    BaseModel,
-    BaseType,
-    FloatType,
-    StringType,
-    ListType,
-    ModelMeta,
-    InferredProperty,
-)
-from .unit import Unit, UnitType
+from __future__ import annotations
+
+from typing import TYPE_CHECKING
+from typing import Any
+
+from ...parse.auto import AutoTableParser
+from ...parse.auto import construct_unit_element
+from ...parse.quantity import infer_error
+from ...parse.quantity import infer_unit
+from ...parse.quantity import infer_value
+from ...parse.quantity import value_element
+from ...parse.template import MultiQuantityModelTemplateParser
+from ...parse.template import QuantityModelTemplateParser
+from ..base import BaseModel
+from ..base import FloatType
+from ..base import InferredProperty
+from ..base import ListType
+from ..base import ModelMeta
+from ..base import StringType
 from .dimension import Dimensionless
-from ...parse.elements import Any
-from ...parse.auto import (
-    AutoSentenceParser,
-    AutoTableParser,
-    construct_unit_element,
-    match_dimensions_of,
-)
-from ...parse.quantity import (
-    magnitudes_dict,
-    infer_unit,
-    infer_value,
-    infer_error,
-    value_element,
-)
-from ...parse.template import (
-    QuantityModelTemplateParser,
-    MultiQuantityModelTemplateParser,
-)
+from .unit import UnitType
+
+if TYPE_CHECKING:
+    from .dimension import Dimension
 
 
 class _QuantityModelMeta(ModelMeta):
-    """"""
+    """Metaclass for QuantityModel that sets up unit and value parsing.
+    
+    Automatically configures parse expressions for raw_units and raw_value
+    fields based on the model's dimensions.
+    """
 
-    def __new__(mcs, name, bases, attrs):
+    def __new__(mcs, name: str, bases: tuple[type, ...], attrs: dict[str, Any]) -> type:
         cls = super(_QuantityModelMeta, mcs).__new__(mcs, name, bases, attrs)
         unit_element = construct_unit_element(cls.dimensions)
         if unit_element:
@@ -56,16 +51,28 @@ class _QuantityModelMeta(ModelMeta):
 
 
 class QuantityModel(BaseModel, metaclass=_QuantityModelMeta):
-    """
-    Class for modelling quantities. Subclasses of this model can be used in conjunction with Autoparsers to extract properties
-    with zero human intervention. However, they must be constructed in a certain way for them to work optimally with autoparsers.
-    Namely, they should have:
+    """Base class for modeling physical quantities.
+    
+    Subclasses of this model can be used with autoparsers to extract properties
+    with zero human intervention. For optimal autoparser integration, models should have:
 
-    - A specifier field with an associated parse expression (Optional, only required if autoparsers are desired). These parse expressions will be updated automatically using forward-looking Interdependency Resolution if the updatable flag is set to True.
-    - These specifiers should also have required set to True so that spurious matches are not found.
-    - If applicable, a compound field, named compound.
+    - A specifier field with an associated parse expression (optional, only required
+      for autoparsers). Parse expressions are updated automatically using forward-looking
+      Interdependency Resolution when updatable=True.
+    - Specifiers should have required=True to prevent spurious matches.
+    - If applicable, a compound field named 'compound'.
 
-    Any parse_expressions set in the model should have an added action to ensure that the results are a single word. An example would be to call add_action(join) on each parse expression.
+    Parse expressions should use actions to ensure single-word results,
+    for example by calling add_action(join) on each expression.
+    
+    Attributes:
+        raw_value: str - Raw value text (required, contextual)
+        raw_units: str - Raw units text (required, contextual)
+        value: List[float] - Inferred numeric values (contextual)
+        units: UnitType - Inferred unit object (contextual)
+        error: float - Inferred error value (contextual)
+        dimensions: Dimension - Physical dimensions for this quantity
+        specifier: str - Quantity specifier text
     """
 
     raw_value = StringType(required=True, contextual=True)
@@ -82,7 +89,7 @@ class QuantityModel(BaseModel, metaclass=_QuantityModelMeta):
     error = InferredProperty(
         FloatType(), origin_field="raw_value", inferrer=infer_error, contextual=True
     )
-    dimensions = None
+    dimensions: Dimension = None  # type: ignore[assignment]
     specifier = StringType()
     parsers = [
         MultiQuantityModelTemplateParser(),
@@ -108,14 +115,28 @@ class QuantityModel(BaseModel, metaclass=_QuantityModelMeta):
 
     # Speed in miles per hour is:  11.184709259696522
 
-    def __truediv__(self, other):
-
+    def __truediv__(self, other: "QuantityModel") -> "QuantityModel":
+        """Divide this quantity by another quantity.
+        
+        Args:
+            other: QuantityModel - The quantity to divide by
+            
+        Returns:
+            QuantityModel - The resulting quantity
+        """
         other_inverted = other ** (-1.0)
         new_model = self * other_inverted
         return new_model
 
-    def __pow__(self, other):
-
+    def __pow__(self, other: float) -> "QuantityModel":
+        """Raise this quantity to a power.
+        
+        Args:
+            other: float - The power to raise to
+            
+        Returns:
+            QuantityModel - The resulting quantity
+        """
         new_model = QuantityModel()
         new_model.dimensions = self.dimensions**other
         if self.value is not None:
@@ -134,8 +155,15 @@ class QuantityModel(BaseModel, metaclass=_QuantityModelMeta):
 
         return new_model
 
-    def __mul__(self, other):
-
+    def __mul__(self, other: "QuantityModel") -> "QuantityModel":
+        """Multiply this quantity by another quantity.
+        
+        Args:
+            other: QuantityModel - The quantity to multiply by
+            
+        Returns:
+            QuantityModel - The resulting quantity
+        """
         new_model = QuantityModel()
         new_model.dimensions = self.dimensions * other.dimensions
         if self.value is not None and other.value is not None:
@@ -371,7 +399,11 @@ class QuantityModel(BaseModel, metaclass=_QuantityModelMeta):
 
 
 class DimensionlessModel(QuantityModel):
-    """Special case to handle dimensionless quantities"""
+    """Special case to handle dimensionless quantities.
+    
+    Represents physical quantities that have no dimensions,
+    such as ratios, percentages, or pure numbers.
+    """
 
     dimensions = Dimensionless()
     raw_units = StringType(required=False, contextual=False)

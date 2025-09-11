@@ -1,58 +1,46 @@
-# -*- coding: utf-8 -*-
 """
 A factory class for making Chemical entity mention parser elements to make overriding easier.
 ..codeauthor:: Taketomo Isazawa (ti250@cam.ac.uk)
 
 """
 
-from __future__ import absolute_import
-from __future__ import division
-from __future__ import print_function
-from __future__ import unicode_literals
-from abc import abstractproperty, abstractmethod
-import logging
 import re
-from lxml import etree
 
-from .actions import join, fix_whitespace, merge
-from .common import (
-    roman_numeral,
-    cc,
-    nnp,
-    hyph,
-    nns,
-    nn,
-    cd,
-    ls,
-    optdelim,
-    bcm,
-    icm,
-    rbrct,
-    lbrct,
-    sym,
-    jj,
-    hyphen,
-    quote,
-    dt,
-    delim,
-)
-from .base import BaseSentenceParser, BaseTableParser
-from .elements import (
-    I,
-    R,
-    W,
-    T,
-    ZeroOrMore,
-    Optional,
-    Not,
-    Group,
-    End,
-    Start,
-    OneOrMore,
-    Any,
-    SkipTo,
-    Every,
-)
+from .actions import fix_whitespace
+from .actions import join
+from .actions import merge
+from .common import bcm
+from .common import cc
+from .common import cd
+from .common import delim
+from .common import dt
+from .common import hyph
+from .common import hyphen
+from .common import icm
+from .common import jj
+from .common import lbrct
+from .common import ls
+from .common import nn
+from .common import nnp
+from .common import nns
+from .common import optdelim
+from .common import quote
+from .common import rbrct
+from .common import roman_numeral
+from .common import sym
+from .elements import Any
+from .elements import End
+from .elements import Every
+from .elements import Group
+from .elements import I
+from .elements import Not
+from .elements import OneOrMore
+from .elements import Optional
+from .elements import R
+from .elements import Start
+from .elements import T
+from .elements import W
+from .elements import ZeroOrMore
 
 
 def not_separator(result):
@@ -387,7 +375,7 @@ class _CemFactory:
                     | (
                         I("rare")
                         + Optional(T("HYPH"))
-                        + R(("^earth(s)?$"))
+                        + R("^earth(s)?$")
                         + Optional(R("^metal(s)?$"))
                     )
                 )
@@ -509,25 +497,25 @@ class _CemFactory:
         #: Chemical formula patterns, updated to include Inorganic compound formulae
         default_formula = (
             (
-                R("^C\(?\d{1,3}\)?(([HNOP]|Cl)\(?\d\d?\)?)+(\(?\d?[\+\-]\d?\)?)?$")
+                R(r"^C\(?\d{1,3}\)?(([HNOP]|Cl)\(?\d\d?\)?)+(\(?\d?[\+\-]\d?\)?)?$")
                 | R(
-                    "^(\(?(A([glmru]|(s\d\.?))|B[ahikr]?|C[adeflmnorsu(\d)]|D[bsy]|E[rsu]|F[elmr$]|G[ade]|H[efgos]|I[rn][1-9]?|K[r(\d\.?)]|(L[airuv])|M[dgnot]|N[abdeip(\d\.?)]|O[s\d.]?|P[abdmotuOr\d]|R[abefghnuE]|S[bcegimnr(\d\.?)]|T[abehil\d]|U(u[opst])|V|Xe|Yb?|Z[nr])(\)?([\d.]+)?)+){2,}(\+[δβγ])?"
+                    r"^(\(?(A([glmru]|(s\d\.?))|B[ahikr]?|C[adeflmnorsu(\d)]|D[bsy]|E[rsu]|F[elmr$]|G[ade]|H[efgos]|I[rn][1-9]?|K[r(\d\.?)]|(L[airuv])|M[dgnot]|N[abdeip(\d\.?)]|O[s\d.]?|P[abdmotuOr\d]|R[abefghnuE]|S[bcegimnr(\d\.?)]|T[abehil\d]|U(u[opst])|V|Xe|Yb?|Z[nr])(\)?([\d.]+)?)+){2,}(\+[δβγ])?"
                 )
                 | R(
-                    "^((\(?\d{2,3}\)?)?(Fe|Ti|Mg|Ru|Cd|Se)\(?(\d\d?|[IV]+)?\)?((O|Hg)\(?\d?\d?\)?)?)+(\(?\d?[\+\-]\d?\)?)?$"
+                    r"^((\(?\d{2,3}\)?)?(Fe|Ti|Mg|Ru|Cd|Se)\(?(\d\d?|[IV]+)?\)?((O|Hg)\(?\d?\d?\)?)?)+(\(?\d?[\+\-]\d?\)?)?$"
                 )
-                | R("(NaOH|CaCl\d?\d?|EtOH|EtAc|MeOH|CF\d|C\d?\d?H\d\d?)+$")
+                | R(r"(NaOH|CaCl\d?\d?|EtOH|EtAc|MeOH|CF\d|C\d?\d?H\d\d?)+$")
                 | R(
-                    "(NO\d|BH4|Ca\(2\+\)|Ti\(0\)2|\(CH3\)2CHOH|\(CH3\)2CO|\(CH3\)2NCOH|C2H5CN|CH2ClCH2Cl|CH3C6H5|CH3CN|CH3CO2H|CH3COCH3|CH3COOH|CH3NHCOH|CH3Ph|CH3SOCH3|Cl2CH2|ClCH2CH2Cl)"
-                )
-                | R(
-                    "^(\(CD3\)2CO|\(CDCl2\)2|C6D6|C2D5CN|CD2Cl2|CD3CN|CD3COCD3|CD3OD|CD3SOCD3|CDCl3|CH3OD|D2O|EtOD|MeOD)$"
+                    r"(NO\d|BH4|Ca\(2\+\)|Ti\(0\)2|\(CH3\)2CHOH|\(CH3\)2CO|\(CH3\)2NCOH|C2H5CN|CH2ClCH2Cl|CH3C6H5|CH3CN|CH3CO2H|CH3COCH3|CH3COOH|CH3NHCOH|CH3Ph|CH3SOCH3|Cl2CH2|ClCH2CH2Cl)"
                 )
                 | R(
-                    "^[\[\{\(].*(NH\d|H2O|NO\d|C\d?H\d|C–H|NBu4|CF3|CD3|CO2|[bp]i?py|\(CO\)|\d,\d['′]?-|BF4|PF6|Cl\d|Fe\d|Ph\d).*[\]\}\)]$"
+                    r"^(\(CD3\)2CO|\(CDCl2\)2|C6D6|C2D5CN|CD2Cl2|CD3CN|CD3COCD3|CD3OD|CD3SOCD3|CDCl3|CH3OD|D2O|EtOD|MeOD)$"
                 )
-                | R("^[\[\{\(]{1,2}(Ru|Ph|Py|Cu|Ir|Pt|Et\d).*[\]\}\)]$")
-                | R("^(GABA|NO|\(\d\)H|KCl)$")
+                | R(
+                    r"^[\[\{\(].*(NH\d|H2O|NO\d|C\d?H\d|C–H|NBu4|CF3|CD3|CO2|[bp]i?py|\(CO\)|\d,\d['′]?-|BF4|PF6|Cl\d|Fe\d|Ph\d).*[\]\}\)]$"
+                )
+                | R(r"^[\[\{\(]{1,2}(Ru|Ph|Py|Cu|Ir|Pt|Et\d).*[\]\}\)]$")
+                | R(r"^(GABA|NO|\(\d\)H|KCl)$")
                 | W("CN")
             )
             + Optional(W("+") + W("δ"))
@@ -1123,7 +1111,7 @@ class _CemFactory:
         self.lenient_name = kwargs.get(
             "lenient_name",
             OneOrMore(
-                (self.bcm | self.icm | jj | nn | nnp | nns | hyph | cd | ls | W(","))
+                self.bcm | self.icm | jj | nn | nnp | nns | hyph | cd | ls | W(",")
             )("names")
             .add_action(join)
             .add_action(fix_whitespace),
@@ -1389,24 +1377,22 @@ class _CemFactory:
         )
 
         default_names_only = Group(
-            (
-                self.solvent_name
-                | self.chemical_name
-                | self.likely_abbreviation
-                | (
-                    Start()
-                    + Group(
-                        Optional(self.synthesis_of)
-                        + (
-                            self.cm
-                            + W(",")
-                            + self.cm
-                            + Not(self.bcm | self.icm)
-                            + Not(I("and"))
-                        )
-                        .add_action(join)
-                        .add_action(fix_whitespace)
+            self.solvent_name
+            | self.chemical_name
+            | self.likely_abbreviation
+            | (
+                Start()
+                + Group(
+                    Optional(self.synthesis_of)
+                    + (
+                        self.cm
+                        + W(",")
+                        + self.cm
+                        + Not(self.bcm | self.icm)
+                        + Not(I("and"))
                     )
+                    .add_action(join)
+                    .add_action(fix_whitespace)
                 )
             )
         )("compound")
@@ -1415,19 +1401,17 @@ class _CemFactory:
         self.labels_only = kwargs.get(
             "labels_only",
             Group(
-                (
-                    self.doped_chemical_label
-                    | self.informal_chemical_label
-                    | self.numeric
-                    | Every([R(r"^([A-Z]\d{1,3})$"), Not(self.bcm | self.icm)])
-                    | self.strict_chemical_label
-                )
+                self.doped_chemical_label
+                | self.informal_chemical_label
+                | self.numeric
+                | Every([R(r"^([A-Z]\d{1,3})$"), Not(self.bcm | self.icm)])
+                | self.strict_chemical_label
             )("compound"),
         )
 
         self.roles_only = kwargs.get(
             "roles_only",
-            Group((self.label_type | self.synthesis_of | self.to_give))("compound"),
+            Group(self.label_type | self.synthesis_of | self.to_give)("compound"),
         )
 
     @classmethod

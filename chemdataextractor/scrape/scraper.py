@@ -1,21 +1,15 @@
-# -*- coding: utf-8 -*-
 """
 Concrete classes for scraping and searching.
 """
 
-from __future__ import absolute_import
-from __future__ import division
-from __future__ import print_function
-from __future__ import unicode_literals
-from abc import abstractmethod
 import logging
+from abc import abstractmethod
 
-import requests
-
-from .base import BaseScraper, BaseRequester, BaseFormat
+from .base import BaseFormat
+from .base import BaseRequester
+from .base import BaseScraper
 from .entity import EntityList
 from .selector import Selector
-
 
 log = logging.getLogger(__name__)
 
@@ -37,7 +31,6 @@ class XmlFormat(BaseFormat):
 
 
 class GetRequester(BaseRequester):
-
     def make_request(self, session, url, **kwargs):
         """Make a HTTP GET request.
 
@@ -50,7 +43,6 @@ class GetRequester(BaseRequester):
 
 
 class PostRequester(BaseRequester):
-
     def make_request(self, session, url, **kwargs):
         """Make a HTTP POST request.
 
@@ -128,7 +120,7 @@ class SearchScraper(GetRequester, HtmlFormat, BaseScraper):
 
 
 # Added by ti250(17/10/18)
-class SearchResult(object):
+class SearchResult:
     """Class to handle results from a search query to websites,
     regardless of method of scraping used."""
 
