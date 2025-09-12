@@ -81,9 +81,7 @@ class RscHtmlReader(HtmlReader):
         """Override to account for awkward RSC table footnotes."""
         footnotes = []
         for fn in fns:
-            footnote = self._parse_text(
-                fn, refs=refs, specials=specials, element_cls=Footnote
-            )[0]
+            footnote = self._parse_text(fn, refs=refs, specials=specials, element_cls=Footnote)[0]
             footnote += Footnote("", id=fn.getprevious().get("id"))
             footnotes.append(footnote)
         return footnotes

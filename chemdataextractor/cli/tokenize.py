@@ -21,9 +21,7 @@ def tokenize_cli(ctx):
 
 
 @tokenize_cli.command()
-@click.option(
-    "--output", "-o", type=click.File("wb"), help="Output model file.", required=True
-)
+@click.option("--output", "-o", type=click.File("wb"), help="Output model file.", required=True)
 @click.option(
     "--abbr",
     "-a",
@@ -64,9 +62,7 @@ def train_punkt(ctx, input, output, abbr, colloc):
         click.echo("Manually adding abbreviations: %s" % abbreviations)
         punkt._params.abbrev_types.update(abbreviations)
     if colloc:
-        collocations = [
-            tuple(l.split(". ", 1)) for l in colloc.read().strip().split("\n")
-        ]
+        collocations = [tuple(l.split(". ", 1)) for l in colloc.read().strip().split("\n")]
         click.echo("Manually adding collocs: %s" % collocations)
         punkt._params.collocations.update(collocations)
     model = PunktSentenceTokenizer(punkt.get_params())
@@ -81,9 +77,7 @@ def train_punkt(ctx, input, output, abbr, colloc):
     help="Output file.",
     default=click.get_text_stream("stdout"),
 )
-@click.argument(
-    "input", type=click.File("rb"), default=click.get_binary_stream("stdin")
-)
+@click.argument("input", type=click.File("rb"), default=click.get_binary_stream("stdin"))
 @click.pass_obj
 def sentences(ctx, input, output):
     """Read input document, and output sentences."""
@@ -105,9 +99,7 @@ def sentences(ctx, input, output):
     help="Output file.",
     default=click.get_text_stream("stdout"),
 )
-@click.argument(
-    "input", type=click.File("rb"), default=click.get_binary_stream("stdin")
-)
+@click.argument("input", type=click.File("rb"), default=click.get_binary_stream("stdin"))
 @click.pass_obj
 def words(ctx, input, output):
     """Read input document, and output words."""

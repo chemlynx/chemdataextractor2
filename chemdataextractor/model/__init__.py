@@ -3,7 +3,6 @@ Classes for representing chemical models.
 
 """
 
-
 from .base import BaseModel
 from .base import BaseType
 from .base import FloatType
@@ -17,3 +16,4 @@ from .contextual_range import ParagraphRange
 from .contextual_range import SectionRange
 from .contextual_range import SentenceRange
 from .model import *
+from .units import *

@@ -1,5 +1,6 @@
 import logging
 import math
+from typing import List
 from typing import Optional
 
 import torch
@@ -43,9 +44,7 @@ def combine_initial_dims(tensor: torch.Tensor) -> torch.Tensor:
         return tensor.view(-1, tensor.size(-1))
 
 
-def uncombine_initial_dims(
-    tensor: torch.Tensor, original_size: torch.Size
-) -> torch.Tensor:
+def uncombine_initial_dims(tensor: torch.Tensor, original_size: torch.Size) -> torch.Tensor:
     """
     Given a tensor of embeddings with shape
     (d1 * ... * dn, sequence_length, embedding_dim)
@@ -65,7 +64,7 @@ def uncombine_initial_dims(
 def viterbi_decode(
     tag_sequence: torch.Tensor,
     transition_matrix: torch.Tensor,
-    tag_observations: Optional[list[int]] = None,
+    tag_observations: Optional[List[int]] = None,
     allowed_start_transitions: torch.Tensor = None,
     allowed_end_transitions: torch.Tensor = None,
     top_k: int = None,
@@ -118,9 +117,7 @@ def viterbi_decode(
     elif top_k >= 1:
         flatten_output = False
     else:
-        raise ValueError(
-            f"top_k must be either None or an integer >=1. Instead received {top_k}"
-        )
+        raise ValueError(f"top_k must be either None or an integer >=1. Instead received {top_k}")
 
     sequence_length, num_tags = list(tag_sequence.size())
 

@@ -54,11 +54,7 @@ units = Optional(W("/")).hide() + (
 
 value_range = (
     R(r"^\d{,2}[ ,]?\d{3}(\.\d+)?[\-–−‒]\d{,2}[ ,]?\d{3}(\.\d+)?$")
-    | (
-        R(r"^\d{,2}[ ,]?\d{3}(\.\d+)?$")
-        + R(r"^[\-–−‒]$")
-        + R(r"^\d{,2}[ ,]?\d{3}(\.\d+)?$")
-    )
+    | (R(r"^\d{,2}[ ,]?\d{3}(\.\d+)?$") + R(r"^[\-–−‒]$") + R(r"^\d{,2}[ ,]?\d{3}(\.\d+)?$"))
 )("value").add_action(merge)
 value = R(r"^\d{,2}[ ,]?\d{3}(\.\d+)?\.?$")("value").add_action(strip_stop)
 
@@ -86,15 +82,12 @@ bond = OneOrMore(
 peak_meta_options = strength | bond
 
 peak_meta = (
-    W("(").hide()
-    + peak_meta_options
-    + ZeroOrMore(delim + peak_meta_options)
-    + W(")").hide()
+    W("(").hide() + peak_meta_options + ZeroOrMore(delim + peak_meta_options) + W(")").hide()
 )
 
-nu = (
-    R(r"^[vνυ]̃?(max)?(\(cm−1\))?$") + Optional(W("max")) + Optional(W("="))
-).add_action(extract_units)
+nu = (R(r"^[vνυ]̃?(max)?(\(cm−1\))?$") + Optional(W("max")) + Optional(W("="))).add_action(
+    extract_units
+)
 
 spectrum_meta = (
     W("(").hide()
@@ -107,9 +100,7 @@ spectrum_meta = (
 insolvent = T("IN") + solvent
 
 ir_type = (
-    Optional(W("FT") + hyphen)
-    + R("^(FT-?)?IR|FT-?IS|IR-ATR$")
-    + Optional(hyphen + W("ATR"))
+    Optional(W("FT") + hyphen) + R("^(FT-?)?IR|FT-?IS|IR-ATR$") + Optional(hyphen + W("ATR"))
 )("type").add_action(merge)
 
 prelude = (

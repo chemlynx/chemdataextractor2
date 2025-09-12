@@ -8,7 +8,6 @@ Units and models for energy.
 
 """
 
-
 import logging
 
 from ...parse.elements import R

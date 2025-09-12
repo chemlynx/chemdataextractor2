@@ -62,16 +62,14 @@ class _CemFactory:
         self.icm = kwargs.get("icm", icm.with_condition(not_separator))
         self.bcm = kwargs.get("bcm", bcm.with_condition(not_separator))
         # self.joining_characters = kwargs.get("joining_characters", R(r'^\@|\/|:|[-–‐‑‒–—―]$'))
-        self.joining_characters = kwargs.get(
-            "joining_characters", R(r"^\@|\/|[-–‐‑‒–—―]$")
-        )
+        self.joining_characters = kwargs.get("joining_characters", R(r"^\@|\/|[-–‐‑‒–—―]$"))
 
         # Tagged chemical mentions - One B-CM tag followed by zero or more I-CM tags.
         self.cm = kwargs.get(
             "cm",
-            (
-                self.bcm + ZeroOrMore((self.joining_characters + self.bcm) | self.icm)
-            ).add_action(join),
+            (self.bcm + ZeroOrMore((self.joining_characters + self.bcm) | self.icm)).add_action(
+                join
+            ),
         )
 
         self.alphanumeric = kwargs.get(
@@ -88,9 +86,7 @@ class _CemFactory:
             "lenient_alphanumeric", R(r"^(d-)?(\d{1,2}[A-Za-z]{1,2}[′″‴‶‷⁗]?)(-d)?$")
         )
 
-        self.numeric = kwargs.get(
-            "numeric", Every([R(r"^\d{1,3}$"), Not(self.bcm | self.icm)])
-        )
+        self.numeric = kwargs.get("numeric", Every([R(r"^\d{1,3}$"), Not(self.bcm | self.icm)]))
         self.lenient_numeric = kwargs.get("lenient_numeric", R(r"^\d{1,3}$"))
 
         self.letter_number = kwargs.get(
@@ -181,9 +177,7 @@ class _CemFactory:
             "prefixed_label",
             Every(
                 [
-                    R(
-                        r"^(cis|trans)-((d-)?(\d{1,2}[A-Za-z]{0,2}[′″‴‶‷⁗]?)(-d)?|[LS]\d\d?)$"
-                    ),
+                    R(r"^(cis|trans)-((d-)?(\d{1,2}[A-Za-z]{0,2}[′″‴‶‷⁗]?)(-d)?|[LS]\d\d?)$"),
                     Not(self.bcm | self.icm),
                 ]
             ),
@@ -193,12 +187,9 @@ class _CemFactory:
         self.strict_chemical_label = kwargs.get(
             "strict_chemical_label",
             Not(self.label_blocklist)
-            + (
-                self.alphanumeric
-                | roman_numeral
-                | self.letter_number
-                | self.prefixed_label
-            )("labels"),
+            + (self.alphanumeric | roman_numeral | self.letter_number | self.prefixed_label)(
+                "labels"
+            ),
         )
 
         self.lenient_chemical_label = kwargs.get(
@@ -265,17 +256,11 @@ class _CemFactory:
         )
 
         ###### DOPED CHEMICAL LABELS ##########
-        self.doped_chemical_identifier = kwargs.get(
-            "doped_chemical_identifier", (W("x") | W("y"))
-        )
+        self.doped_chemical_identifier = kwargs.get("doped_chemical_identifier", (W("x") | W("y")))
         self.doping_value = kwargs.get("doping_value", R(r"^(\d\.?)+$"))
         self.doping_range = kwargs.get(
             "doping_range",
-            (
-                self.doping_value
-                + (T("HYPH", tag_type="pos_tag") | I("to"))
-                + self.doping_value
-            ),
+            (self.doping_value + (T("HYPH", tag_type="pos_tag") | I("to")) + self.doping_value),
         )
 
         self.doping_label_1 = kwargs.get(
@@ -294,20 +279,14 @@ class _CemFactory:
                 self.doped_chemical_identifier
                 + W("=")
                 + OneOrMore(
-                    self.doping_range
-                    | self.doping_value
-                    | R(r"^[,:;\.]$")
-                    | I("or")
-                    | I("and")
+                    self.doping_range | self.doping_value | R(r"^[,:;\.]$") | I("or") | I("and")
                 )
             ),
         )
 
         self.doped_chemical_label = kwargs.get(
             "doped_chemical_label",
-            Group((self.doping_label_1 | self.doping_label_2)("labels")).add_action(
-                join
-            ),
+            Group((self.doping_label_1 | self.doping_label_2)("labels")).add_action(join),
         )
         self.chemical_label_phrase = kwargs.get(
             "chemical_label_phrase",
@@ -390,9 +369,7 @@ class _CemFactory:
             ),
         )
 
-        self.other_symbol = kwargs.get(
-            "other_symbol", (W("NO3") | W("HF2") | W("ClO4") | W("BF4"))
-        )
+        self.other_symbol = kwargs.get("other_symbol", (W("NO3") | W("HF2") | W("ClO4") | W("BF4")))
 
         self.informal_values = kwargs.get(
             "informal_values",
@@ -424,18 +401,15 @@ class _CemFactory:
         # Informal label phrase 2, "property = value for the <element> compound"
         self.informal_chemical_label_2 = kwargs.get(
             "informal_chemical_label_2",
-            (
-                self.informal_values
-                + (I("compound") | I("sample") | I("material")).hide()
-            )("label").add_action(join),
+            (self.informal_values + (I("compound") | I("sample") | I("material")).hide())(
+                "label"
+            ).add_action(join),
         )
 
         self.informal_chemical_label = kwargs.get(
             "informal_chemical_label",
             Group(
-                (self.informal_chemical_label_1 | self.informal_chemical_label_2)(
-                    "labels"
-                )
+                (self.informal_chemical_label_1 | self.informal_chemical_label_2)("labels")
             ).add_action(join),
         )
         self.chemical_label_phrase = kwargs.get(
@@ -1064,25 +1038,19 @@ class _CemFactory:
         self.mixture_component = kwargs.get(
             "mixture_component",
             (
-                R(r"\d+(\.\d+)?")
-                + W("%")
-                + Optional(I("mol"))
-                + self.proper_chemical_name_options
+                R(r"\d+(\.\d+)?") + W("%") + Optional(I("mol")) + self.proper_chemical_name_options
             ).add_action(join),
         )
         self.mixture_phrase = kwargs.get(
             "mixture_phrase",
-            (self.mixture_component + W("+") + self.mixture_component).add_action(join)(
-                "names"
-            ),
+            (self.mixture_component + W("+") + self.mixture_component).add_action(join)("names"),
         )
 
         self.chemical_name_options = kwargs.get(
             "chemical_name_options",
             (self.proper_chemical_name_options | self.mixture_phrase)
             + ZeroOrMore(
-                self.joining_characters
-                + (self.proper_chemical_name_options | self.mixture_phrase)
+                self.joining_characters + (self.proper_chemical_name_options | self.mixture_phrase)
             ),
         )
 
@@ -1110,9 +1078,7 @@ class _CemFactory:
         # Lenient name match that should be used with stricter surrounding context
         self.lenient_name = kwargs.get(
             "lenient_name",
-            OneOrMore(
-                self.bcm | self.icm | jj | nn | nnp | nns | hyph | cd | ls | W(",")
-            )("names")
+            OneOrMore(self.bcm | self.icm | jj | nn | nnp | nns | hyph | cd | ls | W(","))("names")
             .add_action(join)
             .add_action(fix_whitespace),
         )
@@ -1120,18 +1086,14 @@ class _CemFactory:
         self.label_name_cem = kwargs.get(
             "label_name_cem",
             (
-                (
-                    self.lenient_alphanumeric
-                    | self.lenient_numeric
-                    | self.lenient_letter_number
-                )("labels")
+                (self.lenient_alphanumeric | self.lenient_numeric | self.lenient_letter_number)(
+                    "labels"
+                )
                 + optdelim
                 + self.lenient_name
             )("compound"),
         )
-        self.labelled_as = kwargs.get(
-            "labelled_as", (R(r"^labell?ed$") + W("as")).hide()
-        )
+        self.labelled_as = kwargs.get("labelled_as", (R(r"^labell?ed$") + W("as")).hide())
         self.optquote = kwargs.get("optquote", Optional(quote.hide()))
 
         self.name_with_optional_bracketed_label = kwargs.get(
@@ -1142,11 +1104,7 @@ class _CemFactory:
                 + Optional(
                     lbrct
                     + Optional(self.labelled_as + self.optquote)
-                    + (
-                        self.chemical_label
-                        | self.lenient_chemical_label
-                        | self.likely_abbreviation
-                    )
+                    + (self.chemical_label | self.lenient_chemical_label | self.likely_abbreviation)
                     + self.optquote
                     + rbrct
                 )
@@ -1181,13 +1139,7 @@ class _CemFactory:
             Start()
             + Group(
                 Optional(self.synthesis_of)
-                + (
-                    self.cm
-                    + W(",")
-                    + self.cm
-                    + Not(self.bcm | self.icm)
-                    + Not(I("and"))
-                )("names")
+                + (self.cm + W(",") + self.cm + Not(self.bcm | self.icm) + Not(I("and")))("names")
                 .add_action(join)
                 .add_action(fix_whitespace)
             )("compound"),
@@ -1238,24 +1190,16 @@ class _CemFactory:
             "r_equals",
             R("^[R]$")
             + W("=")
-            + OneOrMore(
-                Not(rbrct) + (self.bcm | self.icm | nn | nnp | nns | hyph | cd | ls)
-            ),
+            + OneOrMore(Not(rbrct) + (self.bcm | self.icm | nn | nnp | nns | hyph | cd | ls)),
         )
-        self.of_table = kwargs.get(
-            "of_table", (I("of") | I("in")) + Optional(dt) + I("table")
-        )
+        self.of_table = kwargs.get("of_table", (I("of") | I("in")) + Optional(dt) + I("table"))
 
         self.bracketed_after_name = kwargs.get(
             "bracketed_after_name",
             Optional(self.comma)
             + lbrct
             + Optional(self.labelled_as + self.optquote)
-            + (
-                self.chemical_label
-                | self.lenient_chemical_label
-                | self.likely_abbreviation
-            )
+            + (self.chemical_label | self.lenient_chemical_label | self.likely_abbreviation)
             + self.optquote
             + Optional(Optional(self.comma) + self.r_equals | self.of_table)
             + rbrct,
@@ -1273,11 +1217,7 @@ class _CemFactory:
                 + (
                     (
                         lbrct
-                        + (
-                            self.chemical_label
-                            | self.lenient_chemical_label
-                            | self.lenient_name
-                        )
+                        + (self.chemical_label | self.lenient_chemical_label | self.lenient_name)
                         + Optional(Optional(self.comma) + self.r_equals | self.of_table)
                         + rbrct
                     )
@@ -1315,19 +1255,7 @@ class _CemFactory:
             + Optional(self.synthesis_of)
             + OneOrMore(
                 Not(self.compound_heading_ending)
-                + (
-                    self.bcm
-                    | self.icm
-                    | jj
-                    | nn
-                    | nnp
-                    | nns
-                    | hyph
-                    | sym
-                    | cd
-                    | ls
-                    | W(",")
-                )
+                + (self.bcm | self.icm | jj | nn | nnp | nns | hyph | sym | cd | ls | W(","))
             )("names")
             .add_action(join)
             .add_action(fix_whitespace)
@@ -1384,13 +1312,7 @@ class _CemFactory:
                 Start()
                 + Group(
                     Optional(self.synthesis_of)
-                    + (
-                        self.cm
-                        + W(",")
-                        + self.cm
-                        + Not(self.bcm | self.icm)
-                        + Not(I("and"))
-                    )
+                    + (self.cm + W(",") + self.cm + Not(self.bcm | self.icm) + Not(I("and")))
                     .add_action(join)
                     .add_action(fix_whitespace)
                 )

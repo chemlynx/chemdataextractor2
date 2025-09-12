@@ -191,8 +191,7 @@ class Evaluate:
                             self.nc_autosentence += 1
                         elif (
                             record.record_method == "QuantityModelTemplateParser"
-                            or record.record_method
-                            == "MultiQuantityModelTemplateParser"
+                            or record.record_method == "MultiQuantityModelTemplateParser"
                         ):
                             self.nc_template += 1
                         elif record.record_method == "Snowball":
@@ -211,8 +210,7 @@ class Evaluate:
                             self.ncd_autosentence += 1
                         elif (
                             record.record_method == "QuantityModelTemplateParser"
-                            or record.record_method
-                            == "MultiQuantityModelTemplateParser"
+                            or record.record_method == "MultiQuantityModelTemplateParser"
                         ):
                             self.ncd_template += 1
                         elif record.record_method == "Snowball":
@@ -304,10 +302,7 @@ class Evaluate:
 
     @property
     def limits_reached(self):
-        if (
-            self.n_paper + 1 >= self.n_papers_limit
-            and self.n_records >= self.n_records_limit
-        ):
+        if self.n_paper + 1 >= self.n_papers_limit and self.n_records >= self.n_records_limit:
             return True
         else:
             return False
@@ -378,8 +373,7 @@ class Evaluate:
         if (self.nc + self.nw - self.nw_autosentence) != 0:
             print(
                 "Precision without AutoSentenceParser = {:4.2f}, {}/{}   ---> Approximation".format(
-                    (self.nc - self.nc_autosentence)
-                    / (self.nc + self.nw - self.nw_autosentence),
+                    (self.nc - self.nc_autosentence) / (self.nc + self.nw - self.nw_autosentence),
                     (self.nc - self.nc_autosentence),
                     (self.nc + self.nw - self.nw_autosentence),
                 ),

@@ -17,21 +17,14 @@ from itertools import product
 from os.path import basename
 from typing import TYPE_CHECKING
 from typing import Any
+from typing import List
 from typing import Optional
+from typing import Tuple
 from typing import Union
 
 import numpy as np
 import six
 from playsound import playsound
-
-if TYPE_CHECKING:
-    from ..doc.text import Sentence as DocumentSentence
-    from ..model.base import BaseModel
-
-# Type aliases for relationship extraction
-PatternList = list[Any]  # List of learned patterns
-EntityPair = tuple[Entity, Entity]  # Pair of entities in a relationship
-ConfidenceScore = float  # Confidence score for patterns/relationships
 
 from ..doc.document import Document
 from ..doc.text import Sentence
@@ -45,6 +38,16 @@ from .relationship import Relation
 from .utils import KnuthMorrisPratt
 from .utils import match
 
+if TYPE_CHECKING:
+    from ..doc.text import Sentence as DocumentSentence
+    from ..model.base import BaseModel
+
+# Type aliases for relationship extraction
+PatternList = List[Any]  # List of learned patterns
+EntityPair = Tuple[Entity, Entity]  # Pair of entities in a relationship
+ConfidenceScore = float  # Confidence score for patterns/relationships
+
+
 log = logging.getLogger(__name__)
 
 
@@ -56,13 +59,13 @@ class Snowball(BaseSentenceParser):
 
     Usage:
         Define a ChemDataExtractor Model::
-        
+
             snowball = Snowball(model=my_relationship)
-            
+
         Then train the system on a corpus::
-        
+
             snowball.train(corpus)
-            
+
         This will generate patterns for extracting the specified relationship type.
 
     Parameters:
@@ -155,14 +158,8 @@ class Snowball(BaseSentenceParser):
         with open(save_dir + self.save_file_name + ".pkl", "wb") as f:
             pickle.dump(self, f)
 
-        with open(
-            save_dir + self.save_file_name + "_clusters.txt", "w+", encoding="utf-8"
-        ) as f:
-            s = (
-                "Cluster set contains "
-                + six.text_type(len(self.clusters))
-                + " clusters."
-            )
+        with open(save_dir + self.save_file_name + "_clusters.txt", "w+", encoding="utf-8") as f:
+            s = "Cluster set contains " + six.text_type(len(self.clusters)) + " clusters."
             f.write(s + "\n")
             for c in self.clusters:
                 s = (
@@ -184,9 +181,7 @@ class Snowball(BaseSentenceParser):
                     + "\n"
                 )
 
-        with open(
-            save_dir + self.save_file_name + "_patterns.txt", "w+", encoding="utf-8"
-        ) as f:
+        with open(save_dir + self.save_file_name + "_patterns.txt", "w+", encoding="utf-8") as f:
             for c in self.clusters:
                 p = c.pattern
                 f.write(
@@ -196,9 +191,7 @@ class Snowball(BaseSentenceParser):
                     + "\n\n"
                 )
 
-        with open(
-            save_dir + self.save_file_name + "_relations.txt", "w+", encoding="utf-8"
-        ) as wf:
+        with open(save_dir + self.save_file_name + "_relations.txt", "w+", encoding="utf-8") as wf:
             for c in self.clusters:
                 for phrase in c.phrases:
                     for relation in phrase.relations:
@@ -426,9 +419,7 @@ class Snowball(BaseSentenceParser):
                 for i in range(len(entities)):
                     for j in range(i + 1, len(entities)):
                         if entities[i].start == entities[j].start:
-                            to_pop.append(
-                                [i, j][np.argmin([entities[i].end, entities[j].end])]
-                            )
+                            to_pop.append([i, j][np.argmin([entities[i].end, entities[j].end])])
                 for p in to_pop:
                     entities_dict[k].pop(p)
 
@@ -495,9 +486,7 @@ class Snowball(BaseSentenceParser):
             relation {list} -- The Relation objects that are in the sentence
         """
         #: Create a new phrase from the sentence and corresponding relations
-        new_phrase = Phrase(
-            sentence_tokens, relations, self.prefix_length, self.suffix_length
-        )
+        new_phrase = Phrase(sentence_tokens, relations, self.prefix_length, self.suffix_length)
         # print("New Phrase", new_phrase)
         self.cluster(new_phrase)
         self.save()
@@ -510,9 +499,7 @@ class Snowball(BaseSentenceParser):
             phrase {Phrase} -- The Phrase to cluster
         """
         if len(self.clusters) == 0:
-            cluster0 = Cluster(
-                str(self.cluster_counter), learning_rate=self.learning_rate
-            )
+            cluster0 = Cluster(str(self.cluster_counter), learning_rate=self.learning_rate)
             cluster0.add_phrase(phrase)
             self.clusters.append(cluster0)
         else:
@@ -557,9 +544,7 @@ class Snowball(BaseSentenceParser):
         if phrase_added is False:
             self.cluster_counter += 1
             # create a new cluster
-            new_cluster = Cluster(
-                str(self.cluster_counter), learning_rate=self.learning_rate
-            )
+            new_cluster = Cluster(str(self.cluster_counter), learning_rate=self.learning_rate)
             new_cluster.add_phrase(phrase)
             self.clusters.append(new_cluster)
 
@@ -688,10 +673,7 @@ class Snowball(BaseSentenceParser):
             field = field.field
             field_data = self._get_data(field_name, field, relation_data)
             if field_data is not None:
-                if (
-                    field_name not in field_data.keys()
-                    or field_data[field_name] is None
-                ):
+                if field_name not in field_data.keys() or field_data[field_name] is None:
                     return None
                 field_data = [field_data[field_name]]
             elif field_data is None and field.required and not field.contextual:
@@ -747,9 +729,7 @@ class Snowball(BaseSentenceParser):
                 value = self.extract_value(raw_value)
                 error = self.extract_error(raw_value)
 
-                model_data.update(
-                    {"raw_value": raw_value, "value": value, "error": error}
-                )
+                model_data.update({"raw_value": raw_value, "value": value, "error": error})
 
             elif hasattr(model, "dimensions") and model.dimensions:
                 # the specific entities of a QuantityModel are retrieved explicitly and packed into a dictionary

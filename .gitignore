@@ -36,6 +36,11 @@ htmlcov/
 .coverage.*
 .cache
 coverage.xml
+*.cover
+.hypothesis/
+.pytest_cache/
+.tox/
+.coverage.*
 
 # Sphinx documentation
 docs/_build/
@@ -48,8 +53,45 @@ docs/_build/
 .vscode/
 main.py
 geckodriver.log
-.pytest_cache/
 .DS_Store
 log.txt
 *.sublime-project
 *.sublime-workspace
+
+# MyPy type checking
+.mypy_cache/
+.dmypy.json
+dmypy.json
+
+# Environments
+.env
+.venv
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+
+# Example outputs
+examples/*/
+examples/*.json
+examples/*.csv
+examples/*.txt
+examples/*.db
+examples/*.sqlite
+examples/*.html
+examples/batch_results/
+examples/property_extraction_results/
+examples/spectral_extraction_results/
+examples/batch_test_documents/
+examples/sample_documents/
+
+# IDE files
+*.swp
+*.swo
+*~
+
+# OS files
+Thumbs.db
+ehthumbs.db
+Desktop.ini

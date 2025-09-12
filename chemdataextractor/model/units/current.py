@@ -5,7 +5,6 @@ Units and models for electrical current.
 
 """
 
-
 import logging
 
 from ...parse.elements import R
@@ -39,9 +38,7 @@ class ElectricalCurrentUnit(Unit):
     """
 
     def __init__(self, magnitude=0.0, powers=None):
-        super(ElectricalCurrentUnit, self).__init__(
-            ElectricalCurrent(), magnitude, powers
-        )
+        super(ElectricalCurrentUnit, self).__init__(ElectricalCurrent(), magnitude, powers)
 
 
 class Ampere(ElectricalCurrentUnit):

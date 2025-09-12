@@ -142,30 +142,39 @@
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x1)">prefix = (</span>
+Error (x1)">prefix = (</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x8)">    Optional(I("a")).hide()</span>
+Error (x7)
+Unannotated (x1)">    Optional(I("a")).hide()</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">    + (</span>
+Error (x2)">    + (</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x9)">        Optional(lbrct) + W("Tg") + Optional(rbrct)</span>
+Error (x6)
+Unannotated (x3)">        Optional(lbrct) + W("Tg") + Optional(rbrct)</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x3)">        | I("glass")</span>
+Error (x2)
+Unannotated (x1)">        | I("glass")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">        + Optional(I("transition"))</span>
+Error (x1)
+Unannotated (x1)">        + Optional(I("transition"))</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x8)">        + Optional(I("temperature") | I("range") | (I("temp") + I(".")))</span>
+Error (x1)
+Unannotated (x7)">        + Optional(I("temperature") | I("range") | (I("temp") + I(".")))</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x8)">        | W("transition") + Optional(I("temperature") | I("range") | I("temp."))</span>
+Error (x2)
+Unannotated (x6)">        | W("transition") + Optional(I("temperature") | I("range") | I("temp."))</span>
 <span class="line-empty" title="No Anys on this line!">    ).hide()</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x6)">    + Optional(lbrct + W("Tg") + rbrct)</span>
+Error (x1)
+Unannotated (x5)">    + Optional(lbrct + W("Tg") + rbrct)</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x12)">    + Optional(W("=") | I("of") | I("was") | I("is") | I("at")).hide()</span>
+Error (x3)
+Unannotated (x9)">    + Optional(W("=") | I("of") | I("was") | I("is") | I("at")).hide()</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x3)">    + Optional(</span>
+Error (x3)">    + Optional(</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x12)">        I("in") + I("the") + I("range") + Optional(I("of"))</span>
+Unannotated (x11)
+Error (x1)">        I("in") + I("the") + I("range") + Optional(I("of"))</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">        | I("about")</span>
 <span class="line-precise" title="No Anys on this line!">        | ("around")</span>
@@ -182,7 +191,8 @@ Unannotated (x3)">delim = R(r"^[:;\.,]$")</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!"># TODO: Consider allowing degree symbol to be optional. The prefix should be restrictive enough to stop false positives.</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x14)">units = (W("°") + Optional(R(r"^[CFK]\.?$")) | W(r"K\.?") | W("°C"))(</span>
+Error (x8)
+Unannotated (x6)">units = (W("°") + Optional(R(r"^[CFK]\.?$")) | W(r"K\.?") | W("°C"))(</span>
 <span class="line-precise" title="No Anys on this line!">    "units"</span>
 <span class="line-precise" title="Any Types on this line: 
 Unannotated (x4)">).add_action(merge)</span>
@@ -190,39 +200,47 @@ Unannotated (x4)">).add_action(merge)</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x6)">value = value_element()(None)</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x14)">temp_range = (Optional(R(r"^[\-–−]$")) + value)("value").add_action(merge)</span>
+Error (x6)
+Unannotated (x8)">temp_range = (Optional(R(r"^[\-–−]$")) + value)("value").add_action(merge)</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x9)">temp_value = value("value").add_action(merge)</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x1)">temp = (</span>
+Error (x1)">temp = (</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x14)">    Optional(lbrct).hide() + (temp_range | temp_value)("value") + Optional(rbrct).hide()</span>
+Error (x11)
+Unannotated (x3)">    Optional(lbrct).hide() + (temp_range | temp_value)("value") + Optional(rbrct).hide()</span>
 <span class="line-empty" title="No Anys on this line!">)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x11)">tg = (prefix + Optional(delim).hide() + temp + units)("tg")</span>
+Error (x11)">tg = (prefix + Optional(delim).hide() + temp + units)("tg")</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x12)">bracket_any = lbrct + OneOrMore(Not(tg) + Not(rbrct) + Any()) + rbrct</span>
+Unannotated (x11)
+Error (x1)">bracket_any = lbrct + OneOrMore(Not(tg) + Not(rbrct) + Any()) + rbrct</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">cem_tg_phrase = (</span>
+Error (x2)">cem_tg_phrase = (</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x9)">    Optional(cem)</span>
+Error (x8)
+Unannotated (x1)">    Optional(cem)</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x4)">    + Optional(I("having")).hide()</span>
+Error (x3)
+Unannotated (x1)">    + Optional(I("having")).hide()</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x3)">    + Optional(delim).hide()</span>
+Error (x3)">    + Optional(delim).hide()</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x4)">    + Optional(bracket_any).hide()</span>
+Error (x3)
+Unannotated (x1)">    + Optional(bracket_any).hide()</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x3)">    + Optional(delim).hide()</span>
+Error (x3)">    + Optional(delim).hide()</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">    + Optional(lbrct)</span>
+Error (x1)
+Unannotated (x1)">    + Optional(lbrct)</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x1)">    + tg</span>
+Error (x1)">    + tg</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">    + Optional(rbrct)</span>
+Error (x1)
+Unannotated (x1)">    + Optional(rbrct)</span>
 <span class="line-precise" title="No Anys on this line!">)("tg_phrase")</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="Any Types on this line: 
@@ -234,20 +252,22 @@ Unannotated (x7)">    + (I("is") | I("are") | I("was")).hide()</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x7)">    + (I("measured") | I("obtained") | I("yielded")).hide()</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x9)">    + ZeroOrMore(Not(tg) + Not(cem) + Any()).hide()</span>
+Unannotated (x8)
+Error (x1)">    + ZeroOrMore(Not(tg) + Not(cem) + Any()).hide()</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x1)">    + tg</span>
+Error (x1)">    + tg</span>
 <span class="line-precise" title="No Anys on this line!">)("tg_phrase")</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x4)">tg_phrase = cem_tg_phrase | obtained_tg_phrase</span>
+Error (x3)
+Unannotated (x1)">tg_phrase = cem_tg_phrase | obtained_tg_phrase</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">class TgParser(BaseParser):</span>
 <span class="line-empty" title="No Anys on this line!">    """"""</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">    root = tg_phrase</span>
+Error (x2)">    root = tg_phrase</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="No Anys on this line!">    def interpret(self, result, start, end):</span>
 <span class="line-any" title="Any Types on this line: 

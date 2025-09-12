@@ -267,11 +267,38 @@
 <span id="L257" class="lineno"><a class="lineno" href="#L257">257</a></span>
 <span id="L258" class="lineno"><a class="lineno" href="#L258">258</a></span>
 <span id="L259" class="lineno"><a class="lineno" href="#L259">259</a></span>
+<span id="L260" class="lineno"><a class="lineno" href="#L260">260</a></span>
+<span id="L261" class="lineno"><a class="lineno" href="#L261">261</a></span>
+<span id="L262" class="lineno"><a class="lineno" href="#L262">262</a></span>
+<span id="L263" class="lineno"><a class="lineno" href="#L263">263</a></span>
+<span id="L264" class="lineno"><a class="lineno" href="#L264">264</a></span>
+<span id="L265" class="lineno"><a class="lineno" href="#L265">265</a></span>
+<span id="L266" class="lineno"><a class="lineno" href="#L266">266</a></span>
+<span id="L267" class="lineno"><a class="lineno" href="#L267">267</a></span>
+<span id="L268" class="lineno"><a class="lineno" href="#L268">268</a></span>
+<span id="L269" class="lineno"><a class="lineno" href="#L269">269</a></span>
+<span id="L270" class="lineno"><a class="lineno" href="#L270">270</a></span>
+<span id="L271" class="lineno"><a class="lineno" href="#L271">271</a></span>
+<span id="L272" class="lineno"><a class="lineno" href="#L272">272</a></span>
+<span id="L273" class="lineno"><a class="lineno" href="#L273">273</a></span>
+<span id="L274" class="lineno"><a class="lineno" href="#L274">274</a></span>
+<span id="L275" class="lineno"><a class="lineno" href="#L275">275</a></span>
+<span id="L276" class="lineno"><a class="lineno" href="#L276">276</a></span>
+<span id="L277" class="lineno"><a class="lineno" href="#L277">277</a></span>
 </pre></td>
 <td class="table-code"><pre><span class="line-empty" title="No Anys on this line!">"""</span>
-<span class="line-empty" title="No Anys on this line!">Cluster of phrase objects and associated cluster dictionaries</span>
+<span class="line-empty" title="No Anys on this line!">Cluster objects for grouping similar patterns in relationship extraction.</span>
+<span class="line-empty" title="No Anys on this line!"></span>
+<span class="line-empty" title="No Anys on this line!">Clusters group similar phrases and patterns together for learning</span>
+<span class="line-empty" title="No Anys on this line!">common extraction rules in the Snowball algorithm.</span>
 <span class="line-empty" title="No Anys on this line!">"""</span>
+<span class="line-empty" title="No Anys on this line!"></span>
+<span class="line-precise" title="No Anys on this line!">from __future__ import annotations</span>
+<span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">from collections import OrderedDict</span>
+<span class="line-precise" title="No Anys on this line!">from typing import TYPE_CHECKING</span>
+<span class="line-precise" title="No Anys on this line!">from typing import Any</span>
+<span class="line-precise" title="No Anys on this line!">from typing import Optional</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">import numpy as np</span>
 <span class="line-any" title="No Anys on this line!">from scipy import spatial</span>
@@ -283,31 +310,40 @@
 <span class="line-precise" title="No Anys on this line!">from .utils import mode_rows</span>
 <span class="line-precise" title="No Anys on this line!">from .utils import subfinder</span>
 <span class="line-empty" title="No Anys on this line!"></span>
+<span class="line-precise" title="No Anys on this line!">if TYPE_CHECKING:</span>
+<span class="line-precise" title="No Anys on this line!">    from .phrase import Phrase</span>
+<span class="line-empty" title="No Anys on this line!"></span>
+<span class="line-empty" title="No Anys on this line!"># Type aliases for clustering</span>
+<span class="line-precise" title="No Anys on this line!">PhraseList = list[Phrase]  # List of phrases in a cluster</span>
+<span class="line-precise" title="No Anys on this line!">ClusterDict = OrderedDict[str, Any]  # Dictionary of cluster properties</span>
+<span class="line-precise" title="Any Types on this line: 
+Explicit (x6)
+Omitted Generics (x4)">DistanceMatrix = np.ndarray  # Matrix of distances between patterns</span>
+<span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">class Cluster:</span>
-<span class="line-empty" title="No Anys on this line!">    """</span>
-<span class="line-empty" title="No Anys on this line!">    Base Snowball Cluster, used to combine similar phrases</span>
+<span class="line-empty" title="No Anys on this line!">    """Base Snowball Cluster for grouping similar phrases.</span>
+<span class="line-empty" title="No Anys on this line!">    </span>
+<span class="line-empty" title="No Anys on this line!">    Used to combine similar phrases and patterns in the Snowball algorithm</span>
+<span class="line-empty" title="No Anys on this line!">    for learning relationship extraction rules.</span>
 <span class="line-empty" title="No Anys on this line!">    """</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-any" title="No Anys on this line!">    def __init__(self, label=None, learning_rate=0.5):</span>
-<span class="line-empty" title="No Anys on this line!">        """Create a new cluster</span>
+<span class="line-precise" title="No Anys on this line!">    def __init__(self, label: Optional[str] = None, learning_rate: float = 0.5) -&gt; None:</span>
+<span class="line-empty" title="No Anys on this line!">        """Create a new cluster.</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-empty" title="No Anys on this line!">        Keyword Arguments:</span>
-<span class="line-empty" title="No Anys on this line!">            label {str} -- The label of this cluster (default: {None})</span>
-<span class="line-empty" title="No Anys on this line!">            order {list} -- The order of entities that all phrases in this cluster must share (default: {None})</span>
-<span class="line-empty" title="No Anys on this line!">            learning_rate {float} -- How quickly to update confidences based on new information (default: {0.5})</span>
+<span class="line-empty" title="No Anys on this line!">        Args:</span>
+<span class="line-empty" title="No Anys on this line!">            label: The label identifier for this cluster</span>
+<span class="line-empty" title="No Anys on this line!">            learning_rate: How quickly to update confidences based on new information (0.0-1.0)</span>
 <span class="line-empty" title="No Anys on this line!">        """</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">        self.label = label</span>
+<span class="line-precise" title="No Anys on this line!">        self.label = label</span>
 <span class="line-precise" title="No Anys on this line!">        self.phrases = []</span>
-<span class="line-any" title="No Anys on this line!">        self.pattern = None</span>
+<span class="line-precise" title="No Anys on this line!">        self.pattern = None</span>
 <span class="line-precise" title="No Anys on this line!">        self.entities = []</span>
 <span class="line-precise" title="No Anys on this line!">        self.dictionaries = {}</span>
-<span class="line-any" title="No Anys on this line!">        self.order = None</span>
-<span class="line-any" title="No Anys on this line!">        self.old_pattern_confidence = 1.0</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">        self.learning_rate = learning_rate</span>
+<span class="line-precise" title="No Anys on this line!">        self.order = None</span>
+<span class="line-precise" title="No Anys on this line!">        self.old_pattern_confidence = 1.0</span>
+<span class="line-precise" title="No Anys on this line!">        self.learning_rate = learning_rate</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="No Anys on this line!">    def add_phrase(self, phrase):</span>
 <span class="line-empty" title="No Anys on this line!">        """Add phrase to this cluster,</span>
@@ -319,7 +355,7 @@ Unannotated (x2)">        self.learning_rate = learning_rate</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x3)">        self.phrases.append(phrase)</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x3)">        self.order = phrase.order</span>
+Unannotated (x2)">        self.order = phrase.order</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x3)">        self.entities = phrase.entities</span>
 <span class="line-any" title="Any Types on this line: 
@@ -455,16 +491,13 @@ Unannotated (x4)
 Unimported (x1)">            pattern_elements[element] = self.phrases[medoid_idx].elements[element]</span>
 <span class="line-empty" title="No Anys on this line!">            # print("Pattern element", pattern_elements[element])</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x8)">        self.pattern = Pattern(</span>
+<span class="line-precise" title="No Anys on this line!">        self.pattern = Pattern(</span>
 <span class="line-imprecise" title="Any Types on this line: 
 Unannotated (x1)">            elements=pattern_elements,</span>
 <span class="line-imprecise" title="Any Types on this line: 
 Unannotated (x1)">            entities=self.entities,</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x1)">            label=self.label,</span>
-<span class="line-imprecise" title="Any Types on this line: 
-Unannotated (x1)">            order=self.order,</span>
+<span class="line-precise" title="No Anys on this line!">            label=self.label,</span>
+<span class="line-precise" title="No Anys on this line!">            order=self.order,</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x2)">            relations=phrase.relations,</span>
 <span class="line-any" title="No Anys on this line!">            confidence=0,</span>
@@ -508,19 +541,17 @@ Unannotated (x2)">                if fr in relations:</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">        if len(self.phrases) == 1:</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            self.pattern.confidence = new_pattern_confidence</span>
+Error (x1)">            self.pattern.confidence = new_pattern_confidence</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            self.old_pattern_confidence = self.pattern.confidence</span>
+Error (x1)">            self.old_pattern_confidence = self.pattern.confidence</span>
 <span class="line-empty" title="No Anys on this line!">        else:</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            self.pattern.confidence = (</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x3)">                self.learning_rate * new_pattern_confidence</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x3)">                + (1.0 - self.learning_rate) * self.old_pattern_confidence</span>
+Error (x1)">            self.pattern.confidence = (</span>
+<span class="line-precise" title="No Anys on this line!">                self.learning_rate * new_pattern_confidence</span>
+<span class="line-any" title="No Anys on this line!">                + (1.0 - self.learning_rate) * self.old_pattern_confidence</span>
 <span class="line-empty" title="No Anys on this line!">            )</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            self.old_pattern_confidence = self.pattern.confidence</span>
+Error (x1)">            self.old_pattern_confidence = self.pattern.confidence</span>
 <span class="line-empty" title="No Anys on this line!">        return</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="No Anys on this line!">    def get_relations(self, tokens):</span>

@@ -44,13 +44,9 @@ class Phrase:
         else:
             output_string += "(" + self.entities[0].tag + ") "
         for i in range(0, self.number_of_entities - 1):
-            output_string += (
-                " ".join(self.elements["middle_" + str(i + 1)]["tokens"]) + " "
-            )
+            output_string += " ".join(self.elements["middle_" + str(i + 1)]["tokens"]) + " "
             if isinstance(self.entities[i + 1].tag, tuple):
-                output_string += (
-                    "(" + ", ".join([i for i in self.entities[i + 1].tag]) + ") "
-                )
+                output_string += "(" + ", ".join([i for i in self.entities[i + 1].tag]) + ") "
             else:
                 output_string += "(" + self.entities[i + 1].tag + ") "
         output_string = output_string
@@ -99,9 +95,7 @@ class Phrase:
         prefix_tokens = [
             t
             for t in sentence[
-                sorted_entity_list[0].start - self.prefix_length : sorted_entity_list[
-                    0
-                ].start
+                sorted_entity_list[0].start - self.prefix_length : sorted_entity_list[0].start
             ]
         ]
         if len(prefix_tokens) == 0:
@@ -119,8 +113,7 @@ class Phrase:
         suffix_tokens = [
             t
             for t in sentence[
-                sorted_entity_list[-1].end : sorted_entity_list[-1].end
-                + self.suffix_length
+                sorted_entity_list[-1].end : sorted_entity_list[-1].end + self.suffix_length
             ]
         ]
         if len(suffix_tokens) == 0:

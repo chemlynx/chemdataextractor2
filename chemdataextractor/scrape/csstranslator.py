@@ -36,7 +36,6 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 """
 
-
 from cssselect import GenericTranslator
 from cssselect import HTMLTranslator
 from cssselect.parser import FunctionalPseudoElement
@@ -84,33 +83,25 @@ class TranslatorMixin:
 
     def xpath_pseudo_element(self, xpath, pseudo_element):
         if isinstance(pseudo_element, FunctionalPseudoElement):
-            method = "xpath_%s_functional_pseudo_element" % (
-                pseudo_element.name.replace("-", "_")
-            )
+            method = "xpath_%s_functional_pseudo_element" % (pseudo_element.name.replace("-", "_"))
             method = getattr(self, method, None)
             if not method:
                 raise ExpressionError(
-                    "The functional pseudo-element ::%s() is unknown"
-                    % pseudo_element.name
+                    "The functional pseudo-element ::%s() is unknown" % pseudo_element.name
                 )
             xpath = method(xpath, pseudo_element)
         else:
-            method = "xpath_%s_simple_pseudo_element" % (
-                pseudo_element.replace("-", "_")
-            )
+            method = "xpath_%s_simple_pseudo_element" % (pseudo_element.replace("-", "_"))
             method = getattr(self, method, None)
             if not method:
-                raise ExpressionError(
-                    "The pseudo-element ::%s is unknown" % pseudo_element
-                )
+                raise ExpressionError("The pseudo-element ::%s is unknown" % pseudo_element)
             xpath = method(xpath)
         return xpath
 
     def xpath_attr_functional_pseudo_element(self, xpath, function):
         if function.argument_types() not in (["STRING"], ["IDENT"]):
             raise ExpressionError(
-                "Expected a single string or ident for ::attr(), got %r"
-                % function.arguments
+                "Expected a single string or ident for ::attr(), got %r" % function.arguments
             )
         return CdeXPathExpr.from_xpath(xpath, attribute=function.arguments[0].value)
 

@@ -250,7 +250,8 @@ Unannotated (x1)">                    if record in records:</span>
 <span class="line-empty" title="No Anys on this line!">                    # Skip just labels that have already been seen (bit of a hack)</span>
 <span class="line-empty" title="No Anys on this line!">                    if (</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">                        isinstance(record, Compound)</span>
+Unannotated (x1)
+Explicit (x1)">                        isinstance(record, Compound)</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x3)">                        and "Compound" in p.keys()</span>
 <span class="line-any" title="Any Types on this line: 
@@ -261,7 +262,8 @@ Omitted Generics (x4)">                        and set(record.labels).issubset(s
 <span class="line-empty" title="No Anys on this line!">                    ):</span>
 <span class="line-any" title="No Anys on this line!">                        continue</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">                    if isinstance(record, Compound):</span>
+Unannotated (x1)
+Explicit (x1)">                    if isinstance(record, Compound):</span>
 <span class="line-imprecise" title="Any Types on this line: 
 Omitted Generics (x2)">                        seen_labels.update(record.labels)</span>
 <span class="line-empty" title="No Anys on this line!">                        # This could be super slow if we find lots of things</span>
@@ -270,7 +272,7 @@ Omitted Generics (x2)">                        seen_labels.update(record.labels)
 Error (x1)">                        for seen_record in records:</span>
 <span class="line-any" title="Any Types on this line: 
 Error (x1)
-Unannotated (x1)">                            if isinstance(seen_record, Compound) and (</span>
+Explicit (x1)">                            if isinstance(seen_record, Compound) and (</span>
 <span class="line-imprecise" title="Any Types on this line: 
 Explicit (x1)
 Omitted Generics (x3)">                                not set(record.names).isdisjoint(seen_record.names)</span>

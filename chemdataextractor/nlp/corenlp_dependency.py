@@ -35,9 +35,7 @@ class _CoreNLPDependencyTagger(BaseTagger):
     @property
     def client(self):
         if self._client is None:
-            with yaspin(
-                text="Initialising CoreNLP client", side="right"
-            ).simpleDots as sp:
+            with yaspin(text="Initialising CoreNLP client", side="right").simpleDots as sp:
                 os.environ["CORENLP_HOME"] = find_data(corenlp_loc)
                 with socketserver.TCPServer(("localhost", 0), None) as s:
                     free_port = s.server_address[1]
@@ -79,9 +77,7 @@ class _CoreNLPDependencyTagger(BaseTagger):
         return zip(tokens, labels)
 
     def batch_tag(self, sents):
-        all_text = "\n".join(
-            [" ".join([token.text for token in sent]) for sent in sents]
-        )
+        all_text = "\n".join([" ".join([token.text for token in sent]) for sent in sents])
         annotated = self.client.annotate(all_text)
 
         all_labels = []

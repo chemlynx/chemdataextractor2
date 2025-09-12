@@ -10,9 +10,7 @@ def _add(subsentences, coordinated_group, prev_location, min_index):
             "To perform add, there should be an equal number of coordinated clauses and subsentences."
         )
     added_subsentences = []
-    for coordinated_content, subsentence in zip(
-        coordinated_group.content, subsentences
-    ):
+    for coordinated_content, subsentence in zip(coordinated_group.content, subsentences):
         sub = copy.copy(subsentence)
         sub.extend([i for i in range(prev_location + 1, min_index)])
 
@@ -123,18 +121,10 @@ class SubsentenceExtractor:
         # we don't really care about splitting the sentence
         if len(coordinated_groups) == 1 and len(coordinated_groups[0].content) == 2:
             coordinated_group = coordinated_groups[0]
-            first_clause_min_index = min(
-                [word[0] for word in coordinated_group.content[0]]
-            )
-            first_clause_max_index = max(
-                [word[0] for word in coordinated_group.content[0]]
-            )
-            second_clause_min_index = min(
-                [word[0] for word in coordinated_group.content[1]]
-            )
-            second_clause_max_index = max(
-                [word[0] for word in coordinated_group.content[1]]
-            )
+            first_clause_min_index = min([word[0] for word in coordinated_group.content[0]])
+            first_clause_max_index = max([word[0] for word in coordinated_group.content[0]])
+            second_clause_min_index = min([word[0] for word in coordinated_group.content[1]])
+            second_clause_max_index = max([word[0] for word in coordinated_group.content[1]])
             clauses_gap = second_clause_min_index - first_clause_max_index
 
             if (
@@ -180,9 +170,7 @@ class SubsentenceExtractor:
 
         subsentence_indices = [[]]
         prev_location = -1
-        for extent, operation, coordinated_group in zip(
-            extents, operations, coordinated_groups
-        ):
+        for extent, operation, coordinated_group in zip(extents, operations, coordinated_groups):
             min_index = extent[0]
             max_index = extent[1]
 
@@ -192,9 +180,7 @@ class SubsentenceExtractor:
             prev_location = max_index
 
         for subsentence in subsentence_indices:
-            subsentence.extend(
-                [i for i in range(prev_location + 1, len(sentence.tokens))]
-            )
+            subsentence.extend([i for i in range(prev_location + 1, len(sentence.tokens))])
 
         subsentence_tokens = []
         for subsentence in subsentence_indices:
@@ -248,9 +234,7 @@ class SubsentenceExtractor:
             coordinated_graphs = self._remove_unneeded(coordinated_graphs, unneeded_el)
 
         for unneeded_el in to_trim_head:
-            coordinated_graphs = self._remove_unneeded_head(
-                coordinated_graphs, unneeded_el
-            )
+            coordinated_graphs = self._remove_unneeded_head(coordinated_graphs, unneeded_el)
 
         return coordinated_graphs
 
@@ -275,9 +259,7 @@ class SubsentenceExtractor:
                 and (min_index is None or index >= min_index)
             ):
                 coordinated_graph.extend(
-                    self._all_dependencies_for_root(
-                        index, dependencies, excluded_relations
-                    )
+                    self._all_dependencies_for_root(index, dependencies, excluded_relations)
                 )
         return coordinated_graph
 
@@ -307,9 +289,7 @@ class SubsentenceExtractor:
                 new_coordinated_graph = coordinated_graph
             else:
                 for el in coordinated_graph:
-                    if el[0] not in unneeded_coords or (
-                        el[0] != max_index and el[0] != min_index
-                    ):
+                    if el[0] not in unneeded_coords or (el[0] != max_index and el[0] != min_index):
                         new_coordinated_graph.append(el)
 
             new_coordinated_graphs.append(new_coordinated_graph)
@@ -333,10 +313,7 @@ class SubsentenceExtractor:
             for dependency in coordinated_graph:
                 if dependency[1].relation == unneeded:
                     unneeded_coords.add(dependency[1].head.index)
-                elif (
-                    dependency[1].head is not None
-                    and dependency[1].head.index in unneeded_coords
-                ):
+                elif dependency[1].head is not None and dependency[1].head.index in unneeded_coords:
                     unneeded_coords.add(dependency[0])
 
         for coordinated_graph in coordinated_graphs:
@@ -347,9 +324,7 @@ class SubsentenceExtractor:
                 new_coordinated_graph = coordinated_graph
             else:
                 for el in coordinated_graph:
-                    if el[0] not in unneeded_coords or (
-                        el[0] != max_index and el[0] != min_index
-                    ):
+                    if el[0] not in unneeded_coords or (el[0] != max_index and el[0] != min_index):
                         new_coordinated_graph.append(el)
 
             new_coordinated_graphs.append(new_coordinated_graph)

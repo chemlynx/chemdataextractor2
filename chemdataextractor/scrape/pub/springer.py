@@ -136,13 +136,9 @@ class SpringerXmlDocument(Entity):
     """Document information from a Springer XML file."""
 
     ui = StringField("/art/ui/text()", xpath=True, strip=True)
-    doi = StringField(
-        '/art/fm/bibl/xrefbib//pubid[@idtype="doi"]/text()', xpath=True, lower=True
-    )
+    doi = StringField('/art/fm/bibl/xrefbib//pubid[@idtype="doi"]/text()', xpath=True, lower=True)
     title = StringField("/art/fm/bibl/title", xpath=True, strip=True)
-    authors = EntityField(
-        SpringerXmlAuthor, "/art/fm/bibl/aug/au", xpath=True, all=True
-    )
+    authors = EntityField(SpringerXmlAuthor, "/art/fm/bibl/aug/au", xpath=True, all=True)
     journal = StringField("/art/fm/bibl/source/text()", xpath=True, strip=True)
     firstpage = StringField("/art/fm/bibl/fpage/text()", xpath=True, strip=True)
     year = IntField("/art/fm/bibl/pubdate/text()", xpath=True)
@@ -163,9 +159,7 @@ class SpringerXmlDocument(Entity):
     license = UrlField("/art/fm/cpyrt/note/url/text()", xpath=True, strip=True)
     figures = EntityField(SpringerXmlImage, "/art/bdy//fig", xpath=True, all=True)
     schemes = EntityField(SpringerXmlImage, "/art/bdy//scheme", xpath=True, all=True)
-    tables = EntityField(
-        SpringerXmlTable, "/art/bdy//tbl|/art/bdy//table", xpath=True, all=True
-    )
+    tables = EntityField(SpringerXmlTable, "/art/bdy//tbl|/art/bdy//table", xpath=True, all=True)
     headings = StringField("/art/bdy//st", xpath=True, strip=True, all=True)
     paragraphs = StringField("/art/bdy//sec/p", xpath=True, strip=True, all=True)
 

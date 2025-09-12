@@ -369,6 +369,34 @@
 <span id="L359" class="lineno"><a class="lineno" href="#L359">359</a></span>
 <span id="L360" class="lineno"><a class="lineno" href="#L360">360</a></span>
 <span id="L361" class="lineno"><a class="lineno" href="#L361">361</a></span>
+<span id="L362" class="lineno"><a class="lineno" href="#L362">362</a></span>
+<span id="L363" class="lineno"><a class="lineno" href="#L363">363</a></span>
+<span id="L364" class="lineno"><a class="lineno" href="#L364">364</a></span>
+<span id="L365" class="lineno"><a class="lineno" href="#L365">365</a></span>
+<span id="L366" class="lineno"><a class="lineno" href="#L366">366</a></span>
+<span id="L367" class="lineno"><a class="lineno" href="#L367">367</a></span>
+<span id="L368" class="lineno"><a class="lineno" href="#L368">368</a></span>
+<span id="L369" class="lineno"><a class="lineno" href="#L369">369</a></span>
+<span id="L370" class="lineno"><a class="lineno" href="#L370">370</a></span>
+<span id="L371" class="lineno"><a class="lineno" href="#L371">371</a></span>
+<span id="L372" class="lineno"><a class="lineno" href="#L372">372</a></span>
+<span id="L373" class="lineno"><a class="lineno" href="#L373">373</a></span>
+<span id="L374" class="lineno"><a class="lineno" href="#L374">374</a></span>
+<span id="L375" class="lineno"><a class="lineno" href="#L375">375</a></span>
+<span id="L376" class="lineno"><a class="lineno" href="#L376">376</a></span>
+<span id="L377" class="lineno"><a class="lineno" href="#L377">377</a></span>
+<span id="L378" class="lineno"><a class="lineno" href="#L378">378</a></span>
+<span id="L379" class="lineno"><a class="lineno" href="#L379">379</a></span>
+<span id="L380" class="lineno"><a class="lineno" href="#L380">380</a></span>
+<span id="L381" class="lineno"><a class="lineno" href="#L381">381</a></span>
+<span id="L382" class="lineno"><a class="lineno" href="#L382">382</a></span>
+<span id="L383" class="lineno"><a class="lineno" href="#L383">383</a></span>
+<span id="L384" class="lineno"><a class="lineno" href="#L384">384</a></span>
+<span id="L385" class="lineno"><a class="lineno" href="#L385">385</a></span>
+<span id="L386" class="lineno"><a class="lineno" href="#L386">386</a></span>
+<span id="L387" class="lineno"><a class="lineno" href="#L387">387</a></span>
+<span id="L388" class="lineno"><a class="lineno" href="#L388">388</a></span>
+<span id="L389" class="lineno"><a class="lineno" href="#L389">389</a></span>
 </pre></td>
 <td class="table-code"><pre><span class="line-empty" title="No Anys on this line!">"""</span>
 <span class="line-empty" title="No Anys on this line!">Table document elements</span>
@@ -379,8 +407,13 @@
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">"""</span>
 <span class="line-empty" title="No Anys on this line!"></span>
+<span class="line-precise" title="No Anys on this line!">from __future__ import annotations</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">import logging</span>
+<span class="line-precise" title="No Anys on this line!">from typing import TYPE_CHECKING</span>
+<span class="line-precise" title="No Anys on this line!">from typing import Any</span>
+<span class="line-precise" title="No Anys on this line!">from typing import Optional</span>
+<span class="line-precise" title="No Anys on this line!">from typing import Union</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="No Anys on this line!">from tabledataextractor import Table as TdeTable</span>
 <span class="line-any" title="No Anys on this line!">from tabledataextractor import TrivialTable as TrivialTdeTable</span>
@@ -391,16 +424,40 @@
 <span class="line-precise" title="No Anys on this line!">from ..utils import memoized_property</span>
 <span class="line-precise" title="No Anys on this line!">from .element import CaptionedElement</span>
 <span class="line-empty" title="No Anys on this line!"></span>
+<span class="line-precise" title="No Anys on this line!">if TYPE_CHECKING:</span>
+<span class="line-precise" title="No Anys on this line!">    from ..doc.document import Document</span>
+<span class="line-precise" title="No Anys on this line!">    from ..model.base import BaseModel</span>
+<span class="line-precise" title="No Anys on this line!">    from ..parse.base import BaseParser</span>
+<span class="line-empty" title="No Anys on this line!"></span>
+<span class="line-empty" title="No Anys on this line!"># Type aliases for table processing</span>
+<span class="line-any" title="Any Types on this line: 
+Explicit (x1)">TableData = list[list[Any]]  # Raw table data structure</span>
+<span class="line-precise" title="No Anys on this line!">CDETable = list[list[Cell]]  # CDE table with Cell objects</span>
+<span class="line-precise" title="No Anys on this line!">CDETables = list[CDETable]  # List of CDE tables</span>
+<span class="line-precise" title="No Anys on this line!">CategoryTable = list[Any]  # Table category data</span>
+<span class="line-precise" title="Any Types on this line: 
+Unannotated (x2)">TableRecords = ModelList  # Collection of extracted model records</span>
+<span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">log = logging.getLogger(__name__)</span>
 <span class="line-precise" title="No Anys on this line!">log.setLevel(logging.INFO)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">class Table(CaptionedElement):</span>
-<span class="line-empty" title="No Anys on this line!">    """</span>
-<span class="line-empty" title="No Anys on this line!">    Main Table object. Relies on TableDataExtractor.</span>
+<span class="line-empty" title="No Anys on this line!">    """Main Table object for processing tabular data in scientific documents.</span>
+<span class="line-empty" title="No Anys on this line!">    </span>
+<span class="line-empty" title="No Anys on this line!">    Relies on TableDataExtractor for parsing and ChemDataExtractor for extraction.</span>
+<span class="line-empty" title="No Anys on this line!">    Handles complex table structures with chemical entities, quantities, and properties.</span>
 <span class="line-empty" title="No Anys on this line!">    """</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-any" title="No Anys on this line!">    def __init__(self, caption, label=None, table_data=[], models=None, **kwargs):</span>
+<span class="line-any" title="Any Types on this line: 
+Explicit (x1)">    def __init__(</span>
+<span class="line-empty" title="No Anys on this line!">        self, </span>
+<span class="line-empty" title="No Anys on this line!">        caption: CaptionedElement, </span>
+<span class="line-precise" title="No Anys on this line!">        label: Optional[str] = None, </span>
+<span class="line-precise" title="No Anys on this line!">        table_data: Optional[TableData] = None, </span>
+<span class="line-precise" title="No Anys on this line!">        models: Optional[list[BaseModel]] = None, </span>
+<span class="line-empty" title="No Anys on this line!">        **kwargs: Any</span>
+<span class="line-empty" title="No Anys on this line!">    ) -&gt; None:</span>
 <span class="line-empty" title="No Anys on this line!">        """</span>
 <span class="line-empty" title="No Anys on this line!">        In addition to the parameters below, any keyword arguments supported by TableDataExtractor.TdeTable</span>
 <span class="line-empty" title="No Anys on this line!">        can be passed in as keyword arguments and they will be passed on to TableDataExtractor.TdeTable.</span>
@@ -425,42 +482,44 @@
 <span class="line-empty" title="No Anys on this line!">        :param Document document: (Optional) The document containing this element.</span>
 <span class="line-empty" title="No Anys on this line!">        :param Any id: (Optional) Some identifier for this element. Must be equatable.</span>
 <span class="line-empty" title="No Anys on this line!">        """</span>
+<span class="line-precise" title="No Anys on this line!">        if table_data is None:</span>
+<span class="line-precise" title="No Anys on this line!">            table_data = []</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x5)">        super(Table, self).__init__(</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x4)">            caption=caption, label=label, models=models, **kwargs</span>
+Explicit (x1)">        super(Table, self).__init__(</span>
+<span class="line-imprecise" title="Any Types on this line: 
+Explicit (x1)">            caption=caption, label=label, models=models, **kwargs</span>
 <span class="line-empty" title="No Anys on this line!">        )</span>
 <span class="line-empty" title="No Anys on this line!">        try:</span>
 <span class="line-empty" title="No Anys on this line!">            #: TableDataExtractor `Table` object. Can pass any kwargs into TDE directly.</span>
 <span class="line-any" title="Any Types on this line: 
 Unimported (x3)
-Unannotated (x2)">            self.tde_table = TdeTable(table_data, **kwargs)</span>
+Explicit (x1)">            self.tde_table = TdeTable(table_data, **kwargs)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="Any Types on this line: 
 Unimported (x2)">        except (TDEError, TypeError) as e:</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-imprecise" title="Any Types on this line: 
 Unimported (x1)">            log.error(f"TableDataExtractor 'Table' error: {e}")</span>
-<span class="line-any" title="No Anys on this line!">            log.info("Attempting TableDataExtractor 'TrivialTable' interpretation.")</span>
+<span class="line-precise" title="No Anys on this line!">            log.info("Attempting TableDataExtractor 'TrivialTable' interpretation.")</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">            try:</span>
 <span class="line-empty" title="No Anys on this line!">                #: TableDataExtractor `TrivialTable` object. Can pass any kwargs into TDE directly.</span>
 <span class="line-any" title="Any Types on this line: 
 Unimported (x3)">                self.tde_table = TrivialTdeTable(</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">                    table_data, standardize_empty_data=True, **kwargs</span>
+<span class="line-imprecise" title="Any Types on this line: 
+Explicit (x1)">                    table_data, standardize_empty_data=True, **kwargs</span>
 <span class="line-empty" title="No Anys on this line!">                )</span>
 <span class="line-any" title="Any Types on this line: 
 Unimported (x2)">            except (TDEError, TypeError) as e:</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-imprecise" title="Any Types on this line: 
 Unimported (x1)">                log.error(f"TableDataExtractor 'TrivialTable' error: {e}")</span>
 <span class="line-precise" title="No Anys on this line!">                self.tde_subtables = []</span>
 <span class="line-any" title="Any Types on this line: 
 Unimported (x1)">                self.tde_table = None</span>
-<span class="line-any" title="No Anys on this line!">                self.heading = None</span>
+<span class="line-precise" title="No Anys on this line!">                self.heading = None</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="Any Types on this line: 
 Unannotated (x2)">    @memoized_property</span>
-<span class="line-any" title="No Anys on this line!">    def cde_tables(self):</span>
+<span class="line-precise" title="No Anys on this line!">    def cde_tables(self) -&gt; CDETables:</span>
 <span class="line-empty" title="No Anys on this line!">        """</span>
 <span class="line-empty" title="No Anys on this line!">        CDE tables are lists of lists of Cells, that are used for the purpose of parsing</span>
 <span class="line-empty" title="No Anys on this line!">        in CDE. For other purposes, the underlying TDE table (`tde_table`) is probably more useful.</span>
@@ -473,8 +532,7 @@ Unimported (x1)">        if self.tde_table is not None:</span>
 Unimported (x2)
 Unannotated (x1)">            self.tde_subtables = self.tde_table.subtables</span>
 <span class="line-empty" title="No Anys on this line!">            # adjust the CDE Table heading from TDE results</span>
-<span class="line-imprecise" title="Any Types on this line: 
-Unannotated (x1)">            self.heading = (</span>
+<span class="line-precise" title="No Anys on this line!">            self.heading = (</span>
 <span class="line-any" title="Any Types on this line: 
 Unimported (x4)">                self.tde_table.title_row if self.tde_table.title_row is not None else []</span>
 <span class="line-empty" title="No Anys on this line!">            )</span>

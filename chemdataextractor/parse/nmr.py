@@ -3,7 +3,6 @@ NMR text parser.
 
 """
 
-
 import copy
 import logging
 import re
@@ -79,16 +78,12 @@ solvent = (
     .add_action(fix_whitespace)
 )
 
-temp_value = (
-    Optional(R(r"^[~∼\<\>]$")) + Optional(R(r"^[\-–−]$")) + R(r"^[\+\-–−]?\d+(\.\d+)?$")
-)("value").add_action(merge)
-temp_word = (I("room") + R("^temp(erature)?$") | R(r"^r\.?t\.?$", re.I))(
+temp_value = (Optional(R(r"^[~∼\<\>]$")) + Optional(R(r"^[\-–−]$")) + R(r"^[\+\-–−]?\d+(\.\d+)?$"))(
     "value"
-).add_action(join)
+).add_action(merge)
+temp_word = (I("room") + R("^temp(erature)?$") | R(r"^r\.?t\.?$", re.I))("value").add_action(join)
 temp_units = (W("°") + R("[CFK]") | W("K"))("units").add_action(merge)
-temperature = Optional(I("at").hide()) + Group((temp_value + temp_units) | temp_word)(
-    "temperature"
-)
+temperature = Optional(I("at").hide()) + Group((temp_value + temp_units) | temp_word)("temperature")
 
 
 def fix_nmr_peak_whitespace_error(tokens, start, result):
@@ -126,28 +121,22 @@ shift_range = (
         )
     )
 )("shift").add_action(merge)
-shift_value = (Optional(R(r"^[\-–−‒]$")) + R(r"^δ?[\+\-–−‒]?\d+(\.+\d+)?\.?$"))(
+shift_value = (Optional(R(r"^[\-–−‒]$")) + R(r"^δ?[\+\-–−‒]?\d+(\.+\d+)?\.?$"))("shift").add_action(
+    merge
+)
+shift_error = (Optional(R(r"^[\-–−‒]$")) + R(r"^δ?[\+\-–−‒]?\d+(\.+\d+)?,\d+(\.+\d+)?\.?$"))(
     "shift"
 ).add_action(merge)
-shift_error = (
-    Optional(R(r"^[\-–−‒]$")) + R(r"^δ?[\+\-–−‒]?\d+(\.+\d+)?,\d+(\.+\d+)?\.?$")
-)("shift").add_action(merge)
-shift = (
-    (shift_range | shift_value | shift_error)
-    .add_action(strip_stop)
-    .add_action(strip_delta)
-)
+shift = (shift_range | shift_value | shift_error).add_action(strip_stop).add_action(strip_delta)
 
 split = R(
     "^(br?)?(s|S|d|D|t|T|q|Q|quint|sept|m|M|dd|ddd|dt|td|tt|br|bs|sb|h|ABq|broad|singlet|doublet|triplet|qua(rtet)?|quintet|septet|multiplet|multiple|peaks)$"
 )
-multiplicity = (OneOrMore(split) + Optional(W("of") + split))(
-    "multiplicity"
-).add_action(join)
+multiplicity = (OneOrMore(split) + Optional(W("of") + split))("multiplicity").add_action(join)
 
-coupling_value = (number + ZeroOrMore(R("^[,;&]$") + number + Not(W("H"))))(
-    "value"
-).add_action(join)
+coupling_value = (number + ZeroOrMore(R("^[,;&]$") + number + Not(W("H"))))("value").add_action(
+    join
+)
 # coupling = ((R('^\d?J([HCNPFD\d,]*|cis|trans)$') + Optional(R('^[\-–−‒]$') + R('^[HCNPF\d]$')) + Optional('=')).hide() + coupling_value + Optional(W('Hz')('units')) + ZeroOrMore(R('^[,;&]$').hide() + coupling_value + W('Hz')('units')))('coupling')
 coupling = (
     (
@@ -195,9 +184,7 @@ ppm = Optional(R(r"^[(\[]$")) + Optional(I("in")) + I("ppm") + Optional(R(r"^[)\
 spectrum_meta = (
     Optional(W("(").hide())
     + (frequency | solvent | delta | temperature)
-    + ZeroOrMore(
-        Optional(delim) + (frequency | solvent | I("ppm") | delta | temperature)
-    )
+    + ZeroOrMore(Optional(delim) + (frequency | solvent | I("ppm") | delta | temperature))
     + Optional(temperature)
     + Optional(W(")").hide())
 )
@@ -208,9 +195,9 @@ prelude = (
     + ZeroOrMore(prelude_options)
 ) | (R("^δ[HC]?$")("nucleus") + spectrum_meta + ZeroOrMore(prelude_options))
 
-peak = Optional(delta) + (
-    shift + Not(R("^M?Hz$")) + Optional(ppm).hide() + Optional(peak_meta)
-)("peak").add_action(fix_nmr_peak_whitespace_error)
+peak = Optional(delta) + (shift + Not(R("^M?Hz$")) + Optional(ppm).hide() + Optional(peak_meta))(
+    "peak"
+).add_action(fix_nmr_peak_whitespace_error)
 peaks = (peak + ZeroOrMore(ZeroOrMore(delim | W("and")).hide() + peak))("peaks")
 
 nmr = (prelude + peaks)("nmr")

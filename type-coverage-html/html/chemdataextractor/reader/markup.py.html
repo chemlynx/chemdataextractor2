@@ -409,16 +409,38 @@
 <span id="L399" class="lineno"><a class="lineno" href="#L399">399</a></span>
 <span id="L400" class="lineno"><a class="lineno" href="#L400">400</a></span>
 <span id="L401" class="lineno"><a class="lineno" href="#L401">401</a></span>
+<span id="L402" class="lineno"><a class="lineno" href="#L402">402</a></span>
+<span id="L403" class="lineno"><a class="lineno" href="#L403">403</a></span>
+<span id="L404" class="lineno"><a class="lineno" href="#L404">404</a></span>
+<span id="L405" class="lineno"><a class="lineno" href="#L405">405</a></span>
+<span id="L406" class="lineno"><a class="lineno" href="#L406">406</a></span>
+<span id="L407" class="lineno"><a class="lineno" href="#L407">407</a></span>
+<span id="L408" class="lineno"><a class="lineno" href="#L408">408</a></span>
+<span id="L409" class="lineno"><a class="lineno" href="#L409">409</a></span>
+<span id="L410" class="lineno"><a class="lineno" href="#L410">410</a></span>
+<span id="L411" class="lineno"><a class="lineno" href="#L411">411</a></span>
+<span id="L412" class="lineno"><a class="lineno" href="#L412">412</a></span>
 </pre></td>
 <td class="table-code"><pre><span class="line-empty" title="No Anys on this line!">"""</span>
 <span class="line-empty" title="No Anys on this line!">XML and HTML readers based on lxml.</span>
 <span class="line-empty" title="No Anys on this line!"></span>
+<span class="line-empty" title="No Anys on this line!">Provides base classes and utilities for parsing structured markup documents</span>
+<span class="line-empty" title="No Anys on this line!">(XML, HTML) into ChemDataExtractor document elements.</span>
 <span class="line-empty" title="No Anys on this line!">"""</span>
+<span class="line-empty" title="No Anys on this line!"></span>
+<span class="line-precise" title="No Anys on this line!">from __future__ import annotations</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">import logging</span>
 <span class="line-precise" title="No Anys on this line!">from abc import ABCMeta</span>
 <span class="line-precise" title="No Anys on this line!">from abc import abstractmethod</span>
 <span class="line-precise" title="No Anys on this line!">from collections import defaultdict</span>
+<span class="line-precise" title="No Anys on this line!">from typing import TYPE_CHECKING</span>
+<span class="line-precise" title="No Anys on this line!">from typing import Any</span>
+<span class="line-precise" title="No Anys on this line!">from typing import Optional</span>
+<span class="line-precise" title="No Anys on this line!">from typing import Union</span>
+<span class="line-empty" title="No Anys on this line!"></span>
+<span class="line-precise" title="No Anys on this line!">if TYPE_CHECKING:</span>
+<span class="line-precise" title="No Anys on this line!">    from ..doc.element import BaseElement</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="No Anys on this line!">from lxml import etree</span>
 <span class="line-any" title="No Anys on this line!">from lxml.etree import XMLParser</span>
@@ -807,7 +829,8 @@ Unannotated (x2)">        for r in rows:</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x9)">            data.append([i.text.strip() for i in r])</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x9)">        table = Table(caption, table_data=data)</span>
+Unannotated (x4)
+Explicit (x1)">        table = Table(caption, table_data=data)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">        return [table]</span>

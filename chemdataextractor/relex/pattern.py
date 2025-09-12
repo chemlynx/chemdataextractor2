@@ -13,24 +13,23 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING
 from typing import Any
+from typing import List
 from typing import Optional
 
 from ..parse.elements import And
 from ..parse.elements import I
-
-if TYPE_CHECKING:
-    from .entity import Entity
-    from .relationship import Relation
+from .entity import Entity
+from .relationship import Relation
 
 # Type aliases for pattern learning
-PatternElements = list[Any]  # Elements that make up a pattern
-EntityList = list[Entity]  # List of entities in a pattern
-RelationList = list[Relation]  # List of relations associated with a pattern
+PatternElements = List[Any]  # Elements that make up a pattern
+EntityList = List[Entity]  # List of entities in a pattern
+RelationList = List[Relation]  # List of relations associated with a pattern
 
 
 class Pattern:
     """Pattern object for representing learned extraction patterns.
-    
+
     Fundamentally similar to a phrase but includes confidence scoring
     for pattern quality assessment.
     """
@@ -40,13 +39,13 @@ class Pattern:
         entities: Optional[EntityList] = None,
         elements: Optional[PatternElements] = None,
         label: Optional[str] = None,
-        sentences: Optional[list[str]] = None,
-        order: Optional[list[int]] = None,
+        sentences: Optional[List[str]] = None,
+        order: Optional[List[int]] = None,
         relations: Optional[RelationList] = None,
         confidence: float = 0.0,
     ) -> None:
         """Initialize a Pattern.
-        
+
         Args:
             entities: Entities involved in this pattern
             elements: Parser elements that make up the pattern
@@ -76,13 +75,9 @@ class Pattern:
         else:
             output_string += "(" + self.entities[0].tag + ") "
         for i in range(0, self.number_of_entities - 1):
-            output_string += (
-                " ".join(self.elements["middle_" + str(i + 1)]["tokens"]) + " "
-            )
+            output_string += " ".join(self.elements["middle_" + str(i + 1)]["tokens"]) + " "
             if isinstance(self.entities[i + 1].tag, tuple):
-                output_string += (
-                    "(" + ", ".join([i for i in self.entities[i + 1].tag]) + ") "
-                )
+                output_string += "(" + ", ".join([i for i in self.entities[i + 1].tag]) + ") "
             else:
                 output_string += "(" + self.entities[i + 1].tag + ") "
         output_string = output_string

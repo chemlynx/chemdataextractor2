@@ -15,23 +15,26 @@ from abc import ABCMeta
 from abc import abstractproperty
 from typing import TYPE_CHECKING
 from typing import Any
-from typing import Optional
+from typing import List
+from typing import Set
+from typing import Tuple
 
 try:
     from typing import Self
 except ImportError:
     pass  # type: ignore[attr-defined]
 
+from ..model.base import BaseModel
+from ..model.base import ModelList
+
 if TYPE_CHECKING:
-    from ..model.base import BaseModel
-    from ..model.base import ModelList
     from .document import Document
 
 # Type aliases
 ElementID = Any  # Element identifiers can be any equatable type
 Citation = Any  # TODO: Type when Citation class is typed
 Span = Any  # TODO: Type when Span class is typed
-AbbreviationDef = tuple[list[str], list[str], str]
+AbbreviationDef = Tuple[List[str], list[str], str]
 
 log = logging.getLogger(__name__)
 
@@ -52,10 +55,10 @@ class BaseElement(metaclass=ABCMeta):
 
     def __init__(
         self,
-        document: Optional[Document] = None,
-        references: Optional[list[Citation]] = None,
-        id: Optional[ElementID] = None,
-        models: Optional[list[type[BaseModel]]] = None,
+        document: Document | None = None,
+        references: List[Citation] | None = None,
+        id: ElementID | None = None,
+        models: List[type[BaseModel]] | None = None,
         **kwargs: Any,
     ) -> None:
         """Initialize a BaseElement.
@@ -73,16 +76,16 @@ class BaseElement(metaclass=ABCMeta):
             to a Document constructor, the document attribute is set automatically.
         """
         # The containing Document
-        self._document: Optional[Document] = document
-        self.id: Optional[ElementID] = id
-        self.references: list[Citation] = references if references is not None else []
+        self._document: Document | None = document
+        self.id: ElementID | None = id
+        self.references: List[Citation] = references if references is not None else []
 
         # Model configuration
         if models:
             self.models = models
         else:
             self.models = []
-        self._streamlined_models_list: Optional[list[type[BaseModel]]] = None
+        self._streamlined_models_list: List[type[BaseModel]] | None = None
 
     def __repr__(self) -> str:
         """Return string representation of the element."""
@@ -93,7 +96,7 @@ class BaseElement(metaclass=ABCMeta):
         return "<%s>" % (self.__class__.__name__,)
 
     @property
-    def document(self) -> Optional[Document]:
+    def document(self) -> Document | None:
         """The Document that this element belongs to.
 
         Returns:
@@ -102,7 +105,7 @@ class BaseElement(metaclass=ABCMeta):
         return self._document
 
     @document.setter
-    def document(self, document: Optional[Document]) -> None:
+    def document(self, document: Document | None) -> None:
         """Set the containing Document.
 
         Args:
@@ -132,7 +135,7 @@ class BaseElement(metaclass=ABCMeta):
     #     """Convert Element to python dictionary."""
     #     return []
 
-    def add_models(self, models: list[type[BaseModel]]) -> None:
+    def add_models(self, models: List[type[BaseModel]]) -> None:
         """Add models to this element for data extraction.
 
         Args:
@@ -153,7 +156,7 @@ class BaseElement(metaclass=ABCMeta):
         return self._models
 
     @models.setter
-    def models(self, value: list[type[BaseModel]]) -> None:
+    def models(self, value: List[type[BaseModel]]) -> None:
         """Set the models for this element.
 
         Args:
@@ -170,7 +173,7 @@ class BaseElement(metaclass=ABCMeta):
             Sorted list of model classes including nested dependencies
         """
         if self._streamlined_models_list is None:
-            models: set[type[BaseModel]] = set()
+            models: Set[type[BaseModel]] = set()
             log.debug(self.models)
             for model in self.models:
                 models.update(model.flatten(include_inferred=False))
@@ -195,7 +198,7 @@ class BaseElement(metaclass=ABCMeta):
         return json.dumps(self.serialize(), *args, **kwargs)
 
     @property
-    def elements(self) -> Optional[list[BaseElement]]:
+    def elements(self) -> List[BaseElement] | None:
         """List of child elements.
 
         Returns:
@@ -216,9 +219,7 @@ class CaptionedElement(BaseElement):
         label: Optional label identifier (e.g., "1" for "Table 1")
     """
 
-    def __init__(
-        self, caption: BaseElement, label: Optional[str] = None, **kwargs: Any
-    ) -> None:
+    def __init__(self, caption: BaseElement, label: str | None = None, **kwargs: Any) -> None:
         """Initialize a CaptionedElement.
 
         Args:
@@ -231,7 +232,7 @@ class CaptionedElement(BaseElement):
             is set. When passed to a Document constructor, this is handled automatically.
         """
         self.caption: BaseElement = caption
-        self.label: Optional[str] = label
+        self.label: str | None = label
         super(CaptionedElement, self).__init__(**kwargs)
         self.caption.document = self.document
 
@@ -249,7 +250,7 @@ class CaptionedElement(BaseElement):
         return self.caption.text
 
     @property
-    def document(self) -> Optional[Document]:
+    def document(self) -> Document | None:
         """The Document that this element belongs to.
 
         Returns:
@@ -258,7 +259,7 @@ class CaptionedElement(BaseElement):
         return self._document
 
     @document.setter
-    def document(self, document: Optional[Document]) -> None:
+    def document(self, document: Document | None) -> None:
         """Set the containing Document and propagate to caption.
 
         Args:
@@ -286,7 +287,7 @@ class CaptionedElement(BaseElement):
         return self.caption.abbreviation_definitions
 
     @property
-    def ner_tags(self) -> list[Optional[str]]:
+    def ner_tags(self) -> list[str | None]:
         """All Named Entity Recognition tags in the caption.
 
         Returns:
@@ -332,7 +333,7 @@ class CaptionedElement(BaseElement):
         return self._models
 
     @models.setter
-    def models(self, value: list[type[BaseModel]]) -> None:
+    def models(self, value: List[type[BaseModel]]) -> None:
         """Set the models for this element and propagate to caption.
 
         Args:

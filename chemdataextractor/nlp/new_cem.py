@@ -2,7 +2,6 @@
 New and improved named entity recognition (NER) for Chemical entity mentions (CEM).
 """
 
-
 from .bertcrf_tagger import BertCrfTagger
 from .bertcrf_tagger import ProcessedTextTagger
 from .bertcrf_tagger import _BertCrfTokenTagger

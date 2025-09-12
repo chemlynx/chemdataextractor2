@@ -156,16 +156,12 @@ class NlmXmlDocument(Entity):
         xpath=True,
         all=True,
     )
-    journal_title = StringField(
-        "/article/front/journal-meta//journal-title/text()", xpath=True
-    )
+    journal_title = StringField("/article/front/journal-meta//journal-title/text()", xpath=True)
     journal_abbreviation = StringField(
         '/article/front/journal-meta/journal-id[@journal-id-type="iso-abbrev"]/text()|/article/front/journal-meta/journal-id[@journal-id-type="nlm-ta"]/text()',
         xpath=True,
     )
-    publisher = StringField(
-        "/article/front/journal-meta//publisher-name/text()", xpath=True
-    )
+    publisher = StringField("/article/front/journal-meta//publisher-name/text()", xpath=True)
     volume = StringField("/article/front/article-meta/volume/text()", xpath=True)
     firstpage = StringField("/article/front/article-meta/fpage/text()", xpath=True)
     lastpage = StringField("/article/front/article-meta/lpage/text()", xpath=True)

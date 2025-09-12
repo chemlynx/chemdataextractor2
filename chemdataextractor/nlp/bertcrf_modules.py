@@ -4,6 +4,7 @@ https://github.com/allenai/allennlp/blob/v0.9.0/allennlp/modules/time_distribute
 https://github.com/allenai/allennlp/blob/v0.9.0/allennlp/data/tokenizers/token.py
 """
 
+from typing import List
 from typing import NamedTuple
 
 import torch
@@ -32,12 +33,10 @@ class TimeDistributed(torch.nn.Module):
         self._module = module
 
     @overrides
-    def forward(self, *inputs, pass_through: list[str] = None, **kwargs):
+    def forward(self, *inputs, pass_through: List[str] = None, **kwargs):
         pass_through = pass_through or []
 
-        reshaped_inputs = [
-            self._reshape_tensor(input_tensor) for input_tensor in inputs
-        ]
+        reshaped_inputs = [self._reshape_tensor(input_tensor) for input_tensor in inputs]
 
         # Need some input to then get the batch_size and time_steps.
         some_input = None

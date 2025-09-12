@@ -6,6 +6,7 @@ Springer XML reader for the JATS format
 
 author: Shu Huang <sh2009@cam.ac.uk>
 """
+
 from ..doc.meta import MetaData
 from ..scrape.clean import Cleaner
 from ..scrape.clean import clean

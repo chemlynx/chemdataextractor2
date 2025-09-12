@@ -49,16 +49,12 @@ prefix = (
 delim = R(r"^[:;\.,]$")
 
 # TODO: Consider allowing degree symbol to be optional. The prefix should be restrictive enough to stop false positives.
-units = (W("°") + Optional(R(r"^[CFK]\.?$")) | W(r"K\.?") | W("°C"))(
-    "units"
-).add_action(merge)
+units = (W("°") + Optional(R(r"^[CFK]\.?$")) | W(r"K\.?") | W("°C"))("units").add_action(merge)
 
 value = value_element()(None)
 temp_range = (Optional(R(r"^[\-–−]$")) + value)("value").add_action(merge)
 temp_value = value("value").add_action(merge)
-temp = (
-    Optional(lbrct).hide() + (temp_range | temp_value)("value") + Optional(rbrct).hide()
-)
+temp = Optional(lbrct).hide() + (temp_range | temp_value)("value") + Optional(rbrct).hide()
 
 tg = (prefix + Optional(delim).hide() + temp + units)("tg")
 

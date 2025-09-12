@@ -14,7 +14,10 @@ import logging
 import re
 from typing import TYPE_CHECKING
 from typing import Any
+from typing import Dict
+from typing import List
 from typing import Optional
+from typing import Tuple
 
 from ..text import bracket_level
 from .lexicon import ChemLexicon
@@ -29,13 +32,13 @@ if TYPE_CHECKING:
 
 # Type aliases for CEM tagging
 CEMTag = str  # Chemical entity mention tag (e.g., 'B-CM', 'I-CM')
-TokenTags = list[tuple[str, CEMTag]]  # List of (token, tag) pairs
+TokenTags = List[Tuple[str, CEMTag]]  # List of (token, tag) pairs
 
 log = logging.getLogger(__name__)
 
 
 #: Token endings to ignore when considering stopwords and deriving spans
-IGNORE_SUFFIX: list[str] = [
+IGNORE_SUFFIX: List[str] = [
     # Many of these are now unnecessary due to tokenization improvements, but not much harm in leaving them here.
     "-",
     "'s",
@@ -2237,7 +2240,7 @@ class _CompatibilityToken:
 
 class CiDictCemTagger(DictionaryTagger):
     """Case-insensitive CEM dictionary tagger.
-    
+
     Uses chemical lexicon for fast dictionary-based entity recognition
     without case sensitivity requirements.
     """
@@ -2249,7 +2252,7 @@ class CiDictCemTagger(DictionaryTagger):
 
 class CsDictCemTagger(DictionaryTagger):
     """Case-sensitive CEM dictionary tagger.
-    
+
     Uses chemical lexicon for fast dictionary-based entity recognition
     with exact case matching requirements.
     """
@@ -2262,11 +2265,11 @@ class CsDictCemTagger(DictionaryTagger):
 
 class CrfCemTagger(CrfTagger):
     """CRF-based chemical entity mention tagger.
-    
+
     Uses Conditional Random Fields to identify chemical entities in text.
     Trained on chemistry literature with features including word shapes,
     lexicon matches, and contextual patterns.
-    
+
     Attributes:
         tag_type: str - NER tag type for chemical entities
         model: str - Path to trained CRF model file
@@ -2280,7 +2283,7 @@ class CrfCemTagger(CrfTagger):
     lexicon: ChemLexicon = ChemLexicon()
     clusters: bool = True
 
-    params: dict[str, Any] = {
+    params: Dict[str, Any] = {
         "c1": 1.0,  # Coefficient for L1 regularization (OWL-QN). Default 0.
         "c2": 0.001,  # Coefficient for L2 regularization. Default 1.
         "max_iterations": 200,  # The maximum number of iterations for L-BFGS optimization. Default INT_MAX.
@@ -2523,16 +2526,12 @@ class LegacyCemTagger(EnsembleTagger):
         for tag_type in self.taggers_dict.keys():
             if tag_type != self.tag_type:
                 tagger = self.taggers_dict[tag_type]
-                all_prefetched_tags[tag_type] = [
-                    el[1] for el in tagger.legacy_tag(tokens)
-                ]
+                all_prefetched_tags[tag_type] = [el[1] for el in tagger.legacy_tag(tokens)]
         for index, token in enumerate(tokens):
             prefetched_tags = {}
             for key, value in all_prefetched_tags.items():
                 prefetched_tags[key] = value[index]
-            pseudo_rich_tokens.append(
-                _CompatibilityToken(token[0], token[1], prefetched_tags)
-            )
+            pseudo_rich_tokens.append(_CompatibilityToken(token[0], token[1], prefetched_tags))
         tagged = self.tag(pseudo_rich_tokens)
         processed = []
         for index, element in enumerate(tagged):
@@ -2596,19 +2595,13 @@ class LegacyCemTagger(EnsembleTagger):
                     entity_tokens = entity_tokens[:-2]
 
                 entity = " ".join(entity_tokens)
-                if any(e in STOP_TOKENS for e in entity_tokens) or self._in_stoplist(
-                    entity
-                ):
+                if any(e in STOP_TOKENS for e in entity_tokens) or self._in_stoplist(entity):
                     tags[i:end_i] = [None] * (end_i - i)
                 else:
                     bl = bracket_level(entity)
                     # Try and add on brackets in neighbouring tokens if they form part of the name
                     # TODO: Check bracket type matches before adding on
-                    if (
-                        bl == 1
-                        and len(tokens) > end_i
-                        and bracket_level(tokens[end_i].text) == -1
-                    ):
+                    if bl == 1 and len(tokens) > end_i and bracket_level(tokens[end_i].text) == -1:
                         # print('BLADJUST: %s - %s' % (entity, tokens[end_i][0]))
                         tags[end_i] = "I-CM"
                     elif bl == -1 and i > 0 and bracket_level(tokens[i - 1].text) == 1:
@@ -2629,9 +2622,7 @@ class LegacyCemTagger(EnsembleTagger):
                                 r"^(\d{1,2}[A-Za-z]?|I|II|III|IV|V|VI|VII|VIII|IX)$",
                                 entity_tokens[-2],
                             ):
-                                log.debug(
-                                    "Removing %s from end of CEM", entity_tokens[-2]
-                                )
+                                log.debug("Removing %s from end of CEM", entity_tokens[-2])
                                 tags[end_i - 3 : end_i] = [None, None, None]
         tokentags = list(zip(tokens, tags))
         return tokentags

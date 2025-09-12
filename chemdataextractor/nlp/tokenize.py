@@ -14,7 +14,9 @@ from abc import ABCMeta
 from abc import abstractmethod
 from typing import TYPE_CHECKING
 from typing import Iterator
+from typing import List, Tuple
 from typing import Optional
+from typing import Set
 
 from deprecation import deprecated
 from tokenizers import BertWordPieceTokenizer
@@ -28,8 +30,8 @@ if TYPE_CHECKING:
     pass
 
 # Type aliases for tokenization
-TokenSpan = tuple[int, int]  # Start and end positions of tokens
-TokenList = list[str]  # List of token strings
+TokenSpan = Tuple[int, int]  # Start and end positions of tokens
+TokenList = List[str]  # List of token strings
 
 log = logging.getLogger(__name__)
 
@@ -39,7 +41,7 @@ class BaseTokenizer(metaclass=ABCMeta):
 
     Provides the fundamental interface for tokenizing text into words or sentences.
     Subclasses must implement ``span_tokenize()`` to return token positions.
-    
+
     All tokenizers work with character-level spans to preserve exact text positions,
     which is crucial for maintaining alignment with the original document structure.
     """
@@ -50,12 +52,12 @@ class BaseTokenizer(metaclass=ABCMeta):
     )
     def tokenize(self, s: str) -> TokenList:
         """Return a list of token strings from the given sentence.
-        
+
         DEPRECATED: Use span_tokenize() and sentence objects instead.
 
         Args:
             s: str - The sentence string to tokenize
-            
+
         Returns:
             list[str] - List of token strings
         """
@@ -64,14 +66,14 @@ class BaseTokenizer(metaclass=ABCMeta):
     @abstractmethod
     def span_tokenize(self, s: str) -> list[TokenSpan]:
         """Return token positions as (start, end) offset pairs.
-        
+
         The core tokenization method that all subclasses must implement.
         Returns character-level positions that can be used to extract tokens
         while preserving exact alignment with the original text.
 
         Args:
             s: str - The sentence string to tokenize
-            
+
         Returns:
             list[tuple[int, int]] - List of (start, end) character positions
         """
@@ -80,11 +82,11 @@ class BaseTokenizer(metaclass=ABCMeta):
 
 def regex_span_tokenize(s: str, regex: re.Pattern[str] | str) -> Iterator[TokenSpan]:
     """Return token spans using regular expression splitting.
-    
+
     Args:
         s: str - Input text to tokenize
         regex: re.Pattern[str] | str - Regular expression pattern for splitting
-        
+
     Yields:
         tuple[int, int] - Token (start, end) positions
     """
@@ -99,10 +101,10 @@ def regex_span_tokenize(s: str, regex: re.Pattern[str] | str) -> Iterator[TokenS
 
 class SentenceTokenizer(BaseTokenizer):
     """Sentence tokenizer using the Punkt algorithm by Kiss & Strunk (2006).
-    
+
     Implements unsupervised sentence boundary detection optimized for
     scientific text with chemical terminology and abbreviations.
-    
+
     Attributes:
         model: str - Path to the trained Punkt model file
     """
@@ -111,7 +113,7 @@ class SentenceTokenizer(BaseTokenizer):
 
     def __init__(self, model: Optional[str] = None) -> None:
         """Initialize sentence tokenizer.
-        
+
         Args:
             model: Optional[str] - Path to custom Punkt model file
         """
@@ -121,10 +123,10 @@ class SentenceTokenizer(BaseTokenizer):
 
     def get_sentences(self, text: object) -> list[object]:  # Text -> list[Sentence]
         """Get sentence objects from text using tokenization.
-        
+
         Args:
             text: Text - Text object to sentence-tokenize
-            
+
         Returns:
             list[Sentence] - List of sentence objects
         """
@@ -136,7 +138,7 @@ class SentenceTokenizer(BaseTokenizer):
 
         Args:
             s: str - The text to tokenize into sentences
-            
+
         Returns:
             list[tuple[int, int]] - List of (start, end) sentence positions
         """
@@ -149,7 +151,7 @@ class SentenceTokenizer(BaseTokenizer):
 
 class ChemSentenceTokenizer(SentenceTokenizer):
     """Chemistry-specialized sentence tokenizer.
-    
+
     Uses the Punkt algorithm trained on chemistry literature to better handle
     chemical abbreviations, formulas, and domain-specific terminology.
     """
@@ -159,18 +161,18 @@ class ChemSentenceTokenizer(SentenceTokenizer):
 
 class WordTokenizer(BaseTokenizer):
     """Standard word tokenizer for generic English text.
-    
+
     Implements rule-based word tokenization with special handling for
     punctuation, dashes, arrows, and other common text patterns.
-    
+
     Attributes:
-        SPLIT: list[str] - Sequences that trigger token boundaries
-        SPLIT_BEFORE: list[str] - Sequences that start new tokens
-        SPLIT_AFTER: list[str] - Sequences that end current tokens
+        SPLIT: List[str] - Sequences that trigger token boundaries
+        SPLIT_BEFORE: List[str] - Sequences that start new tokens
+        SPLIT_AFTER: List[str] - Sequences that end current tokens
     """
 
     #: Split before and after these sequences, wherever they occur, unless entire token is one of these sequences
-    SPLIT: list[str] = [
+    SPLIT: List[str] = [
         "----",
         "––––",  # \u2013 en dash
         "————",  # \u2014 em dash
@@ -328,7 +330,7 @@ class WordTokenizer(BaseTokenizer):
         ("'twas", 2),
     ]
     #: Don't split these sequences.
-    NO_SPLIT: set[str] = {"mm-hm", "mm-mm", "o-kay", "uh-huh", "uh-oh", "wanna-be"}
+    NO_SPLIT: Set[str] = {"mm-hm", "mm-mm", "o-kay", "uh-huh", "uh-oh", "wanna-be"}
     #: Don't split around hyphens with these prefixes
     NO_SPLIT_PREFIX = {
         "e",
@@ -398,7 +400,7 @@ class WordTokenizer(BaseTokenizer):
 
     def __init__(self, split_last_stop: bool = True) -> None:
         """Initialize word tokenizer.
-        
+
         Args:
             split_last_stop: bool - Whether to split off final full stops (default: True)
         """
@@ -431,11 +433,7 @@ class WordTokenizer(BaseTokenizer):
             return [span]
 
         # Skip if it looks like URL
-        if (
-            text.startswith("http://")
-            or text.startswith("ftp://")
-            or text.startswith("www.")
-        ):
+        if text.startswith("http://") or text.startswith("ftp://") or text.startswith("www."):
             return [span]
 
         # Split full stop at end of final token (allow certain characters to follow) unless ellipsis
@@ -453,20 +451,12 @@ class WordTokenizer(BaseTokenizer):
 
         # Split off certain sequences at the end of a word
         for spl in self.SPLIT_END_WORD:
-            if (
-                text.endswith(spl)
-                and len(text) > len(spl)
-                and text[-len(spl) - 1].isalpha()
-            ):
+            if text.endswith(spl) and len(text) > len(spl) and text[-len(spl) - 1].isalpha():
                 return self._split_span(span, -len(spl), 0)
 
         # Split off certain sequences at the start of a word
         for spl in self.SPLIT_START_WORD:
-            if (
-                text.startswith(spl)
-                and len(text) > len(spl)
-                and text[-len(spl) - 1].isalpha()
-            ):
+            if text.startswith(spl) and len(text) > len(spl) and text[-len(spl) - 1].isalpha():
                 return self._split_span(span, len(spl), 0)
 
         # Split around certain sequences
@@ -478,9 +468,7 @@ class WordTokenizer(BaseTokenizer):
         # Split around certain sequences unless followed by a digit
         for spl in self.SPLIT_NO_DIGIT:
             ind = text.rfind(spl)
-            if ind > -1 and (
-                len(text) <= ind + len(spl) or not text[ind + len(spl)].isdigit()
-            ):
+            if ind > -1 and (len(text) <= ind + len(spl) or not text[ind + len(spl)].isdigit()):
                 return self._split_span(span, ind, len(spl))
 
         # Characters to split around, but with exceptions
@@ -492,9 +480,7 @@ class WordTokenizer(BaseTokenizer):
                 split = True
                 if before in self.NO_SPLIT_PREFIX or after in self.NO_SPLIT_SUFFIX:
                     split = False  # Don't split if prefix or suffix in list
-                elif not before.strip(self.NO_SPLIT_CHARS) or not after.strip(
-                    self.NO_SPLIT_CHARS
-                ):
+                elif not before.strip(self.NO_SPLIT_CHARS) or not after.strip(self.NO_SPLIT_CHARS):
                     split = False  # Don't split if prefix or suffix entirely consist of certain characters
                 if split:
                     return self._split_span(span, i, 1)
@@ -504,9 +490,7 @@ class WordTokenizer(BaseTokenizer):
             if lowertext == contraction[0]:
                 return self._split_span(span, contraction[1])
 
-        additional_regex_handled = self.handle_additional_regex(
-            s, span, nextspan, additional_regex
-        )
+        additional_regex_handled = self.handle_additional_regex(s, span, nextspan, additional_regex)
         if additional_regex_handled is not None:
             return additional_regex_handled
 
@@ -515,9 +499,7 @@ class WordTokenizer(BaseTokenizer):
     def get_word_tokens(self, sentence, additional_regex=None):
         if not additional_regex:
             additional_regex = self.get_additional_regex(sentence)
-        return sentence._tokens_for_spans(
-            self.span_tokenize(sentence.text, additional_regex)
-        )
+        return sentence._tokens_for_spans(self.span_tokenize(sentence.text, additional_regex))
 
     def get_additional_regex(self, sentence):
         """
@@ -552,11 +534,7 @@ class WordTokenizer(BaseTokenizer):
         """"""
         # First get spans by splitting on all whitespace
         # Includes: \u0020 \u00A0 \u1680 \u180E \u2000 \u2001 \u2002 \u2003 \u2004 \u2005 \u2006 \u2007 \u2008 \u2009 \u200A \u202F \u205F \u3000
-        spans = [
-            (left, right)
-            for left, right in regex_span_tokenize(s, r"\s+")
-            if left != right
-        ]
+        spans = [(left, right) for left, right in regex_span_tokenize(s, r"\s+") if left != right]
         i = 0
         # Recursively split spans according to rules
         while i < len(spans):
@@ -566,9 +544,7 @@ class WordTokenizer(BaseTokenizer):
                 spans[i + 1] if i + 1 < len(spans) else None,
                 additional_regex,
             )
-            spans[i : i + 1] = [
-                subspan for subspan in subspans if subspan[1] - subspan[0] > 0
-            ]
+            spans[i : i + 1] = [subspan for subspan in subspans if subspan[1] - subspan[0] > 0]
             if len(subspans) == 1:
                 i += 1
         return spans
@@ -1520,11 +1496,7 @@ class ChemWordTokenizer(WordTokenizer):
             return [span]
 
         # Skip if it looks like URL
-        if (
-            text.startswith("http://")
-            or text.startswith("ftp://")
-            or text.startswith("www.")
-        ):
+        if text.startswith("http://") or text.startswith("ftp://") or text.startswith("www."):
             return [span]
 
         # Split full stop at end of final token (allow certain characters to follow) unless ellipsis
@@ -1547,20 +1519,12 @@ class ChemWordTokenizer(WordTokenizer):
 
         # Split off certain sequences at the end of a word
         for spl in self.SPLIT_END_WORD:
-            if (
-                text.endswith(spl)
-                and len(text) > len(spl)
-                and text[-len(spl) - 1].isalpha()
-            ):
+            if text.endswith(spl) and len(text) > len(spl) and text[-len(spl) - 1].isalpha():
                 return self._split_span(span, -len(spl), 0)
 
         # Split off certain sequences at the end of a word
         for spl in self.SPLIT_START_WORD:
-            if (
-                text.startswith(spl)
-                and len(text) > len(spl)
-                and text[-len(spl) - 1].isalpha()
-            ):
+            if text.startswith(spl) and len(text) > len(spl) and text[-len(spl) - 1].isalpha():
                 return self._split_span(span, len(spl), 0)
 
         # Split around certain sequences
@@ -1578,11 +1542,7 @@ class ChemWordTokenizer(WordTokenizer):
 
         # Split off certain sequences at the end of a token unless preceded by a digit
         for spl in self.SPLIT_END_NO_DIGIT:
-            if (
-                text.endswith(spl)
-                and len(text) > len(spl)
-                and not text[-len(spl) - 1].isdigit()
-            ):
+            if text.endswith(spl) and len(text) > len(spl) and not text[-len(spl) - 1].isdigit():
                 return self._split_span(span, -len(spl), 0)
 
         # Regular Bracket at both start and end, break off both provided they correspond
@@ -1606,16 +1566,10 @@ class ChemWordTokenizer(WordTokenizer):
         for bpair in [("(", ")"), ("{", "}"), ("[", "]")]:
             # level = bracket_level(text, open=[bpair[0]], close=[bpair[1]])
             # Bracket at start, bracketlevel > 0, break it off
-            if (
-                text.startswith(bpair[0])
-                and self._closing_bracket_index(text, bpair=bpair) is None
-            ):
+            if text.startswith(bpair[0]) and self._closing_bracket_index(text, bpair=bpair) is None:
                 return self._split_span(span, 1, 0)
             # Bracket at end, bracketlevel < 0, break it off
-            if (
-                text.endswith(bpair[1])
-                and self._opening_bracket_index(text, bpair=bpair) is None
-            ):
+            if text.endswith(bpair[1]) and self._opening_bracket_index(text, bpair=bpair) is None:
                 return self._split_span(span, -1, 0)
 
         # TODO: Consider splitting around comma in limited circumstances. Mainly to fix whitespace errors.
@@ -1632,23 +1586,14 @@ class ChemWordTokenizer(WordTokenizer):
                     and after[0].isdigit()
                     and before.rstrip("′'")[-1:].isdigit()
                     and "-" in after
-                ) and not (
-                    self.NO_SPLIT_CHEM.search(before)
-                    and self.NO_SPLIT_CHEM.search(after)
-                ):
+                ) and not (self.NO_SPLIT_CHEM.search(before) and self.NO_SPLIT_CHEM.search(after)):
                     return self._split_span(span, i, 1)
             elif char in {"x", "+", "−"}:
                 # Split around x, +, − (\u2212 minus) between two numbers or at start followed by numbers
                 if (i == 0 or self._is_number(before)) and self._is_number(after):
                     return self._split_span(span, i, 1)
                 # Also plit around − (\u2212 minus) between two letters
-                if (
-                    char == "−"
-                    and before
-                    and before[-1].isalpha()
-                    and after
-                    and after[0].isalpha()
-                ):
+                if char == "−" and before and before[-1].isalpha() and after and after[0].isalpha():
                     return self._split_span(span, i, 1)
             elif char == "±":
                 # Split around ± unless surrounded by brackets
@@ -1669,20 +1614,13 @@ class ChemWordTokenizer(WordTokenizer):
                     return self._split_span(span, i, 1)
                 if before and before[-1] == "-":
                     # If preceding is -, split around -> unless in chemical name
-                    if text != "->" and not self._is_saccharide_arrow(
-                        before[:-1], after
-                    ):
+                    if text != "->" and not self._is_saccharide_arrow(before[:-1], after):
                         return self._split_span(span, i - 1, 2)
             elif char == "→" and not self._is_saccharide_arrow(before, after):
                 # TODO: 'is' should be '=='... this never splits!?
                 # Split around → unless in chemical name
                 return self._split_span(span, i, 1)
-            elif (
-                char == "("
-                and self._is_number(before)
-                and "(" not in after
-                and ")" not in after
-            ):
+            elif char == "(" and self._is_number(before) and "(" not in after and ")" not in after:
                 # Split around open bracket after a number
                 return self._split_span(span, i, 1)
             elif char == "-":
@@ -1736,22 +1674,17 @@ class ChemWordTokenizer(WordTokenizer):
                     split = False  # Don't split if within brackets
                 elif after and after[0] == ">":
                     split = False  # Don't split if followed by >
-                elif (
-                    lowerbefore in self.NO_SPLIT_PREFIX
-                    or lowerafter in self.NO_SPLIT_SUFFIX
-                ):
+                elif lowerbefore in self.NO_SPLIT_PREFIX or lowerafter in self.NO_SPLIT_SUFFIX:
                     split = False  # Don't split if prefix or suffix in list
                 elif self.NO_SPLIT_PREFIX_ENDING.search(lowerbefore):
                     split = False  # Don't split if prefix ends with pattern
                 elif lowerafter in self.SPLIT_SUFFIX:
                     split = True  # Do split if suffix in list
                 elif len(before) <= 1 or len(after) <= 2:
-                    split = (
-                        False  # Don't split if not at least 2 char before and 3 after
-                    )
-                elif self.NO_SPLIT_CHEM.search(
-                    lowerbefore
-                ) or self.NO_SPLIT_CHEM.search(lowerafter):
+                    split = False  # Don't split if not at least 2 char before and 3 after
+                elif self.NO_SPLIT_CHEM.search(lowerbefore) or self.NO_SPLIT_CHEM.search(
+                    lowerafter
+                ):
                     split = False  # Don't split if prefix or suffix match chem regex
                 if split:
                     return self._split_span(span, i, 1)
@@ -1789,9 +1722,7 @@ class ChemWordTokenizer(WordTokenizer):
             if lowertext == contraction[0]:
                 return self._split_span(span, contraction[1])
 
-        additional_regex_handled = self.handle_additional_regex(
-            s, span, nextspan, additional_regex
-        )
+        additional_regex_handled = self.handle_additional_regex(s, span, nextspan, additional_regex)
         if additional_regex_handled is not None:
             return additional_regex_handled
 
@@ -1947,9 +1878,7 @@ class FineWordTokenizer(WordTokenizer):
                     return [(span[0], span[0] + i + 1), (span[0] + i + 1, span[1])]
 
         # Perform all normal WordTokenizer splits
-        return super(FineWordTokenizer, self)._subspan(
-            s, span, nextspan, additional_regex
-        )
+        return super(FineWordTokenizer, self)._subspan(s, span, nextspan, additional_regex)
 
 
 class BertWordTokenizer(ChemWordTokenizer):
@@ -2015,9 +1944,7 @@ class BertWordTokenizer(ChemWordTokenizer):
                     i == 0
                     or not (
                         zipped[i - 1][0][1] == offset[0]
-                        and re.match(
-                            r"\d+$", s[zipped[i - 1][0][0] : zipped[i - 1][0][1]]
-                        )
+                        and re.match(r"\d+$", s[zipped[i - 1][0][0] : zipped[i - 1][0][1]])
                     )
                 )
                 and (
@@ -2058,9 +1985,7 @@ class BertWordTokenizer(ChemWordTokenizer):
                 )
                 if subspans is None:
                     subspans = [spans[i]]
-                spans[i : i + 1] = [
-                    subspan for subspan in subspans if subspan[1] - subspan[0] > 0
-                ]
+                spans[i : i + 1] = [subspan for subspan in subspans if subspan[1] - subspan[0] > 0]
                 if len(subspans) == 1:
                     i += 1
 

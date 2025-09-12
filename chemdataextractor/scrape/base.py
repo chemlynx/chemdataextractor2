@@ -220,17 +220,9 @@ class BaseField(metaclass=ABCMeta):
     def scrape(self, selector, cleaner=None, processor=None):
         """Scrape the value for this field from the selector."""
         # Apply CSS or XPath expression to the selector
-        selected = (
-            selector.xpath(self.selection)
-            if self.xpath
-            else selector.css(self.selection)
-        )
+        selected = selector.xpath(self.selection) if self.xpath else selector.css(self.selection)
         # Extract the value and apply regular expression if specified
-        value = (
-            selected.re(self.re)
-            if self.re
-            else selected.extract(raw=self.raw, cleaner=cleaner)
-        )
+        value = selected.re(self.re) if self.re else selected.extract(raw=self.raw, cleaner=cleaner)
         return self._post_scrape(value, processor=processor)
 
     def serialize(self, value):

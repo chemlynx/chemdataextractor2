@@ -187,9 +187,11 @@ Unannotated (x7)">    I("spectrofluorimeter")</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">    | I("spectrophotometer")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x4)">    | Optional(I("fluorescence")) + I("spectrometer")</span>
+Error (x2)
+Unannotated (x2)">    | Optional(I("fluorescence")) + I("spectrometer")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x4)">    | Optional(I("nmr")) + I("workstation")</span>
+Error (x2)
+Unannotated (x2)">    | Optional(I("nmr")) + I("workstation")</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">    | W("NMR")</span>
 <span class="line-any" title="Any Types on this line: 
@@ -198,22 +200,24 @@ Unannotated (x1)">    | I("instrument")</span>
 Unannotated (x1)">    | I("spectrometer")</span>
 <span class="line-empty" title="No Anys on this line!">)</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x1)">apparatus = (</span>
+Error (x1)">apparatus = (</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x5)">    (</span>
+Error (x5)">    (</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x7)">        ZeroOrMore(T("JJ"))</span>
+Error (x4)
+Unannotated (x3)">        ZeroOrMore(T("JJ"))</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">        + Optional(apparatus_type)</span>
+Error (x1)
+Unannotated (x1)">        + Optional(apparatus_type)</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x8)">        + OneOrMore(T("NNP") | T("NN") | brands)</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x16)">        + ZeroOrMore(T("NNP") | T("NN") | T("HYPH") | T("CD") | brands | models)</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">        + Optional(instrument)</span>
+Error (x1)
+Unannotated (x1)">        + Optional(instrument)</span>
 <span class="line-precise" title="No Anys on this line!">    )("apparatus")</span>
-<span class="line-precise" title="Any Types on this line: 
-Unannotated (x4)">    .add_action(join)</span>
+<span class="line-precise" title="No Anys on this line!">    .add_action(join)</span>
 <span class="line-precise" title="Any Types on this line: 
 Unannotated (x4)">    .add_action(fix_whitespace)</span>
 <span class="line-empty" title="No Anys on this line!">)</span>
@@ -227,11 +231,11 @@ Unannotated (x1)">apparatus_phrase = (</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x10)">    (W("with") | W("using") | W("on")).hide()</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x3)">    + Optional(dt).hide()</span>
+Error (x3)">    + Optional(dt).hide()</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">    + Not(apparatus_blacklist)</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x1)">    + apparatus</span>
+Error (x1)">    + apparatus</span>
 <span class="line-empty" title="No Anys on this line!">)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!"></span>

@@ -1511,8 +1511,7 @@ Unannotated (x4)">        self.cm = kwargs.get(</span>
 Unannotated (x2)">            (</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x9)">                self.bcm + ZeroOrMore((self.joining_characters + self.bcm) | self.icm)</span>
-<span class="line-precise" title="Any Types on this line: 
-Unannotated (x4)">            ).add_action(join),</span>
+<span class="line-precise" title="No Anys on this line!">            ).add_action(join),</span>
 <span class="line-empty" title="No Anys on this line!">        )</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="Any Types on this line: 
@@ -1612,7 +1611,7 @@ Unannotated (x5)">                R(</span>
 <span class="line-precise" title="No Anys on this line!">                    re.I,</span>
 <span class="line-empty" title="No Anys on this line!">                )</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x13)">                | ((W("g") | I("nano") | W("mpg")) + Optional(W("-")))</span>
+Unannotated (x12)">                | ((W("g") | I("nano") | W("mpg")) + Optional(W("-")))</span>
 <span class="line-empty" title="No Anys on this line!">            ),</span>
 <span class="line-empty" title="No Anys on this line!">        )</span>
 <span class="line-empty" title="No Anys on this line!"></span>
@@ -1622,16 +1621,15 @@ Unannotated (x4)">        self.label_type = kwargs.get(</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x4)">            (</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x8)">                Optional(I("reference") | I("comparative"))</span>
+Unannotated (x7)">                Optional(I("reference") | I("comparative"))</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x4)">                + R(</span>
 <span class="line-any" title="No Anys on this line!">                    "^(compound|ligand|chemical|dye|derivative|complex|example|intermediate|product|formulae?|preparation|specimen)s?$",</span>
 <span class="line-precise" title="No Anys on this line!">                    re.I,</span>
 <span class="line-empty" title="No Anys on this line!">                )</span>
+<span class="line-any" title="No Anys on this line!">            )("roles").add_action(join)</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x4)">            )("roles").add_action(join)</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x5)">            + Optional(self.colon).hide(),</span>
+Unannotated (x4)">            + Optional(self.colon).hide(),</span>
 <span class="line-empty" title="No Anys on this line!">        )</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="Any Types on this line: 
@@ -1643,8 +1641,7 @@ Unannotated (x3)">            (</span>
 Unannotated (x12)">                (I("synthesis") | I("preparation") | I("production") | I("data"))</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x5)">                + (I("of") | I("for"))</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x4)">            )("roles").add_action(join),</span>
+<span class="line-any" title="No Anys on this line!">            )("roles").add_action(join),</span>
 <span class="line-empty" title="No Anys on this line!">        )</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="Any Types on this line: 
@@ -1660,8 +1657,7 @@ Unannotated (x2)">                | I("afforded")</span>
 Unannotated (x2)">                | I("affording")</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x2)">                | I("yielded")</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x4)">            )("roles").add_action(join),</span>
+<span class="line-any" title="No Anys on this line!">            )("roles").add_action(join),</span>
 <span class="line-empty" title="No Anys on this line!">        )</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="Any Types on this line: 
@@ -1742,7 +1738,7 @@ Unannotated (x9)">                    + ZeroOrMore((T("CC") | self.comma) + self
 <span class="line-empty" title="No Anys on this line!">                )</span>
 <span class="line-empty" title="No Anys on this line!">                | (</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x7)">                    Optional(self.label_type.hide())</span>
+Unannotated (x6)">                    Optional(self.label_type.hide())</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">                    + self.strict_chemical_label</span>
 <span class="line-any" title="Any Types on this line: 
@@ -1757,7 +1753,7 @@ Unannotated (x4)">        self.chemical_label_phrase1 = kwargs.get(</span>
 <span class="line-any" title="No Anys on this line!">            "chemical_label_phrase1",</span>
 <span class="line-empty" title="No Anys on this line!">            (</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x6)">                Optional(self.synthesis_of)</span>
+Unannotated (x5)">                Optional(self.synthesis_of)</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">                + self.label_type</span>
 <span class="line-any" title="Any Types on this line: 
@@ -1774,7 +1770,7 @@ Unannotated (x4)">        self.chemical_label_phrase2 = kwargs.get(</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x4)">                self.synthesis_of</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x3)">                + Optional(self.label_type)</span>
+Unannotated (x2)">                + Optional(self.label_type)</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">                + self.lenient_chemical_label</span>
 <span class="line-any" title="Any Types on this line: 
@@ -1789,13 +1785,13 @@ Unannotated (x4)">        self.chemical_label_phrase3 = kwargs.get(</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x6)">                self.to_give</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">                + Optional(dt)</span>
+Unannotated (x1)">                + Optional(dt)</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x3)">                + Optional(self.label_type)</span>
+Unannotated (x2)">                + Optional(self.label_type)</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">                + self.lenient_chemical_label</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x15)">                + Optional(lbrct + OneOrMore(Not(rbrct) + Any()) + rbrct).hide()</span>
+Unannotated (x14)">                + Optional(lbrct + OneOrMore(Not(rbrct) + Any()) + rbrct).hide()</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x10)">                + (End() | I("as") | self.colon | self.comma).hide()</span>
 <span class="line-empty" title="No Anys on this line!">            ),</span>
@@ -1867,8 +1863,7 @@ Unannotated (x4)">        self.doped_chemical_label = kwargs.get(</span>
 <span class="line-any" title="No Anys on this line!">            "doped_chemical_label",</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x8)">            Group((self.doping_label_1 | self.doping_label_2)("labels")).add_action(</span>
-<span class="line-precise" title="Any Types on this line: 
-Unannotated (x4)">                join</span>
+<span class="line-precise" title="No Anys on this line!">                join</span>
 <span class="line-empty" title="No Anys on this line!">            ),</span>
 <span class="line-empty" title="No Anys on this line!">        )</span>
 <span class="line-any" title="Any Types on this line: 
@@ -1974,11 +1969,11 @@ Unannotated (x5)">                    R(r"^[Rr]are\-?earth(s)?$")</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x5)">                        I("rare")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x5)">                        + Optional(T("HYPH"))</span>
+Unannotated (x4)">                        + Optional(T("HYPH"))</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x4)">                        + R("^earth(s)?$")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x6)">                        + Optional(R("^metal(s)?$"))</span>
+Unannotated (x5)">                        + Optional(R("^metal(s)?$"))</span>
 <span class="line-empty" title="No Anys on this line!">                    )</span>
 <span class="line-empty" title="No Anys on this line!">                )</span>
 <span class="line-empty" title="No Anys on this line!">            ),</span>
@@ -2040,8 +2035,7 @@ Unannotated (x1)">                    | self.informal_chemical_symbol</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x2)">                    | W("=")</span>
 <span class="line-empty" title="No Anys on this line!">                )</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x4)">            )("label").add_action(join),</span>
+<span class="line-any" title="No Anys on this line!">            )("label").add_action(join),</span>
 <span class="line-empty" title="No Anys on this line!">        )</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">        # Informal label phrase 2, "property = value for the &lt;element&gt; compound"</span>
@@ -2054,8 +2048,7 @@ Unannotated (x3)">            (</span>
 Unannotated (x2)">                self.informal_values</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x10)">                + (I("compound") | I("sample") | I("material")).hide()</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x4)">            )("label").add_action(join),</span>
+<span class="line-any" title="No Anys on this line!">            )("label").add_action(join),</span>
 <span class="line-empty" title="No Anys on this line!">        )</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="Any Types on this line: 
@@ -2067,8 +2060,7 @@ Unannotated (x4)">            Group(</span>
 Unannotated (x4)">                (self.informal_chemical_label_1 | self.informal_chemical_label_2)(</span>
 <span class="line-any" title="No Anys on this line!">                    "labels"</span>
 <span class="line-empty" title="No Anys on this line!">                )</span>
-<span class="line-precise" title="Any Types on this line: 
-Unannotated (x4)">            ).add_action(join),</span>
+<span class="line-precise" title="No Anys on this line!">            ).add_action(join),</span>
 <span class="line-empty" title="No Anys on this line!">        )</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x4)">        self.chemical_label_phrase = kwargs.get(</span>
@@ -2120,7 +2112,7 @@ Unannotated (x4)">            | R(r"^GSK-?\d{3-7}$")</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x4)">            | R(r"^\[?(([1-9]\d{2,7})|([5-9]\d))-\d\d-\d\]?$")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x15)">            | (W("CAS") + OneOrMore(R(r"^(\-?(\d+)|\-)$"))).add_action(join),</span>
+Unannotated (x11)">            | (W("CAS") + OneOrMore(R(r"^(\-?(\d+)|\-)$"))).add_action(join),</span>
 <span class="line-empty" title="No Anys on this line!">        )</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">        #: Amino acid abbreviations. His removed, too ambiguous</span>
@@ -2186,7 +2178,7 @@ Unannotated (x4)">                | R(r"^(GABA|NO|\(\d\)H|KCl)$")</span>
 Unannotated (x2)">                | W("CN")</span>
 <span class="line-empty" title="No Anys on this line!">            )</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x7)">            + Optional(W("+") + W("δ"))</span>
+Unannotated (x6)">            + Optional(W("+") + W("δ"))</span>
 <span class="line-precise" title="Any Types on this line: 
 Unannotated (x4)">        ).add_action(merge)</span>
 <span class="line-any" title="Any Types on this line: 
@@ -3211,9 +3203,8 @@ Unannotated (x5)">            (self.nmr_solvent | self.solvent_formula | self.ot
 Unannotated (x4)">        self.solvent_name = kwargs.get(</span>
 <span class="line-any" title="No Anys on this line!">            "solvent_name",</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x10)">            (Optional(self.include_prefix) + self.solvent_name_options)("names")</span>
-<span class="line-precise" title="Any Types on this line: 
-Unannotated (x4)">            .add_action(join)</span>
+Unannotated (x9)">            (Optional(self.include_prefix) + self.solvent_name_options)("names")</span>
+<span class="line-precise" title="No Anys on this line!">            .add_action(join)</span>
 <span class="line-precise" title="Any Types on this line: 
 Unannotated (x4)">            .add_action(fix_whitespace),</span>
 <span class="line-empty" title="No Anys on this line!">        )</span>
@@ -3225,7 +3216,7 @@ Unannotated (x3)">        default_proper_chemical_name_options = Group(</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x5)">            Not(self.chemical_name_blocklist)</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x3)">            + Optional(self.include_prefix)</span>
+Unannotated (x2)">            + Optional(self.include_prefix)</span>
 <span class="line-empty" title="No Anys on this line!">            + (</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x7)">                self.formula</span>
@@ -3260,17 +3251,16 @@ Unannotated (x7)">                R(r"\d+(\.\d+)?")</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x2)">                + W("%")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x4)">                + Optional(I("mol"))</span>
+Unannotated (x3)">                + Optional(I("mol"))</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">                + self.proper_chemical_name_options</span>
-<span class="line-precise" title="Any Types on this line: 
-Unannotated (x4)">            ).add_action(join),</span>
+<span class="line-precise" title="No Anys on this line!">            ).add_action(join),</span>
 <span class="line-empty" title="No Anys on this line!">        )</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x4)">        self.mixture_phrase = kwargs.get(</span>
 <span class="line-any" title="No Anys on this line!">            "mixture_phrase",</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x13)">            (self.mixture_component + W("+") + self.mixture_component).add_action(join)(</span>
+Unannotated (x9)">            (self.mixture_component + W("+") + self.mixture_component).add_action(join)(</span>
 <span class="line-any" title="No Anys on this line!">                "names"</span>
 <span class="line-empty" title="No Anys on this line!">            ),</span>
 <span class="line-empty" title="No Anys on this line!">        )</span>
@@ -3293,9 +3283,8 @@ Unannotated (x3)">                + (self.proper_chemical_name_options | self.mi
 Unannotated (x4)">        self.chemical_name = kwargs.get(</span>
 <span class="line-any" title="No Anys on this line!">            "chemical_name",</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x10)">            (Optional(self.include_prefix) + self.chemical_name_options)("names")</span>
-<span class="line-precise" title="Any Types on this line: 
-Unannotated (x4)">            .add_action(join)</span>
+Unannotated (x9)">            (Optional(self.include_prefix) + self.chemical_name_options)("names")</span>
+<span class="line-precise" title="No Anys on this line!">            .add_action(join)</span>
 <span class="line-precise" title="Any Types on this line: 
 Unannotated (x4)">            .add_action(fix_whitespace),</span>
 <span class="line-empty" title="No Anys on this line!">        )</span>
@@ -3310,12 +3299,11 @@ Unannotated (x4)">        self.likely_abbreviation = kwargs.get(</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x5)">            (</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x7)">                Optional(self.include_prefix + Optional(hyphen))</span>
+Unannotated (x5)">                Optional(self.include_prefix + Optional(hyphen))</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x4)">                + R(r"^([A-Z]{2,6}(\-[A-Z]{1,6})?|[A-Z](\-[A-Z]{2,6}))$")</span>
 <span class="line-any" title="No Anys on this line!">            )("names")</span>
-<span class="line-precise" title="Any Types on this line: 
-Unannotated (x4)">            .add_action(join)</span>
+<span class="line-precise" title="No Anys on this line!">            .add_action(join)</span>
 <span class="line-precise" title="Any Types on this line: 
 Unannotated (x4)">            .add_action(fix_whitespace),</span>
 <span class="line-empty" title="No Anys on this line!">        )</span>
@@ -3329,8 +3317,7 @@ Unannotated (x7)">            OneOrMore(</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x13)">                self.bcm | self.icm | jj | nn | nnp | nns | hyph | cd | ls | W(",")</span>
 <span class="line-any" title="No Anys on this line!">            )("names")</span>
-<span class="line-precise" title="Any Types on this line: 
-Unannotated (x4)">            .add_action(join)</span>
+<span class="line-precise" title="No Anys on this line!">            .add_action(join)</span>
 <span class="line-precise" title="Any Types on this line: 
 Unannotated (x4)">            .add_action(fix_whitespace),</span>
 <span class="line-empty" title="No Anys on this line!">        )</span>
@@ -3349,7 +3336,8 @@ Unannotated (x1)">                    | self.lenient_numeric</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">                    | self.lenient_letter_number</span>
 <span class="line-any" title="No Anys on this line!">                )("labels")</span>
-<span class="line-precise" title="No Anys on this line!">                + optdelim</span>
+<span class="line-any" title="Any Types on this line: 
+Error (x1)">                + optdelim</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">                + self.lenient_name</span>
 <span class="line-any" title="No Anys on this line!">            )("compound"),</span>
@@ -3360,7 +3348,7 @@ Unannotated (x4)">        self.labelled_as = kwargs.get(</span>
 Unannotated (x9)">            "labelled_as", (R(r"^labell?ed$") + W("as")).hide()</span>
 <span class="line-empty" title="No Anys on this line!">        )</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x8)">        self.optquote = kwargs.get("optquote", Optional(quote.hide()))</span>
+Unannotated (x7)">        self.optquote = kwargs.get("optquote", Optional(quote.hide()))</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x4)">        self.name_with_optional_bracketed_label = kwargs.get(</span>
@@ -3368,15 +3356,15 @@ Unannotated (x4)">        self.name_with_optional_bracketed_label = kwargs.get(<
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">            (</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x7)">                Optional(self.synthesis_of | self.to_give)</span>
+Unannotated (x6)">                Optional(self.synthesis_of | self.to_give)</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">                + self.chemical_name</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">                + Optional(</span>
+Unannotated (x1)">                + Optional(</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x5)">                    lbrct</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x5)">                    + Optional(self.labelled_as + self.optquote)</span>
+Unannotated (x4)">                    + Optional(self.labelled_as + self.optquote)</span>
 <span class="line-empty" title="No Anys on this line!">                    + (</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x3)">                        self.chemical_label</span>
@@ -3397,14 +3385,16 @@ Unannotated (x1)">                    + rbrct</span>
 Unannotated (x4)">        self.label_before_name = kwargs.get(</span>
 <span class="line-any" title="No Anys on this line!">            "label_before_name",</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x9)">            Optional(self.synthesis_of | self.to_give)</span>
+Unannotated (x8)">            Optional(self.synthesis_of | self.to_give)</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">            + self.label_type</span>
-<span class="line-precise" title="No Anys on this line!">            + optdelim</span>
+<span class="line-any" title="Any Types on this line: 
+Error (x1)">            + optdelim</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">            + self.label_name_cem</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x6)">            + ZeroOrMore(optdelim + cc + optdelim + self.label_name_cem),</span>
+Unannotated (x6)
+Error (x2)">            + ZeroOrMore(optdelim + cc + optdelim + self.label_name_cem),</span>
 <span class="line-empty" title="No Anys on this line!">        )</span>
 <span class="line-empty" title="No Anys on this line!">        # Very lenient name and label match, with format like "name (Compound 3)"</span>
 <span class="line-any" title="Any Types on this line: 
@@ -3415,7 +3405,7 @@ Unannotated (x1)">            (</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x7)">                Start()</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x3)">                + Optional(self.synthesis_of)</span>
+Unannotated (x2)">                + Optional(self.synthesis_of)</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">                + self.lenient_name</span>
 <span class="line-any" title="Any Types on this line: 
@@ -3438,7 +3428,7 @@ Unannotated (x2)">            Start()</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x3)">            + Group(</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x4)">                Optional(self.synthesis_of)</span>
+Unannotated (x3)">                Optional(self.synthesis_of)</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x5)">                + (</span>
 <span class="line-any" title="Any Types on this line: 
@@ -3452,8 +3442,7 @@ Unannotated (x5)">                    + Not(self.bcm | self.icm)</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x4)">                    + Not(I("and"))</span>
 <span class="line-any" title="No Anys on this line!">                )("names")</span>
-<span class="line-precise" title="Any Types on this line: 
-Unannotated (x4)">                .add_action(join)</span>
+<span class="line-precise" title="No Anys on this line!">                .add_action(join)</span>
 <span class="line-precise" title="Any Types on this line: 
 Unannotated (x4)">                .add_action(fix_whitespace)</span>
 <span class="line-any" title="No Anys on this line!">            )("compound"),</span>
@@ -3483,7 +3472,7 @@ Unannotated (x1)">            (</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x4)">                self.chemical_name</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x6)">                + Optional(R("compounds?"))</span>
+Unannotated (x5)">                + Optional(R("compounds?"))</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x8)">                + OneOrMore(delim | I("with") | I("for"))</span>
 <span class="line-any" title="Any Types on this line: 
@@ -3536,18 +3525,18 @@ Unannotated (x13)">                Not(rbrct) + (self.bcm | self.icm | nn | nnp 
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x4)">        self.of_table = kwargs.get(</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x11)">            "of_table", (I("of") | I("in")) + Optional(dt) + I("table")</span>
+Unannotated (x10)">            "of_table", (I("of") | I("in")) + Optional(dt) + I("table")</span>
 <span class="line-empty" title="No Anys on this line!">        )</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x4)">        self.bracketed_after_name = kwargs.get(</span>
 <span class="line-any" title="No Anys on this line!">            "bracketed_after_name",</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x9)">            Optional(self.comma)</span>
+Unannotated (x8)">            Optional(self.comma)</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">            + lbrct</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x5)">            + Optional(self.labelled_as + self.optquote)</span>
+Unannotated (x4)">            + Optional(self.labelled_as + self.optquote)</span>
 <span class="line-empty" title="No Anys on this line!">            + (</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x3)">                self.chemical_label</span>
@@ -3559,7 +3548,7 @@ Unannotated (x1)">                | self.likely_abbreviation</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">            + self.optquote</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x9)">            + Optional(Optional(self.comma) + self.r_equals | self.of_table)</span>
+Unannotated (x7)">            + Optional(Optional(self.comma) + self.r_equals | self.of_table)</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">            + rbrct,</span>
 <span class="line-empty" title="No Anys on this line!">        )</span>
@@ -3569,7 +3558,7 @@ Unannotated (x4)">        self.comma_after_name = kwargs.get(</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x3)">            self.comma</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x5)">            + Optional(self.labelled_as + self.optquote)</span>
+Unannotated (x4)">            + Optional(self.labelled_as + self.optquote)</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x3)">            + (self.chemical_label | self.likely_abbreviation),</span>
 <span class="line-empty" title="No Anys on this line!">        )</span>
@@ -3579,7 +3568,7 @@ Unannotated (x1)">        default_compound_heading_ending = (</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x2)">            (</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x6)">                Optional(self.comma)</span>
+Unannotated (x5)">                Optional(self.comma)</span>
 <span class="line-empty" title="No Anys on this line!">                + (</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">                    (</span>
@@ -3594,7 +3583,7 @@ Unannotated (x1)">                            | self.lenient_chemical_label</spa
 Unannotated (x1)">                            | self.lenient_name</span>
 <span class="line-empty" title="No Anys on this line!">                        )</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x9)">                        + Optional(Optional(self.comma) + self.r_equals | self.of_table)</span>
+Unannotated (x7)">                        + Optional(Optional(self.comma) + self.r_equals | self.of_table)</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">                        + rbrct</span>
 <span class="line-empty" title="No Anys on this line!">                    )</span>
@@ -3602,12 +3591,12 @@ Unannotated (x1)">                        + rbrct</span>
 Unannotated (x1)">                    | self.chemical_label</span>
 <span class="line-empty" title="No Anys on this line!">                )</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x8)">                + Optional(R(r"^[:;]$")).hide()</span>
+Unannotated (x7)">                + Optional(R(r"^[:;]$")).hide()</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x5)">                | self.comma + (self.chemical_label | self.lenient_chemical_label)</span>
 <span class="line-empty" title="No Anys on this line!">            )</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x4)">            + Optional(W("."))</span>
+Unannotated (x3)">            + Optional(W("."))</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">            + End()</span>
 <span class="line-empty" title="No Anys on this line!">        )</span>
@@ -3625,14 +3614,14 @@ Unannotated (x4)">        self.section_no = kwargs.get(</span>
 Unannotated (x2)">            Every(</span>
 <span class="line-empty" title="No Anys on this line!">                [</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x14)">                    Optional(I("stage") | I("step") | I("section") | I("part"))</span>
+Unannotated (x13)">                    Optional(I("stage") | I("step") | I("section") | I("part"))</span>
 <span class="line-empty" title="No Anys on this line!">                    + (</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x5)">                        T("CD")</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x4)">                        | R(r"^\d{1,3}(\.\d{1,3}(\.\d{1,3}(\.\d{1,3})?)?)?$")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x6)">                        | (Optional(lbrct) + roman_numeral + rbrct)</span>
+Unannotated (x5)">                        | (Optional(lbrct) + roman_numeral + rbrct)</span>
 <span class="line-empty" title="No Anys on this line!">                    ),</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x5)">                    Not(self.bcm | self.icm),</span>
@@ -3645,9 +3634,9 @@ Unannotated (x1)">        default_compound_heading_style1 = (</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x6)">            Start()</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x5)">            + Optional(self.section_no.hide())</span>
+Unannotated (x4)">            + Optional(self.section_no.hide())</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x3)">            + Optional(self.synthesis_of)</span>
+Unannotated (x2)">            + Optional(self.synthesis_of)</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x7)">            + OneOrMore(</span>
 <span class="line-any" title="Any Types on this line: 
@@ -3669,8 +3658,7 @@ Unannotated (x1)">                    | self.icm</span>
 Unannotated (x2)">                    | W(",")</span>
 <span class="line-empty" title="No Anys on this line!">                )</span>
 <span class="line-any" title="No Anys on this line!">            )("names")</span>
-<span class="line-precise" title="Any Types on this line: 
-Unannotated (x4)">            .add_action(join)</span>
+<span class="line-precise" title="No Anys on this line!">            .add_action(join)</span>
 <span class="line-precise" title="Any Types on this line: 
 Unannotated (x4)">            .add_action(fix_whitespace)</span>
 <span class="line-any" title="Any Types on this line: 
@@ -3687,7 +3675,7 @@ Unannotated (x1)">            "compound_heading_style1", default_compound_headin
 Unannotated (x4)">        self.compound_heading_style2 = kwargs.get(</span>
 <span class="line-any" title="No Anys on this line!">            "compound_heading_style2",</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x5)">            self.chemical_name + Optional(self.bracketed_after_name),</span>
+Unannotated (x4)">            self.chemical_name + Optional(self.bracketed_after_name),</span>
 <span class="line-empty" title="No Anys on this line!">        )</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x4)">        self.compound_heading_style3 = kwargs.get(</span>
@@ -3697,7 +3685,7 @@ Unannotated (x3)">            self.synthesis_of</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x3)">            + (self.lenient_name | self.chemical_name)</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x5)">            + Optional(self.bracketed_after_name | self.comma_after_name),</span>
+Unannotated (x4)">            + Optional(self.bracketed_after_name | self.comma_after_name),</span>
 <span class="line-empty" title="No Anys on this line!">        )  # Possibly redundant?</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x4)">        self.compound_heading_style4 = kwargs.get(</span>
@@ -3711,7 +3699,7 @@ Unannotated (x9)">            + ZeroOrMore((T("CC") | self.comma) + self.lenient
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x3)">            + (self.lenient_name | self.chemical_name)</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x5)">            + Optional(self.bracketed_after_name | self.comma_after_name),</span>
+Unannotated (x4)">            + Optional(self.bracketed_after_name | self.comma_after_name),</span>
 <span class="line-empty" title="No Anys on this line!">        )</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x4)">        self.compound_heading_style5 = kwargs.get(</span>
@@ -3761,7 +3749,7 @@ Unannotated (x2)">                Start()</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x2)">                + Group(</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x4)">                    Optional(self.synthesis_of)</span>
+Unannotated (x3)">                    Optional(self.synthesis_of)</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x4)">                    + (</span>
 <span class="line-any" title="Any Types on this line: 
@@ -3775,8 +3763,7 @@ Unannotated (x5)">                        + Not(self.bcm | self.icm)</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x4)">                        + Not(I("and"))</span>
 <span class="line-empty" title="No Anys on this line!">                    )</span>
-<span class="line-precise" title="Any Types on this line: 
-Unannotated (x4)">                    .add_action(join)</span>
+<span class="line-precise" title="No Anys on this line!">                    .add_action(join)</span>
 <span class="line-precise" title="Any Types on this line: 
 Unannotated (x4)">                    .add_action(fix_whitespace)</span>
 <span class="line-empty" title="No Anys on this line!">                )</span>

@@ -4,7 +4,6 @@ Units and models for lengths.
 :codeauthor: Taketomo Isazawa (ti250@cam.ac.uk)
 """
 
-
 import logging
 
 from ...parse.elements import R

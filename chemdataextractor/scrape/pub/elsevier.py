@@ -206,9 +206,7 @@ class ElsevierHtmlDocument(DocumentEntity):
     headings = StringField("//h2[@id]", xpath=True, all=True)
     sub_headings = StringField('//h3[@class="svArticle"]', xpath=True, all=True)
     html_url = UrlField('//meta[@name="dc.identifier"]/@content', xpath=True)
-    paragraphs = StringField(
-        '//p[@class="svArticle section clear"]', xpath=True, all=True
-    )
+    paragraphs = StringField('//p[@class="svArticle section clear"]', xpath=True, all=True)
     figures = EntityField(ElsevierImage, 'dl[class="figure"]', all=True)
     published_date = StringField('//dl[@class="articleDates smh"]', xpath=True)
     citations = StringField('//ul[@class="reference"]', xpath=True, all=True)

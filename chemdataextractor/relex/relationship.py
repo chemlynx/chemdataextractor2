@@ -1,6 +1,7 @@
 """
 Classes for defining new chemical relationships
 """
+
 import copy
 
 

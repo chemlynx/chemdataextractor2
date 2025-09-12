@@ -842,18 +842,73 @@
 <span id="L832" class="lineno"><a class="lineno" href="#L832">832</a></span>
 <span id="L833" class="lineno"><a class="lineno" href="#L833">833</a></span>
 <span id="L834" class="lineno"><a class="lineno" href="#L834">834</a></span>
+<span id="L835" class="lineno"><a class="lineno" href="#L835">835</a></span>
+<span id="L836" class="lineno"><a class="lineno" href="#L836">836</a></span>
+<span id="L837" class="lineno"><a class="lineno" href="#L837">837</a></span>
+<span id="L838" class="lineno"><a class="lineno" href="#L838">838</a></span>
+<span id="L839" class="lineno"><a class="lineno" href="#L839">839</a></span>
+<span id="L840" class="lineno"><a class="lineno" href="#L840">840</a></span>
+<span id="L841" class="lineno"><a class="lineno" href="#L841">841</a></span>
+<span id="L842" class="lineno"><a class="lineno" href="#L842">842</a></span>
+<span id="L843" class="lineno"><a class="lineno" href="#L843">843</a></span>
+<span id="L844" class="lineno"><a class="lineno" href="#L844">844</a></span>
+<span id="L845" class="lineno"><a class="lineno" href="#L845">845</a></span>
+<span id="L846" class="lineno"><a class="lineno" href="#L846">846</a></span>
+<span id="L847" class="lineno"><a class="lineno" href="#L847">847</a></span>
+<span id="L848" class="lineno"><a class="lineno" href="#L848">848</a></span>
+<span id="L849" class="lineno"><a class="lineno" href="#L849">849</a></span>
+<span id="L850" class="lineno"><a class="lineno" href="#L850">850</a></span>
+<span id="L851" class="lineno"><a class="lineno" href="#L851">851</a></span>
+<span id="L852" class="lineno"><a class="lineno" href="#L852">852</a></span>
+<span id="L853" class="lineno"><a class="lineno" href="#L853">853</a></span>
+<span id="L854" class="lineno"><a class="lineno" href="#L854">854</a></span>
+<span id="L855" class="lineno"><a class="lineno" href="#L855">855</a></span>
+<span id="L856" class="lineno"><a class="lineno" href="#L856">856</a></span>
+<span id="L857" class="lineno"><a class="lineno" href="#L857">857</a></span>
+<span id="L858" class="lineno"><a class="lineno" href="#L858">858</a></span>
+<span id="L859" class="lineno"><a class="lineno" href="#L859">859</a></span>
+<span id="L860" class="lineno"><a class="lineno" href="#L860">860</a></span>
+<span id="L861" class="lineno"><a class="lineno" href="#L861">861</a></span>
+<span id="L862" class="lineno"><a class="lineno" href="#L862">862</a></span>
+<span id="L863" class="lineno"><a class="lineno" href="#L863">863</a></span>
+<span id="L864" class="lineno"><a class="lineno" href="#L864">864</a></span>
+<span id="L865" class="lineno"><a class="lineno" href="#L865">865</a></span>
+<span id="L866" class="lineno"><a class="lineno" href="#L866">866</a></span>
+<span id="L867" class="lineno"><a class="lineno" href="#L867">867</a></span>
+<span id="L868" class="lineno"><a class="lineno" href="#L868">868</a></span>
+<span id="L869" class="lineno"><a class="lineno" href="#L869">869</a></span>
+<span id="L870" class="lineno"><a class="lineno" href="#L870">870</a></span>
 </pre></td>
 <td class="table-code"><pre><span class="line-empty" title="No Anys on this line!">"""</span>
-<span class="line-empty" title="No Anys on this line!">Parser for finding quantities and units</span>
+<span class="line-empty" title="No Anys on this line!">Parser for finding quantities and units in chemical text.</span>
+<span class="line-empty" title="No Anys on this line!"></span>
+<span class="line-empty" title="No Anys on this line!">Provides functionality for extracting numeric values, units, and their combinations</span>
+<span class="line-empty" title="No Anys on this line!">from chemical literature text. Handles complex patterns including ranges, errors,</span>
+<span class="line-empty" title="No Anys on this line!">and unit conversions.</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">:codeauthor: Taketomo Isazawa (ti250@cam.ac.uk)</span>
 <span class="line-empty" title="No Anys on this line!">"""</span>
 <span class="line-empty" title="No Anys on this line!"></span>
+<span class="line-precise" title="No Anys on this line!">from __future__ import annotations</span>
+<span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">import logging</span>
 <span class="line-precise" title="No Anys on this line!">import re</span>
 <span class="line-precise" title="No Anys on this line!">from fractions import Fraction</span>
+<span class="line-precise" title="No Anys on this line!">from typing import TYPE_CHECKING</span>
+<span class="line-precise" title="No Anys on this line!">from typing import Any</span>
+<span class="line-precise" title="No Anys on this line!">from typing import Optional</span>
+<span class="line-precise" title="No Anys on this line!">from typing import Union</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="No Anys on this line!">from deprecation import deprecated</span>
+<span class="line-empty" title="No Anys on this line!"></span>
+<span class="line-precise" title="No Anys on this line!">if TYPE_CHECKING:</span>
+<span class="line-precise" title="No Anys on this line!">    from ..model.units.dimension import Dimension</span>
+<span class="line-empty" title="No Anys on this line!"></span>
+<span class="line-empty" title="No Anys on this line!"># Type aliases for quantity parsing</span>
+<span class="line-precise" title="No Anys on this line!">NumericValue = Union[int, float]  # Numeric values</span>
+<span class="line-precise" title="No Anys on this line!">ValueList = list[float]  # List of extracted values</span>
+<span class="line-precise" title="No Anys on this line!">UnitString = str  # String representation of units</span>
+<span class="line-precise" title="No Anys on this line!">MagnitudeDict = dict[Any, float]  # Magnitude multipliers</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">from ..utils import memoize</span>
 <span class="line-precise" title="No Anys on this line!">from .actions import join</span>
@@ -867,7 +922,7 @@
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">log = logging.getLogger(__name__)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-precise" title="No Anys on this line!">magnitudes_dict = {</span>
+<span class="line-precise" title="No Anys on this line!">magnitudes_dict: MagnitudeDict = {</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x3)">    R("c(enti)?", group=0): -2.0,</span>
 <span class="line-any" title="Any Types on this line: 
@@ -953,14 +1008,13 @@ Unannotated (x1)">    if units is not None:</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x4)">        spaced_range = (</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x16)">            number + Optional(units).hide() + Optional(R(r"^[\-–−\—~∼˜]$")) + number</span>
+Unannotated (x14)">            number + Optional(units).hide() + Optional(R(r"^[\-–−\—~∼˜]$")) + number</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x4)">        )("raw_value").add_action(merge)</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x16)">        to_range = (number + Optional(units).hide() + I("to") + number)(</span>
+Unannotated (x15)">        to_range = (number + Optional(units).hide() + I("to") + number)(</span>
 <span class="line-any" title="No Anys on this line!">            "raw_value"</span>
-<span class="line-precise" title="Any Types on this line: 
-Unannotated (x4)">        ).add_action(join)</span>
+<span class="line-precise" title="No Anys on this line!">        ).add_action(join)</span>
 <span class="line-empty" title="No Anys on this line!">    else:</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x12)">        spaced_range = (number + R(r"^[\-–−\—~∼˜]$") + number)("raw_value").add_action(</span>
@@ -968,17 +1022,16 @@ Unannotated (x12)">        spaced_range = (number + R(r"^[\-–−\—~∼˜]$")
 Unannotated (x4)">            merge</span>
 <span class="line-empty" title="No Anys on this line!">        )</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x14)">        to_range = (number + I("to") + number)("raw_value").add_action(join)</span>
+Unannotated (x10)">        to_range = (number + I("to") + number)("raw_value").add_action(join)</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">    if units is not None:</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x16)">        plusminus_range = (number + Optional(units).hide() + W("±") + number)(</span>
+Unannotated (x15)">        plusminus_range = (number + Optional(units).hide() + W("±") + number)(</span>
 <span class="line-any" title="No Anys on this line!">            "raw_value"</span>
-<span class="line-precise" title="Any Types on this line: 
-Unannotated (x4)">        ).add_action(join)</span>
+<span class="line-precise" title="No Anys on this line!">        ).add_action(join)</span>
 <span class="line-empty" title="No Anys on this line!">    else:</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x14)">        plusminus_range = (number + W("±") + number)("raw_value").add_action(join)</span>
+Unannotated (x10)">        plusminus_range = (number + W("±") + number)("raw_value").add_action(join)</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x10)">    bracket_range = R("^" + _number_pattern.pattern + r"\(\d+\)" + "$")("raw_value")</span>
 <span class="line-any" title="Any Types on this line: 
@@ -987,13 +1040,13 @@ Unannotated (x13)">    spaced_bracket_range = (pure_number + W("(") + pure_numbe
 Unannotated (x4)">        merge</span>
 <span class="line-any" title="No Anys on this line!">    )("raw_value")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x18)">    between_range = (I("between").hide() + number + I("and") + number).add_action(join)</span>
+Unannotated (x14)">    between_range = (I("between").hide() + number + I("and") + number).add_action(join)</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">    if activate_to_range:</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x4)">        value_range = (</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x7)">            Optional(R(r"^[\-–−]$"))</span>
+Unannotated (x6)">            Optional(R(r"^[\-–−]$"))</span>
 <span class="line-empty" title="No Anys on this line!">            + (</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x7)">                plusminus_range</span>
@@ -1016,7 +1069,7 @@ Unannotated (x4)">        )("raw_value").add_action(merge)</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x4)">        value_range = (</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x7)">            Optional(R(r"^[\-–−]$"))</span>
+Unannotated (x6)">            Optional(R(r"^[\-–−]$"))</span>
 <span class="line-empty" title="No Anys on this line!">            + (</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x6)">                plusminus_range</span>
@@ -1034,25 +1087,25 @@ Unannotated (x1)">                | spaced_bracket_range</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x4)">        )("raw_value").add_action(merge)</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x19)">    value_single = (Optional(R(r"^[~∼˜\&lt;\&gt;≥]$")) + Optional(R(r"^[\-–−]$")) + number)(</span>
+Unannotated (x17)">    value_single = (Optional(R(r"^[~∼˜\&lt;\&gt;≥]$")) + Optional(R(r"^[\-–−]$")) + number)(</span>
 <span class="line-any" title="No Anys on this line!">        "raw_value"</span>
 <span class="line-precise" title="Any Types on this line: 
 Unannotated (x4)">    ).add_action(merge)</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">    value = (</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x7)">        Optional(lbrct).hide()</span>
+Unannotated (x6)">        Optional(lbrct).hide()</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x4)">        + (value_range | value_single)("raw_value")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x5)">        + Optional(rbrct).hide()</span>
+Unannotated (x4)">        + Optional(rbrct).hide()</span>
 <span class="line-empty" title="No Anys on this line!">    )</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">    if units is not None:</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x3)">        connecting_phrase = W("-")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x8)">        value = value + Optional(connecting_phrase) + units</span>
+Unannotated (x7)">        value = value + Optional(connecting_phrase) + units</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">    return value</span>
 <span class="line-empty" title="No Anys on this line!"></span>
@@ -1135,118 +1188,117 @@ Unannotated (x2)
 Omitted Generics (x4)">    return re.compile(units_regex)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-any" title="No Anys on this line!">def extract_error(string):</span>
-<span class="line-empty" title="No Anys on this line!">    """</span>
-<span class="line-empty" title="No Anys on this line!">    Extract the error from a string</span>
+<span class="line-precise" title="No Anys on this line!">def extract_error(string: Optional[str]) -&gt; Optional[float]:</span>
+<span class="line-empty" title="No Anys on this line!">    """Extract the error from a string containing a value with uncertainty.</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">    Usage::</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">        test_string = '150±5'</span>
 <span class="line-empty" title="No Anys on this line!">        end_value = extract_error(test_string)</span>
-<span class="line-empty" title="No Anys on this line!">        print(end_value) # 5</span>
+<span class="line-empty" title="No Anys on this line!">        print(end_value)  # 5.0</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-empty" title="No Anys on this line!">    :param str string: A representation of the value and error as a string</span>
-<span class="line-empty" title="No Anys on this line!">    :returns: The error expressed as a float .</span>
-<span class="line-empty" title="No Anys on this line!">    :rtype: float</span>
+<span class="line-empty" title="No Anys on this line!">    Args:</span>
+<span class="line-empty" title="No Anys on this line!">        string: A representation of the value and error as a string</span>
+<span class="line-empty" title="No Anys on this line!"></span>
+<span class="line-empty" title="No Anys on this line!">    Returns:</span>
+<span class="line-empty" title="No Anys on this line!">        The error expressed as a float, or None if no error found</span>
+<span class="line-empty" title="No Anys on this line!"></span>
+<span class="line-empty" title="No Anys on this line!">    Example:</span>
+<span class="line-empty" title="No Anys on this line!">        &gt;&gt;&gt; extract_error("25.3±0.1")</span>
+<span class="line-empty" title="No Anys on this line!">        0.1</span>
+<span class="line-empty" title="No Anys on this line!">        &gt;&gt;&gt; extract_error("100")</span>
+<span class="line-empty" title="No Anys on this line!">        None</span>
 <span class="line-empty" title="No Anys on this line!">    """</span>
+<span class="line-precise" title="No Anys on this line!">    if string is None:</span>
+<span class="line-precise" title="No Anys on this line!">        return None</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x1)">    if string is None:</span>
-<span class="line-any" title="No Anys on this line!">        return None</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x5)">    string = _clean_value_string(string)</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x1)">    split_by_num_and_error = [</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x8)">        r for r in re.split(r"(\d+\.?(?:\d+)?)|(±)|(\()", string) if r and r != " "</span>
+Unannotated (x3)">    string = _clean_value_string(string)</span>
+<span class="line-precise" title="No Anys on this line!">    split_by_num_and_error = [</span>
+<span class="line-imprecise" title="Any Types on this line: 
+Unannotated (x1)">        r for r in re.split(r"(\d+\.?(?:\d+)?)|(±)|(\()", string) if r and r != " "</span>
 <span class="line-empty" title="No Anys on this line!">    ]</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x1)">    error = None</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x4)
-Omitted Generics (x2)">    for index, value in enumerate(split_by_num_and_error):</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">        if value == "±":</span>
+<span class="line-precise" title="No Anys on this line!">    error = None</span>
+<span class="line-precise" title="No Anys on this line!">    for index, value in enumerate(split_by_num_and_error):</span>
+<span class="line-precise" title="No Anys on this line!">        if value == "±":</span>
 <span class="line-empty" title="No Anys on this line!">            try:</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x6)">                error = float(split_by_num_and_error[index + 1])</span>
-<span class="line-any" title="No Anys on this line!">                break</span>
+<span class="line-precise" title="No Anys on this line!">                error = float(split_by_num_and_error[index + 1])</span>
+<span class="line-precise" title="No Anys on this line!">                break</span>
 <span class="line-precise" title="No Anys on this line!">            except ValueError:</span>
-<span class="line-any" title="No Anys on this line!">                pass</span>
+<span class="line-precise" title="No Anys on this line!">                pass</span>
+<span class="line-precise" title="No Anys on this line!">        elif value == "(":</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">        elif value == "(":</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x5)">            error = _extract_brackets_error(string)</span>
-<span class="line-any" title="No Anys on this line!">            break</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x1)">    return error</span>
+Unannotated (x4)">            error = _extract_brackets_error(string)</span>
+<span class="line-precise" title="No Anys on this line!">            break</span>
+<span class="line-precise" title="No Anys on this line!">    return error</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-any" title="No Anys on this line!">def extract_value(string):</span>
-<span class="line-empty" title="No Anys on this line!">    """</span>
-<span class="line-empty" title="No Anys on this line!">    Takes a string and returns a list of floats representing the string given.</span>
+<span class="line-precise" title="No Anys on this line!">def extract_value(string: Optional[str]) -&gt; Optional[ValueList]:</span>
+<span class="line-empty" title="No Anys on this line!">    """Extract numeric values from a string, handling ranges and single values.</span>
+<span class="line-empty" title="No Anys on this line!"></span>
+<span class="line-empty" title="No Anys on this line!">    Takes a string and returns a list of floats representing the values found.</span>
+<span class="line-empty" title="No Anys on this line!">    Handles ranges (e.g., "150 to 160") and single values (e.g., "25.5").</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">    Usage::</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">        test_string = '150 to 160'</span>
 <span class="line-empty" title="No Anys on this line!">        end_value = extract_value(test_string)</span>
-<span class="line-empty" title="No Anys on this line!">        print(end_value) # [150., 160.]</span>
+<span class="line-empty" title="No Anys on this line!">        print(end_value)  # [150.0, 160.0]</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-empty" title="No Anys on this line!">    :param str string: A representation of the values as a string</span>
-<span class="line-empty" title="No Anys on this line!">    :returns: The value expressed as a list of floats of length 1 if the value had no range,</span>
-<span class="line-empty" title="No Anys on this line!">        and as a list of floats of length 2 if it was a range.</span>
-<span class="line-empty" title="No Anys on this line!">    :rtype: list(float)</span>
+<span class="line-empty" title="No Anys on this line!">    Args:</span>
+<span class="line-empty" title="No Anys on this line!">        string: A representation of the values as a string</span>
+<span class="line-empty" title="No Anys on this line!"></span>
+<span class="line-empty" title="No Anys on this line!">    Returns:</span>
+<span class="line-empty" title="No Anys on this line!">        List of floats - length 1 for single values, length 2 for ranges,</span>
+<span class="line-empty" title="No Anys on this line!">        or None if no values found</span>
+<span class="line-empty" title="No Anys on this line!"></span>
+<span class="line-empty" title="No Anys on this line!">    Example:</span>
+<span class="line-empty" title="No Anys on this line!">        &gt;&gt;&gt; extract_value("150 to 160")</span>
+<span class="line-empty" title="No Anys on this line!">        [150.0, 160.0]</span>
+<span class="line-empty" title="No Anys on this line!">        &gt;&gt;&gt; extract_value("25.5")</span>
+<span class="line-empty" title="No Anys on this line!">        [25.5]</span>
 <span class="line-empty" title="No Anys on this line!">    """</span>
+<span class="line-precise" title="No Anys on this line!">    if string is None:</span>
+<span class="line-precise" title="No Anys on this line!">        return None</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x1)">    if string is None:</span>
-<span class="line-any" title="No Anys on this line!">        return None</span>
+Unannotated (x4)">    new_split_by_num = _find_value_strings(string)</span>
+<span class="line-precise" title="No Anys on this line!">    values = []</span>
+<span class="line-precise" title="No Anys on this line!">    index = 0</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x5)">    new_split_by_num = _find_value_strings(string)</span>
+Unannotated (x1)">    while index &lt; len(new_split_by_num):</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x1)">    values = []</span>
+Unannotated (x3)">        value = new_split_by_num[index]</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x1)">    index = 0</span>
+Unannotated (x4)">        if value == "×" and index != len(new_split_by_num) - 1:</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x4)">    while index &lt; len(new_split_by_num):</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x4)">        value = new_split_by_num[index]</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x8)">        if value == "×" and index != len(new_split_by_num) - 1:</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x5)">            remaining = new_split_by_num[index + 1 :]</span>
+Unannotated (x3)">            remaining = new_split_by_num[index + 1 :]</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x3)">            if remaining[0] == "10":</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x3)">                string_power = remaining[1]</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x1)">                index += 2</span>
+<span class="line-precise" title="No Anys on this line!">                index += 2</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x4)">            elif remaining[0][:2] == "10":</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x4)">                string_power = remaining[0][2:]</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x1)">                index += 1</span>
+<span class="line-precise" title="No Anys on this line!">                index += 1</span>
 <span class="line-empty" title="No Anys on this line!">            try:</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x4)">                exponent = 10 ** float(string_power)</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x7)">                values[-1] = values[-1] * exponent</span>
+Unannotated (x1)">                exponent = 10 ** float(string_power)</span>
+<span class="line-precise" title="No Anys on this line!">                values[-1] = values[-1] * exponent</span>
 <span class="line-precise" title="No Anys on this line!">            except UnboundLocalError:</span>
-<span class="line-any" title="No Anys on this line!">                return None</span>
+<span class="line-precise" title="No Anys on this line!">                return None</span>
 <span class="line-empty" title="No Anys on this line!">        try:</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x3)">            float_val = float(value)</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x4)">            values.append(float_val)</span>
+Unannotated (x1)">            float_val = float(value)</span>
+<span class="line-precise" title="No Anys on this line!">            values.append(float_val)</span>
 <span class="line-precise" title="No Anys on this line!">        except ValueError:</span>
 <span class="line-empty" title="No Anys on this line!">            try:</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x6)">                values.append(float(Fraction(value)))</span>
+Unannotated (x1)">                values.append(float(Fraction(value)))</span>
 <span class="line-precise" title="No Anys on this line!">            except (ValueError, ZeroDivisionError):</span>
-<span class="line-any" title="No Anys on this line!">                pass</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x1)">        index += 1</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x1)">    return values</span>
+<span class="line-precise" title="No Anys on this line!">                pass</span>
+<span class="line-precise" title="No Anys on this line!">        index += 1</span>
+<span class="line-precise" title="No Anys on this line!">    return values</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="No Anys on this line!">def _find_value_strings(string):</span>
@@ -2051,7 +2103,7 @@ Unannotated (x1)">    value = None</span>
 Unannotated (x5)">    if string != "NoValue" and string != "":</span>
 <span class="line-empty" title="No Anys on this line!">        try:</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x5)">            value = extract_value(string)</span>
+Unannotated (x3)">            value = extract_value(string)</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">        except (TypeError, IndexError) as e:</span>
 <span class="line-any" title="Any Types on this line: 
@@ -2076,7 +2128,7 @@ Unannotated (x1)">    error = None</span>
 Unannotated (x2)">    if string != "NoValue":</span>
 <span class="line-empty" title="No Anys on this line!">        try:</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x5)">            error = extract_error(string)</span>
+Unannotated (x3)">            error = extract_error(string)</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">        except (TypeError, IndexError) as e:</span>
 <span class="line-any" title="Any Types on this line: 

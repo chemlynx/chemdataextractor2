@@ -149,14 +149,10 @@ label_name_cem = default_cem_factory.label_name_cem
 labelled_as = default_cem_factory.labelled_as
 optquote = default_cem_factory.optquote
 
-name_with_optional_bracketed_label = (
-    default_cem_factory.name_with_optional_bracketed_label
-)
+name_with_optional_bracketed_label = default_cem_factory.name_with_optional_bracketed_label
 
 label_before_name = default_cem_factory.label_before_name
-lenient_name_with_bracketed_label = (
-    default_cem_factory.lenient_name_with_bracketed_label
-)
+lenient_name_with_bracketed_label = default_cem_factory.lenient_name_with_bracketed_label
 
 name_with_comma_within = default_cem_factory.name_with_comma_within
 
@@ -200,8 +196,7 @@ def standardize_role(role):
     """Convert role text into standardized form."""
     role = role.lower()
     if any(
-        c in role
-        for c in {"synthesis", "give", "yield", "afford", "product", "preparation of"}
+        c in role for c in {"synthesis", "give", "yield", "afford", "product", "preparation of"}
     ):
         return "product"
     return role
@@ -230,9 +225,7 @@ class CompoundParser(BaseSentenceParser):
         name_with_optional_bracketed_label = (
             Optional(synthesis_of | to_give)
             + chemical_name
-            + Optional(
-                lbrct + Optional(labelled_as + optquote) + (label) + optquote + rbrct
-            )
+            + Optional(lbrct + Optional(labelled_as + optquote) + (label) + optquote + rbrct)
         )("compound")
 
         # Very lenient name and label match, with format like "name (Compound 3)"
@@ -284,9 +277,7 @@ class ChemicalLabelParser(BaseSentenceParser):
         label = self.model.labels.parse_expression("labels")
         if self._label is label:
             return self._root_phrase
-        self._root_phrase = chemical_label_phrase | Group(label)(
-            "chemical_label_phrase"
-        )
+        self._root_phrase = chemical_label_phrase | Group(label)("chemical_label_phrase")
         self._label = label
         return self._root_phrase
 
@@ -312,9 +303,7 @@ class CompoundHeadingParser(BaseSentenceParser):
             for name in result.xpath("./names/text()"):
                 yield self.model(names=[name], roles=roles)
         else:
-            yield self.model(
-                names=result.xpath("./names/text()"), labels=labels, roles=roles
-            )
+            yield self.model(names=result.xpath("./names/text()"), labels=labels, roles=roles)
 
 
 class CompoundTableParser(BaseTableParser):
@@ -331,9 +320,7 @@ class CompoundTableParser(BaseTableParser):
         labels = compound_model.labels.parse_expression("labels")
         entities = [labels]
 
-        specifier = (I("Formula") | I("Compound") | I("Alloy")).add_action(join)(
-            "specifier"
-        )
+        specifier = (I("Formula") | I("Compound") | I("Alloy")).add_action(join)("specifier")
         entities.append(specifier)
 
         # the optional, user-defined, entities of the model are added, they are tagged with the name of the field
@@ -346,14 +333,9 @@ class CompoundTableParser(BaseTableParser):
                 "error",
                 "specifier",
             ]:
-                if (
-                    self.model.__getattribute__(self.model, field).parse_expression
-                    is not None
-                ):
+                if self.model.__getattribute__(self.model, field).parse_expression is not None:
                     entities.append(
-                        self.model.__getattribute__(self.model, field).parse_expression(
-                            field
-                        )
+                        self.model.__getattribute__(self.model, field).parse_expression(field)
                     )
 
         # the chem_name has to be parsed last in order to avoid a conflict with other elements of the model
@@ -364,9 +346,9 @@ class CompoundTableParser(BaseTableParser):
         combined_entities = entities[0]
         for entity in entities[1:]:
             combined_entities = combined_entities | entity
-        root_phrase = OneOrMore(
-            combined_entities + Optional(SkipTo(combined_entities))
-        )("root_phrase")
+        root_phrase = OneOrMore(combined_entities + Optional(SkipTo(combined_entities)))(
+            "root_phrase"
+        )
         self._root_phrase = root_phrase
         self._specifier = self.model.specifier
         return root_phrase

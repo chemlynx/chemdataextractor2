@@ -272,12 +272,7 @@ def parse_rsc_html(htmlstring):
                 newp = None
             else:
                 newp.append(child)
-        if (
-            newp is None
-            and child.tag in BLOCK_ELEMENTS
-            and child.tail
-            and child.tail.strip()
-        ):
+        if newp is None and child.tag in BLOCK_ELEMENTS and child.tail and child.tail.strip():
             newp = Element("p", **{"class": "otherpara"})
             newp.text = child.tail
             child.tail = ""
@@ -289,9 +284,7 @@ def replace_rsc_img_chars(document):
     image_re = re.compile(
         r"http://www.rsc.org/images/entities/(?:h[23]+_)?(?:[ib]+_)?char_([0-9a-f]{4})(?:_([0-9a-f]{4}))?\.gif"
     )
-    for img in document.xpath(
-        './/img[starts-with(@src, "http://www.rsc.org/images/entities/")]'
-    ):
+    for img in document.xpath('.//img[starts-with(@src, "http://www.rsc.org/images/entities/")]'):
         m = image_re.match(img.get("src"))
         if m:
             u1, u2 = m.group(1), m.group(2)
@@ -360,9 +353,7 @@ class RscSearchDocument(Entity):
     pdf_url = UrlField(
         '.btn.btn--primary.btn--tiny::attr("href")', lower=True, strip_querystring=True
     )
-    html_url = UrlField(
-        '.btn.btn--tiny::attr("href")', lower=True, strip_querystring=True
-    )
+    html_url = UrlField('.btn.btn--tiny::attr("href")', lower=True, strip_querystring=True)
     journal = StringField(".text--small strong::text")
     abstract = StringField(".capsule__text")
 
@@ -430,9 +421,7 @@ class RscSearchScraper(SearchScraper):
             # To make sure we don't overload the server
             sleep(1)
             next_button = wait.until(
-                EC.visibility_of_all_elements_located(
-                    (By.CSS_SELECTOR, "a[class^=paging__btn]")
-                )
+                EC.visibility_of_all_elements_located((By.CSS_SELECTOR, "a[class^=paging__btn]"))
             )[1]
             page_string = (
                 """document.querySelectorAll("a[class^=paging__btn]")[1].setAttribute("data-pageno", \""""
@@ -445,9 +434,7 @@ class RscSearchScraper(SearchScraper):
 
         # To ensure that we wait until the elements have loaded before scraping the webpage
         _ = wait.until(
-            EC.visibility_of_element_located(
-                (By.CSS_SELECTOR, ".capsule.capsule--article")
-            )
+            EC.visibility_of_element_located((By.CSS_SELECTOR, ".capsule.capsule--article"))
         )
         return SeleniumSearchResult(driver)
 
@@ -487,9 +474,7 @@ class RscChemicalMention(Entity):
     chemspider_id = StringField(
         'a[href^="http://www.chemspider.com/Chemical-Structure."]::attr("href")'
     )
-    inchi = StringField(
-        'a[href^="http://www.chemspider.com/Search.aspx?q="]::attr("href")'
-    )
+    inchi = StringField('a[href^="http://www.chemspider.com/Search.aspx?q="]::attr("href")')
 
     clean_text = Chain(replace_rsc_img_chars, strip_rsc_html)
 
@@ -537,12 +522,8 @@ class RscHtmlDocument(DocumentEntity):
     abstract = StringField(".abstract")
     # chemical_mentions = EntityField(RscChemicalMention, 'span.TC', all=True)
     pdf_url = UrlField('meta[name="citation_pdf_url"]::attr("content")', lower=True)
-    html_url = UrlField(
-        'meta[name="citation_fulltext_html_url"]::attr("content")', lower=True
-    )
-    landing_url = UrlField(
-        'meta[name="citation_abstract_html_url"]::attr("content")', lower=True
-    )
+    html_url = UrlField('meta[name="citation_fulltext_html_url"]::attr("content")', lower=True)
+    landing_url = UrlField('meta[name="citation_abstract_html_url"]::attr("content")', lower=True)
     # figures = EntityField(RscImage, '.image_table', all=True)
     # schemes = EntityField(RscImage, '.image_table', all=True)
     # tables = EntityField(RscTable, '.table_caption', all=True)

@@ -44,13 +44,9 @@ prefix = (
 delim = R(r"^[:;\.,]$")
 
 # TODO: Consider allowing degree symbol to be optional. The prefix should be restrictive enough to stop false positives.
-units = (W("°") + Optional(R(r"^[CFK]\.?$")) | W(r"K\.?") | W("°C"))(
-    "units"
-).add_action(merge)
+units = (W("°") + Optional(R(r"^[CFK]\.?$")) | W(r"K\.?") | W("°C"))("units").add_action(merge)
 
-joined_range = R(r"^[\+\-–−]?\d+(\.\d+)?[\-–−~∼˜]\d+(\.\d+)?$")("value").add_action(
-    merge
-)
+joined_range = R(r"^[\+\-–−]?\d+(\.\d+)?[\-–−~∼˜]\d+(\.\d+)?$")("value").add_action(merge)
 spaced_range = (
     R(r"^[\+\-–−]?\d+(\.\d+)?$")
     + Optional(units).hide()
@@ -65,13 +61,9 @@ temp_range = (Optional(R(r"^[\-–−]$")) + (joined_range | spaced_range | to_r
     "value"
 ).add_action(merge)
 temp_value = (
-    Optional(R(r"^[~∼˜\<\>]$"))
-    + Optional(R(r"^[\-–−]$"))
-    + R(r"^[\+\-–−]?\d+(\.\d+)?$")
+    Optional(R(r"^[~∼˜\<\>]$")) + Optional(R(r"^[\-–−]$")) + R(r"^[\+\-–−]?\d+(\.\d+)?$")
 )("value").add_action(merge)
-temp = (
-    Optional(lbrct).hide() + (temp_range | temp_value)("value") + Optional(rbrct).hide()
-)
+temp = Optional(lbrct).hide() + (temp_range | temp_value)("value") + Optional(rbrct).hide()
 
 mp = (prefix + Optional(delim).hide() + temp + units)("mp")
 
@@ -79,8 +71,7 @@ mp = (prefix + Optional(delim).hide() + temp + units)("mp")
 bracket_any = lbrct + OneOrMore(Not(mp) + Not(rbrct) + Any()) + rbrct
 
 solvent_phrase = (
-    R("^(re)?crystalli[sz](ation|ed)$", re.I) + (I("with") | I("from")) + cem
-    | solvent_name
+    R("^(re)?crystalli[sz](ation|ed)$", re.I) + (I("with") | I("from")) + cem | solvent_name
 )
 cem_mp_phrase = (
     Optional(solvent_phrase).hide()

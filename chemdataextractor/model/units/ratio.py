@@ -5,7 +5,6 @@ Units and models for a ratio (percentage).
 
 """
 
-
 import logging
 
 from ...parse.elements import R

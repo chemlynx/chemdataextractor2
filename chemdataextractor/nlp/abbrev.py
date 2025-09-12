@@ -11,7 +11,9 @@ import logging
 import re
 from typing import TYPE_CHECKING
 from typing import Any
+from typing import List
 from typing import Optional
+from typing import Tuple
 
 from ..text import bracket_level
 
@@ -19,21 +21,21 @@ if TYPE_CHECKING:
     pass
 
 # Type aliases for abbreviation detection
-AbbreviationDef = tuple[list[str], list[str], str]  # (definition_tokens, abbrev_tokens, abbrev_str)
+AbbreviationDef = Tuple[List[str], List[str], str]  # (definition_tokens, abbrev_tokens, abbrev_str)
 
 log = logging.getLogger(__name__)
 
 
 class AbbreviationDetector:
     """Detect abbreviation definitions in chemical text.
-    
+
     Implements an algorithm similar to Schwartz & Hearst (2003) for identifying
     abbreviations and their full definitions in scientific literature.
-    
+
     Attributes:
         abbr_min: int - Minimum abbreviation length
-        abbr_max: int - Maximum abbreviation length  
-        abbr_equivs: list[str] - String equivalents for abbreviation matching
+        abbr_max: int - Maximum abbreviation length
+        abbr_equivs: List[str] - String equivalents for abbreviation matching
     """
 
     # TODO: Extend to Greek characters (custom method instead of .isalnum())
@@ -43,26 +45,31 @@ class AbbreviationDetector:
     #: Maximum abbreviation length
     abbr_max: int = 10
     #: String equivalents to use when detecting abbreviations.
-    abbr_equivs: list[str] = []
+    abbr_equivs: List[str] = []
 
-    def __init__(self, abbr_min: Optional[int] = None, abbr_max: Optional[int] = None, abbr_equivs: Optional[list[str]] = None) -> None:
+    def __init__(
+        self,
+        abbr_min: Optional[int] = None,
+        abbr_max: Optional[int] = None,
+        abbr_equivs: Optional[List[str]] = None,
+    ) -> None:
         """Initialize abbreviation detector.
-        
+
         Args:
             abbr_min: Optional[int] - Minimum abbreviation length
             abbr_max: Optional[int] - Maximum abbreviation length
-            abbr_equivs: Optional[list[str]] - String equivalents for matching
+            abbr_equivs: Optional[List[str]] - String equivalents for matching
         """
         self.abbr_min = abbr_min if abbr_min is not None else self.abbr_min
         self.abbr_max = abbr_max if abbr_max is not None else self.abbr_max
         self.abbr_equivs = abbr_equivs if abbr_equivs is not None else self.abbr_equivs
 
-    def _is_allowed_abbr(self, tokens: list[str]) -> bool:
+    def _is_allowed_abbr(self, tokens: List[str]) -> bool:
         """Check if token sequence is an allowed abbreviation.
-        
+
         Args:
-            tokens: list[str] - Token sequence to check
-            
+            tokens: List[str] - Token sequence to check
+
         Returns:
             bool - True if sequence forms a valid abbreviation
         """
@@ -126,9 +133,7 @@ class AbbreviationDetector:
                     # abbr = [tokens[span[0]-2]]
                     abbr_span = (span[0] - 2, span[0] - 1)
                     # long = self._get_long(abbr, inside, fix_left=True, fix_right=True)
-                    long_span = self._get_long_span(
-                        tokens, abbr_span, start=span[0], end=span[1]
-                    )
+                    long_span = self._get_long_span(tokens, abbr_span, start=span[0], end=span[1])
                     if long_span:
                         candidates.append((abbr_span, long_span))
             elif tokens[span[1]] == ",":
@@ -154,9 +159,7 @@ class AbbreviationDetector:
         max_length = self._max_long_length(abbr)
         # print(max_length)
         if start is not None and end is not None:
-            if end - start <= max_length and self._is_valid_long(
-                abbr, tokens[start:end]
-            ):
+            if end - start <= max_length and self._is_valid_long(abbr, tokens[start:end]):
                 return start, end
         elif start is None and end is not None:
             # Expand long backwards from end
@@ -247,9 +250,7 @@ class AbbreviationDetector:
         for abbr_span, long_span in candidates:
             abbr = tokens[abbr_span[0] : abbr_span[1]]
             long = tokens[long_span[0] : long_span[1]]
-            if not all(a in long for a in abbr) and len("".join(long)) > len(
-                "".join(abbr)
-            ):
+            if not all(a in long for a in abbr) and len("".join(long)) > len("".join(abbr)):
                 results.append((abbr_span, long_span))
         return results
 

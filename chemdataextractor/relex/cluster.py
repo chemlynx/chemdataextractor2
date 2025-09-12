@@ -10,6 +10,8 @@ from __future__ import annotations
 from collections import OrderedDict
 from typing import TYPE_CHECKING
 from typing import Any
+from typing import Dict
+from typing import List
 from typing import Optional
 
 import numpy as np
@@ -22,18 +24,17 @@ from .relationship import Relation
 from .utils import mode_rows
 from .utils import subfinder
 
-if TYPE_CHECKING:
-    from .phrase import Phrase
+from .phrase import Phrase
 
 # Type aliases for clustering
-PhraseList = list[Phrase]  # List of phrases in a cluster
+PhraseList = List[Phrase]  # List of phrases in a cluster
 ClusterDict = OrderedDict[str, Any]  # Dictionary of cluster properties
 DistanceMatrix = np.ndarray  # Matrix of distances between patterns
 
 
 class Cluster:
     """Base Snowball Cluster for grouping similar phrases.
-    
+
     Used to combine similar phrases and patterns in the Snowball algorithm
     for learning relationship extraction rules.
     """
@@ -88,9 +89,7 @@ class Cluster:
                     "total recurring words": 0,
                 }  # counter
             # add the tokens
-            self.add_tokens(
-                self.dictionaries[element], phrase.elements[element]["tokens"]
-            )
+            self.add_tokens(self.dictionaries[element], phrase.elements[element]["tokens"])
 
         return
 
@@ -238,13 +237,8 @@ class Cluster:
                     if pattern_entity.tag not in entity_type_indexes.keys():
                         entity_type_indexes[pattern_entity.tag] = [pattern_entity]
                     else:
-                        if (
-                            pattern_entity
-                            not in entity_type_indexes[pattern_entity.tag]
-                        ):
-                            entity_type_indexes[pattern_entity.tag].append(
-                                pattern_entity
-                            )
+                        if pattern_entity not in entity_type_indexes[pattern_entity.tag]:
+                            entity_type_indexes[pattern_entity.tag].append(pattern_entity)
                     # print(pattern_entity.tag)
                     xpath_str = pattern_entity.tag
                     # print(xpath_str)
@@ -254,14 +248,10 @@ class Cluster:
 
                     if len(entity_matches) > 0:
                         entity_text = entity_matches[
-                            entity_type_indexes[pattern_entity.tag].index(
-                                pattern_entity
-                            )
+                            entity_type_indexes[pattern_entity.tag].index(pattern_entity)
                         ]
                         entity_tokens = [s[0] for s in Sentence(entity_text).tokens]
-                        start_idx, end_idx = subfinder(
-                            [t[0] for t in tokens], entity_tokens
-                        )
+                        start_idx, end_idx = subfinder([t[0] for t in tokens], entity_tokens)
                         found_entity = Entity(
                             entity_text,
                             pattern_entity.tag,

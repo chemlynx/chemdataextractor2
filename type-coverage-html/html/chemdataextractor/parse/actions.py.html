@@ -81,51 +81,95 @@
 <span id="L71" class="lineno"><a class="lineno" href="#L71">71</a></span>
 <span id="L72" class="lineno"><a class="lineno" href="#L72">72</a></span>
 <span id="L73" class="lineno"><a class="lineno" href="#L73">73</a></span>
+<span id="L74" class="lineno"><a class="lineno" href="#L74">74</a></span>
+<span id="L75" class="lineno"><a class="lineno" href="#L75">75</a></span>
+<span id="L76" class="lineno"><a class="lineno" href="#L76">76</a></span>
+<span id="L77" class="lineno"><a class="lineno" href="#L77">77</a></span>
+<span id="L78" class="lineno"><a class="lineno" href="#L78">78</a></span>
+<span id="L79" class="lineno"><a class="lineno" href="#L79">79</a></span>
+<span id="L80" class="lineno"><a class="lineno" href="#L80">80</a></span>
+<span id="L81" class="lineno"><a class="lineno" href="#L81">81</a></span>
+<span id="L82" class="lineno"><a class="lineno" href="#L82">82</a></span>
+<span id="L83" class="lineno"><a class="lineno" href="#L83">83</a></span>
+<span id="L84" class="lineno"><a class="lineno" href="#L84">84</a></span>
+<span id="L85" class="lineno"><a class="lineno" href="#L85">85</a></span>
+<span id="L86" class="lineno"><a class="lineno" href="#L86">86</a></span>
+<span id="L87" class="lineno"><a class="lineno" href="#L87">87</a></span>
+<span id="L88" class="lineno"><a class="lineno" href="#L88">88</a></span>
+<span id="L89" class="lineno"><a class="lineno" href="#L89">89</a></span>
+<span id="L90" class="lineno"><a class="lineno" href="#L90">90</a></span>
+<span id="L91" class="lineno"><a class="lineno" href="#L91">91</a></span>
+<span id="L92" class="lineno"><a class="lineno" href="#L92">92</a></span>
+<span id="L93" class="lineno"><a class="lineno" href="#L93">93</a></span>
+<span id="L94" class="lineno"><a class="lineno" href="#L94">94</a></span>
+<span id="L95" class="lineno"><a class="lineno" href="#L95">95</a></span>
+<span id="L96" class="lineno"><a class="lineno" href="#L96">96</a></span>
+<span id="L97" class="lineno"><a class="lineno" href="#L97">97</a></span>
+<span id="L98" class="lineno"><a class="lineno" href="#L98">98</a></span>
+<span id="L99" class="lineno"><a class="lineno" href="#L99">99</a></span>
+<span id="L100" class="lineno"><a class="lineno" href="#L100">100</a></span>
 </pre></td>
 <td class="table-code"><pre><span class="line-empty" title="No Anys on this line!">"""</span>
 <span class="line-empty" title="No Anys on this line!">Actions to perform during parsing.</span>
 <span class="line-empty" title="No Anys on this line!"></span>
+<span class="line-empty" title="No Anys on this line!">Parse actions are functions that transform parsing results, typically</span>
+<span class="line-empty" title="No Anys on this line!">used to clean up, merge, or format extracted text data.</span>
 <span class="line-empty" title="No Anys on this line!">"""</span>
+<span class="line-empty" title="No Anys on this line!"></span>
+<span class="line-precise" title="No Anys on this line!">from __future__ import annotations</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">import logging</span>
 <span class="line-precise" title="No Anys on this line!">import re</span>
+<span class="line-precise" title="No Anys on this line!">from typing import Any</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="No Anys on this line!">from lxml.builder import E</span>
 <span class="line-any" title="No Anys on this line!">from lxml.etree import strip_tags</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">from ..text import HYPHENS</span>
 <span class="line-empty" title="No Anys on this line!"></span>
+<span class="line-empty" title="No Anys on this line!"># Type aliases for parse actions</span>
+<span class="line-precise" title="No Anys on this line!">TokenList = list[str]  # List of tokens</span>
+<span class="line-precise" title="No Anys on this line!">ParseResult = list[Any]  # List of XML elements from parsing</span>
+<span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">log = logging.getLogger(__name__)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-any" title="No Anys on this line!">def flatten(tokens, start, result):</span>
-<span class="line-empty" title="No Anys on this line!">    """Replace all child results with their text contents."""</span>
+<span class="line-precise" title="No Anys on this line!">def flatten(tokens: TokenList, start: int, result: ParseResult) -&gt; ParseResult:</span>
+<span class="line-empty" title="No Anys on this line!">    """Replace all child results with their text contents.</span>
+<span class="line-empty" title="No Anys on this line!">    </span>
+<span class="line-empty" title="No Anys on this line!">    Args:</span>
+<span class="line-empty" title="No Anys on this line!">        tokens: The original token list</span>
+<span class="line-empty" title="No Anys on this line!">        start: Starting position in tokens</span>
+<span class="line-empty" title="No Anys on this line!">        result: Parse result to flatten</span>
+<span class="line-empty" title="No Anys on this line!">        </span>
+<span class="line-empty" title="No Anys on this line!">    Returns:</span>
+<span class="line-empty" title="No Anys on this line!">        Flattened parse result</span>
+<span class="line-empty" title="No Anys on this line!">    """</span>
+<span class="line-precise" title="No Anys on this line!">    for e in result:</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">    for e in result:</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x2)
-Unimported (x1)">        strip_tags(e, "*")</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x1)">    return result</span>
+Unimported (x2)">        strip_tags(e, "*")</span>
+<span class="line-precise" title="No Anys on this line!">    return result</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-any" title="No Anys on this line!">def join(tokens, start, result):</span>
-<span class="line-empty" title="No Anys on this line!">    """Join tokens into a single string with spaces between."""</span>
+<span class="line-precise" title="No Anys on this line!">def join(tokens: TokenList, start: int, result: ParseResult) -&gt; ParseResult:</span>
+<span class="line-empty" title="No Anys on this line!">    """Join tokens into a single string with spaces between.</span>
+<span class="line-empty" title="No Anys on this line!">    </span>
+<span class="line-empty" title="No Anys on this line!">    Args:</span>
+<span class="line-empty" title="No Anys on this line!">        tokens: The original token list</span>
+<span class="line-empty" title="No Anys on this line!">        start: Starting position in tokens  </span>
+<span class="line-empty" title="No Anys on this line!">        result: Parse result to join</span>
+<span class="line-empty" title="No Anys on this line!">        </span>
+<span class="line-empty" title="No Anys on this line!">    Returns:</span>
+<span class="line-empty" title="No Anys on this line!">        Joined parse result as single element</span>
+<span class="line-empty" title="No Anys on this line!">    """</span>
+<span class="line-precise" title="No Anys on this line!">    texts = []</span>
+<span class="line-precise" title="No Anys on this line!">    if len(result) &gt; 0:</span>
+<span class="line-precise" title="No Anys on this line!">        for e in result:</span>
+<span class="line-precise" title="No Anys on this line!">            for child in e.iter():</span>
+<span class="line-precise" title="No Anys on this line!">                if child.text is not None:</span>
+<span class="line-any" title="No Anys on this line!">                    texts.append(child.text)</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x1)">    texts = []</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x3)">    if len(result) &gt; 0:</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">        for e in result:</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x4)">            for child in e.iter():</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">                if child.text is not None:</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x5)">                    texts.append(child.text)</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x7)
-Unimported (x1)">        return [E(result[0].tag, " ".join(texts))]</span>
+Unimported (x2)">        return [E(result[0].tag, " ".join(texts))]</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="No Anys on this line!">def merge(tokens, start, result):</span>

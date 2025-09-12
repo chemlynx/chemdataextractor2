@@ -3,15 +3,12 @@ Readers for documents from the ACS.
 
 """
 
-
 from ..scrape.clean import Cleaner
 from ..scrape.clean import clean
 from .markup import HtmlReader
 
 #: Additional cleaner for ACS HTML  TODO: Move to ignore_css?
-clean_acs_html = Cleaner(
-    kill_xpath='.//ul[@class="anchors"] | .//div[@class="citationLinks"]'
-)
+clean_acs_html = Cleaner(kill_xpath='.//ul[@class="anchors"] | .//div[@class="citationLinks"]')
 
 
 class AcsHtmlReader(HtmlReader):

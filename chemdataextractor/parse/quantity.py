@@ -15,6 +15,8 @@ import re
 from fractions import Fraction
 from typing import TYPE_CHECKING
 from typing import Any
+from typing import Dict
+from typing import List
 from typing import Optional
 from typing import Union
 
@@ -25,9 +27,9 @@ if TYPE_CHECKING:
 
 # Type aliases for quantity parsing
 NumericValue = Union[int, float]  # Numeric values
-ValueList = list[float]  # List of extracted values
+ValueList = List[float]  # List of extracted values
 UnitString = str  # String representation of units
-MagnitudeDict = dict[Any, float]  # Magnitude multipliers
+MagnitudeDict = Dict[Any, float]  # Magnitude multipliers
 
 from ..utils import memoize
 from .actions import join
@@ -94,16 +96,14 @@ def value_element(units=None, activate_to_range=False):
         "raw_value"
     ).add_action(merge)
     if units is not None:
-        spaced_range = (
-            number + Optional(units).hide() + Optional(R(r"^[\-–−\—~∼˜]$")) + number
-        )("raw_value").add_action(merge)
-        to_range = (number + Optional(units).hide() + I("to") + number)(
+        spaced_range = (number + Optional(units).hide() + Optional(R(r"^[\-–−\—~∼˜]$")) + number)(
             "raw_value"
-        ).add_action(join)
-    else:
-        spaced_range = (number + R(r"^[\-–−\—~∼˜]$") + number)("raw_value").add_action(
-            merge
+        ).add_action(merge)
+        to_range = (number + Optional(units).hide() + I("to") + number)("raw_value").add_action(
+            join
         )
+    else:
+        spaced_range = (number + R(r"^[\-–−\—~∼˜]$") + number)("raw_value").add_action(merge)
         to_range = (number + I("to") + number)("raw_value").add_action(join)
     if units is not None:
         plusminus_range = (number + Optional(units).hide() + W("±") + number)(
@@ -112,9 +112,9 @@ def value_element(units=None, activate_to_range=False):
     else:
         plusminus_range = (number + W("±") + number)("raw_value").add_action(join)
     bracket_range = R("^" + _number_pattern.pattern + r"\(\d+\)" + "$")("raw_value")
-    spaced_bracket_range = (pure_number + W("(") + pure_number + W(")")).add_action(
-        merge
-    )("raw_value")
+    spaced_bracket_range = (pure_number + W("(") + pure_number + W(")")).add_action(merge)(
+        "raw_value"
+    )
     between_range = (I("between").hide() + number + I("and") + number).add_action(join)
     if activate_to_range:
         value_range = (
@@ -145,9 +145,7 @@ def value_element(units=None, activate_to_range=False):
         "raw_value"
     ).add_action(merge)
     value = (
-        Optional(lbrct).hide()
-        + (value_range | value_single)("raw_value")
-        + Optional(rbrct).hide()
+        Optional(lbrct).hide() + (value_range | value_single)("raw_value") + Optional(rbrct).hide()
     )
     if units is not None:
         connecting_phrase = W("-")
@@ -195,8 +193,7 @@ def construct_quantity_re(*models):
     units_regex += "))+"
     units_regex += units_regex2[:-2] + "*"
     units_regex = (
-        r"^((?P<split>[\+\-–−]?\d+([\.\-\−]?\d+)?)|((?P<split2>.*)(\(|\/|\[)))"
-        + units_regex
+        r"^((?P<split>[\+\-–−]?\d+([\.\-\−]?\d+)?)|((?P<split2>.*)(\(|\/|\[)))" + units_regex
     )
     units_regex += "$"
     return re.compile(units_regex)
@@ -459,9 +456,7 @@ def extract_units(string, dimensions, strict=False):
         if not strict:
             return None
         else:
-            raise TypeError(
-                "Error extracting power: \n" + str(e) + "\n encountered during parsing"
-            )
+            raise TypeError("Error extracting power: \n" + str(e) + "\n encountered during parsing")
     # Deal with things like kilo, mega, or milli that modify the magnitude of the units found
     end_unit = _find_units(powers, dimensions, strict)
     return end_unit
@@ -615,9 +610,7 @@ def _find_unit_types(tokenized_sentence, dimensions):
                         )
                     else:
                         # path 1a
-                        units_list.append(
-                            (found_units[string], current_string + string, string)
-                        )
+                        units_list.append((found_units[string], current_string + string, string))
                     current_string = ""
                     prev_unit = found_units[string]
                 elif re.match(_fraction_or_decimal_pattern, string):
@@ -646,10 +639,7 @@ def _remove_subranges(ranges):
         for child_index, child in enumerate(ranges):
             if child_index != parent_index:
                 child_range = (child[1], child[2])
-                if (
-                    child_range[0] >= parent_range[0]
-                    and child_range[1] <= parent_range[1]
-                ):
+                if child_range[0] >= parent_range[0] and child_range[1] <= parent_range[1]:
                     should_remove_indices.append(child_index)
     new_ranges = [
         original_range
@@ -689,9 +679,7 @@ def _find_powers(units_list):
         found_power = re.search(_fraction_or_decimal_pattern, element)
         if found_power is not None:
             try:
-                power = power * float(
-                    sum(Fraction(s) for s in found_power.group(0).split())
-                )
+                power = power * float(sum(Fraction(s) for s in found_power.group(0).split()))
             except ZeroDivisionError:
                 return None
             element = re.split(found_power.group(0), element)[0]
@@ -798,9 +786,7 @@ def _find_units(powers_cleaned, dimensions, strict):
             return end_unit
         else:
             if end_unit is None:
-                raise TypeError(
-                    "Could not find " + str(dimensions) + " in given string"
-                )
+                raise TypeError("Could not find " + str(dimensions) + " in given string")
             if len(unassociated_elements) != 0:
                 raise TypeError("String input had extraneous elements")
             raise TypeError(

@@ -3,7 +3,6 @@ Chemical entity mention (CEM) commands.
 
 """
 
-
 import click
 
 from ..nlp.cem import CrfCemTagger
@@ -19,9 +18,7 @@ def cem(ctx):
 @cem.command()
 @click.argument("input", type=click.File("r", encoding="utf8"), required=True)
 @click.option("--output", "-o", help="Output model file.", required=True)
-@click.option(
-    "--clusters/--no-clusters", help="Whether to use cluster features", default=True
-)
+@click.option("--clusters/--no-clusters", help="Whether to use cluster features", default=True)
 @click.pass_obj
 def train_crf(ctx, input, output, clusters):
     """Train CRF CEM recognizer."""

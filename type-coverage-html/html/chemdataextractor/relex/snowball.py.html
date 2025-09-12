@@ -791,10 +791,41 @@
 <span id="L781" class="lineno"><a class="lineno" href="#L781">781</a></span>
 <span id="L782" class="lineno"><a class="lineno" href="#L782">782</a></span>
 <span id="L783" class="lineno"><a class="lineno" href="#L783">783</a></span>
+<span id="L784" class="lineno"><a class="lineno" href="#L784">784</a></span>
+<span id="L785" class="lineno"><a class="lineno" href="#L785">785</a></span>
+<span id="L786" class="lineno"><a class="lineno" href="#L786">786</a></span>
+<span id="L787" class="lineno"><a class="lineno" href="#L787">787</a></span>
+<span id="L788" class="lineno"><a class="lineno" href="#L788">788</a></span>
+<span id="L789" class="lineno"><a class="lineno" href="#L789">789</a></span>
+<span id="L790" class="lineno"><a class="lineno" href="#L790">790</a></span>
+<span id="L791" class="lineno"><a class="lineno" href="#L791">791</a></span>
+<span id="L792" class="lineno"><a class="lineno" href="#L792">792</a></span>
+<span id="L793" class="lineno"><a class="lineno" href="#L793">793</a></span>
+<span id="L794" class="lineno"><a class="lineno" href="#L794">794</a></span>
+<span id="L795" class="lineno"><a class="lineno" href="#L795">795</a></span>
+<span id="L796" class="lineno"><a class="lineno" href="#L796">796</a></span>
+<span id="L797" class="lineno"><a class="lineno" href="#L797">797</a></span>
+<span id="L798" class="lineno"><a class="lineno" href="#L798">798</a></span>
+<span id="L799" class="lineno"><a class="lineno" href="#L799">799</a></span>
+<span id="L800" class="lineno"><a class="lineno" href="#L800">800</a></span>
+<span id="L801" class="lineno"><a class="lineno" href="#L801">801</a></span>
+<span id="L802" class="lineno"><a class="lineno" href="#L802">802</a></span>
+<span id="L803" class="lineno"><a class="lineno" href="#L803">803</a></span>
+<span id="L804" class="lineno"><a class="lineno" href="#L804">804</a></span>
+<span id="L805" class="lineno"><a class="lineno" href="#L805">805</a></span>
+<span id="L806" class="lineno"><a class="lineno" href="#L806">806</a></span>
+<span id="L807" class="lineno"><a class="lineno" href="#L807">807</a></span>
+<span id="L808" class="lineno"><a class="lineno" href="#L808">808</a></span>
 </pre></td>
 <td class="table-code"><pre><span class="line-empty" title="No Anys on this line!">"""</span>
-<span class="line-empty" title="No Anys on this line!">The Snowball Relationship Extraction algorithm</span>
+<span class="line-empty" title="No Anys on this line!">The Snowball Relationship Extraction algorithm.</span>
+<span class="line-empty" title="No Anys on this line!"></span>
+<span class="line-empty" title="No Anys on this line!">Implements semi-supervised relationship extraction using the Snowball algorithm</span>
+<span class="line-empty" title="No Anys on this line!">for discovering patterns and relationships between chemical entities in text.</span>
 <span class="line-empty" title="No Anys on this line!">"""</span>
+<span class="line-empty" title="No Anys on this line!"></span>
+<span class="line-precise" title="No Anys on this line!">from __future__ import annotations</span>
+<span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">import copy</span>
 <span class="line-precise" title="No Anys on this line!">import logging</span>
 <span class="line-precise" title="No Anys on this line!">import os</span>
@@ -803,10 +834,23 @@
 <span class="line-precise" title="No Anys on this line!">from itertools import combinations</span>
 <span class="line-precise" title="No Anys on this line!">from itertools import product</span>
 <span class="line-precise" title="No Anys on this line!">from os.path import basename</span>
+<span class="line-precise" title="No Anys on this line!">from typing import TYPE_CHECKING</span>
+<span class="line-precise" title="No Anys on this line!">from typing import Any</span>
+<span class="line-precise" title="No Anys on this line!">from typing import Optional</span>
+<span class="line-precise" title="No Anys on this line!">from typing import Union</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">import numpy as np</span>
 <span class="line-any" title="No Anys on this line!">import six</span>
 <span class="line-any" title="No Anys on this line!">from playsound import playsound</span>
+<span class="line-empty" title="No Anys on this line!"></span>
+<span class="line-precise" title="No Anys on this line!">if TYPE_CHECKING:</span>
+<span class="line-precise" title="No Anys on this line!">    from ..doc.text import Sentence as DocumentSentence</span>
+<span class="line-precise" title="No Anys on this line!">    from ..model.base import BaseModel</span>
+<span class="line-empty" title="No Anys on this line!"></span>
+<span class="line-empty" title="No Anys on this line!"># Type aliases for relationship extraction</span>
+<span class="line-precise" title="No Anys on this line!">PatternList = list[Any]  # List of learned patterns</span>
+<span class="line-precise" title="No Anys on this line!">EntityPair = tuple[Entity, Entity]  # Pair of entities in a relationship</span>
+<span class="line-precise" title="No Anys on this line!">ConfidenceScore = float  # Confidence score for patterns/relationships</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">from ..doc.document import Document</span>
 <span class="line-precise" title="No Anys on this line!">from ..doc.text import Sentence</span>
@@ -824,18 +868,24 @@
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">class Snowball(BaseSentenceParser):</span>
-<span class="line-empty" title="No Anys on this line!">    """</span>
-<span class="line-empty" title="No Anys on this line!">    Main Snowball class</span>
+<span class="line-empty" title="No Anys on this line!">    """Main Snowball relationship extraction algorithm.</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-empty" title="No Anys on this line!">    ::Usage: Define a Chemdataextractor Model</span>
-<span class="line-empty" title="No Anys on this line!">        ```snowball = Snowball(model=my_relationhip)```</span>
-<span class="line-empty" title="No Anys on this line!">        Then train the system on a corpus</span>
-<span class="line-empty" title="No Anys on this line!">        ```snowball.train(corpus)```</span>
-<span class="line-empty" title="No Anys on this line!">        This will generate an online training system</span>
+<span class="line-empty" title="No Anys on this line!">    Implements semi-supervised learning for discovering relationships between</span>
+<span class="line-empty" title="No Anys on this line!">    chemical entities using pattern-based extraction and iterative bootstrapping.</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-empty" title="No Anys on this line!">    ::params:</span>
+<span class="line-empty" title="No Anys on this line!">    Usage:</span>
+<span class="line-empty" title="No Anys on this line!">        Define a ChemDataExtractor Model::</span>
+<span class="line-empty" title="No Anys on this line!">        </span>
+<span class="line-empty" title="No Anys on this line!">            snowball = Snowball(model=my_relationship)</span>
+<span class="line-empty" title="No Anys on this line!">            </span>
+<span class="line-empty" title="No Anys on this line!">        Then train the system on a corpus::</span>
+<span class="line-empty" title="No Anys on this line!">        </span>
+<span class="line-empty" title="No Anys on this line!">            snowball.train(corpus)</span>
+<span class="line-empty" title="No Anys on this line!">            </span>
+<span class="line-empty" title="No Anys on this line!">        This will generate patterns for extracting the specified relationship type.</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-empty" title="No Anys on this line!">    For full detail see the associated paper: https://www.nature.com/articles/sdata2018111</span>
+<span class="line-empty" title="No Anys on this line!">    Parameters:</span>
+<span class="line-empty" title="No Anys on this line!">        For full detail see the associated paper: https://www.nature.com/articles/sdata2018111</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">        tc: The minimum confidence of a model in order to be accepted</span>
 <span class="line-empty" title="No Anys on this line!">        tsim: Minimum similarity between sentences in order for them to be clustered</span>
@@ -1246,7 +1296,8 @@ Unannotated (x7)">            if tag not in entities_dict.keys():</span>
 Unannotated (x3)">                entities_dict[tag] = []</span>
 <span class="line-precise" title="No Anys on this line!">            entities = [</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x11)">                Entity(text, tag, parse_expression, index, index + text_length)</span>
+Unimported (x1)
+Unannotated (x6)">                Entity(text, tag, parse_expression, index, index + text_length)</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x2)">                for index in start_indices</span>
 <span class="line-empty" title="No Anys on this line!">            ]</span>
@@ -1622,8 +1673,7 @@ Unannotated (x1)">                    yield model</span>
 <span class="line-empty" title="No Anys on this line!">        # print("\n\n", "Interpreting")</span>
 <span class="line-empty" title="No Anys on this line!">        # Set the confidence field if not already set</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x6)
-Error (x2)">        if "confidence" not in self.model.fields.keys():</span>
+Error (x5)">        if "confidence" not in self.model.fields.keys():</span>
 <span class="line-any" title="Any Types on this line: 
 Unimported (x1)
 Explicit (x1)">            self.model.confidence = FloatType()</span>

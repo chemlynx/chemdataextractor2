@@ -68,57 +68,80 @@ build-backend = "setuptools.build_meta"
 [tool.setuptools.packages.find]
 include = ["chemdataextractor*"]
 
-# MyPy Configuration - Phased Rollout Strategy
+# MyPy Configuration - Advanced Typing System
 [tool.mypy]
 python_version = "3.11"
-# Start with non-strict mode for gradual adoption
-strict = false
-# Enable key warnings for code quality
+# Enhanced configuration for advanced typing patterns
+strict = false # Gradual adoption with selective strict mode
+# Core quality warnings
 warn_return_any = true
 warn_unused_configs = true
 warn_redundant_casts = true
-warn_unused_ignores = false   # Disable during migration
+warn_unused_ignores = false # Disabled during migration
+warn_unreachable = true
+warn_no_return = true
 show_error_codes = true
+show_error_context = true
+# Advanced features for generic typing
 namespace_packages = true
 explicit_package_bases = true
-exclude = '''/tests/*'''
-# Enable incremental typing
+# Protocol and generic support
+disallow_any_generics = false   # Allow during migration
+disallow_subclassing_any = true
 check_untyped_defs = true
-disallow_untyped_calls = false  # Allow during migration
+disallow_untyped_calls = false  # Allow during migration  
 disallow_incomplete_defs = true
+# Enhanced inference
+follow_imports = "normal"
+ignore_missing_imports = false
+# Exclude test files from strict checking
+exclude = '''/tests/*'''
 
 # === PHASE 1: Foundation Modules (Strict Mode) ===
 [[tool.mypy.overrides]]
-module = ["chemdataextractor.typing"]
+module = ["chemdataextractor.types"]
 strict = true
 disallow_untyped_defs = true
 disallow_incomplete_defs = true
+disallow_any_generics = true
+warn_return_any = true
+# Enable all protocol and generic checks
+disallow_untyped_calls = true
 
-# === PHASE 1: Core Base Classes (Gradual Strict) ===
+# === PHASE 1: Core Base Classes (Enhanced Typing) ===
 [[tool.mypy.overrides]]
 module = [
   "chemdataextractor.doc.document",
   "chemdataextractor.doc.element",
   "chemdataextractor.model.base",
 ]
-# Start with basic typing, gradually enable strict
+# Enhanced typing for core classes
 disallow_untyped_defs = true
 disallow_incomplete_defs = true
 warn_return_any = true
 check_untyped_defs = true
+# Enable protocol support
+disallow_any_generics = false # Allow during BaseModel enhancement
+warn_unreachable = true
 
-# === PHASE 2: Public API Modules ===
+# === PHASE 2: Public API Modules (Enhanced) ===
 [[tool.mypy.overrides]]
 module = [
   "chemdataextractor.doc.*",
   "chemdataextractor.model.model",
   "chemdataextractor.model.contextual_range",
+  "chemdataextractor.model.units.quantity_model",
+  "chemdataextractor.model.units.unit",
+  "chemdataextractor.model.units.dimension",
   "chemdataextractor.parse.base",
   "chemdataextractor.reader.base",
 ]
-# Moderate typing enforcement
+# Enhanced API typing with protocol support
 check_untyped_defs = true
-warn_return_any = false   # Too noisy during migration
+disallow_incomplete_defs = true
+warn_return_any = false         # Allow during migration
+# Enable generic checks for quantity models
+disallow_any_generics = false
 
 # === PHASE 3: Internal Systems ===
 [[tool.mypy.overrides]]
@@ -181,6 +204,8 @@ ignore = [
   "B008",   # do not perform function calls in argument defaults
   "B011",   # assert false
   "ARG002", # unused method arguments
+  "UP006",  # this prefers list over List etc - at least for now we want to keep the imports from the Typing module
+  "UP035",  # need to keep using typing module
 ]
 
 [tool.ruff.lint.per-file-ignores]

@@ -3,7 +3,6 @@ Declarative scraping framework for extracting structured data from HTML and XML 
 
 """
 
-
 #: Block level HTML elements
 BLOCK_ELEMENTS = {
     "p",

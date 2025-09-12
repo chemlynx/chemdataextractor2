@@ -1,6 +1,7 @@
 """
 Various utility functions
 """
+
 from collections import OrderedDict
 
 import numpy as np
@@ -82,9 +83,7 @@ def vectorise(phrase, cluster):
             if token in local_dictionary.keys():
                 local_dictionary[token] += 1
             else:
-                local_dictionary[token] = cluster.dictionaries[element]["token dict"][
-                    token
-                ][0]
+                local_dictionary[token] = cluster.dictionaries[element]["token dict"][token][0]
 
         # Same for the phrase tokens
         for token in phrase.elements[element]["tokens"]:
@@ -143,9 +142,7 @@ def mode_rows(a):
     """
     a = np.ascontiguousarray(a)
     void_dt = np.dtype((np.void, a.dtype.itemsize * np.prod(a.shape[1:])))
-    _, ids, count = np.unique(
-        a.view(void_dt).ravel(), return_index=True, return_counts=True
-    )
+    _, ids, count = np.unique(a.view(void_dt).ravel(), return_index=True, return_counts=True)
     largest_count_id = ids[count.argmax()]
     most_frequent_row = a[largest_count_id]
     return most_frequent_row

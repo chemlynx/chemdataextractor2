@@ -3,7 +3,6 @@ Reader classes that read a file and produce a ChemDataExtractor Document object.
 
 """
 
-
 from .acs import AcsHtmlReader
 from .cssp import CsspHtmlReader
 from .elsevier import ElsevierXmlReader

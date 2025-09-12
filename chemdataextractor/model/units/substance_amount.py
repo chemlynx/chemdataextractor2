@@ -4,7 +4,6 @@ Units and models for amounts of a substance.
 :codeauthor: Callum Court (cc889@cam.ac.uk)
 """
 
-
 import logging
 
 from ...parse.elements import R
@@ -38,9 +37,7 @@ class AmountOfSubstanceUnit(Unit):
     """
 
     def __init__(self, magnitude=0.0, powers=None):
-        super(AmountOfSubstanceUnit, self).__init__(
-            AmountOfSubstance(), magnitude, powers
-        )
+        super(AmountOfSubstanceUnit, self).__init__(AmountOfSubstance(), magnitude, powers)
 
 
 class Mol(AmountOfSubstanceUnit):

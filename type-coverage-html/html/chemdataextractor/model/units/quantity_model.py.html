@@ -466,14 +466,18 @@ Explicit (x1)">    def __new__(mcs, name: str, bases: tuple[type, ...], attrs: d
 <span class="line-imprecise" title="Any Types on this line: 
 Explicit (x2)">        cls = super(_QuantityModelMeta, mcs).__new__(mcs, name, bases, attrs)</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x5)
+Unimported (x3)
+Explicit (x1)
 Error (x1)">        unit_element = construct_unit_element(cls.dimensions)</span>
+<span class="line-imprecise" title="Any Types on this line: 
+Unimported (x1)">        if unit_element:</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x1)">        if unit_element:</span>
+Unimported (x3)
+Error (x2)">            cls.fields["raw_units"].parse_expression = unit_element(None)</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x6)">            cls.fields["raw_units"].parse_expression = unit_element(None)</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x9)">        cls.fields["raw_value"].parse_expression = value_element()(None)</span>
+Unannotated (x5)
+Unimported (x1)
+Error (x2)">        cls.fields["raw_value"].parse_expression = value_element()(None)</span>
 <span class="line-precise" title="No Anys on this line!">        return cls</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!"></span>
@@ -535,7 +539,7 @@ Unimported (x1)">    specifier = StringType()</span>
 <span class="line-precise" title="No Anys on this line!">        MultiQuantityModelTemplateParser(),</span>
 <span class="line-precise" title="No Anys on this line!">        QuantityModelTemplateParser(),</span>
 <span class="line-precise" title="Any Types on this line: 
-Unannotated (x1)">        AutoTableParser(),</span>
+Unimported (x1)">        AutoTableParser(),</span>
 <span class="line-empty" title="No Anys on this line!">    ]</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">    # Operators are implemented so that composite quantities can be created easily</span>
@@ -579,7 +583,7 @@ Unannotated (x1)">        AutoTableParser(),</span>
 <span class="line-empty" title="No Anys on this line!">            QuantityModel - The resulting quantity</span>
 <span class="line-empty" title="No Anys on this line!">        """</span>
 <span class="line-precise" title="Any Types on this line: 
-Unannotated (x1)">        new_model = QuantityModel()</span>
+Explicit (x1)">        new_model = QuantityModel()</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">        new_model.dimensions = self.dimensions**other</span>
 <span class="line-precise" title="No Anys on this line!">        if self.value is not None:</span>
@@ -597,7 +601,7 @@ Error (x1)">            new_model.units = self.units**other</span>
 <span class="line-empty" title="No Anys on this line!">        # Handle case that we have a dimensionless quantity, so we don't get dimensionless units squared.</span>
 <span class="line-precise" title="No Anys on this line!">        if isinstance(new_model.dimensions, Dimensionless):</span>
 <span class="line-precise" title="Any Types on this line: 
-Unannotated (x1)">            dimensionless_model = DimensionlessModel()</span>
+Explicit (x1)">            dimensionless_model = DimensionlessModel()</span>
 <span class="line-precise" title="No Anys on this line!">            dimensionless_model.value = new_model.value</span>
 <span class="line-precise" title="No Anys on this line!">            dimensionless_model.units = new_model.units</span>
 <span class="line-precise" title="No Anys on this line!">            return dimensionless_model</span>
@@ -614,7 +618,7 @@ Unannotated (x1)">            dimensionless_model = DimensionlessModel()</span>
 <span class="line-empty" title="No Anys on this line!">            QuantityModel - The resulting quantity</span>
 <span class="line-empty" title="No Anys on this line!">        """</span>
 <span class="line-precise" title="Any Types on this line: 
-Unannotated (x1)">        new_model = QuantityModel()</span>
+Explicit (x1)">        new_model = QuantityModel()</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">        new_model.dimensions = self.dimensions * other.dimensions</span>
 <span class="line-precise" title="No Anys on this line!">        if self.value is not None and other.value is not None:</span>
@@ -658,7 +662,7 @@ Error (x3)">                new_model.value = [self.value[0] * other.value[0]]</
 Error (x1)">            new_model.units = self.units * other.units</span>
 <span class="line-precise" title="No Anys on this line!">        if isinstance(new_model.dimensions, Dimensionless):</span>
 <span class="line-precise" title="Any Types on this line: 
-Unannotated (x1)">            dimensionless_model = DimensionlessModel()</span>
+Explicit (x1)">            dimensionless_model = DimensionlessModel()</span>
 <span class="line-precise" title="No Anys on this line!">            dimensionless_model.value = new_model.value</span>
 <span class="line-precise" title="No Anys on this line!">            dimensionless_model.units = new_model.units</span>
 <span class="line-precise" title="No Anys on this line!">            return dimensionless_model</span>
@@ -852,37 +856,37 @@ Unannotated (x3)">            or max_converted_value &gt;= min_other_value</span
 Explicit (x4)
 Unannotated (x1)">        if type(self) != type(other):</span>
 <span class="line-any" title="No Anys on this line!">            return False</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x8)">        for field_name, field in self.fields.items():</span>
+<span class="line-imprecise" title="Any Types on this line: 
+Error (x4)">        for field_name, field in self.fields.items():</span>
 <span class="line-empty" title="No Anys on this line!">            # Method works recursively so it works with nested models</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x1)">            if hasattr(field, "model_class"):</span>
+Error (x1)">            if hasattr(field, "model_class"):</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">                if self[field_name] is None:</span>
+Unannotated (x1)">                if self[field_name] is None:</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x3)">                    if other[field_name] is not None:</span>
+Unannotated (x2)">                    if other[field_name] is not None:</span>
 <span class="line-any" title="No Anys on this line!">                        return False</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x3)">                elif other[field_name] is None:</span>
+Unannotated (x2)">                elif other[field_name] is None:</span>
 <span class="line-any" title="No Anys on this line!">                    pass</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x7)">                elif not self[field_name].is_superset(other[field_name]):</span>
+Unannotated (x5)">                elif not self[field_name].is_superset(other[field_name]):</span>
 <span class="line-any" title="No Anys on this line!">                    return False</span>
 <span class="line-empty" title="No Anys on this line!">            else:</span>
 <span class="line-empty" title="No Anys on this line!">                if (</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x4)">                    field_name == "raw_value"</span>
+Unannotated (x2)">                    field_name == "raw_value"</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x4)">                    and other[field_name] == "NoValue"</span>
+Unannotated (x3)">                    and other[field_name] == "NoValue"</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">                    and self[field_name] is not None</span>
+Unannotated (x1)">                    and self[field_name] is not None</span>
 <span class="line-empty" title="No Anys on this line!">                ):</span>
 <span class="line-any" title="No Anys on this line!">                    pass</span>
 <span class="line-empty" title="No Anys on this line!">                elif (</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x4)">                    other[field_name] is not None</span>
+Unannotated (x3)">                    other[field_name] is not None</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x6)">                    and self[field_name] != other[field_name]</span>
+Unannotated (x4)">                    and self[field_name] != other[field_name]</span>
 <span class="line-empty" title="No Anys on this line!">                ):</span>
 <span class="line-any" title="No Anys on this line!">                    return False</span>
 <span class="line-any" title="No Anys on this line!">        return True</span>
@@ -894,24 +898,24 @@ Explicit (x4)
 Unannotated (x1)">        if type(other) == type(self):</span>
 <span class="line-empty" title="No Anys on this line!">            # Check if the other seems to be describing the same thing as self.</span>
 <span class="line-any" title="No Anys on this line!">            match = True</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x8)">            for field_name, field in self.fields.items():</span>
+<span class="line-imprecise" title="Any Types on this line: 
+Error (x4)">            for field_name, field in self.fields.items():</span>
 <span class="line-empty" title="No Anys on this line!">                if (</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x4)">                    field_name == "raw_value"</span>
+Unannotated (x2)">                    field_name == "raw_value"</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x4)">                    and other[field_name] == "NoValue"</span>
+Unannotated (x3)">                    and other[field_name] == "NoValue"</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">                    and self[field_name] is not None</span>
+Unannotated (x1)">                    and self[field_name] is not None</span>
 <span class="line-empty" title="No Anys on this line!">                ):</span>
 <span class="line-any" title="No Anys on this line!">                    pass</span>
 <span class="line-empty" title="No Anys on this line!">                elif (</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x4)">                    self[field_name] is not None</span>
+Unannotated (x3)">                    self[field_name] is not None</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x3)">                    and other[field_name] is not None</span>
+Unannotated (x2)">                    and other[field_name] is not None</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x6)">                    and self[field_name] != other[field_name]</span>
+Unannotated (x4)">                    and self[field_name] != other[field_name]</span>
 <span class="line-empty" title="No Anys on this line!">                ):</span>
 <span class="line-any" title="No Anys on this line!">                    match = False</span>
 <span class="line-any" title="No Anys on this line!">                    break</span>

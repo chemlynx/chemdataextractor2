@@ -979,9 +979,11 @@ Unannotated (x4)">            return self.model.category.parse_expression("categ
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x3)">        unit_element = Group(</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x9)">            construct_unit_element(self.model.dimensions).with_condition(</span>
+Unannotated (x6)
+Unimported (x1)
+Explicit (x1)">            construct_unit_element(self.model.dimensions).with_condition(</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x4)">                match_dimensions_of(self.model)</span>
+Unannotated (x2)">                match_dimensions_of(self.model)</span>
 <span class="line-any" title="No Anys on this line!">            )("raw_units")</span>
 <span class="line-empty" title="No Anys on this line!">        )</span>
 <span class="line-any" title="Any Types on this line: 
@@ -1008,11 +1010,11 @@ Unannotated (x8)">                Not(self.cem_phrase | self.specifier_phrase | 
 Unannotated (x3)">                + Any().hide()</span>
 <span class="line-empty" title="No Anys on this line!">            )</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x6)">            + Optional(I("values")).hide()</span>
+Unannotated (x5)">            + Optional(I("values")).hide()</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x4)">            + Optional(delim).hide()</span>
+Unannotated (x3)">            + Optional(delim).hide()</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x4)">            + Optional(</span>
+Unannotated (x3)">            + Optional(</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x8)">                (I("varies") + I("from"))</span>
 <span class="line-any" title="Any Types on this line: 
@@ -1023,11 +1025,11 @@ Unannotated (x2)">                | I("falls")</span>
 Unannotated (x2)">                | I("reaches")</span>
 <span class="line-empty" title="No Anys on this line!">            ).hide()</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x6)">            + Optional(I("steeply")).hide()</span>
+Unannotated (x5)">            + Optional(I("steeply")).hide()</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x9)">            + Optional(I("recorded") | I("reported")).hide()</span>
+Unannotated (x8)">            + Optional(I("recorded") | I("reported")).hide()</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x4)">            + Optional(</span>
+Unannotated (x3)">            + Optional(</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x12)">                I("of")</span>
 <span class="line-any" title="Any Types on this line: 
@@ -1052,7 +1054,7 @@ Unannotated (x2)">                | I("were")</span>
 Unannotated (x2)">                | I("a")</span>
 <span class="line-empty" title="No Anys on this line!">            ).hide()</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x4)">            + Optional(</span>
+Unannotated (x3)">            + Optional(</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x6)">                I("reported")</span>
 <span class="line-any" title="Any Types on this line: 
@@ -1065,27 +1067,27 @@ Unannotated (x2)">                | I("found")</span>
 Unannotated (x2)">                | I("occurs")</span>
 <span class="line-empty" title="No Anys on this line!">            ).hide()</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x6)">            + Optional(I("temperatures")).hide()</span>
+Unannotated (x5)">            + Optional(I("temperatures")).hide()</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x12)">            + Optional(I("as") | (I("to") + I("be"))).hide()</span>
+Unannotated (x11)">            + Optional(I("as") | (I("to") + I("be"))).hide()</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x12)">            + Optional(I("in") + I("the") + I("range")).hide()</span>
+Unannotated (x11)">            + Optional(I("in") + I("the") + I("range")).hide()</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x10)">            + Optional(I("as") + I("high") + I("as"))</span>
+Unannotated (x9)">            + Optional(I("as") + I("high") + I("as"))</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x9)">            + Optional(I("ranging") + I("from")).hide()</span>
+Unannotated (x8)">            + Optional(I("ranging") + I("from")).hide()</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x6)">            + Optional(I("of")).hide()</span>
+Unannotated (x5)">            + Optional(I("of")).hide()</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x9)">            + Optional(I("rather") | I("quite")).hide()</span>
+Unannotated (x8)">            + Optional(I("rather") | I("quite")).hide()</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x15)">            + Optional(I("high") | I("low") | I("maximum") | I("minimum")).hide()</span>
+Unannotated (x14)">            + Optional(I("high") | I("low") | I("maximum") | I("minimum")).hide()</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x6)">            + Optional(I("the")).hide()</span>
+Unannotated (x5)">            + Optional(I("the")).hide()</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x6)">            + Optional(delim | lbrct | rbrct)</span>
+Unannotated (x5)">            + Optional(delim | lbrct | rbrct)</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x4)">            + Optional(</span>
+Unannotated (x3)">            + Optional(</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x18)">                I("of")</span>
 <span class="line-any" title="Any Types on this line: 
@@ -1122,33 +1124,32 @@ Unannotated (x2)">                | I("reaching")</span>
 Unannotated (x2)">                | I("value")</span>
 <span class="line-empty" title="No Anys on this line!">            ).hide()</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x12)">            + Optional(I("a") | I("an") | I("as")).hide()</span>
+Unannotated (x11)">            + Optional(I("a") | I("an") | I("as")).hide()</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x6)">            + Optional(I("maximum")).hide()</span>
+Unannotated (x5)">            + Optional(I("maximum")).hide()</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x6)">            + Optional(I("of")).hide()</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x6)">            + ZeroOrMore(lbrct | delim | rbrct)</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x3)">            + Optional(self.specifier_phrase)</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x6)">            + Optional(I("of")).hide()</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x6)">            + Optional(I("the")).hide()</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x6)">            + Optional(I("order")).hide()</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x12)">            + Optional((I("up") | I("equal")) + I("to")).hide()</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x6)">            + Optional(I("of")).hide()</span>
+Unannotated (x5)">            + Optional(I("of")).hide()</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x6)">            + ZeroOrMore(lbrct | delim | rbrct)</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x21)">            + Optional(W("=") | W("~") | W("≈") | W("≃") | W("&gt;") | W("&lt;")).hide()</span>
+Unannotated (x2)">            + Optional(self.specifier_phrase)</span>
+<span class="line-any" title="Any Types on this line: 
+Unannotated (x5)">            + Optional(I("of")).hide()</span>
+<span class="line-any" title="Any Types on this line: 
+Unannotated (x5)">            + Optional(I("the")).hide()</span>
+<span class="line-any" title="Any Types on this line: 
+Unannotated (x5)">            + Optional(I("order")).hide()</span>
+<span class="line-any" title="Any Types on this line: 
+Unannotated (x11)">            + Optional((I("up") | I("equal")) + I("to")).hide()</span>
+<span class="line-any" title="Any Types on this line: 
+Unannotated (x5)">            + Optional(I("of")).hide()</span>
+<span class="line-any" title="Any Types on this line: 
+Unannotated (x6)">            + ZeroOrMore(lbrct | delim | rbrct)</span>
+<span class="line-any" title="Any Types on this line: 
+Unannotated (x20)">            + Optional(W("=") | W("~") | W("≈") | W("≃") | W("&gt;") | W("&lt;")).hide()</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x8)">            + ZeroOrMore(lbrct | delim | rbrct).hide()</span>
-<span class="line-precise" title="Any Types on this line: 
-Unannotated (x4)">        ).add_action(join)</span>
+<span class="line-precise" title="No Anys on this line!">        ).add_action(join)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">    @property</span>
 <span class="line-any" title="No Anys on this line!">    def specifier_and_value(self):</span>
@@ -1197,7 +1198,7 @@ Unannotated (x8)">                Not(self.cem_phrase | self.specifier_phrase | 
 Unannotated (x3)">                + Any().hide()</span>
 <span class="line-empty" title="No Anys on this line!">            )</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x3)">            + Optional(self.prefix)</span>
+Unannotated (x2)">            + Optional(self.prefix)</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">            + self.value_phrase</span>
 <span class="line-any" title="No Anys on this line!">        )("root_phrase")</span>
@@ -1228,23 +1229,23 @@ Unannotated (x1)">        return (</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x15)">            self.value_phrase</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x6)">            + Optional(delim | lbrct | rbrct)</span>
+Unannotated (x5)">            + Optional(delim | lbrct | rbrct)</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x9)">            + Optional(I("which") | I("there")).hide()</span>
+Unannotated (x8)">            + Optional(I("which") | I("there")).hide()</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x15)">            + Optional(I("likely") | I("close") | (I("can") + I("be"))).hide()</span>
+Unannotated (x14)">            + Optional(I("likely") | I("close") | (I("can") + I("be"))).hide()</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x12)">            + Optional(I("corresponds") | I("associated") | I("corresponding")).hide()</span>
+Unannotated (x11)">            + Optional(I("corresponds") | I("associated") | I("corresponding")).hide()</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x12)">            + Optional(I("to") | I("with") | I("is")).hide()</span>
+Unannotated (x11)">            + Optional(I("to") | I("with") | I("is")).hide()</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x9)">            + Optional(I("the") | I("a")).hide()</span>
+Unannotated (x8)">            + Optional(I("the") | I("a")).hide()</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x6)">            + Optional(I("transition")).hide()</span>
+Unannotated (x5)">            + Optional(I("transition")).hide()</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x6)">            + Optional(I("to").hide())</span>
+Unannotated (x5)">            + Optional(I("to").hide())</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x6)">            + Optional(I("a")).hide()</span>
+Unannotated (x5)">            + Optional(I("a")).hide()</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">            + self.specifier_phrase</span>
 <span class="line-any" title="Any Types on this line: 
@@ -1252,7 +1253,7 @@ Unannotated (x4)">            + Not(I("="))</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x3)">            + Not(self.value_phrase)</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x9)">            + Optional(I("of") | I("in")).hide()</span>
+Unannotated (x8)">            + Optional(I("of") | I("in")).hide()</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">            + self.cem_phrase</span>
 <span class="line-any" title="No Anys on this line!">        )("root_phrase")</span>
@@ -1309,11 +1310,11 @@ Unannotated (x4)">        return self.model.specifier.parse_expression("specifie
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x2)">        return (</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x36)">            Optional(I("values")).hide()</span>
+Unannotated (x35)">            Optional(I("values")).hide()</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x4)">            + Optional(delim).hide()</span>
+Unannotated (x3)">            + Optional(delim).hide()</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x4)">            + Optional(</span>
+Unannotated (x3)">            + Optional(</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x8)">                (I("varies") + I("from"))</span>
 <span class="line-any" title="Any Types on this line: 
@@ -1324,11 +1325,11 @@ Unannotated (x2)">                | I("falls")</span>
 Unannotated (x2)">                | I("reaches")</span>
 <span class="line-empty" title="No Anys on this line!">            ).hide()</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x6)">            + Optional(I("steeply")).hide()</span>
+Unannotated (x5)">            + Optional(I("steeply")).hide()</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x9)">            + Optional(I("recorded") | I("reported")).hide()</span>
+Unannotated (x8)">            + Optional(I("recorded") | I("reported")).hide()</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x4)">            + Optional(</span>
+Unannotated (x3)">            + Optional(</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x13)">                I("of")</span>
 <span class="line-any" title="Any Types on this line: 
@@ -1355,7 +1356,7 @@ Unannotated (x2)">                | I("were")</span>
 Unannotated (x2)">                | I("a")</span>
 <span class="line-empty" title="No Anys on this line!">            ).hide()</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x4)">            + Optional(</span>
+Unannotated (x3)">            + Optional(</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x6)">                I("reported")</span>
 <span class="line-any" title="Any Types on this line: 
@@ -1368,27 +1369,27 @@ Unannotated (x2)">                | I("found")</span>
 Unannotated (x2)">                | I("occurs")</span>
 <span class="line-empty" title="No Anys on this line!">            ).hide()</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x6)">            + Optional(I("temperatures")).hide()</span>
+Unannotated (x5)">            + Optional(I("temperatures")).hide()</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x12)">            + Optional(I("as") | (I("to") + I("be"))).hide()</span>
+Unannotated (x11)">            + Optional(I("as") | (I("to") + I("be"))).hide()</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x12)">            + Optional(I("in") + I("the") + I("range")).hide()</span>
+Unannotated (x11)">            + Optional(I("in") + I("the") + I("range")).hide()</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x10)">            + Optional(I("as") + I("high") + I("as"))</span>
+Unannotated (x9)">            + Optional(I("as") + I("high") + I("as"))</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x9)">            + Optional(I("ranging") + I("from")).hide()</span>
+Unannotated (x8)">            + Optional(I("ranging") + I("from")).hide()</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x6)">            + Optional(I("of")).hide()</span>
+Unannotated (x5)">            + Optional(I("of")).hide()</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x9)">            + Optional(I("rather") | I("quite")).hide()</span>
+Unannotated (x8)">            + Optional(I("rather") | I("quite")).hide()</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x15)">            + Optional(I("high") | I("low") | I("maximum") | I("minimum")).hide()</span>
+Unannotated (x14)">            + Optional(I("high") | I("low") | I("maximum") | I("minimum")).hide()</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x6)">            + Optional(I("the")).hide()</span>
+Unannotated (x5)">            + Optional(I("the")).hide()</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x6)">            + Optional(delim | lbrct | rbrct)</span>
+Unannotated (x5)">            + Optional(delim | lbrct | rbrct)</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x4)">            + Optional(</span>
+Unannotated (x3)">            + Optional(</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x18)">                I("of")</span>
 <span class="line-any" title="Any Types on this line: 
@@ -1425,39 +1426,38 @@ Unannotated (x2)">                | I("reaching")</span>
 Unannotated (x2)">                | I("value")</span>
 <span class="line-empty" title="No Anys on this line!">            ).hide()</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x12)">            + Optional(I("a") | I("an") | I("as")).hide()</span>
+Unannotated (x11)">            + Optional(I("a") | I("an") | I("as")).hide()</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x6)">            + Optional(I("maximum")).hide()</span>
+Unannotated (x5)">            + Optional(I("maximum")).hide()</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x6)">            + Optional(I("of")).hide()</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x6)">            + ZeroOrMore(lbrct | delim | rbrct)</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x3)">            + Optional(self.specifier_phrase)</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x6)">            + Optional(I("of")).hide()</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x6)">            + Optional(I("the")).hide()</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x6)">            + Optional(I("order")).hide()</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x12)">            + Optional((I("up") | I("equal")) + I("to")).hide()</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x6)">            + Optional(I("of")).hide()</span>
+Unannotated (x5)">            + Optional(I("of")).hide()</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x6)">            + ZeroOrMore(lbrct | delim | rbrct)</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x21)">            + Optional(W("=") | W("~") | W("≈") | W("≃") | W("&gt;") | W("&lt;")).hide()</span>
+Unannotated (x2)">            + Optional(self.specifier_phrase)</span>
+<span class="line-any" title="Any Types on this line: 
+Unannotated (x5)">            + Optional(I("of")).hide()</span>
+<span class="line-any" title="Any Types on this line: 
+Unannotated (x5)">            + Optional(I("the")).hide()</span>
+<span class="line-any" title="Any Types on this line: 
+Unannotated (x5)">            + Optional(I("order")).hide()</span>
+<span class="line-any" title="Any Types on this line: 
+Unannotated (x11)">            + Optional((I("up") | I("equal")) + I("to")).hide()</span>
+<span class="line-any" title="Any Types on this line: 
+Unannotated (x5)">            + Optional(I("of")).hide()</span>
+<span class="line-any" title="Any Types on this line: 
+Unannotated (x6)">            + ZeroOrMore(lbrct | delim | rbrct)</span>
+<span class="line-any" title="Any Types on this line: 
+Unannotated (x20)">            + Optional(W("=") | W("~") | W("≈") | W("≃") | W("&gt;") | W("&lt;")).hide()</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x8)">            + ZeroOrMore(lbrct | delim | rbrct).hide()</span>
-<span class="line-precise" title="Any Types on this line: 
-Unannotated (x4)">        ).add_action(join)</span>
+<span class="line-precise" title="No Anys on this line!">        ).add_action(join)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">    @property</span>
 <span class="line-any" title="No Anys on this line!">    def prefix(self):</span>
 <span class="line-empty" title="No Anys on this line!">        """specifier and prefix"""</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x9)">        return (self.specifier_phrase + self.prefix_only).add_action(join)</span>
+Unannotated (x5)">        return (self.specifier_phrase + self.prefix_only).add_action(join)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">    @property</span>
 <span class="line-any" title="No Anys on this line!">    def single_cem(self):</span>
@@ -1471,9 +1471,11 @@ Unannotated (x10)">        return Group(cem | chemical_label | Group(chemical_na
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x2)">        return Group(</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x9)">            construct_unit_element(self.model.dimensions).with_condition(</span>
+Unannotated (x6)
+Unimported (x1)
+Explicit (x1)">            construct_unit_element(self.model.dimensions).with_condition(</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x4)">                match_dimensions_of(self.model)</span>
+Unannotated (x2)">                match_dimensions_of(self.model)</span>
 <span class="line-any" title="No Anys on this line!">            )("raw_units")</span>
 <span class="line-empty" title="No Anys on this line!">        )</span>
 <span class="line-empty" title="No Anys on this line!"></span>
@@ -1491,7 +1493,7 @@ Unannotated (x4)">            return self.model.category.parse_expression("categ
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x5)">        value = value_element()</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x7)">        return Group(value + Optional(self.unit))</span>
+Unannotated (x6)">        return Group(value + Optional(self.unit))</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">    @property</span>
 <span class="line-any" title="No Anys on this line!">    def value_phrase(self):</span>
@@ -1516,13 +1518,13 @@ Unannotated (x4)">        option_1 = Group(</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x6)">            self.value_with_optional_unit</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x8)">            + Optional(OneOrMore(delim.hide() + self.value_with_optional_unit))</span>
+Unannotated (x7)">            + Optional(OneOrMore(delim.hide() + self.value_with_optional_unit))</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x4)">            + Optional(delim).hide()</span>
+Unannotated (x3)">            + Optional(delim).hide()</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x7)">            + (I("and") | I("or")).hide()</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x4)">            + Optional(delim).hide()</span>
+Unannotated (x3)">            + Optional(delim).hide()</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">            + self.value_phrase</span>
 <span class="line-any" title="No Anys on this line!">        )("value_list")</span>
@@ -1532,9 +1534,9 @@ Unannotated (x2)">        option_2 = (</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x5)">            self.value_phrase</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x8)">            + Optional(OneOrMore(delim.hide() + self.value_phrase))</span>
+Unannotated (x7)">            + Optional(OneOrMore(delim.hide() + self.value_phrase))</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x4)">            + Optional(delim).hide()</span>
+Unannotated (x3)">            + Optional(delim).hide()</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x8)">            + (I("and") | I("or") | delim).hide()</span>
 <span class="line-any" title="Any Types on this line: 
@@ -1551,7 +1553,7 @@ Unannotated (x3)">        return Group(</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x7)">            self.single_cem</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x12)">            + Optional(lbrct + R(r"^\d+$") + rbrct).hide()</span>
+Unannotated (x11)">            + Optional(lbrct + R(r"^\d+$") + rbrct).hide()</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x11)">            + ZeroOrMore(delim.hide() | self.single_cem | R(r"^\d+$"))</span>
 <span class="line-any" title="Any Types on this line: 
@@ -1559,9 +1561,9 @@ Unannotated (x7)">            + (I("and") | I("or")).hide()</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">            + self.single_cem</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x12)">            + Optional(lbrct + R(r"^\d+$") + rbrct).hide()</span>
+Unannotated (x11)">            + Optional(lbrct + R(r"^\d+$") + rbrct).hide()</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x7)">            + Optional(I("compounds") | I("samples"))</span>
+Unannotated (x6)">            + Optional(I("compounds") | I("samples"))</span>
 <span class="line-any" title="No Anys on this line!">        )("cem_list")</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">    @property</span>
@@ -1582,7 +1584,7 @@ Unannotated (x6)">        return Group(self.prefix + self.value_phrase)("propert
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x3)">        return Group(</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x9)">            Optional(lbrct).hide()</span>
+Unannotated (x8)">            Optional(lbrct).hide()</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">            + self.single_specifier_and_value_with_optional_unit</span>
 <span class="line-any" title="Any Types on this line: 
@@ -1590,7 +1592,7 @@ Unannotated (x11)">            + (I("and") | delim | (I("that") + I("exhibits"))
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">            + self.single_specifier_and_value</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x5)">            + Optional(rbrct).hide()</span>
+Unannotated (x4)">            + Optional(rbrct).hide()</span>
 <span class="line-any" title="No Anys on this line!">        )("property_list")</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">    @property</span>
@@ -1641,9 +1643,9 @@ Unannotated (x3)">                + Any().hide()</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">            + self.list_of_values</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x4)">            + Optional(delim).hide()</span>
+Unannotated (x3)">            + Optional(delim).hide()</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x4)">            + Optional(I("respectively"))</span>
+Unannotated (x3)">            + Optional(I("respectively"))</span>
 <span class="line-any" title="No Anys on this line!">        )("multi_entity_phrase_2")</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">    @property</span>
@@ -1654,7 +1656,7 @@ Unannotated (x4)">            + Optional(I("respectively"))</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x3)">        return Group(</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x14)">            Optional(I("in") | I("for")).hide()</span>
+Unannotated (x13)">            Optional(I("in") | I("for")).hide()</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">            + self.list_of_cems</span>
 <span class="line-any" title="Any Types on this line: 
@@ -1669,7 +1671,7 @@ Unannotated (x1)">            + self.prefix</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">            + self.list_of_values</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x9)">            + Optional(delim.hide() + I("respectively").hide())</span>
+Unannotated (x8)">            + Optional(delim.hide() + I("respectively").hide())</span>
 <span class="line-any" title="No Anys on this line!">        )("multi_entity_phrase_3")</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">    @property</span>
@@ -1684,11 +1686,11 @@ Unannotated (x5)">            self.prefix</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">            + self.list_of_values</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x7)">            + Optional(I("in") | I("for"))</span>
+Unannotated (x6)">            + Optional(I("in") | I("for"))</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">            + self.list_of_cems</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x5)">            + Optional(delim + I("respectively"))</span>
+Unannotated (x4)">            + Optional(delim + I("respectively"))</span>
 <span class="line-any" title="No Anys on this line!">        )("multi_entity_phrase_3")</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">    @property</span>
@@ -1701,7 +1703,7 @@ Unannotated (x3)">        return Group(</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x6)">            self.specifier_phrase</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x12)">            + Optional(I("in") | I("for") | I("of")).hide()</span>
+Unannotated (x11)">            + Optional(I("in") | I("for") | I("of")).hide()</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">            + self.list_of_cems</span>
 <span class="line-any" title="Any Types on this line: 
@@ -1709,7 +1711,7 @@ Unannotated (x1)">            + self.prefix_only</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">            + self.list_of_values</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x9)">            + Optional(delim.hide() + I("respectively").hide())</span>
+Unannotated (x8)">            + Optional(delim.hide() + I("respectively").hide())</span>
 <span class="line-any" title="No Anys on this line!">        )("multi_entity_phrase_3")</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">    @property</span>
@@ -1781,15 +1783,15 @@ Unannotated (x8)">            self.prefix</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">            + self.value_phrase</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x9)">            + Optional(I("for") | I("in")).hide()</span>
+Unannotated (x8)">            + Optional(I("for") | I("in")).hide()</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">            + self.single_cem</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x9)">            + (Optional(I("up")) + I("to")).hide()</span>
+Unannotated (x8)">            + (Optional(I("up")) + I("to")).hide()</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">            + self.value_phrase</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x9)">            + Optional(I("in") | I("for")).hide()</span>
+Unannotated (x8)">            + Optional(I("in") | I("for")).hide()</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">            + self.single_cem</span>
 <span class="line-any" title="No Anys on this line!">        )("multi_entity_phrase_5")</span>

@@ -70,16 +70,12 @@ class QuantityModelTemplateParser(BaseAutoParser, BaseSentenceParser):
         return (
             self.specifier_phrase
             + OneOrMore(
-                Not(self.cem_phrase | self.specifier_phrase | self.value_phrase)
-                + Any().hide()
+                Not(self.cem_phrase | self.specifier_phrase | self.value_phrase) + Any().hide()
             )
             + Optional(I("values")).hide()
             + Optional(delim).hide()
             + Optional(
-                (I("varies") + I("from"))
-                | R("^increase(s|d)?")
-                | I("falls")
-                | I("reaches")
+                (I("varies") + I("from")) | R("^increase(s|d)?") | I("falls") | I("reaches")
             ).hide()
             + Optional(I("steeply")).hide()
             + Optional(I("recorded") | I("reported")).hide()
@@ -97,11 +93,7 @@ class QuantityModelTemplateParser(BaseAutoParser, BaseSentenceParser):
                 | I("a")
             ).hide()
             + Optional(
-                I("reported")
-                | I("determined")
-                | I("estimated")
-                | I("found")
-                | I("occurs")
+                I("reported") | I("determined") | I("estimated") | I("found") | I("occurs")
             ).hide()
             + Optional(I("temperatures")).hide()
             + Optional(I("as") | (I("to") + I("be"))).hide()
@@ -169,13 +161,11 @@ class QuantityModelTemplateParser(BaseAutoParser, BaseSentenceParser):
         return (
             self.specifier_phrase
             + OneOrMore(
-                Not(self.cem_phrase | self.specifier_phrase | self.value_phrase)
-                + Any().hide()
+                Not(self.cem_phrase | self.specifier_phrase | self.value_phrase) + Any().hide()
             )
             + self.cem_phrase
             + OneOrMore(
-                Not(self.cem_phrase | self.specifier_phrase | self.value_phrase)
-                + Any().hide()
+                Not(self.cem_phrase | self.specifier_phrase | self.value_phrase) + Any().hide()
             )
             + Optional(self.prefix)
             + self.value_phrase
@@ -187,8 +177,7 @@ class QuantityModelTemplateParser(BaseAutoParser, BaseSentenceParser):
         return (
             self.specifier_and_value
             + OneOrMore(
-                Not(self.cem_phrase | self.specifier_phrase | self.value_phrase)
-                + Any().hide()
+                Not(self.cem_phrase | self.specifier_phrase | self.value_phrase) + Any().hide()
             )
             + self.cem_phrase
         )("root_phrase")
@@ -259,10 +248,7 @@ class MultiQuantityModelTemplateParser(BaseAutoParser, BaseSentenceParser):
             Optional(I("values")).hide()
             + Optional(delim).hide()
             + Optional(
-                (I("varies") + I("from"))
-                | R("^increase(s|d)?")
-                | I("falls")
-                | I("reaches")
+                (I("varies") + I("from")) | R("^increase(s|d)?") | I("falls") | I("reaches")
             ).hide()
             + Optional(I("steeply")).hide()
             + Optional(I("recorded") | I("reported")).hide()
@@ -281,11 +267,7 @@ class MultiQuantityModelTemplateParser(BaseAutoParser, BaseSentenceParser):
                 | I("a")
             ).hide()
             + Optional(
-                I("reported")
-                | I("determined")
-                | I("estimated")
-                | I("found")
-                | I("occurs")
+                I("reported") | I("determined") | I("estimated") | I("found") | I("occurs")
             ).hide()
             + Optional(I("temperatures")).hide()
             + Optional(I("as") | (I("to") + I("be"))).hide()
@@ -433,8 +415,7 @@ class MultiQuantityModelTemplateParser(BaseAutoParser, BaseSentenceParser):
         return Group(
             self.single_cem
             + OneOrMore(
-                Not(self.single_cem | self.specifier_phrase | self.value_phrase)
-                + Any().hide()
+                Not(self.single_cem | self.specifier_phrase | self.value_phrase) + Any().hide()
             )
             + self.list_of_properties
         )("multi_entity_phrase_1")
@@ -447,13 +428,11 @@ class MultiQuantityModelTemplateParser(BaseAutoParser, BaseSentenceParser):
         return Group(
             self.single_cem
             + OneOrMore(
-                Not(self.single_cem | self.specifier_phrase | self.value_phrase)
-                + Any().hide()
+                Not(self.single_cem | self.specifier_phrase | self.value_phrase) + Any().hide()
             )
             + self.specifier_phrase
             + OneOrMore(
-                Not(self.single_cem | self.specifier_phrase | self.value_phrase)
-                + Any().hide()
+                Not(self.single_cem | self.specifier_phrase | self.value_phrase) + Any().hide()
             )
             + self.list_of_values
             + Optional(delim).hide()
@@ -469,8 +448,7 @@ class MultiQuantityModelTemplateParser(BaseAutoParser, BaseSentenceParser):
             Optional(I("in") | I("for")).hide()
             + self.list_of_cems
             + OneOrMore(
-                Not(self.single_cem | self.specifier_phrase | self.value_phrase)
-                + Any().hide()
+                Not(self.single_cem | self.specifier_phrase | self.value_phrase) + Any().hide()
             )
             + self.prefix
             + self.list_of_values
@@ -508,9 +486,7 @@ class MultiQuantityModelTemplateParser(BaseAutoParser, BaseSentenceParser):
     def multi_entity_phrase_3(self):
         """Combined phrases of type 3"""
         return Group(
-            self.multi_entity_phrase_3a
-            | self.multi_entity_phrase_3b
-            | self.multi_entity_phrase_3c
+            self.multi_entity_phrase_3a | self.multi_entity_phrase_3b | self.multi_entity_phrase_3c
         )
 
     @property
@@ -522,8 +498,7 @@ class MultiQuantityModelTemplateParser(BaseAutoParser, BaseSentenceParser):
         return Group(
             self.single_specifier_and_value
             + OneOrMore(
-                Not(self.single_cem | self.specifier_phrase | self.value_phrase)
-                + Any().hide()
+                Not(self.single_cem | self.specifier_phrase | self.value_phrase) + Any().hide()
             )
             + self.list_of_cems
         )("multi_entity_phrase_4")
@@ -534,8 +509,7 @@ class MultiQuantityModelTemplateParser(BaseAutoParser, BaseSentenceParser):
         return Group(
             self.list_of_cems
             + OneOrMore(
-                Not(self.single_cem | self.specifier_phrase | self.value_phrase)
-                + Any().hide()
+                Not(self.single_cem | self.specifier_phrase | self.value_phrase) + Any().hide()
             )
             + self.single_specifier_and_value
         )("multi_entity_phrase_4")
@@ -676,9 +650,7 @@ class MultiQuantityModelTemplateParser(BaseAutoParser, BaseSentenceParser):
         raw_units_list = value_list.xpath("./raw_units")
 
         last_unit = None
-        for i, v in enumerate(
-            raw_values_list[::-1]
-        ):  # Reverse order to make sure we get a unit
+        for i, v in enumerate(raw_values_list[::-1]):  # Reverse order to make sure we get a unit
             raw_value = first(v.xpath("./text()"))
             requirements = True
             try:
@@ -738,9 +710,7 @@ class MultiQuantityModelTemplateParser(BaseAutoParser, BaseSentenceParser):
         raw_units_list = value_list.xpath("./raw_units")
 
         last_unit = None
-        for i, v in enumerate(
-            raw_values_list[::-1]
-        ):  # Reverse order to make sure we get a unit
+        for i, v in enumerate(raw_values_list[::-1]):  # Reverse order to make sure we get a unit
             raw_value = first(v.xpath("./text()"))
             requirements = True
             try:
@@ -858,9 +828,7 @@ class MultiQuantityModelTemplateParser(BaseAutoParser, BaseSentenceParser):
             yield None
 
         last_unit = None
-        for i, v in enumerate(
-            raw_values_list[::-1]
-        ):  # Reverse order to make sure we get a unit
+        for i, v in enumerate(raw_values_list[::-1]):  # Reverse order to make sure we get a unit
             raw_value = first(v.xpath("./text()"))
             requirements = True
             try:
@@ -875,9 +843,7 @@ class MultiQuantityModelTemplateParser(BaseAutoParser, BaseSentenceParser):
             try:
                 compound = cem_list[::-1][i]
                 c = self.model.compound.model_class(
-                    names=compound.xpath(
-                        "./names/text()", labels=compound.xpath("./labels/text()")
-                    )
+                    names=compound.xpath("./names/text()", labels=compound.xpath("./labels/text()"))
                 )
             except Exception:
                 requirements = False

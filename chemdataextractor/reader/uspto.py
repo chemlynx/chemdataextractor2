@@ -3,7 +3,6 @@ Readers for USPTO patents.
 
 """
 
-
 # from ..doc.table import Table
 from ..doc.table import Table
 from ..doc.text import Caption
@@ -102,9 +101,7 @@ class UsptoXmlReader(XmlReader):
         for row, tr in enumerate(self._css(self.table_body_row_css, el)):
             colnum = 0
             for td in self._css(self.table_cell_css, tr):
-                cell = self._parse_text(
-                    td, refs=refs, specials=specials, element_cls=Cell
-                )
+                cell = self._parse_text(td, refs=refs, specials=specials, element_cls=Cell)
                 colspan = int(td.get("colspan", "1"))
                 rowspan = int(td.get("rowspan", "1"))
                 for i in range(colspan):
@@ -183,9 +180,7 @@ class UsptoXmlReader(XmlReader):
         for row, tr in enumerate(els):
             colnum = 0
             for td in self._css(self.table_cell_css, tr):
-                cell = self._parse_text(
-                    td, refs=refs, specials=specials, element_cls=Cell
-                )
+                cell = self._parse_text(td, refs=refs, specials=specials, element_cls=Cell)
                 colspan = int(td.get("colspan", "1"))
                 rowspan = int(td.get("rowspan", "1"))
                 for i in range(colspan):

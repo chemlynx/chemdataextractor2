@@ -111,12 +111,8 @@ class Package:
         elif self.untar:
             download_path = self.local_path + ".tar.gz"
         with open(download_path, "wb") as f:
-            with yaspin(
-                text=f"Couldn't find {self.path}, downloading", side="right"
-            ).simpleDots:
-                for chunk in r.iter_content(
-                    chunk_size=1024 * 1024
-                ):  # Large 10MB chunks
+            with yaspin(text=f"Couldn't find {self.path}, downloading", side="right").simpleDots:
+                for chunk in r.iter_content(chunk_size=1024 * 1024):  # Large 10MB chunks
                     if chunk:
                         f.write(chunk)
         if self.unzip:
@@ -174,9 +170,7 @@ def load_model(path):
         with open(abspath, "rb") as f:
             model = pickle.load(f)
     except OSError:
-        raise ModelNotFoundError(
-            "Could not load %s. Have you run `cde data download`?" % path
-        )
+        raise ModelNotFoundError("Could not load %s. Have you run `cde data download`?" % path)
     _model_cache[abspath] = model
     return model
 

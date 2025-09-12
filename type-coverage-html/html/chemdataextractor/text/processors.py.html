@@ -176,17 +176,32 @@
 <span id="L166" class="lineno"><a class="lineno" href="#L166">166</a></span>
 <span id="L167" class="lineno"><a class="lineno" href="#L167">167</a></span>
 <span id="L168" class="lineno"><a class="lineno" href="#L168">168</a></span>
+<span id="L169" class="lineno"><a class="lineno" href="#L169">169</a></span>
+<span id="L170" class="lineno"><a class="lineno" href="#L170">170</a></span>
+<span id="L171" class="lineno"><a class="lineno" href="#L171">171</a></span>
+<span id="L172" class="lineno"><a class="lineno" href="#L172">172</a></span>
+<span id="L173" class="lineno"><a class="lineno" href="#L173">173</a></span>
+<span id="L174" class="lineno"><a class="lineno" href="#L174">174</a></span>
+<span id="L175" class="lineno"><a class="lineno" href="#L175">175</a></span>
+<span id="L176" class="lineno"><a class="lineno" href="#L176">176</a></span>
+<span id="L177" class="lineno"><a class="lineno" href="#L177">177</a></span>
+<span id="L178" class="lineno"><a class="lineno" href="#L178">178</a></span>
 </pre></td>
 <td class="table-code"><pre><span class="line-empty" title="No Anys on this line!">"""</span>
-<span class="line-empty" title="No Anys on this line!">Text processors.</span>
+<span class="line-empty" title="No Anys on this line!">Text processors for cleaning and normalizing text.</span>
 <span class="line-empty" title="No Anys on this line!"></span>
+<span class="line-empty" title="No Anys on this line!">Provides various text processing utilities for preparing chemical text</span>
+<span class="line-empty" title="No Anys on this line!">for parsing and extraction operations.</span>
 <span class="line-empty" title="No Anys on this line!">"""</span>
+<span class="line-empty" title="No Anys on this line!"></span>
+<span class="line-precise" title="No Anys on this line!">from __future__ import annotations</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">import logging</span>
 <span class="line-precise" title="No Anys on this line!">import re</span>
 <span class="line-precise" title="No Anys on this line!">import urllib.parse</span>
 <span class="line-precise" title="No Anys on this line!">from abc import ABCMeta</span>
 <span class="line-precise" title="No Anys on this line!">from abc import abstractmethod</span>
+<span class="line-precise" title="No Anys on this line!">from typing import Optional</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">from . import APOSTROPHES</span>
 <span class="line-precise" title="No Anys on this line!">from . import EMAIL_RE</span>
@@ -195,18 +210,22 @@
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">class BaseProcessor(metaclass=ABCMeta):</span>
-<span class="line-empty" title="No Anys on this line!">    """Abstract processor class from which all processors inherit. Subclasses must implement a ``__call__()`` method."""</span>
+<span class="line-empty" title="No Anys on this line!">    """Abstract processor class from which all processors inherit.</span>
+<span class="line-empty" title="No Anys on this line!">    </span>
+<span class="line-empty" title="No Anys on this line!">    Subclasses must implement a ``__call__()`` method to process text.</span>
+<span class="line-empty" title="No Anys on this line!">    """</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">    @abstractmethod</span>
-<span class="line-any" title="No Anys on this line!">    def __call__(self, text):</span>
-<span class="line-empty" title="No Anys on this line!">        """Process the text.</span>
+<span class="line-precise" title="No Anys on this line!">    def __call__(self, text: str) -&gt; Optional[str]:</span>
+<span class="line-empty" title="No Anys on this line!">        """Process the input text.</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-empty" title="No Anys on this line!">        :param string text: The input text.</span>
-<span class="line-empty" title="No Anys on this line!">        :returns: The processed text or None.</span>
-<span class="line-empty" title="No Anys on this line!">        :rtype: string or None</span>
+<span class="line-empty" title="No Anys on this line!">        Args:</span>
+<span class="line-empty" title="No Anys on this line!">            text: The input text to process</span>
+<span class="line-empty" title="No Anys on this line!"></span>
+<span class="line-empty" title="No Anys on this line!">        Returns:</span>
+<span class="line-empty" title="No Anys on this line!">            The processed text, or None if text should be discarded</span>
 <span class="line-empty" title="No Anys on this line!">        """</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x1)">        return text</span>
+<span class="line-precise" title="No Anys on this line!">        return text</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">class Chain:</span>

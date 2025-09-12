@@ -3,7 +3,6 @@ Parse text using rule-based grammars.
 
 """
 
-
 from .actions import fix_whitespace
 from .actions import join
 from .actions import merge

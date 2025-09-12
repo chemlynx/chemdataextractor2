@@ -107,9 +107,7 @@ UNAMBIGUOUS_GREEK_WORDS = {
     "omega": "ω",  # \u03c9
 }
 
-DOT_GREEK_RE = re.compile(
-    r"\.(%s)\." % "|".join(re.escape(s) for s in GREEK_WORDS.keys()), re.U
-)
+DOT_GREEK_RE = re.compile(r"\.(%s)\." % "|".join(re.escape(s) for s in GREEK_WORDS.keys()), re.U)
 GREEK_RE = re.compile(
     r"([\daA\W]|^)(%s)([\d\W]|$)" % "|".join(re.escape(s) for s in GREEK_WORDS.keys()),
     re.U,
@@ -224,9 +222,7 @@ def _get_variants(name):
         while True:
             m = DOT_GREEK_RE.search(wordname)
             if m:
-                wordname = (
-                    wordname[: m.start(1) - 1] + m.group(1) + wordname[m.end(1) + 1 :]
-                )
+                wordname = wordname[: m.start(1) - 1] + m.group(1) + wordname[m.end(1) + 1 :]
             else:
                 break
         symbolname = name
@@ -391,9 +387,7 @@ def tag(ctx, model, cs, corpus, output):
                     print(line)
                     print(tokentag[0])
 
-            output.write(
-                " ".join("/".join(tokentag) for tokentag in tagger.tag(sentence))
-            )
+            output.write(" ".join("/".join(tokentag) for tokentag in tagger.tag(sentence)))
             output.write("\n")
         else:
             output.write("\n")

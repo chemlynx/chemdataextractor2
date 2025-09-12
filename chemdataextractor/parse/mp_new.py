@@ -36,10 +36,7 @@ prefix = (
         Optional(lbrct) + W("Tm") + Optional(rbrct)
         | R(r"^m\.?pt?\.?$", re.I)
         | I("melting") + Optional(I("point") | I("temperature") | I("range"))
-        | R(r"^m\.?$", re.I)
-        + Optional(I("."))
-        + R(r"^pt?\.?$", re.I)
-        + Optional(I("."))
+        | R(r"^m\.?$", re.I) + Optional(I(".")) + R(r"^pt?\.?$", re.I) + Optional(I("."))
     ).hide()
     + Optional(lbrct + W("Tm") + rbrct)
     + Optional(W("=") | I("of") | I("was") | I("is") | I("at")).hide()
@@ -49,19 +46,14 @@ prefix = (
 delim = R(r"^[:;\.,]$")
 
 # TODO: Consider allowing degree symbol to be optional. The prefix should be restrictive enough to stop false positives.
-units = ((W("°") + R(r"^[CFK]\.?$")) | W(r"K\.?") | W("°C"))("raw_units").add_action(
-    merge
-)
+units = ((W("°") + R(r"^[CFK]\.?$")) | W(r"K\.?") | W("°C"))("raw_units").add_action(merge)
 
-mp = (prefix + Optional(delim).hide() + value_element(units, activate_to_range=True))(
-    "mp"
-)
+mp = (prefix + Optional(delim).hide() + value_element(units, activate_to_range=True))("mp")
 
 bracket_any = lbrct + OneOrMore(Not(mp) + Not(rbrct) + Any()) + rbrct
 
 solvent_phrase = (
-    R("^(re)?crystalli[sz](ation|ed)$", re.I) + (I("with") | I("from")) + cem
-    | solvent_name
+    R("^(re)?crystalli[sz](ation|ed)$", re.I) + (I("with") | I("from")) + cem | solvent_name
 )
 cem_mp_phrase = (
     Optional(solvent_phrase).hide()

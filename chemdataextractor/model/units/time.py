@@ -4,7 +4,6 @@ Units and models for times.
 :codeauthor: Taketomo Isazawa (ti250@cam.ac.uk)
 """
 
-
 import logging
 
 from ...parse.elements import R

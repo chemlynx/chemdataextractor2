@@ -25,7 +25,6 @@ class PlainTextReader(BaseReader):
         if isinstance(fstring, bytes):
             fstring = fstring.decode(get_encoding(fstring))
         para_strings = [
-            p.strip()
-            for p in re.split(r"\r\n[ \t]*\r\n|\r[ \t]*\r|\n[ \t]*\n", fstring)
+            p.strip() for p in re.split(r"\r\n[ \t]*\r\n|\r[ \t]*\r|\n[ \t]*\n", fstring)
         ]
         return Document(*para_strings)

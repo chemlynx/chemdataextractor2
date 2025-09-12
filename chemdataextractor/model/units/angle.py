@@ -4,7 +4,6 @@ Units and models for angles.
 :codeauthor: Juraj Mavračić <jm2111@cam.ac.uk>
 """
 
-
 import logging
 
 from ...parse.elements import R

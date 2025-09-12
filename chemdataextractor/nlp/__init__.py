@@ -3,7 +3,6 @@ Chemistry-aware natural language processing framework.
 
 """
 
-
 from .abbrev import AbbreviationDetector
 from .abbrev import ChemAbbreviationDetector
 from .cem import CiDictCemTagger

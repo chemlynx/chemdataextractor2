@@ -10,7 +10,9 @@ from __future__ import annotations
 import copy
 from typing import TYPE_CHECKING
 from typing import Any
+from typing import List
 from typing import Optional
+from typing import Tuple
 from typing import Union
 
 import six
@@ -22,18 +24,20 @@ if TYPE_CHECKING:
     from ..parse.base import BaseParserElement
 
 # Type aliases for entities
-EntityTag = Union[str, list[str]]  # Tag(s) for entity classification
-TextSpan = tuple[int, int]  # Start and end positions in text
+EntityTag = Union[str, List[str]]  # Tag(s) for entity classification
+TextSpan = Tuple[int, int]  # Start and end positions in text
 
 
 class Entity:
     """A base entity, the fundamental unit of a Relation.
-    
+
     Represents a chemical entity (compound, property, etc.) that participates
     in relationships extracted from text.
     """
 
-    def __init__(self, text: str, tag: EntityTag, parse_expression: BaseParserElement, start: int, end: int) -> None:
+    def __init__(
+        self, text: str, tag: EntityTag, parse_expression: BaseParserElement, start: int, end: int
+    ) -> None:
         """Create a new Entity.
 
         Args:
@@ -48,27 +52,18 @@ class Entity:
         self.parse_expression = copy.copy(parse_expression)
         self.parse_expression.set_name(None)
 
-        if (
-            self.parse_expression.name is None
-            or self.parse_expression.name == "compound"
-        ):
+        if self.parse_expression.name is None or self.parse_expression.name == "compound":
             if isinstance(self.tag, tuple):
                 for sub_tag in self.tag:
                     self.parse_expression = Group(self.parse_expression)(sub_tag)
             else:
-                self.parse_expression = Group(self.parse_expression)(
-                    self.tag
-                ).add_action(join)
+                self.parse_expression = Group(self.parse_expression)(self.tag).add_action(join)
 
         self.end = end
         self.start = start
 
     def __eq__(self, other):
-        if (
-            self.text == other.text
-            and self.end == other.end
-            and self.start == other.start
-        ):
+        if self.text == other.text and self.end == other.end and self.start == other.start:
             return True
         else:
             return False
@@ -76,15 +71,7 @@ class Entity:
     def __repr__(self):
         if isinstance(self.tag, str):
             return (
-                "("
-                + self.text
-                + ","
-                + self.tag
-                + ","
-                + str(self.start)
-                + ","
-                + str(self.end)
-                + ")"
+                "(" + self.text + "," + self.tag + "," + str(self.start) + "," + str(self.end) + ")"
             )
         else:
             return (

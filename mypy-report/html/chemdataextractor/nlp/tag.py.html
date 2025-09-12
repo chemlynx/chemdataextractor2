@@ -620,34 +620,16 @@
 <span id="L610" class="lineno"><a class="lineno" href="#L610">610</a></span>
 <span id="L611" class="lineno"><a class="lineno" href="#L611">611</a></span>
 <span id="L612" class="lineno"><a class="lineno" href="#L612">612</a></span>
-<span id="L613" class="lineno"><a class="lineno" href="#L613">613</a></span>
-<span id="L614" class="lineno"><a class="lineno" href="#L614">614</a></span>
-<span id="L615" class="lineno"><a class="lineno" href="#L615">615</a></span>
-<span id="L616" class="lineno"><a class="lineno" href="#L616">616</a></span>
-<span id="L617" class="lineno"><a class="lineno" href="#L617">617</a></span>
-<span id="L618" class="lineno"><a class="lineno" href="#L618">618</a></span>
-<span id="L619" class="lineno"><a class="lineno" href="#L619">619</a></span>
-<span id="L620" class="lineno"><a class="lineno" href="#L620">620</a></span>
-<span id="L621" class="lineno"><a class="lineno" href="#L621">621</a></span>
-<span id="L622" class="lineno"><a class="lineno" href="#L622">622</a></span>
-<span id="L623" class="lineno"><a class="lineno" href="#L623">623</a></span>
-<span id="L624" class="lineno"><a class="lineno" href="#L624">624</a></span>
-<span id="L625" class="lineno"><a class="lineno" href="#L625">625</a></span>
-<span id="L626" class="lineno"><a class="lineno" href="#L626">626</a></span>
-<span id="L627" class="lineno"><a class="lineno" href="#L627">627</a></span>
-<span id="L628" class="lineno"><a class="lineno" href="#L628">628</a></span>
-<span id="L629" class="lineno"><a class="lineno" href="#L629">629</a></span>
-<span id="L630" class="lineno"><a class="lineno" href="#L630">630</a></span>
-<span id="L631" class="lineno"><a class="lineno" href="#L631">631</a></span>
-<span id="L632" class="lineno"><a class="lineno" href="#L632">632</a></span>
-<span id="L633" class="lineno"><a class="lineno" href="#L633">633</a></span>
-<span id="L634" class="lineno"><a class="lineno" href="#L634">634</a></span>
 </pre></td>
 <td class="table-code"><pre><span class="line-empty" title="No Anys on this line!">#!/usr/bin/env python</span>
 <span class="line-empty" title="No Anys on this line!">"""</span>
-<span class="line-empty" title="No Anys on this line!">Tagger implementations. Used for part-of-speech tagging and named entity recognition.</span>
+<span class="line-empty" title="No Anys on this line!">Tagger implementations for part-of-speech tagging and named entity recognition.</span>
 <span class="line-empty" title="No Anys on this line!"></span>
+<span class="line-empty" title="No Anys on this line!">Provides abstract base classes and concrete implementations for chemistry-aware</span>
+<span class="line-empty" title="No Anys on this line!">POS tagging and chemical entity mention (CEM) tagging using CRF models.</span>
 <span class="line-empty" title="No Anys on this line!">"""</span>
+<span class="line-precise" title="No Anys on this line!">from __future__ import annotations</span>
+<span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">import logging</span>
 <span class="line-precise" title="No Anys on this line!">import pickle</span>
 <span class="line-precise" title="No Anys on this line!">import random</span>
@@ -655,6 +637,9 @@
 <span class="line-precise" title="No Anys on this line!">from abc import ABCMeta</span>
 <span class="line-precise" title="No Anys on this line!">from abc import abstractmethod</span>
 <span class="line-precise" title="No Anys on this line!">from collections import defaultdict</span>
+<span class="line-precise" title="No Anys on this line!">from typing import TYPE_CHECKING</span>
+<span class="line-precise" title="No Anys on this line!">from typing import Any</span>
+<span class="line-precise" title="No Anys on this line!">from typing import Optional</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="No Anys on this line!">import dawg</span>
 <span class="line-any" title="No Anys on this line!">import pycrfsuite</span>
@@ -664,81 +649,46 @@
 <span class="line-precise" title="No Anys on this line!">from ..data import load_model</span>
 <span class="line-precise" title="No Anys on this line!">from .lexicon import Lexicon</span>
 <span class="line-empty" title="No Anys on this line!"></span>
+<span class="line-precise" title="No Anys on this line!">if TYPE_CHECKING:</span>
+<span class="line-precise" title="No Anys on this line!">    pass</span>
+<span class="line-empty" title="No Anys on this line!"></span>
+<span class="line-empty" title="No Anys on this line!"># Type aliases for tagging</span>
+<span class="line-precise" title="No Anys on this line!">Token = tuple[str, str]  # (word, tag) pair</span>
+<span class="line-precise" title="No Anys on this line!">TaggedSentence = list[Token]  # List of tagged tokens</span>
+<span class="line-precise" title="No Anys on this line!">TagList = list[str]  # List of tags</span>
+<span class="line-precise" title="No Anys on this line!">TokenList = list[str]  # List of token strings</span>
+<span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">log = logging.getLogger(__name__)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-precise" title="No Anys on this line!">POS_TAG_TYPE = "pos_tag"</span>
-<span class="line-precise" title="No Anys on this line!">NER_TAG_TYPE = "ner_tag"</span>
+<span class="line-precise" title="No Anys on this line!">POS_TAG_TYPE: str = "pos_tag"</span>
+<span class="line-precise" title="No Anys on this line!">NER_TAG_TYPE: str = "ner_tag"</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">class BaseTagger(metaclass=ABCMeta):</span>
-<span class="line-empty" title="No Anys on this line!">    """</span>
-<span class="line-empty" title="No Anys on this line!">    Abstract tagger class from which all taggers inherit.</span>
+<span class="line-empty" title="No Anys on this line!">    """Abstract base class for all taggers.</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-empty" title="No Anys on this line!">    Subclasses must implement at least one of the following sets of methods for tagging:</span>
+<span class="line-empty" title="No Anys on this line!">    Provides the interface for part-of-speech tagging and named entity recognition.</span>
+<span class="line-empty" title="No Anys on this line!">    Subclasses must implement at least one tagging method combination:</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-empty" title="No Anys on this line!">    - ``legacy_tag()``</span>
-<span class="line-empty" title="No Anys on this line!">    - ``tag()``</span>
-<span class="line-empty" title="No Anys on this line!">    - ``batch_tag()``</span>
-<span class="line-empty" title="No Anys on this line!">    - ``can_tag()`` and ``tag_for_type()``</span>
-<span class="line-empty" title="No Anys on this line!">    - ``can_tag()`` and ``can_batch_tag()`` and ``batch_tag_for_type()``</span>
+<span class="line-empty" title="No Anys on this line!">    - ``legacy_tag()`` - Single sentence, legacy interface</span>
+<span class="line-empty" title="No Anys on this line!">    - ``tag()`` - Single sentence, modern interface</span>
+<span class="line-empty" title="No Anys on this line!">    - ``batch_tag()`` - Multiple sentences, modern interface</span>
+<span class="line-empty" title="No Anys on this line!">    - ``can_tag()`` + ``tag_for_type()`` - Type-specific single sentence</span>
+<span class="line-empty" title="No Anys on this line!">    - ``can_tag()`` + ``can_batch_tag()`` + ``batch_tag_for_type()`` - Type-specific batch</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-empty" title="No Anys on this line!">    The above interface is called when required by classes including :class:`~chemdataextractor.doc.text.Sentence` or</span>
-<span class="line-empty" title="No Anys on this line!">    :class:`~chemdataextractor.doc.document.Document`, depending on whether only the tag for a sentence is required or</span>
-<span class="line-empty" title="No Anys on this line!">    for the whole document.</span>
-<span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-empty" title="No Anys on this line!">    If the user has implemented more than one of the combinations above, the order of presedence for the</span>
-<span class="line-empty" title="No Anys on this line!">    tagging methods is as follows:</span>
-<span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-empty" title="No Anys on this line!">    - ``batch_tag_for_type()``</span>
-<span class="line-empty" title="No Anys on this line!">    - ``tag_for_type()``</span>
-<span class="line-empty" title="No Anys on this line!">    - ``batch_tag()``</span>
-<span class="line-empty" title="No Anys on this line!">    - ``tag()``</span>
-<span class="line-empty" title="No Anys on this line!">    - ``legacy_tag()``</span>
-<span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-empty" title="No Anys on this line!">    Most users should not have to implement the top two options, and the default impelementations are discussed in the</span>
-<span class="line-empty" title="No Anys on this line!">    documentation for :class:`~chemdataextractor.nlp.tag.EnsembleTagger` instead of here.</span>
-<span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-empty" title="No Anys on this line!">    An implementation of the other tagging methods should have the following signatures and</span>
-<span class="line-empty" title="No Anys on this line!">    should be implemented in the following cases:</span>
-<span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-empty" title="No Anys on this line!">    - **tag(self, list(** :class:`~chemdataextractor.doc.text.RichToken` **) tokens) -&gt; list(** :class:`~chemdataextractor.doc.text.RichToken` **, obj)**</span>
-<span class="line-empty" title="No Anys on this line!">      Take a list of all the tokens from an element, and return a list of (token, tag) pairs.</span>
-<span class="line-empty" title="No Anys on this line!">      This should be the default implementation for any new tagger. More information on how to create a new tagger can be found at</span>
-<span class="line-empty" title="No Anys on this line!">      :ref:`in this guide&lt;creating_taggers&gt;`.</span>
-<span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-empty" title="No Anys on this line!">    - **batch_tag(self, list(list(** :class:`~chemdataextractor.doc.text.RichToken` **)) sents) -&gt; list(list(** :class:`~chemdataextractor.doc.text.RichToken` **, obj))**</span>
-<span class="line-empty" title="No Anys on this line!">      Take a list of lists of all the tokens from all the elements in a document, and return a list of lists of (token, tag) pairs.</span>
-<span class="line-empty" title="No Anys on this line!">      One thing to note is that the resulting list of lists of (token, tag) pairs need not be in the same order as the incoming list</span>
-<span class="line-empty" title="No Anys on this line!">      of lists of tokens, so some sorting can be done if, for example, bucketing of sentences by their lengths is desired.</span>
-<span class="line-empty" title="No Anys on this line!">      In addition to ``tag``, the ``batch_tag`` method should be implemented instead of the ``tag`` method in cases where the taggers rely on</span>
-<span class="line-empty" title="No Anys on this line!">      backends that are more performant when tagging multiple sentences, and the tagger will be called for every element.</span>
-<span class="line-empty" title="No Anys on this line!">      More information can be found in :ref:`in this guide&lt;creating_taggers&gt;`.</span>
-<span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-empty" title="No Anys on this line!">      .. note::</span>
-<span class="line-empty" title="No Anys on this line!">        If a tagger only has ``batch_tag`` implemented, the tagger will fail when applied to an element that does not belong to a document.</span>
-<span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-empty" title="No Anys on this line!">    - **legacy_tag(self, list(obj tokens) -&gt; (list(obj), obj)**</span>
-<span class="line-empty" title="No Anys on this line!">      ``legacy_tag`` corresponds to the ``tag`` method in ChemDataExtractor 2.0 and earlier. This has been renamed</span>
-<span class="line-empty" title="No Anys on this line!">      ``legacy_tag`` due to its complexity in that it could be called with either a list of strings or a list of (token, PoS tag) pairs.</span>
-<span class="line-empty" title="No Anys on this line!">      This made it incompatible with the new taggers in their current form. ChemDataExtractor 2.1 will call this method with a list of strings</span>
-<span class="line-empty" title="No Anys on this line!">      instead of a list of (token, PoS tag) pairs. This should only be used for converting previously written taggers with as few</span>
-<span class="line-empty" title="No Anys on this line!">      code changes as possible, as shown in the :ref:`migration guide&lt;migration_guide_2_1&gt;`.</span>
-<span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-empty" title="No Anys on this line!">    To express intent to the ChemDataExtractor framework that the tagger can tag for a certain tag type, you should implement the</span>
-<span class="line-empty" title="No Anys on this line!">    ``can_tag`` method, which takes a tag type and returns a boolean. The default implementation, provided by this class,</span>
-<span class="line-empty" title="No Anys on this line!">    looks at the ``tag_type`` attribute of the tagger and returns True if it matches the tag type provided.</span>
-<span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-empty" title="No Anys on this line!">    .. warning::</span>
-<span class="line-empty" title="No Anys on this line!">        While the :class:`~chemdataextractor.doc.text.RichToken` class maintains backwards compatibility in most cases, e.g. parsers by assigning</span>
-<span class="line-empty" title="No Anys on this line!">        the ``1`` key in dictionary-style lookup with the combined PoS and NER tag, calling this key in an NER or PoS tagger will cause</span>
-<span class="line-empty" title="No Anys on this line!">        your script to crash. To avoid this, please change any previous bits of code such as ``token[1]`` to ``token["ner_tag"]`` or ``token.ner_tag``.</span>
+<span class="line-empty" title="No Anys on this line!">    Method precedence order (highest to lowest):</span>
+<span class="line-empty" title="No Anys on this line!">    1. ``batch_tag_for_type()``</span>
+<span class="line-empty" title="No Anys on this line!">    2. ``tag_for_type()``</span>
+<span class="line-empty" title="No Anys on this line!">    3. ``batch_tag()``</span>
+<span class="line-empty" title="No Anys on this line!">    4. ``tag()``</span>
+<span class="line-empty" title="No Anys on this line!">    5. ``legacy_tag()``</span>
 <span class="line-empty" title="No Anys on this line!">    """</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-precise" title="No Anys on this line!">    tag_type = ""</span>
-<span class="line-empty" title="No Anys on this line!">    """</span>
-<span class="line-empty" title="No Anys on this line!">    The tag type for this tagger. When this tag type is asked for from the token, as described in :class:`~chemdataextractor.doc.text.RichToken`, this</span>
-<span class="line-empty" title="No Anys on this line!">    tagger will be called.</span>
+<span class="line-precise" title="No Anys on this line!">    tag_type: str = ""</span>
+<span class="line-empty" title="No Anys on this line!">    """The tag type for this tagger (e.g., 'pos_tag', 'ner_tag').</span>
+<span class="line-empty" title="No Anys on this line!">    </span>
+<span class="line-empty" title="No Anys on this line!">    When this tag type is requested from a token, this tagger will be called.</span>
 <span class="line-empty" title="No Anys on this line!">    """</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="Any Types on this line: 
@@ -778,32 +728,37 @@ Unannotated (x1)">            test_tokens</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">        return accuracy</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-any" title="No Anys on this line!">    def can_tag(self, tag_type):</span>
-<span class="line-empty" title="No Anys on this line!">        """</span>
-<span class="line-empty" title="No Anys on this line!">        Whether this tagger can tag the given tag type.</span>
+<span class="line-precise" title="No Anys on this line!">    def can_tag(self, tag_type: str) -&gt; bool:</span>
+<span class="line-empty" title="No Anys on this line!">        """Check if this tagger can tag the given tag type.</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-empty" title="No Anys on this line!">        :param obj tag_type: The tag type which the system wants to tag. Usually a string.</span>
-<span class="line-empty" title="No Anys on this line!">        :returns: True if this parser can tag the given tag type</span>
-<span class="line-empty" title="No Anys on this line!">        :rtype: bool</span>
-<span class="line-empty" title="No Anys on this line!">        """</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x3)">        return tag_type == self.tag_type</span>
+<span class="line-empty" title="No Anys on this line!">        Args:</span>
+<span class="line-empty" title="No Anys on this line!">            tag_type: str - The tag type to check (e.g., 'pos_tag', 'ner_tag')</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-any" title="No Anys on this line!">    def can_batch_tag(self, tag_type):</span>
+<span class="line-empty" title="No Anys on this line!">        Returns:</span>
+<span class="line-empty" title="No Anys on this line!">            bool - True if this tagger can tag the given tag type</span>
 <span class="line-empty" title="No Anys on this line!">        """</span>
-<span class="line-empty" title="No Anys on this line!">        Whether this tagger can batch tag the given tag type.</span>
+<span class="line-precise" title="No Anys on this line!">        return tag_type == self.tag_type</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-empty" title="No Anys on this line!">        :param obj tag_type: The tag type which the system wants to batch tag. Usually a string.</span>
-<span class="line-empty" title="No Anys on this line!">        :returns: True if this parser can tag the given tag type</span>
-<span class="line-empty" title="No Anys on this line!">        :rtype: bool</span>
+<span class="line-precise" title="No Anys on this line!">    def can_batch_tag(self, tag_type: str) -&gt; bool:</span>
+<span class="line-empty" title="No Anys on this line!">        """Check if this tagger can batch tag the given tag type.</span>
+<span class="line-empty" title="No Anys on this line!"></span>
+<span class="line-empty" title="No Anys on this line!">        Args:</span>
+<span class="line-empty" title="No Anys on this line!">            tag_type: str - The tag type to check for batch tagging</span>
+<span class="line-empty" title="No Anys on this line!"></span>
+<span class="line-empty" title="No Anys on this line!">        Returns:</span>
+<span class="line-empty" title="No Anys on this line!">            bool - True if this tagger can batch tag the given tag type</span>
 <span class="line-empty" title="No Anys on this line!">        """</span>
-<span class="line-any" title="No Anys on this line!">        return False</span>
+<span class="line-precise" title="No Anys on this line!">        return False</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">class EnsembleTagger(BaseTagger):</span>
-<span class="line-empty" title="No Anys on this line!">    """</span>
-<span class="line-empty" title="No Anys on this line!">    A class for taggers which act on the results of multiple other taggers.</span>
-<span class="line-empty" title="No Anys on this line!">    This could also be done by simply adding each tagger to the sentence and having</span>
+<span class="line-empty" title="No Anys on this line!">    """Ensemble tagger that combines results from multiple taggers.</span>
+<span class="line-empty" title="No Anys on this line!"></span>
+<span class="line-empty" title="No Anys on this line!">    Allows combining multiple tagging strategies or models for improved</span>
+<span class="line-empty" title="No Anys on this line!">    accuracy through consensus or voting mechanisms.</span>
+<span class="line-empty" title="No Anys on this line!"></span>
+<span class="line-empty" title="No Anys on this line!">    Attributes:</span>
+<span class="line-empty" title="No Anys on this line!">        taggers: list[BaseTagger] - List of individual taggers to combine</span>
 <span class="line-empty" title="No Anys on this line!">    the taggers each act on the results from the other taggers by accessing RichToken attributes,</span>
 <span class="line-empty" title="No Anys on this line!">    but an EnsembleTagger allows for the user to add one tagger instead,</span>
 <span class="line-empty" title="No Anys on this line!">    cleaning up the interface.</span>

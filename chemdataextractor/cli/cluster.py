@@ -18,9 +18,7 @@ def cluster_cli(ctx):
 
 
 @cluster_cli.command()
-@click.option(
-    "--output", "-o", type=click.File("wb"), help="Output model file.", required=True
-)
+@click.option("--output", "-o", type=click.File("wb"), help="Output model file.", required=True)
 @click.argument("input", type=click.File("r", encoding="utf8"), required=True)
 @click.pass_obj
 def load(ctx, input, output):

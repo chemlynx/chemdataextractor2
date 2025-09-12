@@ -603,7 +603,7 @@
 <span class="line-precise" title="No Anys on this line!">from typing import Optional</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">if TYPE_CHECKING:</span>
-<span class="line-precise" title="No Anys on this line!">    from ..typing import Self</span>
+<span class="line-any" title="No Anys on this line!">    from ..typing import Self</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">from ..model.units.quantity_model import DimensionlessModel</span>
 <span class="line-precise" title="No Anys on this line!">from ..parse.actions import join</span>
@@ -670,8 +670,8 @@ Unannotated (x1)">    roles = SetType(StringType(), parse_expression=roles_only,
 <span class="line-empty" title="No Anys on this line!">    # parsers = [CompoundParser(), CompoundHeadingParser(), ChemicalLabelParser()]</span>
 <span class="line-empty" title="No Anys on this line!">    # parsers = [CompoundParser()]</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-imprecise" title="Any Types on this line: 
-Omitted Generics (x2)">    def merge(self, other: Compound) -&gt; Self:</span>
+<span class="line-any" title="Any Types on this line: 
+Unimported (x1)">    def merge(self, other: Compound) -&gt; Self:</span>
 <span class="line-empty" title="No Anys on this line!">        """Merge data from another Compound into this Compound.</span>
 <span class="line-empty" title="No Anys on this line!">        </span>
 <span class="line-empty" title="No Anys on this line!">        Args:</span>
@@ -681,34 +681,25 @@ Omitted Generics (x2)">    def merge(self, other: Compound) -&gt; Self:</span>
 <span class="line-empty" title="No Anys on this line!">            Self - This compound instance with merged data</span>
 <span class="line-empty" title="No Anys on this line!">        """</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x6)
-Omitted Generics (x1)">        log.debug("Merging: %s and %s" % (self.serialize(), other.serialize()))</span>
-<span class="line-imprecise" title="Any Types on this line: 
-Explicit (x4)
-Omitted Generics (x2)">        if type(other) != type(self):</span>
-<span class="line-imprecise" title="Any Types on this line: 
-Omitted Generics (x1)">            return self</span>
+Unannotated (x6)">        log.debug("Merging: %s and %s" % (self.serialize(), other.serialize()))</span>
+<span class="line-precise" title="Any Types on this line: 
+Explicit (x4)">        if type(other) != type(self):</span>
+<span class="line-precise" title="No Anys on this line!">            return self</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x3)
-Omitted Generics (x1)">        for k in self.keys():</span>
+Unannotated (x3)">        for k in self.keys():</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x2)">            if other[k] is not None:</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)
-Omitted Generics (x1)">                if self[k] is not None:</span>
+Unannotated (x2)">                if self[k] is not None:</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x3)">                    for new_item in other[k]:</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x3)
-Omitted Generics (x1)">                        if new_item not in self[k]:</span>
+Unannotated (x3)">                        if new_item not in self[k]:</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x5)
-Omitted Generics (x1)">                            self[k].add(new_item)</span>
+Unannotated (x5)">                            self[k].add(new_item)</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x3)
-Omitted Generics (x1)">        log.debug("Result: %s" % self.serialize())</span>
-<span class="line-imprecise" title="Any Types on this line: 
-Omitted Generics (x1)">        return self</span>
+Unannotated (x3)">        log.debug("Result: %s" % self.serialize())</span>
+<span class="line-precise" title="No Anys on this line!">        return self</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">    @property</span>
 <span class="line-precise" title="No Anys on this line!">    def is_unidentified(self) -&gt; bool:</span>
@@ -856,14 +847,11 @@ Unimported (x1)">    concentration = StringType(contextual=True)</span>
 <span class="line-precise" title="Any Types on this line: 
 Unimported (x1)">    concentration_units = StringType(contextual=True)</span>
 <span class="line-any" title="Any Types on this line: 
-Explicit (x1)
-Unannotated (x1)">    apparatus = ModelType(Apparatus, contextual=True)</span>
+Explicit (x2)">    apparatus = ModelType(Apparatus, contextual=True)</span>
 <span class="line-precise" title="Any Types on this line: 
-Explicit (x2)
-Unannotated (x1)">    peaks = ListType(ModelType(UvvisPeak))</span>
+Explicit (x3)">    peaks = ListType(ModelType(UvvisPeak))</span>
 <span class="line-precise" title="Any Types on this line: 
-Explicit (x1)
-Unannotated (x1)">    compound = ModelType(Compound)</span>
+Explicit (x2)">    compound = ModelType(Compound)</span>
 <span class="line-precise" title="No Anys on this line!">    parsers = [UvvisParser()]</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!"></span>
@@ -916,14 +904,11 @@ Unimported (x1)">    concentration = StringType(contextual=True)</span>
 <span class="line-precise" title="Any Types on this line: 
 Unimported (x1)">    concentration_units = StringType(contextual=True)</span>
 <span class="line-any" title="Any Types on this line: 
-Explicit (x1)
-Unannotated (x1)">    apparatus = ModelType(Apparatus, contextual=True)</span>
+Explicit (x2)">    apparatus = ModelType(Apparatus, contextual=True)</span>
 <span class="line-precise" title="Any Types on this line: 
-Explicit (x2)
-Unannotated (x1)">    peaks = ListType(ModelType(IrPeak))</span>
+Explicit (x3)">    peaks = ListType(ModelType(IrPeak))</span>
 <span class="line-precise" title="Any Types on this line: 
-Explicit (x1)
-Unannotated (x1)">    compound = ModelType(Compound)</span>
+Explicit (x2)">    compound = ModelType(Compound)</span>
 <span class="line-precise" title="No Anys on this line!">    parsers = [IrParser()]</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!"></span>
@@ -997,14 +982,11 @@ Unimported (x1)">    concentration = StringType(contextual=True)</span>
 <span class="line-precise" title="Any Types on this line: 
 Unimported (x1)">    concentration_units = StringType(contextual=True)</span>
 <span class="line-any" title="Any Types on this line: 
-Explicit (x1)
-Unannotated (x1)">    apparatus = ModelType(Apparatus, contextual=True)</span>
+Explicit (x2)">    apparatus = ModelType(Apparatus, contextual=True)</span>
 <span class="line-precise" title="Any Types on this line: 
-Explicit (x2)
-Unannotated (x1)">    peaks = ListType(ModelType(NmrPeak))</span>
+Explicit (x3)">    peaks = ListType(ModelType(NmrPeak))</span>
 <span class="line-precise" title="Any Types on this line: 
-Explicit (x1)
-Unannotated (x1)">    compound = ModelType(Compound)</span>
+Explicit (x2)">    compound = ModelType(Compound)</span>
 <span class="line-precise" title="No Anys on this line!">    parsers = [NmrParser()]</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!"></span>
@@ -1029,11 +1011,9 @@ Unimported (x1)">    concentration = StringType(contextual=True)</span>
 <span class="line-precise" title="Any Types on this line: 
 Unimported (x1)">    concentration_units = StringType(contextual=True)</span>
 <span class="line-any" title="Any Types on this line: 
-Explicit (x1)
-Unannotated (x1)">    apparatus = ModelType(Apparatus, contextual=True)</span>
+Explicit (x2)">    apparatus = ModelType(Apparatus, contextual=True)</span>
 <span class="line-any" title="Any Types on this line: 
-Explicit (x1)
-Unannotated (x1)">    compound = ModelType(Compound, contextual=True)</span>
+Explicit (x2)">    compound = ModelType(Compound, contextual=True)</span>
 <span class="line-precise" title="No Anys on this line!">    parsers = [MpParser()]</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!"></span>
@@ -1063,8 +1043,7 @@ Unimported (x1)">    concentration = StringType(contextual=True)</span>
 <span class="line-precise" title="Any Types on this line: 
 Unimported (x1)">    concentration_units = StringType(contextual=True)</span>
 <span class="line-precise" title="Any Types on this line: 
-Explicit (x1)
-Unannotated (x1)">    compound = ModelType(Compound)</span>
+Explicit (x2)">    compound = ModelType(Compound)</span>
 <span class="line-precise" title="No Anys on this line!">    parsers = [TgParser()]</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!"></span>
@@ -1112,8 +1091,7 @@ Unimported (x1)">    temperature = StringType(contextual=True)</span>
 <span class="line-precise" title="Any Types on this line: 
 Unimported (x1)">    temperature_units = StringType(contextual=True)</span>
 <span class="line-any" title="Any Types on this line: 
-Explicit (x1)
-Unannotated (x1)">    apparatus = ModelType(Apparatus, contextual=True)</span>
+Explicit (x2)">    apparatus = ModelType(Apparatus, contextual=True)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">class FluorescenceLifetime(BaseModel):</span>
@@ -1148,8 +1126,7 @@ Unimported (x1)">    temperature = StringType(contextual=True)</span>
 <span class="line-precise" title="Any Types on this line: 
 Unimported (x1)">    temperature_units = StringType(contextual=True)</span>
 <span class="line-any" title="Any Types on this line: 
-Explicit (x1)
-Unannotated (x1)">    apparatus = ModelType(Apparatus, contextual=True)</span>
+Explicit (x2)">    apparatus = ModelType(Apparatus, contextual=True)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">class ElectrochemicalPotential(BaseModel):</span>
@@ -1187,8 +1164,7 @@ Unimported (x1)">    temperature = StringType(contextual=True)</span>
 <span class="line-precise" title="Any Types on this line: 
 Unimported (x1)">    temperature_units = StringType(contextual=True)</span>
 <span class="line-any" title="Any Types on this line: 
-Explicit (x1)
-Unannotated (x1)">    apparatus = ModelType(Apparatus, contextual=True)</span>
+Explicit (x2)">    apparatus = ModelType(Apparatus, contextual=True)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">class NeelTemperature(TemperatureModel):</span>
@@ -1211,8 +1187,7 @@ Unimported (x1)">    specifier = StringType(</span>
 <span class="line-precise" title="No Anys on this line!">        parse_expression=expression, required=True, contextual=False, updatable=False</span>
 <span class="line-empty" title="No Anys on this line!">    )</span>
 <span class="line-any" title="Any Types on this line: 
-Explicit (x1)
-Unannotated (x1)">    compound = ModelType(Compound, required=False, contextual=False)</span>
+Explicit (x2)">    compound = ModelType(Compound, required=False, contextual=False)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">class CurieTemperature(TemperatureModel):</span>
@@ -1229,8 +1204,7 @@ Unannotated (x1)">    compound = ModelType(Compound, required=False, contextual=
 <span class="line-empty" title="No Anys on this line!">    # expression = (I('T') + I('C')).add_action(merge)</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x12)">    expression = ((I("Curie") + R("^temperature(s)?$")) | R(r"T[Cc]\d?")).add_action(</span>
-<span class="line-precise" title="Any Types on this line: 
-Unannotated (x4)">        join</span>
+<span class="line-precise" title="No Anys on this line!">        join</span>
 <span class="line-empty" title="No Anys on this line!">    )</span>
 <span class="line-imprecise" title="Any Types on this line: 
 Unimported (x1)">    specifier = StringType(</span>
@@ -1238,8 +1212,7 @@ Unimported (x1)">    specifier = StringType(</span>
 Unannotated (x1)">        parse_expression=expression, required=True, contextual=False, updatable=False</span>
 <span class="line-empty" title="No Anys on this line!">    )</span>
 <span class="line-any" title="Any Types on this line: 
-Explicit (x1)
-Unannotated (x1)">    compound = ModelType(Compound, required=False, contextual=False)</span>
+Explicit (x2)">    compound = ModelType(Compound, required=False, contextual=False)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">class InteratomicDistance(LengthModel):</span>
@@ -1268,8 +1241,7 @@ Unannotated (x3)">    rij_label = R(</span>
 <span class="line-imprecise" title="Any Types on this line: 
 Unimported (x1)">    species = StringType(parse_expression=rij_label, required=True, contextual=False)</span>
 <span class="line-any" title="Any Types on this line: 
-Explicit (x1)
-Unannotated (x1)">    compound = ModelType(Compound, required=True, contextual=True)</span>
+Explicit (x2)">    compound = ModelType(Compound, required=True, contextual=True)</span>
 <span class="line-imprecise" title="Any Types on this line: 
 Unimported (x1)">    another_label = StringType(</span>
 <span class="line-any" title="Any Types on this line: 
@@ -1310,8 +1282,7 @@ Unimported (x1)">    cn_label = StringType(</span>
 <span class="line-precise" title="No Anys on this line!">        parse_expression=coordination_number_label, required=True, contextual=True</span>
 <span class="line-empty" title="No Anys on this line!">    )</span>
 <span class="line-any" title="Any Types on this line: 
-Explicit (x1)
-Unannotated (x1)">    compound = ModelType(Compound, required=True, contextual=True)</span>
+Explicit (x2)">    compound = ModelType(Compound, required=True, contextual=True)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">class CNLabel(BaseModel):</span>
@@ -1334,10 +1305,10 @@ Unannotated (x10)">    specifier = (I("Pair") + I("ij")).add_action(merge)</span
 <span class="line-imprecise" title="Any Types on this line: 
 Unimported (x1)">    label_Juraj = StringType(parse_expression=coordination_number_label)</span>
 <span class="line-any" title="Any Types on this line: 
-Explicit (x1)
-Unannotated (x1)">    compound = ModelType(Compound, required=False)</span>
+Explicit (x2)">    compound = ModelType(Compound, required=False)</span>
 <span class="line-precise" title="Any Types on this line: 
-Unannotated (x4)">    parsers = [AutoSentenceParser(), AutoTableParser()]</span>
+Unannotated (x3)
+Unimported (x1)">    parsers = [AutoSentenceParser(), AutoTableParser()]</span>
 </pre></td>
 </tr></tbody>
 </table>

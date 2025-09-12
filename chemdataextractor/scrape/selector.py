@@ -142,9 +142,7 @@ class Selector:
         return self._root.tag
 
     def xpath(self, query):
-        result = self._root.xpath(
-            query, namespaces=self.namespaces, smart_strings=False
-        )
+        result = self._root.xpath(query, namespaces=self.namespaces, smart_strings=False)
         if type(result) is not list:
             result = [result]
         # log.debug('Selecting XPath: {}: {}'.format(query, result))
@@ -173,9 +171,7 @@ class Selector:
             root = deepcopy(self._root)
             if cleaner:
                 cleaner(root)
-            return tostring(
-                root, method=self.fmt if raw else "text", encoding=str, with_tail=False
-            )
+            return tostring(root, method=self.fmt if raw else "text", encoding=str, with_tail=False)
         except (AttributeError, TypeError):
             # log.warn(e)
             return str(self._root)

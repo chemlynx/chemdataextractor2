@@ -5,6 +5,7 @@ Tagger implementations for part-of-speech tagging and named entity recognition.
 Provides abstract base classes and concrete implementations for chemistry-aware
 POS tagging and chemical entity mention (CEM) tagging using CRF models.
 """
+
 from __future__ import annotations
 
 import logging
@@ -16,7 +17,9 @@ from abc import abstractmethod
 from collections import defaultdict
 from typing import TYPE_CHECKING
 from typing import Any
+from typing import List
 from typing import Optional
+from typing import Tuple
 
 import dawg
 import pycrfsuite
@@ -30,10 +33,10 @@ if TYPE_CHECKING:
     pass
 
 # Type aliases for tagging
-Token = tuple[str, str]  # (word, tag) pair
-TaggedSentence = list[Token]  # List of tagged tokens
-TagList = list[str]  # List of tags
-TokenList = list[str]  # List of token strings
+Token = Tuple[str, str]  # (word, tag) pair
+TaggedSentence = List[Token]  # List of tagged tokens
+TagList = List[str]  # List of tags
+TokenList = List[str]  # List of token strings
 
 log = logging.getLogger(__name__)
 
@@ -86,9 +89,7 @@ class BaseTagger(metaclass=ABCMeta):
         tagged_sents = self.tag_sents([w for (w, t) in sent] for sent in gold)
         gold_tokens = sum(gold, [])
         test_tokens = sum(tagged_sents, [])
-        accuracy = float(sum(x == y for x, y in zip(gold_tokens, test_tokens))) / len(
-            test_tokens
-        )
+        accuracy = float(sum(x == y for x, y in zip(gold_tokens, test_tokens))) / len(test_tokens)
         return accuracy
 
     def can_tag(self, tag_type: str) -> bool:
@@ -121,7 +122,7 @@ class EnsembleTagger(BaseTagger):
     accuracy through consensus or voting mechanisms.
 
     Attributes:
-        taggers: list[BaseTagger] - List of individual taggers to combine
+        taggers: List[BaseTagger] - List of individual taggers to combine
     the taggers each act on the results from the other taggers by accessing RichToken attributes,
     but an EnsembleTagger allows for the user to add one tagger instead,
     cleaning up the interface.
@@ -233,13 +234,10 @@ class RegexTagger(BaseTagger):
         :param list(tuple(string, string)) patterns: List of (regex, tag) pairs.
         """
         self.patterns = patterns if patterns is not None else self.patterns
-        self.regexes = [
-            (re.compile(pattern, re.I | re.U), tag) for pattern, tag in self.patterns
-        ]
+        self.regexes = [(re.compile(pattern, re.I | re.U), tag) for pattern, tag in self.patterns]
         self.lexicon = lexicon if lexicon is not None else self.lexicon
         log.debug(
-            "%s: Initializing with %s patterns"
-            % (self.__class__.__name__, len(self.patterns))
+            "%s: Initializing with %s patterns" % (self.__class__.__name__, len(self.patterns))
         )
 
     def tag(self, tokens):
@@ -410,9 +408,7 @@ class ApTagger(BaseTagger, metaclass=ABCMeta):
 
     def load(self, model):
         """Load pickled model."""
-        self.perceptron.weights, self.tagdict, self.classes, self.clusters = load_model(
-            model
-        )
+        self.perceptron.weights, self.tagdict, self.classes, self.clusters = load_model(model)
         self.perceptron.classes = self.classes
 
     @abstractmethod
@@ -509,9 +505,7 @@ class DictionaryTagger(BaseTagger):
     #: Whether dictionary matches are case sensitive.
     case_sensitive = False
 
-    def __init__(
-        self, words=None, model=None, entity=None, case_sensitive=None, lexicon=None
-    ):
+    def __init__(self, words=None, model=None, entity=None, case_sensitive=None, lexicon=None):
         """
 
         :param list(list(string)) words: list of words, each of which is a list of tokens.
@@ -519,9 +513,7 @@ class DictionaryTagger(BaseTagger):
         self._dawg = dawg.CompletionDAWG()
         self.model = model if model is not None else self.model
         self.entity = entity if entity is not None else self.entity
-        self.case_sensitive = (
-            case_sensitive if case_sensitive is not None else self.case_sensitive
-        )
+        self.case_sensitive = case_sensitive if case_sensitive is not None else self.case_sensitive
         self.lexicon = lexicon if lexicon is not None else self.lexicon
         self._loaded_model = False
         if words is not None:
@@ -561,11 +553,7 @@ class DictionaryTagger(BaseTagger):
         # A set of allowed indexes for matches to start or end at
         delims = (
             [0]
-            + [
-                i
-                for span in [m.span() for m in self.delimiters.finditer(norm)]
-                for i in span
-            ]
+            + [i for span in [m.span() for m in self.delimiters.finditer(norm)] for i in span]
             + [length]
         )
         # Token indices

@@ -5,7 +5,6 @@ Types for representing quantities, dimensions, and units.
 :codeauthor: Taketomo Isazawa (ti250@cam.ac.uk)
 """
 
-
 from .angle import *
 from .charge import *
 from .current import *

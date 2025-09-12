@@ -42,9 +42,9 @@ class BibtexParser:
         self.meta = kwargs
         self._token = None
         self.token_type = None
-        self._tokens = re.compile(
-            r'([^\s"\'#%@{}()=,]+|\s|"|\'|#|%|@|{|}|\(|\)|=|,)'
-        ).finditer(self.data)
+        self._tokens = re.compile(r'([^\s"\'#%@{}()=,]+|\s|"|\'|#|%|@|{|}|\(|\)|=|,)').finditer(
+            self.data
+        )
         self.mode = None
         self.definitions = {}
         self.records = OrderedDict()
@@ -167,11 +167,7 @@ class BibtexParser:
     @classmethod
     def parse_names(cls, names):
         """Parse a string of names separated by "and" like in a BibTeX authors field."""
-        names = [
-            latex_to_unicode(n)
-            for n in re.split(r"\sand\s(?=[^{}]*(?:\{|$))", names)
-            if n
-        ]
+        names = [latex_to_unicode(n) for n in re.split(r"\sand\s(?=[^{}]*(?:\{|$))", names) if n]
         return names
 
     @property
@@ -195,9 +191,7 @@ class BibtexParser:
     def json(self):
         """Return a list of records as a JSON string. Follows the BibJSON convention."""
         return json.dumps(
-            OrderedDict(
-                [("metadata", self.metadata), ("records", self.records.values())]
-            )
+            OrderedDict([("metadata", self.metadata), ("records", self.records.values())])
         )
 
 

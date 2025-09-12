@@ -5,7 +5,6 @@ Units and models for power
 
 """
 
-
 import logging
 
 from ...parse.elements import R

@@ -2,7 +2,7 @@
 Parser elements for ChemDataExtractor grammar-based parsing.
 
 This module provides the core parsing elements used to construct grammar rules
-for extracting structured chemical data from text. Elements like W (Word), 
+for extracting structured chemical data from text. Elements like W (Word),
 I (Case-insensitive), R (Regex), Optional, and Group form the building blocks
 of all chemical data extraction parsers.
 """
@@ -19,6 +19,7 @@ from copy import deepcopy
 from typing import TYPE_CHECKING
 from typing import Any
 from typing import Callable
+from typing import List
 from typing import Optional
 from typing import Union
 
@@ -28,24 +29,30 @@ if TYPE_CHECKING:
     from ..doc.text import Sentence
 
 # Type aliases for parsing
-ParseAction = Callable[[list[Any]], Any]  # Function that processes parse results
-ParseCondition = Callable[[list[Any]], bool]  # Function that validates parse results
-TokenList = list[str]  # List of token strings
-ParseResults = list[Any]  # Results from parsing operations
+ParseAction = Callable[[List[Any]], Any]  # Function that processes parse results
+ParseCondition = Callable[[List[Any]], bool]  # Function that validates parse results
+TokenList = List[str]  # List of token strings
+ParseResults = List[Any]  # Results from parsing operations
 
 log = logging.getLogger(__name__)
 
 
 class ParseException(Exception):
     """Exception thrown by a ParserElement when it doesn't match input.
-    
+
     Provides detailed information about parsing failures including position,
     tokens, and the parser element that failed.
     """
 
-    def __init__(self, tokens: TokenList, i: int = 0, msg: Optional[str] = None, element: Optional[BaseParserElement] = None) -> None:
+    def __init__(
+        self,
+        tokens: TokenList,
+        i: int = 0,
+        msg: Optional[str] = None,
+        element: Optional[BaseParserElement] = None,
+    ) -> None:
         """Initialize a ParseException.
-        
+
         Args:
             tokens: The list of tokens being parsed
             i: The index position where parsing failed
@@ -61,10 +68,10 @@ class ParseException(Exception):
     @classmethod
     def wrap(cls, parse_exception: ParseException) -> ParseException:
         """Wrap another ParseException with this class.
-        
+
         Args:
             parse_exception: The exception to wrap
-            
+
         Returns:
             New ParseException instance
         """
@@ -77,7 +84,7 @@ class ParseException(Exception):
 
     def __str__(self) -> str:
         """Return string representation of the exception.
-        
+
         Returns:
             Formatted error message with position information
         """
@@ -106,29 +113,29 @@ def safe_name(name):
 
 class BaseParserElement:
     """Abstract base parser element class.
-    
+
     The foundation class for all parsing elements in ChemDataExtractor.
     Provides common functionality for matching, scanning, and transforming text patterns.
     """
 
     def __init__(self) -> None:
         """Initialize a BaseParserElement.
-        
+
         Sets up the basic attributes needed for parsing operations.
         """
         self.name: Optional[str] = None
         #: Name for BaseParserElement. Used to set the name of the Element when a result is found
-        self.actions: list[ParseAction] = []
+        self.actions: List[ParseAction] = []
         #: List of actions that will be applied to the results after parsing
         self.streamlined: bool = False
         self.condition: Optional[ParseCondition] = None
 
     def set_action(self, *fns: ParseAction) -> BaseParserElement:
         """Set the parse actions for this element.
-        
+
         Args:
             *fns: Parse action functions to set
-            
+
         Returns:
             Self for method chaining
         """
@@ -137,10 +144,10 @@ class BaseParserElement:
 
     def add_action(self, *fns: ParseAction) -> BaseParserElement:
         """Add parse actions to this element.
-        
+
         Args:
             *fns: Parse action functions to add
-            
+
         Returns:
             Self for method chaining
         """
@@ -149,15 +156,15 @@ class BaseParserElement:
 
     def with_condition(self, condition: ParseCondition) -> BaseParserElement:
         """Add a condition to the parser element.
-        
+
         The condition must be a function that takes a match and return True or False,
-        i.e. a function which takes tuple(list(Element), int) and returns bool. If the 
-        function evaluates True, the match is kept, while if the function evaluates 
+        i.e. a function which takes tuple(list(Element), int) and returns bool. If the
+        function evaluates True, the match is kept, while if the function evaluates
         False, the match is discarded. The condition is executed after any other actions.
-        
+
         Args:
             condition: Function to validate parse results
-            
+
         Returns:
             Self for method chaining
         """
@@ -166,7 +173,7 @@ class BaseParserElement:
 
     def copy(self) -> BaseParserElement:
         """Create a copy of this parser element.
-        
+
         Returns:
             New BaseParserElement instance with copied attributes
         """
@@ -176,10 +183,10 @@ class BaseParserElement:
 
     def set_name(self, name: str) -> BaseParserElement:
         """Set the name for this parser element.
-        
+
         Args:
             name: The name to assign to this element
-            
+
         Returns:
             New BaseParserElement with the specified name
         """
@@ -243,9 +250,7 @@ class BaseParserElement:
                     result = action_result
         if self.condition is not None:
             if not self.condition(result):
-                raise ParseException(
-                    tokens, found_index, "Did not satisfy condition", self
-                )
+                raise ParseException(tokens, found_index, "Did not satisfy condition", self)
         return result, found_index
 
     def try_parse(self, tokens, i):
@@ -369,9 +374,7 @@ class Word(BaseParserElement):
         token_text = tokens[i][0]
         if token_text == self.match:
             return [E(self.name or safe_name(tokens[i][1]), token_text)], i + 1
-        raise ParseException(
-            tokens, i, "Expected %s, got %s" % (self.match, token_text), self
-        )
+        raise ParseException(tokens, i, "Expected %s, got %s" % (self.match, token_text), self)
 
 
 class Tag(BaseParserElement):
@@ -403,9 +406,7 @@ class IWord(Word):
         token_text = tokens[i][0]
         if token_text.lower() == self.match:
             return [E(self.name or safe_name(tokens[i][1]), tokens[i][0])], i + 1
-        raise ParseException(
-            tokens, i, "Expected %s, got %s" % (self.match, tokens[i][0]), self
-        )
+        raise ParseException(tokens, i, "Expected %s, got %s" % (self.match, tokens[i][0]), self)
 
 
 class Regex(BaseParserElement):
@@ -427,9 +428,7 @@ class Regex(BaseParserElement):
         if result:
             text = token_text if self.group is None else result.group(self.group)
             return [E(self.name or safe_name(tokens[i][1]), text)], i + 1
-        raise ParseException(
-            tokens, i, "Expected %s, got %s" % (self.pattern, token_text), self
-        )
+        raise ParseException(tokens, i, "Expected %s, got %s" % (self.pattern, token_text), self)
 
     # Solves issues with deepcopying of records, jm2111
     # only the pattern is copied and the object is created from scratch
@@ -501,18 +500,10 @@ class ParseExpression(BaseParserElement):
             # collapse nested exprs from e.g. And(And(And(a, b), c), d) to And(a,b,c,d)
             if len(self.exprs) == 2:
                 other = self.exprs[0]
-                if (
-                    isinstance(other, self.__class__)
-                    and not other.actions
-                    and other.name is None
-                ):
+                if isinstance(other, self.__class__) and not other.actions and other.name is None:
                     self.exprs = other.exprs[:] + [self.exprs[1]]
                 other = self.exprs[-1]
-                if (
-                    isinstance(other, self.__class__)
-                    and not other.actions
-                    and other.name is None
-                ):
+                if isinstance(other, self.__class__) and not other.actions and other.name is None:
                     self.exprs = self.exprs[:-1] + other.exprs[:]
         return self
 

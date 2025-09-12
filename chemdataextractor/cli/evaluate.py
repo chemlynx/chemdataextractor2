@@ -41,9 +41,7 @@ def run(input):
     # Serialize all records apart from those that are just chemical names or just labels
     records = [record.serialize(primitive=True) for record in doc.records]
     records = [
-        record
-        for record in records
-        if record.keys() != ["names"] and record.keys() != ["labels"]
+        record for record in records if record.keys() != ["names"] and record.keys() != ["labels"]
     ]
     with open("%s-out.json" % os.path.splitext(input.name)[0], "w") as outf:
         json.dump(records, outf, indent=2)

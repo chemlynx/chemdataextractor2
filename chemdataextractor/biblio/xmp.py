@@ -9,7 +9,6 @@ More information is available on the Adobe website:
 
 """
 
-
 from collections import defaultdict
 
 from lxml import etree

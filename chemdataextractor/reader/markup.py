@@ -70,11 +70,19 @@ class LxmlReader(BaseReader, metaclass=ABCMeta):
 
     metadata_css = "head"
     metadata_publisher_css = 'meta[name="DC.publisher"]::attr("content"), meta[name="citation_publisher"]::attr("content")'
-    metadata_author_css = 'meta[name="DC.Creator"]::attr("content"), meta[name="citation_author"]::attr("content")'
-    metadata_title_css = 'meta[name="DC.title"]::attr("content"), meta[name="citation_title"]::attr("content")'
+    metadata_author_css = (
+        'meta[name="DC.Creator"]::attr("content"), meta[name="citation_author"]::attr("content")'
+    )
+    metadata_title_css = (
+        'meta[name="DC.title"]::attr("content"), meta[name="citation_title"]::attr("content")'
+    )
     metadata_date_css = 'meta[name="DC.Date"]::attr("content"), meta[name="citation_date"]::attr("content"), meta[name="citation_online_date"]::attr("content")'
-    metadata_doi_css = 'meta[name="DC.Identifier"]::attr("content"), meta[name="citation_doi"]::attr("content")'
-    metadata_language_css = 'meta[name="DC.Language"]::attr("content"), meta[name="citation_language"]::attr("content")'
+    metadata_doi_css = (
+        'meta[name="DC.Identifier"]::attr("content"), meta[name="citation_doi"]::attr("content")'
+    )
+    metadata_language_css = (
+        'meta[name="DC.Language"]::attr("content"), meta[name="citation_language"]::attr("content")'
+    )
     metadata_journal_css = 'meta[name="citation_journal_title"]::attr("content")'
     metadata_volume_css = 'meta[name="citation_volume"]::attr("content")'
     metadata_issue_css = 'meta[name="citation_issue"]::attr("content")'
@@ -141,9 +149,7 @@ class LxmlReader(BaseReader, metaclass=ABCMeta):
             specials = {}
         if refs is None:
             refs = {}
-        elements = self._parse_element_r(
-            el, specials=specials, refs=refs, element_cls=element_cls
-        )
+        elements = self._parse_element_r(el, specials=specials, refs=refs, element_cls=element_cls)
         final_elements = []
         for element in elements:
             # Filter empty text elements
@@ -160,9 +166,7 @@ class LxmlReader(BaseReader, metaclass=ABCMeta):
             specials = {}
         if refs is None:
             refs = {}
-        elements = self._parse_element_r(
-            el, specials=specials, refs=refs, element_cls=element_cls
-        )
+        elements = self._parse_element_r(el, specials=specials, refs=refs, element_cls=element_cls)
         # This occurs if the input element is self-closing... (some table td in NLM XML)
         if not elements:
             return [element_cls("")]
@@ -189,9 +193,7 @@ class LxmlReader(BaseReader, metaclass=ABCMeta):
 
         links = self._parse_figure_links(el)
         caption = (
-            self._parse_text(
-                caps[0], refs=refs, specials=specials, element_cls=Caption
-            )[0]
+            self._parse_text(caps[0], refs=refs, specials=specials, element_cls=Caption)[0]
             if caps
             else Caption("")
         )
@@ -203,9 +205,7 @@ class LxmlReader(BaseReader, metaclass=ABCMeta):
         for row, tr in enumerate(els):
             colnum = 0
             for td in self._css(self.table_cell_css, tr):
-                cell = self._parse_text(
-                    td, refs=refs, specials=specials, element_cls=Cell
-                )
+                cell = self._parse_text(td, refs=refs, specials=specials, element_cls=Cell)
                 colspan = int(td.get("colspan", "1"))
                 rowspan = int(td.get("rowspan", "1"))
                 for i in range(colspan):
@@ -256,9 +256,7 @@ class LxmlReader(BaseReader, metaclass=ABCMeta):
     def _parse_table(self, el, refs, specials):
         caption_css = self._css(self.table_caption_css, el)
         caption = (
-            self._parse_text(
-                caption_css[0], refs=refs, specials=specials, element_cls=Caption
-            )[0]
+            self._parse_text(caption_css[0], refs=refs, specials=specials, element_cls=Caption)[0]
             if caption_css
             else Caption("")
         )
@@ -406,7 +404,5 @@ class HtmlReader(LxmlReader):
         return True
 
     def _make_tree(self, fstring):
-        root = etree.fromstring(
-            fstring, parser=HTMLParser(encoding=get_encoding(fstring))
-        )
+        root = etree.fromstring(fstring, parser=HTMLParser(encoding=get_encoding(fstring)))
         return root

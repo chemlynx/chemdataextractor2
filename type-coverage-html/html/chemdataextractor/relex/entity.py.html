@@ -104,65 +104,101 @@
 <span id="L94" class="lineno"><a class="lineno" href="#L94">94</a></span>
 <span id="L95" class="lineno"><a class="lineno" href="#L95">95</a></span>
 <span id="L96" class="lineno"><a class="lineno" href="#L96">96</a></span>
+<span id="L97" class="lineno"><a class="lineno" href="#L97">97</a></span>
+<span id="L98" class="lineno"><a class="lineno" href="#L98">98</a></span>
+<span id="L99" class="lineno"><a class="lineno" href="#L99">99</a></span>
+<span id="L100" class="lineno"><a class="lineno" href="#L100">100</a></span>
+<span id="L101" class="lineno"><a class="lineno" href="#L101">101</a></span>
+<span id="L102" class="lineno"><a class="lineno" href="#L102">102</a></span>
+<span id="L103" class="lineno"><a class="lineno" href="#L103">103</a></span>
+<span id="L104" class="lineno"><a class="lineno" href="#L104">104</a></span>
+<span id="L105" class="lineno"><a class="lineno" href="#L105">105</a></span>
+<span id="L106" class="lineno"><a class="lineno" href="#L106">106</a></span>
+<span id="L107" class="lineno"><a class="lineno" href="#L107">107</a></span>
+<span id="L108" class="lineno"><a class="lineno" href="#L108">108</a></span>
+<span id="L109" class="lineno"><a class="lineno" href="#L109">109</a></span>
+<span id="L110" class="lineno"><a class="lineno" href="#L110">110</a></span>
+<span id="L111" class="lineno"><a class="lineno" href="#L111">111</a></span>
+<span id="L112" class="lineno"><a class="lineno" href="#L112">112</a></span>
+<span id="L113" class="lineno"><a class="lineno" href="#L113">113</a></span>
+<span id="L114" class="lineno"><a class="lineno" href="#L114">114</a></span>
+<span id="L115" class="lineno"><a class="lineno" href="#L115">115</a></span>
+<span id="L116" class="lineno"><a class="lineno" href="#L116">116</a></span>
+<span id="L117" class="lineno"><a class="lineno" href="#L117">117</a></span>
 </pre></td>
 <td class="table-code"><pre><span class="line-empty" title="No Anys on this line!">"""</span>
-<span class="line-empty" title="No Anys on this line!">Extraction pattern object</span>
+<span class="line-empty" title="No Anys on this line!">Entity objects for relationship extraction.</span>
+<span class="line-empty" title="No Anys on this line!"></span>
+<span class="line-empty" title="No Anys on this line!">Defines entities that participate in chemical relationships,</span>
+<span class="line-empty" title="No Anys on this line!">including their text spans, tags, and parsing expressions.</span>
 <span class="line-empty" title="No Anys on this line!">"""</span>
+<span class="line-empty" title="No Anys on this line!"></span>
+<span class="line-precise" title="No Anys on this line!">from __future__ import annotations</span>
+<span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">import copy</span>
+<span class="line-precise" title="No Anys on this line!">from typing import TYPE_CHECKING</span>
+<span class="line-precise" title="No Anys on this line!">from typing import Any</span>
+<span class="line-precise" title="No Anys on this line!">from typing import Optional</span>
+<span class="line-precise" title="No Anys on this line!">from typing import Union</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="No Anys on this line!">import six</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">from ..parse import Group</span>
 <span class="line-precise" title="No Anys on this line!">from ..parse import join</span>
 <span class="line-empty" title="No Anys on this line!"></span>
+<span class="line-precise" title="No Anys on this line!">if TYPE_CHECKING:</span>
+<span class="line-precise" title="No Anys on this line!">    from ..parse.base import BaseParserElement</span>
+<span class="line-empty" title="No Anys on this line!"></span>
+<span class="line-empty" title="No Anys on this line!"># Type aliases for entities</span>
+<span class="line-precise" title="No Anys on this line!">EntityTag = Union[str, list[str]]  # Tag(s) for entity classification</span>
+<span class="line-precise" title="No Anys on this line!">TextSpan = tuple[int, int]  # Start and end positions in text</span>
+<span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">class Entity:</span>
-<span class="line-empty" title="No Anys on this line!">    """A base entity, the fundamental unit of a Relation"""</span>
+<span class="line-empty" title="No Anys on this line!">    """A base entity, the fundamental unit of a Relation.</span>
+<span class="line-empty" title="No Anys on this line!">    </span>
+<span class="line-empty" title="No Anys on this line!">    Represents a chemical entity (compound, property, etc.) that participates</span>
+<span class="line-empty" title="No Anys on this line!">    in relationships extracted from text.</span>
+<span class="line-empty" title="No Anys on this line!">    """</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-any" title="No Anys on this line!">    def __init__(self, text, tag, parse_expression, start, end):</span>
-<span class="line-empty" title="No Anys on this line!">        """Create a new Entity</span>
+<span class="line-any" title="Any Types on this line: 
+Unimported (x1)">    def __init__(self, text: str, tag: EntityTag, parse_expression: BaseParserElement, start: int, end: int) -&gt; None:</span>
+<span class="line-empty" title="No Anys on this line!">        """Create a new Entity.</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-empty" title="No Anys on this line!">        Arguments:</span>
-<span class="line-empty" title="No Anys on this line!">            text {str} -- The text of the entity</span>
-<span class="line-empty" title="No Anys on this line!">            tag {str or list} -- name of the entity</span>
-<span class="line-empty" title="No Anys on this line!">            parse_expression -- how the entity is identified in text</span>
-<span class="line-empty" title="No Anys on this line!">            start {int} -- The index of the Entity in tokens</span>
-<span class="line-empty" title="No Anys on this line!">            end {int} -- The end index of the entity in tokens</span>
+<span class="line-empty" title="No Anys on this line!">        Args:</span>
+<span class="line-empty" title="No Anys on this line!">            text: The text content of the entity</span>
+<span class="line-empty" title="No Anys on this line!">            tag: Classification tag(s) for the entity</span>
+<span class="line-empty" title="No Anys on this line!">            parse_expression: Parser element used to identify this entity in text</span>
+<span class="line-empty" title="No Anys on this line!">            start: Starting token index of the entity</span>
+<span class="line-empty" title="No Anys on this line!">            end: Ending token index of the entity</span>
 <span class="line-empty" title="No Anys on this line!">        """</span>
 <span class="line-any" title="Any Types on this line: 
-Unimported (x4)
-Unannotated (x1)">        self.text = six.text_type(text)</span>
+Unimported (x4)">        self.text = six.text_type(text)</span>
+<span class="line-precise" title="No Anys on this line!">        self.tag = tag</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">        self.tag = tag</span>
+Unimported (x5)">        self.parse_expression = copy.copy(parse_expression)</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x5)">        self.parse_expression = copy.copy(parse_expression)</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x3)">        self.parse_expression.set_name(None)</span>
+Unimported (x3)">        self.parse_expression.set_name(None)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">        if (</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x3)">            self.parse_expression.name is None</span>
+Unimported (x3)">            self.parse_expression.name is None</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x3)">            or self.parse_expression.name == "compound"</span>
+Unimported (x3)">            or self.parse_expression.name == "compound"</span>
 <span class="line-empty" title="No Anys on this line!">        ):</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x1)
+<span class="line-precise" title="Any Types on this line: 
 Omitted Generics (x2)">            if isinstance(self.tag, tuple):</span>
-<span class="line-precise" title="No Anys on this line!">                for sub_tag in self.tag:</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x4)">                    self.parse_expression = Group(self.parse_expression)(sub_tag)</span>
+<span class="line-unanalyzed" title="No Anys on this line!">                for sub_tag in self.tag:</span>
+<span class="line-unanalyzed" title="No Anys on this line!">                    self.parse_expression = Group(self.parse_expression)(sub_tag)</span>
 <span class="line-empty" title="No Anys on this line!">            else:</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x6)">                self.parse_expression = Group(self.parse_expression)(</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x1)">                    self.tag</span>
-<span class="line-precise" title="Any Types on this line: 
-Unannotated (x4)">                ).add_action(join)</span>
+Unannotated (x4)
+Unimported (x2)">                self.parse_expression = Group(self.parse_expression)(</span>
+<span class="line-precise" title="No Anys on this line!">                    self.tag</span>
+<span class="line-precise" title="No Anys on this line!">                ).add_action(join)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">        self.end = end</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">        self.start = start</span>
+<span class="line-precise" title="No Anys on this line!">        self.end = end</span>
+<span class="line-precise" title="No Anys on this line!">        self.start = start</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="No Anys on this line!">    def __eq__(self, other):</span>
 <span class="line-empty" title="No Anys on this line!">        if (</span>

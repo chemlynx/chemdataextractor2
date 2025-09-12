@@ -385,15 +385,33 @@
 <span id="L375" class="lineno"><a class="lineno" href="#L375">375</a></span>
 <span id="L376" class="lineno"><a class="lineno" href="#L376">376</a></span>
 <span id="L377" class="lineno"><a class="lineno" href="#L377">377</a></span>
+<span id="L378" class="lineno"><a class="lineno" href="#L378">378</a></span>
+<span id="L379" class="lineno"><a class="lineno" href="#L379">379</a></span>
+<span id="L380" class="lineno"><a class="lineno" href="#L380">380</a></span>
+<span id="L381" class="lineno"><a class="lineno" href="#L381">381</a></span>
+<span id="L382" class="lineno"><a class="lineno" href="#L382">382</a></span>
+<span id="L383" class="lineno"><a class="lineno" href="#L383">383</a></span>
+<span id="L384" class="lineno"><a class="lineno" href="#L384">384</a></span>
+<span id="L385" class="lineno"><a class="lineno" href="#L385">385</a></span>
+<span id="L386" class="lineno"><a class="lineno" href="#L386">386</a></span>
 </pre></td>
 <td class="table-code"><pre><span class="line-empty" title="No Anys on this line!">"""</span>
 <span class="line-empty" title="No Anys on this line!">Chemical entity mention parser elements.</span>
+<span class="line-empty" title="No Anys on this line!"></span>
+<span class="line-empty" title="No Anys on this line!">Provides parser elements for recognizing and extracting chemical entities</span>
+<span class="line-empty" title="No Anys on this line!">from scientific text, including chemical names, formulas, and identifiers.</span>
+<span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">..codeauthor:: Matt Swain (mcs07@cam.ac.uk)</span>
 <span class="line-empty" title="No Anys on this line!">..codeauthor:: Callum Court (cc889@cam.ac.uk)</span>
-<span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">"""</span>
 <span class="line-empty" title="No Anys on this line!"></span>
+<span class="line-precise" title="No Anys on this line!">from __future__ import annotations</span>
+<span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">import logging</span>
+<span class="line-precise" title="No Anys on this line!">from typing import TYPE_CHECKING</span>
+<span class="line-empty" title="No Anys on this line!"></span>
+<span class="line-precise" title="No Anys on this line!">if TYPE_CHECKING:</span>
+<span class="line-precise" title="No Anys on this line!">    from .base import BaseParserElement</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">from .actions import join</span>
 <span class="line-precise" title="No Anys on this line!">from .base import BaseSentenceParser</span>
@@ -697,31 +715,34 @@ Unannotated (x1)">    return role</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x5)">        label = self.model.labels.parse_expression("labels")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x6)">        label_name_cem = (label + optdelim + chemical_name)("compound")</span>
+Unannotated (x6)
+Error (x1)">        label_name_cem = (label + optdelim + chemical_name)("compound")</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">        label_before_name = (</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x9)">            Optional(synthesis_of | to_give)</span>
+Unannotated (x8)">            Optional(synthesis_of | to_give)</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">            + label_type</span>
-<span class="line-precise" title="No Anys on this line!">            + optdelim</span>
+<span class="line-any" title="Any Types on this line: 
+Error (x1)">            + optdelim</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">            + label_name_cem</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x6)">            + ZeroOrMore(optdelim + cc + optdelim + label_name_cem)</span>
+Unannotated (x6)
+Error (x2)">            + ZeroOrMore(optdelim + cc + optdelim + label_name_cem)</span>
 <span class="line-empty" title="No Anys on this line!">        )</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x2)">        name_with_optional_bracketed_label = (</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x7)">            Optional(synthesis_of | to_give)</span>
+Unannotated (x6)">            Optional(synthesis_of | to_give)</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">            + chemical_name</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            + Optional(</span>
+Unannotated (x1)">            + Optional(</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x13)">                lbrct + Optional(labelled_as + optquote) + (label) + optquote + rbrct</span>
+Unannotated (x12)">                lbrct + Optional(labelled_as + optquote) + (label) + optquote + rbrct</span>
 <span class="line-empty" title="No Anys on this line!">            )</span>
 <span class="line-any" title="No Anys on this line!">        )("compound")</span>
 <span class="line-empty" title="No Anys on this line!"></span>
@@ -731,7 +752,7 @@ Unannotated (x2)">        lenient_name_with_bracketed_label = (</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x7)">            Start()</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x3)">            + Optional(synthesis_of)</span>
+Unannotated (x2)">            + Optional(synthesis_of)</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">            + lenient_name</span>
 <span class="line-any" title="Any Types on this line: 
@@ -852,10 +873,11 @@ Unannotated (x5)">                names=result.xpath("./names/text()"), labels=l
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x8)">    entities = (cem | chemical_label | lenient_chemical_label) | (</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x9)">        (I("Formula") | I("Compound")).add_action(join)</span>
+Unannotated (x5)">        (I("Formula") | I("Compound")).add_action(join)</span>
 <span class="line-precise" title="No Anys on this line!">    )("specifier")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x9)">    root = OneOrMore(entities + Optional(SkipTo(entities)))("root_phrase")</span>
+Unannotated (x8)
+Error (x1)">    root = OneOrMore(entities + Optional(SkipTo(entities)))("root_phrase")</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">    @property</span>
 <span class="line-any" title="No Anys on this line!">    def root(self):</span>
@@ -870,7 +892,7 @@ Unannotated (x5)">        labels = compound_model.labels.parse_expression("label
 Unannotated (x2)">        entities = [labels]</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x16)">        specifier = (I("Formula") | I("Compound") | I("Alloy")).add_action(join)(</span>
+Unannotated (x12)">        specifier = (I("Formula") | I("Compound") | I("Alloy")).add_action(join)(</span>
 <span class="line-any" title="No Anys on this line!">            "specifier"</span>
 <span class="line-empty" title="No Anys on this line!">        )</span>
 <span class="line-any" title="Any Types on this line: 
@@ -917,7 +939,7 @@ Unannotated (x4)">            combined_entities = combined_entities | entity</sp
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x4)">        root_phrase = OneOrMore(</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x8)">            combined_entities + Optional(SkipTo(combined_entities))</span>
+Unannotated (x7)">            combined_entities + Optional(SkipTo(combined_entities))</span>
 <span class="line-any" title="No Anys on this line!">        )("root_phrase")</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x2)">        self._root_phrase = root_phrase</span>

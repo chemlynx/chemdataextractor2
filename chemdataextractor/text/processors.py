@@ -22,7 +22,7 @@ log = logging.getLogger(__name__)
 
 class BaseProcessor(metaclass=ABCMeta):
     """Abstract processor class from which all processors inherit.
-    
+
     Subclasses must implement a ``__call__()`` method to process text.
     """
 
@@ -116,17 +116,13 @@ def floats(s):
     try:
         return float(s)
     except ValueError:
-        s = re.sub(
-            r"(\d)\s*\(\d+(\.\d+)?\)", r"\1", s
-        )  # Remove bracketed numbers from end
+        s = re.sub(r"(\d)\s*\(\d+(\.\d+)?\)", r"\1", s)  # Remove bracketed numbers from end
         s = re.sub(r"(\d)\s*±\s*\d+(\.\d+)?", r"\1", s)  # Remove uncertainties from end
         s = s.rstrip("'\"+-=<>/,.:;!?)]}…∼~≈×*_≥≤")  # Remove trailing punctuation
         s = s.lstrip("'\"+=<>/([{∼~≈×*_≥≤£$€#§")  # Remove leading punctuation
         s = s.replace(",", "")  # Remove commas
         s = "".join(s.split())  # Strip whitespace
-        s = re.sub(
-            r"(\d)\s*[×x]\s*10\^?(-?\d)", r"\1e\2", s
-        )  # Convert scientific notation
+        s = re.sub(r"(\d)\s*[×x]\s*10\^?(-?\d)", r"\1e\2", s)  # Convert scientific notation
         return float(s)
 
 

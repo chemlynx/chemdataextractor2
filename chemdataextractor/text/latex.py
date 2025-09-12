@@ -29,9 +29,7 @@ def latex_to_unicode(text, capitalize=False):
                 res.append(c)
             elif capitalize == "upper" or (i == 0 and capitalize != "lower"):
                 res.append(c.upper())
-            elif capitalize == "sentence" and (
-                i > 2 and text[i - 1] == " " and text[i - 2] == "."
-            ):
+            elif capitalize == "sentence" and (i > 2 and text[i - 1] == " " and text[i - 2] == "."):
                 res.append(c.upper())
             elif (capitalize == "name" and text[i - 1] in [" ", "-"]) or (
                 capitalize == "title" and text[i - 1] == " "

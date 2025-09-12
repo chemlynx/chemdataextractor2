@@ -5,12 +5,12 @@ Once installed, ChemDataExtractor provides a command-line tool that can be used
 by typing 'cde' in a terminal for document extraction and processing.
 """
 
-
 from __future__ import annotations
 
 import json
 import logging
 from typing import Any
+from typing import Dict
 from typing import BinaryIO
 from typing import TextIO
 
@@ -29,7 +29,7 @@ log = logging.getLogger(__name__)
 @click.pass_context
 def cli(ctx: click.Context, verbose: bool) -> None:
     """ChemDataExtractor command line interface.
-    
+
     Args:
         ctx: click.Context - Click context object
         verbose: bool - Enable verbose debug logging
@@ -48,15 +48,13 @@ def cli(ctx: click.Context, verbose: bool) -> None:
     help="Output file.",
     default=click.get_text_stream("stdout"),
 )
-@click.argument(
-    "input", type=click.File("rb"), default=click.get_binary_stream("stdin")
-)
+@click.argument("input", type=click.File("rb"), default=click.get_binary_stream("stdin"))
 @click.pass_obj
-def extract(ctx: dict[str, Any], input: BinaryIO, output: TextIO) -> None:
+def extract(ctx: Dict[str, Any], input: BinaryIO, output: TextIO) -> None:
     """Run ChemDataExtractor on a document.
-    
+
     Args:
-        ctx: dict[str, Any] - Click context object
+        ctx: Dict[str, Any] - Click context object
         input: BinaryIO - Input file stream
         output: TextIO - Output file stream
     """
@@ -76,15 +74,13 @@ def extract(ctx: dict[str, Any], input: BinaryIO, output: TextIO) -> None:
     help="Output file.",
     default=click.get_text_stream("stdout"),
 )
-@click.argument(
-    "input", type=click.File("rb"), default=click.get_binary_stream("stdin")
-)
+@click.argument("input", type=click.File("rb"), default=click.get_binary_stream("stdin"))
 @click.pass_obj
-def read(ctx: dict[str, Any], input: BinaryIO, output: TextIO) -> None:
+def read(ctx: Dict[str, Any], input: BinaryIO, output: TextIO) -> None:
     """Output processed document elements.
-    
+
     Args:
-        ctx: dict[str, Any] - Click context object
+        ctx: Dict[str, Any] - Click context object
         input: BinaryIO - Input file stream
         output: TextIO - Output file stream
     """

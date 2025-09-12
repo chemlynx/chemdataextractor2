@@ -1,6 +1,7 @@
 """
 Parsers for generic specifier definitions
 """
+
 import logging
 
 from .actions import join
@@ -24,9 +25,7 @@ specifier_options = greek_symbols | critical_temperature
 
 #: Definition phrase 1: "definition, specifier" or "definition (specifier)"
 definition_phrase_1 = (
-    OneOrMore(T("JJ") | T("NN") | T("NNP") | T("HYPH") | T("VBG"))("phrase").add_action(
-        join
-    )
+    OneOrMore(T("JJ") | T("NN") | T("NNP") | T("HYPH") | T("VBG"))("phrase").add_action(join)
     + Optional(delim)
     + Optional(rbrct)
     + specifier_options

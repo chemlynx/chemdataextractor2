@@ -16,8 +16,9 @@ from abc import abstractproperty
 from typing import TYPE_CHECKING
 from typing import Any
 from typing import BinaryIO
-from typing import Optional
+from typing import List
 from typing import TextIO
+from typing import Tuple
 from typing import Union
 
 try:
@@ -57,12 +58,12 @@ if TYPE_CHECKING:
     # Type aliases using forward references
     FileInput = Union[str, BinaryIO, TextIO]
     ElementInput = Union[str, bytes, "BaseElement"]
-    AbbreviationDef = tuple[list[str], list[str], str]
+    AbbreviationDef = Tuple[List[str], list[str], str]
 else:
     # Runtime type aliases
     FileInput = Union[str, BinaryIO, TextIO]
     ElementInput = Union[str, bytes, Any]  # BaseElement not available at runtime
-    AbbreviationDef = tuple[list[str], list[str], str]
+    AbbreviationDef = Tuple[List[str], list[str], str]
 
 log = logging.getLogger(__name__)
 
@@ -151,7 +152,7 @@ class Document(BaseDocument):
                 - skip_elements: Element types to skip during parsing
                 - _should_remove_subrecord_if_merged_in: Internal flag for merging
         """
-        self._elements: list[BaseElement] = []
+        self._elements: List[BaseElement] = []
         for element in elements:
             # Convert raw text to Paragraph elements
             if isinstance(element, str):
@@ -173,17 +174,17 @@ class Document(BaseDocument):
         if "models" in kwargs:
             self.models = kwargs["models"]
         else:
-            self._models: list[type[BaseModel]] = []
+            self._models: List[type[BaseModel]] = []
 
         # Merging configuration
-        self.adjacent_sections_for_merging: Optional[list[tuple[list[str], list[str]]]] = (
+        self.adjacent_sections_for_merging: List[tuple[List[str], list[str]]] | None = (
             copy.copy(kwargs["adjacent_sections_for_merging"])
             if "adjacent_sections_for_merging" in kwargs
             else None
         )
 
         # Element processing configuration
-        self.skip_elements: list[type[BaseElement]] = kwargs.get("skip_elements", [])
+        self.skip_elements: List[type[BaseElement]] = kwargs.get("skip_elements", [])
         self._should_remove_subrecord_if_merged_in: bool = kwargs.get(
             "_should_remove_subrecord_if_merged_in", False
         )
@@ -192,12 +193,12 @@ class Document(BaseDocument):
         for element in elements:
             if callable(getattr(element, "set_config", None)):
                 element.set_config()
-        self.skip_parsers: list[Any] = []  # List of parsers to skip
+        self.skip_parsers: List[Any] = []  # List of parsers to skip
         log.debug(
             "%s: Initializing with %s elements" % (self.__class__.__name__, len(self.elements))
         )
 
-    def add_models(self, models: list[type[BaseModel]]) -> None:
+    def add_models(self, models: List[type[BaseModel]]) -> None:
         """Add models to all elements for data extraction.
 
         Args:
@@ -225,7 +226,7 @@ class Document(BaseDocument):
         return self._models
 
     @models.setter
-    def models(self, value: list[type[BaseModel]]) -> None:
+    def models(self, value: List[type[BaseModel]]) -> None:
         """Set the models for extraction and propagate to all elements.
 
         Args:
@@ -239,25 +240,82 @@ class Document(BaseDocument):
     def from_file(
         cls,
         f: FileInput,
-        fname: Optional[str] = None,
-        readers: Optional[list[BaseReader]] = None,
+        fname: str | None = None,
+        readers: List[BaseReader] | None = None,
     ) -> Self:
-        """Create a Document from a file.
+        """Create a Document from a file with automatic format detection.
+
+        This is the primary entry point for processing scientific documents.
+        The method automatically detects the file format and applies appropriate
+        readers to extract structured content for chemical data extraction.
 
         Args:
-            f: A file-like object or path to a file
-            fname: Optional filename to help determine file format
-            readers: Optional list of readers to use. If not set, will try all default readers
+            f: File input - can be:
+                - str: Path to the file (recommended for most use cases)
+                - BinaryIO: Open binary file object
+                - TextIO: Open text file object
+            fname: Optional filename override for format detection. Useful when
+                reading from file-like objects without names or when the actual
+                filename differs from the source.
+            readers: Optional list of specific readers to try. If None, tries all
+                available readers in order until one succeeds. Use this to:
+                - Force a specific reader for known formats
+                - Skip expensive readers for performance
+                - Handle edge cases with custom readers
 
         Returns:
-            A new Document instance created from the file
+            A Document instance containing structured elements ready for data extraction.
+            The document will have elements like Paragraph, Table, Figure, etc.
 
-        Note:
-            Always open files in binary mode by using the 'rb' parameter.
+        Raises:
+            ReaderError: If no reader can successfully process the file
+            FileNotFoundError: If the specified file path doesn't exist
+            PermissionError: If the file cannot be read due to permissions
 
         Example:
+            Basic usage with automatic format detection:
+
+            >>> # Most common usage - let ChemDataExtractor handle everything
+            >>> doc = Document.from_file('research_paper.pdf')
+            >>> records = doc.records
+            >>> compounds = [r for r in records if r.__class__.__name__ == 'Compound']
+
+            >>> # Process multiple file formats
+            >>> for paper in ['paper.pdf', 'article.html', 'data.xml']:
+            ...     doc = Document.from_file(paper)
+            ...     print(f"{paper}: {len(doc.records)} records extracted")
+
+            Using file objects (useful for web uploads, memory buffers):
+
             >>> with open('paper.html', 'rb') as f:
-            ...     doc = Document.from_file(f)
+            ...     doc = Document.from_file(f, fname='paper.html')
+            ...     melting_points = [r for r in doc.records
+            ...                      if r.__class__.__name__ == 'MeltingPoint']
+
+            Using specific readers for performance:
+
+            >>> from chemdataextractor.reader.markup import HtmlReader
+            >>> # Skip PDF readers if you know it's HTML
+            >>> doc = Document.from_file('paper.html', readers=[HtmlReader()])
+
+            Processing from web content:
+
+            >>> import requests
+            >>> from io import BytesIO
+            >>> response = requests.get('https://example.com/paper.pdf')
+            >>> doc = Document.from_file(BytesIO(response.content), fname='paper.pdf')
+
+        Note:
+            - Files are automatically opened in binary mode when a path is provided
+            - Format detection uses file extensions and content analysis
+            - For best results, ensure filenames have correct extensions
+            - Large PDF files may take significant time to process
+            - The Document retains all extracted elements for debugging and analysis
+
+        See Also:
+            - Document.from_string(): Create from string content
+            - Document(): Create manually from elements
+            - Reader classes: For understanding specific format handling
         """
         if isinstance(f, str):
             with open(f, "rb") as file:
@@ -270,8 +328,8 @@ class Document(BaseDocument):
     def from_string(
         cls,
         fstring: bytes,
-        fname: Optional[str] = None,
-        readers: Optional[list[BaseReader]] = None,
+        fname: str | None = None,
+        readers: List[BaseReader] | None = None,
     ) -> Self:
         """Create a Document from a byte string containing file contents.
 
@@ -328,8 +386,58 @@ class Document(BaseDocument):
     # TODO: memoized_property?
     @property
     def records(self):
-        """
-        All records found in this Document, as a list of :class:`~chemdataextractor.model.base.BaseModel`.
+        """Extract all chemical records found in this Document.
+
+        This property triggers the complete data extraction pipeline, including:
+        1. Parsing each element for structured data using model-specific parsers
+        2. Contextual merging to link related information across document sections
+        3. Confidence-based resolution when multiple values are found for the same property
+
+        The extraction process is intelligent and context-aware:
+        - Chemical entities mentioned in headings are associated with properties in subsequent paragraphs
+        - Table data is parsed and linked to relevant compounds
+        - Units and values are normalized and validated
+        - Duplicate information is consolidated
+
+        Returns:
+            ModelList: A list of BaseModel instances representing extracted chemical records.
+            Common record types include:
+            - Compound: Chemical entities with names, labels, and properties
+            - MeltingPoint: Melting point data with values and units
+            - BoilingPoint: Boiling point information
+            - IrSpectrum: Infrared spectroscopy data
+            - NmrSpectrum: NMR spectroscopy information
+            - And many others defined in chemdataextractor.model
+
+        Example:
+            >>> doc = Document.from_file('chemical_paper.pdf')
+            >>> records = doc.records
+            >>> print(f"Found {len(records)} chemical records")
+
+            >>> # Filter by record type
+            >>> compounds = [r for r in records if r.__class__.__name__ == 'Compound']
+            >>> melting_points = [r for r in records if r.__class__.__name__ == 'MeltingPoint']
+
+            >>> # Access properties
+            >>> for compound in compounds:
+            ...     print(f"Compound: {compound.names}")
+            ...     if compound.melting_point:
+            ...         print(f"  Melting point: {compound.melting_point.value} {compound.melting_point.units}")
+
+            >>> # Serialize for JSON output
+            >>> import json
+            >>> json_data = [record.serialize(primitive=True) for record in records]
+
+        Note:
+            - This property performs expensive computation and should be cached if called multiple times
+            - The extraction quality depends on document structure and content quality
+            - Complex documents may take significant time to process
+            - Results include confidence scores and contextual information for validation
+
+        See Also:
+            - ModelList: Container class with additional filtering methods
+            - BaseModel.serialize(): Convert records to dictionary format
+            - Individual model classes: For understanding specific record types
         """
         log.debug("Getting chemical records")
         records = ModelList()  # Final list of records -- output
@@ -673,7 +781,7 @@ class Document(BaseDocument):
 
         return cleaned_records
 
-    def get_element_with_id(self, id: str) -> Optional[BaseElement]:
+    def get_element_with_id(self, id: str) -> BaseElement | None:
         """Get element with the specified ID.
 
         Args:
@@ -797,7 +905,7 @@ class Document(BaseDocument):
         return [ab for el in self.elements for ab in el.abbreviation_definitions]
 
     @property
-    def ner_tags(self) -> list[Optional[str]]:
+    def ner_tags(self) -> list[str | None]:
         """All Named Entity Recognition tags in this Document.
 
         Returns:

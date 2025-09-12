@@ -25,10 +25,10 @@ FileInput = Union[str, bytes, BinaryIO, TextIO]
 
 class BaseReader(metaclass=ABCMeta):
     """Abstract base class for all document readers.
-    
+
     All Document Readers should implement a parse method that converts
     input data into a structured Document object.
-    
+
     Attributes:
         root: Any - Root element for parsed document structure
     """
@@ -39,15 +39,15 @@ class BaseReader(metaclass=ABCMeta):
 
     def detect(self, fstring: Union[str, bytes], fname: Optional[str] = None) -> bool:
         """Quickly check if this reader can parse the input.
-        
+
         Reader subclasses should override this method to provide format detection.
         Used to quickly skip attempting to parse when trying different readers.
         If in doubt, return True and raise ReaderError in parse() if it fails.
-        
+
         Args:
             fstring: Union[str, bytes] - Input data to check
             fname: Optional[str] - Optional filename for format hints
-            
+
         Returns:
             bool - True if this reader can likely parse the input
         """
@@ -56,13 +56,13 @@ class BaseReader(metaclass=ABCMeta):
     @abstractmethod
     def parse(self, fstring: Union[str, bytes]) -> Document:
         """Parse the input and return a Document.
-        
+
         Args:
             fstring: Union[str, bytes] - Input data to parse
-            
+
         Returns:
             Document - Parsed document structure
-            
+
         Raises:
             ReaderError: If the parse fails
         """
@@ -70,10 +70,10 @@ class BaseReader(metaclass=ABCMeta):
 
     def read(self, f: Union[BinaryIO, TextIO]) -> Document:
         """Read a file-like object and return a Document.
-        
+
         Args:
             f: Union[BinaryIO, TextIO] - File-like object to read
-            
+
         Returns:
             Document - Parsed document structure
         """
@@ -81,10 +81,10 @@ class BaseReader(metaclass=ABCMeta):
 
     def readstring(self, fstring: Union[str, bytes]) -> Document:
         """Read a file string and return a Document.
-        
+
         Args:
             fstring: Union[str, bytes] - String data to parse
-            
+
         Returns:
             Document - Parsed document structure
         """

@@ -215,15 +215,18 @@ Unannotated (x2)">ir_solvent = (</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x13)">    I("KBr") | I("ATR") | I("neat") | I("NaCl") | I("CaF2") | I("AgCl") | I("CsI")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">) + Optional(I("pellet"))</span>
+Error (x1)
+Unannotated (x1)">) + Optional(I("pellet"))</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x11)">solvent = (ir_solvent | chemical_name)("solvent").add_action(join)</span>
+Unannotated (x7)">solvent = (ir_solvent | chemical_name)("solvent").add_action(join)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x9)">units = Optional(W("/")).hide() + (</span>
+Error (x8)
+Unannotated (x1)">units = Optional(W("/")).hide() + (</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x11)">    (Optional(W("[")) + R(r"^\[?cm[-–−‒]?1\]?$") + Optional(W("]")))</span>
+Error (x6)
+Unannotated (x5)">    (Optional(W("[")) + R(r"^\[?cm[-–−‒]?1\]?$") + Optional(W("]")))</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x7)">    | (W("cm") + R("^[-–−‒]$") + W("1"))</span>
 <span class="line-any" title="Any Types on this line: 
@@ -254,7 +257,8 @@ Unannotated (x1)">strength = (</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x5)">    R("^(m|medium|w|weak|s|strong|n|narrow|b|broad|sh|sharp)$", re.I)("strength")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x4)">    + Optional(I("peak")).hide()</span>
+Error (x3)
+Unannotated (x1)">    + Optional(I("peak")).hide()</span>
 <span class="line-empty" title="No Anys on this line!">)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="Any Types on this line: 
@@ -283,8 +287,7 @@ Unannotated (x2)">        | T("LS")</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x2)">        | T("CC")</span>
 <span class="line-empty" title="No Anys on this line!">    )</span>
-<span class="line-precise" title="Any Types on this line: 
-Unannotated (x4)">)("bond").add_action(join)</span>
+<span class="line-precise" title="No Anys on this line!">)("bond").add_action(join)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x4)">peak_meta_options = strength | bond</span>
@@ -302,9 +305,10 @@ Unannotated (x3)">    + W(")").hide()</span>
 <span class="line-empty" title="No Anys on this line!">)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x3)">nu = (</span>
+Error (x3)">nu = (</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x9)">    R(r"^[vνυ]̃?(max)?(\(cm−1\))?$") + Optional(W("max")) + Optional(W("="))</span>
+Error (x4)
+Unannotated (x5)">    R(r"^[vνυ]̃?(max)?(\(cm−1\))?$") + Optional(W("max")) + Optional(W("="))</span>
 <span class="line-precise" title="Any Types on this line: 
 Unannotated (x4)">).add_action(extract_units)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
@@ -313,9 +317,11 @@ Unannotated (x1)">spectrum_meta = (</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x6)">    W("(").hide()</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x5)">    + (units | solvent | nu)</span>
+Error (x4)
+Unannotated (x1)">    + (units | solvent | nu)</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x8)">    + ZeroOrMore(delim + (units | solvent | nu))</span>
+Unannotated (x4)
+Error (x4)">    + ZeroOrMore(delim + (units | solvent | nu))</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x3)">    + W(")").hide()</span>
 <span class="line-empty" title="No Anys on this line!">)</span>
@@ -325,52 +331,61 @@ Unannotated (x3)">    + W(")").hide()</span>
 Unannotated (x5)">insolvent = T("IN") + solvent</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x4)">ir_type = (</span>
+Error (x4)">ir_type = (</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x5)">    Optional(W("FT") + hyphen)</span>
+Error (x3)
+Unannotated (x2)">    Optional(W("FT") + hyphen)</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x3)">    + R("^(FT-?)?IR|FT-?IS|IR-ATR$")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x3)">    + Optional(hyphen + W("ATR"))</span>
+Error (x1)
+Unannotated (x2)">    + Optional(hyphen + W("ATR"))</span>
 <span class="line-precise" title="Any Types on this line: 
 Unannotated (x4)">)("type").add_action(merge)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x1)">prelude = (</span>
+Error (x1)">prelude = (</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x14)">    (ir_type | R("^[vνυ]max$").hide())</span>
+Error (x9)
+Unannotated (x5)">    (ir_type | R("^[vνυ]max$").hide())</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">    + Optional(I("data"))</span>
+Error (x1)
+Unannotated (x1)">    + Optional(I("data"))</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">    + Optional(insolvent)</span>
+Error (x1)
+Unannotated (x1)">    + Optional(insolvent)</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x2)">    + ZeroOrMore(spectrum_meta)</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">    + Optional(delim)</span>
+Error (x1)
+Unannotated (x1)">    + Optional(delim)</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">    + Optional(nu)</span>
+Error (x2)">    + Optional(nu)</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">    + Optional(delim)</span>
+Error (x1)
+Unannotated (x1)">    + Optional(delim)</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">    + Optional(units)</span>
+Error (x2)">    + Optional(units)</span>
 <span class="line-empty" title="No Anys on this line!">)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x8)">peak = ((value_range | value) + Optional(peak_meta))("peak")</span>
+Unannotated (x7)
+Error (x1)">peak = ((value_range | value) + Optional(peak_meta))("peak")</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x13)">peaks = (peak + ZeroOrMore(ZeroOrMore(delim | W("and")).hide() + peak))("peaks")</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x11)">ir = (prelude + peaks + Optional(delim) + Optional(units))("ir")</span>
+Error (x9)
+Unannotated (x2)">ir = (prelude + peaks + Optional(delim) + Optional(units))("ir")</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">class IrParser(BaseSentenceParser):</span>
 <span class="line-empty" title="No Anys on this line!">    """"""</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">    root = ir</span>
+Error (x2)">    root = ir</span>
 <span class="line-precise" title="No Anys on this line!">    parse_full_sentence = True</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="No Anys on this line!">    def interpret(self, result, start, end):</span>

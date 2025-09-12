@@ -21,7 +21,12 @@ import copy
 import logging
 from typing import TYPE_CHECKING
 from typing import Any
+from typing import Callable
+from typing import Dict
+from typing import List
 from typing import Optional
+from typing import Tuple
+from typing import Type
 from typing import Union
 
 from lxml.builder import E
@@ -31,6 +36,7 @@ from .actions import merge
 from .base import BaseParser
 from .base import BaseSentenceParser
 from .base import BaseTableParser
+from .elements import BaseParserElement
 from .cem import cem
 from .cem import chemical_label
 from .cem import lenient_chemical_label
@@ -47,19 +53,20 @@ from .quantity import magnitudes_dict
 from .quantity import value_element
 
 if TYPE_CHECKING:
-    from ..doc.text import Cell
     from ..model.base import BaseModel
     from .base import BaseParserElement
 
 # Type aliases for auto parsing
-ParseResult = tuple[list[Any], int]  # Parse result with tokens and position
-ParserFunction = callable[[ParseResult], bool]  # Function to validate parse results
-EntityList = list[BaseParserElement]  # List of parser elements
+ParseResult = Tuple[List[Any], int]  # Parse result with tokens and position
+ParserFunction = Callable[[ParseResult], bool]  # Function to validate parse results
+EntityList = List[BaseParserElement]  # List of parser elements
 
 log = logging.getLogger(__name__)
 
 
-def construct_unit_element(dimensions: Any, max_power: Optional[int] = None) -> Optional[BaseParserElement]:
+def construct_unit_element(
+    dimensions: Any, max_power: Optional[int] = None
+) -> Optional["BaseParserElement"]:
     """
     Construct an element for detecting units for the dimensions given.
     Any magnitude modifiers (e.g. kilo) will be automatically handled.
@@ -93,9 +100,7 @@ def construct_unit_element(dimensions: Any, max_power: Optional[int] = None) -> 
         if not isinstance(max_power, int):
             raise TypeError(f"max_power should be an integer, not {type(max_power)}")
         elif max_power <= 2:
-            raise ValueError(
-                f"max_power should be greater than or equal to 2, not {max_power}"
-            )
+            raise ValueError(f"max_power should be greater than or equal to 2, not {max_power}")
         elif max_power > 9:
             raise ValueError(
                 f"max_power should be less than or equal to 9 due to the implementation, not {max_power}"
@@ -103,16 +108,13 @@ def construct_unit_element(dimensions: Any, max_power: Optional[int] = None) -> 
         else:
             numbers_regex = f"[2-{max_power}]"
     # Case when we have powers, or one or more units
-    units_regex2 = (
-        units_regex + r"|([\+\-–−]?" + numbers_regex + r"(\." + numbers_regex + ")?)"
-    )
+    units_regex2 = units_regex + r"|([\+\-–−]?" + numbers_regex + r"(\." + numbers_regex + ")?)"
     units_regex2 += "))+$"
     units_regex += "))+"
     units_regex += units_regex2[1:-2] + "*"
     units_regex += "$"
     return (
-        R(pattern=units_regex)
-        + ZeroOrMore(R(pattern=units_regex) | R(pattern=units_regex2))
+        R(pattern=units_regex) + ZeroOrMore(R(pattern=units_regex) | R(pattern=units_regex2))
     ).add_action(_clean_units_results)
 
 
@@ -180,7 +182,9 @@ def _clean_units_results(tokens, start, result):
         return [E(result[0].tag, new_text)]
 
 
-def construct_category_element(category_dict: dict[str, Any]) -> Optional[BaseParserElement]:
+def construct_category_element(
+    category_dict: dict[str, Any],
+) -> Optional["BaseParserElement"]:
     """
     Construct an element for detecting categories.
 
@@ -198,7 +202,7 @@ def construct_category_element(category_dict: dict[str, Any]) -> Optional[BasePa
     return (R(pattern=category_regex))("raw_value").add_action(merge)
 
 
-def match_dimensions_of(model: BaseModel) -> ParserFunction:
+def match_dimensions_of(model: "BaseModel") -> ParserFunction:
     """
     Produces a function that checks whether the given results of parsing match the
     dimensions of the model provided.
@@ -219,7 +223,7 @@ def match_dimensions_of(model: BaseModel) -> ParserFunction:
     return check_match
 
 
-def create_entities_list(entities: EntityList) -> BaseParserElement:
+def create_entities_list(entities: EntityList) -> "BaseParserElement":
     """
     For a list of Base parser entities, creates an entity of structure. For example, with 4 entities in the list, the output is::
 
@@ -236,27 +240,27 @@ def create_entities_list(entities: EntityList) -> BaseParserElement:
 
 class BaseAutoParser(BaseParser):
     """Base class for automatic parsers that extract data without user-defined rules.
-    
+
     Automatically constructs parsing expressions based on model field definitions
     and handles both sentence and table parsing contexts.
     """
-    
-    model: Optional[type[BaseModel]] = None
-    _specifier: Optional[BaseParserElement] = None
-    _root_phrase: Optional[BaseParserElement] = None
+
+    model: Optional[type["BaseModel"]] = None
+    _specifier: Optional["BaseParserElement"] = None
+    _root_phrase: Optional["BaseParserElement"] = None
 
     def __init__(self) -> None:
         super(BaseAutoParser, self).__init__()
         self._trigger_property: Optional[str] = None
 
-    def interpret(self, results: Any, start: int, end: int) -> list[BaseModel]:
+    def interpret(self, results: Any, start: int, end: int) -> "List[BaseModel]":
         """Interpret parse results and extract model instances.
-        
+
         Args:
             results: Parse results from the parser
             start: Start position in the text
             end: End position in the text
-            
+
         Yields:
             Extracted model instances that meet requirements
         """
@@ -286,9 +290,7 @@ class BaseAutoParser(BaseParser):
                 # print(etree.tostring(result))
                 raw_value = first(self._get_data_for_field(result, "raw_value", True))
                 raw_units = first(self._get_data_for_field(result, "raw_units", True))
-                property_entities.update(
-                    {"raw_value": raw_value, "raw_units": raw_units}
-                )
+                property_entities.update({"raw_value": raw_value, "raw_units": raw_units})
 
             for field_name, field in self.model.fields.items():
                 if field_name not in [
@@ -335,9 +337,7 @@ class BaseAutoParser(BaseParser):
                     continue
                 field_data = {}
                 for subfield_name, subfield in field.model_class.fields.items():
-                    data = self._get_data(
-                        subfield_name, subfield, field_result, for_list=False
-                    )
+                    data = self._get_data(subfield_name, subfield, field_result, for_list=False)
                     if data:
                         field_data.update(data)
                 field_object = None
@@ -367,11 +367,7 @@ class BaseAutoParser(BaseParser):
             else:
                 field_result = first(self._get_data_for_field(result, field_name, True))
             if field_result is None or field_result == []:
-                if (
-                    field.required
-                    and not field.contextual
-                    and field.requiredness == 1.0
-                ):
+                if field.required and not field.contextual and field.requiredness == 1.0:
                     raise TypeError("Could not find element for " + str(field_name))
                 return None
             return {field_name: field_result}
@@ -387,9 +383,7 @@ class BaseAutoParser(BaseParser):
 
 
 class AutoSentenceParser(BaseAutoParser, BaseSentenceParser):
-    def __init__(
-        self, lenient=False, chem_name=(cem | chemical_label), activate_to_range=False
-    ):
+    def __init__(self, lenient=False, chem_name=(cem | chemical_label), activate_to_range=False):
         super(AutoSentenceParser, self).__init__()
         self.lenient = lenient
         self.chem_name = chem_name
@@ -407,11 +401,7 @@ class AutoSentenceParser(BaseAutoParser, BaseSentenceParser):
             return self.model.fields[self._trigger_property].parse_expression
         else:
             for field_name, field in self.model.fields.items():
-                if (
-                    field.required
-                    and field.requiredness == 1.0
-                    and not field.contextual
-                ):
+                if field.required and field.requiredness == 1.0 and not field.contextual:
                     self._trigger_property = field_name
                     return self.model.fields[self._trigger_property].parse_expression
             if self._trigger_property is None:
@@ -450,9 +440,7 @@ class AutoSentenceParser(BaseAutoParser, BaseSentenceParser):
                     unit_element, activate_to_range=self.activate_to_range
                 ) | value_element(activate_to_range=self.activate_to_range)
             else:
-                value_phrase = value_element(
-                    unit_element, activate_to_range=self.activate_to_range
-                )
+                value_phrase = value_element(unit_element, activate_to_range=self.activate_to_range)
 
             entities.append(specifier)
             entities.append(value_phrase)
@@ -473,14 +461,9 @@ class AutoSentenceParser(BaseAutoParser, BaseSentenceParser):
                 "error",
                 "specifier",
             ]:
-                if (
-                    self.model.__getattribute__(self.model, field).parse_expression
-                    is not None
-                ):
+                if self.model.__getattribute__(self.model, field).parse_expression is not None:
                     entities.append(
-                        self.model.__getattribute__(self.model, field).parse_expression(
-                            field
-                        )
+                        self.model.__getattribute__(self.model, field).parse_expression(field)
                     )
 
         # the chem_name has to be parsed last in order to avoid a conflict with other elements of the model
@@ -488,30 +471,33 @@ class AutoSentenceParser(BaseAutoParser, BaseSentenceParser):
 
         # logic for finding all the elements in any order
         combined_entities = create_entities_list(entities)
-        root_phrase = OneOrMore(
-            combined_entities + Optional(SkipTo(combined_entities))
-        )("root_phrase")
+        root_phrase = OneOrMore(combined_entities + Optional(SkipTo(combined_entities)))(
+            "root_phrase"
+        )
         return root_phrase
 
 
 class AutoTableParser(BaseAutoParser, BaseTableParser):
     """Automatic parser for extracting structured data from table cells.
-    
+
     Constructs parsing expressions automatically based on model field definitions
     and chemical entity recognition patterns for table-based data extraction.
     """
 
-    def __init__(self, chem_name: BaseParserElement = (cem | chemical_label | lenient_chemical_label)) -> None:
+    def __init__(
+        self,
+        chem_name: "BaseParserElement" = (cem | chemical_label | lenient_chemical_label),
+    ) -> None:
         """Initialize AutoTableParser with chemical name recognition.
-        
+
         Args:
             chem_name: Parser element for recognizing chemical names
         """
         super(AutoTableParser, self).__init__()
-        self.chem_name: BaseParserElement = chem_name
+        self.chem_name: "BaseParserElement" = chem_name
 
     @property
-    def root(self) -> BaseParserElement:
+    def root(self) -> "BaseParserElement":
         # is always found, our models currently rely on the compound
         chem_name = self.chem_name
         try:
@@ -562,14 +548,9 @@ class AutoTableParser(BaseAutoParser, BaseTableParser):
                 "error",
                 "specifier",
             ]:
-                if (
-                    self.model.__getattribute__(self.model, field).parse_expression
-                    is not None
-                ):
+                if self.model.__getattribute__(self.model, field).parse_expression is not None:
                     entities.append(
-                        self.model.__getattribute__(self.model, field).parse_expression(
-                            field
-                        )
+                        self.model.__getattribute__(self.model, field).parse_expression(field)
                     )
 
         # the chem_name has to be parsed last in order to avoid a conflict with other elements of the model
@@ -577,7 +558,7 @@ class AutoTableParser(BaseAutoParser, BaseTableParser):
 
         # logic for finding all the elements in any order
         combined_entities = create_entities_list(entities)
-        root_phrase = OneOrMore(
-            combined_entities + Optional(SkipTo(combined_entities))
-        )("root_phrase")
+        root_phrase = OneOrMore(combined_entities + Optional(SkipTo(combined_entities)))(
+            "root_phrase"
+        )
         return root_phrase

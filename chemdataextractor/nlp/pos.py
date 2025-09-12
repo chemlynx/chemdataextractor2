@@ -296,8 +296,7 @@ class CrfPosTagger(CrfTagger):
                     [
                         "p2.lower=%s" % p2.lower,
                         "p2.lower=%s+p1.lower=%s" % (p2.lower, p1.lower),
-                        "p2.lower=%s+p1.lower=%s+w.lower=%s"
-                        % (p2.lower, p1.lower, w.lower),
+                        "p2.lower=%s+p1.lower=%s+w.lower=%s" % (p2.lower, p1.lower, w.lower),
                         "p2.shape=%s" % p2.shape,
                     ]
                 )
@@ -340,8 +339,7 @@ class CrfPosTagger(CrfTagger):
                     [
                         "n2.lower=%s" % n2.lower,
                         "n1.lower=%s+n2.lower=%s" % (n1.lower, n2.lower),
-                        "w.lower=%s+n1.lower=%s+n2.lower=%s"
-                        % (w.lower, n1.lower, n2.lower),
+                        "w.lower=%s+n1.lower=%s+n2.lower=%s" % (w.lower, n1.lower, n2.lower),
                         "n2.shape=%s" % n2.shape,
                     ]
                 )

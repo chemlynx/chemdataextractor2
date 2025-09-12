@@ -123,7 +123,8 @@ Unannotated (x6)">delim = R(r"^[;:,\./]$").hide()</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x3)">solvent = chemical_name("solvent")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x8)">units = Optional(W("/")).hide() + W("nm")("units")</span>
+Error (x5)
+Unannotated (x3)">units = Optional(W("/")).hide() + W("nm")("units")</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x11)">value = R(r"^\d{3,4}(\.\d+)?\.?$")("value").add_action(strip_stop)</span>
 <span class="line-any" title="Any Types on this line: 
@@ -131,7 +132,8 @@ Unannotated (x1)">shape = (</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x5)">    R("^(m|medium|w|weak|s|strong|n|narrow|b|broad|sh|sharp)$", re.I)("shape")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x4)">    + Optional(I("peak")).hide()</span>
+Error (x3)
+Unannotated (x1)">    + Optional(I("peak")).hide()</span>
 <span class="line-empty" title="No Anys on this line!">)</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x2)">peak_meta_options = shape</span>
@@ -163,29 +165,36 @@ Unannotated (x12)">    + OneOrMore(R("^a?max$", re.I) | R("abs(or[bp]tion)?", re
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x3)">    | R("uv([-/]?vis)?", re.I)</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x11)">    | I("UV") + hyphen + R("^vis(ible)?$", re.I) + Optional(R("^abs(or[bp]tion)?$"))</span>
+Unannotated (x10)
+Error (x1)">    | I("UV") + hyphen + R("^vis(ible)?$", re.I) + Optional(R("^abs(or[bp]tion)?$"))</span>
 <span class="line-empty" title="No Anys on this line!">)</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">prelude = (</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x8)">    uvvis_abs_title.hide()</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">    + Optional(delim)</span>
+Error (x1)
+Unannotated (x1)">    + Optional(delim)</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">    + Optional(I("data"))</span>
+Error (x1)
+Unannotated (x1)">    + Optional(I("data"))</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">    + Optional(insolvent)</span>
+Error (x1)
+Unannotated (x1)">    + Optional(insolvent)</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">    + Optional(delim)</span>
+Error (x1)
+Unannotated (x1)">    + Optional(delim)</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">    + Optional(units)</span>
+Error (x2)">    + Optional(units)</span>
 <span class="line-empty" title="No Anys on this line!">)</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x6)">peak = (value + Optional(peak_meta))("peak")</span>
+Unannotated (x5)
+Error (x1)">peak = (value + Optional(peak_meta))("peak")</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x13)">peaks = (peak + ZeroOrMore(ZeroOrMore(delim | W("and")).hide() + peak))("peaks")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x14)">uvvis = (prelude + peaks + Optional(delim) + Optional(units) + Optional(insolvent))(</span>
+Unannotated (x10)
+Error (x4)">uvvis = (prelude + peaks + Optional(delim) + Optional(units) + Optional(insolvent))(</span>
 <span class="line-precise" title="No Anys on this line!">    "uvvis"</span>
 <span class="line-empty" title="No Anys on this line!">)</span>
 <span class="line-empty" title="No Anys on this line!"></span>

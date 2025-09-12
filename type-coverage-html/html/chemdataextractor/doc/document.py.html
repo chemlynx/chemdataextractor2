@@ -1487,7 +1487,8 @@ Unannotated (x2)">            if isinstance(el, Title):</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">                    len(el_records) == 1</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x3)">                    and isinstance(el_records[0], Compound)</span>
+Unannotated (x2)
+Explicit (x1)">                    and isinstance(el_records[0], Compound)</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">                    and el_records[0].is_id_only</span>
 <span class="line-empty" title="No Anys on this line!">                ):</span>
@@ -1509,7 +1510,8 @@ Unannotated (x3)">            if isinstance(el, Paragraph) and len(el.sentences)
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">                    len(el_records) == 1</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x3)">                    and isinstance(el_records[0], Compound)</span>
+Unannotated (x2)
+Explicit (x1)">                    and isinstance(el_records[0], Compound)</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">                    and el_records[0].is_id_only</span>
 <span class="line-empty" title="No Anys on this line!">                ):</span>
@@ -1529,7 +1531,8 @@ Unannotated (x4)">                    first_sent_records = el.sentences[0].recor
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">                        len(first_sent_records) == 1</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x3)">                        and isinstance(first_sent_records[0], Compound)</span>
+Unannotated (x2)
+Explicit (x1)">                        and isinstance(first_sent_records[0], Compound)</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">                        and first_sent_records[0].is_id_only</span>
 <span class="line-empty" title="No Anys on this line!">                    ):</span>
@@ -1557,7 +1560,8 @@ Unannotated (x2)">            for record in el_records:</span>
 Unannotated (x2)">                if isinstance(record, MetaData):</span>
 <span class="line-any" title="No Anys on this line!">                    continue</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">                if isinstance(record, Compound):</span>
+Unannotated (x1)
+Explicit (x1)">                if isinstance(record, Compound):</span>
 <span class="line-empty" title="No Anys on this line!">                    # Keep track of the most recent compound record with labels</span>
 <span class="line-precise" title="Any Types on this line: 
 Unannotated (x2)">                    if isinstance(el, Paragraph) and record.labels:</span>
@@ -1582,7 +1586,8 @@ Unannotated (x1)">                                len(el_records) == 1</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">                                and len(prev_records) == 1</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x3)">                                and isinstance(prev_records[0], Compound)</span>
+Unannotated (x2)
+Explicit (x1)">                                and isinstance(prev_records[0], Compound)</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">                                and prev_records[0].is_id_only</span>
 <span class="line-any" title="Any Types on this line: 
@@ -1678,7 +1683,8 @@ Unannotated (x1)">            if hasattr(record, "compound"):</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x3)">                compound = record.compound</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            elif isinstance(record, Compound):</span>
+Unannotated (x1)
+Explicit (x1)">            elif isinstance(record, Compound):</span>
 <span class="line-imprecise" title="Any Types on this line: 
 Unannotated (x1)">                compound = record</span>
 <span class="line-any" title="Any Types on this line: 
@@ -1712,18 +1718,22 @@ Unannotated (x2)">                r = records[i]</span>
 Unannotated (x2)">                other_r = records[j]</span>
 <span class="line-any" title="No Anys on this line!">                r_compound = None</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">                if isinstance(r, Compound):</span>
+Unannotated (x1)
+Explicit (x1)">                if isinstance(r, Compound):</span>
 <span class="line-precise" title="No Anys on this line!">                    r_compound = r</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x4)">                elif hasattr(r, "compound") and isinstance(r.compound, Compound):</span>
+Unannotated (x3)
+Explicit (x1)">                elif hasattr(r, "compound") and isinstance(r.compound, Compound):</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">                    r_compound = r.compound</span>
 <span class="line-any" title="No Anys on this line!">                other_r_compound = None</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">                if isinstance(other_r, Compound):</span>
+Unannotated (x1)
+Explicit (x1)">                if isinstance(other_r, Compound):</span>
 <span class="line-precise" title="No Anys on this line!">                    other_r_compound = other_r</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x4)">                elif hasattr(other_r, "compound") and isinstance(other_r.compound, Compound):</span>
+Unannotated (x3)
+Explicit (x1)">                elif hasattr(other_r, "compound") and isinstance(other_r.compound, Compound):</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">                    other_r_compound = other_r.compound</span>
 <span class="line-precise" title="No Anys on this line!">                if r_compound and other_r_compound:</span>
@@ -1764,10 +1774,13 @@ Error (x1)">                        and len(other_r_compound.labels - r_compound
 Error (x2)">                            or any(l in r_compound.labels for l in other_r_compound.labels)</span>
 <span class="line-empty" title="No Anys on this line!">                        )</span>
 <span class="line-empty" title="No Anys on this line!">                    ):</span>
-<span class="line-precise" title="No Anys on this line!">                        r_compound.merge(other_r_compound)</span>
-<span class="line-precise" title="No Anys on this line!">                        other_r_compound.merge(r_compound)</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x4)">                        if isinstance(r, Compound) and isinstance(other_r, Compound):</span>
+Unimported (x2)">                        r_compound.merge(other_r_compound)</span>
+<span class="line-any" title="Any Types on this line: 
+Unimported (x2)">                        other_r_compound.merge(r_compound)</span>
+<span class="line-any" title="Any Types on this line: 
+Unannotated (x2)
+Explicit (x2)">                        if isinstance(r, Compound) and isinstance(other_r, Compound):</span>
 <span class="line-any" title="Any Types on this line: 
 Error (x3)">                            j_record = records.pop(j)</span>
 <span class="line-any" title="Any Types on this line: 
@@ -1928,7 +1941,7 @@ Unannotated (x5)">        return [el for el in self.elements if isinstance(el, F
 <span class="line-empty" title="No Anys on this line!">            List of all Table elements</span>
 <span class="line-empty" title="No Anys on this line!">        """</span>
 <span class="line-precise" title="Any Types on this line: 
-Unannotated (x5)">        return [el for el in self.elements if isinstance(el, Table)]</span>
+Explicit (x1)">        return [el for el in self.elements if isinstance(el, Table)]</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">    @property</span>
 <span class="line-precise" title="No Anys on this line!">    def citations(self) -&gt; list[Citation]:</span>
@@ -2302,8 +2315,7 @@ Unannotated (x6)">            self._section_name_for_index(index_a), self._secti
 <span class="line-empty" title="No Anys on this line!">        ):</span>
 <span class="line-empty" title="No Anys on this line!">            # Should this be 1?</span>
 <span class="line-any" title="No Anys on this line!">            num_sections = 0</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x3)">        return num_sections * SectionRange() + num_paragraphs * ParagraphRange()</span>
+<span class="line-precise" title="No Anys on this line!">        return num_sections * SectionRange() + num_paragraphs * ParagraphRange()</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="No Anys on this line!">    def _section_name_for_index(self, index):</span>
 <span class="line-any" title="Any Types on this line: 

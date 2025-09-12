@@ -11,6 +11,8 @@ from __future__ import annotations
 import logging
 from typing import TYPE_CHECKING
 from typing import Any
+from typing import Dict
+from typing import List
 from typing import Optional
 
 if TYPE_CHECKING:
@@ -51,16 +53,17 @@ log = logging.getLogger(__name__)
 
 class Compound(BaseModel):
     """Model for chemical compound identification and properties.
-    
+
     Represents a chemical compound with names, labels, and roles extracted
     from scientific text. Supports merging of compound information from
     different sources within a document.
-    
+
     Attributes:
         names: Set[str] - Chemical names for this compound
         labels: Set[str] - Reference labels (e.g., "1", "2a") for this compound
         roles: Set[str] - Chemical roles (e.g., "catalyst", "product")
     """
+
     names = SetType(StringType(), parse_expression=names_only, updatable=True)
     labels = SetType(StringType(), parse_expression=NoMatch(), updatable=True)
     roles = SetType(StringType(), parse_expression=roles_only, updatable=True)
@@ -75,15 +78,15 @@ class Compound(BaseModel):
 
     def merge(self, other: Compound) -> Self:
         """Merge data from another Compound into this Compound.
-        
+
         Args:
             other: Compound - The compound to merge data from
-            
+
         Returns:
             Self - This compound instance with merged data
         """
         log.debug("Merging: %s and %s" % (self.serialize(), other.serialize()))
-        if type(other) != type(self):
+        if type(other) is not type(self):
             return self
         for k in self.keys():
             if other[k] is not None:
@@ -97,7 +100,7 @@ class Compound(BaseModel):
     @property
     def is_unidentified(self) -> bool:
         """Check if this compound has no identifying information.
-        
+
         Returns:
             bool - True if compound has no names or labels
         """
@@ -108,7 +111,7 @@ class Compound(BaseModel):
     @property
     def is_id_only(self) -> bool:
         """Check if this compound only contains identifier information.
-        
+
         Returns:
             bool - True if only names, labels, or roles are present
         """
@@ -120,11 +123,11 @@ class Compound(BaseModel):
         return False
 
     @classmethod
-    def update(cls, definitions: list[dict[str, Any]], strict: bool = True) -> None:
+    def update(cls, definitions: List[Dict[str, Any]], strict: bool = True) -> None:
         """Update the Compound labels parse expression.
-        
+
         Args:
-            definitions: list[dict[str, Any]] - List of definition dictionaries
+            definitions: List[Dict[str, Any]] - List of definition dictionaries
             strict: bool - Whether to use strict word matching (default: True)
         """
         log.debug("Updating Compound")
@@ -144,10 +147,10 @@ class Compound(BaseModel):
 
     def construct_label_expression(self, label: str) -> Any:
         """Construct a parse expression for a compound label.
-        
+
         Args:
             label: str - The label text to create an expression for
-            
+
         Returns:
             Parse expression for matching the label
         """
@@ -156,23 +159,24 @@ class Compound(BaseModel):
 
 class Apparatus(BaseModel):
     """Model for analytical apparatus/instrument information.
-    
+
     Represents laboratory equipment and instrumentation details
     used in chemical measurements and analyses.
-    
+
     Attributes:
         name: str - Name or model of the analytical apparatus
     """
+
     name = StringType()
     parsers = [ApparatusParser()]
 
 
 class UvvisPeak(BaseModel):
     """Model for individual UV-Vis spectroscopy peaks.
-    
+
     Represents a single absorption peak in UV-Vis spectroscopy data,
     including wavelength, extinction coefficient, and peak characteristics.
-    
+
     Attributes:
         value: str - Peak wavelength value
         units: str - Wavelength units (contextual)
@@ -180,6 +184,7 @@ class UvvisPeak(BaseModel):
         extinction_units: str - Extinction coefficient units (contextual)
         shape: str - Peak shape description (e.g., shoulder, broad)
     """
+
     #: Peak value, i.e. wavelength
     value = StringType()
     #: Peak value units
@@ -194,10 +199,10 @@ class UvvisPeak(BaseModel):
 
 class UvvisSpectrum(BaseModel):
     """Model for complete UV-Vis spectroscopy measurements.
-    
+
     Represents a full UV-Vis spectrum with experimental conditions,
     apparatus information, and associated peaks.
-    
+
     Attributes:
         solvent: str - Solvent used (contextual)
         temperature: str - Measurement temperature (contextual)
@@ -208,6 +213,7 @@ class UvvisSpectrum(BaseModel):
         peaks: List[UvvisPeak] - List of spectral peaks
         compound: Compound - Associated chemical compound
     """
+
     solvent = StringType(contextual=True)
     temperature = StringType(contextual=True)
     temperature_units = StringType(contextual=True)
@@ -221,16 +227,17 @@ class UvvisSpectrum(BaseModel):
 
 class IrPeak(BaseModel):
     """Model for individual IR spectroscopy peaks.
-    
+
     Represents a single absorption peak in IR spectroscopy data,
     including frequency, intensity, and bond assignment.
-    
+
     Attributes:
         value: str - Peak frequency/wavenumber value
         units: str - Frequency units (contextual)
         strength: str - Peak intensity or strength
         bond: str - Bond assignment for this peak
     """
+
     value = StringType()
     units = StringType(contextual=True)
     strength = StringType()
@@ -239,10 +246,10 @@ class IrPeak(BaseModel):
 
 class IrSpectrum(BaseModel):
     """Model for complete IR spectroscopy measurements.
-    
+
     Represents a full IR spectrum with experimental conditions,
     apparatus information, and associated peaks.
-    
+
     Attributes:
         solvent: str - Solvent used (contextual)
         temperature: str - Measurement temperature (contextual)
@@ -253,6 +260,7 @@ class IrSpectrum(BaseModel):
         peaks: List[IrPeak] - List of spectral peaks
         compound: Compound - Associated chemical compound
     """
+
     solvent = StringType(contextual=True)
     temperature = StringType(contextual=True)
     temperature_units = StringType(contextual=True)
@@ -266,10 +274,10 @@ class IrSpectrum(BaseModel):
 
 class NmrPeak(BaseModel):
     """Model for individual NMR spectroscopy peaks.
-    
+
     Represents a single peak in NMR spectroscopy data with chemical shift,
     multiplicity, coupling information, and structural assignment.
-    
+
     Attributes:
         shift: str - Chemical shift value
         intensity: str - Peak intensity or integration
@@ -279,6 +287,7 @@ class NmrPeak(BaseModel):
         number: str - Number of protons for this peak
         assignment: str - Structural assignment for this peak
     """
+
     shift = StringType()
     intensity = StringType()
     multiplicity = StringType()
@@ -290,10 +299,10 @@ class NmrPeak(BaseModel):
 
 class NmrSpectrum(BaseModel):
     """Model for complete NMR spectroscopy measurements.
-    
+
     Represents a full NMR spectrum with experimental conditions,
     nucleus type, apparatus information, and associated peaks.
-    
+
     Attributes:
         nucleus: str - NMR nucleus (1H, 13C, etc.) (contextual)
         solvent: str - NMR solvent used (contextual)
@@ -308,6 +317,7 @@ class NmrSpectrum(BaseModel):
         peaks: List[NmrPeak] - List of NMR peaks
         compound: Compound - Associated chemical compound
     """
+
     nucleus = StringType(contextual=True)
     solvent = StringType(contextual=True)
     frequency = StringType(contextual=True)
@@ -325,11 +335,11 @@ class NmrSpectrum(BaseModel):
 
 class MeltingPoint(TemperatureModel):
     """Model for melting point measurements.
-    
+
     Represents melting point data with experimental conditions
     and associated compound information. Inherits temperature
     handling from TemperatureModel.
-    
+
     Attributes:
         solvent: str - Solvent used (contextual)
         concentration: str - Sample concentration (contextual)
@@ -337,6 +347,7 @@ class MeltingPoint(TemperatureModel):
         apparatus: Apparatus - Measurement apparatus (contextual)
         compound: Compound - Associated chemical compound (contextual)
     """
+
     solvent = StringType(contextual=True)
     concentration = StringType(contextual=True)
     concentration_units = StringType(contextual=True)
@@ -347,10 +358,10 @@ class MeltingPoint(TemperatureModel):
 
 class GlassTransition(BaseModel):
     """Model for glass transition temperature measurements.
-    
+
     Represents glass transition temperature (Tg) data with measurement
     method and experimental conditions.
-    
+
     Attributes:
         value: str - Glass transition temperature value
         units: str - Temperature units (contextual)
@@ -371,10 +382,10 @@ class GlassTransition(BaseModel):
 
 class QuantumYield(BaseModel):
     """Model for quantum yield measurements.
-    
+
     Represents photoluminescence quantum yield data with experimental
     conditions, standards, and measurement parameters.
-    
+
     Attributes:
         value: str - Quantum yield value
         units: str - Units (typically dimensionless) (contextual)
@@ -406,10 +417,10 @@ class QuantumYield(BaseModel):
 
 class FluorescenceLifetime(BaseModel):
     """Model for fluorescence lifetime measurements.
-    
+
     Represents fluorescence decay time measurements with experimental
     conditions and apparatus information.
-    
+
     Attributes:
         value: str - Fluorescence lifetime value
         units: str - Time units (contextual)
@@ -433,10 +444,10 @@ class FluorescenceLifetime(BaseModel):
 
 class ElectrochemicalPotential(BaseModel):
     """Model for electrochemical potential measurements.
-    
+
     Represents oxidation or reduction potentials from cyclic voltammetry
     and other electrochemical techniques.
-    
+
     Attributes:
         value: str - Potential value
         units: str - Potential units (contextual)
@@ -462,15 +473,16 @@ class ElectrochemicalPotential(BaseModel):
 
 class NeelTemperature(TemperatureModel):
     """Model for Néel temperature measurements.
-    
+
     Represents the temperature at which antiferromagnetic materials
     lose their magnetic ordering. Inherits temperature handling
     from TemperatureModel.
-    
+
     Attributes:
         specifier: str - Temperature specifier (required, non-contextual)
         compound: Compound - Associated chemical compound (optional)
     """
+
     # expression = (I('T')+I('N')).add_action(merge)
     expression = I("TN")
     # specifier = I('TN')
@@ -482,15 +494,16 @@ class NeelTemperature(TemperatureModel):
 
 class CurieTemperature(TemperatureModel):
     """Model for Curie temperature measurements.
-    
+
     Represents the temperature at which ferromagnetic materials
     lose their permanent magnetic properties. Inherits temperature
     handling from TemperatureModel.
-    
+
     Attributes:
         specifier: str - Temperature specifier (required, non-contextual)
         compound: Compound - Associated chemical compound (optional)
     """
+
     # expression = (I('T') + I('C')).add_action(merge)
     expression = ((I("Curie") + R("^temperature(s)?$")) | R(r"T[Cc]\d?")).add_action(
         join
@@ -503,16 +516,17 @@ class CurieTemperature(TemperatureModel):
 
 class InteratomicDistance(LengthModel):
     """Model for interatomic distance measurements.
-    
+
     Represents bond lengths and atomic distances with species
     identification. Inherits length handling from LengthModel.
-    
+
     Attributes:
         specifier: str - Distance specifier (optional, contextual)
         species: str - Element pair specification (required, non-contextual)
         compound: Compound - Associated chemical compound (required, contextual)
         another_label: str - Additional label field (optional, non-contextual)
     """
+
     specifier_expression = (R("^bond$") + R("^distance")).add_action(merge)
     specifier = StringType(
         parse_expression=specifier_expression, required=False, contextual=True
@@ -529,19 +543,20 @@ class InteratomicDistance(LengthModel):
 
 class CoordinationNumber(DimensionlessModel):
     """Model for coordination number measurements.
-    
+
     Represents the number of atoms coordinated to a central atom
     in a chemical structure. Inherits dimensionless quantity handling.
-    
+
     Note:
         Labels like NTi-O will not work with this parser - requires space
         between the label and specifier.
-    
+
     Attributes:
         specifier: str - Coordination number specifier (required, contextual)
         cn_label: str - Element coordination label (required, contextual)
         compound: Compound - Associated chemical compound (required, contextual)
     """
+
     # something like NTi-O will not work with this, only work if there is space between the label and specifier
     coordination_number_label = R(
         r"^((X|Ac|Ag|Al|Am|Ar|As|At|Au|B|Ba|Be|Bh|Bi|Bk|Br|C|Ca|Cd|Ce|Cf|Cl|Cm|Cn|Co|Cr|Cs|Cu|Db|Ds|Dy|Er|Es|Eu|F|Fe|Fl|Fm|Fr|Ga|Gd|Ge|H|He|Hf|Hg|Ho|Hs|I|In|Ir|K|Kr|La|Li|Lr|Lu|Lv|Mc|Md|Mg|Mn|Mo|Mt|N|Na|Nb|Nd|Ne|Nh|Ni|No|Np|O|Og|Os|P|Pa|Pb|Pd|Pm|Po|Pr|Pt|Pu|Ra|Rb|Re|Rf|Rg|Rh|Rn|Ru|S|Sb|Sc|Se|Sg|Si|Sm|Sn|Sr|Ta|Tb|Tc|Te|Th|Ti|Tl|Tm|Ts|U|V|W|Xe|Y|Yb|Zn|Zr)\-?(X|Ac|Ag|Al|Am|Ar|As|At|Au|B|Ba|Be|Bh|Bi|Bk|Br|C|Ca|Cd|Ce|Cf|Cl|Cm|Cn|Co|Cr|Cs|Cu|Db|Ds|Dy|Er|Es|Eu|F|Fe|Fl|Fm|Fr|Ga|Gd|Ge|H|He|Hf|Hg|Ho|Hs|I|In|Ir|K|Kr|La|Li|Lr|Lu|Lv|Mc|Md|Mg|Mn|Mo|Mt|N|Na|Nb|Nd|Ne|Nh|Ni|No|Np|O|Og|Os|P|Pa|Pb|Pd|Pm|Po|Pr|Pt|Pu|Ra|Rb|Re|Rf|Rg|Rh|Rn|Ru|S|Sb|Sc|Se|Sg|Si|Sm|Sn|Sr|Ta|Tb|Tc|Te|Th|Ti|Tl|Tm|Ts|U|V|W|Xe|Y|Yb|Zn|Zr))$"
@@ -560,14 +575,15 @@ class CoordinationNumber(DimensionlessModel):
 
 class CNLabel(BaseModel):
     """Model for coordination number labels.
-    
+
     Separate model for testing automated parsing of coordination
     number information that are not quantities.
-    
+
     Attributes:
         label_Juraj: str - Coordination number label for elements
         compound: Compound - Associated chemical compound (optional)
     """
+
     # separate model to test automated parsing for stuff that are not quantities
     coordination_number_label = R(
         r"^((X|Ac|Ag|Al|Am|Ar|As|At|Au|B|Ba|Be|Bh|Bi|Bk|Br|C|Ca|Cd|Ce|Cf|Cl|Cm|Cn|Co|Cr|Cs|Cu|Db|Ds|Dy|Er|Es|Eu|F|Fe|Fl|Fm|Fr|Ga|Gd|Ge|H|He|Hf|Hg|Ho|Hs|I|In|Ir|K|Kr|La|Li|Lr|Lu|Lv|Mc|Md|Mg|Mn|Mo|Mt|N|Na|Nb|Nd|Ne|Nh|Ni|No|Np|O|Og|Os|P|Pa|Pb|Pd|Pm|Po|Pr|Pt|Pu|Ra|Rb|Re|Rf|Rg|Rh|Rn|Ru|S|Sb|Sc|Se|Sg|Si|Sm|Sn|Sr|Ta|Tb|Tc|Te|Th|Ti|Tl|Tm|Ts|U|V|W|Xe|Y|Yb|Zn|Zr)\-?(X|Ac|Ag|Al|Am|Ar|As|At|Au|B|Ba|Be|Bh|Bi|Bk|Br|C|Ca|Cd|Ce|Cf|Cl|Cm|Cn|Co|Cr|Cs|Cu|Db|Ds|Dy|Er|Es|Eu|F|Fe|Fl|Fm|Fr|Ga|Gd|Ge|H|He|Hf|Hg|Ho|Hs|I|In|Ir|K|Kr|La|Li|Lr|Lu|Lv|Mc|Md|Mg|Mn|Mo|Mt|N|Na|Nb|Nd|Ne|Nh|Ni|No|Np|O|Og|Os|P|Pa|Pb|Pd|Pm|Po|Pr|Pt|Pu|Ra|Rb|Re|Rf|Rg|Rh|Rn|Ru|S|Sb|Sc|Se|Sg|Si|Sm|Sn|Sr|Ta|Tb|Tc|Te|Th|Ti|Tl|Tm|Ts|U|V|W|Xe|Y|Yb|Zn|Zr))$"

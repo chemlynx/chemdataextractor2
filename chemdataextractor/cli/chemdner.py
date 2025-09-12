@@ -39,9 +39,7 @@ def prepare_gold(ctx, annotations, gout):
 
 @chemdner_cli.command()
 @click.argument("input", type=click.File("r", encoding="utf8"), required=True)
-@click.option(
-    "--annotations", "-a", type=click.File("r", encoding="utf8"), required=True
-)
+@click.option("--annotations", "-a", type=click.File("r", encoding="utf8"), required=True)
 @click.option(
     "--tout",
     "-t",
@@ -76,18 +74,9 @@ def prepare_tokens(ctx, input, annotations, tout, lout):
             tagged = _prep_tags(t, anns)
             for i, sentence in enumerate(tagged):
                 tout.write(
-                    " ".join(
-                        [
-                            "/".join([token, tag, label])
-                            for token, tag, label in sentence
-                        ]
-                    )
+                    " ".join(["/".join([token, tag, label]) for token, tag, label in sentence])
                 )
-                lout.write(
-                    " ".join(
-                        ["/".join([token, label]) for token, tag, label in sentence]
-                    )
-                )
+                lout.write(" ".join(["/".join([token, label]) for token, tag, label in sentence]))
                 tout.write("\n")
                 lout.write("\n")
             tout.write("\n")
@@ -106,10 +95,7 @@ def _prep_tags(t, annotations):
                     tags[i][j] = "I-CM" if done_first else "B-CM"
                     done_first = True
     tagged = [
-        [
-            (token[0], token[1], tags[i][j])
-            for j, token in enumerate(sentence.pos_tagged_tokens)
-        ]
+        [(token[0], token[1], tags[i][j]) for j, token in enumerate(sentence.pos_tagged_tokens)]
         for i, sentence in enumerate(t.sentences)
     ]
     return tagged

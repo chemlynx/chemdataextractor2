@@ -24,15 +24,11 @@ class _DependencyTagger(BaseTagger):
 
     def __init__(self):
         try:
-            self._nlp = stanza.Pipeline(
-                "en", tokenize_pretokenized=True, logging_level="ERROR"
-            )
+            self._nlp = stanza.Pipeline("en", tokenize_pretokenized=True, logging_level="ERROR")
         except Exception as e:
             print(f"Downloading stanza due to error {e}")
             stanza.download("en", resources_version="1.1.0")
-            self._nlp = stanza.Pipeline(
-                "en", tokenize_pretokenized=True, logging_level="ERROR"
-            )
+            self._nlp = stanza.Pipeline("en", tokenize_pretokenized=True, logging_level="ERROR")
 
     def _tokens_to_stanza_tokens(self, tokens):
         return [token.text for token in tokens]

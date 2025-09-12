@@ -4,6 +4,7 @@ Readers for documents from Springer.
 .. codeauthor:: Callum Court
 
 """
+
 from lxml import etree
 from lxml.html import HTMLParser
 
@@ -14,9 +15,7 @@ from ..scrape.pub.springer import tidy_springer_references
 from ..text import get_encoding
 from .markup import HtmlReader
 
-clean_springer_html = Cleaner(
-    fix_whitespace=True, strip_xpath=".//sub | .//em | .//strong"
-)
+clean_springer_html = Cleaner(fix_whitespace=True, strip_xpath=".//sub | .//em | .//strong")
 
 
 class SpringerMaterialsHtmlReader(HtmlReader):
@@ -40,8 +39,7 @@ class SpringerMaterialsHtmlReader(HtmlReader):
         if fname and not (fname.endswith(".html") or fname.endswith(".htm")):
             return False
         if (
-            b'<a class="footer-copyright_link" href="http://www.springernature.com"'
-            in fstring
+            b'<a class="footer-copyright_link" href="http://www.springernature.com"' in fstring
             or b'<meta content="SpringerLink"' in fstring
         ):
             return True
@@ -50,9 +48,7 @@ class SpringerMaterialsHtmlReader(HtmlReader):
     def _make_tree(self, fstring):
         root = etree.fromstring(
             fstring,
-            parser=HTMLParser(
-                encoding=get_encoding(fstring, guesses="utf-8", is_html=True)
-            ),
+            parser=HTMLParser(encoding=get_encoding(fstring, guesses="utf-8", is_html=True)),
         )
         return root
 
@@ -110,7 +106,8 @@ class SpringerHtmlReader(HtmlReader):
     figure_caption_css = "figcaption"
     figure_label_css = 'figcaption span[class^="CaptionNumber"]'
     # citation_css = 'ce|bib-reference'
-    ignore_css = 'a[class="skip-to__link pseudo-focus"], div[class="nojs-banner u-interface"], a[class="skip-to__link skip-to__link--contents pseudo-focus"],\
+    ignore_css = (
+        'a[class="skip-to__link pseudo-focus"], div[class="nojs-banner u-interface"], a[class="skip-to__link skip-to__link--contents pseudo-focus"],\
                   p[class="leaderboard__label"], div[class="u-screenreader-only"], label[for="search-springerlink"], span[class="search-button__title"],\
                   span[class="u-overflow-ellipsis"], span[class="u-overflow-ellipsis"], a[class="c-button c-button--blue c-button__icon-right gtm-pdf-link"],\
                   div[class="leaderboard u-hide"], title, li[class="article-metrics__item"], aside[class="section section--collapsible"], a[class="gtm-cite-link"],\
@@ -121,6 +118,7 @@ class SpringerHtmlReader(HtmlReader):
                   a[class="gtm-export-citation"], ul[class="citations__content"], h3[data-role="button-dropdown__title"],\
                   div[class="section section--collapsible uptodate-recommendations gtm-recommendations"], span[class="InlineEquation"], div[class="EquationContent"],\
                   div[class="EquationNumber"], footer'
+    )
 
     def detect(self, fstring, fname=None):
         """"""
@@ -137,8 +135,6 @@ class SpringerHtmlReader(HtmlReader):
     def _make_tree(self, fstring):
         root = etree.fromstring(
             fstring,
-            parser=HTMLParser(
-                encoding=get_encoding(fstring, guesses="utf-8", is_html=True)
-            ),
+            parser=HTMLParser(encoding=get_encoding(fstring, guesses="utf-8", is_html=True)),
         )
         return root

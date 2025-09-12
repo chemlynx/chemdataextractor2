@@ -10,6 +10,7 @@ from __future__ import annotations
 import logging
 import re
 from typing import Any
+from typing import List
 
 from lxml.builder import E
 from lxml.etree import strip_tags
@@ -17,20 +18,20 @@ from lxml.etree import strip_tags
 from ..text import HYPHENS
 
 # Type aliases for parse actions
-TokenList = list[str]  # List of tokens
-ParseResult = list[Any]  # List of XML elements from parsing
+TokenList = List[str]  # List of tokens
+ParseResult = List[Any]  # List of XML elements from parsing
 
 log = logging.getLogger(__name__)
 
 
 def flatten(tokens: TokenList, start: int, result: ParseResult) -> ParseResult:
     """Replace all child results with their text contents.
-    
+
     Args:
         tokens: The original token list
         start: Starting position in tokens
         result: Parse result to flatten
-        
+
     Returns:
         Flattened parse result
     """
@@ -41,12 +42,12 @@ def flatten(tokens: TokenList, start: int, result: ParseResult) -> ParseResult:
 
 def join(tokens: TokenList, start: int, result: ParseResult) -> ParseResult:
     """Join tokens into a single string with spaces between.
-    
+
     Args:
         tokens: The original token list
-        start: Starting position in tokens  
+        start: Starting position in tokens
         result: Parse result to join
-        
+
     Returns:
         Joined parse result as single element
     """

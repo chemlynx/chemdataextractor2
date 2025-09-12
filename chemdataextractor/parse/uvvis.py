@@ -33,18 +33,14 @@ shape = (
 )
 peak_meta_options = shape
 peak_meta = (
-    W("(").hide()
-    + peak_meta_options
-    + ZeroOrMore(delim + peak_meta_options)
-    + W(")").hide()
+    W("(").hide() + peak_meta_options + ZeroOrMore(delim + peak_meta_options) + W(")").hide()
 )
 insolvent = T("IN") + solvent
 uvvis_abs_title = (
     I("absorption") + R("max(ima)?")
     | R("^λ(a(bs)?|max)$")
     + ZeroOrMore(R("^a?max$", re.I) | R("abs(or[bp]tion)?", re.I) | I("a") | W(","))
-    | W("λ$")
-    + OneOrMore(R("^a?max$", re.I) | R("abs(or[bp]tion)?", re.I) | I("a") | W(","))
+    | W("λ$") + OneOrMore(R("^a?max$", re.I) | R("abs(or[bp]tion)?", re.I) | I("a") | W(","))
     | R("uv([-/]?vis)?", re.I)
     | I("UV") + hyphen + R("^vis(ible)?$", re.I) + Optional(R("^abs(or[bp]tion)?$"))
 )
@@ -58,9 +54,7 @@ prelude = (
 )
 peak = (value + Optional(peak_meta))("peak")
 peaks = (peak + ZeroOrMore(ZeroOrMore(delim | W("and")).hide() + peak))("peaks")
-uvvis = (prelude + peaks + Optional(delim) + Optional(units) + Optional(insolvent))(
-    "uvvis"
-)
+uvvis = (prelude + peaks + Optional(delim) + Optional(units) + Optional(insolvent))("uvvis")
 
 
 class UvvisParser(BaseSentenceParser):

@@ -3,7 +3,6 @@ Document processing.
 
 """
 
-
 from .document import Document
 from .document_cacher import PlainTextCacher
 from .figure import Figure

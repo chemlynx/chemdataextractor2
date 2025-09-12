@@ -1715,13 +1715,11 @@ Unannotated (x1)">        return self.text</span>
 <span class="line-precise" title="No Anys on this line!">class Text(collections.abc.Sequence, BaseText):</span>
 <span class="line-empty" title="No Anys on this line!">    """A passage of text, comprising one or more sentences."""</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-precise" title="Any Types on this line: 
-Unannotated (x1)">    sentence_tokenizer = ChemSentenceTokenizer()</span>
+<span class="line-precise" title="No Anys on this line!">    sentence_tokenizer = ChemSentenceTokenizer()</span>
 <span class="line-precise" title="Any Types on this line: 
 Unannotated (x3)">    word_tokenizer = BertWordTokenizer()</span>
 <span class="line-precise" title="No Anys on this line!">    lexicon = ChemLexicon()</span>
-<span class="line-precise" title="Any Types on this line: 
-Unannotated (x3)">    abbreviation_detector = ChemAbbreviationDetector()</span>
+<span class="line-precise" title="No Anys on this line!">    abbreviation_detector = ChemAbbreviationDetector()</span>
 <span class="line-precise" title="Any Types on this line: 
 Unannotated (x4)">    taggers = [ChemCrfPosTagger(), cem_tagger, dep_tagger]</span>
 <span class="line-precise" title="No Anys on this line!">    subsentence_extractor = None</span>
@@ -1850,14 +1848,11 @@ Error (x2)">            if "PARSERS" in c.keys():</span>
 Unannotated (x2)">    @memoized_property</span>
 <span class="line-any" title="No Anys on this line!">    def sentences(self):</span>
 <span class="line-empty" title="No Anys on this line!">        """A list of :class:`Sentence` s that make up this text passage."""</span>
+<span class="line-precise" title="No Anys on this line!">        sents = self.sentence_tokenizer.get_sentences(self)</span>
+<span class="line-precise" title="No Anys on this line!">        for sent in sents:</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x4)">        sents = self.sentence_tokenizer.get_sentences(self)</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">        for sent in sents:</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            sent.document = self.document</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x1)">        return sents</span>
+Error (x1)">            sent.document = self.document</span>
+<span class="line-precise" title="No Anys on this line!">        return sents</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">    @property</span>
 <span class="line-any" title="No Anys on this line!">    def elements(self):</span>
@@ -2036,13 +2031,12 @@ Omitted Generics (x23)">            max_offset = max(num_sentences - index, inde
 <span class="line-precise" title="No Anys on this line!">            while offset &lt;= max_offset:</span>
 <span class="line-precise" title="No Anys on this line!">                backwards_index = index - offset</span>
 <span class="line-precise" title="No Anys on this line!">                forwards_index = index + offset</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">                distance = offset * SentenceRange()</span>
+<span class="line-precise" title="No Anys on this line!">                distance = offset * SentenceRange()</span>
 <span class="line-imprecise" title="Any Types on this line: 
-Unannotated (x4)">                merge_candidates.extend(</span>
+Unannotated (x2)">                merge_candidates.extend(</span>
 <span class="line-empty" title="No Anys on this line!">                    [</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">                        (distance, record)</span>
+Unannotated (x1)">                        (distance, record)</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x3)">                        for record in records_by_sentence[backwards_index]</span>
 <span class="line-empty" title="No Anys on this line!">                    ]</span>
@@ -2050,17 +2044,17 @@ Unannotated (x3)">                        for record in records_by_sentence[back
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="No Anys on this line!">                if backwards_index &gt;= 0:</span>
 <span class="line-imprecise" title="Any Types on this line: 
-Unannotated (x4)">                    merge_candidates.extend(</span>
+Unannotated (x2)">                    merge_candidates.extend(</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">                        (distance, record)</span>
+Unannotated (x1)">                        (distance, record)</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x3)">                        for record in records_by_sentence[backwards_index]</span>
 <span class="line-empty" title="No Anys on this line!">                    )</span>
 <span class="line-precise" title="No Anys on this line!">                if forwards_index &lt; num_sentences:</span>
 <span class="line-imprecise" title="Any Types on this line: 
-Unannotated (x4)">                    merge_candidates.extend(</span>
+Unannotated (x2)">                    merge_candidates.extend(</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">                        (distance, record)</span>
+Unannotated (x1)">                        (distance, record)</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x3)">                        for record in records_by_sentence[forwards_index]</span>
 <span class="line-empty" title="No Anys on this line!">                    )</span>
@@ -2068,7 +2062,7 @@ Unannotated (x3)">                        for record in records_by_sentence[forw
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x4)">            self._resolve_contextual(</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x7)">                sent_records, sort_merge_candidates(merge_candidates)</span>
+Unannotated (x2)">                sent_records, sort_merge_candidates(merge_candidates)</span>
 <span class="line-empty" title="No Anys on this line!">            )</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">        # Don't sort these records as this encodes where they were found in the paragraph</span>
@@ -2207,8 +2201,7 @@ Unannotated (x6)">            definition for sent in self.sentences for definiti
 <span class="line-precise" title="Any Types on this line: 
 Unannotated (x3)">    word_tokenizer = BertWordTokenizer()</span>
 <span class="line-precise" title="No Anys on this line!">    lexicon = ChemLexicon()</span>
-<span class="line-precise" title="Any Types on this line: 
-Unannotated (x3)">    abbreviation_detector = ChemAbbreviationDetector()</span>
+<span class="line-precise" title="No Anys on this line!">    abbreviation_detector = ChemAbbreviationDetector()</span>
 <span class="line-precise" title="Any Types on this line: 
 Unannotated (x1)">    subsentence_extractor = SubsentenceExtractor()</span>
 <span class="line-precise" title="Any Types on this line: 
@@ -2575,32 +2568,28 @@ Unannotated (x9)">            currenttext = self.text[start - self.start : end -
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">            # Do splits</span>
 <span class="line-precise" title="No Anys on this line!">            split_spans = []</span>
-<span class="line-imprecise" title="Any Types on this line: 
-Unannotated (x2)
+<span class="line-precise" title="Any Types on this line: 
 Omitted Generics (x3)">            comps = list(</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x5)">                regex_span_tokenize(currenttext, r"(-|\+|\)?-to-\(?|···|/|\s)")</span>
+Unannotated (x1)">                regex_span_tokenize(currenttext, r"(-|\+|\)?-to-\(?|···|/|\s)")</span>
 <span class="line-empty" title="No Anys on this line!">            )</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x1)">            if len(comps) &gt; 1:</span>
+<span class="line-any" title="No Anys on this line!">            if len(comps) &gt; 1:</span>
 <span class="line-precise" title="No Anys on this line!">                for split in SPLITS:</span>
 <span class="line-precise" title="No Anys on this line!">                    if all(</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x6)">                        re.search(split, currenttext[comp[0] : comp[1]])</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">                        for comp in comps</span>
+Unannotated (x2)">                        re.search(split, currenttext[comp[0] : comp[1]])</span>
+<span class="line-precise" title="No Anys on this line!">                        for comp in comps</span>
 <span class="line-empty" title="No Anys on this line!">                    ):</span>
 <span class="line-empty" title="No Anys on this line!">                        # print('%s splitting %s' % (currenttext, [currenttext[comp[0]:comp[1]] for comp in comps]))</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">                        for comp in comps:</span>
+<span class="line-precise" title="No Anys on this line!">                        for comp in comps:</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x3)">                            span = Span(</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x6)">                                text=currenttext[comp[0] : comp[1]],</span>
+Unannotated (x2)">                                text=currenttext[comp[0] : comp[1]],</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x4)">                                start=start + comp[0],</span>
+Unannotated (x2)">                                start=start + comp[0],</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x4)">                                end=start + comp[1],</span>
+Unannotated (x2)">                                end=start + comp[1],</span>
 <span class="line-empty" title="No Anys on this line!">                            )</span>
 <span class="line-empty" title="No Anys on this line!">                            # print('SPLIT: %s - %s' % (currenttext, repr(span)))</span>
 <span class="line-precise" title="No Anys on this line!">                            split_spans.append(span)</span>
@@ -2743,13 +2732,12 @@ Unannotated (x1)">        return self.tokens</span>
 <span class="line-precise" title="Any Types on this line: 
 Omitted Generics (x4)">        for tagger in reversed(self.taggers):</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x4)">            if tagger.can_tag(tag_type):</span>
+Unannotated (x1)">            if tagger.can_tag(tag_type):</span>
 <span class="line-any" title="No Anys on this line!">                tags = None</span>
 <span class="line-empty" title="No Anys on this line!">                if (</span>
+<span class="line-any" title="No Anys on this line!">                    hasattr(tagger, "batch_tag_for_type")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">                    hasattr(tagger, "batch_tag_for_type")</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x4)">                    and tagger.can_batch_tag(tag_type)</span>
+Unannotated (x1)">                    and tagger.can_batch_tag(tag_type)</span>
 <span class="line-any" title="No Anys on this line!">                    and self.document is not None</span>
 <span class="line-empty" title="No Anys on this line!">                ):</span>
 <span class="line-any" title="Any Types on this line: 
@@ -2829,7 +2817,7 @@ Unannotated (x3)">        records.remove_subsets()</span>
 <span class="line-precise" title="No Anys on this line!">            while j &lt; length:</span>
 <span class="line-precise" title="No Anys on this line!">                if i != j:</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x5)">                    records[j].merge_all(records[i], distance=0 * SentenceRange())</span>
+Unannotated (x4)">                    records[j].merge_all(records[i], distance=0 * SentenceRange())</span>
 <span class="line-any" title="No Anys on this line!">                j += 1</span>
 <span class="line-any" title="No Anys on this line!">            i += 1</span>
 <span class="line-empty" title="No Anys on this line!"></span>
@@ -2982,9 +2970,8 @@ Omitted Generics (x1)">                        if record in records:</span>
 <span class="line-empty" title="No Anys on this line!">                        # Skip just labels that have already been seen (bit of a hack)</span>
 <span class="line-empty" title="No Anys on this line!">                        if (</span>
 <span class="line-any" title="Any Types on this line: 
-Explicit (x2)
-Omitted Generics (x1)
-Unannotated (x1)">                            type(record) == Compound</span>
+Explicit (x3)
+Omitted Generics (x1)">                            type(record) == Compound</span>
 <span class="line-any" title="Any Types on this line: 
 Omitted Generics (x3)">                            and "Compound" in p.keys()</span>
 <span class="line-precise" title="No Anys on this line!">                            and all(</span>
@@ -2997,9 +2984,8 @@ Omitted Generics (x4)">                            and set(record.labels).issubs
 <span class="line-empty" title="No Anys on this line!">                        ):</span>
 <span class="line-any" title="No Anys on this line!">                            continue</span>
 <span class="line-any" title="Any Types on this line: 
-Explicit (x2)
-Omitted Generics (x1)
-Unannotated (x1)">                        if type(record) == Compound:</span>
+Explicit (x3)
+Omitted Generics (x1)">                        if type(record) == Compound:</span>
 <span class="line-imprecise" title="Any Types on this line: 
 Omitted Generics (x2)">                            seen_labels.update(record.labels)</span>
 <span class="line-empty" title="No Anys on this line!">                            # This could be super slow if we find lots of things</span>
@@ -3008,7 +2994,7 @@ Omitted Generics (x2)">                            seen_labels.update(record.lab
 Error (x1)">                            for seen_record in records:</span>
 <span class="line-any" title="Any Types on this line: 
 Error (x1)
-Unannotated (x1)">                                if isinstance(seen_record, Compound) and (</span>
+Explicit (x1)">                                if isinstance(seen_record, Compound) and (</span>
 <span class="line-imprecise" title="Any Types on this line: 
 Explicit (x1)
 Omitted Generics (x3)">                                    not set(record.names).isdisjoint(seen_record.names)</span>
@@ -3058,7 +3044,7 @@ Omitted Generics (x1)">                        records.append(record)</span>
 <span class="line-precise" title="No Anys on this line!">            while j &lt; length:</span>
 <span class="line-precise" title="No Anys on this line!">                if i != j:</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x5)">                    records[j].merge_all(records[i], distance=0 * SentenceRange())</span>
+Unannotated (x4)">                    records[j].merge_all(records[i], distance=0 * SentenceRange())</span>
 <span class="line-any" title="No Anys on this line!">                j += 1</span>
 <span class="line-any" title="No Anys on this line!">            i += 1</span>
 <span class="line-precise" title="No Anys on this line!">        return records</span>

@@ -4,7 +4,7 @@ Base types for dimensions and units.
 Provides the foundational classes for representing physical dimensions
 and their associated units in ChemDataExtractor's unit system.
 
-Refer to the example on :ref:`creating new units and dimensions<creating_units>` 
+Refer to the example on :ref:`creating new units and dimensions<creating_units>`
 for more detail on how to create your own dimensions.
 
 .. codeauthor:: Taketomo Isazawa <ti250@cam.ac.uk>
@@ -14,52 +14,25 @@ from __future__ import annotations
 
 import copy
 from abc import ABCMeta
-from typing import TYPE_CHECKING
 from typing import Any
+from typing import Dict
 from typing import Optional
 from typing import Union
 
-if TYPE_CHECKING:
-    from .unit import Unit
+from .unit import Unit
 
 # Type aliases for dimension system
-UnitDict = dict[Unit, float]  # Maps units to their powers
+UnitDict = Dict[Unit, float]  # Maps units to their powers
 DimensionValue = Union[int, float]  # Numeric dimension values
-
-
-@property
-def standard_units(self):
-    if self._standard_units and len(self._standard_units) == 1:
-        for unit, power in self._standard_units.items():
-            if power == 1.0:
-                return unit
-            else:
-                return unit**power
-    product_unit = None
-    for unit, power in self._standard_units.items():
-        if not product_unit:
-            product_unit = unit**power
-        else:
-            product_unit = product_unit * (unit**power)
-    return product_unit
-
-
-@standard_units.setter
-def standard_units(self, value):
-    self._standard_units = {value: 1.0}
 
 
 class _DimensionMeta(ABCMeta):
     def __new__(mcs, name, bases, attrs):
         cls = super(_DimensionMeta, mcs).__new__(mcs, name, bases, attrs)
-        if (
-            hasattr(cls, "constituent_dimensions")
-            and cls.constituent_dimensions is not None
-        ):
+        if hasattr(cls, "constituent_dimensions") and cls.constituent_dimensions is not None:
             cls.units_dict = copy.copy(cls.constituent_dimensions.units_dict)
             cls._dimensions = cls.constituent_dimensions._dimensions
             cls._standard_units = cls.constituent_dimensions._standard_units
-        cls.standard_units = standard_units
         return cls
 
     def __setattr__(cls, key, value):
@@ -124,16 +97,34 @@ class Dimension(metaclass=_DimensionMeta):
 
     _standard_units = None
 
-    standard_units = None
-    """
-    The standard units for this dimension. Of type :class:`~chemdataextractor.model.units.unit.Unit`.
+    @property
+    def standard_units(self):
+        """
+        The standard units for this dimension. Of type :class:`~chemdataextractor.model.units.unit.Unit`.
 
-    Set this attribute when creating a new dimension to make converting to the standard units easy via
-    :meth:`~chemdataextractor.model.units.quantity_model.QuantityModel.convert_to_standard`, and to make it clear in the code what the
-    standard units are.
+        Set this attribute when creating a new dimension to make converting to the standard units easy via
+        :meth:`~chemdataextractor.model.units.quantity_model.QuantityModel.convert_to_standard`, and to make it clear in the code what the
+        standard units are.
 
-    The standard units when you multiply dimensions together/ have composite dimensions are automatically handled by the class.
-    """
+        The standard units when you multiply dimensions together/ have composite dimensions are automatically handled by the class.
+        """
+        if self._standard_units and len(self._standard_units) == 1:
+            for unit, power in self._standard_units.items():
+                if power == 1.0:
+                    return unit
+                else:
+                    return unit**power
+        product_unit = None
+        for unit, power in self._standard_units.items():
+            if not product_unit:
+                product_unit = unit**power
+            else:
+                product_unit = product_unit * (unit**power)
+        return product_unit
+
+    @standard_units.setter
+    def standard_units(self, value):
+        self._standard_units = {value: 1.0}
 
     """
     Operators are implemented so that composite dimensions can be created easily

@@ -2610,16 +2610,59 @@
 <span id="L2600" class="lineno"><a class="lineno" href="#L2600">2600</a></span>
 <span id="L2601" class="lineno"><a class="lineno" href="#L2601">2601</a></span>
 <span id="L2602" class="lineno"><a class="lineno" href="#L2602">2602</a></span>
+<span id="L2603" class="lineno"><a class="lineno" href="#L2603">2603</a></span>
+<span id="L2604" class="lineno"><a class="lineno" href="#L2604">2604</a></span>
+<span id="L2605" class="lineno"><a class="lineno" href="#L2605">2605</a></span>
+<span id="L2606" class="lineno"><a class="lineno" href="#L2606">2606</a></span>
+<span id="L2607" class="lineno"><a class="lineno" href="#L2607">2607</a></span>
+<span id="L2608" class="lineno"><a class="lineno" href="#L2608">2608</a></span>
+<span id="L2609" class="lineno"><a class="lineno" href="#L2609">2609</a></span>
+<span id="L2610" class="lineno"><a class="lineno" href="#L2610">2610</a></span>
+<span id="L2611" class="lineno"><a class="lineno" href="#L2611">2611</a></span>
+<span id="L2612" class="lineno"><a class="lineno" href="#L2612">2612</a></span>
+<span id="L2613" class="lineno"><a class="lineno" href="#L2613">2613</a></span>
+<span id="L2614" class="lineno"><a class="lineno" href="#L2614">2614</a></span>
+<span id="L2615" class="lineno"><a class="lineno" href="#L2615">2615</a></span>
+<span id="L2616" class="lineno"><a class="lineno" href="#L2616">2616</a></span>
+<span id="L2617" class="lineno"><a class="lineno" href="#L2617">2617</a></span>
+<span id="L2618" class="lineno"><a class="lineno" href="#L2618">2618</a></span>
+<span id="L2619" class="lineno"><a class="lineno" href="#L2619">2619</a></span>
+<span id="L2620" class="lineno"><a class="lineno" href="#L2620">2620</a></span>
+<span id="L2621" class="lineno"><a class="lineno" href="#L2621">2621</a></span>
+<span id="L2622" class="lineno"><a class="lineno" href="#L2622">2622</a></span>
+<span id="L2623" class="lineno"><a class="lineno" href="#L2623">2623</a></span>
+<span id="L2624" class="lineno"><a class="lineno" href="#L2624">2624</a></span>
+<span id="L2625" class="lineno"><a class="lineno" href="#L2625">2625</a></span>
+<span id="L2626" class="lineno"><a class="lineno" href="#L2626">2626</a></span>
+<span id="L2627" class="lineno"><a class="lineno" href="#L2627">2627</a></span>
+<span id="L2628" class="lineno"><a class="lineno" href="#L2628">2628</a></span>
+<span id="L2629" class="lineno"><a class="lineno" href="#L2629">2629</a></span>
+<span id="L2630" class="lineno"><a class="lineno" href="#L2630">2630</a></span>
+<span id="L2631" class="lineno"><a class="lineno" href="#L2631">2631</a></span>
+<span id="L2632" class="lineno"><a class="lineno" href="#L2632">2632</a></span>
+<span id="L2633" class="lineno"><a class="lineno" href="#L2633">2633</a></span>
+<span id="L2634" class="lineno"><a class="lineno" href="#L2634">2634</a></span>
+<span id="L2635" class="lineno"><a class="lineno" href="#L2635">2635</a></span>
+<span id="L2636" class="lineno"><a class="lineno" href="#L2636">2636</a></span>
+<span id="L2637" class="lineno"><a class="lineno" href="#L2637">2637</a></span>
 </pre></td>
 <td class="table-code"><pre><span class="line-empty" title="No Anys on this line!">"""</span>
 <span class="line-empty" title="No Anys on this line!">Named entity recognition (NER) for Chemical entity mentions (CEM).</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-empty" title="No Anys on this line!">This was the default NER system up to version 2.0, while the new NER is</span>
-<span class="line-empty" title="No Anys on this line!">included in new_cem.</span>
+<span class="line-empty" title="No Anys on this line!">Provides the legacy CEM tagging system that was default through version 2.0.</span>
+<span class="line-empty" title="No Anys on this line!">Includes CRF-based models, dictionary taggers, and ensemble methods for</span>
+<span class="line-empty" title="No Anys on this line!">identifying chemical entities in scientific text.</span>
+<span class="line-empty" title="No Anys on this line!"></span>
+<span class="line-empty" title="No Anys on this line!">Note: The new NER system is in new_cem.py</span>
 <span class="line-empty" title="No Anys on this line!">"""</span>
+<span class="line-empty" title="No Anys on this line!"></span>
+<span class="line-precise" title="No Anys on this line!">from __future__ import annotations</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">import logging</span>
 <span class="line-precise" title="No Anys on this line!">import re</span>
+<span class="line-precise" title="No Anys on this line!">from typing import TYPE_CHECKING</span>
+<span class="line-precise" title="No Anys on this line!">from typing import Any</span>
+<span class="line-precise" title="No Anys on this line!">from typing import Optional</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">from ..text import bracket_level</span>
 <span class="line-precise" title="No Anys on this line!">from .lexicon import ChemLexicon</span>
@@ -2629,11 +2672,18 @@
 <span class="line-precise" title="No Anys on this line!">from .tag import DictionaryTagger</span>
 <span class="line-precise" title="No Anys on this line!">from .tag import EnsembleTagger</span>
 <span class="line-empty" title="No Anys on this line!"></span>
+<span class="line-precise" title="No Anys on this line!">if TYPE_CHECKING:</span>
+<span class="line-precise" title="No Anys on this line!">    pass</span>
+<span class="line-empty" title="No Anys on this line!"></span>
+<span class="line-empty" title="No Anys on this line!"># Type aliases for CEM tagging</span>
+<span class="line-precise" title="No Anys on this line!">CEMTag = str  # Chemical entity mention tag (e.g., 'B-CM', 'I-CM')</span>
+<span class="line-precise" title="No Anys on this line!">TokenTags = list[tuple[str, CEMTag]]  # List of (token, tag) pairs</span>
+<span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">log = logging.getLogger(__name__)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">#: Token endings to ignore when considering stopwords and deriving spans</span>
-<span class="line-precise" title="No Anys on this line!">IGNORE_SUFFIX = [</span>
+<span class="line-precise" title="No Anys on this line!">IGNORE_SUFFIX: list[str] = [</span>
 <span class="line-empty" title="No Anys on this line!">    # Many of these are now unnecessary due to tokenization improvements, but not much harm in leaving them here.</span>
 <span class="line-precise" title="No Anys on this line!">    "-",</span>
 <span class="line-precise" title="No Anys on this line!">    "'s",</span>
@@ -4846,31 +4896,52 @@ Unannotated (x1)">        raise IndexError("Index out of range")</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">class CiDictCemTagger(DictionaryTagger):</span>
-<span class="line-empty" title="No Anys on this line!">    """Case-insensitive CEM dictionary tagger."""</span>
+<span class="line-empty" title="No Anys on this line!">    """Case-insensitive CEM dictionary tagger.</span>
+<span class="line-empty" title="No Anys on this line!">    </span>
+<span class="line-empty" title="No Anys on this line!">    Uses chemical lexicon for fast dictionary-based entity recognition</span>
+<span class="line-empty" title="No Anys on this line!">    without case sensitivity requirements.</span>
+<span class="line-empty" title="No Anys on this line!">    """</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-precise" title="No Anys on this line!">    tag_type = NER_TAG_TYPE</span>
-<span class="line-precise" title="No Anys on this line!">    lexicon = ChemLexicon()</span>
-<span class="line-precise" title="No Anys on this line!">    model = "models/cem_dict-1.0.pickle"</span>
+<span class="line-precise" title="No Anys on this line!">    tag_type: str = NER_TAG_TYPE</span>
+<span class="line-precise" title="No Anys on this line!">    lexicon: ChemLexicon = ChemLexicon()</span>
+<span class="line-precise" title="No Anys on this line!">    model: str = "models/cem_dict-1.0.pickle"</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">class CsDictCemTagger(DictionaryTagger):</span>
-<span class="line-empty" title="No Anys on this line!">    """Case-sensitive CEM dictionary tagger."""</span>
+<span class="line-empty" title="No Anys on this line!">    """Case-sensitive CEM dictionary tagger.</span>
+<span class="line-empty" title="No Anys on this line!">    </span>
+<span class="line-empty" title="No Anys on this line!">    Uses chemical lexicon for fast dictionary-based entity recognition</span>
+<span class="line-empty" title="No Anys on this line!">    with exact case matching requirements.</span>
+<span class="line-empty" title="No Anys on this line!">    """</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-precise" title="No Anys on this line!">    tag_type = NER_TAG_TYPE</span>
+<span class="line-precise" title="No Anys on this line!">    tag_type: str = NER_TAG_TYPE</span>
 <span class="line-precise" title="No Anys on this line!">    lexicon = ChemLexicon()</span>
 <span class="line-precise" title="No Anys on this line!">    model = "models/cem_dict_cs-1.0.pickle"</span>
 <span class="line-precise" title="No Anys on this line!">    case_sensitive = True</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">class CrfCemTagger(CrfTagger):</span>
-<span class="line-empty" title="No Anys on this line!">    """"""</span>
+<span class="line-empty" title="No Anys on this line!">    """CRF-based chemical entity mention tagger.</span>
+<span class="line-empty" title="No Anys on this line!">    </span>
+<span class="line-empty" title="No Anys on this line!">    Uses Conditional Random Fields to identify chemical entities in text.</span>
+<span class="line-empty" title="No Anys on this line!">    Trained on chemistry literature with features including word shapes,</span>
+<span class="line-empty" title="No Anys on this line!">    lexicon matches, and contextual patterns.</span>
+<span class="line-empty" title="No Anys on this line!">    </span>
+<span class="line-empty" title="No Anys on this line!">    Attributes:</span>
+<span class="line-empty" title="No Anys on this line!">        tag_type: str - NER tag type for chemical entities</span>
+<span class="line-empty" title="No Anys on this line!">        model: str - Path to trained CRF model file</span>
+<span class="line-empty" title="No Anys on this line!">        lexicon: ChemLexicon - Chemical terminology lexicon</span>
+<span class="line-empty" title="No Anys on this line!">        clusters: bool - Whether to use word clustering features</span>
+<span class="line-empty" title="No Anys on this line!">        params: dict - CRF training/inference parameters</span>
+<span class="line-empty" title="No Anys on this line!">    """</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-precise" title="No Anys on this line!">    tag_type = NER_TAG_TYPE</span>
-<span class="line-precise" title="No Anys on this line!">    model = "models/cem_crf_chemdner_cemp-1.0.pickle"</span>
-<span class="line-precise" title="No Anys on this line!">    lexicon = ChemLexicon()</span>
-<span class="line-precise" title="No Anys on this line!">    clusters = True</span>
+<span class="line-precise" title="No Anys on this line!">    tag_type: str = NER_TAG_TYPE</span>
+<span class="line-precise" title="No Anys on this line!">    model: str = "models/cem_crf_chemdner_cemp-1.0.pickle"</span>
+<span class="line-precise" title="No Anys on this line!">    lexicon: ChemLexicon = ChemLexicon()</span>
+<span class="line-precise" title="No Anys on this line!">    clusters: bool = True</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-precise" title="No Anys on this line!">    params = {</span>
+<span class="line-imprecise" title="Any Types on this line: 
+Explicit (x1)">    params: dict[str, Any] = {</span>
 <span class="line-precise" title="No Anys on this line!">        "c1": 1.0,  # Coefficient for L1 regularization (OWL-QN). Default 0.</span>
 <span class="line-precise" title="No Anys on this line!">        "c2": 0.001,  # Coefficient for L2 regularization. Default 1.</span>
 <span class="line-precise" title="No Anys on this line!">        "max_iterations": 200,  # The maximum number of iterations for L-BFGS optimization. Default INT_MAX.</span>
