@@ -15,6 +15,7 @@ import re
 from abc import ABCMeta
 from abc import abstractmethod
 from collections import defaultdict
+from functools import lru_cache
 from typing import TYPE_CHECKING
 from typing import List
 from typing import Tuple
@@ -35,6 +36,28 @@ Token = Tuple[str, str]  # (word, tag) pair
 TaggedSentence = List[Token]  # List of tagged tokens
 TagList = List[str]  # List of tags
 TokenList = List[str]  # List of token strings
+
+
+@lru_cache(maxsize=256)
+def _compile_tagger_regex(pattern: str, flags: int = 0):
+    """Cached regex compilation for tagger patterns.
+    
+    Provides performance optimization by caching compiled regex objects
+    used in RegexTagger and other NLP taggers. This prevents redundant
+    compilation of identical patterns across multiple tagger instances.
+    
+    Args:
+        pattern: The regex pattern string to compile
+        flags: Regex compilation flags (default: 0)
+        
+    Returns:
+        Compiled regex pattern object
+        
+    Note:
+        Cache size of 256 is optimized for tagger usage patterns which
+        typically involve fewer unique patterns than parser elements.
+    """
+    return re.compile(pattern, flags)
 
 log = logging.getLogger(__name__)
 
@@ -227,12 +250,13 @@ class RegexTagger(BaseTagger):
     lexicon = Lexicon()
 
     def __init__(self, patterns=None, lexicon=None):
-        """
+        """Initialize RegexTagger with cached regex compilation.
 
         :param list(tuple(string, string)) patterns: List of (regex, tag) pairs.
         """
         self.patterns = patterns if patterns is not None else self.patterns
-        self.regexes = [(re.compile(pattern, re.I | re.U), tag) for pattern, tag in self.patterns]
+        # Use cached compilation for improved performance
+        self.regexes = [(_compile_tagger_regex(pattern, re.I | re.U), tag) for pattern, tag in self.patterns]
         self.lexicon = lexicon if lexicon is not None else self.lexicon
         log.debug(
             "%s: Initializing with %s patterns" % (self.__class__.__name__, len(self.patterns))

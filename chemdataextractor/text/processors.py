@@ -16,6 +16,7 @@ from typing import Optional
 
 from . import APOSTROPHES
 from . import EMAIL_RE
+from ..parse.regex_patterns import remove_bracketed_numbers, remove_uncertainty, convert_scientific_notation
 
 log = logging.getLogger(__name__)
 
@@ -116,13 +117,13 @@ def floats(s):
     try:
         return float(s)
     except ValueError:
-        s = re.sub(r"(\d)\s*\(\d+(\.\d+)?\)", r"\1", s)  # Remove bracketed numbers from end
-        s = re.sub(r"(\d)\s*±\s*\d+(\.\d+)?", r"\1", s)  # Remove uncertainties from end
+        s = remove_bracketed_numbers(s)  # Remove bracketed numbers from end
+        s = remove_uncertainty(s)  # Remove uncertainties from end
         s = s.rstrip("'\"+-=<>/,.:;!?)]}…∼~≈×*_≥≤")  # Remove trailing punctuation
         s = s.lstrip("'\"+=<>/([{∼~≈×*_≥≤£$€#§")  # Remove leading punctuation
         s = s.replace(",", "")  # Remove commas
         s = "".join(s.split())  # Strip whitespace
-        s = re.sub(r"(\d)\s*[×x]\s*10\^?(-?\d)", r"\1e\2", s)  # Convert scientific notation
+        s = convert_scientific_notation(s)  # Convert scientific notation
         return float(s)
 
 

@@ -1,0 +1,99 @@
+{
+  "regex_compilation_overhead": {
+    "compile_every_time": {
+      "mean": 1.1801595974247902e-06,
+      "median": 1.0980002116411924e-06,
+      "stdev": 3.82332459273573e-07,
+      "min": 1.0570001904852688e-06,
+      "max": 4.475004971027374e-06,
+      "total": 0.00011801595974247903,
+      "iterations": 100
+    },
+    "use_precompiled": {
+      "mean": 7.349401130340993e-07,
+      "median": 7.069975254125893e-07,
+      "stdev": 1.7513264192410279e-07,
+      "min": 6.619957275688648e-07,
+      "max": 2.3520042304880917e-06,
+      "total": 7.349401130340993e-05,
+      "iterations": 100
+    },
+    "overhead_ratio": 1.60579015418367
+  },
+  "regex_element_creation": {
+    "mean": 1.7666220082901417e-05,
+    "median": 8.05449963081628e-06,
+    "stdev": 9.00817712129248e-05,
+    "min": 7.82399729359895e-06,
+    "max": 0.0009091059982893057,
+    "total": 0.0017666220082901418,
+    "iterations": 100,
+    "patterns_per_iteration": 10
+  },
+  "regex_element_matching": {
+    "mean": 5.798887985292822e-05,
+    "median": 5.403750037658028e-05,
+    "stdev": 1.4279915446847855e-05,
+    "min": 5.331799911800772e-05,
+    "max": 0.00014304599608294666,
+    "total": 0.005798887985292822,
+    "iterations": 100
+  },
+  "regex_tagger_creation_small": {
+    "mean": 9.64401988312602e-06,
+    "median": 5.958496331004426e-06,
+    "stdev": 2.395447660893397e-05,
+    "min": 5.6680000852793455e-06,
+    "max": 0.00017547300376463681,
+    "total": 0.000482200994156301,
+    "iterations": 50,
+    "pattern_count": 3
+  },
+  "regex_tagger_creation_medium": {
+    "mean": 2.1151039836695416e-05,
+    "median": 1.0773997928481549e-05,
+    "stdev": 6.51787572584902e-05,
+    "min": 1.0420997568871826e-05,
+    "max": 0.00047175299550872296,
+    "total": 0.0010575519918347709,
+    "iterations": 50,
+    "pattern_count": 6
+  },
+  "regex_tagger_creation_large": {
+    "mean": 3.31295799696818e-05,
+    "median": 1.695449827820994e-05,
+    "stdev": 0.00010343320549081424,
+    "min": 1.6571000742260367e-05,
+    "max": 0.0007490970019716769,
+    "total": 0.00165647899848409,
+    "iterations": 50,
+    "pattern_count": 10
+  },
+  "regex_tagger_tagging": {
+    "mean": 0.004029572640065453,
+    "median": 0.0038281625020317733,
+    "stdev": 0.0007607124840943395,
+    "min": 0.003585930993722286,
+    "max": 0.009767581002961379,
+    "total": 0.4029572640065453,
+    "iterations": 100,
+    "tokens_per_iteration": 1400
+  },
+  "document_processing": {
+    "mean": 0.9695479319998412,
+    "median": 0.9695479319998412,
+    "stdev": 0,
+    "min": 0.9695479319998412,
+    "max": 0.9695479319998412,
+    "total": 0.9695479319998412,
+    "iterations": 1,
+    "text_length": 48500
+  },
+  "metadata": {
+    "timestamp": "2025-09-13T01:26:42.075039",
+    "total_benchmark_time": 1.385925531387329,
+    "iterations": 100,
+    "python_version": "3.11.11 (main, Mar 17 2025, 21:02:09) [Clang 20.1.0 ]",
+    "platform": "Linux-6.14.0-29-generic-x86_64-with-glibc2.41"
+  }
+}

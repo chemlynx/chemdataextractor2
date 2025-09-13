@@ -19,6 +19,7 @@ from . import SINGLE_QUOTES
 from . import SLASHES
 from . import TILDES
 from .processors import BaseProcessor
+from ..parse.regex_patterns import normalize_chemical_spelling
 
 
 class BaseNormalizer(BaseProcessor, metaclass=ABCMeta):
@@ -234,9 +235,7 @@ class ChemNormalizer(Normalizer):
         text = super(ChemNormalizer, self).normalize(text)
         # Normalize element spelling
         if self.chem_spell:
-            text = re.sub(r"sulph", r"sulf", text, flags=re.I)
-            text = re.sub(r"aluminum", r"aluminium", text, flags=re.I)
-            text = re.sub(r"cesium", r"caesium", text, flags=re.I)
+            text = normalize_chemical_spelling(text)
         return text
 
 

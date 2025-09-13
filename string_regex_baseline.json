@@ -1,0 +1,122 @@
+{
+  "raw_regex_operations": {
+    "compile_every_time": {
+      "mean": 0.00016728462402534205,
+      "median": 0.00014018349975231104,
+      "stdev": 6.337829564657965e-05,
+      "min": 0.0001375720021314919,
+      "max": 0.0006723909973516129,
+      "total": 0.08364231201267103,
+      "iterations": 500
+    },
+    "precompiled": {
+      "mean": 6.517648586304858e-05,
+      "median": 4.426800296641886e-05,
+      "stdev": 2.885552196249427e-05,
+      "min": 4.106800042791292e-05,
+      "max": 0.00016320400027325377,
+      "total": 0.03258824293152429,
+      "iterations": 500
+    },
+    "overhead_ratio": 2.5666407418289956
+  },
+  "string_splitting_patterns": {
+    "compile_every_time": {
+      "mean": 0.0001907688741630409,
+      "median": 0.00015500049994443543,
+      "stdev": 6.715206161190637e-05,
+      "min": 0.00014902700058883056,
+      "max": 0.0005121479989611544,
+      "total": 0.09538443708152045,
+      "iterations": 500
+    },
+    "precompiled": {
+      "mean": 0.00014219130207493436,
+      "median": 0.00011574749441933818,
+      "stdev": 5.176362809699065e-05,
+      "min": 0.00011227800132473931,
+      "max": 0.00035134599602315575,
+      "total": 0.07109565103746718,
+      "iterations": 500
+    },
+    "overhead_ratio": 1.3416353277537774
+  },
+  "extract_error_operations": {
+    "mean": 0.0005475780620035948,
+    "median": 0.00047017000179039314,
+    "stdev": 0.00017274651262000145,
+    "min": 0.0004481550058699213,
+    "max": 0.0014952399942558259,
+    "total": 0.2737890310017974,
+    "iterations": 500,
+    "strings_per_iteration": 100
+  },
+  "find_value_strings_operations": {
+    "mean": 0.0005522750197706046,
+    "median": 0.0004803039992111735,
+    "stdev": 0.00019013226196796276,
+    "min": 0.000446798003395088,
+    "max": 0.0016768959976616316,
+    "total": 0.2761375098853023,
+    "iterations": 500,
+    "strings_per_iteration": 120
+  },
+  "split_operations": {
+    "mean": 0.001674855584045872,
+    "median": 0.0015181849994405638,
+    "stdev": 0.00044733204971584775,
+    "min": 0.0014231770037440583,
+    "max": 0.004272707999916747,
+    "total": 0.837427792022936,
+    "iterations": 500,
+    "strings_per_iteration": 140
+  },
+  "floats_operations": {
+    "mean": 0.0010506793782114983,
+    "median": 0.0009912390014505945,
+    "stdev": 0.00023587992818508162,
+    "min": 0.0009233460004907101,
+    "max": 0.003094457002589479,
+    "total": 0.5253396891057491,
+    "iterations": 500,
+    "strings_per_iteration": 150
+  },
+  "normalizer_operations": {
+    "mean": 0.0008084689922252437,
+    "median": 0.0007481890024791937,
+    "stdev": 0.0002091365356483698,
+    "min": 0.0007008399988990277,
+    "max": 0.0021050279974588193,
+    "total": 0.40423449611262185,
+    "iterations": 500,
+    "strings_per_iteration": 100
+  },
+  "tokenizer_operations": {
+    "mean": 0.005532075726106996,
+    "median": 0.004763883498526411,
+    "stdev": 0.002431802111394858,
+    "min": 0.004396237003675196,
+    "max": 0.04128015899914317,
+    "total": 2.766037863053498,
+    "iterations": 500,
+    "strings_per_iteration": 70
+  },
+  "document_processing_strings": {
+    "mean": 0.2783586510013265,
+    "median": 0.2783586510013265,
+    "stdev": 0.3822462125849271,
+    "min": 0.008069761999649927,
+    "max": 0.5486475400030031,
+    "total": 0.556717302002653,
+    "iterations": 2,
+    "text_length": 11760
+  },
+  "metadata": {
+    "timestamp": "2025-09-13T02:13:36.395412",
+    "total_benchmark_time": 5.9334495067596436,
+    "iterations": 500,
+    "python_version": "3.11.11 (main, Mar 17 2025, 21:02:09) [Clang 20.1.0 ]",
+    "platform": "Linux-6.14.0-29-generic-x86_64-with-glibc2.41",
+    "optimization_phase": "Phase 2 - String Operations Baseline"
+  }
+}

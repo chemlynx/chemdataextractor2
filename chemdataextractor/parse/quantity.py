@@ -22,6 +22,8 @@ from typing import Union
 
 from deprecation import deprecated
 
+from .regex_patterns import split_by_error_pattern, split_by_space_dash, get_pattern
+
 if TYPE_CHECKING:
     pass
 
@@ -223,9 +225,8 @@ def extract_error(string: Optional[str]) -> Optional[float]:
     if string is None:
         return None
     string = _clean_value_string(string)
-    split_by_num_and_error = [
-        r for r in re.split(r"(\d+\.?(?:\d+)?)|(±)|(\()", string) if r and r != " "
-    ]
+    # Use pre-compiled pattern for improved performance
+    split_by_num_and_error = split_by_error_pattern(string)
     error = None
     for index, value in enumerate(split_by_num_and_error):
         if value == "±":
@@ -310,10 +311,12 @@ def _find_value_strings(string):
     string = _clean_value_string(string)
     string = string.split("±")[0]
     string = string.split("(")[0]
-    split_by_space = [r for r in re.split(" |(-)", string) if r]
+    # Use pre-compiled pattern for improved performance
+    split_by_space = split_by_space_dash(string)
     split_by_num = []
+    number_pattern = get_pattern('number')
     for elem in split_by_space:
-        split_by_num.extend([r for r in re.split(_number_pattern, elem) if r])
+        split_by_num.extend([r for r in number_pattern.split(elem) if r])
     split_by_num_merge_minus = []
     merge_next_in = False
     for index, value in enumerate(split_by_num):
@@ -471,8 +474,9 @@ def _split(string):
     :rtype: list(str)
     """
 
-    # Split at numbers
-    split_by_num = re.split(_simple_number_pattern, string)
+    # Split at numbers using pre-compiled pattern
+    simple_number_pattern = get_pattern('simple_number')
+    split_by_num = simple_number_pattern.split(string)
     split_by_num_cleaned = []
     for element in split_by_num:
         try:
@@ -486,16 +490,18 @@ def _split(string):
             else:
                 split_by_num_cleaned.append(element)
 
-    # Split at slashes
+    # Split at slashes using pre-compiled pattern
+    unit_fraction_pattern = get_pattern('unit_fraction')
     split_by_slash = []
     for element in split_by_num_cleaned:
-        split = re.split(_unit_fraction_pattern, element)
+        split = unit_fraction_pattern.split(element)
         split_by_slash += split
 
-    # Split at brackets
+    # Split at brackets using pre-compiled pattern
+    brackets_pattern = get_pattern('brackets')
     split_by_bracket = []
     for element in split_by_slash:
-        split = re.split(_brackets_pattern, element)
+        split = brackets_pattern.split(element)
         split_by_bracket += split
 
     # Merge bits that were split too much
