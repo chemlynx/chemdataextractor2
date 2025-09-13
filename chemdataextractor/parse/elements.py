@@ -21,12 +21,11 @@ from typing import Any
 from typing import Callable
 from typing import List
 from typing import Optional
-from typing import Union
 
 from lxml.builder import E
 
 if TYPE_CHECKING:
-    from ..doc.text import Sentence
+    pass
 
 # Type aliases for parsing
 ParseAction = Callable[[List[Any]], Any]  # Function that processes parse results

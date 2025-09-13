@@ -384,19 +384,6 @@
 <span id="L374" class="lineno"><a class="lineno" href="#L374">374</a></span>
 <span id="L375" class="lineno"><a class="lineno" href="#L375">375</a></span>
 <span id="L376" class="lineno"><a class="lineno" href="#L376">376</a></span>
-<span id="L377" class="lineno"><a class="lineno" href="#L377">377</a></span>
-<span id="L378" class="lineno"><a class="lineno" href="#L378">378</a></span>
-<span id="L379" class="lineno"><a class="lineno" href="#L379">379</a></span>
-<span id="L380" class="lineno"><a class="lineno" href="#L380">380</a></span>
-<span id="L381" class="lineno"><a class="lineno" href="#L381">381</a></span>
-<span id="L382" class="lineno"><a class="lineno" href="#L382">382</a></span>
-<span id="L383" class="lineno"><a class="lineno" href="#L383">383</a></span>
-<span id="L384" class="lineno"><a class="lineno" href="#L384">384</a></span>
-<span id="L385" class="lineno"><a class="lineno" href="#L385">385</a></span>
-<span id="L386" class="lineno"><a class="lineno" href="#L386">386</a></span>
-<span id="L387" class="lineno"><a class="lineno" href="#L387">387</a></span>
-<span id="L388" class="lineno"><a class="lineno" href="#L388">388</a></span>
-<span id="L389" class="lineno"><a class="lineno" href="#L389">389</a></span>
 </pre></td>
 <td class="table-code"><pre><span class="line-empty" title="No Anys on this line!">"""</span>
 <span class="line-empty" title="No Anys on this line!">Table document elements</span>
@@ -412,8 +399,7 @@
 <span class="line-precise" title="No Anys on this line!">import logging</span>
 <span class="line-precise" title="No Anys on this line!">from typing import TYPE_CHECKING</span>
 <span class="line-precise" title="No Anys on this line!">from typing import Any</span>
-<span class="line-precise" title="No Anys on this line!">from typing import Optional</span>
-<span class="line-precise" title="No Anys on this line!">from typing import Union</span>
+<span class="line-precise" title="No Anys on this line!">from typing import List</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="No Anys on this line!">from tabledataextractor import Table as TdeTable</span>
 <span class="line-any" title="No Anys on this line!">from tabledataextractor import TrivialTable as TrivialTdeTable</span>
@@ -425,18 +411,16 @@
 <span class="line-precise" title="No Anys on this line!">from .element import CaptionedElement</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">if TYPE_CHECKING:</span>
-<span class="line-precise" title="No Anys on this line!">    from ..doc.document import Document</span>
 <span class="line-precise" title="No Anys on this line!">    from ..model.base import BaseModel</span>
-<span class="line-precise" title="No Anys on this line!">    from ..parse.base import BaseParser</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!"># Type aliases for table processing</span>
 <span class="line-any" title="Any Types on this line: 
-Explicit (x1)">TableData = list[list[Any]]  # Raw table data structure</span>
-<span class="line-precise" title="No Anys on this line!">CDETable = list[list[Cell]]  # CDE table with Cell objects</span>
-<span class="line-precise" title="No Anys on this line!">CDETables = list[CDETable]  # List of CDE tables</span>
-<span class="line-precise" title="No Anys on this line!">CategoryTable = list[Any]  # Table category data</span>
+Explicit (x1)">TableData = List[List[Any]]  # Raw table data structure</span>
+<span class="line-precise" title="No Anys on this line!">CDETable = List[List[Cell]]  # CDE table with Cell objects</span>
+<span class="line-precise" title="No Anys on this line!">CDETables = List[CDETable]  # List of CDE tables</span>
+<span class="line-precise" title="No Anys on this line!">CategoryTable = List[Any]  # Table category data</span>
 <span class="line-precise" title="Any Types on this line: 
-Unannotated (x2)">TableRecords = ModelList  # Collection of extracted model records</span>
+Omitted Generics (x4)">TableRecords = ModelList  # Collection of extracted model records</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">log = logging.getLogger(__name__)</span>
 <span class="line-precise" title="No Anys on this line!">log.setLevel(logging.INFO)</span>
@@ -444,19 +428,19 @@ Unannotated (x2)">TableRecords = ModelList  # Collection of extracted model reco
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">class Table(CaptionedElement):</span>
 <span class="line-empty" title="No Anys on this line!">    """Main Table object for processing tabular data in scientific documents.</span>
-<span class="line-empty" title="No Anys on this line!">    </span>
+<span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">    Relies on TableDataExtractor for parsing and ChemDataExtractor for extraction.</span>
 <span class="line-empty" title="No Anys on this line!">    Handles complex table structures with chemical entities, quantities, and properties.</span>
 <span class="line-empty" title="No Anys on this line!">    """</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="Any Types on this line: 
 Explicit (x1)">    def __init__(</span>
-<span class="line-empty" title="No Anys on this line!">        self, </span>
-<span class="line-empty" title="No Anys on this line!">        caption: CaptionedElement, </span>
-<span class="line-precise" title="No Anys on this line!">        label: Optional[str] = None, </span>
-<span class="line-precise" title="No Anys on this line!">        table_data: Optional[TableData] = None, </span>
-<span class="line-precise" title="No Anys on this line!">        models: Optional[list[BaseModel]] = None, </span>
-<span class="line-empty" title="No Anys on this line!">        **kwargs: Any</span>
+<span class="line-empty" title="No Anys on this line!">        self,</span>
+<span class="line-empty" title="No Anys on this line!">        caption: CaptionedElement,</span>
+<span class="line-precise" title="No Anys on this line!">        label: str | None = None,</span>
+<span class="line-precise" title="No Anys on this line!">        table_data: TableData | None = None,</span>
+<span class="line-precise" title="No Anys on this line!">        models: List[BaseModel] | None = None,</span>
+<span class="line-empty" title="No Anys on this line!">        **kwargs: Any,</span>
 <span class="line-empty" title="No Anys on this line!">    ) -&gt; None:</span>
 <span class="line-empty" title="No Anys on this line!">        """</span>
 <span class="line-empty" title="No Anys on this line!">        In addition to the parameters below, any keyword arguments supported by TableDataExtractor.TdeTable</span>
@@ -485,10 +469,7 @@ Explicit (x1)">    def __init__(</span>
 <span class="line-precise" title="No Anys on this line!">        if table_data is None:</span>
 <span class="line-precise" title="No Anys on this line!">            table_data = []</span>
 <span class="line-any" title="Any Types on this line: 
-Explicit (x1)">        super(Table, self).__init__(</span>
-<span class="line-imprecise" title="Any Types on this line: 
-Explicit (x1)">            caption=caption, label=label, models=models, **kwargs</span>
-<span class="line-empty" title="No Anys on this line!">        )</span>
+Explicit (x2)">        super(Table, self).__init__(caption=caption, label=label, models=models, **kwargs)</span>
 <span class="line-empty" title="No Anys on this line!">        try:</span>
 <span class="line-empty" title="No Anys on this line!">            #: TableDataExtractor `Table` object. Can pass any kwargs into TDE directly.</span>
 <span class="line-any" title="Any Types on this line: 
@@ -504,10 +485,8 @@ Unimported (x1)">            log.error(f"TableDataExtractor 'Table' error: {e}")
 <span class="line-empty" title="No Anys on this line!">            try:</span>
 <span class="line-empty" title="No Anys on this line!">                #: TableDataExtractor `TrivialTable` object. Can pass any kwargs into TDE directly.</span>
 <span class="line-any" title="Any Types on this line: 
-Unimported (x3)">                self.tde_table = TrivialTdeTable(</span>
-<span class="line-imprecise" title="Any Types on this line: 
-Explicit (x1)">                    table_data, standardize_empty_data=True, **kwargs</span>
-<span class="line-empty" title="No Anys on this line!">                )</span>
+Unimported (x3)
+Explicit (x1)">                self.tde_table = TrivialTdeTable(table_data, standardize_empty_data=True, **kwargs)</span>
 <span class="line-any" title="Any Types on this line: 
 Unimported (x2)">            except (TDEError, TypeError) as e:</span>
 <span class="line-imprecise" title="Any Types on this line: 
@@ -532,10 +511,8 @@ Unimported (x1)">        if self.tde_table is not None:</span>
 Unimported (x2)
 Unannotated (x1)">            self.tde_subtables = self.tde_table.subtables</span>
 <span class="line-empty" title="No Anys on this line!">            # adjust the CDE Table heading from TDE results</span>
-<span class="line-precise" title="No Anys on this line!">            self.heading = (</span>
 <span class="line-any" title="Any Types on this line: 
-Unimported (x4)">                self.tde_table.title_row if self.tde_table.title_row is not None else []</span>
-<span class="line-empty" title="No Anys on this line!">            )</span>
+Unimported (x4)">            self.heading = self.tde_table.title_row if self.tde_table.title_row is not None else []</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-imprecise" title="Any Types on this line: 
 Unannotated (x1)">            if self.tde_subtables:</span>
@@ -567,10 +544,7 @@ Unannotated (x5)">        for category_table in self._category_tables(tde_table)
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x2)">            for cell in category_table:</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x8)">                cde_cell = Cell.from_tdecell(</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x1)">                    cell, models=self.models, document=document</span>
-<span class="line-empty" title="No Anys on this line!">                )</span>
+Unannotated (x9)">                cde_cell = Cell.from_tdecell(cell, models=self.models, document=document)</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x3)">                cde_table.append(cde_cell)</span>
 <span class="line-imprecise" title="Any Types on this line: 
@@ -630,15 +604,16 @@ Unannotated (x1)">                        yield result</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">    @property</span>
 <span class="line-any" title="No Anys on this line!">    def records(self):</span>
-<span class="line-precise" title="Any Types on this line: 
-Unannotated (x1)">        table_records = ModelList()</span>
+<span class="line-imprecise" title="Any Types on this line: 
+Error (x1)">        table_records = ModelList()</span>
 <span class="line-precise" title="No Anys on this line!">        caption_records = self.caption.records</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x2)">        for table in self.cde_tables:</span>
 <span class="line-any" title="Any Types on this line: 
-Error (x1)
+Error (x2)
 Unannotated (x5)">            table_records.extend(self._records_for_cde_tables(table, caption_records))</span>
-<span class="line-precise" title="No Anys on this line!">        return table_records</span>
+<span class="line-imprecise" title="Any Types on this line: 
+Error (x1)">        return table_records</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="No Anys on this line!">    def _records_for_cde_tables(self, cde_tables, caption_records=None):</span>
 <span class="line-empty" title="No Anys on this line!">        """</span>
@@ -661,11 +636,11 @@ Unannotated (x5)">            table_records.extend(self._records_for_cde_tables(
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">        if not caption_records:</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            caption_records = ModelList()</span>
+Unannotated (x4)">            caption_records = ModelList()</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">        # Step 1</span>
-<span class="line-precise" title="Any Types on this line: 
-Unannotated (x1)">        table_records = ModelList()</span>
+<span class="line-imprecise" title="Any Types on this line: 
+Error (x1)">        table_records = ModelList()</span>
 <span class="line-precise" title="No Anys on this line!">        for model in self._streamlined_models:</span>
 <span class="line-precise" title="No Anys on this line!">            for parser in model.parsers:</span>
 <span class="line-any" title="Any Types on this line: 
@@ -675,33 +650,35 @@ Unannotated (x6)">                    for record in self._parse_table(parser, cd
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x2)">                        if not record.is_empty:</span>
 <span class="line-any" title="Any Types on this line: 
-Error (x1)
+Error (x2)
 Unannotated (x1)">                            table_records.append(record)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">        # Step 2</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x3)">        self._consolidate_by_row_col(table_records)</span>
+Unannotated (x3)
+Error (x1)">        self._consolidate_by_row_col(table_records)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">        # Step 3</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x3)">        table_records.remove_subsets(strict=True)</span>
+Unannotated (x3)
+Error (x1)">        table_records.remove_subsets(strict=True)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">        # Step 4</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x4)">        self._consolidate(table_records)</span>
+Unannotated (x4)
+Error (x1)">        self._consolidate(table_records)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">        # Step 5</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x3)">        table_records.remove_subsets()</span>
+Unannotated (x3)
+Error (x1)">        table_records.remove_subsets()</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">        # Step 6</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">        caption_records = ModelList(</span>
+Unannotated (x9)">        caption_records = ModelList(*[c for c in caption_records if c.required_fulfilled])</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x5)">            *[c for c in caption_records if c.required_fulfilled]</span>
-<span class="line-empty" title="No Anys on this line!">        )</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x5)">        table_records = self._merge(table_records, caption_records)</span>
+Unannotated (x5)
+Error (x2)">        table_records = self._merge(table_records, caption_records)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">        return table_records</span>
@@ -738,28 +715,28 @@ Unannotated (x2)">        for record in records:</span>
 Unannotated (x2)">            col_key = " ".join(record.table_col_categories)</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x2)">            row_key = " ".join(record.table_row_categories)</span>
-<span class="line-precise" title="No Anys on this line!">            if col_key in col_first.keys():</span>
+<span class="line-imprecise" title="Any Types on this line: 
+Unannotated (x1)">            if col_key in col_first:</span>
 <span class="line-any" title="Any Types on this line: 
-Error (x1)
-Unannotated (x1)">                col_first[col_key].append(record)</span>
+Unannotated (x4)">                col_first[col_key].append(record)</span>
 <span class="line-empty" title="No Anys on this line!">            else:</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">                col_first[col_key] = ModelList(record)</span>
-<span class="line-precise" title="No Anys on this line!">            if row_key in row_first.keys():</span>
+Unannotated (x5)">                col_first[col_key] = ModelList(record)</span>
+<span class="line-imprecise" title="Any Types on this line: 
+Unannotated (x1)">            if row_key in row_first:</span>
 <span class="line-any" title="Any Types on this line: 
-Error (x1)
-Unannotated (x1)">                row_first[row_key].append(record)</span>
+Unannotated (x4)">                row_first[row_key].append(record)</span>
 <span class="line-empty" title="No Anys on this line!">            else:</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">                row_first[row_key] = ModelList(record)</span>
+Unannotated (x5)">                row_first[row_key] = ModelList(record)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">        # Consolidate for each row/column</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x1)">        for _, records in row_first.items():</span>
+Unannotated (x4)">        for _, records in row_first.items():</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x5)">            self._consolidate(records)</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x1)">        for _, records in col_first.items():</span>
+Unannotated (x4)">        for _, records in col_first.items():</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x5)">            self._consolidate(records)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
@@ -794,8 +771,8 @@ Unannotated (x5)
 Omitted Generics (x3)">            flattened_model = list(model.flatten())</span>
 <span class="line-imprecise" title="Any Types on this line: 
 Unannotated (x2)">            all_models[model] = flattened_model</span>
-<span class="line-precise" title="Any Types on this line: 
-Unannotated (x2)">            segmented_records[model] = [ModelList(), ModelList()]</span>
+<span class="line-imprecise" title="Any Types on this line: 
+Unannotated (x8)">            segmented_records[model] = [ModelList(), ModelList()]</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">        # Create the segmented_records dictionary</span>
 <span class="line-any" title="Any Types on this line: 
@@ -809,55 +786,60 @@ Unannotated (x4)">            for root_model, submodels in all_models.items():</
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">                if isinstance(record, root_model):</span>
 <span class="line-any" title="Any Types on this line: 
-Error (x1)">                    segmented_records[root_model][0].append(record)</span>
+Unannotated (x6)">                    segmented_records[root_model][0].append(record)</span>
 <span class="line-any" title="Any Types on this line: 
 Explicit (x2)
 Unannotated (x2)">                elif type(record) in submodels:</span>
 <span class="line-any" title="Any Types on this line: 
-Error (x1)
-Unannotated (x1)">                    segmented_records[root_model][1].append(record)</span>
+Unannotated (x7)">                    segmented_records[root_model][1].append(record)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">        # Do all the actual merging</span>
 <span class="line-precise" title="Any Types on this line: 
 Omitted Generics (x3)">        record_set = set()</span>
-<span class="line-precise" title="No Anys on this line!">        for model_type, segment in segmented_records.items():</span>
+<span class="line-any" title="Any Types on this line: 
+Unannotated (x8)">        for model_type, segment in segmented_records.items():</span>
 <span class="line-empty" title="No Anys on this line!">            # Merge all records of the parent type with all records of the child type</span>
 <span class="line-any" title="Any Types on this line: 
-Error (x1)">            for record_of_type in segment[0]:</span>
+Unannotated (x3)">            for record_of_type in segment[0]:</span>
 <span class="line-any" title="Any Types on this line: 
-Error (x1)">                for record_of_subtype in segment[1]:</span>
+Unannotated (x3)">                for record_of_subtype in segment[1]:</span>
 <span class="line-any" title="Any Types on this line: 
-Error (x2)">                    if model_type not in record_of_subtype._merged_in:</span>
+Unannotated (x3)">                    if model_type not in record_of_subtype._merged_in:</span>
 <span class="line-any" title="Any Types on this line: 
 Explicit (x14)
 Omitted Generics (x2)
-Error (x2)">                        if getattr(record_of_type, function_name)(record_of_subtype):</span>
+Unannotated (x2)">                        if getattr(record_of_type, function_name)(record_of_subtype):</span>
 <span class="line-any" title="Any Types on this line: 
-Error (x4)">                            record_of_subtype._merged_in.append(model_type)</span>
+Unannotated (x5)">                            record_of_subtype._merged_in.append(model_type)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">            # Merge all records of the parent type with other records of the parent type</span>
 <span class="line-any" title="No Anys on this line!">            i = 0</span>
-<span class="line-any" title="No Anys on this line!">            records_of_type = segment[0]</span>
-<span class="line-precise" title="No Anys on this line!">            while i &lt; len(records_of_type):</span>
-<span class="line-any" title="No Anys on this line!">                j = 0</span>
-<span class="line-precise" title="No Anys on this line!">                while j &lt; len(records_of_type):</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x4)">                    if i != j and not records_of_type[i].is_subset(records_of_type[j]):</span>
+Unannotated (x3)">            records_of_type = segment[0]</span>
+<span class="line-any" title="Any Types on this line: 
+Unannotated (x1)">            while i &lt; len(records_of_type):</span>
+<span class="line-any" title="No Anys on this line!">                j = 0</span>
+<span class="line-any" title="Any Types on this line: 
+Unannotated (x1)">                while j &lt; len(records_of_type):</span>
+<span class="line-any" title="Any Types on this line: 
+Unannotated (x6)">                    if i != j and not records_of_type[i].is_subset(records_of_type[j]):</span>
 <span class="line-any" title="Any Types on this line: 
 Explicit (x14)
 Omitted Generics (x2)
-Unannotated (x2)">                        getattr(records_of_type[i], function_name)(records_of_type[j])</span>
+Unannotated (x4)">                        getattr(records_of_type[i], function_name)(records_of_type[j])</span>
 <span class="line-any" title="No Anys on this line!">                    j += 1</span>
 <span class="line-any" title="No Anys on this line!">                i += 1</span>
-<span class="line-imprecise" title="Any Types on this line: 
-Unannotated (x2)">            record_set.update(records_of_type)</span>
+<span class="line-any" title="Any Types on this line: 
+Omitted Generics (x2)
+Unannotated (x1)">            record_set.update(records_of_type)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
+<span class="line-imprecise" title="Any Types on this line: 
+Omitted Generics (x9)">        final_records = ModelList(*list(record_set))</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x3)
-Omitted Generics (x3)">        final_records = ModelList(*list(record_set))</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x3)">        final_records.remove_subsets()</span>
-<span class="line-precise" title="No Anys on this line!">        return final_records</span>
+Omitted Generics (x1)">        final_records.remove_subsets()</span>
+<span class="line-imprecise" title="Any Types on this line: 
+Omitted Generics (x1)">        return final_records</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="No Anys on this line!">    def _merge(self, records_1, records_2):</span>
 <span class="line-empty" title="No Anys on this line!">        """</span>
@@ -891,16 +873,17 @@ Unannotated (x1)">        return records_1</span>
 <span class="line-empty" title="No Anys on this line!">        :return: The cleaned list of records.</span>
 <span class="line-empty" title="No Anys on this line!">        :rtype: ModelList(BaseModel)</span>
 <span class="line-empty" title="No Anys on this line!">        """</span>
-<span class="line-precise" title="Any Types on this line: 
-Unannotated (x1)">        new_records = ModelList()</span>
+<span class="line-imprecise" title="Any Types on this line: 
+Error (x1)">        new_records = ModelList()</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x2)">        for record in records:</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x2)">            if record.noncontextual_required_fulfilled:</span>
 <span class="line-any" title="Any Types on this line: 
-Error (x1)
+Error (x2)
 Unannotated (x1)">                new_records.append(record)</span>
-<span class="line-precise" title="No Anys on this line!">        return new_records</span>
+<span class="line-imprecise" title="Any Types on this line: 
+Error (x1)">        return new_records</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">    @property</span>
 <span class="line-any" title="No Anys on this line!">    def elements(self):</span>

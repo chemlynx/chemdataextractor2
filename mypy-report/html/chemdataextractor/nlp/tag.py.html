@@ -606,20 +606,6 @@
 <span id="L596" class="lineno"><a class="lineno" href="#L596">596</a></span>
 <span id="L597" class="lineno"><a class="lineno" href="#L597">597</a></span>
 <span id="L598" class="lineno"><a class="lineno" href="#L598">598</a></span>
-<span id="L599" class="lineno"><a class="lineno" href="#L599">599</a></span>
-<span id="L600" class="lineno"><a class="lineno" href="#L600">600</a></span>
-<span id="L601" class="lineno"><a class="lineno" href="#L601">601</a></span>
-<span id="L602" class="lineno"><a class="lineno" href="#L602">602</a></span>
-<span id="L603" class="lineno"><a class="lineno" href="#L603">603</a></span>
-<span id="L604" class="lineno"><a class="lineno" href="#L604">604</a></span>
-<span id="L605" class="lineno"><a class="lineno" href="#L605">605</a></span>
-<span id="L606" class="lineno"><a class="lineno" href="#L606">606</a></span>
-<span id="L607" class="lineno"><a class="lineno" href="#L607">607</a></span>
-<span id="L608" class="lineno"><a class="lineno" href="#L608">608</a></span>
-<span id="L609" class="lineno"><a class="lineno" href="#L609">609</a></span>
-<span id="L610" class="lineno"><a class="lineno" href="#L610">610</a></span>
-<span id="L611" class="lineno"><a class="lineno" href="#L611">611</a></span>
-<span id="L612" class="lineno"><a class="lineno" href="#L612">612</a></span>
 </pre></td>
 <td class="table-code"><pre><span class="line-empty" title="No Anys on this line!">#!/usr/bin/env python</span>
 <span class="line-empty" title="No Anys on this line!">"""</span>
@@ -628,6 +614,7 @@
 <span class="line-empty" title="No Anys on this line!">Provides abstract base classes and concrete implementations for chemistry-aware</span>
 <span class="line-empty" title="No Anys on this line!">POS tagging and chemical entity mention (CEM) tagging using CRF models.</span>
 <span class="line-empty" title="No Anys on this line!">"""</span>
+<span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">from __future__ import annotations</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">import logging</span>
@@ -638,8 +625,8 @@
 <span class="line-precise" title="No Anys on this line!">from abc import abstractmethod</span>
 <span class="line-precise" title="No Anys on this line!">from collections import defaultdict</span>
 <span class="line-precise" title="No Anys on this line!">from typing import TYPE_CHECKING</span>
-<span class="line-precise" title="No Anys on this line!">from typing import Any</span>
-<span class="line-precise" title="No Anys on this line!">from typing import Optional</span>
+<span class="line-precise" title="No Anys on this line!">from typing import List</span>
+<span class="line-precise" title="No Anys on this line!">from typing import Tuple</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="No Anys on this line!">import dawg</span>
 <span class="line-any" title="No Anys on this line!">import pycrfsuite</span>
@@ -653,10 +640,10 @@
 <span class="line-precise" title="No Anys on this line!">    pass</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!"># Type aliases for tagging</span>
-<span class="line-precise" title="No Anys on this line!">Token = tuple[str, str]  # (word, tag) pair</span>
-<span class="line-precise" title="No Anys on this line!">TaggedSentence = list[Token]  # List of tagged tokens</span>
-<span class="line-precise" title="No Anys on this line!">TagList = list[str]  # List of tags</span>
-<span class="line-precise" title="No Anys on this line!">TokenList = list[str]  # List of token strings</span>
+<span class="line-precise" title="No Anys on this line!">Token = Tuple[str, str]  # (word, tag) pair</span>
+<span class="line-precise" title="No Anys on this line!">TaggedSentence = List[Token]  # List of tagged tokens</span>
+<span class="line-precise" title="No Anys on this line!">TagList = List[str]  # List of tags</span>
+<span class="line-precise" title="No Anys on this line!">TokenList = List[str]  # List of token strings</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">log = logging.getLogger(__name__)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
@@ -687,7 +674,7 @@
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">    tag_type: str = ""</span>
 <span class="line-empty" title="No Anys on this line!">    """The tag type for this tagger (e.g., 'pos_tag', 'ner_tag').</span>
-<span class="line-empty" title="No Anys on this line!">    </span>
+<span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">    When this tag type is requested from a token, this tagger will be called.</span>
 <span class="line-empty" title="No Anys on this line!">    """</span>
 <span class="line-empty" title="No Anys on this line!"></span>
@@ -719,12 +706,9 @@ Unannotated (x3)
 Omitted Generics (x6)
 Explicit (x8)">        test_tokens = sum(tagged_sents, [])</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x13)
+Unannotated (x14)
 Omitted Generics (x36)
-Explicit (x17)">        accuracy = float(sum(x == y for x, y in zip(gold_tokens, test_tokens))) / len(</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x1)">            test_tokens</span>
-<span class="line-empty" title="No Anys on this line!">        )</span>
+Explicit (x17)">        accuracy = float(sum(x == y for x, y in zip(gold_tokens, test_tokens))) / len(test_tokens)</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">        return accuracy</span>
 <span class="line-empty" title="No Anys on this line!"></span>
@@ -758,7 +742,7 @@ Unannotated (x1)">        return accuracy</span>
 <span class="line-empty" title="No Anys on this line!">    accuracy through consensus or voting mechanisms.</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">    Attributes:</span>
-<span class="line-empty" title="No Anys on this line!">        taggers: list[BaseTagger] - List of individual taggers to combine</span>
+<span class="line-empty" title="No Anys on this line!">        taggers: List[BaseTagger] - List of individual taggers to combine</span>
 <span class="line-empty" title="No Anys on this line!">    the taggers each act on the results from the other taggers by accessing RichToken attributes,</span>
 <span class="line-empty" title="No Anys on this line!">    but an EnsembleTagger allows for the user to add one tagger instead,</span>
 <span class="line-empty" title="No Anys on this line!">    cleaning up the interface.</span>
@@ -895,18 +879,14 @@ Unannotated (x3)">        return [(token, None) for token in tokens]</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x4)">        self.patterns = patterns if patterns is not None else self.patterns</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x1)">        self.regexes = [</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x7)
-Omitted Generics (x4)">            (re.compile(pattern, re.I | re.U), tag) for pattern, tag in self.patterns</span>
-<span class="line-empty" title="No Anys on this line!">        ]</span>
+Unannotated (x8)
+Omitted Generics (x4)">        self.regexes = [(re.compile(pattern, re.I | re.U), tag) for pattern, tag in self.patterns]</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x4)">        self.lexicon = lexicon if lexicon is not None else self.lexicon</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x2)">        log.debug(</span>
-<span class="line-any" title="No Anys on this line!">            "%s: Initializing with %s patterns"</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x4)">            % (self.__class__.__name__, len(self.patterns))</span>
+Unannotated (x4)">            "%s: Initializing with %s patterns" % (self.__class__.__name__, len(self.patterns))</span>
 <span class="line-empty" title="No Anys on this line!">        )</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="No Anys on this line!">    def tag(self, tokens):</span>
@@ -1184,10 +1164,7 @@ Unannotated (x1)">            f,</span>
 <span class="line-any" title="No Anys on this line!">    def load(self, model):</span>
 <span class="line-empty" title="No Anys on this line!">        """Load pickled model."""</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x8)">        self.perceptron.weights, self.tagdict, self.classes, self.clusters = load_model(</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x1)">            model</span>
-<span class="line-empty" title="No Anys on this line!">        )</span>
+Unannotated (x9)">        self.perceptron.weights, self.tagdict, self.classes, self.clusters = load_model(model)</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x3)">        self.perceptron.classes = self.classes</span>
 <span class="line-empty" title="No Anys on this line!"></span>
@@ -1331,9 +1308,7 @@ Omitted Generics (x4)">    delimiters = re.compile(r"(^.|\b|\s|\W|.$)")</span>
 <span class="line-empty" title="No Anys on this line!">    #: Whether dictionary matches are case sensitive.</span>
 <span class="line-precise" title="No Anys on this line!">    case_sensitive = False</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-any" title="No Anys on this line!">    def __init__(</span>
-<span class="line-any" title="No Anys on this line!">        self, words=None, model=None, entity=None, case_sensitive=None, lexicon=None</span>
-<span class="line-empty" title="No Anys on this line!">    ):</span>
+<span class="line-any" title="No Anys on this line!">    def __init__(self, words=None, model=None, entity=None, case_sensitive=None, lexicon=None):</span>
 <span class="line-empty" title="No Anys on this line!">        """</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">        :param list(list(string)) words: list of words, each of which is a list of tokens.</span>
@@ -1346,10 +1321,7 @@ Unannotated (x4)">        self.model = model if model is not None else self.mode
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x4)">        self.entity = entity if entity is not None else self.entity</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x1)">        self.case_sensitive = (</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x3)">            case_sensitive if case_sensitive is not None else self.case_sensitive</span>
-<span class="line-empty" title="No Anys on this line!">        )</span>
+Unannotated (x4)">        self.case_sensitive = case_sensitive if case_sensitive is not None else self.case_sensitive</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x4)">        self.lexicon = lexicon if lexicon is not None else self.lexicon</span>
 <span class="line-any" title="Any Types on this line: 
@@ -1413,14 +1385,8 @@ Unannotated (x3)">        length = len(norm)</span>
 Unannotated (x1)">        delims = (</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x2)">            [0]</span>
-<span class="line-empty" title="No Anys on this line!">            + [</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x1)">                i</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x9)">                for span in [m.span() for m in self.delimiters.finditer(norm)]</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">                for i in span</span>
-<span class="line-empty" title="No Anys on this line!">            ]</span>
+Unannotated (x12)">            + [i for span in [m.span() for m in self.delimiters.finditer(norm)] for i in span]</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">            + [length]</span>
 <span class="line-empty" title="No Anys on this line!">        )</span>

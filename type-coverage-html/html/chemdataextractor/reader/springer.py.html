@@ -146,12 +146,6 @@
 <span id="L136" class="lineno"><a class="lineno" href="#L136">136</a></span>
 <span id="L137" class="lineno"><a class="lineno" href="#L137">137</a></span>
 <span id="L138" class="lineno"><a class="lineno" href="#L138">138</a></span>
-<span id="L139" class="lineno"><a class="lineno" href="#L139">139</a></span>
-<span id="L140" class="lineno"><a class="lineno" href="#L140">140</a></span>
-<span id="L141" class="lineno"><a class="lineno" href="#L141">141</a></span>
-<span id="L142" class="lineno"><a class="lineno" href="#L142">142</a></span>
-<span id="L143" class="lineno"><a class="lineno" href="#L143">143</a></span>
-<span id="L144" class="lineno"><a class="lineno" href="#L144">144</a></span>
 </pre></td>
 <td class="table-code"><pre><span class="line-empty" title="No Anys on this line!">"""</span>
 <span class="line-empty" title="No Anys on this line!">Readers for documents from Springer.</span>
@@ -159,6 +153,7 @@
 <span class="line-empty" title="No Anys on this line!">.. codeauthor:: Callum Court</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">"""</span>
+<span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="No Anys on this line!">from lxml import etree</span>
 <span class="line-any" title="No Anys on this line!">from lxml.html import HTMLParser</span>
 <span class="line-empty" title="No Anys on this line!"></span>
@@ -170,9 +165,7 @@
 <span class="line-precise" title="No Anys on this line!">from .markup import HtmlReader</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x1)">clean_springer_html = Cleaner(</span>
-<span class="line-precise" title="No Anys on this line!">    fix_whitespace=True, strip_xpath=".//sub | .//em | .//strong"</span>
-<span class="line-empty" title="No Anys on this line!">)</span>
+Unannotated (x1)">clean_springer_html = Cleaner(fix_whitespace=True, strip_xpath=".//sub | .//em | .//strong")</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">class SpringerMaterialsHtmlReader(HtmlReader):</span>
@@ -198,9 +191,7 @@ Unannotated (x9)">        if fname and not (fname.endswith(".html") or fname.end
 <span class="line-any" title="No Anys on this line!">            return False</span>
 <span class="line-empty" title="No Anys on this line!">        if (</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x1)">            b'&lt;a class="footer-copyright_link" href="http://www.springernature.com"'</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x1)">            in fstring</span>
+Unannotated (x2)">            b'&lt;a class="footer-copyright_link" href="http://www.springernature.com"' in fstring</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">            or b'&lt;meta content="SpringerLink"' in fstring</span>
 <span class="line-empty" title="No Anys on this line!">        ):</span>
@@ -214,11 +205,8 @@ Unimported (x1)">        root = etree.fromstring(</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">            fstring,</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x1)
-Unimported (x1)">            parser=HTMLParser(</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x6)">                encoding=get_encoding(fstring, guesses="utf-8", is_html=True)</span>
-<span class="line-empty" title="No Anys on this line!">            ),</span>
+Unannotated (x7)
+Unimported (x1)">            parser=HTMLParser(encoding=get_encoding(fstring, guesses="utf-8", is_html=True)),</span>
 <span class="line-empty" title="No Anys on this line!">        )</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">        return root</span>
@@ -327,11 +315,8 @@ Unimported (x1)">        root = etree.fromstring(</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">            fstring,</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x1)
-Unimported (x1)">            parser=HTMLParser(</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x6)">                encoding=get_encoding(fstring, guesses="utf-8", is_html=True)</span>
-<span class="line-empty" title="No Anys on this line!">            ),</span>
+Unannotated (x7)
+Unimported (x1)">            parser=HTMLParser(encoding=get_encoding(fstring, guesses="utf-8", is_html=True)),</span>
 <span class="line-empty" title="No Anys on this line!">        )</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">        return root</span>

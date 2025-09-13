@@ -108,6 +108,7 @@
 <span id="L98" class="lineno"><a class="lineno" href="#L98">98</a></span>
 <span id="L99" class="lineno"><a class="lineno" href="#L99">99</a></span>
 <span id="L100" class="lineno"><a class="lineno" href="#L100">100</a></span>
+<span id="L101" class="lineno"><a class="lineno" href="#L101">101</a></span>
 </pre></td>
 <td class="table-code"><pre><span class="line-empty" title="No Anys on this line!">"""</span>
 <span class="line-empty" title="No Anys on this line!">Actions to perform during parsing.</span>
@@ -121,6 +122,7 @@
 <span class="line-precise" title="No Anys on this line!">import logging</span>
 <span class="line-precise" title="No Anys on this line!">import re</span>
 <span class="line-precise" title="No Anys on this line!">from typing import Any</span>
+<span class="line-precise" title="No Anys on this line!">from typing import List</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="No Anys on this line!">from lxml.builder import E</span>
 <span class="line-any" title="No Anys on this line!">from lxml.etree import strip_tags</span>
@@ -128,20 +130,20 @@
 <span class="line-precise" title="No Anys on this line!">from ..text import HYPHENS</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!"># Type aliases for parse actions</span>
-<span class="line-precise" title="No Anys on this line!">TokenList = list[str]  # List of tokens</span>
-<span class="line-precise" title="No Anys on this line!">ParseResult = list[Any]  # List of XML elements from parsing</span>
+<span class="line-precise" title="No Anys on this line!">TokenList = List[str]  # List of tokens</span>
+<span class="line-precise" title="No Anys on this line!">ParseResult = List[Any]  # List of XML elements from parsing</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">log = logging.getLogger(__name__)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">def flatten(tokens: TokenList, start: int, result: ParseResult) -&gt; ParseResult:</span>
 <span class="line-empty" title="No Anys on this line!">    """Replace all child results with their text contents.</span>
-<span class="line-empty" title="No Anys on this line!">    </span>
+<span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">    Args:</span>
 <span class="line-empty" title="No Anys on this line!">        tokens: The original token list</span>
 <span class="line-empty" title="No Anys on this line!">        start: Starting position in tokens</span>
 <span class="line-empty" title="No Anys on this line!">        result: Parse result to flatten</span>
-<span class="line-empty" title="No Anys on this line!">        </span>
+<span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">    Returns:</span>
 <span class="line-empty" title="No Anys on this line!">        Flattened parse result</span>
 <span class="line-empty" title="No Anys on this line!">    """</span>
@@ -153,12 +155,12 @@ Unimported (x2)">        strip_tags(e, "*")</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">def join(tokens: TokenList, start: int, result: ParseResult) -&gt; ParseResult:</span>
 <span class="line-empty" title="No Anys on this line!">    """Join tokens into a single string with spaces between.</span>
-<span class="line-empty" title="No Anys on this line!">    </span>
+<span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">    Args:</span>
 <span class="line-empty" title="No Anys on this line!">        tokens: The original token list</span>
-<span class="line-empty" title="No Anys on this line!">        start: Starting position in tokens  </span>
+<span class="line-empty" title="No Anys on this line!">        start: Starting position in tokens</span>
 <span class="line-empty" title="No Anys on this line!">        result: Parse result to join</span>
-<span class="line-empty" title="No Anys on this line!">        </span>
+<span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">    Returns:</span>
 <span class="line-empty" title="No Anys on this line!">        Joined parse result as single element</span>
 <span class="line-empty" title="No Anys on this line!">    """</span>

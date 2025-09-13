@@ -553,46 +553,11 @@
 <span id="L543" class="lineno"><a class="lineno" href="#L543">543</a></span>
 <span id="L544" class="lineno"><a class="lineno" href="#L544">544</a></span>
 <span id="L545" class="lineno"><a class="lineno" href="#L545">545</a></span>
-<span id="L546" class="lineno"><a class="lineno" href="#L546">546</a></span>
-<span id="L547" class="lineno"><a class="lineno" href="#L547">547</a></span>
-<span id="L548" class="lineno"><a class="lineno" href="#L548">548</a></span>
-<span id="L549" class="lineno"><a class="lineno" href="#L549">549</a></span>
-<span id="L550" class="lineno"><a class="lineno" href="#L550">550</a></span>
-<span id="L551" class="lineno"><a class="lineno" href="#L551">551</a></span>
-<span id="L552" class="lineno"><a class="lineno" href="#L552">552</a></span>
-<span id="L553" class="lineno"><a class="lineno" href="#L553">553</a></span>
-<span id="L554" class="lineno"><a class="lineno" href="#L554">554</a></span>
-<span id="L555" class="lineno"><a class="lineno" href="#L555">555</a></span>
-<span id="L556" class="lineno"><a class="lineno" href="#L556">556</a></span>
-<span id="L557" class="lineno"><a class="lineno" href="#L557">557</a></span>
-<span id="L558" class="lineno"><a class="lineno" href="#L558">558</a></span>
-<span id="L559" class="lineno"><a class="lineno" href="#L559">559</a></span>
-<span id="L560" class="lineno"><a class="lineno" href="#L560">560</a></span>
-<span id="L561" class="lineno"><a class="lineno" href="#L561">561</a></span>
-<span id="L562" class="lineno"><a class="lineno" href="#L562">562</a></span>
-<span id="L563" class="lineno"><a class="lineno" href="#L563">563</a></span>
-<span id="L564" class="lineno"><a class="lineno" href="#L564">564</a></span>
-<span id="L565" class="lineno"><a class="lineno" href="#L565">565</a></span>
-<span id="L566" class="lineno"><a class="lineno" href="#L566">566</a></span>
-<span id="L567" class="lineno"><a class="lineno" href="#L567">567</a></span>
-<span id="L568" class="lineno"><a class="lineno" href="#L568">568</a></span>
-<span id="L569" class="lineno"><a class="lineno" href="#L569">569</a></span>
-<span id="L570" class="lineno"><a class="lineno" href="#L570">570</a></span>
-<span id="L571" class="lineno"><a class="lineno" href="#L571">571</a></span>
-<span id="L572" class="lineno"><a class="lineno" href="#L572">572</a></span>
-<span id="L573" class="lineno"><a class="lineno" href="#L573">573</a></span>
-<span id="L574" class="lineno"><a class="lineno" href="#L574">574</a></span>
-<span id="L575" class="lineno"><a class="lineno" href="#L575">575</a></span>
-<span id="L576" class="lineno"><a class="lineno" href="#L576">576</a></span>
-<span id="L577" class="lineno"><a class="lineno" href="#L577">577</a></span>
-<span id="L578" class="lineno"><a class="lineno" href="#L578">578</a></span>
-<span id="L579" class="lineno"><a class="lineno" href="#L579">579</a></span>
-<span id="L580" class="lineno"><a class="lineno" href="#L580">580</a></span>
-<span id="L581" class="lineno"><a class="lineno" href="#L581">581</a></span>
 </pre></td>
 <td class="table-code"><pre><span class="line-empty" title="No Anys on this line!">"""</span>
 <span class="line-empty" title="No Anys on this line!">Parser for automatic parsing, without user-written parsing rules, implemeting the DepIE algorithm</span>
 <span class="line-empty" title="No Anys on this line!">"""</span>
+<span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">import copy</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="No Anys on this line!">from lxml.builder import E</span>
@@ -694,11 +659,7 @@ Unannotated (x1)">        super().__init__()</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">        self.chem_name = (</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x1)">            chem_name</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x1)">            if chem_name is not None</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x5)">            else (cem | chemical_label | lenient_chemical_label)</span>
+Unannotated (x7)">            chem_name if chem_name is not None else (cem | chemical_label | lenient_chemical_label)</span>
 <span class="line-empty" title="No Anys on this line!">        )</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x2)">        self.skip_phrase = skip_phrase</span>
@@ -716,10 +677,7 @@ Unannotated (x2)">        self.value_phrase_constructor = value_phrase_construct
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">        if self.skip_phrase is not None:</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x1)">            skip_phrase_results = [</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x7)">                result for result in self.skip_phrase.scan(sentence.tokens)</span>
-<span class="line-empty" title="No Anys on this line!">            ]</span>
+Unannotated (x8)">            skip_phrase_results = [result for result in self.skip_phrase.scan(sentence.tokens)]</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">            if skip_phrase_results:</span>
 <span class="line-empty" title="No Anys on this line!">                return []</span>
@@ -745,12 +703,7 @@ Unannotated (x1)">        if self.primary_keypath is not None:</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x3)">            return self._parse_sentence_primary_keypath(sentence)</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x1)">        elif all(</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x3)">            hasattr(self.model, field)</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            for field in self._excluded_fields_for_quantity_model</span>
-<span class="line-empty" title="No Anys on this line!">        ):</span>
+Unannotated (x6)">        elif all(hasattr(self.model, field) for field in self._excluded_fields_for_quantity_model):</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x3)">            return self._parse_sentence_quantity_model(sentence)</span>
 <span class="line-any" title="Any Types on this line: 
@@ -775,10 +728,7 @@ Unannotated (x2)">        if "raw_value" in self.model.fields:</span>
 Unannotated (x4)">            value_results = self.do_value_phrase(sentence)</span>
 <span class="line-empty" title="No Anys on this line!">        try:</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            return self._create_models_primary_keypath(</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x3)">                value_results, other_results, sentence</span>
-<span class="line-empty" title="No Anys on this line!">            )</span>
+Unannotated (x5)">            return self._create_models_primary_keypath(value_results, other_results, sentence)</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">        except AttributeError as e:</span>
 <span class="line-any" title="Any Types on this line: 
@@ -799,10 +749,7 @@ Unannotated (x8)">                other_values_map[keypath] = _find_associated(<
 Unannotated (x3)">                    primary_results, results, False, sentence</span>
 <span class="line-empty" title="No Anys on this line!">                )</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x7)">            values_map = _find_associated(</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x3)">                primary_results, value_results, True, sentence</span>
-<span class="line-empty" title="No Anys on this line!">            )</span>
+Unannotated (x10)">            values_map = _find_associated(primary_results, value_results, True, sentence)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x2)">            for primary in primary_results:</span>
@@ -823,12 +770,8 @@ Unannotated (x4)">                record.set_confidence(self.primary_keypath, 1.
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x5)">                for keypath, results_map in other_values_map.items():</span>
-<span class="line-empty" title="No Anys on this line!">                    if (</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x5)">                        primary in results_map.keys()</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x3)">                        and results_map[primary] is not None</span>
-<span class="line-empty" title="No Anys on this line!">                    ):</span>
+Unannotated (x8)">                    if primary in results_map.keys() and results_map[primary] is not None:</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x6)">                        data = results_map[primary][0].data</span>
 <span class="line-any" title="Any Types on this line: 
@@ -903,15 +846,10 @@ Unannotated (x1)">        except AttributeError as e:</span>
 Unannotated (x2)">            print(e)</span>
 <span class="line-empty" title="No Anys on this line!">            return []</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-any" title="No Anys on this line!">    def _create_models_specifier(</span>
-<span class="line-empty" title="No Anys on this line!">        self, chem_results, specifier_results, other_results, sentence</span>
-<span class="line-empty" title="No Anys on this line!">    ):</span>
+<span class="line-any" title="No Anys on this line!">    def _create_models_specifier(self, chem_results, specifier_results, other_results, sentence):</span>
 <span class="line-empty" title="No Anys on this line!">        try:</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x7)">            chem_values_map = _find_associated(</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x3)">                specifier_results, chem_results, False, sentence</span>
-<span class="line-empty" title="No Anys on this line!">            )</span>
+Unannotated (x10)">            chem_values_map = _find_associated(specifier_results, chem_results, False, sentence)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">            other_values_map = {}</span>
@@ -940,18 +878,11 @@ Unannotated (x5)">                    record.specifier = specifier.data.text</sp
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x3)">                record.set_confidence("specifier", 1.0)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-empty" title="No Anys on this line!">                if (</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x5)">                    specifier in chem_values_map.keys()</span>
+Unannotated (x8)">                if specifier in chem_values_map.keys() and chem_values_map[specifier] is not None:</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x3)">                    and chem_values_map[specifier] is not None</span>
-<span class="line-empty" title="No Anys on this line!">                ):</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x2)
-Unimported (x1)">                    test_result = E(</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x5)">                        "wrapped_result", chem_values_map[specifier][0].data</span>
-<span class="line-empty" title="No Anys on this line!">                    )</span>
+Unannotated (x7)
+Unimported (x1)">                    test_result = E("wrapped_result", chem_values_map[specifier][0].data)</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x4)">                    parsed_result = self._get_data(</span>
 <span class="line-any" title="Any Types on this line: 
@@ -966,12 +897,8 @@ Unannotated (x7)">                    record.set_confidence("compound", chem_val
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x5)">                for keypath, results_map in other_values_map.items():</span>
-<span class="line-empty" title="No Anys on this line!">                    if (</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x5)">                        specifier in results_map.keys()</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x3)">                        and results_map[specifier] is not None</span>
-<span class="line-empty" title="No Anys on this line!">                    ):</span>
+Unannotated (x8)">                    if specifier in results_map.keys() and results_map[specifier] is not None:</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x6)">                        data = results_map[specifier][0].data</span>
 <span class="line-any" title="Any Types on this line: 
@@ -1021,10 +948,7 @@ Unannotated (x6)">        _remove_contained_ranges(chem_results, parent_results)
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">        try:</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            return self._create_models(</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x4)">                chem_results, value_results, other_results, sentence</span>
-<span class="line-empty" title="No Anys on this line!">            )</span>
+Unannotated (x6)">            return self._create_models(chem_results, value_results, other_results, sentence)</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">        except AttributeError as e:</span>
 <span class="line-any" title="Any Types on this line: 
@@ -1035,10 +959,7 @@ Unannotated (x2)">            print(e)</span>
 <span class="line-empty" title="No Anys on this line!">        # TODO(ti250): refactor so all of these create_models are the same - or at least share a lot more...</span>
 <span class="line-empty" title="No Anys on this line!">        try:</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x7)">            chem_values_map = _find_associated(</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x3)">                value_results, chem_results, False, sentence</span>
-<span class="line-empty" title="No Anys on this line!">            )</span>
+Unannotated (x10)">            chem_values_map = _find_associated(value_results, chem_results, False, sentence)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">            other_values_map = {}</span>
@@ -1070,12 +991,8 @@ Unannotated (x3)">                record.set_confidence("raw_value", 1.0)</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x3)">                record.set_confidence("raw_units", 1.0)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-empty" title="No Anys on this line!">                if (</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x5)">                    value in chem_values_map.keys()</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x3)">                    and chem_values_map[value] is not None</span>
-<span class="line-empty" title="No Anys on this line!">                ):</span>
+Unannotated (x8)">                if value in chem_values_map.keys() and chem_values_map[value] is not None:</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x7)
 Unimported (x1)">                    test_result = E("wrapped_result", chem_values_map[value][0].data)</span>
@@ -1178,7 +1095,6 @@ Unannotated (x2)">            return value_phrase_constructor()</span>
 Unannotated (x3)">        unit_element = Group(</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x6)
-Unimported (x1)
 Explicit (x1)">            construct_unit_element(self.model.dimensions).with_condition(</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x2)">                match_dimensions_of(self.model)</span>
@@ -1199,10 +1115,7 @@ Unannotated (x1)">        phrases_keypaths = {}</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x6)">        for field_name, field in self.model.fields.items():</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x3)">            phrases_keypaths.update(</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x4)">                self._get_phrases_for_field(field_name, field, do_model=False)</span>
-<span class="line-empty" title="No Anys on this line!">            )</span>
+Unannotated (x7)">            phrases_keypaths.update(self._get_phrases_for_field(field_name, field, do_model=False))</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">        return phrases_keypaths</span>
 <span class="line-empty" title="No Anys on this line!"></span>
@@ -1426,11 +1339,7 @@ Unannotated (x1)">                if lenient_distance is None:</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">                    lenient_distance = 10000</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x3)">                distances[labelled_parent_range][</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x1)">                    labelled_child_range</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x1)">                ] = lenient_distance</span>
+Unannotated (x5)">                distances[labelled_parent_range][labelled_child_range] = lenient_distance</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">    merged = {}</span>

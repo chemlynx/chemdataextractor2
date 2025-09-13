@@ -864,20 +864,6 @@
 <span id="L854" class="lineno"><a class="lineno" href="#L854">854</a></span>
 <span id="L855" class="lineno"><a class="lineno" href="#L855">855</a></span>
 <span id="L856" class="lineno"><a class="lineno" href="#L856">856</a></span>
-<span id="L857" class="lineno"><a class="lineno" href="#L857">857</a></span>
-<span id="L858" class="lineno"><a class="lineno" href="#L858">858</a></span>
-<span id="L859" class="lineno"><a class="lineno" href="#L859">859</a></span>
-<span id="L860" class="lineno"><a class="lineno" href="#L860">860</a></span>
-<span id="L861" class="lineno"><a class="lineno" href="#L861">861</a></span>
-<span id="L862" class="lineno"><a class="lineno" href="#L862">862</a></span>
-<span id="L863" class="lineno"><a class="lineno" href="#L863">863</a></span>
-<span id="L864" class="lineno"><a class="lineno" href="#L864">864</a></span>
-<span id="L865" class="lineno"><a class="lineno" href="#L865">865</a></span>
-<span id="L866" class="lineno"><a class="lineno" href="#L866">866</a></span>
-<span id="L867" class="lineno"><a class="lineno" href="#L867">867</a></span>
-<span id="L868" class="lineno"><a class="lineno" href="#L868">868</a></span>
-<span id="L869" class="lineno"><a class="lineno" href="#L869">869</a></span>
-<span id="L870" class="lineno"><a class="lineno" href="#L870">870</a></span>
 </pre></td>
 <td class="table-code"><pre><span class="line-empty" title="No Anys on this line!">"""</span>
 <span class="line-empty" title="No Anys on this line!">Parser for finding quantities and units in chemical text.</span>
@@ -896,19 +882,21 @@
 <span class="line-precise" title="No Anys on this line!">from fractions import Fraction</span>
 <span class="line-precise" title="No Anys on this line!">from typing import TYPE_CHECKING</span>
 <span class="line-precise" title="No Anys on this line!">from typing import Any</span>
+<span class="line-precise" title="No Anys on this line!">from typing import Dict</span>
+<span class="line-precise" title="No Anys on this line!">from typing import List</span>
 <span class="line-precise" title="No Anys on this line!">from typing import Optional</span>
 <span class="line-precise" title="No Anys on this line!">from typing import Union</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="No Anys on this line!">from deprecation import deprecated</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">if TYPE_CHECKING:</span>
-<span class="line-precise" title="No Anys on this line!">    from ..model.units.dimension import Dimension</span>
+<span class="line-precise" title="No Anys on this line!">    pass</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!"># Type aliases for quantity parsing</span>
 <span class="line-precise" title="No Anys on this line!">NumericValue = Union[int, float]  # Numeric values</span>
-<span class="line-precise" title="No Anys on this line!">ValueList = list[float]  # List of extracted values</span>
+<span class="line-precise" title="No Anys on this line!">ValueList = List[float]  # List of extracted values</span>
 <span class="line-precise" title="No Anys on this line!">UnitString = str  # String representation of units</span>
-<span class="line-precise" title="No Anys on this line!">MagnitudeDict = dict[Any, float]  # Magnitude multipliers</span>
+<span class="line-precise" title="No Anys on this line!">MagnitudeDict = Dict[Any, float]  # Magnitude multipliers</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">from ..utils import memoize</span>
 <span class="line-precise" title="No Anys on this line!">from .actions import join</span>
@@ -1006,21 +994,17 @@ Unannotated (x4)">    ).add_action(merge)</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">    if units is not None:</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x4)">        spaced_range = (</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x14)">            number + Optional(units).hide() + Optional(R(r"^[\-–−\—~∼˜]$")) + number</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x4)">        )("raw_value").add_action(merge)</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x15)">        to_range = (number + Optional(units).hide() + I("to") + number)(</span>
+Unannotated (x18)">        spaced_range = (number + Optional(units).hide() + Optional(R(r"^[\-–−\—~∼˜]$")) + number)(</span>
 <span class="line-any" title="No Anys on this line!">            "raw_value"</span>
-<span class="line-precise" title="No Anys on this line!">        ).add_action(join)</span>
+<span class="line-precise" title="Any Types on this line: 
+Unannotated (x4)">        ).add_action(merge)</span>
+<span class="line-any" title="Any Types on this line: 
+Unannotated (x15)">        to_range = (number + Optional(units).hide() + I("to") + number)("raw_value").add_action(</span>
+<span class="line-precise" title="No Anys on this line!">            join</span>
+<span class="line-empty" title="No Anys on this line!">        )</span>
 <span class="line-empty" title="No Anys on this line!">    else:</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x12)">        spaced_range = (number + R(r"^[\-–−\—~∼˜]$") + number)("raw_value").add_action(</span>
-<span class="line-precise" title="Any Types on this line: 
-Unannotated (x4)">            merge</span>
-<span class="line-empty" title="No Anys on this line!">        )</span>
+Unannotated (x16)">        spaced_range = (number + R(r"^[\-–−\—~∼˜]$") + number)("raw_value").add_action(merge)</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x10)">        to_range = (number + I("to") + number)("raw_value").add_action(join)</span>
 <span class="line-any" title="Any Types on this line: 
@@ -1035,10 +1019,9 @@ Unannotated (x10)">        plusminus_range = (number + W("±") + number)("raw_va
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x10)">    bracket_range = R("^" + _number_pattern.pattern + r"\(\d+\)" + "$")("raw_value")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x13)">    spaced_bracket_range = (pure_number + W("(") + pure_number + W(")")).add_action(</span>
-<span class="line-precise" title="Any Types on this line: 
-Unannotated (x4)">        merge</span>
-<span class="line-any" title="No Anys on this line!">    )("raw_value")</span>
+Unannotated (x17)">    spaced_bracket_range = (pure_number + W("(") + pure_number + W(")")).add_action(merge)(</span>
+<span class="line-any" title="No Anys on this line!">        "raw_value"</span>
+<span class="line-empty" title="No Anys on this line!">    )</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x14)">    between_range = (I("between").hide() + number + I("and") + number).add_action(join)</span>
 <span class="line-any" title="Any Types on this line: 
@@ -1094,11 +1077,7 @@ Unannotated (x4)">    ).add_action(merge)</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">    value = (</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x6)">        Optional(lbrct).hide()</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x4)">        + (value_range | value_single)("raw_value")</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x4)">        + Optional(rbrct).hide()</span>
+Unannotated (x14)">        Optional(lbrct).hide() + (value_range | value_single)("raw_value") + Optional(rbrct).hide()</span>
 <span class="line-empty" title="No Anys on this line!">    )</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">    if units is not None:</span>
@@ -1177,9 +1156,7 @@ Unannotated (x5)">    units_regex += units_regex2[:-2] + "*"</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">    units_regex = (</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x1)">        r"^((?P&lt;split&gt;[\+\-–−]?\d+([\.\-\−]?\d+)?)|((?P&lt;split2&gt;.*)(\(|\/|\[)))"</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x1)">        + units_regex</span>
+Unannotated (x2)">        r"^((?P&lt;split&gt;[\+\-–−]?\d+([\.\-\−]?\d+)?)|((?P&lt;split2&gt;.*)(\(|\/|\[)))" + units_regex</span>
 <span class="line-empty" title="No Anys on this line!">    )</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">    units_regex += "$"</span>
@@ -1529,10 +1506,7 @@ Unannotated (x1)">        if not strict:</span>
 <span class="line-any" title="No Anys on this line!">            return None</span>
 <span class="line-empty" title="No Anys on this line!">        else:</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x1)">            raise TypeError(</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x4)">                "Error extracting power: \n" + str(e) + "\n encountered during parsing"</span>
-<span class="line-empty" title="No Anys on this line!">            )</span>
+Unannotated (x5)">            raise TypeError("Error extracting power: \n" + str(e) + "\n encountered during parsing")</span>
 <span class="line-empty" title="No Anys on this line!">    # Deal with things like kilo, mega, or milli that modify the magnitude of the units found</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x9)">    end_unit = _find_units(powers, dimensions, strict)</span>
@@ -1769,10 +1743,7 @@ Unannotated (x1)">                            string,</span>
 <span class="line-empty" title="No Anys on this line!">                    else:</span>
 <span class="line-empty" title="No Anys on this line!">                        # path 1a</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x3)">                        units_list.append(</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x7)">                            (found_units[string], current_string + string, string)</span>
-<span class="line-empty" title="No Anys on this line!">                        )</span>
+Unannotated (x10)">                        units_list.append((found_units[string], current_string + string, string))</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">                    current_string = ""</span>
 <span class="line-any" title="Any Types on this line: 
@@ -1823,12 +1794,8 @@ Omitted Generics (x2)">        for child_index, child in enumerate(ranges):</spa
 Unannotated (x3)">            if child_index != parent_index:</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x5)">                child_range = (child[1], child[2])</span>
-<span class="line-empty" title="No Anys on this line!">                if (</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x6)">                    child_range[0] &gt;= parent_range[0]</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x5)">                    and child_range[1] &lt;= parent_range[1]</span>
-<span class="line-empty" title="No Anys on this line!">                ):</span>
+Unannotated (x11)">                if child_range[0] &gt;= parent_range[0] and child_range[1] &lt;= parent_range[1]:</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x4)">                    should_remove_indices.append(child_index)</span>
 <span class="line-any" title="Any Types on this line: 
@@ -1891,12 +1858,9 @@ Unannotated (x3)">        found_power = re.search(_fraction_or_decimal_pattern, 
 Unannotated (x1)">        if found_power is not None:</span>
 <span class="line-empty" title="No Anys on this line!">            try:</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x4)">                power = power * float(</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x9)
+Unannotated (x13)
 Omitted Generics (x6)
-Explicit (x8)">                    sum(Fraction(s) for s in found_power.group(0).split())</span>
-<span class="line-empty" title="No Anys on this line!">                )</span>
+Explicit (x8)">                power = power * float(sum(Fraction(s) for s in found_power.group(0).split()))</span>
 <span class="line-precise" title="No Anys on this line!">            except ZeroDivisionError:</span>
 <span class="line-any" title="No Anys on this line!">                return None</span>
 <span class="line-any" title="Any Types on this line: 
@@ -2063,10 +2027,7 @@ Unannotated (x1)">            return end_unit</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">            if end_unit is None:</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x1)">                raise TypeError(</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x4)">                    "Could not find " + str(dimensions) + " in given string"</span>
-<span class="line-empty" title="No Anys on this line!">                )</span>
+Unannotated (x5)">                raise TypeError("Could not find " + str(dimensions) + " in given string")</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x3)">            if len(unassociated_elements) != 0:</span>
 <span class="line-any" title="Any Types on this line: 

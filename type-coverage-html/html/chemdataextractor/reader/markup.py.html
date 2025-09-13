@@ -413,13 +413,6 @@
 <span id="L403" class="lineno"><a class="lineno" href="#L403">403</a></span>
 <span id="L404" class="lineno"><a class="lineno" href="#L404">404</a></span>
 <span id="L405" class="lineno"><a class="lineno" href="#L405">405</a></span>
-<span id="L406" class="lineno"><a class="lineno" href="#L406">406</a></span>
-<span id="L407" class="lineno"><a class="lineno" href="#L407">407</a></span>
-<span id="L408" class="lineno"><a class="lineno" href="#L408">408</a></span>
-<span id="L409" class="lineno"><a class="lineno" href="#L409">409</a></span>
-<span id="L410" class="lineno"><a class="lineno" href="#L410">410</a></span>
-<span id="L411" class="lineno"><a class="lineno" href="#L411">411</a></span>
-<span id="L412" class="lineno"><a class="lineno" href="#L412">412</a></span>
 </pre></td>
 <td class="table-code"><pre><span class="line-empty" title="No Anys on this line!">"""</span>
 <span class="line-empty" title="No Anys on this line!">XML and HTML readers based on lxml.</span>
@@ -435,12 +428,9 @@
 <span class="line-precise" title="No Anys on this line!">from abc import abstractmethod</span>
 <span class="line-precise" title="No Anys on this line!">from collections import defaultdict</span>
 <span class="line-precise" title="No Anys on this line!">from typing import TYPE_CHECKING</span>
-<span class="line-precise" title="No Anys on this line!">from typing import Any</span>
-<span class="line-precise" title="No Anys on this line!">from typing import Optional</span>
-<span class="line-precise" title="No Anys on this line!">from typing import Union</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">if TYPE_CHECKING:</span>
-<span class="line-precise" title="No Anys on this line!">    from ..doc.element import BaseElement</span>
+<span class="line-precise" title="No Anys on this line!">    pass</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="No Anys on this line!">from lxml import etree</span>
 <span class="line-any" title="No Anys on this line!">from lxml.etree import XMLParser</span>
@@ -493,11 +483,19 @@
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">    metadata_css = "head"</span>
 <span class="line-precise" title="No Anys on this line!">    metadata_publisher_css = 'meta[name="DC.publisher"]::attr("content"), meta[name="citation_publisher"]::attr("content")'</span>
-<span class="line-precise" title="No Anys on this line!">    metadata_author_css = 'meta[name="DC.Creator"]::attr("content"), meta[name="citation_author"]::attr("content")'</span>
-<span class="line-precise" title="No Anys on this line!">    metadata_title_css = 'meta[name="DC.title"]::attr("content"), meta[name="citation_title"]::attr("content")'</span>
+<span class="line-precise" title="No Anys on this line!">    metadata_author_css = (</span>
+<span class="line-precise" title="No Anys on this line!">        'meta[name="DC.Creator"]::attr("content"), meta[name="citation_author"]::attr("content")'</span>
+<span class="line-empty" title="No Anys on this line!">    )</span>
+<span class="line-precise" title="No Anys on this line!">    metadata_title_css = (</span>
+<span class="line-precise" title="No Anys on this line!">        'meta[name="DC.title"]::attr("content"), meta[name="citation_title"]::attr("content")'</span>
+<span class="line-empty" title="No Anys on this line!">    )</span>
 <span class="line-precise" title="No Anys on this line!">    metadata_date_css = 'meta[name="DC.Date"]::attr("content"), meta[name="citation_date"]::attr("content"), meta[name="citation_online_date"]::attr("content")'</span>
-<span class="line-precise" title="No Anys on this line!">    metadata_doi_css = 'meta[name="DC.Identifier"]::attr("content"), meta[name="citation_doi"]::attr("content")'</span>
-<span class="line-precise" title="No Anys on this line!">    metadata_language_css = 'meta[name="DC.Language"]::attr("content"), meta[name="citation_language"]::attr("content")'</span>
+<span class="line-precise" title="No Anys on this line!">    metadata_doi_css = (</span>
+<span class="line-precise" title="No Anys on this line!">        'meta[name="DC.Identifier"]::attr("content"), meta[name="citation_doi"]::attr("content")'</span>
+<span class="line-empty" title="No Anys on this line!">    )</span>
+<span class="line-precise" title="No Anys on this line!">    metadata_language_css = (</span>
+<span class="line-precise" title="No Anys on this line!">        'meta[name="DC.Language"]::attr("content"), meta[name="citation_language"]::attr("content")'</span>
+<span class="line-empty" title="No Anys on this line!">    )</span>
 <span class="line-precise" title="No Anys on this line!">    metadata_journal_css = 'meta[name="citation_journal_title"]::attr("content")'</span>
 <span class="line-precise" title="No Anys on this line!">    metadata_volume_css = 'meta[name="citation_volume"]::attr("content")'</span>
 <span class="line-precise" title="No Anys on this line!">    metadata_issue_css = 'meta[name="citation_issue"]::attr("content")'</span>
@@ -605,10 +603,7 @@ Unannotated (x1)">        if refs is None:</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">            refs = {}</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x3)">        elements = self._parse_element_r(</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x4)">            el, specials=specials, refs=refs, element_cls=element_cls</span>
-<span class="line-empty" title="No Anys on this line!">        )</span>
+Unannotated (x7)">        elements = self._parse_element_r(el, specials=specials, refs=refs, element_cls=element_cls)</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">        final_elements = []</span>
 <span class="line-any" title="Any Types on this line: 
@@ -638,10 +633,7 @@ Unannotated (x1)">        if refs is None:</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">            refs = {}</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x3)">        elements = self._parse_element_r(</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x4)">            el, specials=specials, refs=refs, element_cls=element_cls</span>
-<span class="line-empty" title="No Anys on this line!">        )</span>
+Unannotated (x7)">        elements = self._parse_element_r(el, specials=specials, refs=refs, element_cls=element_cls)</span>
 <span class="line-empty" title="No Anys on this line!">        # This occurs if the input element is self-closing... (some table td in NLM XML)</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">        if not elements:</span>
@@ -685,10 +677,7 @@ Unannotated (x4)">        links = self._parse_figure_links(el)</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">        caption = (</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x3)">            self._parse_text(</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x6)">                caps[0], refs=refs, specials=specials, element_cls=Caption</span>
-<span class="line-any" title="No Anys on this line!">            )[0]</span>
+Unannotated (x9)">            self._parse_text(caps[0], refs=refs, specials=specials, element_cls=Caption)[0]</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">            if caps</span>
 <span class="line-any" title="Any Types on this line: 
@@ -710,10 +699,7 @@ Unannotated (x1)">            colnum = 0</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x5)">            for td in self._css(self.table_cell_css, tr):</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x3)">                cell = self._parse_text(</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x5)">                    td, refs=refs, specials=specials, element_cls=Cell</span>
-<span class="line-empty" title="No Anys on this line!">                )</span>
+Unannotated (x8)">                cell = self._parse_text(td, refs=refs, specials=specials, element_cls=Cell)</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x5)">                colspan = int(td.get("colspan", "1"))</span>
 <span class="line-any" title="Any Types on this line: 
@@ -799,10 +785,7 @@ Unannotated (x5)">        caption_css = self._css(self.table_caption_css, el)</s
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">        caption = (</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x3)">            self._parse_text(</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x6)">                caption_css[0], refs=refs, specials=specials, element_cls=Caption</span>
-<span class="line-any" title="No Anys on this line!">            )[0]</span>
+Unannotated (x9)">            self._parse_text(caption_css[0], refs=refs, specials=specials, element_cls=Caption)[0]</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">            if caption_css</span>
 <span class="line-any" title="Any Types on this line: 
@@ -940,7 +923,8 @@ Unannotated (x2)">        self.root = root</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">        if root is None:</span>
-<span class="line-precise" title="No Anys on this line!">            raise ReaderError</span>
+<span class="line-precise" title="Any Types on this line: 
+Explicit (x1)">            raise ReaderError</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x6)">        root = self._css(self.root_css, root)[0]</span>
@@ -1051,12 +1035,8 @@ Unannotated (x9)">        if fname and not (fname.endswith(".html") or fname.end
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="No Anys on this line!">    def _make_tree(self, fstring):</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x3)
-Unimported (x1)">        root = etree.fromstring(</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x8)
-Unimported (x1)">            fstring, parser=HTMLParser(encoding=get_encoding(fstring))</span>
-<span class="line-empty" title="No Anys on this line!">        )</span>
+Unannotated (x11)
+Unimported (x2)">        root = etree.fromstring(fstring, parser=HTMLParser(encoding=get_encoding(fstring)))</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">        return root</span>
 </pre></td>

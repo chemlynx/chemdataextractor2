@@ -269,8 +269,6 @@
 <span id="L259" class="lineno"><a class="lineno" href="#L259">259</a></span>
 <span id="L260" class="lineno"><a class="lineno" href="#L260">260</a></span>
 <span id="L261" class="lineno"><a class="lineno" href="#L261">261</a></span>
-<span id="L262" class="lineno"><a class="lineno" href="#L262">262</a></span>
-<span id="L263" class="lineno"><a class="lineno" href="#L263">263</a></span>
 </pre></td>
 <td class="table-code"><pre><span class="line-empty" title="No Anys on this line!">"""</span>
 <span class="line-empty" title="No Anys on this line!">Tools for scraping documents from Elsevier.</span>
@@ -505,9 +503,7 @@ Unannotated (x5)">    sub_headings = StringField('//h3[@class="svArticle"]', xpa
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x3)">    html_url = UrlField('//meta[@name="dc.identifier"]/@content', xpath=True)</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x5)">    paragraphs = StringField(</span>
-<span class="line-precise" title="No Anys on this line!">        '//p[@class="svArticle section clear"]', xpath=True, all=True</span>
-<span class="line-empty" title="No Anys on this line!">    )</span>
+Unannotated (x5)">    paragraphs = StringField('//p[@class="svArticle section clear"]', xpath=True, all=True)</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x4)">    figures = EntityField(ElsevierImage, 'dl[class="figure"]', all=True)</span>
 <span class="line-any" title="Any Types on this line: 

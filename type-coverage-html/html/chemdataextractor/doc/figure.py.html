@@ -141,12 +141,6 @@
 <span id="L131" class="lineno"><a class="lineno" href="#L131">131</a></span>
 <span id="L132" class="lineno"><a class="lineno" href="#L132">132</a></span>
 <span id="L133" class="lineno"><a class="lineno" href="#L133">133</a></span>
-<span id="L134" class="lineno"><a class="lineno" href="#L134">134</a></span>
-<span id="L135" class="lineno"><a class="lineno" href="#L135">135</a></span>
-<span id="L136" class="lineno"><a class="lineno" href="#L136">136</a></span>
-<span id="L137" class="lineno"><a class="lineno" href="#L137">137</a></span>
-<span id="L138" class="lineno"><a class="lineno" href="#L138">138</a></span>
-<span id="L139" class="lineno"><a class="lineno" href="#L139">139</a></span>
 </pre></td>
 <td class="table-code"><pre><span class="line-empty" title="No Anys on this line!">"""</span>
 <span class="line-empty" title="No Anys on this line!">Figure document elements.</span>
@@ -168,10 +162,7 @@
 <span class="line-empty" title="No Anys on this line!">        Create a new Figure element, to interface with FDE</span>
 <span class="line-empty" title="No Anys on this line!">        """</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x5)">        super(Figure, self).__init__(</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x4)">            caption=caption, label=label, models=models, **kwargs</span>
-<span class="line-empty" title="No Anys on this line!">        )</span>
+Unannotated (x9)">        super(Figure, self).__init__(caption=caption, label=label, models=models, **kwargs)</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x2)">        self.links = links</span>
 <span class="line-any" title="No Anys on this line!">        self.caption_tokens = None</span>
@@ -183,8 +174,8 @@ Unannotated (x2)">        self.links = links</span>
 <span class="line-empty" title="No Anys on this line!">        Returns:</span>
 <span class="line-empty" title="No Anys on this line!">            [type] -- [description]</span>
 <span class="line-empty" title="No Anys on this line!">        """</span>
-<span class="line-precise" title="Any Types on this line: 
-Unannotated (x1)">        records = ModelList()</span>
+<span class="line-imprecise" title="Any Types on this line: 
+Error (x1)">        records = ModelList()</span>
 <span class="line-precise" title="Any Types on this line: 
 Omitted Generics (x3)">        seen_labels = set()</span>
 <span class="line-any" title="Any Types on this line: 
@@ -212,10 +203,7 @@ Explicit (x1)">                if parser in skip_parsers:</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="No Anys on this line!">                if hasattr(parser, "parse_caption"):</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x3)">                    for record in parser.parse_caption(</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x1)">                        self.caption, self.label, self.links</span>
-<span class="line-empty" title="No Anys on this line!">                    ):</span>
+Unannotated (x4)">                    for record in parser.parse_caption(self.caption, self.label, self.links):</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x3)">                        parser_records.append(record)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
@@ -245,7 +233,8 @@ Unannotated (x1)">                    if not p:  # TODO: Potential performance i
 <span class="line-any" title="No Anys on this line!">                        continue</span>
 <span class="line-empty" title="No Anys on this line!">                    # Skip duplicate records</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x1)">                    if record in records:</span>
+Unannotated (x1)
+Error (x1)">                    if record in records:</span>
 <span class="line-any" title="No Anys on this line!">                        continue</span>
 <span class="line-empty" title="No Anys on this line!">                    # Skip just labels that have already been seen (bit of a hack)</span>
 <span class="line-empty" title="No Anys on this line!">                    if (</span>
@@ -269,7 +258,7 @@ Omitted Generics (x2)">                        seen_labels.update(record.labels)
 <span class="line-empty" title="No Anys on this line!">                        # This could be super slow if we find lots of things</span>
 <span class="line-any" title="No Anys on this line!">                        found = False</span>
 <span class="line-any" title="Any Types on this line: 
-Error (x1)">                        for seen_record in records:</span>
+Error (x2)">                        for seen_record in records:</span>
 <span class="line-any" title="Any Types on this line: 
 Error (x1)
 Explicit (x1)">                            if isinstance(seen_record, Compound) and (</span>
@@ -307,22 +296,24 @@ Unannotated (x3)">                    elif hasattr(record, "compound") and recor
 Omitted Generics (x2)
 Unannotated (x3)">                        seen_labels.update(record.compound.labels)</span>
 <span class="line-any" title="Any Types on this line: 
-Error (x1)
+Error (x2)
 Unannotated (x1)">                    records.append(record)</span>
 <span class="line-any" title="No Anys on this line!">        i = 0</span>
-<span class="line-precise" title="No Anys on this line!">        length = len(records)</span>
+<span class="line-imprecise" title="Any Types on this line: 
+Error (x1)">        length = len(records)</span>
 <span class="line-precise" title="No Anys on this line!">        while i &lt; length:</span>
 <span class="line-any" title="No Anys on this line!">            j = 0</span>
 <span class="line-precise" title="No Anys on this line!">            while j &lt; length:</span>
 <span class="line-precise" title="No Anys on this line!">                if i != j:</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x4)">                    records[j].merge_all(records[i])</span>
+Error (x6)">                    records[j].merge_all(records[i])</span>
 <span class="line-any" title="No Anys on this line!">                j += 1</span>
 <span class="line-any" title="No Anys on this line!">            i += 1</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">        cleaned_records = []</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x1)">        for record in records:</span>
+Unannotated (x1)
+Error (x1)">        for record in records:</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x3)">            record._clean(clean_contextual=False)</span>
 <span class="line-any" title="Any Types on this line: 
@@ -330,8 +321,8 @@ Unannotated (x2)">            if record.noncontextual_required_fulfilled:</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x3)">                cleaned_records.append(record)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x1)">        sorted_records = ModelList(</span>
+<span class="line-imprecise" title="Any Types on this line: 
+Unannotated (x4)">        sorted_records = ModelList(</span>
 <span class="line-imprecise" title="Any Types on this line: 
 Unannotated (x1)
 Omitted Generics (x5)">            *sorted(</span>
@@ -339,15 +330,13 @@ Omitted Generics (x5)">            *sorted(</span>
 Unannotated (x1)">                cleaned_records,</span>
 <span class="line-empty" title="No Anys on this line!">                key=lambda el: (</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x3)">                    el.total_confidence()</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x3)">                    if el.total_confidence() is not None</span>
-<span class="line-any" title="No Anys on this line!">                    else -10000</span>
+Unannotated (x6)">                    el.total_confidence() if el.total_confidence() is not None else -10000</span>
 <span class="line-empty" title="No Anys on this line!">                ),</span>
 <span class="line-any" title="No Anys on this line!">                reverse=True,</span>
 <span class="line-empty" title="No Anys on this line!">            )</span>
 <span class="line-empty" title="No Anys on this line!">        )</span>
-<span class="line-precise" title="No Anys on this line!">        return sorted_records</span>
+<span class="line-imprecise" title="Any Types on this line: 
+Unannotated (x1)">        return sorted_records</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="No Anys on this line!">    def _repr_html_(self):</span>
 <span class="line-any" title="Any Types on this line: 

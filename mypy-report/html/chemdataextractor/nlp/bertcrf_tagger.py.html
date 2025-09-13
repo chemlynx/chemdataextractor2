@@ -552,25 +552,6 @@
 <span id="L542" class="lineno"><a class="lineno" href="#L542">542</a></span>
 <span id="L543" class="lineno"><a class="lineno" href="#L543">543</a></span>
 <span id="L544" class="lineno"><a class="lineno" href="#L544">544</a></span>
-<span id="L545" class="lineno"><a class="lineno" href="#L545">545</a></span>
-<span id="L546" class="lineno"><a class="lineno" href="#L546">546</a></span>
-<span id="L547" class="lineno"><a class="lineno" href="#L547">547</a></span>
-<span id="L548" class="lineno"><a class="lineno" href="#L548">548</a></span>
-<span id="L549" class="lineno"><a class="lineno" href="#L549">549</a></span>
-<span id="L550" class="lineno"><a class="lineno" href="#L550">550</a></span>
-<span id="L551" class="lineno"><a class="lineno" href="#L551">551</a></span>
-<span id="L552" class="lineno"><a class="lineno" href="#L552">552</a></span>
-<span id="L553" class="lineno"><a class="lineno" href="#L553">553</a></span>
-<span id="L554" class="lineno"><a class="lineno" href="#L554">554</a></span>
-<span id="L555" class="lineno"><a class="lineno" href="#L555">555</a></span>
-<span id="L556" class="lineno"><a class="lineno" href="#L556">556</a></span>
-<span id="L557" class="lineno"><a class="lineno" href="#L557">557</a></span>
-<span id="L558" class="lineno"><a class="lineno" href="#L558">558</a></span>
-<span id="L559" class="lineno"><a class="lineno" href="#L559">559</a></span>
-<span id="L560" class="lineno"><a class="lineno" href="#L560">560</a></span>
-<span id="L561" class="lineno"><a class="lineno" href="#L561">561</a></span>
-<span id="L562" class="lineno"><a class="lineno" href="#L562">562</a></span>
-<span id="L563" class="lineno"><a class="lineno" href="#L563">563</a></span>
 </pre></td>
 <td class="table-code"><pre><span class="line-empty" title="No Anys on this line!">"""_summary_</span>
 <span class="line-empty" title="No Anys on this line!">This module contains the implementation of a BERT-CRF tagger for named entity recognition (NER) using the ChemDataExtractor library.</span>
@@ -592,7 +573,10 @@
 <span class="line-precise" title="No Anys on this line!">import logging</span>
 <span class="line-precise" title="No Anys on this line!">import math</span>
 <span class="line-precise" title="No Anys on this line!">import re</span>
+<span class="line-precise" title="No Anys on this line!">from typing import Dict</span>
+<span class="line-precise" title="No Anys on this line!">from typing import List</span>
 <span class="line-precise" title="No Anys on this line!">from typing import Optional</span>
+<span class="line-precise" title="No Anys on this line!">from typing import Tuple</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">import numpy as np</span>
 <span class="line-precise" title="No Anys on this line!">import torch</span>
@@ -680,7 +664,7 @@ Unannotated (x2)">    def __init__(</span>
 <span class="line-precise" title="No Anys on this line!">        dropout=0.1,</span>
 <span class="line-precise" title="No Anys on this line!">        label_namespace: str = "labels",</span>
 <span class="line-precise" title="No Anys on this line!">        label_encoding: Optional[str] = None,</span>
-<span class="line-precise" title="No Anys on this line!">        index_and_label: list[tuple[int, str]] = None,</span>
+<span class="line-precise" title="No Anys on this line!">        index_and_label: List[Tuple[int, str]] = None,</span>
 <span class="line-precise" title="No Anys on this line!">        constrain_crf_decoding: bool = True,</span>
 <span class="line-precise" title="No Anys on this line!">        include_start_end_transitions: bool = True,</span>
 <span class="line-precise" title="No Anys on this line!">        model_name_or_path: str = None,</span>
@@ -781,20 +765,11 @@ Unannotated (x5)">        offsets = [d["offsets"] for d in instances]</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x5)">        crf_mask = [d["crf_mask"] for d in instances]</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">        batched_input_ids = nn.utils.rnn.pad_sequence(</span>
+Unannotated (x3)">        batched_input_ids = nn.utils.rnn.pad_sequence(input_ids, batch_first=True, padding_value=0)</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x1)">            input_ids, batch_first=True, padding_value=0</span>
-<span class="line-empty" title="No Anys on this line!">        )</span>
+Unannotated (x3)">        batched_offsets = nn.utils.rnn.pad_sequence(offsets, batch_first=True, padding_value=0)</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">        batched_offsets = nn.utils.rnn.pad_sequence(</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x1)">            offsets, batch_first=True, padding_value=0</span>
-<span class="line-empty" title="No Anys on this line!">        )</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">        batched_crf_mask = nn.utils.rnn.pad_sequence(</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x1)">            crf_mask, batch_first=True, padding_value=0</span>
-<span class="line-empty" title="No Anys on this line!">        )</span>
+Unannotated (x3)">        batched_crf_mask = nn.utils.rnn.pad_sequence(crf_mask, batch_first=True, padding_value=0)</span>
 <span class="line-empty" title="No Anys on this line!">        return {</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">            "input_ids": batched_input_ids,</span>
@@ -882,11 +857,8 @@ Explicit (x1)">            "crf_mask": torch.LongTensor(mask),</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">        if self._predictor is None:</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)
-Explicit (x2)">            with yaspin(</span>
-<span class="line-any" title="No Anys on this line!">                text="Initialising BertCrf model", side="right"</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x1)">            ).simpleDots as sp:</span>
+Unannotated (x3)
+Explicit (x2)">            with yaspin(text="Initialising BertCrf model", side="right").simpleDots as sp:</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x2)">                gpu_id = self._gpu_id</span>
 <span class="line-any" title="Any Types on this line: 
@@ -896,10 +868,7 @@ Unannotated (x1)">                    print("Automatically activating GPU suppor
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x2)">                    gpu_id = torch.cuda.current_device()</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x4)">                model = BertCrfModel.from_pretrained(</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x5)">                    find_data("models/hf_bert_crf_tagger")</span>
-<span class="line-empty" title="No Anys on this line!">                )</span>
+Unannotated (x9)">                model = BertCrfModel.from_pretrained(find_data("models/hf_bert_crf_tagger"))</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x4)">                if gpu_id is not None and gpu_id &gt;= 0:</span>
 <span class="line-any" title="Any Types on this line: 
@@ -971,13 +940,7 @@ Unannotated (x4)">            predictions.extend(batch_predictions)</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x3)">            prediction_end_time = datetime.datetime.now()</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            log.debug(</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">                "".join(</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x4)">                    ["Batch time:", str(prediction_end_time - prediction_start_time)]</span>
-<span class="line-empty" title="No Anys on this line!">                )</span>
-<span class="line-empty" title="No Anys on this line!">            )</span>
+Unannotated (x8)">            log.debug("".join(["Batch time:", str(prediction_end_time - prediction_start_time)]))</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">        id_predictions_map = {}</span>
 <span class="line-any" title="Any Types on this line: 
@@ -1090,9 +1053,7 @@ Unannotated (x2)">            for sent in all_bertcrftokens:</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">                if (</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x4)">                    len(sent)</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x3)">                    &gt; current_list_min_sequence_length + new_list_sequence_delta</span>
+Unannotated (x7)">                    len(sent) &gt; current_list_min_sequence_length + new_list_sequence_delta</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x4)">                    and len(sents_current) &gt; min_batch_size</span>
 <span class="line-any" title="Any Types on this line: 
@@ -1183,10 +1144,7 @@ Unannotated (x7)">                        _ranges_used.append(len(subsent_tags[q
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x8)">                        consolidated_tags.extend(subsent_tags[quarter_loc:-quarter_loc])</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x3)">                        _ranges_used.append(</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x6)">                            len(subsent_tags[quarter_loc : 3 * quarter_loc])</span>
-<span class="line-empty" title="No Anys on this line!">                        )</span>
+Unannotated (x9)">                        _ranges_used.append(len(subsent_tags[quarter_loc : 3 * quarter_loc]))</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x5)">            if len(sent) != len(consolidated_tags):</span>
 <span class="line-any" title="Any Types on this line: 
@@ -1236,9 +1194,9 @@ Unannotated (x2)">        if config.constrain_crf_decoding:</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x2)">            if not config.label_encoding:</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x1)">                raise ConfigurationError(</span>
-<span class="line-any" title="No Anys on this line!">                    "constrain_crf_decoding is True, but "</span>
-<span class="line-empty" title="No Anys on this line!">                    "no label_encoding was specified."</span>
+Unannotated (x1)
+Explicit (x1)">                raise ConfigurationError(</span>
+<span class="line-any" title="No Anys on this line!">                    "constrain_crf_decoding is True, but no label_encoding was specified."</span>
 <span class="line-empty" title="No Anys on this line!">                )</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x2)">            labels = self.index_to_label</span>
@@ -1332,7 +1290,7 @@ Unannotated (x1)">        return output</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-imprecise" title="Any Types on this line: 
 Error (x2)">    def forward_on_instances(</span>
-<span class="line-empty" title="No Anys on this line!">        self, instances: dict[str, torch.Tensor]</span>
+<span class="line-empty" title="No Anys on this line!">        self, instances: Dict[str, torch.Tensor]</span>
 <span class="line-empty" title="No Anys on this line!">    ) -&gt; list[dict[str, np.ndarray]]:</span>
 <span class="line-empty" title="No Anys on this line!">        """</span>
 <span class="line-empty" title="No Anys on this line!">        Takes a list of  :class:`~allennlp.data.instance.Instance`s, converts that text into</span>
@@ -1360,9 +1318,7 @@ Error (x2)">    def forward_on_instances(</span>
 Explicit (x1)">            outputs = self.decode(self(**instances))</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-imprecise" title="Any Types on this line: 
-Error (x2)">            instance_separated_output: list[dict[str, np.ndarray]] = [</span>
-<span class="line-precise" title="No Anys on this line!">                {} for _ in range(batch_size)</span>
-<span class="line-empty" title="No Anys on this line!">            ]</span>
+Error (x2)">            instance_separated_output: List[dict[str, np.ndarray]] = [{} for _ in range(batch_size)]</span>
 <span class="line-precise" title="Any Types on this line: 
 Omitted Generics (x3)">            for name, output in list(outputs.items()):</span>
 <span class="line-precise" title="Any Types on this line: 
@@ -1375,20 +1331,17 @@ Explicit (x1)">                if isinstance(output, torch.Tensor):</span>
 <span class="line-imprecise" title="Any Types on this line: 
 Error (x4)">                    output = output.detach().cpu().numpy()</span>
 <span class="line-any" title="Any Types on this line: 
-Error (x4)
+Error (x6)
 Unannotated (x2)
 Explicit (x9)
-Omitted Generics (x30)">                for instance_output, batch_element in zip(</span>
-<span class="line-imprecise" title="Any Types on this line: 
-Error (x2)">                    instance_separated_output, output</span>
-<span class="line-empty" title="No Anys on this line!">                ):</span>
+Omitted Generics (x30)">                for instance_output, batch_element in zip(instance_separated_output, output):</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x1)
 Error (x2)">                    instance_output[name] = batch_element</span>
 <span class="line-imprecise" title="Any Types on this line: 
 Error (x2)">            return instance_separated_output</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-precise" title="No Anys on this line!">    def decode(self, output_dict: dict[str, torch.Tensor]) -&gt; dict[str, torch.Tensor]:</span>
+<span class="line-precise" title="No Anys on this line!">    def decode(self, output_dict: Dict[str, torch.Tensor]) -&gt; dict[str, torch.Tensor]:</span>
 <span class="line-empty" title="No Anys on this line!">        """</span>
 <span class="line-empty" title="No Anys on this line!">        Converts the tag ids to the actual tags.</span>
 <span class="line-empty" title="No Anys on this line!">        ``output_dict["tags"]`` is a list of lists of tag_ids,</span>

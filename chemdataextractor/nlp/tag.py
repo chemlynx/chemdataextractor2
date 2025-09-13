@@ -16,9 +16,7 @@ from abc import ABCMeta
 from abc import abstractmethod
 from collections import defaultdict
 from typing import TYPE_CHECKING
-from typing import Any
 from typing import List
-from typing import Optional
 from typing import Tuple
 
 import dawg
@@ -67,7 +65,7 @@ class BaseTagger(metaclass=ABCMeta):
 
     tag_type: str = ""
     """The tag type for this tagger (e.g., 'pos_tag', 'ner_tag').
-    
+
     When this tag type is requested from a token, this tagger will be called.
     """
 

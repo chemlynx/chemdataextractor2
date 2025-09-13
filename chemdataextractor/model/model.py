@@ -13,7 +13,6 @@ from typing import TYPE_CHECKING
 from typing import Any
 from typing import Dict
 from typing import List
-from typing import Optional
 
 if TYPE_CHECKING:
     from ..typing import Self
@@ -140,9 +139,7 @@ class Compound(BaseModel):
             if not cls.labels.parse_expression:
                 cls.labels.parse_expression = new_label_expression
             else:
-                cls.labels.parse_expression = (
-                    cls.labels.parse_expression | new_label_expression
-                )
+                cls.labels.parse_expression = cls.labels.parse_expression | new_label_expression
         return
 
     def construct_label_expression(self, label: str) -> Any:
@@ -505,9 +502,7 @@ class CurieTemperature(TemperatureModel):
     """
 
     # expression = (I('T') + I('C')).add_action(merge)
-    expression = ((I("Curie") + R("^temperature(s)?$")) | R(r"T[Cc]\d?")).add_action(
-        join
-    )
+    expression = ((I("Curie") + R("^temperature(s)?$")) | R(r"T[Cc]\d?")).add_action(join)
     specifier = StringType(
         parse_expression=expression, required=True, contextual=False, updatable=False
     )
@@ -528,17 +523,13 @@ class InteratomicDistance(LengthModel):
     """
 
     specifier_expression = (R("^bond$") + R("^distance")).add_action(merge)
-    specifier = StringType(
-        parse_expression=specifier_expression, required=False, contextual=True
-    )
+    specifier = StringType(parse_expression=specifier_expression, required=False, contextual=True)
     rij_label = R(
         r"^((X|Ac|Ag|Al|Am|Ar|As|At|Au|B|Ba|Be|Bh|Bi|Bk|Br|C|Ca|Cd|Ce|Cf|Cl|Cm|Cn|Co|Cr|Cs|Cu|Db|Ds|Dy|Er|Es|Eu|F|Fe|Fl|Fm|Fr|Ga|Gd|Ge|H|He|Hf|Hg|Ho|Hs|I|In|Ir|K|Kr|La|Li|Lr|Lu|Lv|Mc|Md|Mg|Mn|Mo|Mt|N|Na|Nb|Nd|Ne|Nh|Ni|No|Np|O|Og|Os|P|Pa|Pb|Pd|Pm|Po|Pr|Pt|Pu|Ra|Rb|Re|Rf|Rg|Rh|Rn|Ru|S|Sb|Sc|Se|Sg|Si|Sm|Sn|Sr|Ta|Tb|Tc|Te|Th|Ti|Tl|Tm|Ts|U|V|W|Xe|Y|Yb|Zn|Zr)\-?(X|Ac|Ag|Al|Am|Ar|As|At|Au|B|Ba|Be|Bh|Bi|Bk|Br|C|Ca|Cd|Ce|Cf|Cl|Cm|Cn|Co|Cr|Cs|Cu|Db|Ds|Dy|Er|Es|Eu|F|Fe|Fl|Fm|Fr|Ga|Gd|Ge|H|He|Hf|Hg|Ho|Hs|I|In|Ir|K|Kr|La|Li|Lr|Lu|Lv|Mc|Md|Mg|Mn|Mo|Mt|N|Na|Nb|Nd|Ne|Nh|Ni|No|Np|O|Og|Os|P|Pa|Pb|Pd|Pm|Po|Pr|Pt|Pu|Ra|Rb|Re|Rf|Rg|Rh|Rn|Ru|S|Sb|Sc|Se|Sg|Si|Sm|Sn|Sr|Ta|Tb|Tc|Te|Th|Ti|Tl|Tm|Ts|U|V|W|Xe|Y|Yb|Zn|Zr))$"
     )
     species = StringType(parse_expression=rij_label, required=True, contextual=False)
     compound = ModelType(Compound, required=True, contextual=True)
-    another_label = StringType(
-        parse_expression=R("^adgahg$"), required=False, contextual=False
-    )
+    another_label = StringType(parse_expression=R("^adgahg$"), required=False, contextual=False)
 
 
 class CoordinationNumber(DimensionlessModel):
@@ -563,9 +554,7 @@ class CoordinationNumber(DimensionlessModel):
     )
     # specifier = (R('^(N|n|k)$') | (I('Pair') + I('ij')).add_action(merge)
     specifier_expression = R("^(N|n|k)$")
-    specifier = StringType(
-        parse_expression=specifier_expression, required=True, contextual=True
-    )
+    specifier = StringType(parse_expression=specifier_expression, required=True, contextual=True)
 
     cn_label = StringType(
         parse_expression=coordination_number_label, required=True, contextual=True

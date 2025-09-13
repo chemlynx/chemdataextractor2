@@ -18,9 +18,7 @@ from os.path import basename
 from typing import TYPE_CHECKING
 from typing import Any
 from typing import List
-from typing import Optional
 from typing import Tuple
-from typing import Union
 
 import numpy as np
 import six
@@ -39,8 +37,7 @@ from .utils import KnuthMorrisPratt
 from .utils import match
 
 if TYPE_CHECKING:
-    from ..doc.text import Sentence as DocumentSentence
-    from ..model.base import BaseModel
+    pass
 
 # Type aliases for relationship extraction
 PatternList = List[Any]  # List of learned patterns

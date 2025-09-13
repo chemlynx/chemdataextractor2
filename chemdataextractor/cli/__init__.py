@@ -10,8 +10,8 @@ from __future__ import annotations
 import json
 import logging
 from typing import Any
-from typing import Dict
 from typing import BinaryIO
+from typing import Dict
 from typing import TextIO
 
 import click

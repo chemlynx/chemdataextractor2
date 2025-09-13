@@ -544,8 +544,6 @@
 <span id="L534" class="lineno"><a class="lineno" href="#L534">534</a></span>
 <span id="L535" class="lineno"><a class="lineno" href="#L535">535</a></span>
 <span id="L536" class="lineno"><a class="lineno" href="#L536">536</a></span>
-<span id="L537" class="lineno"><a class="lineno" href="#L537">537</a></span>
-<span id="L538" class="lineno"><a class="lineno" href="#L538">538</a></span>
 </pre></td>
 <td class="table-code"><pre><span class="line-empty" title="No Anys on this line!">"""</span>
 <span class="line-empty" title="No Anys on this line!">Tools for processing text.</span>
@@ -944,9 +942,7 @@ Omitted Generics (x4)">DOI_RE = re.compile(r"^10\.\d{4,9}/[-\._;()/:A-Z0-9]+$", 
 Omitted Generics (x4)">ISSN_RE = re.compile(r"^\d{4}-\d{3}[\dX]$", re.U)</span>
 <span class="line-empty" title="No Anys on this line!">#: Regular expression that matches control characters not allowed in XML.</span>
 <span class="line-precise" title="Any Types on this line: 
-Omitted Generics (x4)">CONTROL_RE = re.compile(</span>
-<span class="line-precise" title="No Anys on this line!">    "[^\u0020-\ud7ff\u0009\u000a\u000d\ue000-\ufffd\u10000-\u10ffFF]+"</span>
-<span class="line-empty" title="No Anys on this line!">)</span>
+Omitted Generics (x4)">CONTROL_RE = re.compile("[^\u0020-\ud7ff\u0009\u000a\u000d\ue000-\ufffd\u10000-\u10ffFF]+")</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="No Anys on this line!">def get_encoding(input_string, guesses=None, is_html=False):</span>

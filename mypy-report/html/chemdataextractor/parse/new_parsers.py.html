@@ -149,13 +149,6 @@
 <span id="L139" class="lineno"><a class="lineno" href="#L139">139</a></span>
 <span id="L140" class="lineno"><a class="lineno" href="#L140">140</a></span>
 <span id="L141" class="lineno"><a class="lineno" href="#L141">141</a></span>
-<span id="L142" class="lineno"><a class="lineno" href="#L142">142</a></span>
-<span id="L143" class="lineno"><a class="lineno" href="#L143">143</a></span>
-<span id="L144" class="lineno"><a class="lineno" href="#L144">144</a></span>
-<span id="L145" class="lineno"><a class="lineno" href="#L145">145</a></span>
-<span id="L146" class="lineno"><a class="lineno" href="#L146">146</a></span>
-<span id="L147" class="lineno"><a class="lineno" href="#L147">147</a></span>
-<span id="L148" class="lineno"><a class="lineno" href="#L148">148</a></span>
 </pre></td>
 <td class="table-code"><pre><span class="line-empty" title="No Anys on this line!">"""</span>
 <span class="line-empty" title="No Anys on this line!">Test parsers for the autogeneration scheme</span>
@@ -226,10 +219,7 @@ Error (x7)
 Unannotated (x9)">units = (W("°") + Optional(R(r"^[CFK]\.?$")) | W(r"K\.?"))("units").add_action(merge)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x7)">joined_range = R(r"^[\+\-–−]?\d+(\.\d+)?[\-–−~∼˜]\d+(\.\d+)?$")("value").add_action(</span>
-<span class="line-precise" title="Any Types on this line: 
-Unannotated (x4)">    merge</span>
-<span class="line-empty" title="No Anys on this line!">)</span>
+Unannotated (x11)">joined_range = R(r"^[\+\-–−]?\d+(\.\d+)?[\-–−~∼˜]\d+(\.\d+)?$")("value").add_action(merge)</span>
 <span class="line-any" title="Any Types on this line: 
 Error (x4)">spaced_range = (</span>
 <span class="line-any" title="Any Types on this line: 
@@ -260,21 +250,13 @@ Unannotated (x4)">).add_action(merge)</span>
 <span class="line-any" title="Any Types on this line: 
 Error (x4)">temp_value = (</span>
 <span class="line-any" title="Any Types on this line: 
-Error (x3)
-Unannotated (x3)">    Optional(R(r"^[~∼˜\&lt;\&gt;]$"))</span>
-<span class="line-any" title="Any Types on this line: 
-Error (x1)
-Unannotated (x3)">    + Optional(R(r"^[\-–−]$"))</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x3)">    + R(r"^[\+\-–−]?\d+(\.\d+)?$")</span>
+Error (x4)
+Unannotated (x9)">    Optional(R(r"^[~∼˜\&lt;\&gt;]$")) + Optional(R(r"^[\-–−]$")) + R(r"^[\+\-–−]?\d+(\.\d+)?$")</span>
 <span class="line-precise" title="Any Types on this line: 
 Unannotated (x4)">)("value").add_action(merge)</span>
 <span class="line-any" title="Any Types on this line: 
-Error (x1)">temp = (</span>
-<span class="line-any" title="Any Types on this line: 
-Error (x12)
-Unannotated (x2)">    Optional(lbrct).hide() + (temp_range | temp_value)("value") + Optional(rbrct).hide()</span>
-<span class="line-empty" title="No Anys on this line!">)</span>
+Error (x13)
+Unannotated (x2)">temp = Optional(lbrct).hide() + (temp_range | temp_value)("value") + Optional(rbrct).hide()</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="Any Types on this line: 
 Error (x11)">mp = (prefix + Optional(delim).hide() + temp + units)("mp")</span>
@@ -287,9 +269,7 @@ Error (x1)">bracket_any = lbrct + OneOrMore(Not(mp) + Not(rbrct) + Any()) + rbrc
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">solvent_phrase = (</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x10)">    R("^(re)?crystalli[sz](ation|ed)$", re.I) + (I("with") | I("from")) + cem</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x1)">    | solvent_name</span>
+Unannotated (x11)">    R("^(re)?crystalli[sz](ation|ed)$", re.I) + (I("with") | I("from")) + cem | solvent_name</span>
 <span class="line-empty" title="No Anys on this line!">)</span>
 <span class="line-any" title="Any Types on this line: 
 Error (x2)">cem_mp_phrase = (</span>

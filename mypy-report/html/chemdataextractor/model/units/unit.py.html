@@ -498,6 +498,11 @@
 <span id="L488" class="lineno"><a class="lineno" href="#L488">488</a></span>
 <span id="L489" class="lineno"><a class="lineno" href="#L489">489</a></span>
 <span id="L490" class="lineno"><a class="lineno" href="#L490">490</a></span>
+<span id="L491" class="lineno"><a class="lineno" href="#L491">491</a></span>
+<span id="L492" class="lineno"><a class="lineno" href="#L492">492</a></span>
+<span id="L493" class="lineno"><a class="lineno" href="#L493">493</a></span>
+<span id="L494" class="lineno"><a class="lineno" href="#L494">494</a></span>
+<span id="L495" class="lineno"><a class="lineno" href="#L495">495</a></span>
 </pre></td>
 <td class="table-code"><pre><span class="line-empty" title="No Anys on this line!">"""</span>
 <span class="line-empty" title="No Anys on this line!">Base types for making units. Refer to the example on :ref:`creating new units and dimensions&lt;creating_units&gt;` for more detail on how to create your own units.</span>
@@ -505,16 +510,16 @@
 <span class="line-empty" title="No Anys on this line!">.. codeauthor:: Taketomo Isazawa &lt;ti250@cam.ac.uk&gt;</span>
 <span class="line-empty" title="No Anys on this line!">"""</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">from __future__ import annotations</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">import copy</span>
 <span class="line-precise" title="No Anys on this line!">from typing import TYPE_CHECKING</span>
 <span class="line-precise" title="No Anys on this line!">from typing import Any</span>
+<span class="line-precise" title="No Anys on this line!">from typing import Dict</span>
 <span class="line-precise" title="No Anys on this line!">from typing import Optional</span>
+<span class="line-precise" title="No Anys on this line!">from typing import Tuple</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">from ..base import BaseType</span>
-<span class="line-precise" title="No Anys on this line!">from .dimension import Dimensionless</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">if TYPE_CHECKING:</span>
 <span class="line-precise" title="No Anys on this line!">    from ..base import BaseModel</span>
@@ -523,7 +528,7 @@
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">class UnitType(BaseType[Optional["Unit"]]):</span>
 <span class="line-empty" title="No Anys on this line!">    """A field containing a :class:`Unit` of some type.</span>
-<span class="line-empty" title="No Anys on this line!">    </span>
+<span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">    Field descriptor for handling unit values in chemical models.</span>
 <span class="line-empty" title="No Anys on this line!">    Ensures dimensional consistency when units are assigned.</span>
 <span class="line-empty" title="No Anys on this line!">    """</span>
@@ -531,10 +536,10 @@
 <span class="line-any" title="Any Types on this line: 
 Explicit (x1)">    def __set__(self, instance: BaseModel, value: Any) -&gt; None:</span>
 <span class="line-empty" title="No Anys on this line!">        """Set unit value with dimensional validation.</span>
-<span class="line-empty" title="No Anys on this line!">        </span>
+<span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">        Ensures that any units assigned to models have the same dimensions</span>
 <span class="line-empty" title="No Anys on this line!">        as the model. Invalid units are set to None.</span>
-<span class="line-empty" title="No Anys on this line!">        </span>
+<span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">        Args:</span>
 <span class="line-empty" title="No Anys on this line!">            instance: BaseModel - The model instance</span>
 <span class="line-empty" title="No Anys on this line!">            value: Any - The unit value to assign</span>
@@ -555,12 +560,12 @@ Explicit (x1)">                instance._values[self.name] = None</span>
 Explicit (x1)">            instance._values[self.name] = None</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="Any Types on this line: 
-Explicit (x1)">    def process(self, value: Any) -&gt; Optional["Unit"]:</span>
+Explicit (x1)">    def process(self, value: Any) -&gt; Optional[Unit]:</span>
 <span class="line-empty" title="No Anys on this line!">        """Process and validate unit value.</span>
-<span class="line-empty" title="No Anys on this line!">        </span>
+<span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">        Args:</span>
 <span class="line-empty" title="No Anys on this line!">            value: Any - The value to process</span>
-<span class="line-empty" title="No Anys on this line!">            </span>
+<span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">        Returns:</span>
 <span class="line-empty" title="No Anys on this line!">            Optional[Unit] - Processed unit or None if invalid</span>
 <span class="line-empty" title="No Anys on this line!">        """</span>
@@ -569,13 +574,13 @@ Explicit (x1)">        if isinstance(value, Unit):</span>
 <span class="line-precise" title="No Anys on this line!">            return value</span>
 <span class="line-precise" title="No Anys on this line!">        return None</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-precise" title="No Anys on this line!">    def serialize(self, value: Optional["Unit"], primitive: bool = False) -&gt; str:</span>
+<span class="line-precise" title="No Anys on this line!">    def serialize(self, value: Optional[Unit], primitive: bool = False) -&gt; str:</span>
 <span class="line-empty" title="No Anys on this line!">        """Serialize unit to string representation.</span>
-<span class="line-empty" title="No Anys on this line!">        </span>
+<span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">        Args:</span>
 <span class="line-empty" title="No Anys on this line!">            value: Optional[Unit] - The unit to serialize</span>
 <span class="line-empty" title="No Anys on this line!">            primitive: bool - Whether to use primitive serialization (unused)</span>
-<span class="line-empty" title="No Anys on this line!">            </span>
+<span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">        Returns:</span>
 <span class="line-empty" title="No Anys on this line!">            str - String representation of the unit</span>
 <span class="line-empty" title="No Anys on this line!">        """</span>
@@ -585,10 +590,10 @@ Error (x1)">        return str(value**1.0)</span>
 <span class="line-any" title="Any Types on this line: 
 Explicit (x1)">    def is_empty(self, value: Any) -&gt; bool:</span>
 <span class="line-empty" title="No Anys on this line!">        """Check if unit value is empty.</span>
-<span class="line-empty" title="No Anys on this line!">        </span>
+<span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">        Args:</span>
 <span class="line-empty" title="No Anys on this line!">            value: Any - The value to check</span>
-<span class="line-empty" title="No Anys on this line!">            </span>
+<span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">        Returns:</span>
 <span class="line-empty" title="No Anys on this line!">            bool - True if value is not a valid Unit</span>
 <span class="line-empty" title="No Anys on this line!">        """</span>
@@ -600,13 +605,13 @@ Explicit (x1)">        if isinstance(value, Unit):</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">class MetaUnit(type):</span>
 <span class="line-empty" title="No Anys on this line!">    """Metaclass to ensure that all subclasses of :class:`Unit` take magnitude into account.</span>
-<span class="line-empty" title="No Anys on this line!">    </span>
+<span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">    Ensures that all subclasses of Unit properly handle magnitude when converting</span>
 <span class="line-empty" title="No Anys on this line!">    to and from standard units by wrapping conversion methods.</span>
 <span class="line-empty" title="No Anys on this line!">    """</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-imprecise" title="Any Types on this line: 
-Explicit (x1)">    def __new__(mcs, name: str, bases: tuple[type, ...], attrs: dict[str, Any]) -&gt; type:</span>
+Explicit (x1)">    def __new__(mcs, name: str, bases: Tuple[type, ...], attrs: Dict[str, Any]) -&gt; type:</span>
 <span class="line-imprecise" title="Any Types on this line: 
 Omitted Generics (x2)
 Explicit (x5)">        cls = type.__new__(mcs, name, bases, attrs)</span>
@@ -743,15 +748,20 @@ Error (x1)">            cls.__init__ = new_initializer</span>
 <span class="line-empty" title="No Anys on this line!">            constituent_units = Gram(magnitude=3.0) * Meter() * (Second()) ** (-2.0)</span>
 <span class="line-empty" title="No Anys on this line!">    """</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-precise" title="No Anys on this line!">    def __init__(self, dimensions: Dimension, magnitude: float = 0.0, powers: Optional[dict["Unit", float]] = None) -&gt; None:</span>
+<span class="line-precise" title="No Anys on this line!">    def __init__(</span>
+<span class="line-empty" title="No Anys on this line!">        self,</span>
+<span class="line-empty" title="No Anys on this line!">        dimensions: Dimension,</span>
+<span class="line-precise" title="No Anys on this line!">        magnitude: float = 0.0,</span>
+<span class="line-precise" title="No Anys on this line!">        powers: Optional[Dict[Unit, float]] = None,</span>
+<span class="line-empty" title="No Anys on this line!">    ) -&gt; None:</span>
 <span class="line-empty" title="No Anys on this line!">        """Create a unit object.</span>
-<span class="line-empty" title="No Anys on this line!">        </span>
+<span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">        Subclass Unit to create concrete units. For examples, see lengths.py and times.py</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">        Args:</span>
 <span class="line-empty" title="No Anys on this line!">            dimensions: Dimension - The dimensions this unit is for (e.g., Temperature)</span>
 <span class="line-empty" title="No Anys on this line!">            magnitude: float - The magnitude of the unit (e.g., km would be meters with magnitude of 3)</span>
-<span class="line-empty" title="No Anys on this line!">            powers: Optional[dict[Unit, float]] - For complex units (e.g., m/s: {Meter():1.0, Second():-1.0})</span>
+<span class="line-empty" title="No Anys on this line!">            powers: Optional[Dict[Unit, float]] - For complex units (e.g., m/s: {Meter():1.0, Second():-1.0})</span>
 <span class="line-empty" title="No Anys on this line!">        """</span>
 <span class="line-precise" title="No Anys on this line!">        self.dimensions = dimensions</span>
 <span class="line-precise" title="No Anys on this line!">        self.magnitude = magnitude</span>
@@ -759,12 +769,12 @@ Error (x1)">            cls.__init__ = new_initializer</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">    def convert_value_to_standard(self, value: float) -&gt; float:</span>
 <span class="line-empty" title="No Anys on this line!">        """Convert from this unit to the standard value, usually the SI unit.</span>
-<span class="line-empty" title="No Anys on this line!">        </span>
+<span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">        Overload this in child classes when implementing new units.</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">        Args:</span>
 <span class="line-empty" title="No Anys on this line!">            value: float - The value to convert to standard units</span>
-<span class="line-empty" title="No Anys on this line!">            </span>
+<span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">        Returns:</span>
 <span class="line-empty" title="No Anys on this line!">            float - The value converted to standard units</span>
 <span class="line-empty" title="No Anys on this line!">        """</span>
@@ -777,12 +787,12 @@ Error (x5)">            value = unit.convert_value_to_standard(value ** (1 / pow
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">    def convert_value_from_standard(self, value: float) -&gt; float:</span>
 <span class="line-empty" title="No Anys on this line!">        """Convert to this unit from the standard value, usually the SI unit.</span>
-<span class="line-empty" title="No Anys on this line!">        </span>
+<span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">        Overload this in child classes when implementing new units.</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">        Args:</span>
 <span class="line-empty" title="No Anys on this line!">            value: float - The value to convert from standard units</span>
-<span class="line-empty" title="No Anys on this line!">            </span>
+<span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">        Returns:</span>
 <span class="line-empty" title="No Anys on this line!">            float - The value converted from standard units</span>
 <span class="line-empty" title="No Anys on this line!">        """</span>
@@ -795,12 +805,12 @@ Error (x5)">            value = unit.convert_value_from_standard(value ** (1 / p
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">    def convert_error_to_standard(self, error: float) -&gt; float:</span>
 <span class="line-empty" title="No Anys on this line!">        """Convert error from this unit to the standard value, usually the SI unit.</span>
-<span class="line-empty" title="No Anys on this line!">        </span>
+<span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">        Overload this in child classes when implementing new units.</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">        Args:</span>
 <span class="line-empty" title="No Anys on this line!">            error: float - The error to convert to standard units</span>
-<span class="line-empty" title="No Anys on this line!">            </span>
+<span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">        Returns:</span>
 <span class="line-empty" title="No Anys on this line!">            float - The error converted to standard units</span>
 <span class="line-empty" title="No Anys on this line!">        """</span>
@@ -814,12 +824,12 @@ Error (x5)">            error = unit.convert_error_to_standard(error ** (1 / pow
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">    def convert_error_from_standard(self, error: float) -&gt; float:</span>
 <span class="line-empty" title="No Anys on this line!">        """Convert error to this unit from the standard value, usually the SI unit.</span>
-<span class="line-empty" title="No Anys on this line!">        </span>
+<span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">        Overload this in child classes when implementing new units.</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">        Args:</span>
 <span class="line-empty" title="No Anys on this line!">            error: float - The error to convert from standard units</span>
-<span class="line-empty" title="No Anys on this line!">            </span>
+<span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">        Returns:</span>
 <span class="line-empty" title="No Anys on this line!">            float - The error converted from standard units</span>
 <span class="line-empty" title="No Anys on this line!">        """</span>
@@ -837,12 +847,12 @@ Error (x5)">            error = unit.convert_error_from_standard(error ** (1 / p
 <span class="line-empty" title="No Anys on this line!">    and units need not be accounted for.</span>
 <span class="line-empty" title="No Anys on this line!">    """</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-precise" title="No Anys on this line!">    def __truediv__(self, other: "Unit") -&gt; "Unit":</span>
+<span class="line-precise" title="No Anys on this line!">    def __truediv__(self, other: Unit) -&gt; Unit:</span>
 <span class="line-empty" title="No Anys on this line!">        """Divide this unit by another unit.</span>
-<span class="line-empty" title="No Anys on this line!">        </span>
+<span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">        Args:</span>
 <span class="line-empty" title="No Anys on this line!">            other: Unit - The unit to divide by</span>
-<span class="line-empty" title="No Anys on this line!">            </span>
+<span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">        Returns:</span>
 <span class="line-empty" title="No Anys on this line!">            Unit - The resulting unit</span>
 <span class="line-empty" title="No Anys on this line!">        """</span>
@@ -850,12 +860,12 @@ Error (x5)">            error = unit.convert_error_from_standard(error ** (1 / p
 <span class="line-precise" title="No Anys on this line!">        new_unit = self * other_inverted</span>
 <span class="line-precise" title="No Anys on this line!">        return new_unit</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-precise" title="No Anys on this line!">    def __pow__(self, other: float) -&gt; "Unit":</span>
+<span class="line-precise" title="No Anys on this line!">    def __pow__(self, other: float) -&gt; Unit:</span>
 <span class="line-empty" title="No Anys on this line!">        """Raise this unit to a power.</span>
-<span class="line-empty" title="No Anys on this line!">        </span>
+<span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">        Args:</span>
 <span class="line-empty" title="No Anys on this line!">            other: float - The power to raise to</span>
-<span class="line-empty" title="No Anys on this line!">            </span>
+<span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">        Returns:</span>
 <span class="line-empty" title="No Anys on this line!">            Unit - The resulting unit</span>
 <span class="line-empty" title="No Anys on this line!">        """</span>
@@ -873,17 +883,15 @@ Error (x5)">            error = unit.convert_error_from_standard(error ** (1 / p
 Explicit (x2)">            new_key = copy.deepcopy(self)</span>
 <span class="line-precise" title="No Anys on this line!">            new_key.magnitude = 0.0</span>
 <span class="line-precise" title="No Anys on this line!">            powers[new_key] = other</span>
-<span class="line-precise" title="No Anys on this line!">        return Unit(</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x1)">            self.dimensions**other, powers=powers, magnitude=self.magnitude * other</span>
-<span class="line-empty" title="No Anys on this line!">        )</span>
+Unannotated (x1)">        return Unit(self.dimensions**other, powers=powers, magnitude=self.magnitude * other)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-precise" title="No Anys on this line!">    def __mul__(self, other: "Unit") -&gt; "Unit":</span>
+<span class="line-precise" title="No Anys on this line!">    def __mul__(self, other: Unit) -&gt; Unit:</span>
 <span class="line-empty" title="No Anys on this line!">        """Multiply this unit by another unit.</span>
-<span class="line-empty" title="No Anys on this line!">        </span>
+<span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">        Args:</span>
 <span class="line-empty" title="No Anys on this line!">            other: Unit - The unit to multiply by</span>
-<span class="line-empty" title="No Anys on this line!">            </span>
+<span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">        Returns:</span>
 <span class="line-empty" title="No Anys on this line!">            Unit - The resulting unit</span>
 <span class="line-empty" title="No Anys on this line!">        """</span>
@@ -949,10 +957,10 @@ Unannotated (x1)">        return Unit(dimensions=dimensions, powers=powers, magn
 <span class="line-any" title="Any Types on this line: 
 Explicit (x1)">    def __eq__(self, other: Any) -&gt; bool:</span>
 <span class="line-empty" title="No Anys on this line!">        """Check equality with another unit.</span>
-<span class="line-empty" title="No Anys on this line!">        </span>
+<span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">        Args:</span>
 <span class="line-empty" title="No Anys on this line!">            other: Any - The object to compare with</span>
-<span class="line-empty" title="No Anys on this line!">            </span>
+<span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">        Returns:</span>
 <span class="line-empty" title="No Anys on this line!">            bool - True if units are equal</span>
 <span class="line-empty" title="No Anys on this line!">        """</span>
@@ -983,7 +991,7 @@ Unannotated (x1)">                and self.dimensions == other.dimensions</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">    def __hash__(self) -&gt; int:</span>
 <span class="line-empty" title="No Anys on this line!">        """Generate hash for this unit.</span>
-<span class="line-empty" title="No Anys on this line!">        </span>
+<span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">        Returns:</span>
 <span class="line-empty" title="No Anys on this line!">            int - Hash value for this unit</span>
 <span class="line-empty" title="No Anys on this line!">        """</span>
@@ -1000,7 +1008,7 @@ Unannotated (x2)">        string += str(self.dimensions.__hash__())</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">    def __str__(self) -&gt; str:</span>
 <span class="line-empty" title="No Anys on this line!">        """String representation of this unit.</span>
-<span class="line-empty" title="No Anys on this line!">        </span>
+<span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">        Returns:</span>
 <span class="line-empty" title="No Anys on this line!">            str - String representation</span>
 <span class="line-empty" title="No Anys on this line!">        """</span>
@@ -1024,27 +1032,29 @@ Explicit (x2)">            string += type(self).__name__</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">class DimensionlessUnit(Unit):</span>
 <span class="line-empty" title="No Anys on this line!">    """Special case to handle dimensionless quantities.</span>
-<span class="line-empty" title="No Anys on this line!">    </span>
+<span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">    Represents quantities that have no physical dimensions,</span>
 <span class="line-empty" title="No Anys on this line!">    such as ratios, percentages, or pure numbers.</span>
 <span class="line-empty" title="No Anys on this line!">    """</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">    def __init__(self, magnitude: float = 0.0) -&gt; None:</span>
 <span class="line-empty" title="No Anys on this line!">        """Initialize dimensionless unit.</span>
-<span class="line-empty" title="No Anys on this line!">        </span>
+<span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">        Args:</span>
 <span class="line-empty" title="No Anys on this line!">            magnitude: float - The magnitude of the unit</span>
 <span class="line-empty" title="No Anys on this line!">        """</span>
+<span class="line-precise" title="No Anys on this line!">        from .dimension import Dimensionless</span>
+<span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">        self.dimensions = Dimensionless()</span>
 <span class="line-precise" title="No Anys on this line!">        self.magnitude = magnitude</span>
 <span class="line-precise" title="No Anys on this line!">        self.powers = None</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">    def convert_to_standard(self, value: float) -&gt; float:</span>
 <span class="line-empty" title="No Anys on this line!">        """Convert to standard (identity operation for dimensionless).</span>
-<span class="line-empty" title="No Anys on this line!">        </span>
+<span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">        Args:</span>
 <span class="line-empty" title="No Anys on this line!">            value: float - The value to convert</span>
-<span class="line-empty" title="No Anys on this line!">            </span>
+<span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">        Returns:</span>
 <span class="line-empty" title="No Anys on this line!">            float - The same value (no conversion needed)</span>
 <span class="line-empty" title="No Anys on this line!">        """</span>
@@ -1052,10 +1062,10 @@ Explicit (x2)">            string += type(self).__name__</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">    def convert_from_standard(self, value: float) -&gt; float:</span>
 <span class="line-empty" title="No Anys on this line!">        """Convert from standard (identity operation for dimensionless).</span>
-<span class="line-empty" title="No Anys on this line!">        </span>
+<span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">        Args:</span>
 <span class="line-empty" title="No Anys on this line!">            value: float - The value to convert</span>
-<span class="line-empty" title="No Anys on this line!">            </span>
+<span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">        Returns:</span>
 <span class="line-empty" title="No Anys on this line!">            float - The same value (no conversion needed)</span>
 <span class="line-empty" title="No Anys on this line!">        """</span>

@@ -214,7 +214,7 @@ paper_directory = Path("papers/")
 for paper_file in paper_directory.glob("*.pdf"):
     doc = Document.from_file(paper_file)
     records = doc.records
-    
+
     # Serialize for storage
     paper_data = {
         "filename": paper_file.name,
@@ -274,11 +274,11 @@ for compound in compounds:
     name = compound.names[0] if compound.names else 'Unknown'
     mp = None
     bp = None
-    
+
     # Extract associated properties
     if hasattr(compound, 'melting_point') and compound.melting_point:
         mp = compound.melting_point.value[0] if compound.melting_point.value else None
-    
+
     cursor.execute('''
     INSERT INTO compounds (name, melting_point, boiling_point, source_document)
     VALUES (?, ?, ?, ?)
@@ -296,7 +296,7 @@ ChemDataExtractor2 extracts various types of chemical records:
 
 - **Compound**: Chemical entities with names, formulas, labels
 - **MeltingPoint**: Melting point data with values and units
-- **BoilingPoint**: Boiling point information  
+- **BoilingPoint**: Boiling point information
 - **IrSpectrum**: Infrared spectroscopy data
 - **NmrSpectrum**: NMR spectroscopy information
 - **UvvisSpectrum**: UV-Vis spectroscopy data
@@ -311,7 +311,7 @@ Each record is a structured object with typed fields:
 {
     'MeltingPoint': {
         'raw_value': '5.5',
-        'raw_units': '°C', 
+        'raw_units': '°C',
         'value': [5.5],
         'units': 'Celsius',
         'error': None
@@ -325,7 +325,7 @@ ChemDataExtractor2 intelligently links related information:
 
 ```python
 # Input text: "Benzene Analysis\nThe melting point was 5.5°C"
-# 
+#
 # Output records:
 # 1. Compound(names=['Benzene'])
 # 2. MeltingPoint(value=[5.5], units='°C')
@@ -342,7 +342,7 @@ ChemDataExtractor2 intelligently links related information:
 # Good: Let ChemDataExtractor handle file opening
 doc = Document.from_file('paper.pdf')
 
-# Also good: Use context managers for file objects  
+# Also good: Use context managers for file objects
 with open('paper.pdf', 'rb') as f:
     doc = Document.from_file(f, fname='paper.pdf')
 ```
@@ -358,7 +358,7 @@ for doc_path in documents:
     doc = Document.from_file(doc_path)
     records = doc.records  # Cache this result
     all_records.extend(records)
-    
+
     # Clear document from memory if processing many files
     del doc
 ```
@@ -432,7 +432,7 @@ class DensityModel(QuantityModel):
     """Custom model for density extraction."""
     specifier = StringType()
     # Inherits value, units, error from QuantityModel
-    
+
 # Register with appropriate parsers for automatic extraction
 ```
 

@@ -196,13 +196,11 @@
 <span id="L186" class="lineno"><a class="lineno" href="#L186">186</a></span>
 <span id="L187" class="lineno"><a class="lineno" href="#L187">187</a></span>
 <span id="L188" class="lineno"><a class="lineno" href="#L188">188</a></span>
-<span id="L189" class="lineno"><a class="lineno" href="#L189">189</a></span>
-<span id="L190" class="lineno"><a class="lineno" href="#L190">190</a></span>
-<span id="L191" class="lineno"><a class="lineno" href="#L191">191</a></span>
 </pre></td>
 <td class="table-code"><pre><span class="line-empty" title="No Anys on this line!">"""</span>
 <span class="line-empty" title="No Anys on this line!">Various utility functions</span>
 <span class="line-empty" title="No Anys on this line!">"""</span>
+<span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">from collections import OrderedDict</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">import numpy as np</span>
@@ -284,9 +282,7 @@
 <span class="line-empty" title="No Anys on this line!">            if token in local_dictionary.keys():</span>
 <span class="line-empty" title="No Anys on this line!">                local_dictionary[token] += 1</span>
 <span class="line-empty" title="No Anys on this line!">            else:</span>
-<span class="line-empty" title="No Anys on this line!">                local_dictionary[token] = cluster.dictionaries[element]["token dict"][</span>
-<span class="line-empty" title="No Anys on this line!">                    token</span>
-<span class="line-empty" title="No Anys on this line!">                ][0]</span>
+<span class="line-empty" title="No Anys on this line!">                local_dictionary[token] = cluster.dictionaries[element]["token dict"][token][0]</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">        # Same for the phrase tokens</span>
 <span class="line-empty" title="No Anys on this line!">        for token in phrase.elements[element]["tokens"]:</span>
@@ -345,9 +341,7 @@
 <span class="line-empty" title="No Anys on this line!">    """</span>
 <span class="line-empty" title="No Anys on this line!">    a = np.ascontiguousarray(a)</span>
 <span class="line-empty" title="No Anys on this line!">    void_dt = np.dtype((np.void, a.dtype.itemsize * np.prod(a.shape[1:])))</span>
-<span class="line-empty" title="No Anys on this line!">    _, ids, count = np.unique(</span>
-<span class="line-empty" title="No Anys on this line!">        a.view(void_dt).ravel(), return_index=True, return_counts=True</span>
-<span class="line-empty" title="No Anys on this line!">    )</span>
+<span class="line-empty" title="No Anys on this line!">    _, ids, count = np.unique(a.view(void_dt).ravel(), return_index=True, return_counts=True)</span>
 <span class="line-empty" title="No Anys on this line!">    largest_count_id = ids[count.argmax()]</span>
 <span class="line-empty" title="No Anys on this line!">    most_frequent_row = a[largest_count_id]</span>
 <span class="line-empty" title="No Anys on this line!">    return most_frequent_row</span>

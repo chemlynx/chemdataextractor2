@@ -182,12 +182,6 @@
 <span id="L172" class="lineno"><a class="lineno" href="#L172">172</a></span>
 <span id="L173" class="lineno"><a class="lineno" href="#L173">173</a></span>
 <span id="L174" class="lineno"><a class="lineno" href="#L174">174</a></span>
-<span id="L175" class="lineno"><a class="lineno" href="#L175">175</a></span>
-<span id="L176" class="lineno"><a class="lineno" href="#L176">176</a></span>
-<span id="L177" class="lineno"><a class="lineno" href="#L177">177</a></span>
-<span id="L178" class="lineno"><a class="lineno" href="#L178">178</a></span>
-<span id="L179" class="lineno"><a class="lineno" href="#L179">179</a></span>
-<span id="L180" class="lineno"><a class="lineno" href="#L180">180</a></span>
 </pre></td>
 <td class="table-code"><pre><span class="line-empty" title="No Anys on this line!">"""</span>
 <span class="line-empty" title="No Anys on this line!">Tools for scraping documents from Springer, Biomed Central and Chemistry Central XML files.</span>
@@ -348,16 +342,11 @@ Unannotated (x5)">    src = StringField(".", xpath=True, strip=True, raw=True)</
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x5)">    ui = StringField("/art/ui/text()", xpath=True, strip=True)</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x5)">    doi = StringField(</span>
-<span class="line-precise" title="No Anys on this line!">        '/art/fm/bibl/xrefbib//pubid[@idtype="doi"]/text()', xpath=True, lower=True</span>
-<span class="line-empty" title="No Anys on this line!">    )</span>
+Unannotated (x5)">    doi = StringField('/art/fm/bibl/xrefbib//pubid[@idtype="doi"]/text()', xpath=True, lower=True)</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x5)">    title = StringField("/art/fm/bibl/title", xpath=True, strip=True)</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x3)">    authors = EntityField(</span>
-<span class="line-precise" title="Any Types on this line: 
-Unannotated (x1)">        SpringerXmlAuthor, "/art/fm/bibl/aug/au", xpath=True, all=True</span>
-<span class="line-empty" title="No Anys on this line!">    )</span>
+Unannotated (x4)">    authors = EntityField(SpringerXmlAuthor, "/art/fm/bibl/aug/au", xpath=True, all=True)</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x5)">    journal = StringField("/art/fm/bibl/source/text()", xpath=True, strip=True)</span>
 <span class="line-any" title="Any Types on this line: 
@@ -399,10 +388,7 @@ Unannotated (x4)">    figures = EntityField(SpringerXmlImage, "/art/bdy//fig", x
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x4)">    schemes = EntityField(SpringerXmlImage, "/art/bdy//scheme", xpath=True, all=True)</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x3)">    tables = EntityField(</span>
-<span class="line-precise" title="Any Types on this line: 
-Unannotated (x1)">        SpringerXmlTable, "/art/bdy//tbl|/art/bdy//table", xpath=True, all=True</span>
-<span class="line-empty" title="No Anys on this line!">    )</span>
+Unannotated (x4)">    tables = EntityField(SpringerXmlTable, "/art/bdy//tbl|/art/bdy//table", xpath=True, all=True)</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x5)">    headings = StringField("/art/bdy//st", xpath=True, strip=True, all=True)</span>
 <span class="line-any" title="Any Types on this line: 

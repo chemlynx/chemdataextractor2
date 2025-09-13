@@ -127,10 +127,10 @@
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">class BaseReader(metaclass=ABCMeta):</span>
 <span class="line-empty" title="No Anys on this line!">    """Abstract base class for all document readers.</span>
-<span class="line-empty" title="No Anys on this line!">    </span>
+<span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">    All Document Readers should implement a parse method that converts</span>
 <span class="line-empty" title="No Anys on this line!">    input data into a structured Document object.</span>
-<span class="line-empty" title="No Anys on this line!">    </span>
+<span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">    Attributes:</span>
 <span class="line-empty" title="No Anys on this line!">        root: Any - Root element for parsed document structure</span>
 <span class="line-empty" title="No Anys on this line!">    """</span>
@@ -142,15 +142,15 @@ Explicit (x1)">        self.root: Optional[Any] = None</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">    def detect(self, fstring: Union[str, bytes], fname: Optional[str] = None) -&gt; bool:</span>
 <span class="line-empty" title="No Anys on this line!">        """Quickly check if this reader can parse the input.</span>
-<span class="line-empty" title="No Anys on this line!">        </span>
+<span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">        Reader subclasses should override this method to provide format detection.</span>
 <span class="line-empty" title="No Anys on this line!">        Used to quickly skip attempting to parse when trying different readers.</span>
 <span class="line-empty" title="No Anys on this line!">        If in doubt, return True and raise ReaderError in parse() if it fails.</span>
-<span class="line-empty" title="No Anys on this line!">        </span>
+<span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">        Args:</span>
 <span class="line-empty" title="No Anys on this line!">            fstring: Union[str, bytes] - Input data to check</span>
 <span class="line-empty" title="No Anys on this line!">            fname: Optional[str] - Optional filename for format hints</span>
-<span class="line-empty" title="No Anys on this line!">            </span>
+<span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">        Returns:</span>
 <span class="line-empty" title="No Anys on this line!">            bool - True if this reader can likely parse the input</span>
 <span class="line-empty" title="No Anys on this line!">        """</span>
@@ -159,13 +159,13 @@ Explicit (x1)">        self.root: Optional[Any] = None</span>
 <span class="line-empty" title="No Anys on this line!">    @abstractmethod</span>
 <span class="line-precise" title="No Anys on this line!">    def parse(self, fstring: Union[str, bytes]) -&gt; Document:</span>
 <span class="line-empty" title="No Anys on this line!">        """Parse the input and return a Document.</span>
-<span class="line-empty" title="No Anys on this line!">        </span>
+<span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">        Args:</span>
 <span class="line-empty" title="No Anys on this line!">            fstring: Union[str, bytes] - Input data to parse</span>
-<span class="line-empty" title="No Anys on this line!">            </span>
+<span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">        Returns:</span>
 <span class="line-empty" title="No Anys on this line!">            Document - Parsed document structure</span>
-<span class="line-empty" title="No Anys on this line!">            </span>
+<span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">        Raises:</span>
 <span class="line-empty" title="No Anys on this line!">            ReaderError: If the parse fails</span>
 <span class="line-empty" title="No Anys on this line!">        """</span>
@@ -173,10 +173,10 @@ Explicit (x1)">        self.root: Optional[Any] = None</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">    def read(self, f: Union[BinaryIO, TextIO]) -&gt; Document:</span>
 <span class="line-empty" title="No Anys on this line!">        """Read a file-like object and return a Document.</span>
-<span class="line-empty" title="No Anys on this line!">        </span>
+<span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">        Args:</span>
 <span class="line-empty" title="No Anys on this line!">            f: Union[BinaryIO, TextIO] - File-like object to read</span>
-<span class="line-empty" title="No Anys on this line!">            </span>
+<span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">        Returns:</span>
 <span class="line-empty" title="No Anys on this line!">            Document - Parsed document structure</span>
 <span class="line-empty" title="No Anys on this line!">        """</span>
@@ -184,10 +184,10 @@ Explicit (x1)">        self.root: Optional[Any] = None</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">    def readstring(self, fstring: Union[str, bytes]) -&gt; Document:</span>
 <span class="line-empty" title="No Anys on this line!">        """Read a file string and return a Document.</span>
-<span class="line-empty" title="No Anys on this line!">        </span>
+<span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">        Args:</span>
 <span class="line-empty" title="No Anys on this line!">            fstring: Union[str, bytes] - String data to parse</span>
-<span class="line-empty" title="No Anys on this line!">            </span>
+<span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">        Returns:</span>
 <span class="line-empty" title="No Anys on this line!">            Document - Parsed document structure</span>
 <span class="line-empty" title="No Anys on this line!">        """</span>

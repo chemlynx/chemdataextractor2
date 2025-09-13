@@ -216,14 +216,6 @@
 <span id="L206" class="lineno"><a class="lineno" href="#L206">206</a></span>
 <span id="L207" class="lineno"><a class="lineno" href="#L207">207</a></span>
 <span id="L208" class="lineno"><a class="lineno" href="#L208">208</a></span>
-<span id="L209" class="lineno"><a class="lineno" href="#L209">209</a></span>
-<span id="L210" class="lineno"><a class="lineno" href="#L210">210</a></span>
-<span id="L211" class="lineno"><a class="lineno" href="#L211">211</a></span>
-<span id="L212" class="lineno"><a class="lineno" href="#L212">212</a></span>
-<span id="L213" class="lineno"><a class="lineno" href="#L213">213</a></span>
-<span id="L214" class="lineno"><a class="lineno" href="#L214">214</a></span>
-<span id="L215" class="lineno"><a class="lineno" href="#L215">215</a></span>
-<span id="L216" class="lineno"><a class="lineno" href="#L216">216</a></span>
 </pre></td>
 <td class="table-code"><pre><span class="line-empty" title="No Anys on this line!">"""</span>
 <span class="line-empty" title="No Anys on this line!">An entity to extract.</span>
@@ -408,9 +400,7 @@ Unannotated (x7)">    published_date = DateTimeField(</span>
 <span class="line-precise" title="No Anys on this line!">        xpath=True,</span>
 <span class="line-empty" title="No Anys on this line!">    )</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x7)">    online_date = DateTimeField(</span>
-<span class="line-precise" title="No Anys on this line!">        '//meta[@name="citation_online_date"]/@content', xpath=True</span>
-<span class="line-empty" title="No Anys on this line!">    )</span>
+Unannotated (x7)">    online_date = DateTimeField('//meta[@name="citation_online_date"]/@content', xpath=True)</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x5)">    journal = StringField(</span>
 <span class="line-precise" title="No Anys on this line!">        '//meta[@name="citation_journal_title"]/@content | //meta[@name="citation_journal_abbrev"]/@content | //meta[@name="prism.publicationName"]/@content | //meta[@name="dc.source"]/@content | //meta[@name="DC.source"]/@content | //meta[@name="DC.Source"]/@content',</span>
@@ -435,9 +425,7 @@ Unannotated (x5)">    firstpage = StringField(</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x5)">    lastpage = StringField('//meta[@name="citation_lastpage"]/@content', xpath=True)</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x5)">    abstract = StringField(</span>
-<span class="line-precise" title="No Anys on this line!">        '//meta[@name="citation_abstract"]/@content', xpath=True, strip=True</span>
-<span class="line-empty" title="No Anys on this line!">    )</span>
+Unannotated (x5)">    abstract = StringField('//meta[@name="citation_abstract"]/@content', xpath=True, strip=True)</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x5)">    publisher = StringField(</span>
 <span class="line-precise" title="No Anys on this line!">        '//meta[@name="citation_publisher"]/@content | //meta[@name="dc.publisher"]/@content | //meta[@name="DC.publisher"]/@content | //meta[@name="dc.Publisher"]/@content | //meta[@name="DC.Publisher"]/@content',</span>
@@ -461,15 +449,11 @@ Unannotated (x5)">    copyright = StringField(</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x3)">    license = UrlField('//a[@rel="license"]/@href', xpath=True)</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x3)">    html_url = UrlField(</span>
-<span class="line-precise" title="No Anys on this line!">        '//meta[@name="citation_fulltext_html_url"]/@content', xpath=True</span>
-<span class="line-empty" title="No Anys on this line!">    )</span>
+Unannotated (x3)">    html_url = UrlField('//meta[@name="citation_fulltext_html_url"]/@content', xpath=True)</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x3)">    pdf_url = UrlField('//meta[@name="citation_pdf_url"]/@content', xpath=True)</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x3)">    landing_url = UrlField(</span>
-<span class="line-precise" title="No Anys on this line!">        '//meta[@name="citation_abstract_html_url"]/@content', xpath=True</span>
-<span class="line-empty" title="No Anys on this line!">    )</span>
+Unannotated (x3)">    landing_url = UrlField('//meta[@name="citation_abstract_html_url"]/@content', xpath=True)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">    process_title = normalize</span>
 <span class="line-precise" title="No Anys on this line!">    process_journal = normalize</span>

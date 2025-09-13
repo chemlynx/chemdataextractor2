@@ -245,14 +245,6 @@
 <span id="L235" class="lineno"><a class="lineno" href="#L235">235</a></span>
 <span id="L236" class="lineno"><a class="lineno" href="#L236">236</a></span>
 <span id="L237" class="lineno"><a class="lineno" href="#L237">237</a></span>
-<span id="L238" class="lineno"><a class="lineno" href="#L238">238</a></span>
-<span id="L239" class="lineno"><a class="lineno" href="#L239">239</a></span>
-<span id="L240" class="lineno"><a class="lineno" href="#L240">240</a></span>
-<span id="L241" class="lineno"><a class="lineno" href="#L241">241</a></span>
-<span id="L242" class="lineno"><a class="lineno" href="#L242">242</a></span>
-<span id="L243" class="lineno"><a class="lineno" href="#L243">243</a></span>
-<span id="L244" class="lineno"><a class="lineno" href="#L244">244</a></span>
-<span id="L245" class="lineno"><a class="lineno" href="#L245">245</a></span>
 </pre></td>
 <td class="table-code"><pre><span class="line-empty" title="No Anys on this line!">"""</span>
 <span class="line-empty" title="No Anys on this line!">Abstract base classes that define the interface for Scrapers, Fields, Crawlers, etc.</span>
@@ -492,17 +484,9 @@ Unannotated (x2)">        self.raw = raw</span>
 <span class="line-any" title="No Anys on this line!">    def scrape(self, selector, cleaner=None, processor=None):</span>
 <span class="line-empty" title="No Anys on this line!">        """Scrape the value for this field from the selector."""</span>
 <span class="line-empty" title="No Anys on this line!">        # Apply CSS or XPath expression to the selector</span>
-<span class="line-empty" title="No Anys on this line!">        selected = (</span>
-<span class="line-empty" title="No Anys on this line!">            selector.xpath(self.selection)</span>
-<span class="line-empty" title="No Anys on this line!">            if self.xpath</span>
-<span class="line-empty" title="No Anys on this line!">            else selector.css(self.selection)</span>
-<span class="line-empty" title="No Anys on this line!">        )</span>
+<span class="line-empty" title="No Anys on this line!">        selected = selector.xpath(self.selection) if self.xpath else selector.css(self.selection)</span>
 <span class="line-empty" title="No Anys on this line!">        # Extract the value and apply regular expression if specified</span>
-<span class="line-empty" title="No Anys on this line!">        value = (</span>
-<span class="line-empty" title="No Anys on this line!">            selected.re(self.re)</span>
-<span class="line-empty" title="No Anys on this line!">            if self.re</span>
-<span class="line-empty" title="No Anys on this line!">            else selected.extract(raw=self.raw, cleaner=cleaner)</span>
-<span class="line-empty" title="No Anys on this line!">        )</span>
+<span class="line-empty" title="No Anys on this line!">        value = selected.re(self.re) if self.re else selected.extract(raw=self.raw, cleaner=cleaner)</span>
 <span class="line-empty" title="No Anys on this line!">        return self._post_scrape(value, processor=processor)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="No Anys on this line!">    def serialize(self, value):</span>

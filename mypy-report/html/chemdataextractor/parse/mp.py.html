@@ -135,15 +135,6 @@
 <span id="L125" class="lineno"><a class="lineno" href="#L125">125</a></span>
 <span id="L126" class="lineno"><a class="lineno" href="#L126">126</a></span>
 <span id="L127" class="lineno"><a class="lineno" href="#L127">127</a></span>
-<span id="L128" class="lineno"><a class="lineno" href="#L128">128</a></span>
-<span id="L129" class="lineno"><a class="lineno" href="#L129">129</a></span>
-<span id="L130" class="lineno"><a class="lineno" href="#L130">130</a></span>
-<span id="L131" class="lineno"><a class="lineno" href="#L131">131</a></span>
-<span id="L132" class="lineno"><a class="lineno" href="#L132">132</a></span>
-<span id="L133" class="lineno"><a class="lineno" href="#L133">133</a></span>
-<span id="L134" class="lineno"><a class="lineno" href="#L134">134</a></span>
-<span id="L135" class="lineno"><a class="lineno" href="#L135">135</a></span>
-<span id="L136" class="lineno"><a class="lineno" href="#L136">136</a></span>
 </pre></td>
 <td class="table-code"><pre><span class="line-empty" title="No Anys on this line!">"""</span>
 <span class="line-empty" title="No Anys on this line!">NMR text parser.</span>
@@ -210,16 +201,10 @@ Unannotated (x3)">delim = R(r"^[:;\.,]$")</span>
 <span class="line-empty" title="No Anys on this line!"># TODO: Consider allowing degree symbol to be optional. The prefix should be restrictive enough to stop false positives.</span>
 <span class="line-any" title="Any Types on this line: 
 Error (x8)
-Unannotated (x6)">units = (W("°") + Optional(R(r"^[CFK]\.?$")) | W(r"K\.?") | W("°C"))(</span>
-<span class="line-precise" title="No Anys on this line!">    "units"</span>
-<span class="line-precise" title="Any Types on this line: 
-Unannotated (x4)">).add_action(merge)</span>
+Unannotated (x10)">units = (W("°") + Optional(R(r"^[CFK]\.?$")) | W(r"K\.?") | W("°C"))("units").add_action(merge)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x7)">joined_range = R(r"^[\+\-–−]?\d+(\.\d+)?[\-–−~∼˜]\d+(\.\d+)?$")("value").add_action(</span>
-<span class="line-precise" title="Any Types on this line: 
-Unannotated (x4)">    merge</span>
-<span class="line-empty" title="No Anys on this line!">)</span>
+Unannotated (x11)">joined_range = R(r"^[\+\-–−]?\d+(\.\d+)?[\-–−~∼˜]\d+(\.\d+)?$")("value").add_action(merge)</span>
 <span class="line-any" title="Any Types on this line: 
 Error (x4)">spaced_range = (</span>
 <span class="line-any" title="Any Types on this line: 
@@ -250,21 +235,13 @@ Unannotated (x4)">).add_action(merge)</span>
 <span class="line-any" title="Any Types on this line: 
 Error (x4)">temp_value = (</span>
 <span class="line-any" title="Any Types on this line: 
-Error (x3)
-Unannotated (x3)">    Optional(R(r"^[~∼˜\&lt;\&gt;]$"))</span>
-<span class="line-any" title="Any Types on this line: 
-Error (x1)
-Unannotated (x3)">    + Optional(R(r"^[\-–−]$"))</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x3)">    + R(r"^[\+\-–−]?\d+(\.\d+)?$")</span>
+Error (x4)
+Unannotated (x9)">    Optional(R(r"^[~∼˜\&lt;\&gt;]$")) + Optional(R(r"^[\-–−]$")) + R(r"^[\+\-–−]?\d+(\.\d+)?$")</span>
 <span class="line-precise" title="Any Types on this line: 
 Unannotated (x4)">)("value").add_action(merge)</span>
 <span class="line-any" title="Any Types on this line: 
-Error (x1)">temp = (</span>
-<span class="line-any" title="Any Types on this line: 
-Error (x12)
-Unannotated (x2)">    Optional(lbrct).hide() + (temp_range | temp_value)("value") + Optional(rbrct).hide()</span>
-<span class="line-empty" title="No Anys on this line!">)</span>
+Error (x13)
+Unannotated (x2)">temp = Optional(lbrct).hide() + (temp_range | temp_value)("value") + Optional(rbrct).hide()</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="Any Types on this line: 
 Error (x11)">mp = (prefix + Optional(delim).hide() + temp + units)("mp")</span>
@@ -277,9 +254,7 @@ Error (x1)">bracket_any = lbrct + OneOrMore(Not(mp) + Not(rbrct) + Any()) + rbrc
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">solvent_phrase = (</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x10)">    R("^(re)?crystalli[sz](ation|ed)$", re.I) + (I("with") | I("from")) + cem</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x1)">    | solvent_name</span>
+Unannotated (x11)">    R("^(re)?crystalli[sz](ation|ed)$", re.I) + (I("with") | I("from")) + cem | solvent_name</span>
 <span class="line-empty" title="No Anys on this line!">)</span>
 <span class="line-any" title="Any Types on this line: 
 Error (x2)">cem_mp_phrase = (</span>

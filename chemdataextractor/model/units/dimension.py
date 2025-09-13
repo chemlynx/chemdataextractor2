@@ -14,9 +14,7 @@ from __future__ import annotations
 
 import copy
 from abc import ABCMeta
-from typing import Any
 from typing import Dict
-from typing import Optional
 from typing import Union
 
 from .unit import Unit

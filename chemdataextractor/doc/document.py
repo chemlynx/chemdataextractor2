@@ -19,7 +19,6 @@ from typing import BinaryIO
 from typing import List
 from typing import TextIO
 from typing import Tuple
-from typing import Union
 
 try:
     from typing import Self
@@ -56,13 +55,13 @@ if TYPE_CHECKING:
     from .element import BaseElement
 
     # Type aliases using forward references
-    FileInput = Union[str, BinaryIO, TextIO]
-    ElementInput = Union[str, bytes, "BaseElement"]
+    FileInput = str | BinaryIO | TextIO
+    ElementInput = str | bytes | "BaseElement"
     AbbreviationDef = Tuple[List[str], list[str], str]
 else:
     # Runtime type aliases
-    FileInput = Union[str, BinaryIO, TextIO]
-    ElementInput = Union[str, bytes, Any]  # BaseElement not available at runtime
+    FileInput = str | BinaryIO | TextIO
+    ElementInput = str | bytes | Any  # BaseElement not available at runtime
     AbbreviationDef = Tuple[List[str], list[str], str]
 
 log = logging.getLogger(__name__)
@@ -77,11 +76,11 @@ class BaseDocument(collections.abc.Sequence, metaclass=ABCMeta):
 
     def __repr__(self) -> str:
         """Return string representation of the document."""
-        return "<%s: %s elements>" % (self.__class__.__name__, len(self))
+        return f"<{self.__class__.__name__}: {len(self)} elements>"
 
     def __str__(self) -> str:
         """Return string representation of the document."""
-        return "<%s: %s elements>" % (self.__class__.__name__, len(self))
+        return f"<{self.__class__.__name__}: {len(self)} elements>"
 
     def __getitem__(self, index: int) -> BaseElement:
         """Get document element by index.
@@ -194,9 +193,7 @@ class Document(BaseDocument):
             if callable(getattr(element, "set_config", None)):
                 element.set_config()
         self.skip_parsers: List[Any] = []  # List of parsers to skip
-        log.debug(
-            "%s: Initializing with %s elements" % (self.__class__.__name__, len(self.elements))
-        )
+        log.debug(f"{self.__class__.__name__}: Initializing with {len(self.elements)} elements")
 
     def add_models(self, models: List[type[BaseModel]]) -> None:
         """Add models to all elements for data extraction.
@@ -365,7 +362,7 @@ class Document(BaseDocument):
                 continue
             try:
                 d = reader.readstring(fstring)
-                log.debug("Parsed document with %s" % reader.__class__.__name__)
+                log.debug(f"Parsed document with {reader.__class__.__name__}")
                 return d
             except ReaderError:
                 pass
@@ -458,7 +455,7 @@ class Document(BaseDocument):
             if type(el) in self.skip_elements:
                 continue
 
-            log.debug("Element %d, type %s" % (i, str(type(el))))
+            log.debug(f"Element {i}, type {str(type(el))}")
             last_id_record = None
 
             # FORWARD INTERDEPENDENCY RESOLUTION -- Updated model parsers to reflect defined entities
@@ -476,7 +473,7 @@ class Document(BaseDocument):
                     model.update(element_definitions)
 
             # Check any parsers that should be skipped
-            if isinstance(el, Title) or isinstance(el, Heading):
+            if isinstance(el, (Title, Heading)):
                 self.skip_parsers = []
                 for model in el._streamlined_models:
                     for parser in model.parsers:
@@ -687,8 +684,8 @@ class Document(BaseDocument):
                         and rnames_std is not None
                         and onames_std is not None
                         and (
-                            any(n in rnames_std for n in onames_std)
-                            or any(l in r_compound.labels for l in other_r_compound.labels)
+                            any(name in rnames_std for name in onames_std)
+                            or any(label in r_compound.labels for label in other_r_compound.labels)
                         )
                     ):
                         r_compound.merge(other_r_compound)
@@ -921,7 +918,7 @@ class Document(BaseDocument):
         Returns:
             List of unique chemical entity mention Spans
         """
-        return list(set([n for el in self.elements for n in el.cems]))
+        return list({n for el in self.elements for n in el.cems})
 
     @property
     def definitions(self) -> list[dict[str, Any]]:
@@ -930,7 +927,7 @@ class Document(BaseDocument):
         Returns:
             List of definition dictionaries
         """
-        return list([defn for el in self.elements for defn in el.definitions])
+        return [defn for el in self.elements for defn in el.definitions]
 
     def serialize(self) -> dict[str, Any]:
         """Convert Document to Python dictionary.
@@ -1125,16 +1122,13 @@ class Document(BaseDocument):
     def _section_name_for_index(self, index):
         while index >= 0:
             el = self.elements[index]
-            if isinstance(el, Heading) or isinstance(el, Title):
+            if isinstance(el, (Heading, Title)):
                 return el.text
             index -= 1
         return None
 
     def _one_of_substrings_is_in_parent(self, substrings, parent_string):
-        for substring in substrings:
-            if substring in parent_string:
-                return True
-        return False
+        return any(substring in parent_string for substring in substrings)
 
     def _are_adjacent_sections_for_merging(self, section_a, section_b):
         if self.adjacent_sections_for_merging is None or section_a is None or section_b is None:

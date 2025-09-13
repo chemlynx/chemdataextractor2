@@ -153,15 +153,6 @@
 <span id="L143" class="lineno"><a class="lineno" href="#L143">143</a></span>
 <span id="L144" class="lineno"><a class="lineno" href="#L144">144</a></span>
 <span id="L145" class="lineno"><a class="lineno" href="#L145">145</a></span>
-<span id="L146" class="lineno"><a class="lineno" href="#L146">146</a></span>
-<span id="L147" class="lineno"><a class="lineno" href="#L147">147</a></span>
-<span id="L148" class="lineno"><a class="lineno" href="#L148">148</a></span>
-<span id="L149" class="lineno"><a class="lineno" href="#L149">149</a></span>
-<span id="L150" class="lineno"><a class="lineno" href="#L150">150</a></span>
-<span id="L151" class="lineno"><a class="lineno" href="#L151">151</a></span>
-<span id="L152" class="lineno"><a class="lineno" href="#L152">152</a></span>
-<span id="L153" class="lineno"><a class="lineno" href="#L153">153</a></span>
-<span id="L154" class="lineno"><a class="lineno" href="#L154">154</a></span>
 </pre></td>
 <td class="table-code"><pre><span class="line-empty" title="No Anys on this line!">"""</span>
 <span class="line-empty" title="No Anys on this line!">IR spectrum text parser.</span>
@@ -239,14 +230,8 @@ Unannotated (x4)">)("units").add_action(merge)</span>
 Unannotated (x4)">value_range = (</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x4)">    R(r"^\d{,2}[ ,]?\d{3}(\.\d+)?[\-–−‒]\d{,2}[ ,]?\d{3}(\.\d+)?$")</span>
-<span class="line-empty" title="No Anys on this line!">    | (</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x5)">        R(r"^\d{,2}[ ,]?\d{3}(\.\d+)?$")</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x3)">        + R(r"^[\-–−‒]$")</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x3)">        + R(r"^\d{,2}[ ,]?\d{3}(\.\d+)?$")</span>
-<span class="line-empty" title="No Anys on this line!">    )</span>
+Unannotated (x11)">    | (R(r"^\d{,2}[ ,]?\d{3}(\.\d+)?$") + R(r"^[\-–−‒]$") + R(r"^\d{,2}[ ,]?\d{3}(\.\d+)?$"))</span>
 <span class="line-precise" title="Any Types on this line: 
 Unannotated (x4)">)("value").add_action(merge)</span>
 <span class="line-any" title="Any Types on this line: 
@@ -295,22 +280,15 @@ Unannotated (x4)">peak_meta_options = strength | bond</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">peak_meta = (</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x6)">    W("(").hide()</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x1)">    + peak_meta_options</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x4)">    + ZeroOrMore(delim + peak_meta_options)</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x3)">    + W(")").hide()</span>
+Unannotated (x14)">    W("(").hide() + peak_meta_options + ZeroOrMore(delim + peak_meta_options) + W(")").hide()</span>
 <span class="line-empty" title="No Anys on this line!">)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="Any Types on this line: 
-Error (x3)">nu = (</span>
-<span class="line-any" title="Any Types on this line: 
-Error (x4)
-Unannotated (x5)">    R(r"^[vνυ]̃?(max)?(\(cm−1\))?$") + Optional(W("max")) + Optional(W("="))</span>
+Error (x7)
+Unannotated (x5)">nu = (R(r"^[vνυ]̃?(max)?(\(cm−1\))?$") + Optional(W("max")) + Optional(W("="))).add_action(</span>
 <span class="line-precise" title="Any Types on this line: 
-Unannotated (x4)">).add_action(extract_units)</span>
+Unannotated (x4)">    extract_units</span>
+<span class="line-empty" title="No Anys on this line!">)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">spectrum_meta = (</span>
@@ -333,13 +311,8 @@ Unannotated (x5)">insolvent = T("IN") + solvent</span>
 <span class="line-any" title="Any Types on this line: 
 Error (x4)">ir_type = (</span>
 <span class="line-any" title="Any Types on this line: 
-Error (x3)
-Unannotated (x2)">    Optional(W("FT") + hyphen)</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x3)">    + R("^(FT-?)?IR|FT-?IS|IR-ATR$")</span>
-<span class="line-any" title="Any Types on this line: 
-Error (x1)
-Unannotated (x2)">    + Optional(hyphen + W("ATR"))</span>
+Error (x4)
+Unannotated (x7)">    Optional(W("FT") + hyphen) + R("^(FT-?)?IR|FT-?IS|IR-ATR$") + Optional(hyphen + W("ATR"))</span>
 <span class="line-precise" title="Any Types on this line: 
 Unannotated (x4)">)("type").add_action(merge)</span>
 <span class="line-empty" title="No Anys on this line!"></span>

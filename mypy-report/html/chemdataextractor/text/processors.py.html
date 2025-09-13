@@ -182,10 +182,6 @@
 <span id="L172" class="lineno"><a class="lineno" href="#L172">172</a></span>
 <span id="L173" class="lineno"><a class="lineno" href="#L173">173</a></span>
 <span id="L174" class="lineno"><a class="lineno" href="#L174">174</a></span>
-<span id="L175" class="lineno"><a class="lineno" href="#L175">175</a></span>
-<span id="L176" class="lineno"><a class="lineno" href="#L176">176</a></span>
-<span id="L177" class="lineno"><a class="lineno" href="#L177">177</a></span>
-<span id="L178" class="lineno"><a class="lineno" href="#L178">178</a></span>
 </pre></td>
 <td class="table-code"><pre><span class="line-empty" title="No Anys on this line!">"""</span>
 <span class="line-empty" title="No Anys on this line!">Text processors for cleaning and normalizing text.</span>
@@ -211,7 +207,7 @@
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">class BaseProcessor(metaclass=ABCMeta):</span>
 <span class="line-empty" title="No Anys on this line!">    """Abstract processor class from which all processors inherit.</span>
-<span class="line-empty" title="No Anys on this line!">    </span>
+<span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">    Subclasses must implement a ``__call__()`` method to process text.</span>
 <span class="line-empty" title="No Anys on this line!">    """</span>
 <span class="line-empty" title="No Anys on this line!"></span>
@@ -329,10 +325,7 @@ Unannotated (x1)">        return value</span>
 Unannotated (x1)">        return float(s)</span>
 <span class="line-precise" title="No Anys on this line!">    except ValueError:</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x1)">        s = re.sub(</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x1)">            r"(\d)\s*\(\d+(\.\d+)?\)", r"\1", s</span>
-<span class="line-empty" title="No Anys on this line!">        )  # Remove bracketed numbers from end</span>
+Unannotated (x2)">        s = re.sub(r"(\d)\s*\(\d+(\.\d+)?\)", r"\1", s)  # Remove bracketed numbers from end</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x2)">        s = re.sub(r"(\d)\s*±\s*\d+(\.\d+)?", r"\1", s)  # Remove uncertainties from end</span>
 <span class="line-any" title="Any Types on this line: 
@@ -344,10 +337,7 @@ Unannotated (x4)">        s = s.replace(",", "")  # Remove commas</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x4)">        s = "".join(s.split())  # Strip whitespace</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x1)">        s = re.sub(</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x1)">            r"(\d)\s*[×x]\s*10\^?(-?\d)", r"\1e\2", s</span>
-<span class="line-empty" title="No Anys on this line!">        )  # Convert scientific notation</span>
+Unannotated (x2)">        s = re.sub(r"(\d)\s*[×x]\s*10\^?(-?\d)", r"\1e\2", s)  # Convert scientific notation</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">        return float(s)</span>
 <span class="line-empty" title="No Anys on this line!"></span>

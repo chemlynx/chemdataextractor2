@@ -533,9 +533,7 @@ class PersonName(dict):
                         break
         if voni:
             if "lastname" not in self:
-                self["lastname"] = self._clean(
-                    " ".join(tokens[voni[0] + 1 :]), capitalize="name"
-                )
+                self["lastname"] = self._clean(" ".join(tokens[voni[0] + 1 :]), capitalize="name")
             self["prefix"] = self._clean(" ".join(tokens[voni[-1] : voni[0] + 1]))
             tokens = tokens[: voni[-1]]
         else:
@@ -570,7 +568,5 @@ class PersonName(dict):
             "suffix",
         ]:
             if attr in self:
-                namelist.append(
-                    '"%s"' % self[attr] if attr == "nickname" else self[attr]
-                )
+                namelist.append('"%s"' % self[attr] if attr == "nickname" else self[attr])
         self["fullname"] = " ".join(namelist)

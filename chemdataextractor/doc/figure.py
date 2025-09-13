@@ -17,7 +17,9 @@ class Figure(CaptionedElement):
         """
         Create a new Figure element, to interface with FDE
         """
-        super(Figure, self).__init__(caption=caption, label=label, models=models, **kwargs)
+        super(Figure, self).__init__(
+            caption=caption, label=label, models=models, **kwargs
+        )
         self.links = links
         self.caption_tokens = None
 
@@ -47,7 +49,9 @@ class Figure(CaptionedElement):
                 parser_records = []
 
                 if hasattr(parser, "parse_caption"):
-                    for record in parser.parse_caption(self.caption, self.label, self.links):
+                    for record in parser.parse_caption(
+                        self.caption, self.label, self.links
+                    ):
                         parser_records.append(record)
 
                 elif hasattr(parser, "parse_sentence"):
@@ -71,8 +75,8 @@ class Figure(CaptionedElement):
                     # Skip just labels that have already been seen (bit of a hack)
                     if (
                         isinstance(record, Compound)
-                        and "Compound" in p.keys()
-                        and all(k in {"labels", "roles"} for k in p["Compound"].keys())
+                        and "Compound" in p
+                        and all(k in {"labels", "roles"} for k in p["Compound"])
                         and set(record.labels).issubset(seen_labels)
                     ):
                         continue
@@ -86,13 +90,13 @@ class Figure(CaptionedElement):
                                 or not set(record.labels).isdisjoint(seen_record.labels)
                             ):
                                 seen_record.names = sorted(
-                                    list(set(seen_record.names).union(record.names))
+                                    set(seen_record.names).union(record.names)
                                 )
                                 seen_record.labels = sorted(
-                                    list(set(seen_record.labels).union(record.labels))
+                                    set(seen_record.labels).union(record.labels)
                                 )
                                 seen_record.roles = sorted(
-                                    list(set(seen_record.roles).union(record.roles))
+                                    set(seen_record.roles).union(record.roles)
                                 )
                                 found = True
                         if found:
@@ -120,7 +124,9 @@ class Figure(CaptionedElement):
             *sorted(
                 cleaned_records,
                 key=lambda el: (
-                    el.total_confidence() if el.total_confidence() is not None else -10000
+                    el.total_confidence()
+                    if el.total_confidence() is not None
+                    else -10000
                 ),
                 reverse=True,
             )

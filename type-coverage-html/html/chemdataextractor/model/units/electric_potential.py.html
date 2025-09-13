@@ -57,9 +57,6 @@
 <span id="L47" class="lineno"><a class="lineno" href="#L47">47</a></span>
 <span id="L48" class="lineno"><a class="lineno" href="#L48">48</a></span>
 <span id="L49" class="lineno"><a class="lineno" href="#L49">49</a></span>
-<span id="L50" class="lineno"><a class="lineno" href="#L50">50</a></span>
-<span id="L51" class="lineno"><a class="lineno" href="#L51">51</a></span>
-<span id="L52" class="lineno"><a class="lineno" href="#L52">52</a></span>
 </pre></td>
 <td class="table-code"><pre><span class="line-empty" title="No Anys on this line!">"""</span>
 <span class="line-empty" title="No Anys on this line!">Units and models for electric potential</span>
@@ -67,7 +64,6 @@
 <span class="line-empty" title="No Anys on this line!">.. codeauthor:: Juraj Mavračić &lt;jm2111@cam.ac.uk&gt;</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">"""</span>
-<span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">import logging</span>
 <span class="line-empty" title="No Anys on this line!"></span>
@@ -92,11 +88,8 @@ Unannotated (x2)">    constituent_dimensions = Energy() / Charge()</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">class ElectricPotentialUnit(Unit):</span>
 <span class="line-any" title="No Anys on this line!">    def __init__(self, magnitude=0.0, powers=None):</span>
-<span class="line-precise" title="Any Types on this line: 
-Unannotated (x2)">        super(ElectricPotentialUnit, self).__init__(</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            ElectricPotential(), magnitude, powers</span>
-<span class="line-empty" title="No Anys on this line!">        )</span>
+Unannotated (x4)">        super(ElectricPotentialUnit, self).__init__(ElectricPotential(), magnitude, powers)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">class Volt(ElectricPotentialUnit):</span>
@@ -122,7 +115,7 @@ Unannotated (x7)">units_dict = {R("(V|v)(olt(s)?)?", group=0): Volt}</span>
 <span class="line-imprecise" title="Any Types on this line: 
 Unannotated (x13)">ElectricPotential.units_dict.update(units_dict)</span>
 <span class="line-precise" title="Any Types on this line: 
-Unannotated (x2)">ElectricPotential.standard_units = Volt()</span>
+Unannotated (x3)">ElectricPotential.standard_units = Volt()</span>
 </pre></td>
 </tr></tbody>
 </table>

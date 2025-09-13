@@ -75,16 +75,12 @@
 <span id="L65" class="lineno"><a class="lineno" href="#L65">65</a></span>
 <span id="L66" class="lineno"><a class="lineno" href="#L66">66</a></span>
 <span id="L67" class="lineno"><a class="lineno" href="#L67">67</a></span>
-<span id="L68" class="lineno"><a class="lineno" href="#L68">68</a></span>
-<span id="L69" class="lineno"><a class="lineno" href="#L69">69</a></span>
-<span id="L70" class="lineno"><a class="lineno" href="#L70">70</a></span>
 </pre></td>
 <td class="table-code"><pre><span class="line-empty" title="No Anys on this line!">"""</span>
 <span class="line-empty" title="No Anys on this line!">Units and models for amounts of a substance.</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">:codeauthor: Callum Court (cc889@cam.ac.uk)</span>
 <span class="line-empty" title="No Anys on this line!">"""</span>
-<span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">import logging</span>
 <span class="line-empty" title="No Anys on this line!"></span>
@@ -119,11 +115,8 @@
 <span class="line-empty" title="No Anys on this line!">    """</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="No Anys on this line!">    def __init__(self, magnitude=0.0, powers=None):</span>
-<span class="line-precise" title="Any Types on this line: 
-Unannotated (x2)">        super(AmountOfSubstanceUnit, self).__init__(</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            AmountOfSubstance(), magnitude, powers</span>
-<span class="line-empty" title="No Anys on this line!">        )</span>
+Unannotated (x4)">        super(AmountOfSubstanceUnit, self).__init__(AmountOfSubstance(), magnitude, powers)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">class Mol(AmountOfSubstanceUnit):</span>
@@ -157,7 +150,7 @@ Unannotated (x7)">units_dict = {R("[Mm](ol)(e(s)?)?", group=0): Mol}</span>
 <span class="line-imprecise" title="Any Types on this line: 
 Unannotated (x4)">AmountOfSubstance.units_dict = units_dict</span>
 <span class="line-precise" title="Any Types on this line: 
-Unannotated (x2)">AmountOfSubstance.standard_units = Mol()</span>
+Unannotated (x3)">AmountOfSubstance.standard_units = Mol()</span>
 </pre></td>
 </tr></tbody>
 </table>

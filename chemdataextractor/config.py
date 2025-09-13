@@ -4,7 +4,6 @@ Config file reader/writer.
 """
 
 import os
-import sys
 from collections.abc import MutableMapping
 
 import appdirs

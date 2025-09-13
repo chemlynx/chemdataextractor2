@@ -2635,16 +2635,6 @@
 <span id="L2625" class="lineno"><a class="lineno" href="#L2625">2625</a></span>
 <span id="L2626" class="lineno"><a class="lineno" href="#L2626">2626</a></span>
 <span id="L2627" class="lineno"><a class="lineno" href="#L2627">2627</a></span>
-<span id="L2628" class="lineno"><a class="lineno" href="#L2628">2628</a></span>
-<span id="L2629" class="lineno"><a class="lineno" href="#L2629">2629</a></span>
-<span id="L2630" class="lineno"><a class="lineno" href="#L2630">2630</a></span>
-<span id="L2631" class="lineno"><a class="lineno" href="#L2631">2631</a></span>
-<span id="L2632" class="lineno"><a class="lineno" href="#L2632">2632</a></span>
-<span id="L2633" class="lineno"><a class="lineno" href="#L2633">2633</a></span>
-<span id="L2634" class="lineno"><a class="lineno" href="#L2634">2634</a></span>
-<span id="L2635" class="lineno"><a class="lineno" href="#L2635">2635</a></span>
-<span id="L2636" class="lineno"><a class="lineno" href="#L2636">2636</a></span>
-<span id="L2637" class="lineno"><a class="lineno" href="#L2637">2637</a></span>
 </pre></td>
 <td class="table-code"><pre><span class="line-empty" title="No Anys on this line!">"""</span>
 <span class="line-empty" title="No Anys on this line!">Named entity recognition (NER) for Chemical entity mentions (CEM).</span>
@@ -2662,7 +2652,9 @@
 <span class="line-precise" title="No Anys on this line!">import re</span>
 <span class="line-precise" title="No Anys on this line!">from typing import TYPE_CHECKING</span>
 <span class="line-precise" title="No Anys on this line!">from typing import Any</span>
-<span class="line-precise" title="No Anys on this line!">from typing import Optional</span>
+<span class="line-precise" title="No Anys on this line!">from typing import Dict</span>
+<span class="line-precise" title="No Anys on this line!">from typing import List</span>
+<span class="line-precise" title="No Anys on this line!">from typing import Tuple</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">from ..text import bracket_level</span>
 <span class="line-precise" title="No Anys on this line!">from .lexicon import ChemLexicon</span>
@@ -2677,13 +2669,13 @@
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!"># Type aliases for CEM tagging</span>
 <span class="line-precise" title="No Anys on this line!">CEMTag = str  # Chemical entity mention tag (e.g., 'B-CM', 'I-CM')</span>
-<span class="line-precise" title="No Anys on this line!">TokenTags = list[tuple[str, CEMTag]]  # List of (token, tag) pairs</span>
+<span class="line-precise" title="No Anys on this line!">TokenTags = List[Tuple[str, CEMTag]]  # List of (token, tag) pairs</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">log = logging.getLogger(__name__)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">#: Token endings to ignore when considering stopwords and deriving spans</span>
-<span class="line-precise" title="No Anys on this line!">IGNORE_SUFFIX: list[str] = [</span>
+<span class="line-precise" title="No Anys on this line!">IGNORE_SUFFIX: List[str] = [</span>
 <span class="line-empty" title="No Anys on this line!">    # Many of these are now unnecessary due to tokenization improvements, but not much harm in leaving them here.</span>
 <span class="line-precise" title="No Anys on this line!">    "-",</span>
 <span class="line-precise" title="No Anys on this line!">    "'s",</span>
@@ -4897,7 +4889,7 @@ Unannotated (x1)">        raise IndexError("Index out of range")</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">class CiDictCemTagger(DictionaryTagger):</span>
 <span class="line-empty" title="No Anys on this line!">    """Case-insensitive CEM dictionary tagger.</span>
-<span class="line-empty" title="No Anys on this line!">    </span>
+<span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">    Uses chemical lexicon for fast dictionary-based entity recognition</span>
 <span class="line-empty" title="No Anys on this line!">    without case sensitivity requirements.</span>
 <span class="line-empty" title="No Anys on this line!">    """</span>
@@ -4909,7 +4901,7 @@ Unannotated (x1)">        raise IndexError("Index out of range")</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">class CsDictCemTagger(DictionaryTagger):</span>
 <span class="line-empty" title="No Anys on this line!">    """Case-sensitive CEM dictionary tagger.</span>
-<span class="line-empty" title="No Anys on this line!">    </span>
+<span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">    Uses chemical lexicon for fast dictionary-based entity recognition</span>
 <span class="line-empty" title="No Anys on this line!">    with exact case matching requirements.</span>
 <span class="line-empty" title="No Anys on this line!">    """</span>
@@ -4922,11 +4914,11 @@ Unannotated (x1)">        raise IndexError("Index out of range")</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">class CrfCemTagger(CrfTagger):</span>
 <span class="line-empty" title="No Anys on this line!">    """CRF-based chemical entity mention tagger.</span>
-<span class="line-empty" title="No Anys on this line!">    </span>
+<span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">    Uses Conditional Random Fields to identify chemical entities in text.</span>
 <span class="line-empty" title="No Anys on this line!">    Trained on chemistry literature with features including word shapes,</span>
 <span class="line-empty" title="No Anys on this line!">    lexicon matches, and contextual patterns.</span>
-<span class="line-empty" title="No Anys on this line!">    </span>
+<span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">    Attributes:</span>
 <span class="line-empty" title="No Anys on this line!">        tag_type: str - NER tag type for chemical entities</span>
 <span class="line-empty" title="No Anys on this line!">        model: str - Path to trained CRF model file</span>
@@ -4941,7 +4933,7 @@ Unannotated (x1)">        raise IndexError("Index out of range")</span>
 <span class="line-precise" title="No Anys on this line!">    clusters: bool = True</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-imprecise" title="Any Types on this line: 
-Explicit (x1)">    params: dict[str, Any] = {</span>
+Explicit (x1)">    params: Dict[str, Any] = {</span>
 <span class="line-precise" title="No Anys on this line!">        "c1": 1.0,  # Coefficient for L1 regularization (OWL-QN). Default 0.</span>
 <span class="line-precise" title="No Anys on this line!">        "c2": 0.001,  # Coefficient for L2 regularization. Default 1.</span>
 <span class="line-precise" title="No Anys on this line!">        "max_iterations": 200,  # The maximum number of iterations for L-BFGS optimization. Default INT_MAX.</span>
@@ -5340,10 +5332,7 @@ Unannotated (x3)">            if tag_type != self.tag_type:</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x4)">                tagger = self.taggers_dict[tag_type]</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">                all_prefetched_tags[tag_type] = [</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x7)">                    el[1] for el in tagger.legacy_tag(tokens)</span>
-<span class="line-empty" title="No Anys on this line!">                ]</span>
+Unannotated (x9)">                all_prefetched_tags[tag_type] = [el[1] for el in tagger.legacy_tag(tokens)]</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x4)
 Omitted Generics (x2)">        for index, token in enumerate(tokens):</span>
@@ -5354,10 +5343,7 @@ Unannotated (x5)">            for key, value in all_prefetched_tags.items():</sp
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x5)">                prefetched_tags[key] = value[index]</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x3)">            pseudo_rich_tokens.append(</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x9)">                _CompatibilityToken(token[0], token[1], prefetched_tags)</span>
-<span class="line-empty" title="No Anys on this line!">            )</span>
+Unannotated (x12)">            pseudo_rich_tokens.append(_CompatibilityToken(token[0], token[1], prefetched_tags))</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x4)">        tagged = self.tag(pseudo_rich_tokens)</span>
 <span class="line-any" title="Any Types on this line: 
@@ -5468,10 +5454,7 @@ Unannotated (x4)">                    entity_tokens = entity_tokens[:-2]</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x4)">                entity = " ".join(entity_tokens)</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x7)">                if any(e in STOP_TOKENS for e in entity_tokens) or self._in_stoplist(</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x1)">                    entity</span>
-<span class="line-empty" title="No Anys on this line!">                ):</span>
+Unannotated (x8)">                if any(e in STOP_TOKENS for e in entity_tokens) or self._in_stoplist(entity):</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x7)">                    tags[i:end_i] = [None] * (end_i - i)</span>
 <span class="line-empty" title="No Anys on this line!">                else:</span>
@@ -5479,14 +5462,8 @@ Unannotated (x7)">                    tags[i:end_i] = [None] * (end_i - i)</span
 Unannotated (x7)">                    bl = bracket_level(entity)</span>
 <span class="line-empty" title="No Anys on this line!">                    # Try and add on brackets in neighbouring tokens if they form part of the name</span>
 <span class="line-empty" title="No Anys on this line!">                    # TODO: Check bracket type matches before adding on</span>
-<span class="line-empty" title="No Anys on this line!">                    if (</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x4)">                        bl == 1</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x4)">                        and len(tokens) &gt; end_i</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x11)">                        and bracket_level(tokens[end_i].text) == -1</span>
-<span class="line-empty" title="No Anys on this line!">                    ):</span>
+Unannotated (x19)">                    if bl == 1 and len(tokens) &gt; end_i and bracket_level(tokens[end_i].text) == -1:</span>
 <span class="line-empty" title="No Anys on this line!">                        # print('BLADJUST: %s - %s' % (entity, tokens[end_i][0]))</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x2)">                        tags[end_i] = "I-CM"</span>
@@ -5519,10 +5496,7 @@ Unannotated (x1)">                            if re.match(</span>
 Unannotated (x3)">                                entity_tokens[-2],</span>
 <span class="line-empty" title="No Anys on this line!">                            ):</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">                                log.debug(</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x3)">                                    "Removing %s from end of CEM", entity_tokens[-2]</span>
-<span class="line-empty" title="No Anys on this line!">                                )</span>
+Unannotated (x5)">                                log.debug("Removing %s from end of CEM", entity_tokens[-2])</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x4)">                                tags[end_i - 3 : end_i] = [None, None, None]</span>
 <span class="line-any" title="Any Types on this line: 

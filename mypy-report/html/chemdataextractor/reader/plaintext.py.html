@@ -38,7 +38,6 @@
 <span id="L28" class="lineno"><a class="lineno" href="#L28">28</a></span>
 <span id="L29" class="lineno"><a class="lineno" href="#L29">29</a></span>
 <span id="L30" class="lineno"><a class="lineno" href="#L30">30</a></span>
-<span id="L31" class="lineno"><a class="lineno" href="#L31">31</a></span>
 </pre></td>
 <td class="table-code"><pre><span class="line-empty" title="No Anys on this line!">"""</span>
 <span class="line-empty" title="No Anys on this line!">Plain text document reader.</span>
@@ -74,9 +73,7 @@ Unannotated (x8)">            fstring = fstring.decode(get_encoding(fstring))</s
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">        para_strings = [</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x3)">            p.strip()</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x3)">            for p in re.split(r"\r\n[ \t]*\r\n|\r[ \t]*\r|\n[ \t]*\n", fstring)</span>
+Unannotated (x6)">            p.strip() for p in re.split(r"\r\n[ \t]*\r\n|\r[ \t]*\r|\n[ \t]*\n", fstring)</span>
 <span class="line-empty" title="No Anys on this line!">        ]</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x2)

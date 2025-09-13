@@ -121,12 +121,6 @@
 <span id="L111" class="lineno"><a class="lineno" href="#L111">111</a></span>
 <span id="L112" class="lineno"><a class="lineno" href="#L112">112</a></span>
 <span id="L113" class="lineno"><a class="lineno" href="#L113">113</a></span>
-<span id="L114" class="lineno"><a class="lineno" href="#L114">114</a></span>
-<span id="L115" class="lineno"><a class="lineno" href="#L115">115</a></span>
-<span id="L116" class="lineno"><a class="lineno" href="#L116">116</a></span>
-<span id="L117" class="lineno"><a class="lineno" href="#L117">117</a></span>
-<span id="L118" class="lineno"><a class="lineno" href="#L118">118</a></span>
-<span id="L119" class="lineno"><a class="lineno" href="#L119">119</a></span>
 </pre></td>
 <td class="table-code"><pre><span class="line-empty" title="No Anys on this line!">"""</span>
 <span class="line-empty" title="No Anys on this line!">Config file reader/writer.</span>
@@ -134,7 +128,6 @@
 <span class="line-empty" title="No Anys on this line!">"""</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">import os</span>
-<span class="line-precise" title="No Anys on this line!">import sys</span>
 <span class="line-precise" title="No Anys on this line!">from collections.abc import MutableMapping</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="No Anys on this line!">import appdirs</span>
@@ -196,17 +189,12 @@ Unannotated (x1)">            self._path = os.environ.get("CHEMDATAEXTRACTOR_CON
 <span class="line-empty" title="No Anys on this line!">        # Use OS-dependent config directory given by appdirs</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">        if not self._path:</span>
-<span class="line-any" title="No Anys on this line!">            if sys.version_info[0] == 2:</span>
-<span class="line-unanalyzed" title="No Anys on this line!">                self._path = os.path.join(</span>
-<span class="line-unanalyzed" title="No Anys on this line!">                    os.path.dirname(os.path.abspath(__file__)), "python2_config.yml"</span>
-<span class="line-empty" title="No Anys on this line!">                )</span>
-<span class="line-empty" title="No Anys on this line!">            else:</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x1)">                self._path = os.path.join(</span>
+Unannotated (x1)">            self._path = os.path.join(</span>
 <span class="line-any" title="Any Types on this line: 
-Unimported (x3)">                    appdirs.user_config_dir("ChemDataExtractor"),</span>
-<span class="line-any" title="No Anys on this line!">                    "chemdataextractor.yml",</span>
-<span class="line-empty" title="No Anys on this line!">                )</span>
+Unimported (x3)">                appdirs.user_config_dir("ChemDataExtractor"),</span>
+<span class="line-any" title="No Anys on this line!">                "chemdataextractor.yml",</span>
+<span class="line-empty" title="No Anys on this line!">            )</span>
 <span class="line-precise" title="No Anys on this line!">        if os.path.isfile(self.path):</span>
 <span class="line-any" title="Any Types on this line: 
 Unimported (x7)

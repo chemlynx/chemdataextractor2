@@ -155,7 +155,6 @@
 <span id="L145" class="lineno"><a class="lineno" href="#L145">145</a></span>
 <span id="L146" class="lineno"><a class="lineno" href="#L146">146</a></span>
 <span id="L147" class="lineno"><a class="lineno" href="#L147">147</a></span>
-<span id="L148" class="lineno"><a class="lineno" href="#L148">148</a></span>
 </pre></td>
 <td class="table-code"><pre><span class="line-empty" title="No Anys on this line!">"""</span>
 <span class="line-empty" title="No Anys on this line!">Modules used in the BERT CRF tagger that are originally from AllenNLP</span>
@@ -163,6 +162,7 @@
 <span class="line-empty" title="No Anys on this line!">https://github.com/allenai/allennlp/blob/v0.9.0/allennlp/data/tokenizers/token.py</span>
 <span class="line-empty" title="No Anys on this line!">"""</span>
 <span class="line-empty" title="No Anys on this line!"></span>
+<span class="line-precise" title="No Anys on this line!">from typing import List</span>
 <span class="line-precise" title="No Anys on this line!">from typing import NamedTuple</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">import torch</span>
@@ -196,14 +196,11 @@ Unannotated (x2)">        self._module = module</span>
 Error (x8)
 Omitted Generics (x2)">    @overrides</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x3)">    def forward(self, *inputs, pass_through: list[str] = None, **kwargs):</span>
+Unannotated (x3)">    def forward(self, *inputs, pass_through: List[str] = None, **kwargs):</span>
 <span class="line-precise" title="No Anys on this line!">        pass_through = pass_through or []</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-imprecise" title="Any Types on this line: 
-Unannotated (x1)">        reshaped_inputs = [</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x6)">            self._reshape_tensor(input_tensor) for input_tensor in inputs</span>
-<span class="line-empty" title="No Anys on this line!">        ]</span>
+Unannotated (x7)">        reshaped_inputs = [self._reshape_tensor(input_tensor) for input_tensor in inputs]</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">        # Need some input to then get the batch_size and time_steps.</span>
 <span class="line-precise" title="No Anys on this line!">        some_input = None</span>

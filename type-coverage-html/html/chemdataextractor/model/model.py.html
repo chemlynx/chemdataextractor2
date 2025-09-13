@@ -586,6 +586,11 @@
 <span id="L576" class="lineno"><a class="lineno" href="#L576">576</a></span>
 <span id="L577" class="lineno"><a class="lineno" href="#L577">577</a></span>
 <span id="L578" class="lineno"><a class="lineno" href="#L578">578</a></span>
+<span id="L579" class="lineno"><a class="lineno" href="#L579">579</a></span>
+<span id="L580" class="lineno"><a class="lineno" href="#L580">580</a></span>
+<span id="L581" class="lineno"><a class="lineno" href="#L581">581</a></span>
+<span id="L582" class="lineno"><a class="lineno" href="#L582">582</a></span>
+<span id="L583" class="lineno"><a class="lineno" href="#L583">583</a></span>
 </pre></td>
 <td class="table-code"><pre><span class="line-empty" title="No Anys on this line!">"""</span>
 <span class="line-empty" title="No Anys on this line!">Model classes for physical properties.</span>
@@ -600,7 +605,8 @@
 <span class="line-precise" title="No Anys on this line!">import logging</span>
 <span class="line-precise" title="No Anys on this line!">from typing import TYPE_CHECKING</span>
 <span class="line-precise" title="No Anys on this line!">from typing import Any</span>
-<span class="line-precise" title="No Anys on this line!">from typing import Optional</span>
+<span class="line-precise" title="No Anys on this line!">from typing import Dict</span>
+<span class="line-precise" title="No Anys on this line!">from typing import List</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">if TYPE_CHECKING:</span>
 <span class="line-any" title="No Anys on this line!">    from ..typing import Self</span>
@@ -640,16 +646,17 @@
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">class Compound(BaseModel):</span>
 <span class="line-empty" title="No Anys on this line!">    """Model for chemical compound identification and properties.</span>
-<span class="line-empty" title="No Anys on this line!">    </span>
+<span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">    Represents a chemical compound with names, labels, and roles extracted</span>
 <span class="line-empty" title="No Anys on this line!">    from scientific text. Supports merging of compound information from</span>
 <span class="line-empty" title="No Anys on this line!">    different sources within a document.</span>
-<span class="line-empty" title="No Anys on this line!">    </span>
+<span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">    Attributes:</span>
 <span class="line-empty" title="No Anys on this line!">        names: Set[str] - Chemical names for this compound</span>
 <span class="line-empty" title="No Anys on this line!">        labels: Set[str] - Reference labels (e.g., "1", "2a") for this compound</span>
 <span class="line-empty" title="No Anys on this line!">        roles: Set[str] - Chemical roles (e.g., "catalyst", "product")</span>
 <span class="line-empty" title="No Anys on this line!">    """</span>
+<span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="Any Types on this line: 
 Explicit (x1)
 Unimported (x1)
@@ -673,17 +680,17 @@ Unannotated (x1)">    roles = SetType(StringType(), parse_expression=roles_only,
 <span class="line-any" title="Any Types on this line: 
 Unimported (x1)">    def merge(self, other: Compound) -&gt; Self:</span>
 <span class="line-empty" title="No Anys on this line!">        """Merge data from another Compound into this Compound.</span>
-<span class="line-empty" title="No Anys on this line!">        </span>
+<span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">        Args:</span>
 <span class="line-empty" title="No Anys on this line!">            other: Compound - The compound to merge data from</span>
-<span class="line-empty" title="No Anys on this line!">            </span>
+<span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">        Returns:</span>
 <span class="line-empty" title="No Anys on this line!">            Self - This compound instance with merged data</span>
 <span class="line-empty" title="No Anys on this line!">        """</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x6)">        log.debug("Merging: %s and %s" % (self.serialize(), other.serialize()))</span>
+<span class="line-imprecise" title="Any Types on this line: 
+Explicit (x4)">        log.debug("Merging: %s and %s" % (self.serialize(), other.serialize()))</span>
 <span class="line-precise" title="Any Types on this line: 
-Explicit (x4)">        if type(other) != type(self):</span>
+Explicit (x4)">        if type(other) is not type(self):</span>
 <span class="line-precise" title="No Anys on this line!">            return self</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x3)">        for k in self.keys():</span>
@@ -697,14 +704,14 @@ Unannotated (x3)">                    for new_item in other[k]:</span>
 Unannotated (x3)">                        if new_item not in self[k]:</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x5)">                            self[k].add(new_item)</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x3)">        log.debug("Result: %s" % self.serialize())</span>
+<span class="line-imprecise" title="Any Types on this line: 
+Explicit (x2)">        log.debug("Result: %s" % self.serialize())</span>
 <span class="line-precise" title="No Anys on this line!">        return self</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">    @property</span>
 <span class="line-precise" title="No Anys on this line!">    def is_unidentified(self) -&gt; bool:</span>
 <span class="line-empty" title="No Anys on this line!">        """Check if this compound has no identifying information.</span>
-<span class="line-empty" title="No Anys on this line!">        </span>
+<span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">        Returns:</span>
 <span class="line-empty" title="No Anys on this line!">            bool - True if compound has no names or labels</span>
 <span class="line-empty" title="No Anys on this line!">        """</span>
@@ -715,7 +722,7 @@ Unannotated (x3)">        log.debug("Result: %s" % self.serialize())</span>
 <span class="line-empty" title="No Anys on this line!">    @property</span>
 <span class="line-precise" title="No Anys on this line!">    def is_id_only(self) -&gt; bool:</span>
 <span class="line-empty" title="No Anys on this line!">        """Check if this compound only contains identifier information.</span>
-<span class="line-empty" title="No Anys on this line!">        </span>
+<span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">        Returns:</span>
 <span class="line-empty" title="No Anys on this line!">            bool - True if only names, labels, or roles are present</span>
 <span class="line-empty" title="No Anys on this line!">        """</span>
@@ -730,11 +737,11 @@ Unannotated (x3)">            if key not in {"names", "labels", "roles"} and val
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">    @classmethod</span>
 <span class="line-imprecise" title="Any Types on this line: 
-Explicit (x1)">    def update(cls, definitions: list[dict[str, Any]], strict: bool = True) -&gt; None:</span>
+Explicit (x1)">    def update(cls, definitions: List[Dict[str, Any]], strict: bool = True) -&gt; None:</span>
 <span class="line-empty" title="No Anys on this line!">        """Update the Compound labels parse expression.</span>
-<span class="line-empty" title="No Anys on this line!">        </span>
+<span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">        Args:</span>
-<span class="line-empty" title="No Anys on this line!">            definitions: list[dict[str, Any]] - List of definition dictionaries</span>
+<span class="line-empty" title="No Anys on this line!">            definitions: List[Dict[str, Any]] - List of definition dictionaries</span>
 <span class="line-empty" title="No Anys on this line!">            strict: bool - Whether to use strict word matching (default: True)</span>
 <span class="line-empty" title="No Anys on this line!">        """</span>
 <span class="line-precise" title="No Anys on this line!">        log.debug("Updating Compound")</span>
@@ -751,24 +758,21 @@ Explicit (x1)">                new_label_expression = Group(W(label)("labels"))<
 Unannotated (x3)
 Explicit (x1)">                new_label_expression = Group(I(label)("labels"))</span>
 <span class="line-imprecise" title="Any Types on this line: 
-Error (x1)">            if not cls.labels.parse_expression:</span>
+Unimported (x1)">            if not cls.labels.parse_expression:</span>
 <span class="line-imprecise" title="Any Types on this line: 
-Error (x1)">                cls.labels.parse_expression = new_label_expression</span>
+Unimported (x1)">                cls.labels.parse_expression = new_label_expression</span>
 <span class="line-empty" title="No Anys on this line!">            else:</span>
-<span class="line-imprecise" title="Any Types on this line: 
-Error (x1)">                cls.labels.parse_expression = (</span>
 <span class="line-any" title="Any Types on this line: 
-Error (x2)">                    cls.labels.parse_expression | new_label_expression</span>
-<span class="line-empty" title="No Anys on this line!">                )</span>
+Unimported (x3)">                cls.labels.parse_expression = cls.labels.parse_expression | new_label_expression</span>
 <span class="line-empty" title="No Anys on this line!">        return</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="Any Types on this line: 
 Explicit (x1)">    def construct_label_expression(self, label: str) -&gt; Any:</span>
 <span class="line-empty" title="No Anys on this line!">        """Construct a parse expression for a compound label.</span>
-<span class="line-empty" title="No Anys on this line!">        </span>
+<span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">        Args:</span>
 <span class="line-empty" title="No Anys on this line!">            label: str - The label text to create an expression for</span>
-<span class="line-empty" title="No Anys on this line!">            </span>
+<span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">        Returns:</span>
 <span class="line-empty" title="No Anys on this line!">            Parse expression for matching the label</span>
 <span class="line-empty" title="No Anys on this line!">        """</span>
@@ -778,13 +782,14 @@ Unannotated (x2)">        return W(label)("labels")</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">class Apparatus(BaseModel):</span>
 <span class="line-empty" title="No Anys on this line!">    """Model for analytical apparatus/instrument information.</span>
-<span class="line-empty" title="No Anys on this line!">    </span>
+<span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">    Represents laboratory equipment and instrumentation details</span>
 <span class="line-empty" title="No Anys on this line!">    used in chemical measurements and analyses.</span>
-<span class="line-empty" title="No Anys on this line!">    </span>
+<span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">    Attributes:</span>
 <span class="line-empty" title="No Anys on this line!">        name: str - Name or model of the analytical apparatus</span>
 <span class="line-empty" title="No Anys on this line!">    """</span>
+<span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="Any Types on this line: 
 Unimported (x1)">    name = StringType()</span>
 <span class="line-precise" title="No Anys on this line!">    parsers = [ApparatusParser()]</span>
@@ -792,10 +797,10 @@ Unimported (x1)">    name = StringType()</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">class UvvisPeak(BaseModel):</span>
 <span class="line-empty" title="No Anys on this line!">    """Model for individual UV-Vis spectroscopy peaks.</span>
-<span class="line-empty" title="No Anys on this line!">    </span>
+<span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">    Represents a single absorption peak in UV-Vis spectroscopy data,</span>
 <span class="line-empty" title="No Anys on this line!">    including wavelength, extinction coefficient, and peak characteristics.</span>
-<span class="line-empty" title="No Anys on this line!">    </span>
+<span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">    Attributes:</span>
 <span class="line-empty" title="No Anys on this line!">        value: str - Peak wavelength value</span>
 <span class="line-empty" title="No Anys on this line!">        units: str - Wavelength units (contextual)</span>
@@ -803,6 +808,7 @@ Unimported (x1)">    name = StringType()</span>
 <span class="line-empty" title="No Anys on this line!">        extinction_units: str - Extinction coefficient units (contextual)</span>
 <span class="line-empty" title="No Anys on this line!">        shape: str - Peak shape description (e.g., shoulder, broad)</span>
 <span class="line-empty" title="No Anys on this line!">    """</span>
+<span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">    #: Peak value, i.e. wavelength</span>
 <span class="line-precise" title="Any Types on this line: 
 Unimported (x1)">    value = StringType()</span>
@@ -822,10 +828,10 @@ Unimported (x1)">    shape = StringType()</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">class UvvisSpectrum(BaseModel):</span>
 <span class="line-empty" title="No Anys on this line!">    """Model for complete UV-Vis spectroscopy measurements.</span>
-<span class="line-empty" title="No Anys on this line!">    </span>
+<span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">    Represents a full UV-Vis spectrum with experimental conditions,</span>
 <span class="line-empty" title="No Anys on this line!">    apparatus information, and associated peaks.</span>
-<span class="line-empty" title="No Anys on this line!">    </span>
+<span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">    Attributes:</span>
 <span class="line-empty" title="No Anys on this line!">        solvent: str - Solvent used (contextual)</span>
 <span class="line-empty" title="No Anys on this line!">        temperature: str - Measurement temperature (contextual)</span>
@@ -836,6 +842,7 @@ Unimported (x1)">    shape = StringType()</span>
 <span class="line-empty" title="No Anys on this line!">        peaks: List[UvvisPeak] - List of spectral peaks</span>
 <span class="line-empty" title="No Anys on this line!">        compound: Compound - Associated chemical compound</span>
 <span class="line-empty" title="No Anys on this line!">    """</span>
+<span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="Any Types on this line: 
 Unimported (x1)">    solvent = StringType(contextual=True)</span>
 <span class="line-precise" title="Any Types on this line: 
@@ -857,16 +864,17 @@ Explicit (x2)">    compound = ModelType(Compound)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">class IrPeak(BaseModel):</span>
 <span class="line-empty" title="No Anys on this line!">    """Model for individual IR spectroscopy peaks.</span>
-<span class="line-empty" title="No Anys on this line!">    </span>
+<span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">    Represents a single absorption peak in IR spectroscopy data,</span>
 <span class="line-empty" title="No Anys on this line!">    including frequency, intensity, and bond assignment.</span>
-<span class="line-empty" title="No Anys on this line!">    </span>
+<span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">    Attributes:</span>
 <span class="line-empty" title="No Anys on this line!">        value: str - Peak frequency/wavenumber value</span>
 <span class="line-empty" title="No Anys on this line!">        units: str - Frequency units (contextual)</span>
 <span class="line-empty" title="No Anys on this line!">        strength: str - Peak intensity or strength</span>
 <span class="line-empty" title="No Anys on this line!">        bond: str - Bond assignment for this peak</span>
 <span class="line-empty" title="No Anys on this line!">    """</span>
+<span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="Any Types on this line: 
 Unimported (x1)">    value = StringType()</span>
 <span class="line-precise" title="Any Types on this line: 
@@ -879,10 +887,10 @@ Unimported (x1)">    bond = StringType()</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">class IrSpectrum(BaseModel):</span>
 <span class="line-empty" title="No Anys on this line!">    """Model for complete IR spectroscopy measurements.</span>
-<span class="line-empty" title="No Anys on this line!">    </span>
+<span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">    Represents a full IR spectrum with experimental conditions,</span>
 <span class="line-empty" title="No Anys on this line!">    apparatus information, and associated peaks.</span>
-<span class="line-empty" title="No Anys on this line!">    </span>
+<span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">    Attributes:</span>
 <span class="line-empty" title="No Anys on this line!">        solvent: str - Solvent used (contextual)</span>
 <span class="line-empty" title="No Anys on this line!">        temperature: str - Measurement temperature (contextual)</span>
@@ -893,6 +901,7 @@ Unimported (x1)">    bond = StringType()</span>
 <span class="line-empty" title="No Anys on this line!">        peaks: List[IrPeak] - List of spectral peaks</span>
 <span class="line-empty" title="No Anys on this line!">        compound: Compound - Associated chemical compound</span>
 <span class="line-empty" title="No Anys on this line!">    """</span>
+<span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="Any Types on this line: 
 Unimported (x1)">    solvent = StringType(contextual=True)</span>
 <span class="line-precise" title="Any Types on this line: 
@@ -914,10 +923,10 @@ Explicit (x2)">    compound = ModelType(Compound)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">class NmrPeak(BaseModel):</span>
 <span class="line-empty" title="No Anys on this line!">    """Model for individual NMR spectroscopy peaks.</span>
-<span class="line-empty" title="No Anys on this line!">    </span>
+<span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">    Represents a single peak in NMR spectroscopy data with chemical shift,</span>
 <span class="line-empty" title="No Anys on this line!">    multiplicity, coupling information, and structural assignment.</span>
-<span class="line-empty" title="No Anys on this line!">    </span>
+<span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">    Attributes:</span>
 <span class="line-empty" title="No Anys on this line!">        shift: str - Chemical shift value</span>
 <span class="line-empty" title="No Anys on this line!">        intensity: str - Peak intensity or integration</span>
@@ -927,6 +936,7 @@ Explicit (x2)">    compound = ModelType(Compound)</span>
 <span class="line-empty" title="No Anys on this line!">        number: str - Number of protons for this peak</span>
 <span class="line-empty" title="No Anys on this line!">        assignment: str - Structural assignment for this peak</span>
 <span class="line-empty" title="No Anys on this line!">    """</span>
+<span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="Any Types on this line: 
 Unimported (x1)">    shift = StringType()</span>
 <span class="line-precise" title="Any Types on this line: 
@@ -945,10 +955,10 @@ Unimported (x1)">    assignment = StringType()</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">class NmrSpectrum(BaseModel):</span>
 <span class="line-empty" title="No Anys on this line!">    """Model for complete NMR spectroscopy measurements.</span>
-<span class="line-empty" title="No Anys on this line!">    </span>
+<span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">    Represents a full NMR spectrum with experimental conditions,</span>
 <span class="line-empty" title="No Anys on this line!">    nucleus type, apparatus information, and associated peaks.</span>
-<span class="line-empty" title="No Anys on this line!">    </span>
+<span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">    Attributes:</span>
 <span class="line-empty" title="No Anys on this line!">        nucleus: str - NMR nucleus (1H, 13C, etc.) (contextual)</span>
 <span class="line-empty" title="No Anys on this line!">        solvent: str - NMR solvent used (contextual)</span>
@@ -963,6 +973,7 @@ Unimported (x1)">    assignment = StringType()</span>
 <span class="line-empty" title="No Anys on this line!">        peaks: List[NmrPeak] - List of NMR peaks</span>
 <span class="line-empty" title="No Anys on this line!">        compound: Compound - Associated chemical compound</span>
 <span class="line-empty" title="No Anys on this line!">    """</span>
+<span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="Any Types on this line: 
 Unimported (x1)">    nucleus = StringType(contextual=True)</span>
 <span class="line-precise" title="Any Types on this line: 
@@ -992,11 +1003,11 @@ Explicit (x2)">    compound = ModelType(Compound)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">class MeltingPoint(TemperatureModel):</span>
 <span class="line-empty" title="No Anys on this line!">    """Model for melting point measurements.</span>
-<span class="line-empty" title="No Anys on this line!">    </span>
+<span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">    Represents melting point data with experimental conditions</span>
 <span class="line-empty" title="No Anys on this line!">    and associated compound information. Inherits temperature</span>
 <span class="line-empty" title="No Anys on this line!">    handling from TemperatureModel.</span>
-<span class="line-empty" title="No Anys on this line!">    </span>
+<span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">    Attributes:</span>
 <span class="line-empty" title="No Anys on this line!">        solvent: str - Solvent used (contextual)</span>
 <span class="line-empty" title="No Anys on this line!">        concentration: str - Sample concentration (contextual)</span>
@@ -1004,6 +1015,7 @@ Explicit (x2)">    compound = ModelType(Compound)</span>
 <span class="line-empty" title="No Anys on this line!">        apparatus: Apparatus - Measurement apparatus (contextual)</span>
 <span class="line-empty" title="No Anys on this line!">        compound: Compound - Associated chemical compound (contextual)</span>
 <span class="line-empty" title="No Anys on this line!">    """</span>
+<span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="Any Types on this line: 
 Unimported (x1)">    solvent = StringType(contextual=True)</span>
 <span class="line-precise" title="Any Types on this line: 
@@ -1019,10 +1031,10 @@ Explicit (x2)">    compound = ModelType(Compound, contextual=True)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">class GlassTransition(BaseModel):</span>
 <span class="line-empty" title="No Anys on this line!">    """Model for glass transition temperature measurements.</span>
-<span class="line-empty" title="No Anys on this line!">    </span>
+<span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">    Represents glass transition temperature (Tg) data with measurement</span>
 <span class="line-empty" title="No Anys on this line!">    method and experimental conditions.</span>
-<span class="line-empty" title="No Anys on this line!">    </span>
+<span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">    Attributes:</span>
 <span class="line-empty" title="No Anys on this line!">        value: str - Glass transition temperature value</span>
 <span class="line-empty" title="No Anys on this line!">        units: str - Temperature units (contextual)</span>
@@ -1049,10 +1061,10 @@ Explicit (x2)">    compound = ModelType(Compound)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">class QuantumYield(BaseModel):</span>
 <span class="line-empty" title="No Anys on this line!">    """Model for quantum yield measurements.</span>
-<span class="line-empty" title="No Anys on this line!">    </span>
+<span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">    Represents photoluminescence quantum yield data with experimental</span>
 <span class="line-empty" title="No Anys on this line!">    conditions, standards, and measurement parameters.</span>
-<span class="line-empty" title="No Anys on this line!">    </span>
+<span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">    Attributes:</span>
 <span class="line-empty" title="No Anys on this line!">        value: str - Quantum yield value</span>
 <span class="line-empty" title="No Anys on this line!">        units: str - Units (typically dimensionless) (contextual)</span>
@@ -1096,10 +1108,10 @@ Explicit (x2)">    apparatus = ModelType(Apparatus, contextual=True)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">class FluorescenceLifetime(BaseModel):</span>
 <span class="line-empty" title="No Anys on this line!">    """Model for fluorescence lifetime measurements.</span>
-<span class="line-empty" title="No Anys on this line!">    </span>
+<span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">    Represents fluorescence decay time measurements with experimental</span>
 <span class="line-empty" title="No Anys on this line!">    conditions and apparatus information.</span>
-<span class="line-empty" title="No Anys on this line!">    </span>
+<span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">    Attributes:</span>
 <span class="line-empty" title="No Anys on this line!">        value: str - Fluorescence lifetime value</span>
 <span class="line-empty" title="No Anys on this line!">        units: str - Time units (contextual)</span>
@@ -1131,10 +1143,10 @@ Explicit (x2)">    apparatus = ModelType(Apparatus, contextual=True)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">class ElectrochemicalPotential(BaseModel):</span>
 <span class="line-empty" title="No Anys on this line!">    """Model for electrochemical potential measurements.</span>
-<span class="line-empty" title="No Anys on this line!">    </span>
+<span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">    Represents oxidation or reduction potentials from cyclic voltammetry</span>
 <span class="line-empty" title="No Anys on this line!">    and other electrochemical techniques.</span>
-<span class="line-empty" title="No Anys on this line!">    </span>
+<span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">    Attributes:</span>
 <span class="line-empty" title="No Anys on this line!">        value: str - Potential value</span>
 <span class="line-empty" title="No Anys on this line!">        units: str - Potential units (contextual)</span>
@@ -1169,15 +1181,16 @@ Explicit (x2)">    apparatus = ModelType(Apparatus, contextual=True)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">class NeelTemperature(TemperatureModel):</span>
 <span class="line-empty" title="No Anys on this line!">    """Model for Néel temperature measurements.</span>
-<span class="line-empty" title="No Anys on this line!">    </span>
+<span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">    Represents the temperature at which antiferromagnetic materials</span>
 <span class="line-empty" title="No Anys on this line!">    lose their magnetic ordering. Inherits temperature handling</span>
 <span class="line-empty" title="No Anys on this line!">    from TemperatureModel.</span>
-<span class="line-empty" title="No Anys on this line!">    </span>
+<span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">    Attributes:</span>
 <span class="line-empty" title="No Anys on this line!">        specifier: str - Temperature specifier (required, non-contextual)</span>
 <span class="line-empty" title="No Anys on this line!">        compound: Compound - Associated chemical compound (optional)</span>
 <span class="line-empty" title="No Anys on this line!">    """</span>
+<span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">    # expression = (I('T')+I('N')).add_action(merge)</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">    expression = I("TN")</span>
@@ -1192,20 +1205,19 @@ Explicit (x2)">    compound = ModelType(Compound, required=False, contextual=Fal
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">class CurieTemperature(TemperatureModel):</span>
 <span class="line-empty" title="No Anys on this line!">    """Model for Curie temperature measurements.</span>
-<span class="line-empty" title="No Anys on this line!">    </span>
+<span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">    Represents the temperature at which ferromagnetic materials</span>
 <span class="line-empty" title="No Anys on this line!">    lose their permanent magnetic properties. Inherits temperature</span>
 <span class="line-empty" title="No Anys on this line!">    handling from TemperatureModel.</span>
-<span class="line-empty" title="No Anys on this line!">    </span>
+<span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">    Attributes:</span>
 <span class="line-empty" title="No Anys on this line!">        specifier: str - Temperature specifier (required, non-contextual)</span>
 <span class="line-empty" title="No Anys on this line!">        compound: Compound - Associated chemical compound (optional)</span>
 <span class="line-empty" title="No Anys on this line!">    """</span>
+<span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">    # expression = (I('T') + I('C')).add_action(merge)</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x12)">    expression = ((I("Curie") + R("^temperature(s)?$")) | R(r"T[Cc]\d?")).add_action(</span>
-<span class="line-precise" title="No Anys on this line!">        join</span>
-<span class="line-empty" title="No Anys on this line!">    )</span>
+Unannotated (x12)">    expression = ((I("Curie") + R("^temperature(s)?$")) | R(r"T[Cc]\d?")).add_action(join)</span>
 <span class="line-imprecise" title="Any Types on this line: 
 Unimported (x1)">    specifier = StringType(</span>
 <span class="line-any" title="Any Types on this line: 
@@ -1217,23 +1229,22 @@ Explicit (x2)">    compound = ModelType(Compound, required=False, contextual=Fal
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">class InteratomicDistance(LengthModel):</span>
 <span class="line-empty" title="No Anys on this line!">    """Model for interatomic distance measurements.</span>
-<span class="line-empty" title="No Anys on this line!">    </span>
+<span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">    Represents bond lengths and atomic distances with species</span>
 <span class="line-empty" title="No Anys on this line!">    identification. Inherits length handling from LengthModel.</span>
-<span class="line-empty" title="No Anys on this line!">    </span>
+<span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">    Attributes:</span>
 <span class="line-empty" title="No Anys on this line!">        specifier: str - Distance specifier (optional, contextual)</span>
 <span class="line-empty" title="No Anys on this line!">        species: str - Element pair specification (required, non-contextual)</span>
 <span class="line-empty" title="No Anys on this line!">        compound: Compound - Associated chemical compound (required, contextual)</span>
 <span class="line-empty" title="No Anys on this line!">        another_label: str - Additional label field (optional, non-contextual)</span>
 <span class="line-empty" title="No Anys on this line!">    """</span>
+<span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x14)">    specifier_expression = (R("^bond$") + R("^distance")).add_action(merge)</span>
-<span class="line-imprecise" title="Any Types on this line: 
-Unimported (x1)">    specifier = StringType(</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x1)">        parse_expression=specifier_expression, required=False, contextual=True</span>
-<span class="line-empty" title="No Anys on this line!">    )</span>
+Unimported (x1)
+Unannotated (x1)">    specifier = StringType(parse_expression=specifier_expression, required=False, contextual=True)</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x3)">    rij_label = R(</span>
 <span class="line-precise" title="No Anys on this line!">        r"^((X|Ac|Ag|Al|Am|Ar|As|At|Au|B|Ba|Be|Bh|Bi|Bk|Br|C|Ca|Cd|Ce|Cf|Cl|Cm|Cn|Co|Cr|Cs|Cu|Db|Ds|Dy|Er|Es|Eu|F|Fe|Fl|Fm|Fr|Ga|Gd|Ge|H|He|Hf|Hg|Ho|Hs|I|In|Ir|K|Kr|La|Li|Lr|Lu|Lv|Mc|Md|Mg|Mn|Mo|Mt|N|Na|Nb|Nd|Ne|Nh|Ni|No|Np|O|Og|Os|P|Pa|Pb|Pd|Pm|Po|Pr|Pt|Pu|Ra|Rb|Re|Rf|Rg|Rh|Rn|Ru|S|Sb|Sc|Se|Sg|Si|Sm|Sn|Sr|Ta|Tb|Tc|Te|Th|Ti|Tl|Tm|Ts|U|V|W|Xe|Y|Yb|Zn|Zr)\-?(X|Ac|Ag|Al|Am|Ar|As|At|Au|B|Ba|Be|Bh|Bi|Bk|Br|C|Ca|Cd|Ce|Cf|Cl|Cm|Cn|Co|Cr|Cs|Cu|Db|Ds|Dy|Er|Es|Eu|F|Fe|Fl|Fm|Fr|Ga|Gd|Ge|H|He|Hf|Hg|Ho|Hs|I|In|Ir|K|Kr|La|Li|Lr|Lu|Lv|Mc|Md|Mg|Mn|Mo|Mt|N|Na|Nb|Nd|Ne|Nh|Ni|No|Np|O|Og|Os|P|Pa|Pb|Pd|Pm|Po|Pr|Pt|Pu|Ra|Rb|Re|Rf|Rg|Rh|Rn|Ru|S|Sb|Sc|Se|Sg|Si|Sm|Sn|Sr|Ta|Tb|Tc|Te|Th|Ti|Tl|Tm|Ts|U|V|W|Xe|Y|Yb|Zn|Zr))$"</span>
@@ -1242,28 +1253,27 @@ Unannotated (x3)">    rij_label = R(</span>
 Unimported (x1)">    species = StringType(parse_expression=rij_label, required=True, contextual=False)</span>
 <span class="line-any" title="Any Types on this line: 
 Explicit (x2)">    compound = ModelType(Compound, required=True, contextual=True)</span>
-<span class="line-imprecise" title="Any Types on this line: 
-Unimported (x1)">    another_label = StringType(</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x3)">        parse_expression=R("^adgahg$"), required=False, contextual=False</span>
-<span class="line-empty" title="No Anys on this line!">    )</span>
+Unimported (x1)
+Unannotated (x3)">    another_label = StringType(parse_expression=R("^adgahg$"), required=False, contextual=False)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">class CoordinationNumber(DimensionlessModel):</span>
 <span class="line-empty" title="No Anys on this line!">    """Model for coordination number measurements.</span>
-<span class="line-empty" title="No Anys on this line!">    </span>
+<span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">    Represents the number of atoms coordinated to a central atom</span>
 <span class="line-empty" title="No Anys on this line!">    in a chemical structure. Inherits dimensionless quantity handling.</span>
-<span class="line-empty" title="No Anys on this line!">    </span>
+<span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">    Note:</span>
 <span class="line-empty" title="No Anys on this line!">        Labels like NTi-O will not work with this parser - requires space</span>
 <span class="line-empty" title="No Anys on this line!">        between the label and specifier.</span>
-<span class="line-empty" title="No Anys on this line!">    </span>
+<span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">    Attributes:</span>
 <span class="line-empty" title="No Anys on this line!">        specifier: str - Coordination number specifier (required, contextual)</span>
 <span class="line-empty" title="No Anys on this line!">        cn_label: str - Element coordination label (required, contextual)</span>
 <span class="line-empty" title="No Anys on this line!">        compound: Compound - Associated chemical compound (required, contextual)</span>
 <span class="line-empty" title="No Anys on this line!">    """</span>
+<span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">    # something like NTi-O will not work with this, only work if there is space between the label and specifier</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x3)">    coordination_number_label = R(</span>
@@ -1273,9 +1283,7 @@ Unannotated (x3)">    coordination_number_label = R(</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x3)">    specifier_expression = R("^(N|n|k)$")</span>
 <span class="line-imprecise" title="Any Types on this line: 
-Unimported (x1)">    specifier = StringType(</span>
-<span class="line-precise" title="No Anys on this line!">        parse_expression=specifier_expression, required=True, contextual=True</span>
-<span class="line-empty" title="No Anys on this line!">    )</span>
+Unimported (x1)">    specifier = StringType(parse_expression=specifier_expression, required=True, contextual=True)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-imprecise" title="Any Types on this line: 
 Unimported (x1)">    cn_label = StringType(</span>
@@ -1287,14 +1295,15 @@ Explicit (x2)">    compound = ModelType(Compound, required=True, contextual=True
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">class CNLabel(BaseModel):</span>
 <span class="line-empty" title="No Anys on this line!">    """Model for coordination number labels.</span>
-<span class="line-empty" title="No Anys on this line!">    </span>
+<span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">    Separate model for testing automated parsing of coordination</span>
 <span class="line-empty" title="No Anys on this line!">    number information that are not quantities.</span>
-<span class="line-empty" title="No Anys on this line!">    </span>
+<span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">    Attributes:</span>
 <span class="line-empty" title="No Anys on this line!">        label_Juraj: str - Coordination number label for elements</span>
 <span class="line-empty" title="No Anys on this line!">        compound: Compound - Associated chemical compound (optional)</span>
 <span class="line-empty" title="No Anys on this line!">    """</span>
+<span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">    # separate model to test automated parsing for stuff that are not quantities</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x3)">    coordination_number_label = R(</span>
@@ -1307,8 +1316,7 @@ Unimported (x1)">    label_Juraj = StringType(parse_expression=coordination_numb
 <span class="line-any" title="Any Types on this line: 
 Explicit (x2)">    compound = ModelType(Compound, required=False)</span>
 <span class="line-precise" title="Any Types on this line: 
-Unannotated (x3)
-Unimported (x1)">    parsers = [AutoSentenceParser(), AutoTableParser()]</span>
+Unannotated (x3)">    parsers = [AutoSentenceParser(), AutoTableParser()]</span>
 </pre></td>
 </tr></tbody>
 </table>

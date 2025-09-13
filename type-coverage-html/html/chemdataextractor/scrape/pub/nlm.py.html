@@ -246,10 +246,6 @@
 <span id="L236" class="lineno"><a class="lineno" href="#L236">236</a></span>
 <span id="L237" class="lineno"><a class="lineno" href="#L237">237</a></span>
 <span id="L238" class="lineno"><a class="lineno" href="#L238">238</a></span>
-<span id="L239" class="lineno"><a class="lineno" href="#L239">239</a></span>
-<span id="L240" class="lineno"><a class="lineno" href="#L240">240</a></span>
-<span id="L241" class="lineno"><a class="lineno" href="#L241">241</a></span>
-<span id="L242" class="lineno"><a class="lineno" href="#L242">242</a></span>
 </pre></td>
 <td class="table-code"><pre><span class="line-empty" title="No Anys on this line!">"""</span>
 <span class="line-empty" title="No Anys on this line!">Tools for scraping documents from NLM Journal Archiving and Interchange DTD XML files.</span>
@@ -431,18 +427,14 @@ Unannotated (x1)">        NlmXmlAuthor,</span>
 <span class="line-precise" title="No Anys on this line!">        all=True,</span>
 <span class="line-empty" title="No Anys on this line!">    )</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x5)">    journal_title = StringField(</span>
-<span class="line-precise" title="No Anys on this line!">        "/article/front/journal-meta//journal-title/text()", xpath=True</span>
-<span class="line-empty" title="No Anys on this line!">    )</span>
+Unannotated (x5)">    journal_title = StringField("/article/front/journal-meta//journal-title/text()", xpath=True)</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x5)">    journal_abbreviation = StringField(</span>
 <span class="line-precise" title="No Anys on this line!">        '/article/front/journal-meta/journal-id[@journal-id-type="iso-abbrev"]/text()|/article/front/journal-meta/journal-id[@journal-id-type="nlm-ta"]/text()',</span>
 <span class="line-precise" title="No Anys on this line!">        xpath=True,</span>
 <span class="line-empty" title="No Anys on this line!">    )</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x5)">    publisher = StringField(</span>
-<span class="line-precise" title="No Anys on this line!">        "/article/front/journal-meta//publisher-name/text()", xpath=True</span>
-<span class="line-empty" title="No Anys on this line!">    )</span>
+Unannotated (x5)">    publisher = StringField("/article/front/journal-meta//publisher-name/text()", xpath=True)</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x5)">    volume = StringField("/article/front/article-meta/volume/text()", xpath=True)</span>
 <span class="line-any" title="Any Types on this line: 

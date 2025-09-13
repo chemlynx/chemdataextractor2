@@ -571,29 +571,6 @@
 <span id="L561" class="lineno"><a class="lineno" href="#L561">561</a></span>
 <span id="L562" class="lineno"><a class="lineno" href="#L562">562</a></span>
 <span id="L563" class="lineno"><a class="lineno" href="#L563">563</a></span>
-<span id="L564" class="lineno"><a class="lineno" href="#L564">564</a></span>
-<span id="L565" class="lineno"><a class="lineno" href="#L565">565</a></span>
-<span id="L566" class="lineno"><a class="lineno" href="#L566">566</a></span>
-<span id="L567" class="lineno"><a class="lineno" href="#L567">567</a></span>
-<span id="L568" class="lineno"><a class="lineno" href="#L568">568</a></span>
-<span id="L569" class="lineno"><a class="lineno" href="#L569">569</a></span>
-<span id="L570" class="lineno"><a class="lineno" href="#L570">570</a></span>
-<span id="L571" class="lineno"><a class="lineno" href="#L571">571</a></span>
-<span id="L572" class="lineno"><a class="lineno" href="#L572">572</a></span>
-<span id="L573" class="lineno"><a class="lineno" href="#L573">573</a></span>
-<span id="L574" class="lineno"><a class="lineno" href="#L574">574</a></span>
-<span id="L575" class="lineno"><a class="lineno" href="#L575">575</a></span>
-<span id="L576" class="lineno"><a class="lineno" href="#L576">576</a></span>
-<span id="L577" class="lineno"><a class="lineno" href="#L577">577</a></span>
-<span id="L578" class="lineno"><a class="lineno" href="#L578">578</a></span>
-<span id="L579" class="lineno"><a class="lineno" href="#L579">579</a></span>
-<span id="L580" class="lineno"><a class="lineno" href="#L580">580</a></span>
-<span id="L581" class="lineno"><a class="lineno" href="#L581">581</a></span>
-<span id="L582" class="lineno"><a class="lineno" href="#L582">582</a></span>
-<span id="L583" class="lineno"><a class="lineno" href="#L583">583</a></span>
-<span id="L584" class="lineno"><a class="lineno" href="#L584">584</a></span>
-<span id="L585" class="lineno"><a class="lineno" href="#L585">585</a></span>
-<span id="L586" class="lineno"><a class="lineno" href="#L586">586</a></span>
 </pre></td>
 <td class="table-code"><pre><span class="line-empty" title="No Anys on this line!">"""</span>
 <span class="line-empty" title="No Anys on this line!">Functionality to enable multi-turn question answering for information extraction in ChemDataExtractor</span>
@@ -822,10 +799,7 @@ Unannotated (x1)">                if heading is not None:</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x4)">                    context += heading.text + "\n\n"</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x3)">            context += " ".join(</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x4)">                context_sentence.text for context_sentence in context_sentences</span>
-<span class="line-empty" title="No Anys on this line!">            )</span>
+Unannotated (x7)">            context += " ".join(context_sentence.text for context_sentence in context_sentences)</span>
 <span class="line-empty" title="No Anys on this line!">        else:</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x3)">            context = self.sentence.text</span>
@@ -895,29 +869,18 @@ Unannotated (x4)">                    and question.can_ask_question(record)</spa
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x4)">                        id(record) not in asked_questions</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x4)">                        or question.formatted_question(record)</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x4)">                        not in asked_questions[id(record)]</span>
+Unannotated (x8)">                        or question.formatted_question(record) not in asked_questions[id(record)]</span>
 <span class="line-empty" title="No Anys on this line!">                    )</span>
 <span class="line-empty" title="No Anys on this line!">                ):</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x3)">                    batch_questions_list.append(</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x5)">                        cls(record, sentence, question, field_name)</span>
-<span class="line-empty" title="No Anys on this line!">                    )</span>
+Unannotated (x8)">                    batch_questions_list.append(cls(record, sentence, question, field_name))</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x3)">                    if id(record) in asked_questions:</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x6)">                        asked_questions[id(record)].append(</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x4)">                            question.formatted_question(record)</span>
-<span class="line-empty" title="No Anys on this line!">                        )</span>
+Unannotated (x10)">                        asked_questions[id(record)].append(question.formatted_question(record))</span>
 <span class="line-empty" title="No Anys on this line!">                    else:</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x3)">                        asked_questions[id(record)] = [</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x4)">                            question.formatted_question(record)</span>
-<span class="line-empty" title="No Anys on this line!">                        ]</span>
+Unannotated (x7)">                        asked_questions[id(record)] = [question.formatted_question(record)]</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">        return batch_questions_list</span>
 <span class="line-empty" title="No Anys on this line!"></span>
@@ -1239,12 +1202,9 @@ Unannotated (x7)">                    new_records_list[index].append(batch_quest
 <span class="line-empty" title="No Anys on this line!">            # Another loop iterating through current records and checking if that is in</span>
 <span class="line-empty" title="No Anys on this line!">            # the new records list, if not, appending it to the list</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x3)
+Unannotated (x5)
 Explicit (x9)
-Omitted Generics (x30)">            for old_sentence_records, new_sentence_records in zip(</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">                records, new_records_list</span>
-<span class="line-empty" title="No Anys on this line!">            ):</span>
+Omitted Generics (x30)">            for old_sentence_records, new_sentence_records in zip(records, new_records_list):</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x2)">                for record in old_sentence_records:</span>
 <span class="line-any" title="Any Types on this line: 
@@ -1269,20 +1229,10 @@ Unannotated (x1)">        return records_dict</span>
 <span class="line-any" title="No Anys on this line!">    def _is_valid_sentence(self, sentence):</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x2)">        if len(</span>
-<span class="line-empty" title="No Anys on this line!">            [</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x1)">                result</span>
+Unannotated (x9)">            [result for result in self.model.specifier.parse_expression.scan(sentence.tokens)]</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x6)">                for result in self.model.specifier.parse_expression.scan(</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">                    sentence.tokens</span>
-<span class="line-empty" title="No Anys on this line!">                )</span>
-<span class="line-empty" title="No Anys on this line!">            ]</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x1)">        ) and len(</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x7)">            [result for result in self.numerical_value_expression.scan(sentence.tokens)]</span>
-<span class="line-empty" title="No Anys on this line!">        ):</span>
+Unannotated (x8)">        ) and len([result for result in self.numerical_value_expression.scan(sentence.tokens)]):</span>
 <span class="line-any" title="No Anys on this line!">            return True</span>
 <span class="line-any" title="No Anys on this line!">        return False</span>
 <span class="line-empty" title="No Anys on this line!"></span>
@@ -1383,19 +1333,12 @@ Unannotated (x1)">            if field not in [</span>
 <span class="line-any" title="No Anys on this line!">                "specifier",</span>
 <span class="line-empty" title="No Anys on this line!">            ]:</span>
 <span class="line-empty" title="No Anys on this line!">                try:</span>
-<span class="line-empty" title="No Anys on this line!">                    if (</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x6)">                        self.model.__getattribute__(self.model, field).parse_expression</span>
-<span class="line-any" title="No Anys on this line!">                        is not None</span>
-<span class="line-empty" title="No Anys on this line!">                    ):</span>
+Unannotated (x6)">                    if self.model.__getattribute__(self.model, field).parse_expression is not None:</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x3)">                        entities.append(</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x5)">                            self.model.__getattribute__(</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">                                self.model, field</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x1)">                            ).parse_expression(field)</span>
+Unannotated (x8)">                            self.model.__getattribute__(self.model, field).parse_expression(field)</span>
 <span class="line-empty" title="No Anys on this line!">                        )</span>
 <span class="line-precise" title="No Anys on this line!">                except AttributeError:</span>
 <span class="line-any" title="No Anys on this line!">                    pass</span>
@@ -1404,10 +1347,9 @@ Unannotated (x1)">                            ).parse_expression(field)</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x5)">        combined_entities = _create_entities_list(entities)</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x4)">        root_phrase = OneOrMore(</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x7)">            combined_entities + Optional(SkipTo(combined_entities))</span>
-<span class="line-any" title="No Anys on this line!">        )("root_phrase")</span>
+Unannotated (x11)">        root_phrase = OneOrMore(combined_entities + Optional(SkipTo(combined_entities)))(</span>
+<span class="line-any" title="No Anys on this line!">            "root_phrase"</span>
+<span class="line-empty" title="No Anys on this line!">        )</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">        return root_phrase</span>
 <span class="line-empty" title="No Anys on this line!"></span>

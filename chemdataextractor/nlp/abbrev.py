@@ -10,7 +10,6 @@ from __future__ import annotations
 import logging
 import re
 from typing import TYPE_CHECKING
-from typing import Any
 from typing import List
 from typing import Optional
 from typing import Tuple

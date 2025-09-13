@@ -14,9 +14,10 @@ from abc import ABCMeta
 from abc import abstractmethod
 from typing import TYPE_CHECKING
 from typing import Iterator
-from typing import List, Tuple
+from typing import List
 from typing import Optional
 from typing import Set
+from typing import Tuple
 
 from deprecation import deprecated
 from tokenizers import BertWordPieceTokenizer

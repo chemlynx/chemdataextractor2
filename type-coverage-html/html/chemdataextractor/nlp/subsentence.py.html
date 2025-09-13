@@ -370,31 +370,6 @@
 <span id="L360" class="lineno"><a class="lineno" href="#L360">360</a></span>
 <span id="L361" class="lineno"><a class="lineno" href="#L361">361</a></span>
 <span id="L362" class="lineno"><a class="lineno" href="#L362">362</a></span>
-<span id="L363" class="lineno"><a class="lineno" href="#L363">363</a></span>
-<span id="L364" class="lineno"><a class="lineno" href="#L364">364</a></span>
-<span id="L365" class="lineno"><a class="lineno" href="#L365">365</a></span>
-<span id="L366" class="lineno"><a class="lineno" href="#L366">366</a></span>
-<span id="L367" class="lineno"><a class="lineno" href="#L367">367</a></span>
-<span id="L368" class="lineno"><a class="lineno" href="#L368">368</a></span>
-<span id="L369" class="lineno"><a class="lineno" href="#L369">369</a></span>
-<span id="L370" class="lineno"><a class="lineno" href="#L370">370</a></span>
-<span id="L371" class="lineno"><a class="lineno" href="#L371">371</a></span>
-<span id="L372" class="lineno"><a class="lineno" href="#L372">372</a></span>
-<span id="L373" class="lineno"><a class="lineno" href="#L373">373</a></span>
-<span id="L374" class="lineno"><a class="lineno" href="#L374">374</a></span>
-<span id="L375" class="lineno"><a class="lineno" href="#L375">375</a></span>
-<span id="L376" class="lineno"><a class="lineno" href="#L376">376</a></span>
-<span id="L377" class="lineno"><a class="lineno" href="#L377">377</a></span>
-<span id="L378" class="lineno"><a class="lineno" href="#L378">378</a></span>
-<span id="L379" class="lineno"><a class="lineno" href="#L379">379</a></span>
-<span id="L380" class="lineno"><a class="lineno" href="#L380">380</a></span>
-<span id="L381" class="lineno"><a class="lineno" href="#L381">381</a></span>
-<span id="L382" class="lineno"><a class="lineno" href="#L382">382</a></span>
-<span id="L383" class="lineno"><a class="lineno" href="#L383">383</a></span>
-<span id="L384" class="lineno"><a class="lineno" href="#L384">384</a></span>
-<span id="L385" class="lineno"><a class="lineno" href="#L385">385</a></span>
-<span id="L386" class="lineno"><a class="lineno" href="#L386">386</a></span>
-<span id="L387" class="lineno"><a class="lineno" href="#L387">387</a></span>
 </pre></td>
 <td class="table-code"><pre><span class="line-precise" title="No Anys on this line!">import copy</span>
 <span class="line-precise" title="No Anys on this line!">from collections import namedtuple</span>
@@ -412,12 +387,9 @@ Unannotated (x1)">        raise AttributeError(</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">    added_subsentences = []</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x3)
+Unannotated (x6)
 Explicit (x9)
-Omitted Generics (x30)">    for coordinated_content, subsentence in zip(</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x3)">        coordinated_group.content, subsentences</span>
-<span class="line-empty" title="No Anys on this line!">    ):</span>
+Omitted Generics (x30)">    for coordinated_content, subsentence in zip(coordinated_group.content, subsentences):</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x3)
 Omitted Generics (x2)">        sub = copy.copy(subsentence)</span>
@@ -595,29 +567,17 @@ Unannotated (x9)">        if len(coordinated_groups) == 1 and len(coordinated_gr
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x3)">            coordinated_group = coordinated_groups[0]</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)
-Omitted Generics (x23)">            first_clause_min_index = min(</span>
+Unannotated (x8)
+Omitted Generics (x23)">            first_clause_min_index = min([word[0] for word in coordinated_group.content[0]])</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x6)">                [word[0] for word in coordinated_group.content[0]]</span>
-<span class="line-empty" title="No Anys on this line!">            )</span>
+Unannotated (x8)
+Omitted Generics (x23)">            first_clause_max_index = max([word[0] for word in coordinated_group.content[0]])</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)
-Omitted Generics (x23)">            first_clause_max_index = max(</span>
+Unannotated (x8)
+Omitted Generics (x23)">            second_clause_min_index = min([word[0] for word in coordinated_group.content[1]])</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x6)">                [word[0] for word in coordinated_group.content[0]]</span>
-<span class="line-empty" title="No Anys on this line!">            )</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x2)
-Omitted Generics (x23)">            second_clause_min_index = min(</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x6)">                [word[0] for word in coordinated_group.content[1]]</span>
-<span class="line-empty" title="No Anys on this line!">            )</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x2)
-Omitted Generics (x23)">            second_clause_max_index = max(</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x6)">                [word[0] for word in coordinated_group.content[1]]</span>
-<span class="line-empty" title="No Anys on this line!">            )</span>
+Unannotated (x8)
+Omitted Generics (x23)">            second_clause_max_index = max([word[0] for word in coordinated_group.content[1]])</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x4)">            clauses_gap = second_clause_min_index - first_clause_max_index</span>
 <span class="line-empty" title="No Anys on this line!"></span>
@@ -690,12 +650,9 @@ Unannotated (x1)">        subsentence_indices = [[]]</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x2)">        prev_location = -1</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x4)
+Unannotated (x7)
 Explicit (x9)
-Omitted Generics (x30)">        for extent, operation, coordinated_group in zip(</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x3)">            extents, operations, coordinated_groups</span>
-<span class="line-empty" title="No Anys on this line!">        ):</span>
+Omitted Generics (x30)">        for extent, operation, coordinated_group in zip(extents, operations, coordinated_groups):</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x3)">            min_index = extent[0]</span>
 <span class="line-any" title="Any Types on this line: 
@@ -712,10 +669,7 @@ Unannotated (x2)">            prev_location = max_index</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x2)">        for subsentence in subsentence_indices:</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x3)">            subsentence.extend(</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x8)">                [i for i in range(prev_location + 1, len(sentence.tokens))]</span>
-<span class="line-empty" title="No Anys on this line!">            )</span>
+Unannotated (x11)">            subsentence.extend([i for i in range(prev_location + 1, len(sentence.tokens))])</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">        subsentence_tokens = []</span>
@@ -803,10 +757,7 @@ Unannotated (x5)">            coordinated_graphs = self._remove_unneeded(coordin
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x2)">        for unneeded_el in to_trim_head:</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x3)">            coordinated_graphs = self._remove_unneeded_head(</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">                coordinated_graphs, unneeded_el</span>
-<span class="line-empty" title="No Anys on this line!">            )</span>
+Unannotated (x5)">            coordinated_graphs = self._remove_unneeded_head(coordinated_graphs, unneeded_el)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">        return coordinated_graphs</span>
@@ -844,10 +795,7 @@ Unannotated (x5)">                and (min_index is None or index &gt;= min_inde
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x3)">                coordinated_graph.extend(</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">                    self._all_dependencies_for_root(</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x3)">                        index, dependencies, excluded_relations</span>
-<span class="line-empty" title="No Anys on this line!">                    )</span>
+Unannotated (x5)">                    self._all_dependencies_for_root(index, dependencies, excluded_relations)</span>
 <span class="line-empty" title="No Anys on this line!">                )</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">        return coordinated_graph</span>
@@ -902,10 +850,7 @@ Unannotated (x2)">                new_coordinated_graph = coordinated_graph</spa
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x2)">                for el in coordinated_graph:</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x4)">                    if el[0] not in unneeded_coords or (</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x9)">                        el[0] != max_index and el[0] != min_index</span>
-<span class="line-empty" title="No Anys on this line!">                    ):</span>
+Unannotated (x13)">                    if el[0] not in unneeded_coords or (el[0] != max_index and el[0] != min_index):</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x4)">                        new_coordinated_graph.append(el)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
@@ -946,12 +891,8 @@ Unannotated (x2)">            for dependency in coordinated_graph:</span>
 Unannotated (x5)">                if dependency[1].relation == unneeded:</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x7)">                    unneeded_coords.add(dependency[1].head.index)</span>
-<span class="line-empty" title="No Anys on this line!">                elif (</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x4)">                    dependency[1].head is not None</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x5)">                    and dependency[1].head.index in unneeded_coords</span>
-<span class="line-empty" title="No Anys on this line!">                ):</span>
+Unannotated (x9)">                elif dependency[1].head is not None and dependency[1].head.index in unneeded_coords:</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x5)">                    unneeded_coords.add(dependency[0])</span>
 <span class="line-empty" title="No Anys on this line!"></span>
@@ -973,10 +914,7 @@ Unannotated (x2)">                new_coordinated_graph = coordinated_graph</spa
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x2)">                for el in coordinated_graph:</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x4)">                    if el[0] not in unneeded_coords or (</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x9)">                        el[0] != max_index and el[0] != min_index</span>
-<span class="line-empty" title="No Anys on this line!">                    ):</span>
+Unannotated (x13)">                    if el[0] not in unneeded_coords or (el[0] != max_index and el[0] != min_index):</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x4)">                        new_coordinated_graph.append(el)</span>
 <span class="line-empty" title="No Anys on this line!"></span>

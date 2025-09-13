@@ -137,13 +137,6 @@
 <span id="L127" class="lineno"><a class="lineno" href="#L127">127</a></span>
 <span id="L128" class="lineno"><a class="lineno" href="#L128">128</a></span>
 <span id="L129" class="lineno"><a class="lineno" href="#L129">129</a></span>
-<span id="L130" class="lineno"><a class="lineno" href="#L130">130</a></span>
-<span id="L131" class="lineno"><a class="lineno" href="#L131">131</a></span>
-<span id="L132" class="lineno"><a class="lineno" href="#L132">132</a></span>
-<span id="L133" class="lineno"><a class="lineno" href="#L133">133</a></span>
-<span id="L134" class="lineno"><a class="lineno" href="#L134">134</a></span>
-<span id="L135" class="lineno"><a class="lineno" href="#L135">135</a></span>
-<span id="L136" class="lineno"><a class="lineno" href="#L136">136</a></span>
 </pre></td>
 <td class="table-code"><pre><span class="line-empty" title="No Anys on this line!">"""</span>
 <span class="line-empty" title="No Anys on this line!">Phrase object</span>
@@ -199,13 +192,9 @@ Unannotated (x2)">            self.create()</span>
 <span class="line-empty" title="No Anys on this line!">        else:</span>
 <span class="line-empty" title="No Anys on this line!">            output_string += "(" + self.entities[0].tag + ") "</span>
 <span class="line-empty" title="No Anys on this line!">        for i in range(0, self.number_of_entities - 1):</span>
-<span class="line-empty" title="No Anys on this line!">            output_string += (</span>
-<span class="line-empty" title="No Anys on this line!">                " ".join(self.elements["middle_" + str(i + 1)]["tokens"]) + " "</span>
-<span class="line-empty" title="No Anys on this line!">            )</span>
+<span class="line-empty" title="No Anys on this line!">            output_string += " ".join(self.elements["middle_" + str(i + 1)]["tokens"]) + " "</span>
 <span class="line-empty" title="No Anys on this line!">            if isinstance(self.entities[i + 1].tag, tuple):</span>
-<span class="line-empty" title="No Anys on this line!">                output_string += (</span>
-<span class="line-empty" title="No Anys on this line!">                    "(" + ", ".join([i for i in self.entities[i + 1].tag]) + ") "</span>
-<span class="line-empty" title="No Anys on this line!">                )</span>
+<span class="line-empty" title="No Anys on this line!">                output_string += "(" + ", ".join([i for i in self.entities[i + 1].tag]) + ") "</span>
 <span class="line-empty" title="No Anys on this line!">            else:</span>
 <span class="line-empty" title="No Anys on this line!">                output_string += "(" + self.entities[i + 1].tag + ") "</span>
 <span class="line-empty" title="No Anys on this line!">        output_string = output_string</span>
@@ -272,9 +261,7 @@ Unannotated (x1)">            t</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x3)">            for t in sentence[</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x8)">                sorted_entity_list[0].start - self.prefix_length : sorted_entity_list[</span>
-<span class="line-any" title="No Anys on this line!">                    0</span>
-<span class="line-empty" title="No Anys on this line!">                ].start</span>
+Unannotated (x8)">                sorted_entity_list[0].start - self.prefix_length : sorted_entity_list[0].start</span>
 <span class="line-empty" title="No Anys on this line!">            ]</span>
 <span class="line-empty" title="No Anys on this line!">        ]</span>
 <span class="line-any" title="Any Types on this line: 
@@ -305,9 +292,7 @@ Unannotated (x1)">            t</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x3)">            for t in sentence[</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x7)">                sorted_entity_list[-1].end : sorted_entity_list[-1].end</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x1)">                + self.suffix_length</span>
+Unannotated (x8)">                sorted_entity_list[-1].end : sorted_entity_list[-1].end + self.suffix_length</span>
 <span class="line-empty" title="No Anys on this line!">            ]</span>
 <span class="line-empty" title="No Anys on this line!">        ]</span>
 <span class="line-any" title="Any Types on this line: 

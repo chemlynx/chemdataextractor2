@@ -89,7 +89,7 @@ explicit_package_bases = true
 disallow_any_generics = false   # Allow during migration
 disallow_subclassing_any = true
 check_untyped_defs = true
-disallow_untyped_calls = false  # Allow during migration  
+disallow_untyped_calls = false  # Allow during migration
 disallow_incomplete_defs = true
 # Enhanced inference
 follow_imports = "normal"

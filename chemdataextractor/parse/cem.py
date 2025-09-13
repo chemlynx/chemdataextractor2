@@ -14,7 +14,7 @@ import logging
 from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
-    from .base import BaseParserElement
+    pass
 
 from .actions import join
 from .base import BaseSentenceParser

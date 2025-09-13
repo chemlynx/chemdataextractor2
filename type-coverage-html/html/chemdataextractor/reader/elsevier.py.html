@@ -259,25 +259,6 @@
 <span id="L249" class="lineno"><a class="lineno" href="#L249">249</a></span>
 <span id="L250" class="lineno"><a class="lineno" href="#L250">250</a></span>
 <span id="L251" class="lineno"><a class="lineno" href="#L251">251</a></span>
-<span id="L252" class="lineno"><a class="lineno" href="#L252">252</a></span>
-<span id="L253" class="lineno"><a class="lineno" href="#L253">253</a></span>
-<span id="L254" class="lineno"><a class="lineno" href="#L254">254</a></span>
-<span id="L255" class="lineno"><a class="lineno" href="#L255">255</a></span>
-<span id="L256" class="lineno"><a class="lineno" href="#L256">256</a></span>
-<span id="L257" class="lineno"><a class="lineno" href="#L257">257</a></span>
-<span id="L258" class="lineno"><a class="lineno" href="#L258">258</a></span>
-<span id="L259" class="lineno"><a class="lineno" href="#L259">259</a></span>
-<span id="L260" class="lineno"><a class="lineno" href="#L260">260</a></span>
-<span id="L261" class="lineno"><a class="lineno" href="#L261">261</a></span>
-<span id="L262" class="lineno"><a class="lineno" href="#L262">262</a></span>
-<span id="L263" class="lineno"><a class="lineno" href="#L263">263</a></span>
-<span id="L264" class="lineno"><a class="lineno" href="#L264">264</a></span>
-<span id="L265" class="lineno"><a class="lineno" href="#L265">265</a></span>
-<span id="L266" class="lineno"><a class="lineno" href="#L266">266</a></span>
-<span id="L267" class="lineno"><a class="lineno" href="#L267">267</a></span>
-<span id="L268" class="lineno"><a class="lineno" href="#L268">268</a></span>
-<span id="L269" class="lineno"><a class="lineno" href="#L269">269</a></span>
-<span id="L270" class="lineno"><a class="lineno" href="#L270">270</a></span>
 </pre></td>
 <td class="table-code"><pre><span class="line-empty" title="No Anys on this line!">"""</span>
 <span class="line-empty" title="No Anys on this line!">Elsevier XML reader</span>
@@ -288,7 +269,6 @@
 <span class="line-empty" title="No Anys on this line!">Readers for Elsevier XML files.</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">"""</span>
-<span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">import re</span>
 <span class="line-empty" title="No Anys on this line!"></span>
@@ -424,15 +404,11 @@ Unannotated (x1)">    return document</span>
 Unannotated (x4)">    cleaners = [clean, fix_elsevier_xml_whitespace, els_xml_whitespace, strip_els_xml]</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="Any Types on this line: 
-Unimported (x4)">    etree.FunctionNamespace(</span>
-<span class="line-precise" title="No Anys on this line!">        "http://www.elsevier.com/xml/svapi/article/dtd"</span>
-<span class="line-precise" title="No Anys on this line!">    ).prefix = "default"</span>
+Unimported (x4)">    etree.FunctionNamespace("http://www.elsevier.com/xml/svapi/article/dtd").prefix = "default"</span>
 <span class="line-any" title="Any Types on this line: 
 Unimported (x4)">    etree.FunctionNamespace("http://www.elsevier.com/xml/bk/dtd").prefix = "bk"</span>
 <span class="line-any" title="Any Types on this line: 
-Unimported (x4)">    etree.FunctionNamespace(</span>
-<span class="line-precise" title="No Anys on this line!">        "http://www.elsevier.com/xml/common/cals/dtd"</span>
-<span class="line-precise" title="No Anys on this line!">    ).prefix = "cals"</span>
+Unimported (x4)">    etree.FunctionNamespace("http://www.elsevier.com/xml/common/cals/dtd").prefix = "cals"</span>
 <span class="line-any" title="Any Types on this line: 
 Unimported (x4)">    etree.FunctionNamespace("http://www.elsevier.com/xml/common/dtd").prefix = "ce"</span>
 <span class="line-any" title="Any Types on this line: 
@@ -440,17 +416,11 @@ Unimported (x4)">    etree.FunctionNamespace("http://www.elsevier.com/xml/ja/dtd
 <span class="line-any" title="Any Types on this line: 
 Unimported (x4)">    etree.FunctionNamespace("http://www.w3.org/1998/Math/MathML").prefix = "mml"</span>
 <span class="line-any" title="Any Types on this line: 
-Unimported (x4)">    etree.FunctionNamespace(</span>
-<span class="line-precise" title="No Anys on this line!">        "http://www.elsevier.com/xml/common/struct-aff/dtd"</span>
-<span class="line-precise" title="No Anys on this line!">    ).prefix = "sa"</span>
+Unimported (x4)">    etree.FunctionNamespace("http://www.elsevier.com/xml/common/struct-aff/dtd").prefix = "sa"</span>
 <span class="line-any" title="Any Types on this line: 
-Unimported (x4)">    etree.FunctionNamespace(</span>
-<span class="line-precise" title="No Anys on this line!">        "http://www.elsevier.com/xml/common/struct-bib/dtd"</span>
-<span class="line-precise" title="No Anys on this line!">    ).prefix = "sb"</span>
+Unimported (x4)">    etree.FunctionNamespace("http://www.elsevier.com/xml/common/struct-bib/dtd").prefix = "sb"</span>
 <span class="line-any" title="Any Types on this line: 
-Unimported (x4)">    etree.FunctionNamespace(</span>
-<span class="line-precise" title="No Anys on this line!">        "http://www.elsevier.com/xml/common/table/dtd"</span>
-<span class="line-precise" title="No Anys on this line!">    ).prefix = "tb"</span>
+Unimported (x4)">    etree.FunctionNamespace("http://www.elsevier.com/xml/common/table/dtd").prefix = "tb"</span>
 <span class="line-any" title="Any Types on this line: 
 Unimported (x4)">    etree.FunctionNamespace("http://www.w3.org/1999/xlink").prefix = "xlink"</span>
 <span class="line-any" title="Any Types on this line: 
@@ -460,9 +430,7 @@ Unimported (x4)">    etree.FunctionNamespace("http://purl.org/dc/elements/1.1/")
 <span class="line-any" title="Any Types on this line: 
 Unimported (x4)">    etree.FunctionNamespace("http://purl.org/dc/terms/").prefix = "dcterms"</span>
 <span class="line-any" title="Any Types on this line: 
-Unimported (x4)">    etree.FunctionNamespace(</span>
-<span class="line-precise" title="No Anys on this line!">        "http://prismstandard.org/namespaces/basic/2.0/"</span>
-<span class="line-precise" title="No Anys on this line!">    ).prefix = "prism"</span>
+Unimported (x4)">    etree.FunctionNamespace("http://prismstandard.org/namespaces/basic/2.0/").prefix = "prism"</span>
 <span class="line-any" title="Any Types on this line: 
 Unimported (x4)">    etree.FunctionNamespace("http://www.w3.org/2001/XMLSchema-instance").prefix = "xsi"</span>
 <span class="line-empty" title="No Anys on this line!"></span>
@@ -583,11 +551,7 @@ Unannotated (x4)">            "_doi": doi[0].text if doi else None,</span>
 Unannotated (x6)">            "_pdf_url": self.url_prefix + pdf_url[0].text if pdf_url else None,</span>
 <span class="line-any" title="No Anys on this line!">            "_html_url": (</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x5)">                self.url_prefix + html_url[0].text</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x1)">                if html_url</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x5)">                else self.url_prefix + pii[0].text</span>
+Unannotated (x11)">                self.url_prefix + html_url[0].text if html_url else self.url_prefix + pii[0].text</span>
 <span class="line-empty" title="No Anys on this line!">            ),</span>
 <span class="line-empty" title="No Anys on this line!">        }</span>
 <span class="line-any" title="Any Types on this line: 
@@ -606,10 +570,7 @@ Unannotated (x1)">            colnum = 0</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x5)">            for td in self._css(self.table_cell_css, tr):</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x3)">                cell = self._parse_text(</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x5)">                    td, refs=refs, specials=specials, element_cls=Cell</span>
-<span class="line-empty" title="No Anys on this line!">                )</span>
+Unannotated (x8)">                cell = self._parse_text(td, refs=refs, specials=specials, element_cls=Cell)</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x11)">                namest = int([i for i in td.get("namest", "1").split("col") if i][0])</span>
 <span class="line-any" title="Any Types on this line: 
@@ -663,10 +624,7 @@ Unannotated (x1)">        return rows</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x4)">        figure_link_css = self._css("ce|link", el)</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x1)">        figure_link_locator = (</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x5)">            figure_link_css[0].get("locator", "") if figure_link_css else None</span>
-<span class="line-empty" title="No Anys on this line!">        )</span>
+Unannotated (x6)">        figure_link_locator = figure_link_css[0].get("locator", "") if figure_link_css else None</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">        links = []</span>
 <span class="line-empty" title="No Anys on this line!">        # find the locator id in the objects</span>

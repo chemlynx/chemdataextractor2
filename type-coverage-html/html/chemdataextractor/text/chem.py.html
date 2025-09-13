@@ -777,20 +777,11 @@
 <span id="L767" class="lineno"><a class="lineno" href="#L767">767</a></span>
 <span id="L768" class="lineno"><a class="lineno" href="#L768">768</a></span>
 <span id="L769" class="lineno"><a class="lineno" href="#L769">769</a></span>
-<span id="L770" class="lineno"><a class="lineno" href="#L770">770</a></span>
-<span id="L771" class="lineno"><a class="lineno" href="#L771">771</a></span>
-<span id="L772" class="lineno"><a class="lineno" href="#L772">772</a></span>
-<span id="L773" class="lineno"><a class="lineno" href="#L773">773</a></span>
-<span id="L774" class="lineno"><a class="lineno" href="#L774">774</a></span>
-<span id="L775" class="lineno"><a class="lineno" href="#L775">775</a></span>
-<span id="L776" class="lineno"><a class="lineno" href="#L776">776</a></span>
-<span id="L777" class="lineno"><a class="lineno" href="#L777">777</a></span>
 </pre></td>
 <td class="table-code"><pre><span class="line-empty" title="No Anys on this line!">"""</span>
 <span class="line-empty" title="No Anys on this line!">Chemistry text handling tools.</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">"""</span>
-<span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">import re</span>
 <span class="line-empty" title="No Anys on this line!"></span>
@@ -1522,9 +1513,7 @@ Omitted Generics (x4)">SOLVENT_RE = re.compile(</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!"># Regular expressions for validating chemical identifiers</span>
 <span class="line-precise" title="Any Types on this line: 
-Omitted Generics (x4)">CAS_RE = re.compile(</span>
-<span class="line-precise" title="No Anys on this line!">    r"^\d{1,7}-\d\d-\d$"</span>
-<span class="line-empty" title="No Anys on this line!">)  # TODO: Should be  (([1-9]\d{2,5})|([5-9]\d))-\d\d-\d</span>
+Omitted Generics (x4)">CAS_RE = re.compile(r"^\d{1,7}-\d\d-\d$")  # TODO: Should be  (([1-9]\d{2,5})|([5-9]\d))-\d\d-\d</span>
 <span class="line-precise" title="Any Types on this line: 
 Omitted Generics (x4)">INCHIKEY_RE = re.compile(r"^[A-Z]{14}-[A-Z]{10}-[A-Z\d]$")</span>
 <span class="line-precise" title="Any Types on this line: 
@@ -1564,16 +1553,8 @@ Unannotated (x6)">    return [t for t in s.split() if CAS_RE.match(t)]</span>
 <span class="line-precise" title="No Anys on this line!">    smiles = []</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x4)">    for t in s.split():</span>
-<span class="line-empty" title="No Anys on this line!">        if (</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x4)">            len(t) &gt; 2</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x1)">            and SMILES_RE.match(t)</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x3)">            and not t.endswith(".")</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x7)">            and bracket_level(t) == 0</span>
-<span class="line-empty" title="No Anys on this line!">        ):</span>
+Unannotated (x15)">        if len(t) &gt; 2 and SMILES_RE.match(t) and not t.endswith(".") and bracket_level(t) == 0:</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x3)">            smiles.append(t)</span>
 <span class="line-imprecise" title="Any Types on this line: 

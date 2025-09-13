@@ -410,8 +410,6 @@
 <span id="L400" class="lineno"><a class="lineno" href="#L400">400</a></span>
 <span id="L401" class="lineno"><a class="lineno" href="#L401">401</a></span>
 <span id="L402" class="lineno"><a class="lineno" href="#L402">402</a></span>
-<span id="L403" class="lineno"><a class="lineno" href="#L403">403</a></span>
-<span id="L404" class="lineno"><a class="lineno" href="#L404">404</a></span>
 </pre></td>
 <td class="table-code"><pre><span class="line-empty" title="No Anys on this line!">"""</span>
 <span class="line-empty" title="No Anys on this line!">Commands for running evaluations.</span>
@@ -462,9 +460,7 @@ Explicit (x1)">@click.argument("input", type=click.File("r"))</span>
 <span class="line-empty" title="No Anys on this line!">    # Serialize all records apart from those that are just chemical names or just labels</span>
 <span class="line-empty" title="No Anys on this line!">    records = [record.serialize(primitive=True) for record in doc.records]</span>
 <span class="line-empty" title="No Anys on this line!">    records = [</span>
-<span class="line-empty" title="No Anys on this line!">        record</span>
-<span class="line-empty" title="No Anys on this line!">        for record in records</span>
-<span class="line-empty" title="No Anys on this line!">        if record.keys() != ["names"] and record.keys() != ["labels"]</span>
+<span class="line-empty" title="No Anys on this line!">        record for record in records if record.keys() != ["names"] and record.keys() != ["labels"]</span>
 <span class="line-empty" title="No Anys on this line!">    ]</span>
 <span class="line-empty" title="No Anys on this line!">    with open("%s-out.json" % os.path.splitext(input.name)[0], "w") as outf:</span>
 <span class="line-empty" title="No Anys on this line!">        json.dump(records, outf, indent=2)</span>

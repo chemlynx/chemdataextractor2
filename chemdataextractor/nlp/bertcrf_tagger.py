@@ -18,8 +18,10 @@ import datetime
 import logging
 import math
 import re
+from typing import Dict
+from typing import List
 from typing import Optional
-from typing import Dict, List, Tuple
+from typing import Tuple
 
 import numpy as np
 import torch

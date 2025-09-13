@@ -247,12 +247,10 @@
 <span id="L237" class="lineno"><a class="lineno" href="#L237">237</a></span>
 <span id="L238" class="lineno"><a class="lineno" href="#L238">238</a></span>
 <span id="L239" class="lineno"><a class="lineno" href="#L239">239</a></span>
-<span id="L240" class="lineno"><a class="lineno" href="#L240">240</a></span>
-<span id="L241" class="lineno"><a class="lineno" href="#L241">241</a></span>
-<span id="L242" class="lineno"><a class="lineno" href="#L242">242</a></span>
 </pre></td>
 <td class="table-code"><pre><span class="line-precise" title="No Anys on this line!">import logging</span>
 <span class="line-precise" title="No Anys on this line!">import math</span>
+<span class="line-precise" title="No Anys on this line!">from typing import List</span>
 <span class="line-precise" title="No Anys on this line!">from typing import Optional</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">import torch</span>
@@ -297,9 +295,7 @@ Explicit (x1)">        return torch.LongTensor(size).fill_(1).cumsum(0).to(devic
 <span class="line-precise" title="No Anys on this line!">        return tensor.view(-1, tensor.size(-1))</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-precise" title="No Anys on this line!">def uncombine_initial_dims(</span>
-<span class="line-empty" title="No Anys on this line!">    tensor: torch.Tensor, original_size: torch.Size</span>
-<span class="line-empty" title="No Anys on this line!">) -&gt; torch.Tensor:</span>
+<span class="line-precise" title="No Anys on this line!">def uncombine_initial_dims(tensor: torch.Tensor, original_size: torch.Size) -&gt; torch.Tensor:</span>
 <span class="line-empty" title="No Anys on this line!">    """</span>
 <span class="line-empty" title="No Anys on this line!">    Given a tensor of embeddings with shape</span>
 <span class="line-empty" title="No Anys on this line!">    (d1 * ... * dn, sequence_length, embedding_dim)</span>
@@ -321,7 +317,7 @@ Omitted Generics (x3)">        view_args = list(original_size) + [tensor.size(-1
 Unannotated (x1)">def viterbi_decode(</span>
 <span class="line-empty" title="No Anys on this line!">    tag_sequence: torch.Tensor,</span>
 <span class="line-empty" title="No Anys on this line!">    transition_matrix: torch.Tensor,</span>
-<span class="line-precise" title="No Anys on this line!">    tag_observations: Optional[list[int]] = None,</span>
+<span class="line-precise" title="No Anys on this line!">    tag_observations: Optional[List[int]] = None,</span>
 <span class="line-precise" title="No Anys on this line!">    allowed_start_transitions: torch.Tensor = None,</span>
 <span class="line-precise" title="No Anys on this line!">    allowed_end_transitions: torch.Tensor = None,</span>
 <span class="line-precise" title="No Anys on this line!">    top_k: int = None,</span>
@@ -374,9 +370,7 @@ Unannotated (x1)">def viterbi_decode(</span>
 <span class="line-precise" title="No Anys on this line!">    elif top_k &gt;= 1:</span>
 <span class="line-precise" title="No Anys on this line!">        flatten_output = False</span>
 <span class="line-empty" title="No Anys on this line!">    else:</span>
-<span class="line-precise" title="No Anys on this line!">        raise ValueError(</span>
-<span class="line-precise" title="No Anys on this line!">            f"top_k must be either None or an integer &gt;=1. Instead received {top_k}"</span>
-<span class="line-empty" title="No Anys on this line!">        )</span>
+<span class="line-precise" title="No Anys on this line!">        raise ValueError(f"top_k must be either None or an integer &gt;=1. Instead received {top_k}")</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="Any Types on this line: 
 Omitted Generics (x3)">    sequence_length, num_tags = list(tag_sequence.size())</span>
@@ -419,7 +413,8 @@ Explicit (x1)">            [allowed_end_transitions, torch.tensor([-math.inf, -m
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">    if tag_observations:</span>
 <span class="line-precise" title="No Anys on this line!">        if len(tag_observations) != sequence_length:</span>
-<span class="line-precise" title="No Anys on this line!">            raise ConfigurationError(</span>
+<span class="line-precise" title="Any Types on this line: 
+Explicit (x1)">            raise ConfigurationError(</span>
 <span class="line-precise" title="No Anys on this line!">                "Observations were provided, but they were not the same length "</span>
 <span class="line-empty" title="No Anys on this line!">                "as the sequence. Found sequence of length: {} and evidence: {}".format(</span>
 <span class="line-precise" title="No Anys on this line!">                    sequence_length, tag_observations</span>

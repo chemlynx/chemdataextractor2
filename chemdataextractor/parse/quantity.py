@@ -23,7 +23,7 @@ from typing import Union
 from deprecation import deprecated
 
 if TYPE_CHECKING:
-    from ..model.units.dimension import Dimension
+    pass
 
 # Type aliases for quantity parsing
 NumericValue = Union[int, float]  # Numeric values

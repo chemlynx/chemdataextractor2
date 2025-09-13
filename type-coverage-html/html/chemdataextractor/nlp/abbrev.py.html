@@ -349,8 +349,9 @@
 <span class="line-precise" title="No Anys on this line!">import logging</span>
 <span class="line-precise" title="No Anys on this line!">import re</span>
 <span class="line-precise" title="No Anys on this line!">from typing import TYPE_CHECKING</span>
-<span class="line-precise" title="No Anys on this line!">from typing import Any</span>
+<span class="line-precise" title="No Anys on this line!">from typing import List</span>
 <span class="line-precise" title="No Anys on this line!">from typing import Optional</span>
+<span class="line-precise" title="No Anys on this line!">from typing import Tuple</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">from ..text import bracket_level</span>
 <span class="line-empty" title="No Anys on this line!"></span>
@@ -358,21 +359,21 @@
 <span class="line-precise" title="No Anys on this line!">    pass</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!"># Type aliases for abbreviation detection</span>
-<span class="line-precise" title="No Anys on this line!">AbbreviationDef = tuple[list[str], list[str], str]  # (definition_tokens, abbrev_tokens, abbrev_str)</span>
+<span class="line-precise" title="No Anys on this line!">AbbreviationDef = Tuple[List[str], List[str], str]  # (definition_tokens, abbrev_tokens, abbrev_str)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">log = logging.getLogger(__name__)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">class AbbreviationDetector:</span>
 <span class="line-empty" title="No Anys on this line!">    """Detect abbreviation definitions in chemical text.</span>
-<span class="line-empty" title="No Anys on this line!">    </span>
+<span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">    Implements an algorithm similar to Schwartz &amp; Hearst (2003) for identifying</span>
 <span class="line-empty" title="No Anys on this line!">    abbreviations and their full definitions in scientific literature.</span>
-<span class="line-empty" title="No Anys on this line!">    </span>
+<span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">    Attributes:</span>
 <span class="line-empty" title="No Anys on this line!">        abbr_min: int - Minimum abbreviation length</span>
-<span class="line-empty" title="No Anys on this line!">        abbr_max: int - Maximum abbreviation length  </span>
-<span class="line-empty" title="No Anys on this line!">        abbr_equivs: list[str] - String equivalents for abbreviation matching</span>
+<span class="line-empty" title="No Anys on this line!">        abbr_max: int - Maximum abbreviation length</span>
+<span class="line-empty" title="No Anys on this line!">        abbr_equivs: List[str] - String equivalents for abbreviation matching</span>
 <span class="line-empty" title="No Anys on this line!">    """</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">    # TODO: Extend to Greek characters (custom method instead of .isalnum())</span>
@@ -382,26 +383,31 @@
 <span class="line-empty" title="No Anys on this line!">    #: Maximum abbreviation length</span>
 <span class="line-precise" title="No Anys on this line!">    abbr_max: int = 10</span>
 <span class="line-empty" title="No Anys on this line!">    #: String equivalents to use when detecting abbreviations.</span>
-<span class="line-precise" title="No Anys on this line!">    abbr_equivs: list[str] = []</span>
+<span class="line-precise" title="No Anys on this line!">    abbr_equivs: List[str] = []</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-precise" title="No Anys on this line!">    def __init__(self, abbr_min: Optional[int] = None, abbr_max: Optional[int] = None, abbr_equivs: Optional[list[str]] = None) -&gt; None:</span>
+<span class="line-precise" title="No Anys on this line!">    def __init__(</span>
+<span class="line-empty" title="No Anys on this line!">        self,</span>
+<span class="line-precise" title="No Anys on this line!">        abbr_min: Optional[int] = None,</span>
+<span class="line-precise" title="No Anys on this line!">        abbr_max: Optional[int] = None,</span>
+<span class="line-precise" title="No Anys on this line!">        abbr_equivs: Optional[List[str]] = None,</span>
+<span class="line-empty" title="No Anys on this line!">    ) -&gt; None:</span>
 <span class="line-empty" title="No Anys on this line!">        """Initialize abbreviation detector.</span>
-<span class="line-empty" title="No Anys on this line!">        </span>
+<span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">        Args:</span>
 <span class="line-empty" title="No Anys on this line!">            abbr_min: Optional[int] - Minimum abbreviation length</span>
 <span class="line-empty" title="No Anys on this line!">            abbr_max: Optional[int] - Maximum abbreviation length</span>
-<span class="line-empty" title="No Anys on this line!">            abbr_equivs: Optional[list[str]] - String equivalents for matching</span>
+<span class="line-empty" title="No Anys on this line!">            abbr_equivs: Optional[List[str]] - String equivalents for matching</span>
 <span class="line-empty" title="No Anys on this line!">        """</span>
 <span class="line-precise" title="No Anys on this line!">        self.abbr_min = abbr_min if abbr_min is not None else self.abbr_min</span>
 <span class="line-precise" title="No Anys on this line!">        self.abbr_max = abbr_max if abbr_max is not None else self.abbr_max</span>
 <span class="line-precise" title="No Anys on this line!">        self.abbr_equivs = abbr_equivs if abbr_equivs is not None else self.abbr_equivs</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-precise" title="No Anys on this line!">    def _is_allowed_abbr(self, tokens: list[str]) -&gt; bool:</span>
+<span class="line-precise" title="No Anys on this line!">    def _is_allowed_abbr(self, tokens: List[str]) -&gt; bool:</span>
 <span class="line-empty" title="No Anys on this line!">        """Check if token sequence is an allowed abbreviation.</span>
-<span class="line-empty" title="No Anys on this line!">        </span>
+<span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">        Args:</span>
-<span class="line-empty" title="No Anys on this line!">            tokens: list[str] - Token sequence to check</span>
-<span class="line-empty" title="No Anys on this line!">            </span>
+<span class="line-empty" title="No Anys on this line!">            tokens: List[str] - Token sequence to check</span>
+<span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">        Returns:</span>
 <span class="line-empty" title="No Anys on this line!">            bool - True if sequence forms a valid abbreviation</span>
 <span class="line-empty" title="No Anys on this line!">        """</span>
@@ -496,10 +502,7 @@ Unannotated (x12)">                if span[0] - 1 &gt; 0 and self._is_allowed_ab
 Unannotated (x7)">                    abbr_span = (span[0] - 2, span[0] - 1)</span>
 <span class="line-empty" title="No Anys on this line!">                    # long = self._get_long(abbr, inside, fix_left=True, fix_right=True)</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x3)">                    long_span = self._get_long_span(</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x6)">                        tokens, abbr_span, start=span[0], end=span[1]</span>
-<span class="line-empty" title="No Anys on this line!">                    )</span>
+Unannotated (x9)">                    long_span = self._get_long_span(tokens, abbr_span, start=span[0], end=span[1])</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">                    if long_span:</span>
 <span class="line-any" title="Any Types on this line: 
@@ -541,10 +544,7 @@ Unannotated (x4)">        max_length = self._max_long_length(abbr)</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x3)">        if start is not None and end is not None:</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x8)">            if end - start &lt;= max_length and self._is_valid_long(</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x5)">                abbr, tokens[start:end]</span>
-<span class="line-empty" title="No Anys on this line!">            ):</span>
+Unannotated (x13)">            if end - start &lt;= max_length and self._is_valid_long(abbr, tokens[start:end]):</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x2)">                return start, end</span>
 <span class="line-any" title="Any Types on this line: 
@@ -688,10 +688,7 @@ Unannotated (x7)">            abbr = tokens[abbr_span[0] : abbr_span[1]]</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x7)">            long = tokens[long_span[0] : long_span[1]]</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x12)">            if not all(a in long for a in abbr) and len("".join(long)) &gt; len(</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x3)">                "".join(abbr)</span>
-<span class="line-empty" title="No Anys on this line!">            ):</span>
+Unannotated (x15)">            if not all(a in long for a in abbr) and len("".join(long)) &gt; len("".join(abbr)):</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x5)">                results.append((abbr_span, long_span))</span>
 <span class="line-any" title="Any Types on this line: 

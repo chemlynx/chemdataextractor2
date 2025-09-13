@@ -17,7 +17,7 @@ from ..base import BaseType
 
 if TYPE_CHECKING:
     from ..base import BaseModel
-    from .dimension import Dimension, Dimensionless
+    from .dimension import Dimension
 
 
 class UnitType(BaseType[Optional["Unit"]]):
@@ -46,7 +46,7 @@ class UnitType(BaseType[Optional["Unit"]]):
         else:
             instance._values[self.name] = None
 
-    def process(self, value: Any) -> Optional["Unit"]:
+    def process(self, value: Any) -> Optional[Unit]:
         """Process and validate unit value.
 
         Args:
@@ -59,7 +59,7 @@ class UnitType(BaseType[Optional["Unit"]]):
             return value
         return None
 
-    def serialize(self, value: Optional["Unit"], primitive: bool = False) -> str:
+    def serialize(self, value: Optional[Unit], primitive: bool = False) -> str:
         """Serialize unit to string representation.
 
         Args:
@@ -206,7 +206,7 @@ class Unit(metaclass=MetaUnit):
         self,
         dimensions: Dimension,
         magnitude: float = 0.0,
-        powers: Optional[Dict["Unit", float]] = None,
+        powers: Optional[Dict[Unit, float]] = None,
     ) -> None:
         """Create a unit object.
 
@@ -289,7 +289,7 @@ class Unit(metaclass=MetaUnit):
     and units need not be accounted for.
     """
 
-    def __truediv__(self, other: "Unit") -> "Unit":
+    def __truediv__(self, other: Unit) -> Unit:
         """Divide this unit by another unit.
 
         Args:
@@ -302,7 +302,7 @@ class Unit(metaclass=MetaUnit):
         new_unit = self * other_inverted
         return new_unit
 
-    def __pow__(self, other: float) -> "Unit":
+    def __pow__(self, other: float) -> Unit:
         """Raise this unit to a power.
 
         Args:
@@ -326,7 +326,7 @@ class Unit(metaclass=MetaUnit):
             powers[new_key] = other
         return Unit(self.dimensions**other, powers=powers, magnitude=self.magnitude * other)
 
-    def __mul__(self, other: "Unit") -> "Unit":
+    def __mul__(self, other: Unit) -> Unit:
         """Multiply this unit by another unit.
 
         Args:

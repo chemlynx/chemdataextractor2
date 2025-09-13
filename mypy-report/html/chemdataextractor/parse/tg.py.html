@@ -109,10 +109,6 @@
 <span id="L99" class="lineno"><a class="lineno" href="#L99">99</a></span>
 <span id="L100" class="lineno"><a class="lineno" href="#L100">100</a></span>
 <span id="L101" class="lineno"><a class="lineno" href="#L101">101</a></span>
-<span id="L102" class="lineno"><a class="lineno" href="#L102">102</a></span>
-<span id="L103" class="lineno"><a class="lineno" href="#L103">103</a></span>
-<span id="L104" class="lineno"><a class="lineno" href="#L104">104</a></span>
-<span id="L105" class="lineno"><a class="lineno" href="#L105">105</a></span>
 </pre></td>
 <td class="table-code"><pre><span class="line-empty" title="No Anys on this line!">"""</span>
 <span class="line-empty" title="No Anys on this line!">Glass transition temperature parser.</span>
@@ -192,10 +188,7 @@ Unannotated (x3)">delim = R(r"^[:;\.,]$")</span>
 <span class="line-empty" title="No Anys on this line!"># TODO: Consider allowing degree symbol to be optional. The prefix should be restrictive enough to stop false positives.</span>
 <span class="line-any" title="Any Types on this line: 
 Error (x8)
-Unannotated (x6)">units = (W("°") + Optional(R(r"^[CFK]\.?$")) | W(r"K\.?") | W("°C"))(</span>
-<span class="line-precise" title="No Anys on this line!">    "units"</span>
-<span class="line-precise" title="Any Types on this line: 
-Unannotated (x4)">).add_action(merge)</span>
+Unannotated (x10)">units = (W("°") + Optional(R(r"^[CFK]\.?$")) | W(r"K\.?") | W("°C"))("units").add_action(merge)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x6)">value = value_element()(None)</span>
@@ -205,11 +198,8 @@ Unannotated (x8)">temp_range = (Optional(R(r"^[\-–−]$")) + value)("value").a
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x9)">temp_value = value("value").add_action(merge)</span>
 <span class="line-any" title="Any Types on this line: 
-Error (x1)">temp = (</span>
-<span class="line-any" title="Any Types on this line: 
-Error (x11)
-Unannotated (x3)">    Optional(lbrct).hide() + (temp_range | temp_value)("value") + Optional(rbrct).hide()</span>
-<span class="line-empty" title="No Anys on this line!">)</span>
+Error (x12)
+Unannotated (x3)">temp = Optional(lbrct).hide() + (temp_range | temp_value)("value") + Optional(rbrct).hide()</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="Any Types on this line: 
 Error (x11)">tg = (prefix + Optional(delim).hide() + temp + units)("tg")</span>

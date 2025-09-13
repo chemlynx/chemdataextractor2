@@ -228,12 +228,6 @@
 <span id="L218" class="lineno"><a class="lineno" href="#L218">218</a></span>
 <span id="L219" class="lineno"><a class="lineno" href="#L219">219</a></span>
 <span id="L220" class="lineno"><a class="lineno" href="#L220">220</a></span>
-<span id="L221" class="lineno"><a class="lineno" href="#L221">221</a></span>
-<span id="L222" class="lineno"><a class="lineno" href="#L222">222</a></span>
-<span id="L223" class="lineno"><a class="lineno" href="#L223">223</a></span>
-<span id="L224" class="lineno"><a class="lineno" href="#L224">224</a></span>
-<span id="L225" class="lineno"><a class="lineno" href="#L225">225</a></span>
-<span id="L226" class="lineno"><a class="lineno" href="#L226">226</a></span>
 </pre></td>
 <td class="table-code"><pre><span class="line-empty" title="No Anys on this line!">"""</span>
 <span class="line-empty" title="No Anys on this line!">Tools for loading and caching data files.</span>
@@ -388,14 +382,10 @@ Unimported (x7)
 Explicit (x1)
 Unannotated (x1)">        with open(download_path, "wb") as f:</span>
 <span class="line-any" title="Any Types on this line: 
-Explicit (x2)">            with yaspin(</span>
+Explicit (x2)
+Unannotated (x1)">            with yaspin(text=f"Couldn't find {self.path}, downloading", side="right").simpleDots:</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x1)">                text=f"Couldn't find {self.path}, downloading", side="right"</span>
-<span class="line-empty" title="No Anys on this line!">            ).simpleDots:</span>
-<span class="line-any" title="Any Types on this line: 
-Unimported (x4)">                for chunk in r.iter_content(</span>
-<span class="line-any" title="No Anys on this line!">                    chunk_size=1024 * 1024</span>
-<span class="line-empty" title="No Anys on this line!">                ):  # Large 10MB chunks</span>
+Unimported (x4)">                for chunk in r.iter_content(chunk_size=1024 * 1024):  # Large 10MB chunks</span>
 <span class="line-any" title="Any Types on this line: 
 Unimported (x1)">                    if chunk:</span>
 <span class="line-any" title="Any Types on this line: 
@@ -486,10 +476,9 @@ Unannotated (x1)">        with open(abspath, "rb") as f:</span>
 <span class="line-any" title="Any Types on this line: 
 Explicit (x4)">            model = pickle.load(f)</span>
 <span class="line-precise" title="No Anys on this line!">    except OSError:</span>
-<span class="line-precise" title="No Anys on this line!">        raise ModelNotFoundError(</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x1)">            "Could not load %s. Have you run `cde data download`?" % path</span>
-<span class="line-empty" title="No Anys on this line!">        )</span>
+Explicit (x1)
+Unannotated (x1)">        raise ModelNotFoundError("Could not load %s. Have you run `cde data download`?" % path)</span>
 <span class="line-any" title="Any Types on this line: 
 Explicit (x2)
 Unannotated (x2)">    _model_cache[abspath] = model</span>

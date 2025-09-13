@@ -106,8 +106,6 @@
 <span id="L96" class="lineno"><a class="lineno" href="#L96">96</a></span>
 <span id="L97" class="lineno"><a class="lineno" href="#L97">97</a></span>
 <span id="L98" class="lineno"><a class="lineno" href="#L98">98</a></span>
-<span id="L99" class="lineno"><a class="lineno" href="#L99">99</a></span>
-<span id="L100" class="lineno"><a class="lineno" href="#L100">100</a></span>
 </pre></td>
 <td class="table-code"><pre><span class="line-empty" title="No Anys on this line!">"""</span>
 <span class="line-empty" title="No Anys on this line!">Readers for documents from the RSC.</span>
@@ -215,10 +213,7 @@ Unannotated (x1)">        footnotes = []</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x2)">        for fn in fns:</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x4)">            footnote = self._parse_text(</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x5)">                fn, refs=refs, specials=specials, element_cls=Footnote</span>
-<span class="line-any" title="No Anys on this line!">            )[0]</span>
+Unannotated (x9)">            footnote = self._parse_text(fn, refs=refs, specials=specials, element_cls=Footnote)[0]</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x9)">            footnote += Footnote("", id=fn.getprevious().get("id"))</span>
 <span class="line-any" title="Any Types on this line: 

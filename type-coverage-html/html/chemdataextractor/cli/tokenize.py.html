@@ -121,14 +121,6 @@
 <span id="L111" class="lineno"><a class="lineno" href="#L111">111</a></span>
 <span id="L112" class="lineno"><a class="lineno" href="#L112">112</a></span>
 <span id="L113" class="lineno"><a class="lineno" href="#L113">113</a></span>
-<span id="L114" class="lineno"><a class="lineno" href="#L114">114</a></span>
-<span id="L115" class="lineno"><a class="lineno" href="#L115">115</a></span>
-<span id="L116" class="lineno"><a class="lineno" href="#L116">116</a></span>
-<span id="L117" class="lineno"><a class="lineno" href="#L117">117</a></span>
-<span id="L118" class="lineno"><a class="lineno" href="#L118">118</a></span>
-<span id="L119" class="lineno"><a class="lineno" href="#L119">119</a></span>
-<span id="L120" class="lineno"><a class="lineno" href="#L120">120</a></span>
-<span id="L121" class="lineno"><a class="lineno" href="#L121">121</a></span>
 </pre></td>
 <td class="table-code"><pre><span class="line-empty" title="No Anys on this line!">"""</span>
 <span class="line-empty" title="No Anys on this line!">Tokenizer command line interface.</span>
@@ -159,9 +151,7 @@ Omitted Generics (x6)">@click.pass_context</span>
 Explicit (x11)">@tokenize_cli.command()</span>
 <span class="line-any" title="Any Types on this line: 
 Omitted Generics (x4)
-Explicit (x1)">@click.option(</span>
-<span class="line-precise" title="No Anys on this line!">    "--output", "-o", type=click.File("wb"), help="Output model file.", required=True</span>
-<span class="line-empty" title="No Anys on this line!">)</span>
+Explicit (x1)">@click.option("--output", "-o", type=click.File("wb"), help="Output model file.", required=True)</span>
 <span class="line-any" title="Any Types on this line: 
 Omitted Generics (x4)
 Explicit (x1)">@click.option(</span>
@@ -209,9 +199,7 @@ Omitted Generics (x7)">@click.pass_obj</span>
 <span class="line-empty" title="No Anys on this line!">        click.echo("Manually adding abbreviations: %s" % abbreviations)</span>
 <span class="line-empty" title="No Anys on this line!">        punkt._params.abbrev_types.update(abbreviations)</span>
 <span class="line-empty" title="No Anys on this line!">    if colloc:</span>
-<span class="line-empty" title="No Anys on this line!">        collocations = [</span>
-<span class="line-empty" title="No Anys on this line!">            tuple(l.split(". ", 1)) for l in colloc.read().strip().split("\n")</span>
-<span class="line-empty" title="No Anys on this line!">        ]</span>
+<span class="line-empty" title="No Anys on this line!">        collocations = [tuple(l.split(". ", 1)) for l in colloc.read().strip().split("\n")]</span>
 <span class="line-empty" title="No Anys on this line!">        click.echo("Manually adding collocs: %s" % collocations)</span>
 <span class="line-empty" title="No Anys on this line!">        punkt._params.collocations.update(collocations)</span>
 <span class="line-empty" title="No Anys on this line!">    model = PunktSentenceTokenizer(punkt.get_params())</span>
@@ -231,9 +219,7 @@ Explicit (x1)">@click.option(</span>
 <span class="line-empty" title="No Anys on this line!">)</span>
 <span class="line-any" title="Any Types on this line: 
 Omitted Generics (x4)
-Explicit (x1)">@click.argument(</span>
-<span class="line-precise" title="No Anys on this line!">    "input", type=click.File("rb"), default=click.get_binary_stream("stdin")</span>
-<span class="line-empty" title="No Anys on this line!">)</span>
+Explicit (x1)">@click.argument("input", type=click.File("rb"), default=click.get_binary_stream("stdin"))</span>
 <span class="line-precise" title="Any Types on this line: 
 Omitted Generics (x7)">@click.pass_obj</span>
 <span class="line-any" title="No Anys on this line!">def sentences(ctx, input, output):</span>
@@ -261,9 +247,7 @@ Explicit (x1)">@click.option(</span>
 <span class="line-empty" title="No Anys on this line!">)</span>
 <span class="line-any" title="Any Types on this line: 
 Omitted Generics (x4)
-Explicit (x1)">@click.argument(</span>
-<span class="line-precise" title="No Anys on this line!">    "input", type=click.File("rb"), default=click.get_binary_stream("stdin")</span>
-<span class="line-empty" title="No Anys on this line!">)</span>
+Explicit (x1)">@click.argument("input", type=click.File("rb"), default=click.get_binary_stream("stdin"))</span>
 <span class="line-precise" title="Any Types on this line: 
 Omitted Generics (x7)">@click.pass_obj</span>
 <span class="line-any" title="No Anys on this line!">def words(ctx, input, output):</span>

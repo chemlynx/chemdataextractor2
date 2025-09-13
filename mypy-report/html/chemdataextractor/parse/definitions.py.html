@@ -44,11 +44,11 @@
 <span id="L34" class="lineno"><a class="lineno" href="#L34">34</a></span>
 <span id="L35" class="lineno"><a class="lineno" href="#L35">35</a></span>
 <span id="L36" class="lineno"><a class="lineno" href="#L36">36</a></span>
-<span id="L37" class="lineno"><a class="lineno" href="#L37">37</a></span>
 </pre></td>
 <td class="table-code"><pre><span class="line-empty" title="No Anys on this line!">"""</span>
 <span class="line-empty" title="No Anys on this line!">Parsers for generic specifier definitions</span>
 <span class="line-empty" title="No Anys on this line!">"""</span>
+<span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">import logging</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">from .actions import join</span>
@@ -77,9 +77,7 @@ Unannotated (x4)">specifier_options = greek_symbols | critical_temperature</span
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x2)">definition_phrase_1 = (</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x22)">    OneOrMore(T("JJ") | T("NN") | T("NNP") | T("HYPH") | T("VBG"))("phrase").add_action(</span>
-<span class="line-precise" title="No Anys on this line!">        join</span>
-<span class="line-empty" title="No Anys on this line!">    )</span>
+Unannotated (x22)">    OneOrMore(T("JJ") | T("NN") | T("NNP") | T("HYPH") | T("VBG"))("phrase").add_action(join)</span>
 <span class="line-any" title="Any Types on this line: 
 Error (x1)">    + Optional(delim)</span>
 <span class="line-any" title="Any Types on this line: 

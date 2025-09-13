@@ -571,25 +571,6 @@
 <span id="L561" class="lineno"><a class="lineno" href="#L561">561</a></span>
 <span id="L562" class="lineno"><a class="lineno" href="#L562">562</a></span>
 <span id="L563" class="lineno"><a class="lineno" href="#L563">563</a></span>
-<span id="L564" class="lineno"><a class="lineno" href="#L564">564</a></span>
-<span id="L565" class="lineno"><a class="lineno" href="#L565">565</a></span>
-<span id="L566" class="lineno"><a class="lineno" href="#L566">566</a></span>
-<span id="L567" class="lineno"><a class="lineno" href="#L567">567</a></span>
-<span id="L568" class="lineno"><a class="lineno" href="#L568">568</a></span>
-<span id="L569" class="lineno"><a class="lineno" href="#L569">569</a></span>
-<span id="L570" class="lineno"><a class="lineno" href="#L570">570</a></span>
-<span id="L571" class="lineno"><a class="lineno" href="#L571">571</a></span>
-<span id="L572" class="lineno"><a class="lineno" href="#L572">572</a></span>
-<span id="L573" class="lineno"><a class="lineno" href="#L573">573</a></span>
-<span id="L574" class="lineno"><a class="lineno" href="#L574">574</a></span>
-<span id="L575" class="lineno"><a class="lineno" href="#L575">575</a></span>
-<span id="L576" class="lineno"><a class="lineno" href="#L576">576</a></span>
-<span id="L577" class="lineno"><a class="lineno" href="#L577">577</a></span>
-<span id="L578" class="lineno"><a class="lineno" href="#L578">578</a></span>
-<span id="L579" class="lineno"><a class="lineno" href="#L579">579</a></span>
-<span id="L580" class="lineno"><a class="lineno" href="#L580">580</a></span>
-<span id="L581" class="lineno"><a class="lineno" href="#L581">581</a></span>
-<span id="L582" class="lineno"><a class="lineno" href="#L582">582</a></span>
 </pre></td>
 <td class="table-code"><pre><span class="line-empty" title="No Anys on this line!">"""</span>
 <span class="line-empty" title="No Anys on this line!">Tools for scraping documents from The Royal Society of Chemistry.</span>
@@ -868,12 +849,7 @@ Unannotated (x1)">rsc_substitute = Substitutor(CHAR_REPLACEMENTS)</span>
 <span class="line-empty" title="No Anys on this line!">                newp = None</span>
 <span class="line-empty" title="No Anys on this line!">            else:</span>
 <span class="line-empty" title="No Anys on this line!">                newp.append(child)</span>
-<span class="line-empty" title="No Anys on this line!">        if (</span>
-<span class="line-empty" title="No Anys on this line!">            newp is None</span>
-<span class="line-empty" title="No Anys on this line!">            and child.tag in BLOCK_ELEMENTS</span>
-<span class="line-empty" title="No Anys on this line!">            and child.tail</span>
-<span class="line-empty" title="No Anys on this line!">            and child.tail.strip()</span>
-<span class="line-empty" title="No Anys on this line!">        ):</span>
+<span class="line-empty" title="No Anys on this line!">        if newp is None and child.tag in BLOCK_ELEMENTS and child.tail and child.tail.strip():</span>
 <span class="line-empty" title="No Anys on this line!">            newp = Element("p", **{"class": "otherpara"})</span>
 <span class="line-empty" title="No Anys on this line!">            newp.text = child.tail</span>
 <span class="line-empty" title="No Anys on this line!">            child.tail = ""</span>
@@ -885,9 +861,7 @@ Unannotated (x1)">rsc_substitute = Substitutor(CHAR_REPLACEMENTS)</span>
 <span class="line-empty" title="No Anys on this line!">    image_re = re.compile(</span>
 <span class="line-empty" title="No Anys on this line!">        r"http://www.rsc.org/images/entities/(?:h[23]+_)?(?:[ib]+_)?char_([0-9a-f]{4})(?:_([0-9a-f]{4}))?\.gif"</span>
 <span class="line-empty" title="No Anys on this line!">    )</span>
-<span class="line-empty" title="No Anys on this line!">    for img in document.xpath(</span>
-<span class="line-empty" title="No Anys on this line!">        './/img[starts-with(@src, "http://www.rsc.org/images/entities/")]'</span>
-<span class="line-empty" title="No Anys on this line!">    ):</span>
+<span class="line-empty" title="No Anys on this line!">    for img in document.xpath('.//img[starts-with(@src, "http://www.rsc.org/images/entities/")]'):</span>
 <span class="line-empty" title="No Anys on this line!">        m = image_re.match(img.get("src"))</span>
 <span class="line-empty" title="No Anys on this line!">        if m:</span>
 <span class="line-empty" title="No Anys on this line!">            u1, u2 = m.group(1), m.group(2)</span>
@@ -967,9 +941,7 @@ Unannotated (x3)">    pdf_url = UrlField(</span>
 <span class="line-precise" title="No Anys on this line!">        '.btn.btn--primary.btn--tiny::attr("href")', lower=True, strip_querystring=True</span>
 <span class="line-empty" title="No Anys on this line!">    )</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x3)">    html_url = UrlField(</span>
-<span class="line-precise" title="No Anys on this line!">        '.btn.btn--tiny::attr("href")', lower=True, strip_querystring=True</span>
-<span class="line-empty" title="No Anys on this line!">    )</span>
+Unannotated (x3)">    html_url = UrlField('.btn.btn--tiny::attr("href")', lower=True, strip_querystring=True)</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x5)">    journal = StringField(".text--small strong::text")</span>
 <span class="line-any" title="Any Types on this line: 
@@ -1058,9 +1030,7 @@ Unannotated (x3)">        super(RscSearchScraper, self).__init__()</span>
 <span class="line-empty" title="No Anys on this line!">            # To make sure we don't overload the server</span>
 <span class="line-empty" title="No Anys on this line!">            sleep(1)</span>
 <span class="line-empty" title="No Anys on this line!">            next_button = wait.until(</span>
-<span class="line-empty" title="No Anys on this line!">                EC.visibility_of_all_elements_located(</span>
-<span class="line-empty" title="No Anys on this line!">                    (By.CSS_SELECTOR, "a[class^=paging__btn]")</span>
-<span class="line-empty" title="No Anys on this line!">                )</span>
+<span class="line-empty" title="No Anys on this line!">                EC.visibility_of_all_elements_located((By.CSS_SELECTOR, "a[class^=paging__btn]"))</span>
 <span class="line-empty" title="No Anys on this line!">            )[1]</span>
 <span class="line-empty" title="No Anys on this line!">            page_string = (</span>
 <span class="line-empty" title="No Anys on this line!">                """document.querySelectorAll("a[class^=paging__btn]")[1].setAttribute("data-pageno", \""""</span>
@@ -1073,9 +1043,7 @@ Unannotated (x3)">        super(RscSearchScraper, self).__init__()</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">        # To ensure that we wait until the elements have loaded before scraping the webpage</span>
 <span class="line-empty" title="No Anys on this line!">        _ = wait.until(</span>
-<span class="line-empty" title="No Anys on this line!">            EC.visibility_of_element_located(</span>
-<span class="line-empty" title="No Anys on this line!">                (By.CSS_SELECTOR, ".capsule.capsule--article")</span>
-<span class="line-empty" title="No Anys on this line!">            )</span>
+<span class="line-empty" title="No Anys on this line!">            EC.visibility_of_element_located((By.CSS_SELECTOR, ".capsule.capsule--article"))</span>
 <span class="line-empty" title="No Anys on this line!">        )</span>
 <span class="line-empty" title="No Anys on this line!">        return SeleniumSearchResult(driver)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
@@ -1125,9 +1093,7 @@ Unannotated (x5)">    chemspider_id = StringField(</span>
 <span class="line-precise" title="No Anys on this line!">        'a[href^="http://www.chemspider.com/Chemical-Structure."]::attr("href")'</span>
 <span class="line-empty" title="No Anys on this line!">    )</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x5)">    inchi = StringField(</span>
-<span class="line-precise" title="No Anys on this line!">        'a[href^="http://www.chemspider.com/Search.aspx?q="]::attr("href")'</span>
-<span class="line-empty" title="No Anys on this line!">    )</span>
+Unannotated (x5)">    inchi = StringField('a[href^="http://www.chemspider.com/Search.aspx?q="]::attr("href")')</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x3)">    clean_text = Chain(replace_rsc_img_chars, strip_rsc_html)</span>
@@ -1197,13 +1163,9 @@ Unannotated (x5)">    abstract = StringField(".abstract")</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x3)">    pdf_url = UrlField('meta[name="citation_pdf_url"]::attr("content")', lower=True)</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x3)">    html_url = UrlField(</span>
-<span class="line-precise" title="No Anys on this line!">        'meta[name="citation_fulltext_html_url"]::attr("content")', lower=True</span>
-<span class="line-empty" title="No Anys on this line!">    )</span>
+Unannotated (x3)">    html_url = UrlField('meta[name="citation_fulltext_html_url"]::attr("content")', lower=True)</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x3)">    landing_url = UrlField(</span>
-<span class="line-precise" title="No Anys on this line!">        'meta[name="citation_abstract_html_url"]::attr("content")', lower=True</span>
-<span class="line-empty" title="No Anys on this line!">    )</span>
+Unannotated (x3)">    landing_url = UrlField('meta[name="citation_abstract_html_url"]::attr("content")', lower=True)</span>
 <span class="line-empty" title="No Anys on this line!">    # figures = EntityField(RscImage, '.image_table', all=True)</span>
 <span class="line-empty" title="No Anys on this line!">    # schemes = EntityField(RscImage, '.image_table', all=True)</span>
 <span class="line-empty" title="No Anys on this line!">    # tables = EntityField(RscTable, '.table_caption', all=True)</span>

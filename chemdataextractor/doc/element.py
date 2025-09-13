@@ -89,11 +89,11 @@ class BaseElement(metaclass=ABCMeta):
 
     def __repr__(self) -> str:
         """Return string representation of the element."""
-        return "<%s>" % (self.__class__.__name__,)
+        return f"<{self.__class__.__name__}>"
 
     def __str__(self) -> str:
         """Return string representation of the element."""
-        return "<%s>" % (self.__class__.__name__,)
+        return f"<{self.__class__.__name__}>"
 
     @property
     def document(self) -> Document | None:
@@ -178,7 +178,7 @@ class BaseElement(metaclass=ABCMeta):
             for model in self.models:
                 models.update(model.flatten(include_inferred=False))
             self._streamlined_models_list = sorted(
-                list(models), key=operator.attrgetter("__name__")
+                models, key=operator.attrgetter("__name__")
             )
         for model in self._streamlined_models_list:
             for parser in model.parsers:
@@ -219,7 +219,9 @@ class CaptionedElement(BaseElement):
         label: Optional label identifier (e.g., "1" for "Table 1")
     """
 
-    def __init__(self, caption: BaseElement, label: str | None = None, **kwargs: Any) -> None:
+    def __init__(
+        self, caption: BaseElement, label: str | None = None, **kwargs: Any
+    ) -> None:
         """Initialize a CaptionedElement.
 
         Args:
@@ -238,12 +240,7 @@ class CaptionedElement(BaseElement):
 
     def __repr__(self) -> str:
         """Return detailed string representation of the captioned element."""
-        return "%s(id=%r, references=%r, caption=%r)" % (
-            self.__class__.__name__,
-            self.id,
-            self.references,
-            self.caption.text,
-        )
+        return f"{self.__class__.__name__}(id={self.id}, references={self.references}, captions={self.caption.text})"
 
     def __str__(self) -> str:
         """Return the caption text as string representation."""

@@ -376,24 +376,6 @@
 <span id="L366" class="lineno"><a class="lineno" href="#L366">366</a></span>
 <span id="L367" class="lineno"><a class="lineno" href="#L367">367</a></span>
 <span id="L368" class="lineno"><a class="lineno" href="#L368">368</a></span>
-<span id="L369" class="lineno"><a class="lineno" href="#L369">369</a></span>
-<span id="L370" class="lineno"><a class="lineno" href="#L370">370</a></span>
-<span id="L371" class="lineno"><a class="lineno" href="#L371">371</a></span>
-<span id="L372" class="lineno"><a class="lineno" href="#L372">372</a></span>
-<span id="L373" class="lineno"><a class="lineno" href="#L373">373</a></span>
-<span id="L374" class="lineno"><a class="lineno" href="#L374">374</a></span>
-<span id="L375" class="lineno"><a class="lineno" href="#L375">375</a></span>
-<span id="L376" class="lineno"><a class="lineno" href="#L376">376</a></span>
-<span id="L377" class="lineno"><a class="lineno" href="#L377">377</a></span>
-<span id="L378" class="lineno"><a class="lineno" href="#L378">378</a></span>
-<span id="L379" class="lineno"><a class="lineno" href="#L379">379</a></span>
-<span id="L380" class="lineno"><a class="lineno" href="#L380">380</a></span>
-<span id="L381" class="lineno"><a class="lineno" href="#L381">381</a></span>
-<span id="L382" class="lineno"><a class="lineno" href="#L382">382</a></span>
-<span id="L383" class="lineno"><a class="lineno" href="#L383">383</a></span>
-<span id="L384" class="lineno"><a class="lineno" href="#L384">384</a></span>
-<span id="L385" class="lineno"><a class="lineno" href="#L385">385</a></span>
-<span id="L386" class="lineno"><a class="lineno" href="#L386">386</a></span>
 </pre></td>
 <td class="table-code"><pre><span class="line-empty" title="No Anys on this line!">"""</span>
 <span class="line-empty" title="No Anys on this line!">Chemical entity mention parser elements.</span>
@@ -411,7 +393,7 @@
 <span class="line-precise" title="No Anys on this line!">from typing import TYPE_CHECKING</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">if TYPE_CHECKING:</span>
-<span class="line-precise" title="No Anys on this line!">    from .base import BaseParserElement</span>
+<span class="line-precise" title="No Anys on this line!">    pass</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">from .actions import join</span>
 <span class="line-precise" title="No Anys on this line!">from .base import BaseSentenceParser</span>
@@ -615,18 +597,12 @@ Unannotated (x3)">labelled_as = default_cem_factory.labelled_as</span>
 Unannotated (x3)">optquote = default_cem_factory.optquote</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x1)">name_with_optional_bracketed_label = (</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">    default_cem_factory.name_with_optional_bracketed_label</span>
-<span class="line-empty" title="No Anys on this line!">)</span>
+Unannotated (x3)">name_with_optional_bracketed_label = default_cem_factory.name_with_optional_bracketed_label</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x3)">label_before_name = default_cem_factory.label_before_name</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x1)">lenient_name_with_bracketed_label = (</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">    default_cem_factory.lenient_name_with_bracketed_label</span>
-<span class="line-empty" title="No Anys on this line!">)</span>
+Unannotated (x3)">lenient_name_with_bracketed_label = default_cem_factory.lenient_name_with_bracketed_label</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x3)">name_with_comma_within = default_cem_factory.name_with_comma_within</span>
@@ -694,9 +670,7 @@ Unannotated (x4)">    role = role.lower()</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">    if any(</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">        c in role</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x1)">        for c in {"synthesis", "give", "yield", "afford", "product", "preparation of"}</span>
+Unannotated (x3)">        c in role for c in {"synthesis", "give", "yield", "afford", "product", "preparation of"}</span>
 <span class="line-empty" title="No Anys on this line!">    ):</span>
 <span class="line-any" title="No Anys on this line!">        return "product"</span>
 <span class="line-any" title="Any Types on this line: 
@@ -740,10 +714,7 @@ Unannotated (x6)">            Optional(synthesis_of | to_give)</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">            + chemical_name</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x1)">            + Optional(</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x12)">                lbrct + Optional(labelled_as + optquote) + (label) + optquote + rbrct</span>
-<span class="line-empty" title="No Anys on this line!">            )</span>
+Unannotated (x13)">            + Optional(lbrct + Optional(labelled_as + optquote) + (label) + optquote + rbrct)</span>
 <span class="line-any" title="No Anys on this line!">        )("compound")</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">        # Very lenient name and label match, with format like "name (Compound 3)"</span>
@@ -821,9 +792,7 @@ Unannotated (x2)">        if self._label is label:</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">            return self._root_phrase</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x7)">        self._root_phrase = chemical_label_phrase | Group(label)(</span>
-<span class="line-any" title="No Anys on this line!">            "chemical_label_phrase"</span>
-<span class="line-empty" title="No Anys on this line!">        )</span>
+Unannotated (x7)">        self._root_phrase = chemical_label_phrase | Group(label)("chemical_label_phrase")</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x2)">        self._label = label</span>
 <span class="line-any" title="Any Types on this line: 
@@ -863,10 +832,7 @@ Unannotated (x4)">            for name in result.xpath("./names/text()"):</span>
 Unannotated (x4)">                yield self.model(names=[name], roles=roles)</span>
 <span class="line-empty" title="No Anys on this line!">        else:</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            yield self.model(</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x5)">                names=result.xpath("./names/text()"), labels=labels, roles=roles</span>
-<span class="line-empty" title="No Anys on this line!">            )</span>
+Unannotated (x7)">            yield self.model(names=result.xpath("./names/text()"), labels=labels, roles=roles)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">class CompoundTableParser(BaseTableParser):</span>
@@ -892,9 +858,7 @@ Unannotated (x5)">        labels = compound_model.labels.parse_expression("label
 Unannotated (x2)">        entities = [labels]</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x12)">        specifier = (I("Formula") | I("Compound") | I("Alloy")).add_action(join)(</span>
-<span class="line-any" title="No Anys on this line!">            "specifier"</span>
-<span class="line-empty" title="No Anys on this line!">        )</span>
+Unannotated (x12)">        specifier = (I("Formula") | I("Compound") | I("Alloy")).add_action(join)("specifier")</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x4)">        entities.append(specifier)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
@@ -910,18 +874,12 @@ Unannotated (x1)">            if field not in [</span>
 <span class="line-any" title="No Anys on this line!">                "error",</span>
 <span class="line-any" title="No Anys on this line!">                "specifier",</span>
 <span class="line-empty" title="No Anys on this line!">            ]:</span>
-<span class="line-empty" title="No Anys on this line!">                if (</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x6)">                    self.model.__getattribute__(self.model, field).parse_expression</span>
-<span class="line-any" title="No Anys on this line!">                    is not None</span>
-<span class="line-empty" title="No Anys on this line!">                ):</span>
+Unannotated (x6)">                if self.model.__getattribute__(self.model, field).parse_expression is not None:</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x3)">                    entities.append(</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x7)">                        self.model.__getattribute__(self.model, field).parse_expression(</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x1)">                            field</span>
-<span class="line-empty" title="No Anys on this line!">                        )</span>
+Unannotated (x8)">                        self.model.__getattribute__(self.model, field).parse_expression(field)</span>
 <span class="line-empty" title="No Anys on this line!">                    )</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">        # the chem_name has to be parsed last in order to avoid a conflict with other elements of the model</span>
@@ -937,10 +895,9 @@ Unannotated (x3)">        for entity in entities[1:]:</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x4)">            combined_entities = combined_entities | entity</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x4)">        root_phrase = OneOrMore(</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x7)">            combined_entities + Optional(SkipTo(combined_entities))</span>
-<span class="line-any" title="No Anys on this line!">        )("root_phrase")</span>
+Unannotated (x11)">        root_phrase = OneOrMore(combined_entities + Optional(SkipTo(combined_entities)))(</span>
+<span class="line-any" title="No Anys on this line!">            "root_phrase"</span>
+<span class="line-empty" title="No Anys on this line!">        )</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x2)">        self._root_phrase = root_phrase</span>
 <span class="line-any" title="Any Types on this line: 

@@ -125,14 +125,6 @@
 <span id="L115" class="lineno"><a class="lineno" href="#L115">115</a></span>
 <span id="L116" class="lineno"><a class="lineno" href="#L116">116</a></span>
 <span id="L117" class="lineno"><a class="lineno" href="#L117">117</a></span>
-<span id="L118" class="lineno"><a class="lineno" href="#L118">118</a></span>
-<span id="L119" class="lineno"><a class="lineno" href="#L119">119</a></span>
-<span id="L120" class="lineno"><a class="lineno" href="#L120">120</a></span>
-<span id="L121" class="lineno"><a class="lineno" href="#L121">121</a></span>
-<span id="L122" class="lineno"><a class="lineno" href="#L122">122</a></span>
-<span id="L123" class="lineno"><a class="lineno" href="#L123">123</a></span>
-<span id="L124" class="lineno"><a class="lineno" href="#L124">124</a></span>
-<span id="L125" class="lineno"><a class="lineno" href="#L125">125</a></span>
 </pre></td>
 <td class="table-code"><pre><span class="line-empty" title="No Anys on this line!">"""</span>
 <span class="line-empty" title="No Anys on this line!">Melting Point parser using the QuantityParser framework</span>
@@ -182,16 +174,8 @@ Unannotated (x3)">        | R(r"^m\.?pt?\.?$", re.I)</span>
 Error (x2)
 Unannotated (x6)">        | I("melting") + Optional(I("point") | I("temperature") | I("range"))</span>
 <span class="line-any" title="Any Types on this line: 
-Error (x3)
-Unannotated (x3)">        | R(r"^m\.?$", re.I)</span>
-<span class="line-any" title="Any Types on this line: 
-Error (x1)
-Unannotated (x1)">        + Optional(I("."))</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x3)">        + R(r"^pt?\.?$", re.I)</span>
-<span class="line-any" title="Any Types on this line: 
-Error (x1)
-Unannotated (x1)">        + Optional(I("."))</span>
+Error (x5)
+Unannotated (x8)">        | R(r"^m\.?$", re.I) + Optional(I(".")) + R(r"^pt?\.?$", re.I) + Optional(I("."))</span>
 <span class="line-empty" title="No Anys on this line!">    ).hide()</span>
 <span class="line-any" title="Any Types on this line: 
 Error (x1)
@@ -209,16 +193,11 @@ Unannotated (x3)">delim = R(r"^[:;\.,]$")</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!"># TODO: Consider allowing degree symbol to be optional. The prefix should be restrictive enough to stop false positives.</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x13)">units = ((W("°") + R(r"^[CFK]\.?$")) | W(r"K\.?") | W("°C"))("raw_units").add_action(</span>
-<span class="line-precise" title="Any Types on this line: 
-Unannotated (x4)">    merge</span>
-<span class="line-empty" title="No Anys on this line!">)</span>
+Unannotated (x17)">units = ((W("°") + R(r"^[CFK]\.?$")) | W(r"K\.?") | W("°C"))("raw_units").add_action(merge)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="Any Types on this line: 
 Error (x8)
-Unannotated (x5)">mp = (prefix + Optional(delim).hide() + value_element(units, activate_to_range=True))(</span>
-<span class="line-precise" title="No Anys on this line!">    "mp"</span>
-<span class="line-empty" title="No Anys on this line!">)</span>
+Unannotated (x5)">mp = (prefix + Optional(delim).hide() + value_element(units, activate_to_range=True))("mp")</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x11)
@@ -227,9 +206,7 @@ Error (x1)">bracket_any = lbrct + OneOrMore(Not(mp) + Not(rbrct) + Any()) + rbrc
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">solvent_phrase = (</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x10)">    R("^(re)?crystalli[sz](ation|ed)$", re.I) + (I("with") | I("from")) + cem</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x1)">    | solvent_name</span>
+Unannotated (x11)">    R("^(re)?crystalli[sz](ation|ed)$", re.I) + (I("with") | I("from")) + cem | solvent_name</span>
 <span class="line-empty" title="No Anys on this line!">)</span>
 <span class="line-any" title="Any Types on this line: 
 Error (x2)">cem_mp_phrase = (</span>

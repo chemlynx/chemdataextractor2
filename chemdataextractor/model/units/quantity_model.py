@@ -12,10 +12,7 @@ from __future__ import annotations
 from typing import TYPE_CHECKING
 from typing import Any
 from typing import Dict
-from typing import List
-from typing import Optional
 from typing import Tuple
-from typing import Union
 
 from ...parse.auto import AutoTableParser
 from ...parse.auto import construct_unit_element
@@ -32,12 +29,12 @@ from ..base import ListType
 from ..base import ModelMeta
 from ..base import StringType
 from .unit import UnitType
-from ...types import QuantitativeProperty
 
 if TYPE_CHECKING:
-    from .dimension import Dimension, Dimensionless
-    from .unit import Unit
     from typing import Self
+
+    from .dimension import Dimension
+    from .unit import Unit
 else:
     # Import Self for runtime compatibility
     try:
@@ -127,7 +124,7 @@ class QuantityModel(BaseModel, metaclass=_QuantityModelMeta):
 
     # Speed in miles per hour is:  11.184709259696522
 
-    def __truediv__(self, other: "QuantityModel") -> "QuantityModel":
+    def __truediv__(self, other: QuantityModel) -> QuantityModel:
         """Divide this quantity by another quantity.
 
         Args:
@@ -140,7 +137,7 @@ class QuantityModel(BaseModel, metaclass=_QuantityModelMeta):
         new_model = self * other_inverted
         return new_model
 
-    def __pow__(self, other: float) -> "QuantityModel":
+    def __pow__(self, other: float) -> QuantityModel:
         """Raise this quantity to a power.
 
         Args:
@@ -169,7 +166,7 @@ class QuantityModel(BaseModel, metaclass=_QuantityModelMeta):
 
         return new_model
 
-    def __mul__(self, other: "QuantityModel") -> "QuantityModel":
+    def __mul__(self, other: QuantityModel) -> QuantityModel:
         """Multiply this quantity by another quantity.
 
         Args:
@@ -215,7 +212,7 @@ class QuantityModel(BaseModel, metaclass=_QuantityModelMeta):
 
         return new_model
 
-    def convert_to(self, target_unit: "Unit") -> "Self":
+    def convert_to(self, target_unit: Unit) -> Self:
         """Convert from current units to the given units.
 
         Raises AttributeError if the current unit is not set.

@@ -8,9 +8,7 @@ common extraction rules in the Snowball algorithm.
 from __future__ import annotations
 
 from collections import OrderedDict
-from typing import TYPE_CHECKING
 from typing import Any
-from typing import Dict
 from typing import List
 from typing import Optional
 
@@ -20,11 +18,10 @@ from scipy import spatial
 from ..doc import Sentence
 from .entity import Entity
 from .pattern import Pattern
+from .phrase import Phrase
 from .relationship import Relation
 from .utils import mode_rows
 from .utils import subfinder
-
-from .phrase import Phrase
 
 # Type aliases for clustering
 PhraseList = List[Phrase]  # List of phrases in a cluster

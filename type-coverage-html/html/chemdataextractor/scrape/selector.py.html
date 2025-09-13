@@ -221,10 +221,6 @@
 <span id="L211" class="lineno"><a class="lineno" href="#L211">211</a></span>
 <span id="L212" class="lineno"><a class="lineno" href="#L212">212</a></span>
 <span id="L213" class="lineno"><a class="lineno" href="#L213">213</a></span>
-<span id="L214" class="lineno"><a class="lineno" href="#L214">214</a></span>
-<span id="L215" class="lineno"><a class="lineno" href="#L215">215</a></span>
-<span id="L216" class="lineno"><a class="lineno" href="#L216">216</a></span>
-<span id="L217" class="lineno"><a class="lineno" href="#L217">217</a></span>
 </pre></td>
 <td class="table-code"><pre><span class="line-empty" title="No Anys on this line!">"""</span>
 <span class="line-empty" title="No Anys on this line!">Tool for selecting content from HTML or XML using CSS or XPath expressions.</span>
@@ -379,9 +375,7 @@ Unimported (x1)">        parser=HTMLParser,</span>
 <span class="line-empty" title="No Anys on this line!">        return self._root.tag</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="No Anys on this line!">    def xpath(self, query):</span>
-<span class="line-empty" title="No Anys on this line!">        result = self._root.xpath(</span>
-<span class="line-empty" title="No Anys on this line!">            query, namespaces=self.namespaces, smart_strings=False</span>
-<span class="line-empty" title="No Anys on this line!">        )</span>
+<span class="line-empty" title="No Anys on this line!">        result = self._root.xpath(query, namespaces=self.namespaces, smart_strings=False)</span>
 <span class="line-empty" title="No Anys on this line!">        if type(result) is not list:</span>
 <span class="line-empty" title="No Anys on this line!">            result = [result]</span>
 <span class="line-empty" title="No Anys on this line!">        # log.debug('Selecting XPath: {}: {}'.format(query, result))</span>
@@ -410,9 +404,7 @@ Unimported (x1)">        parser=HTMLParser,</span>
 <span class="line-empty" title="No Anys on this line!">            root = deepcopy(self._root)</span>
 <span class="line-empty" title="No Anys on this line!">            if cleaner:</span>
 <span class="line-empty" title="No Anys on this line!">                cleaner(root)</span>
-<span class="line-empty" title="No Anys on this line!">            return tostring(</span>
-<span class="line-empty" title="No Anys on this line!">                root, method=self.fmt if raw else "text", encoding=str, with_tail=False</span>
-<span class="line-empty" title="No Anys on this line!">            )</span>
+<span class="line-empty" title="No Anys on this line!">            return tostring(root, method=self.fmt if raw else "text", encoding=str, with_tail=False)</span>
 <span class="line-empty" title="No Anys on this line!">        except (AttributeError, TypeError):</span>
 <span class="line-empty" title="No Anys on this line!">            # log.warn(e)</span>
 <span class="line-empty" title="No Anys on this line!">            return str(self._root)</span>

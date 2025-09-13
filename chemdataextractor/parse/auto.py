@@ -22,12 +22,9 @@ import logging
 from typing import TYPE_CHECKING
 from typing import Any
 from typing import Callable
-from typing import Dict
 from typing import List
 from typing import Optional
 from typing import Tuple
-from typing import Type
-from typing import Union
 
 from lxml.builder import E
 
@@ -36,10 +33,10 @@ from .actions import merge
 from .base import BaseParser
 from .base import BaseSentenceParser
 from .base import BaseTableParser
-from .elements import BaseParserElement
 from .cem import cem
 from .cem import chemical_label
 from .cem import lenient_chemical_label
+from .elements import BaseParserElement
 from .elements import Group
 from .elements import NoMatch
 from .elements import OneOrMore
@@ -66,7 +63,7 @@ log = logging.getLogger(__name__)
 
 def construct_unit_element(
     dimensions: Any, max_power: Optional[int] = None
-) -> Optional["BaseParserElement"]:
+) -> Optional[BaseParserElement]:
     """
     Construct an element for detecting units for the dimensions given.
     Any magnitude modifiers (e.g. kilo) will be automatically handled.
@@ -184,7 +181,7 @@ def _clean_units_results(tokens, start, result):
 
 def construct_category_element(
     category_dict: dict[str, Any],
-) -> Optional["BaseParserElement"]:
+) -> Optional[BaseParserElement]:
     """
     Construct an element for detecting categories.
 
@@ -202,7 +199,7 @@ def construct_category_element(
     return (R(pattern=category_regex))("raw_value").add_action(merge)
 
 
-def match_dimensions_of(model: "BaseModel") -> ParserFunction:
+def match_dimensions_of(model: BaseModel) -> ParserFunction:
     """
     Produces a function that checks whether the given results of parsing match the
     dimensions of the model provided.
@@ -223,7 +220,7 @@ def match_dimensions_of(model: "BaseModel") -> ParserFunction:
     return check_match
 
 
-def create_entities_list(entities: EntityList) -> "BaseParserElement":
+def create_entities_list(entities: EntityList) -> BaseParserElement:
     """
     For a list of Base parser entities, creates an entity of structure. For example, with 4 entities in the list, the output is::
 
@@ -245,15 +242,15 @@ class BaseAutoParser(BaseParser):
     and handles both sentence and table parsing contexts.
     """
 
-    model: Optional[type["BaseModel"]] = None
-    _specifier: Optional["BaseParserElement"] = None
-    _root_phrase: Optional["BaseParserElement"] = None
+    model: Optional[type[BaseModel]] = None
+    _specifier: Optional[BaseParserElement] = None
+    _root_phrase: Optional[BaseParserElement] = None
 
     def __init__(self) -> None:
         super(BaseAutoParser, self).__init__()
         self._trigger_property: Optional[str] = None
 
-    def interpret(self, results: Any, start: int, end: int) -> "List[BaseModel]":
+    def interpret(self, results: Any, start: int, end: int) -> List[BaseModel]:
         """Interpret parse results and extract model instances.
 
         Args:
@@ -486,7 +483,7 @@ class AutoTableParser(BaseAutoParser, BaseTableParser):
 
     def __init__(
         self,
-        chem_name: "BaseParserElement" = (cem | chemical_label | lenient_chemical_label),
+        chem_name: BaseParserElement = (cem | chemical_label | lenient_chemical_label),
     ) -> None:
         """Initialize AutoTableParser with chemical name recognition.
 
@@ -494,10 +491,10 @@ class AutoTableParser(BaseAutoParser, BaseTableParser):
             chem_name: Parser element for recognizing chemical names
         """
         super(AutoTableParser, self).__init__()
-        self.chem_name: "BaseParserElement" = chem_name
+        self.chem_name: BaseParserElement = chem_name
 
     @property
-    def root(self) -> "BaseParserElement":
+    def root(self) -> BaseParserElement:
         # is always found, our models currently rely on the compound
         chem_name = self.chem_name
         try:

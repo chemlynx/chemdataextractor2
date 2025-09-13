@@ -464,12 +464,6 @@
 <span id="L454" class="lineno"><a class="lineno" href="#L454">454</a></span>
 <span id="L455" class="lineno"><a class="lineno" href="#L455">455</a></span>
 <span id="L456" class="lineno"><a class="lineno" href="#L456">456</a></span>
-<span id="L457" class="lineno"><a class="lineno" href="#L457">457</a></span>
-<span id="L458" class="lineno"><a class="lineno" href="#L458">458</a></span>
-<span id="L459" class="lineno"><a class="lineno" href="#L459">459</a></span>
-<span id="L460" class="lineno"><a class="lineno" href="#L460">460</a></span>
-<span id="L461" class="lineno"><a class="lineno" href="#L461">461</a></span>
-<span id="L462" class="lineno"><a class="lineno" href="#L462">462</a></span>
 </pre></td>
 <td class="table-code"><pre><span class="line-empty" title="No Anys on this line!">"""</span>
 <span class="line-empty" title="No Anys on this line!">Scripts for evaluation.</span>
@@ -712,8 +706,7 @@ Unannotated (x3)">                        if record.record_method == "AutoSenten
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x4)">                            record.record_method == "QuantityModelTemplateParser"</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x3)">                            or record.record_method</span>
-<span class="line-any" title="No Anys on this line!">                            == "MultiQuantityModelTemplateParser"</span>
+Unannotated (x3)">                            or record.record_method == "MultiQuantityModelTemplateParser"</span>
 <span class="line-empty" title="No Anys on this line!">                        ):</span>
 <span class="line-any" title="No Anys on this line!">                            self.nc_template += 1</span>
 <span class="line-any" title="Any Types on this line: 
@@ -738,8 +731,7 @@ Unannotated (x3)">                        if record.record_method == "AutoSenten
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x4)">                            record.record_method == "QuantityModelTemplateParser"</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x3)">                            or record.record_method</span>
-<span class="line-any" title="No Anys on this line!">                            == "MultiQuantityModelTemplateParser"</span>
+Unannotated (x3)">                            or record.record_method == "MultiQuantityModelTemplateParser"</span>
 <span class="line-empty" title="No Anys on this line!">                        ):</span>
 <span class="line-any" title="No Anys on this line!">                            self.ncd_template += 1</span>
 <span class="line-any" title="Any Types on this line: 
@@ -845,12 +837,8 @@ Unimported (x2)">                    playsound(sound_end_file)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">    @property</span>
 <span class="line-any" title="No Anys on this line!">    def limits_reached(self):</span>
-<span class="line-empty" title="No Anys on this line!">        if (</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x3)">            self.n_paper + 1 &gt;= self.n_papers_limit</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            and self.n_records &gt;= self.n_records_limit</span>
-<span class="line-empty" title="No Anys on this line!">        ):</span>
+Unannotated (x5)">        if self.n_paper + 1 &gt;= self.n_papers_limit and self.n_records &gt;= self.n_records_limit:</span>
 <span class="line-any" title="No Anys on this line!">            return True</span>
 <span class="line-empty" title="No Anys on this line!">        else:</span>
 <span class="line-any" title="No Anys on this line!">            return False</span>
@@ -961,8 +949,7 @@ Unannotated (x1)">                file=destination,</span>
 <span class="line-any" title="No Anys on this line!">        if (self.nc + self.nw - self.nw_autosentence) != 0:</span>
 <span class="line-precise" title="No Anys on this line!">            print(</span>
 <span class="line-any" title="No Anys on this line!">                "Precision without AutoSentenceParser = {:4.2f}, {}/{}   ---&gt; Approximation".format(</span>
-<span class="line-precise" title="No Anys on this line!">                    (self.nc - self.nc_autosentence)</span>
-<span class="line-precise" title="No Anys on this line!">                    / (self.nc + self.nw - self.nw_autosentence),</span>
+<span class="line-precise" title="No Anys on this line!">                    (self.nc - self.nc_autosentence) / (self.nc + self.nw - self.nw_autosentence),</span>
 <span class="line-precise" title="No Anys on this line!">                    (self.nc - self.nc_autosentence),</span>
 <span class="line-precise" title="No Anys on this line!">                    (self.nc + self.nw - self.nw_autosentence),</span>
 <span class="line-empty" title="No Anys on this line!">                ),</span>

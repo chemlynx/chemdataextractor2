@@ -401,12 +401,6 @@
 <span id="L391" class="lineno"><a class="lineno" href="#L391">391</a></span>
 <span id="L392" class="lineno"><a class="lineno" href="#L392">392</a></span>
 <span id="L393" class="lineno"><a class="lineno" href="#L393">393</a></span>
-<span id="L394" class="lineno"><a class="lineno" href="#L394">394</a></span>
-<span id="L395" class="lineno"><a class="lineno" href="#L395">395</a></span>
-<span id="L396" class="lineno"><a class="lineno" href="#L396">396</a></span>
-<span id="L397" class="lineno"><a class="lineno" href="#L397">397</a></span>
-<span id="L398" class="lineno"><a class="lineno" href="#L398">398</a></span>
-<span id="L399" class="lineno"><a class="lineno" href="#L399">399</a></span>
 </pre></td>
 <td class="table-code"><pre><span class="line-empty" title="No Anys on this line!">"""</span>
 <span class="line-empty" title="No Anys on this line!">Commands for building a dictionary-based chemical named entity recognizer.</span>
@@ -525,9 +519,7 @@ Omitted Generics (x4)">BRACKET_RE = re.compile(r"^\(([^\(\)]+)\)$", re.I | re.U)
 <span class="line-empty" title="No Anys on this line!">}</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="Any Types on this line: 
-Omitted Generics (x4)">DOT_GREEK_RE = re.compile(</span>
-<span class="line-precise" title="No Anys on this line!">    r"\.(%s)\." % "|".join(re.escape(s) for s in GREEK_WORDS.keys()), re.U</span>
-<span class="line-empty" title="No Anys on this line!">)</span>
+Omitted Generics (x4)">DOT_GREEK_RE = re.compile(r"\.(%s)\." % "|".join(re.escape(s) for s in GREEK_WORDS.keys()), re.U)</span>
 <span class="line-precise" title="Any Types on this line: 
 Omitted Generics (x4)">GREEK_RE = re.compile(</span>
 <span class="line-precise" title="No Anys on this line!">    r"([\daA\W]|^)(%s)([\d\W]|$)" % "|".join(re.escape(s) for s in GREEK_WORDS.keys()),</span>
@@ -647,9 +639,7 @@ Omitted Generics (x6)">@click.pass_context</span>
 <span class="line-empty" title="No Anys on this line!">        while True:</span>
 <span class="line-empty" title="No Anys on this line!">            m = DOT_GREEK_RE.search(wordname)</span>
 <span class="line-empty" title="No Anys on this line!">            if m:</span>
-<span class="line-empty" title="No Anys on this line!">                wordname = (</span>
-<span class="line-empty" title="No Anys on this line!">                    wordname[: m.start(1) - 1] + m.group(1) + wordname[m.end(1) + 1 :]</span>
-<span class="line-empty" title="No Anys on this line!">                )</span>
+<span class="line-empty" title="No Anys on this line!">                wordname = wordname[: m.start(1) - 1] + m.group(1) + wordname[m.end(1) + 1 :]</span>
 <span class="line-empty" title="No Anys on this line!">            else:</span>
 <span class="line-empty" title="No Anys on this line!">                break</span>
 <span class="line-empty" title="No Anys on this line!">        symbolname = name</span>
@@ -846,9 +836,7 @@ Omitted Generics (x7)">@click.pass_obj</span>
 <span class="line-empty" title="No Anys on this line!">                    print(line)</span>
 <span class="line-empty" title="No Anys on this line!">                    print(tokentag[0])</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-empty" title="No Anys on this line!">            output.write(</span>
-<span class="line-empty" title="No Anys on this line!">                " ".join("/".join(tokentag) for tokentag in tagger.tag(sentence))</span>
-<span class="line-empty" title="No Anys on this line!">            )</span>
+<span class="line-empty" title="No Anys on this line!">            output.write(" ".join("/".join(tokentag) for tokentag in tagger.tag(sentence)))</span>
 <span class="line-empty" title="No Anys on this line!">            output.write("\n")</span>
 <span class="line-empty" title="No Anys on this line!">        else:</span>
 <span class="line-empty" title="No Anys on this line!">            output.write("\n")</span>

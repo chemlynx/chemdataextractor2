@@ -32,19 +32,15 @@ try:
 except ImportError:
     from typing import Self  # type: ignore[attr-defined]
 
-from ..parse.auto import AutoSentenceParser
-from ..parse.auto import AutoTableParser
 from ..parse.elements import I
 from ..parse.elements import W
 
 # Import type definitions
 from ..types import ModelT
 from ..types import T
-from ..types import Serializable
-from ..types import Mergeable
 from .confidence_pooling import min_value
-from .contextual_range import DocumentRange
 from .contextual_range import ContextualRange
+from .contextual_range import DocumentRange
 from .contextual_range import SentenceRange
 
 if TYPE_CHECKING:
@@ -129,14 +125,14 @@ class BaseType(Generic[T], metaclass=ABCMeta):
             self.parse_expression = copy.copy(self._default_parse_expression)
 
     @overload
-    def __get__(self, instance: None, owner: type["BaseModel"]) -> "Self": ...
+    def __get__(self, instance: None, owner: type[BaseModel]) -> Self:
+        ...
 
     @overload
-    def __get__(self, instance: "BaseModel", owner: type["BaseModel"]) -> T: ...
+    def __get__(self, instance: BaseModel, owner: type[BaseModel]) -> T:
+        ...
 
-    def __get__(
-        self, instance: Optional["BaseModel"], owner: type["BaseModel"]
-    ) -> Union[T, "Self"]:
+    def __get__(self, instance: Optional[BaseModel], owner: type[BaseModel]) -> Union[T, Self]:
         """Descriptor for retrieving a value from a field in a Model.
 
         Args:
@@ -156,7 +152,7 @@ class BaseType(Generic[T], metaclass=ABCMeta):
         #     return self.default
         return value
 
-    def __set__(self, instance: "BaseModel", value: Optional[T]) -> None:
+    def __set__(self, instance: BaseModel, value: Optional[T]) -> None:
         """Descriptor for assigning a value to a field in a Model.
 
         Args:
@@ -654,7 +650,7 @@ class BaseModel(metaclass=ModelMeta):
     """
 
     fields: Dict[str, BaseType] = {}
-    parsers: List["BaseParser"] = []
+    parsers: List[BaseParser] = []
     specifier: Optional[BaseType] = None
     _updated: bool = False
 
@@ -1450,7 +1446,7 @@ class BaseModel(metaclass=ModelMeta):
                         break
         return match
 
-    def can_merge_with(self, other: "BaseModel") -> bool:
+    def can_merge_with(self, other: BaseModel) -> bool:
         """Check if two models are compatible for merging.
 
         This is the public interface method required by the Mergeable protocol.
@@ -1756,12 +1752,14 @@ class ModelList(MutableSequence[ModelT], Generic[ModelT]):
             self.models = list(models)
 
     @overload
-    def __getitem__(self, index: int) -> ModelT: ...
+    def __getitem__(self, index: int) -> ModelT:
+        ...
 
     @overload
-    def __getitem__(self, index: slice) -> "ModelList[ModelT]": ...
+    def __getitem__(self, index: slice) -> ModelList[ModelT]:
+        ...
 
-    def __getitem__(self, index: Union[int, slice]) -> Union[ModelT, "ModelList[ModelT]"]:
+    def __getitem__(self, index: Union[int, slice]) -> Union[ModelT, ModelList[ModelT]]:
         """Get item(s) from the list with proper type annotation.
 
         Args:
@@ -1882,7 +1880,7 @@ class ModelList(MutableSequence[ModelT], Generic[ModelT]):
         """
         return json.dumps(self.serialize(), *args, **kwargs)
 
-    def merge_contextual(self, distance: "ContextualRange" = None) -> "ModelList[ModelT]":
+    def merge_contextual(self, distance: ContextualRange = None) -> ModelList[ModelT]:
         """Perform contextual merging on compatible models in the list.
 
         Args:
