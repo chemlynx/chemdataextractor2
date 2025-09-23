@@ -23,8 +23,10 @@ from ..nlp.cem import SPLITS
 from ..nlp.dependency import DependencyTagger
 from ..nlp.dependency import IndexTagger
 from ..nlp.lexicon import ChemLexicon
+from ..nlp.lexicon import Lexicon
 from ..nlp.new_cem import CemTagger
 from ..nlp.pos import ChemCrfPosTagger
+from ..nlp.pos import CrfPosTagger
 from ..nlp.subsentence import NoneSubsentenceExtractor
 from ..nlp.subsentence import SubsentenceExtractor
 from ..nlp.tag import NER_TAG_TYPE
@@ -32,6 +34,8 @@ from ..nlp.tag import POS_TAG_TYPE
 from ..nlp.tag import NoneTagger
 from ..nlp.tokenize import BertWordTokenizer
 from ..nlp.tokenize import ChemSentenceTokenizer
+from ..nlp.tokenize import SentenceTokenizer
+from ..nlp.tokenize import WordTokenizer
 from ..nlp.tokenize import regex_span_tokenize
 from ..parse.cem import cem_phrase
 from ..parse.cem import chemical_name

@@ -62,6 +62,9 @@ log.txt
 .mypy_cache/
 .dmypy.json
 dmypy.json
+mypy-report/
+type-coverage/
+type-coverage-html/
 
 # Environments
 .env
@@ -95,3 +98,13 @@ examples/sample_documents/
 Thumbs.db
 ehthumbs.db
 Desktop.ini
+
+# Generated reports and analysis files
+bandit-report.json
+*results.json
+*baseline.json
+benchmark*.json
+temp.py
+
+# Lock files (auto-generated)
+uv.lock
