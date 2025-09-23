@@ -7,7 +7,7 @@ authors = [
   { name = "Callum Court", email = "cc889@cam.ac.uk" },
 ]
 readme = "README.md"
-requires-python = ">=3.9"
+requires-python = ">=3.11"
 dependencies = [
   "appdirs>=1.4.3",
   "beautifulsoup4>=4.12.0",
@@ -41,6 +41,7 @@ dependencies = [
 [tool.uv.workspace]
 members = ["."]
 
+
 [tool.uv.sources]
 chemdataextractor2 = { workspace = true }
 
@@ -70,7 +71,7 @@ include = ["chemdataextractor*"]
 
 # MyPy Configuration - Advanced Typing System
 [tool.mypy]
-python_version = "3.11"
+python_version = "3.12"
 # Enhanced configuration for advanced typing patterns
 strict = false # Gradual adoption with selective strict mode
 # Core quality warnings
@@ -184,7 +185,7 @@ ignore_missing_imports = true
 
 # Ruff Configuration
 [tool.ruff]
-target-version = "py311"
+target-version = "py312"
 line-length = 100
 
 [tool.ruff.lint]
