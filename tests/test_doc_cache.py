@@ -22,9 +22,7 @@ class TestDocument(unittest.TestCase):
     def test_caching(self):
         fname = "10.1039_C6OB02074G.html"
         full_path = os.path.join(os.path.dirname(__file__), "data", "rsc", fname)
-        test_cache_location = os.path.join(
-            os.path.dirname(__file__), "data", "test_cache"
-        )
+        test_cache_location = os.path.join(os.path.dirname(__file__), "data", "test_cache")
 
         doc = Document.from_file(full_path)
         doc.models = [Compound]
@@ -46,6 +44,4 @@ class TestDocument(unittest.TestCase):
                 self.assertEqual(token1.ner_tag, token2.ner_tag)
                 self.assertEqual(token1.pos_tag, token2.pos_tag)
 
-        self.assertCountEqual(
-            doc.records.serialize(), cached_document.records.serialize()
-        )
+        self.assertCountEqual(doc.records.serialize(), cached_document.records.serialize())

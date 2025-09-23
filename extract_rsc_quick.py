@@ -7,10 +7,9 @@ Focuses only on melting points to avoid BERT initialization delays.
 import json
 import os
 import sys
-from pathlib import Path
 
 # Add the ChemDataExtractor2 path
-sys.path.insert(0, '/home/dave/code/ChemDataExtractor2')
+sys.path.insert(0, "/home/dave/code/ChemDataExtractor2")
 
 from chemdataextractor import Document
 from chemdataextractor.model.model import MeltingPoint
@@ -32,7 +31,7 @@ def extract_quick_data(file_path):
 
     # Read the document
     try:
-        with open(file_path, 'rb') as f:
+        with open(file_path, "rb") as f:
             doc = Document.from_file(f, readers=[HtmlReader()])
         print(f"✅ Successfully loaded document with {len(doc.elements)} elements")
     except Exception as e:
@@ -42,7 +41,9 @@ def extract_quick_data(file_path):
     # Focus only on melting points to avoid CEM initialization
     quick_models = [MeltingPoint]
     doc.models = quick_models
-    print(f"🎯 Using {len(quick_models)} quick extraction models: {[m.__name__ for m in quick_models]}")
+    print(
+        f"🎯 Using {len(quick_models)} quick extraction models: {[m.__name__ for m in quick_models]}"
+    )
 
     # Extract records
     print("\n🔍 Extracting records...")
@@ -51,13 +52,13 @@ def extract_quick_data(file_path):
 
     # Organize results
     results = {
-        'summary': {
-            'total_records': len(all_records),
-            'file_path': file_path,
-            'extraction_models': [model.__name__ for model in quick_models]
+        "summary": {
+            "total_records": len(all_records),
+            "file_path": file_path,
+            "extraction_models": [model.__name__ for model in quick_models],
         },
-        'melting_points': [],
-        'other_records': []
+        "melting_points": [],
+        "other_records": [],
     }
 
     # Categorize records
@@ -65,29 +66,28 @@ def extract_quick_data(file_path):
         record_type = type(record).__name__
         serialized = record.serialize()
 
-        if record_type == 'MeltingPoint':
-            results['melting_points'].append(serialized)
+        if record_type == "MeltingPoint":
+            results["melting_points"].append(serialized)
         else:
-            results['other_records'].append({
-                'type': record_type,
-                'data': serialized
-            })
+            results["other_records"].append({"type": record_type, "data": serialized})
 
     # Update summary
-    results['summary'].update({
-        'melting_points_found': len(results['melting_points']),
-        'other_records_found': len(results['other_records'])
-    })
+    results["summary"].update(
+        {
+            "melting_points_found": len(results["melting_points"]),
+            "other_records_found": len(results["other_records"]),
+        }
+    )
 
     return results
 
 
 def analyze_document_structure(file_path):
     """Analyze the structure of the document."""
-    print(f"\n🔍 Analyzing document structure...")
+    print("\n🔍 Analyzing document structure...")
 
     try:
-        with open(file_path, 'rb') as f:
+        with open(file_path, "rb") as f:
             doc = Document.from_file(f, readers=[HtmlReader()])
 
         print(f"📄 Document has {len(doc.elements)} elements")
@@ -98,18 +98,30 @@ def analyze_document_structure(file_path):
             element_type = type(element).__name__
             element_types[element_type] = element_types.get(element_type, 0) + 1
 
-        print(f"\n📊 Element breakdown:")
+        print("\n📊 Element breakdown:")
         for element_type, count in sorted(element_types.items()):
             print(f"  {element_type}: {count}")
 
         # Look for experimental sections
-        print(f"\n🧪 Looking for experimental sections...")
+        print("\n🧪 Looking for experimental sections...")
         experimental_elements = []
         for i, element in enumerate(doc.elements):
-            if hasattr(element, 'text'):
+            if hasattr(element, "text"):
                 text = element.text.lower()
-                if any(keyword in text for keyword in ['experimental', 'synthesis', 'procedure', 'method', 'mp', 'melting point']):
-                    experimental_elements.append((i, type(element).__name__, element.text[:100] + "..."))
+                if any(
+                    keyword in text
+                    for keyword in [
+                        "experimental",
+                        "synthesis",
+                        "procedure",
+                        "method",
+                        "mp",
+                        "melting point",
+                    ]
+                ):
+                    experimental_elements.append(
+                        (i, type(element).__name__, element.text[:100] + "...")
+                    )
 
         if experimental_elements:
             print(f"Found {len(experimental_elements)} potentially experimental elements:")
@@ -128,43 +140,43 @@ def print_quick_summary(results):
     print("📋 QUICK EXTRACTION SUMMARY")
     print("=" * 80)
 
-    summary = results.get('summary', {})
+    summary = results.get("summary", {})
     print(f"📄 File: {summary.get('file_path', 'Unknown')}")
     print(f"🔍 Total Records Found: {summary.get('total_records', 0)}")
     print(f"🧪 Models Used: {', '.join(summary.get('extraction_models', []))}")
 
-    print(f"\n📊 RECORD BREAKDOWN:")
+    print("\n📊 RECORD BREAKDOWN:")
     print(f"  🌡️  Melting Points: {summary.get('melting_points_found', 0)}")
     print(f"  📦 Other Records: {summary.get('other_records_found', 0)}")
 
 
 def print_melting_point_details(results):
     """Print detailed melting point results."""
-    melting_points = results.get('melting_points', [])
+    melting_points = results.get("melting_points", [])
     if melting_points:
         print(f"\n🌡️  MELTING POINTS FOUND ({len(melting_points)}):")
         for i, mp in enumerate(melting_points, 1):
-            mp_data = mp.get('MeltingPoint', {})
+            mp_data = mp.get("MeltingPoint", {})
 
             # Extract values
-            value = mp_data.get('value', [])
-            raw_value = mp_data.get('raw_value', 'N/A')
-            units = mp_data.get('units', mp_data.get('raw_units', 'N/A'))
-            compound = mp_data.get('compound', {})
+            value = mp_data.get("value", [])
+            raw_value = mp_data.get("raw_value", "N/A")
+            units = mp_data.get("units", mp_data.get("raw_units", "N/A"))
+            compound = mp_data.get("compound", {})
 
             print(f"  {i}. Raw: {raw_value}, Parsed: {value}, Units: {units}")
 
             # Show compound information if available
             if compound:
-                comp_data = compound.get('Compound', {})
-                names = comp_data.get('names', [])
-                labels = comp_data.get('labels', [])
+                comp_data = compound.get("Compound", {})
+                names = comp_data.get("names", [])
+                labels = comp_data.get("labels", [])
                 if names:
                     print(f"     Compound: {names[0]}")
                 if labels:
                     print(f"     Labels: {labels}")
     else:
-        print(f"\n🌡️  No melting points found")
+        print("\n🌡️  No melting points found")
 
 
 def main():
@@ -196,7 +208,7 @@ def main():
 
     # Save results to file
     try:
-        with open(output_file, 'w', encoding='utf-8') as f:
+        with open(output_file, "w", encoding="utf-8") as f:
             json.dump(results, f, indent=2, ensure_ascii=False)
         print(f"\n💾 Results saved to: {output_file}")
     except Exception as e:
@@ -208,10 +220,12 @@ def main():
     print(f"📊 Found {results['summary']['total_records']} total records")
     print(f"💾 Results saved to: {output_file}")
 
-    if results['summary']['melting_points_found'] > 0:
+    if results["summary"]["melting_points_found"] > 0:
         print(f"\n🎯 Found {results['summary']['melting_points_found']} melting point measurements")
     else:
-        print(f"\n⚠️  No melting points detected - the document may need different parsing approaches")
+        print(
+            "\n⚠️  No melting points detected - the document may need different parsing approaches"
+        )
 
 
 if __name__ == "__main__":

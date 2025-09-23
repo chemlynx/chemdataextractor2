@@ -125,14 +125,14 @@ class BaseType(Generic[T], metaclass=ABCMeta):
             self.parse_expression = copy.copy(self._default_parse_expression)
 
     @overload
-    def __get__(self, instance: None, owner: type[BaseModel]) -> Self: ...
+    def __get__(self, instance: None, owner: type[BaseModel]) -> Self:
+        ...
 
     @overload
-    def __get__(self, instance: BaseModel, owner: type[BaseModel]) -> T: ...
+    def __get__(self, instance: BaseModel, owner: type[BaseModel]) -> T:
+        ...
 
-    def __get__(
-        self, instance: Optional[BaseModel], owner: type[BaseModel]
-    ) -> Union[T, Self]:
+    def __get__(self, instance: Optional[BaseModel], owner: type[BaseModel]) -> Union[T, Self]:
         """Descriptor for retrieving a value from a field in a Model.
 
         Args:
@@ -365,9 +365,7 @@ class ListType(BaseType[Optional[List[T]]]):
                 processed = sorted(processed)
             instance._values[self.name] = processed
 
-    def serialize(
-        self, value: Optional[List[T]], primitive: bool = False
-    ) -> Optional[List[Any]]:
+    def serialize(self, value: Optional[List[T]], primitive: bool = False) -> Optional[List[Any]]:
         """Serialize the list field.
 
         Args:
@@ -427,9 +425,7 @@ class InferredProperty(BaseType[T]):
         self.inferrer: Callable[[Any, BaseModel], T] = inferrer
         super(InferredProperty, self).__init__(**kwargs)
 
-    def __get__(
-        self, instance: Optional[BaseModel], owner: type[BaseModel]
-    ) -> Union[T, Self]:
+    def __get__(self, instance: Optional[BaseModel], owner: type[BaseModel]) -> Union[T, Self]:
         """Get the inferred value, computing it if necessary.
 
         Args:
@@ -493,9 +489,7 @@ class SetType(BaseType[Optional[Set[T]]]):
         T: The type of items in the set (determined by the nested field)
     """
 
-    def __init__(
-        self, field: BaseType[T], default: Optional[Set[T]] = None, **kwargs: Any
-    ) -> None:
+    def __init__(self, field: BaseType[T], default: Optional[Set[T]] = None, **kwargs: Any) -> None:
         """Initialize a SetType field.
 
         Args:
@@ -518,13 +512,9 @@ class SetType(BaseType[Optional[Set[T]]]):
         if value is None:
             instance._values[self.name] = None
         else:
-            instance._values[self.name] = set(
-                self.field.process(v) for v in value if v is not None
-            )
+            instance._values[self.name] = set(self.field.process(v) for v in value if v is not None)
 
-    def serialize(
-        self, value: Optional[Set[T]], primitive: bool = False
-    ) -> Optional[List[Any]]:
+    def serialize(self, value: Optional[Set[T]], primitive: bool = False) -> Optional[List[Any]]:
         """Serialize the set field to a sorted list for JSON compatibility.
 
         Args:
@@ -559,9 +549,7 @@ class SetType(BaseType[Optional[Set[T]]]):
 class ModelMeta(ABCMeta):
     """Metaclass for BaseModel that collects field descriptors and sets up parsers."""
 
-    def __new__(
-        mcs, name: str, bases: Tuple[type, ...], attrs: Dict[str, Any]
-    ) -> type[BaseModel]:
+    def __new__(mcs, name: str, bases: Tuple[type, ...], attrs: Dict[str, Any]) -> type[BaseModel]:
         """Create a new model class with field descriptors and parsers configured.
 
         Args:
@@ -687,9 +675,7 @@ class BaseModel(metaclass=ModelMeta):
     def deserialize(cls, serialized: Dict[str, Any]) -> Self:
         record = cls()
         flattened_serialized = cls._flatten_serialized(serialized)
-        cleaned_serialized = [
-            (cls._clean_key(key), value) for (key, value) in flattened_serialized
-        ]
+        cleaned_serialized = [(cls._clean_key(key), value) for (key, value) in flattened_serialized]
         for key, value in cleaned_serialized:
             if isinstance(cls.fields[key[0]], ListType) and isinstance(
                 cls.fields[key[0]].field, ModelType
@@ -708,10 +694,7 @@ class BaseModel(metaclass=ModelMeta):
             if isinstance(value, dict):
                 flattened_for_key = cls._flatten_serialized(value)
                 flattened.extend(
-                    [
-                        ([key, *sub_key], sub_value)
-                        for (sub_key, sub_value) in flattened_for_key
-                    ]
+                    [([key, *sub_key], sub_value) for (sub_key, sub_value) in flattened_for_key]
                 )
             else:
                 flattened.append(([key], value))
@@ -738,9 +721,7 @@ class BaseModel(metaclass=ModelMeta):
                 if len(key) == 1:
                     confidence = None
                     if isinstance(attribute, BaseModel):
-                        confidence = attribute.total_confidence(
-                            pooling_method=pooling_method
-                        )
+                        confidence = attribute.total_confidence(pooling_method=pooling_method)
                     else:
                         if key[0] in self._confidences:
                             confidence = self._confidences[key[0]]
@@ -864,9 +845,7 @@ class BaseModel(metaclass=ModelMeta):
             if key[0] in self.fields:
                 attribute = getattr(self, key[0])
 
-                if (
-                    attribute is None or (attribute == [] and len(key) != 1)
-                ) and create_defaults:
+                if (attribute is None or (attribute == [] and len(key) != 1)) and create_defaults:
                     field = self.fields[key[0]]
                     is_list = False
                     while hasattr(field, "field"):
@@ -945,10 +924,7 @@ class BaseModel(metaclass=ModelMeta):
             for field in cls.fields:
                 if cls.fields[field].updatable:
                     matches = [
-                        i
-                        for i in cls.fields[field].parse_expression.scan(
-                            definition["tokens"]
-                        )
+                        i for i in cls.fields[field].parse_expression.scan(definition["tokens"])
                     ]
                     # print(matches)
                     if any(matches):
@@ -970,10 +946,7 @@ class BaseModel(metaclass=ModelMeta):
         """
         for field_name, field in self.fields.items():
             if hasattr(field, "model_class"):
-                if (
-                    hasattr(self[field_name], "updated")
-                    and self[field_name].was_updated
-                ):
+                if hasattr(self[field_name], "updated") and self[field_name].was_updated:
                     return True
         return self.was_updated
 
@@ -1057,11 +1030,7 @@ class BaseModel(metaclass=ModelMeta):
                     else:
                         log.debug("Required unfulfilled")
                         return False
-            elif (
-                field.required
-                and field.requiredness == 1.0
-                and self[field_name] == field.default
-            ):
+            elif field.required and field.requiredness == 1.0 and self[field_name] == field.default:
                 # print(self.serialize(), field_name, "did not exist")
                 if not strict and field.contextual:
                     pass
@@ -1365,9 +1334,7 @@ class BaseModel(metaclass=ModelMeta):
                         and not field.never_merge
                     ):
                         log.debug("model list case")
-                        if self[field_name] and distance > self.no_merge_range(
-                            field_name
-                        ):
+                        if self[field_name] and distance > self.no_merge_range(field_name):
                             for el in self[field_name]:
                                 if el.merge_all(other):
                                     did_merge = True
@@ -1385,9 +1352,7 @@ class BaseModel(metaclass=ModelMeta):
                         and not field.never_merge
                     ):
                         log.debug("model class case")
-                        if self[field_name] and distance > self.no_merge_range(
-                            field_name
-                        ):
+                        if self[field_name] and distance > self.no_merge_range(field_name):
                             if self[field_name].merge_all(other):
                                 did_merge = True
                         elif (
@@ -1428,16 +1393,12 @@ class BaseModel(metaclass=ModelMeta):
         """
         # Keep the lower confidence value
         self_confidence = self.get_confidence(field_name, pooling_method=lambda x: None)
-        other_confidence = other.get_confidence(
-            field_name, pooling_method=lambda x: None
-        )
+        other_confidence = other.get_confidence(field_name, pooling_method=lambda x: None)
         if self_confidence is None and other_confidence is not None:
             self.set_confidence(field_name, other_confidence)
         elif self_confidence is not None and other_confidence is not None:
             new_confidence = (
-                self_confidence
-                if self_confidence < other_confidence
-                else other_confidence
+                self_confidence if self_confidence < other_confidence else other_confidence
             )
             self.set_confidence(field_name, new_confidence)
 
@@ -1588,14 +1549,10 @@ class BaseModel(metaclass=ModelMeta):
                 include_inferred or not isinstance(field, InferredProperty)
             ):
                 if hasattr(field, "model_class"):
-                    model_set.update(
-                        field.model_class.flatten(include_inferred=include_inferred)
-                    )
+                    model_set.update(field.model_class.flatten(include_inferred=include_inferred))
                 field = field.field
             if hasattr(field, "model_class"):
-                model_set.update(
-                    field.model_class.flatten(include_inferred=include_inferred)
-                )
+                model_set.update(field.model_class.flatten(include_inferred=include_inferred))
         log.debug(model_set)
         return model_set
 
@@ -1697,12 +1654,8 @@ class BaseModel(metaclass=ModelMeta):
                 if field_name in binding_properties:
                     if other[field_name]:
                         if not (
-                            binding_properties[field_name].is_superset(
-                                other[field_name]
-                            )
-                            or binding_properties[field_name].is_subset(
-                                other[field_name]
-                            )
+                            binding_properties[field_name].is_superset(other[field_name])
+                            or binding_properties[field_name].is_subset(other[field_name])
                         ):
                             return False
                 elif hasattr(field, "model_class"):
@@ -1710,9 +1663,7 @@ class BaseModel(metaclass=ModelMeta):
                         return False
         return True
 
-    def _consolidate_binding(
-        self, binding_properties: Optional[dict[str, Any]] = None
-    ) -> None:
+    def _consolidate_binding(self, binding_properties: Optional[dict[str, Any]] = None) -> None:
         """Consolidate binding properties across model fields.
 
         Args:
@@ -1805,10 +1756,12 @@ class ModelList(MutableSequence[ModelT], Generic[ModelT]):
         self.models: List[ModelT] = list(models)
 
     @overload
-    def __getitem__(self, index: int) -> ModelT: ...
+    def __getitem__(self, index: int) -> ModelT:
+        ...
 
     @overload
-    def __getitem__(self, index: slice) -> ModelList[ModelT]: ...
+    def __getitem__(self, index: slice) -> ModelList[ModelT]:
+        ...
 
     def __getitem__(self, index: Union[int, slice]) -> Union[ModelT, ModelList[ModelT]]:
         """Get item(s) from the list with proper type annotation.
@@ -1824,9 +1777,7 @@ class ModelList(MutableSequence[ModelT], Generic[ModelT]):
             return ModelList(result)
         return result
 
-    def __setitem__(
-        self, index: Union[int, slice], value: Union[ModelT, Iterable[ModelT]]
-    ) -> None:
+    def __setitem__(self, index: Union[int, slice], value: Union[ModelT, Iterable[ModelT]]) -> None:
         """Set item(s) in the list with type safety.
 
         Args:
@@ -2005,11 +1956,7 @@ class ModelList(MutableSequence[ModelT], Generic[ModelT]):
             while i < length:
                 j = 0
                 while j < length:
-                    if (
-                        i != j
-                        and elements[i].is_subset(elements[j])
-                        and j not in to_remove
-                    ):
+                    if i != j and elements[i].is_subset(elements[j]) and j not in to_remove:
                         if strict and elements[i] == elements[j]:
                             # Do not remove the element if it is not a strict subset depending on the value of strict
                             pass

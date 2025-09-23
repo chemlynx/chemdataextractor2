@@ -105,9 +105,7 @@ class TestWordTokenizer(unittest.TestCase):
                 "said",
                 ".",
             ],
-            self.t.tokenize(
-                '"We beat some pretty good teams to get here," Slocum said.'
-            ),
+            self.t.tokenize('"We beat some pretty good teams to get here," Slocum said.'),
         )
 
     def test_brackets_quotes(self):
@@ -319,9 +317,7 @@ class TestWordTokenizer(unittest.TestCase):
 
     def test_text_sentence(self):
         """Test tokenization through the Text and Sentence API."""
-        t = Text(
-            "Hi, my name is Matt. What is your name?", word_tokenizer=WordTokenizer()
-        )
+        t = Text("Hi, my name is Matt. What is your name?", word_tokenizer=WordTokenizer())
         self.assertEqual(
             [
                 ["Hi", ",", "my", "name", "is", "Matt", "."],
@@ -455,9 +451,7 @@ class TestChemTokenizer(unittest.TestCase):
                 "said",
                 ".",
             ],
-            self.t.tokenize(
-                '"We beat some pretty good teams to get here," Slocum said.'
-            ),
+            self.t.tokenize('"We beat some pretty good teams to get here," Slocum said.'),
         )
 
     def test_brackets_quotes(self):
@@ -771,9 +765,7 @@ class TestChemTokenizer(unittest.TestCase):
         """Test the word tokenizer on sentence containing chemical name with commas."""
         self.assertEqual(
             ["1,2-bis(o-aminophenoxy)-ethane-N,N,N',N'-tetraacetic", "acid"],
-            self.t.tokenize(
-                "1,2-bis(o-aminophenoxy)-ethane-N,N,N',N'-tetraacetic acid"
-            ),
+            self.t.tokenize("1,2-bis(o-aminophenoxy)-ethane-N,N,N',N'-tetraacetic acid"),
         )
 
     def test_comma4(self):
@@ -962,9 +954,7 @@ class TestChemTokenizer(unittest.TestCase):
 
     def test_bracket_subsequent2(self):
         """Test the word tokenizer on chemical name with subsequent (not nested) brackets."""
-        self.assertEqual(
-            ["(N,N)-thingy-(errrm)"], self.t.tokenize("(N,N)-thingy-(errrm)")
-        )
+        self.assertEqual(["(N,N)-thingy-(errrm)"], self.t.tokenize("(N,N)-thingy-(errrm)"))
 
     def test_bracket_range(self):
         """Test the word tokenizer on a bracketed range."""
@@ -1015,9 +1005,7 @@ class TestChemTokenizer(unittest.TestCase):
                 ".",
                 "’",
             ],
-            self.t.tokenize(
-                "Alzheimer’s disease (AD) was ‘extremely’ hard ‘to diagnose.’"
-            ),
+            self.t.tokenize("Alzheimer’s disease (AD) was ‘extremely’ hard ‘to diagnose.’"),
         )
 
     def test_quote_apostrophe2(self):
@@ -1041,9 +1029,7 @@ class TestChemTokenizer(unittest.TestCase):
                 "’",
                 ".",
             ],
-            self.t.tokenize(
-                "Alzheimer’s disease (AD) was ‘extremely’ hard ‘to diagnose’."
-            ),
+            self.t.tokenize("Alzheimer’s disease (AD) was ‘extremely’ hard ‘to diagnose’."),
         )
 
     def test_quote_apostrophe3(self):
@@ -1149,9 +1135,7 @@ class TestChemTokenizer(unittest.TestCase):
             ["complexes", "in", "THF", "(", "ii", ")", ","],
             self.t.tokenize("complexes in THF (ii),"),
         )
-        self.assertEqual(
-            ["measured", "at", "303", "K", "."], self.t.tokenize("measured at 303 K.")
-        )
+        self.assertEqual(["measured", "at", "303", "K", "."], self.t.tokenize("measured at 303 K."))
         self.assertEqual(
             ["Sentence", "trails", "off", "…"], self.t.tokenize("Sentence trails off…")
         )
@@ -1160,9 +1144,7 @@ class TestChemTokenizer(unittest.TestCase):
             self.t.tokenize("Sentence trails off..."),
         )
         self.assertEqual(["in", "the", "AUC", "."], self.t.tokenize("in the AUC."))
-        self.assertEqual(
-            ["for", "lane", "no.", "11", "."], self.t.tokenize("for lane no. 11.")
-        )
+        self.assertEqual(["for", "lane", "no.", "11", "."], self.t.tokenize("for lane no. 11."))
         self.assertEqual(
             ["under", "A.", "M.", "1.5", "illumination"],
             self.t.tokenize("under A. M. 1.5 illumination"),
@@ -1191,9 +1173,7 @@ class TestChemTokenizer(unittest.TestCase):
             ["a", ")", "UV", "-", "vis", "spectrum", "."],
             self.t.tokenize("a) UV-vis spectrum."),
         )
-        self.assertEqual(
-            ["(", "c", ")", "–", "(", "e", ")"], self.t.tokenize("(c)–(e)")
-        )
+        self.assertEqual(["(", "c", ")", "–", "(", "e", ")"], self.t.tokenize("(c)–(e)"))
         self.assertEqual(
             ["THF", "(", "i", ")", ",", "toluene", "(", "iii", ")"],
             self.t.tokenize("THF (i), toluene (iii)"),
@@ -1224,9 +1204,7 @@ class TestChemTokenizer(unittest.TestCase):
 
     def test_slashes(self):
         self.assertEqual(["methanol", "/", "water"], self.t.tokenize("methanol/water"))
-        self.assertEqual(
-            ["B3LYP", "/", "6-311G(d,p)"], self.t.tokenize("B3LYP/6-311G(d,p)")
-        )
+        self.assertEqual(["B3LYP", "/", "6-311G(d,p)"], self.t.tokenize("B3LYP/6-311G(d,p)"))
 
     def test_iron_states(self):
         self.assertEqual(["Fe(III)"], self.t.tokenize("Fe(III)"))
@@ -1242,27 +1220,21 @@ class TestChemTokenizer(unittest.TestCase):
         self.assertEqual(["ethanol", ":", "water"], self.t.tokenize("ethanol:water"))
         self.assertEqual(["1", ":", "2"], self.t.tokenize("1:2"))
         self.assertEqual(["1", ":", "2"], self.t.tokenize("1 : 2"))
-        self.assertEqual(
-            ["(", "foo", ")", ":", "(", "bar", ")"], self.t.tokenize("(foo):(bar)")
-        )
+        self.assertEqual(["(", "foo", ")", ":", "(", "bar", ")"], self.t.tokenize("(foo):(bar)"))
         self.assertEqual(["foo", ")", ":", "(", "bar"], self.t.tokenize("foo):(bar"))
         self.assertEqual(
             ["4:7,10:13-diepoxy[15]annulenone"],
             self.t.tokenize("4:7,10:13-diepoxy[15]annulenone"),
         )
         self.assertEqual(
-            [
-                "9-(5′,5-diphenyl[1,1′:3′,1′′:3′′,1:3,1′′′′-quinquephenyl]-5′′-diyl)-9H-carbazole"
-            ],
+            ["9-(5′,5-diphenyl[1,1′:3′,1′′:3′′,1:3,1′′′′-quinquephenyl]-5′′-diyl)-9H-carbazole"],
             self.t.tokenize(
                 "9-(5′,5-diphenyl[1,1′:3′,1′′:3′′,1:3,1′′′′-quinquephenyl]-5′′-diyl)-9H-carbazole"
             ),
         )
         self.assertEqual(
             ["9,9′-(5′-phenyl[1,1′:3′,1′′-terphenyl]-3,5-diyl)bis-9H-carbazole"],
-            self.t.tokenize(
-                "9,9′-(5′-phenyl[1,1′:3′,1′′-terphenyl]-3,5-diyl)bis-9H-carbazole"
-            ),
+            self.t.tokenize("9,9′-(5′-phenyl[1,1′:3′,1′′-terphenyl]-3,5-diyl)bis-9H-carbazole"),
         )
 
     def test_lambda(self):
@@ -1315,9 +1287,7 @@ class TestChemTokenizer(unittest.TestCase):
         )
         self.assertEqual(
             ["α-L-Fucp-(1→3)-[α-D-Galp-(1→4)]-α-D-Glcp-(1→3)-α-D-GalpOAll"],
-            self.t.tokenize(
-                "α-L-Fucp-(1→3)-[α-D-Galp-(1→4)]-α-D-Glcp-(1→3)-α-D-GalpOAll"
-            ),
+            self.t.tokenize("α-L-Fucp-(1→3)-[α-D-Galp-(1→4)]-α-D-Glcp-(1→3)-α-D-GalpOAll"),
         )
         self.assertEqual(["(1→4)-β-D-Glucan"], self.t.tokenize("(1→4)-β-D-Glucan"))
         self.assertEqual(
@@ -1348,15 +1318,11 @@ class TestChemTokenizer(unittest.TestCase):
         self.assertEqual(
             ["(+-)-chiraline"], self.t.tokenize("(+-)-chiraline")
         )  # \u002d Hyphen-minus
-        self.assertEqual(
-            ["(+−)-chiraline"], self.t.tokenize("(+−)-chiraline")
-        )  # \u2212 Minus
+        self.assertEqual(["(+−)-chiraline"], self.t.tokenize("(+−)-chiraline"))  # \u2212 Minus
         self.assertEqual(
             ["(+/-)-chiraline"], self.t.tokenize("(+/-)-chiraline")
         )  # \u002d Hyphen-minus
-        self.assertEqual(
-            ["(+/−)-chiraline"], self.t.tokenize("(+/−)-chiraline")
-        )  # \u2212 Minus
+        self.assertEqual(["(+/−)-chiraline"], self.t.tokenize("(+/−)-chiraline"))  # \u2212 Minus
         self.assertEqual(["(±)-chiraline"], self.t.tokenize("(±)-chiraline"))
 
     def test_hyphen_twice(self):
@@ -1364,15 +1330,9 @@ class TestChemTokenizer(unittest.TestCase):
             ["cytoplasmic", "-", "to", "-", "nuclear"],
             self.t.tokenize("cytoplasmic-to-nuclear"),
         )
-        self.assertEqual(
-            ["layer", "-", "by", "-", "layer"], self.t.tokenize("layer-by-layer")
-        )
-        self.assertEqual(
-            ["end", "-", "of", "-", "phase"], self.t.tokenize("end-of-phase")
-        )
-        self.assertEqual(
-            ["oil", "-", "in", "-", "water"], self.t.tokenize("oil-in-water")
-        )
+        self.assertEqual(["layer", "-", "by", "-", "layer"], self.t.tokenize("layer-by-layer"))
+        self.assertEqual(["end", "-", "of", "-", "phase"], self.t.tokenize("end-of-phase"))
+        self.assertEqual(["oil", "-", "in", "-", "water"], self.t.tokenize("oil-in-water"))
         self.assertEqual(
             ["nucleation", "-", "and", "-", "growth"],
             self.t.tokenize("nucleation-and-growth"),
@@ -1395,12 +1355,8 @@ class TestChemTokenizer(unittest.TestCase):
 
     def test_bracket_hyphen(self):
         # self.assertEqual(["(LBD)-linked"], self.t.tokenize("(LBD)-linked")) # - unlear why this shouldn't be split.
-        self.assertEqual(
-            ["Fe(IV)", "-", "oxo-mediated"], self.t.tokenize("Fe(IV)-oxo-mediated")
-        )
-        self.assertEqual(
-            ["Fe(IV)", "-", "mediated"], self.t.tokenize("Fe(IV)-mediated")
-        )
+        self.assertEqual(["Fe(IV)", "-", "oxo-mediated"], self.t.tokenize("Fe(IV)-oxo-mediated"))
+        self.assertEqual(["Fe(IV)", "-", "mediated"], self.t.tokenize("Fe(IV)-mediated"))
         self.assertEqual(["T-bet(-/-)"], self.t.tokenize("T-bet(-/-)"))
         self.assertEqual(
             ["(", "nano", "LC", "/", "nano-ESI-IT-MS", ")"],
@@ -1424,9 +1380,7 @@ class TestChemTokenizer(unittest.TestCase):
         self.assertEqual(["Li", "-", "ions"], self.t.tokenize("Li-ions"))
 
     def test_hyphen_split(self):
-        self.assertEqual(
-            ["hydrocarbon", "-", "based"], self.t.tokenize("hydrocarbon-based")
-        )
+        self.assertEqual(["hydrocarbon", "-", "based"], self.t.tokenize("hydrocarbon-based"))
         self.assertEqual(
             ["methicillin", "-", "resistant"], self.t.tokenize("methicillin-resistant")
         )
@@ -1474,15 +1428,9 @@ class TestChemTokenizer(unittest.TestCase):
 
     def test_abbreviation_sentence_end(self):
         """Test the word tokenizer on sentence with abbreviation at the end."""
-        self.assertEqual(
-            ["Chemical", "Company", "Ltd."], self.t.tokenize("Chemical Company Ltd.")
-        )
-        self.assertEqual(
-            ["Studies", "in", "the", "U.S."], self.t.tokenize("Studies in the U.S.")
-        )
-        self.assertEqual(
-            ["the", "mean", "±", "S.D."], self.t.tokenize("the mean ± S.D.")
-        )
+        self.assertEqual(["Chemical", "Company", "Ltd."], self.t.tokenize("Chemical Company Ltd."))
+        self.assertEqual(["Studies", "in", "the", "U.S."], self.t.tokenize("Studies in the U.S."))
+        self.assertEqual(["the", "mean", "±", "S.D."], self.t.tokenize("the mean ± S.D."))
         self.assertEqual(
             ["in", "a", "beaker", "at", "r.t."], self.t.tokenize("in a beaker at r.t.")
         )
@@ -1619,9 +1567,7 @@ class TestChemTokenizer(unittest.TestCase):
             ["N", "(", "■", ")", ",", "C2", "(", "●", ")", ",", "C3", "(", "▲", ")"],
             self.t.tokenize("N(■), C2(●), C3(▲)"),
         )
-        self.assertEqual(
-            ["benzaldehyde", "(", "○", ")"], self.t.tokenize("benzaldehyde (○)")
-        )
+        self.assertEqual(["benzaldehyde", "(", "○", ")"], self.t.tokenize("benzaldehyde (○)"))
         self.assertEqual(
             [
                 "6",
@@ -1668,16 +1614,12 @@ class TestChemTokenizer(unittest.TestCase):
         )
         self.assertEqual(["[Et3NBz][FeIIICl4]"], self.t.tokenize("[Et3NBz][FeIIICl4]"))
         self.assertEqual(["[2PA-Mmim][Tf2N]"], self.t.tokenize("[2PA-Mmim][Tf2N]"))
-        self.assertEqual(
-            ["[H2O]", "≈", "3000", "ppm"], self.t.tokenize("[H2O] ≈ 3000 ppm")
-        )
+        self.assertEqual(["[H2O]", "≈", "3000", "ppm"], self.t.tokenize("[H2O] ≈ 3000 ppm"))
         self.assertEqual(
             ["(", "[Cu+]", "/", "[L]", "=", "3", ")"],
             self.t.tokenize("([Cu+]/[L] = 3)"),
         )
-        self.assertEqual(
-            ["(Ph3PO)(Ph3POH)(HSO4)"], self.t.tokenize("(Ph3PO)(Ph3POH)(HSO4)")
-        )
+        self.assertEqual(["(Ph3PO)(Ph3POH)(HSO4)"], self.t.tokenize("(Ph3PO)(Ph3POH)(HSO4)"))
         self.assertEqual(["(", "iron(III)"], self.t.tokenize("(iron(III)"))
 
     def test_chem_formula(self):
@@ -1766,12 +1708,8 @@ class TestChemTokenizer(unittest.TestCase):
 
     def test_nmr_whitespace_error(self):
         """Test the word tokenizer on NMR isotope missing preceding whitespace."""
-        self.assertEqual(
-            ["726.1520", ".", "1H", "NMR"], self.t.tokenize("726.1520.1H NMR")
-        )
-        self.assertEqual(
-            ["intermediate", ".", "1H", "NMR"], self.t.tokenize("intermediate.1H NMR")
-        )
+        self.assertEqual(["726.1520", ".", "1H", "NMR"], self.t.tokenize("726.1520.1H NMR"))
+        self.assertEqual(["intermediate", ".", "1H", "NMR"], self.t.tokenize("intermediate.1H NMR"))
 
     def test_ir_whitespace_error(self):
         """Test things like IR(KBr)."""
@@ -1779,9 +1717,7 @@ class TestChemTokenizer(unittest.TestCase):
 
     def test_bracket_whitespace_error(self):
         """Test the word tokenizer on bracket whitespace error."""
-        self.assertEqual(
-            ["7.95", "(", "s", ",", "4H", ")"], self.t.tokenize("7.95(s, 4H)")
-        )
+        self.assertEqual(["7.95", "(", "s", ",", "4H", ")"], self.t.tokenize("7.95(s, 4H)"))
         self.assertEqual(
             ["In", "Fig.", "5", "(", "a", ",", "b", ")"],
             self.t.tokenize("In Fig. 5(a, b)"),
@@ -1922,9 +1858,7 @@ class TestFineWordTokenizer(unittest.TestCase):
                 "said",
                 ".",
             ],
-            self.t.tokenize(
-                '"We beat some pretty good teams to get here," Slocum said.'
-            ),
+            self.t.tokenize('"We beat some pretty good teams to get here," Slocum said.'),
         )
 
     def test_brackets_quotes(self):
@@ -2109,9 +2043,7 @@ class TestFineWordTokenizer(unittest.TestCase):
             ["[", "2PA", "-", "Mmim", "]", "[", "Tf2N", "]"],
             self.t.tokenize("[2PA-Mmim][Tf2N]"),
         )
-        self.assertEqual(
-            ["[", "H2O", "]", "≈", "3000", "ppm"], self.t.tokenize("[H2O] ≈ 3000 ppm")
-        )
+        self.assertEqual(["[", "H2O", "]", "≈", "3000", "ppm"], self.t.tokenize("[H2O] ≈ 3000 ppm"))
         self.assertEqual(
             ["(", "[", "Cu", "+", "]", "/", "[", "L", "]", "=", "3", ")"],
             self.t.tokenize("([Cu+]/[L] = 3)"),
@@ -2125,12 +2057,8 @@ class TestFineWordTokenizer(unittest.TestCase):
     def test_chem_formula(self):
         self.assertEqual(["(", "C2H5", ")", "4N"], self.t.tokenize("(C2H5)4N"))
         self.assertEqual(["(", "C2H5", ")", "4N"], self.t.tokenize("(C2H5)4N"))
-        self.assertEqual(
-            ["monomer", "28M", "-", "Py2"], self.t.tokenize("monomer 28M-Py2")
-        )
-        self.assertEqual(
-            ["monomer", "28M", "-", "Py2"], self.t.tokenize("monomer 28M-Py2")
-        )
+        self.assertEqual(["monomer", "28M", "-", "Py2"], self.t.tokenize("monomer 28M-Py2"))
+        self.assertEqual(["monomer", "28M", "-", "Py2"], self.t.tokenize("monomer 28M-Py2"))
         self.assertEqual(
             ["ratio", "Ag", "+", "/", "nucleoside", "of", "3", ":", "1"],
             self.t.tokenize("ratio Ag+/nucleoside of 3:1"),
@@ -2153,16 +2081,10 @@ class TestFineWordTokenizer(unittest.TestCase):
             ["Tetrahydro", "furan", "(", "THF", ")"],
             self.t.tokenize("Tetrahydro furan (THF)"),
         )
-        self.assertEqual(
-            ["(", "S", ")", "-", "alanine"], self.t.tokenize("(S)-alanine")
-        )
+        self.assertEqual(["(", "S", ")", "-", "alanine"], self.t.tokenize("(S)-alanine"))
         self.assertEqual(["D", "-", "glucose"], self.t.tokenize("D-glucose"))
-        self.assertEqual(
-            ["spiro", "[", "4.5", "]", "decane"], self.t.tokenize("spiro[4.5]decane")
-        )
-        self.assertEqual(
-            ["β", "-", "D", "-", "Glucose"], self.t.tokenize("β-D-Glucose")
-        )
+        self.assertEqual(["spiro", "[", "4.5", "]", "decane"], self.t.tokenize("spiro[4.5]decane"))
+        self.assertEqual(["β", "-", "D", "-", "Glucose"], self.t.tokenize("β-D-Glucose"))
         self.assertEqual(
             [
                 "L",
@@ -2197,9 +2119,7 @@ class TestFineWordTokenizer(unittest.TestCase):
                 "L-alanyl-L-glutaminyl-L-arginyl-O-phosphono-L-seryl-L-alanyl-L-proline"
             ),
         )
-        self.assertEqual(
-            ["aluminium", "(", "3", "+", ")"], self.t.tokenize("aluminium(3+)")
-        )
+        self.assertEqual(["aluminium", "(", "3", "+", ")"], self.t.tokenize("aluminium(3+)"))
         self.assertEqual(
             ["1", "-", "methyl", "-", "2", "-", "methylidene", "-", "cyclohexane"],
             self.t.tokenize("1-methyl-2-methylidene-cyclohexane"),
