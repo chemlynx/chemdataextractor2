@@ -1,16 +1,11 @@
-# -*- coding: utf-8 -*-
 """
 Word clusters command-line interface.
 
 """
 
-from __future__ import absolute_import
-from __future__ import division
-from __future__ import print_function
 import logging
 
 import click
-
 
 log = logging.getLogger(__name__)
 
@@ -23,9 +18,7 @@ def cluster_cli(ctx):
 
 
 @cluster_cli.command()
-@click.option(
-    "--output", "-o", type=click.File("wb"), help="Output model file.", required=True
-)
+@click.option("--output", "-o", type=click.File("wb"), help="Output model file.", required=True)
 @click.argument("input", type=click.File("r", encoding="utf8"), required=True)
 @click.pass_obj
 def load(ctx, input, output):

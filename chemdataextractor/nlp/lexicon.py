@@ -1,25 +1,24 @@
-# -*- coding: utf-8 -*-
 """
 Cache features of previously seen words.
 
 """
 
-from __future__ import absolute_import
-from __future__ import division
-from __future__ import print_function
-from __future__ import unicode_literals
 import logging
 
-
 from ..data import load_model
-from ..text import word_shape, is_ascii, is_punct, like_url, like_number
-from ..text.normalize import Normalizer, ChemNormalizer
+from ..text import is_ascii
+from ..text import is_punct
+from ..text import like_number
+from ..text import like_url
+from ..text import word_shape
+from ..text.normalize import ChemNormalizer
+from ..text.normalize import Normalizer
 from ..utils import Singleton
 
 log = logging.getLogger(__name__)
 
 
-class Lexeme(object):
+class Lexeme:
     """"""
 
     __slots__ = (
@@ -249,7 +248,7 @@ class Lexicon(metaclass=Singleton):
     def is_hyphenated(self, text):
         """"""
         # TODO: What about '--'?
-        return "-" in text and not text == "-"
+        return "-" in text and text != "-"
 
     def like_url(self, text):
         """"""

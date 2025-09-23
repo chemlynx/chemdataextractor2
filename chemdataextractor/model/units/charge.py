@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Units and models for charge.
 
@@ -6,41 +5,32 @@ Units and models for charge.
 
 """
 
-from __future__ import absolute_import
-from __future__ import division
-from __future__ import print_function
-from __future__ import unicode_literals
-
-from .quantity_model import QuantityModel
-from .unit import Unit
-from .dimension import Dimension
-from .current import ElectricalCurrent
-from .time import Time
-from ...parse.elements import W, I, R, Optional, Any, OneOrMore, Not, ZeroOrMore
-from ...parse.actions import merge, join
 import logging
+
+from ...parse.elements import R
+from .current import ElectricalCurrent
+from .dimension import Dimension
+from .quantity_model import QuantityModel
+from .time import Time
+from .unit import Unit
 
 log = logging.getLogger(__name__)
 
 
 class Charge(Dimension):
-
     constituent_dimensions = ElectricalCurrent() * Time()
 
 
 class ChargeModel(QuantityModel):
-
     dimensions = Charge()
 
 
 class ChargeUnit(Unit):
-
     def __init__(self, magnitude=0.0, powers=None):
         super(ChargeUnit, self).__init__(Charge(), magnitude, powers)
 
 
 class Coulomb(ChargeUnit):
-
     def convert_value_to_standard(self, value):
         return value
 

@@ -1,0 +1,222 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link rel="stylesheet" type="text/css" href="../../../mypy-html.css">
+</head>
+<body>
+<h2>chemdataextractor.parse.context</h2>
+<table>
+<caption>chemdataextractor/parse/context.py</caption>
+<tbody><tr>
+<td class="table-lines"><pre><span id="L1" class="lineno"><a class="lineno" href="#L1">1</a></span>
+<span id="L2" class="lineno"><a class="lineno" href="#L2">2</a></span>
+<span id="L3" class="lineno"><a class="lineno" href="#L3">3</a></span>
+<span id="L4" class="lineno"><a class="lineno" href="#L4">4</a></span>
+<span id="L5" class="lineno"><a class="lineno" href="#L5">5</a></span>
+<span id="L6" class="lineno"><a class="lineno" href="#L6">6</a></span>
+<span id="L7" class="lineno"><a class="lineno" href="#L7">7</a></span>
+<span id="L8" class="lineno"><a class="lineno" href="#L8">8</a></span>
+<span id="L9" class="lineno"><a class="lineno" href="#L9">9</a></span>
+<span id="L10" class="lineno"><a class="lineno" href="#L10">10</a></span>
+<span id="L11" class="lineno"><a class="lineno" href="#L11">11</a></span>
+<span id="L12" class="lineno"><a class="lineno" href="#L12">12</a></span>
+<span id="L13" class="lineno"><a class="lineno" href="#L13">13</a></span>
+<span id="L14" class="lineno"><a class="lineno" href="#L14">14</a></span>
+<span id="L15" class="lineno"><a class="lineno" href="#L15">15</a></span>
+<span id="L16" class="lineno"><a class="lineno" href="#L16">16</a></span>
+<span id="L17" class="lineno"><a class="lineno" href="#L17">17</a></span>
+<span id="L18" class="lineno"><a class="lineno" href="#L18">18</a></span>
+<span id="L19" class="lineno"><a class="lineno" href="#L19">19</a></span>
+<span id="L20" class="lineno"><a class="lineno" href="#L20">20</a></span>
+<span id="L21" class="lineno"><a class="lineno" href="#L21">21</a></span>
+<span id="L22" class="lineno"><a class="lineno" href="#L22">22</a></span>
+<span id="L23" class="lineno"><a class="lineno" href="#L23">23</a></span>
+<span id="L24" class="lineno"><a class="lineno" href="#L24">24</a></span>
+<span id="L25" class="lineno"><a class="lineno" href="#L25">25</a></span>
+<span id="L26" class="lineno"><a class="lineno" href="#L26">26</a></span>
+<span id="L27" class="lineno"><a class="lineno" href="#L27">27</a></span>
+<span id="L28" class="lineno"><a class="lineno" href="#L28">28</a></span>
+<span id="L29" class="lineno"><a class="lineno" href="#L29">29</a></span>
+<span id="L30" class="lineno"><a class="lineno" href="#L30">30</a></span>
+<span id="L31" class="lineno"><a class="lineno" href="#L31">31</a></span>
+<span id="L32" class="lineno"><a class="lineno" href="#L32">32</a></span>
+<span id="L33" class="lineno"><a class="lineno" href="#L33">33</a></span>
+<span id="L34" class="lineno"><a class="lineno" href="#L34">34</a></span>
+<span id="L35" class="lineno"><a class="lineno" href="#L35">35</a></span>
+<span id="L36" class="lineno"><a class="lineno" href="#L36">36</a></span>
+<span id="L37" class="lineno"><a class="lineno" href="#L37">37</a></span>
+<span id="L38" class="lineno"><a class="lineno" href="#L38">38</a></span>
+<span id="L39" class="lineno"><a class="lineno" href="#L39">39</a></span>
+<span id="L40" class="lineno"><a class="lineno" href="#L40">40</a></span>
+<span id="L41" class="lineno"><a class="lineno" href="#L41">41</a></span>
+<span id="L42" class="lineno"><a class="lineno" href="#L42">42</a></span>
+<span id="L43" class="lineno"><a class="lineno" href="#L43">43</a></span>
+<span id="L44" class="lineno"><a class="lineno" href="#L44">44</a></span>
+<span id="L45" class="lineno"><a class="lineno" href="#L45">45</a></span>
+<span id="L46" class="lineno"><a class="lineno" href="#L46">46</a></span>
+<span id="L47" class="lineno"><a class="lineno" href="#L47">47</a></span>
+<span id="L48" class="lineno"><a class="lineno" href="#L48">48</a></span>
+<span id="L49" class="lineno"><a class="lineno" href="#L49">49</a></span>
+<span id="L50" class="lineno"><a class="lineno" href="#L50">50</a></span>
+<span id="L51" class="lineno"><a class="lineno" href="#L51">51</a></span>
+<span id="L52" class="lineno"><a class="lineno" href="#L52">52</a></span>
+<span id="L53" class="lineno"><a class="lineno" href="#L53">53</a></span>
+<span id="L54" class="lineno"><a class="lineno" href="#L54">54</a></span>
+<span id="L55" class="lineno"><a class="lineno" href="#L55">55</a></span>
+<span id="L56" class="lineno"><a class="lineno" href="#L56">56</a></span>
+<span id="L57" class="lineno"><a class="lineno" href="#L57">57</a></span>
+<span id="L58" class="lineno"><a class="lineno" href="#L58">58</a></span>
+<span id="L59" class="lineno"><a class="lineno" href="#L59">59</a></span>
+<span id="L60" class="lineno"><a class="lineno" href="#L60">60</a></span>
+<span id="L61" class="lineno"><a class="lineno" href="#L61">61</a></span>
+<span id="L62" class="lineno"><a class="lineno" href="#L62">62</a></span>
+<span id="L63" class="lineno"><a class="lineno" href="#L63">63</a></span>
+<span id="L64" class="lineno"><a class="lineno" href="#L64">64</a></span>
+<span id="L65" class="lineno"><a class="lineno" href="#L65">65</a></span>
+<span id="L66" class="lineno"><a class="lineno" href="#L66">66</a></span>
+<span id="L67" class="lineno"><a class="lineno" href="#L67">67</a></span>
+<span id="L68" class="lineno"><a class="lineno" href="#L68">68</a></span>
+<span id="L69" class="lineno"><a class="lineno" href="#L69">69</a></span>
+<span id="L70" class="lineno"><a class="lineno" href="#L70">70</a></span>
+<span id="L71" class="lineno"><a class="lineno" href="#L71">71</a></span>
+<span id="L72" class="lineno"><a class="lineno" href="#L72">72</a></span>
+<span id="L73" class="lineno"><a class="lineno" href="#L73">73</a></span>
+<span id="L74" class="lineno"><a class="lineno" href="#L74">74</a></span>
+<span id="L75" class="lineno"><a class="lineno" href="#L75">75</a></span>
+<span id="L76" class="lineno"><a class="lineno" href="#L76">76</a></span>
+<span id="L77" class="lineno"><a class="lineno" href="#L77">77</a></span>
+<span id="L78" class="lineno"><a class="lineno" href="#L78">78</a></span>
+<span id="L79" class="lineno"><a class="lineno" href="#L79">79</a></span>
+<span id="L80" class="lineno"><a class="lineno" href="#L80">80</a></span>
+<span id="L81" class="lineno"><a class="lineno" href="#L81">81</a></span>
+<span id="L82" class="lineno"><a class="lineno" href="#L82">82</a></span>
+<span id="L83" class="lineno"><a class="lineno" href="#L83">83</a></span>
+<span id="L84" class="lineno"><a class="lineno" href="#L84">84</a></span>
+<span id="L85" class="lineno"><a class="lineno" href="#L85">85</a></span>
+<span id="L86" class="lineno"><a class="lineno" href="#L86">86</a></span>
+<span id="L87" class="lineno"><a class="lineno" href="#L87">87</a></span>
+<span id="L88" class="lineno"><a class="lineno" href="#L88">88</a></span>
+<span id="L89" class="lineno"><a class="lineno" href="#L89">89</a></span>
+<span id="L90" class="lineno"><a class="lineno" href="#L90">90</a></span>
+<span id="L91" class="lineno"><a class="lineno" href="#L91">91</a></span>
+<span id="L92" class="lineno"><a class="lineno" href="#L92">92</a></span>
+<span id="L93" class="lineno"><a class="lineno" href="#L93">93</a></span>
+<span id="L94" class="lineno"><a class="lineno" href="#L94">94</a></span>
+<span id="L95" class="lineno"><a class="lineno" href="#L95">95</a></span>
+<span id="L96" class="lineno"><a class="lineno" href="#L96">96</a></span>
+<span id="L97" class="lineno"><a class="lineno" href="#L97">97</a></span>
+<span id="L98" class="lineno"><a class="lineno" href="#L98">98</a></span>
+<span id="L99" class="lineno"><a class="lineno" href="#L99">99</a></span>
+<span id="L100" class="lineno"><a class="lineno" href="#L100">100</a></span>
+<span id="L101" class="lineno"><a class="lineno" href="#L101">101</a></span>
+<span id="L102" class="lineno"><a class="lineno" href="#L102">102</a></span>
+<span id="L103" class="lineno"><a class="lineno" href="#L103">103</a></span>
+</pre></td>
+<td class="table-code"><pre><span class="line-empty" title="No Anys on this line!"># """</span>
+<span class="line-empty" title="No Anys on this line!"># Parser for sentences that provide contextual information, such as apparatus, solvent, and temperature.</span>
+<span class="line-empty" title="No Anys on this line!"></span>
+<span class="line-empty" title="No Anys on this line!"># """</span>
+<span class="line-empty" title="No Anys on this line!"></span>
+<span class="line-empty" title="No Anys on this line!"># from __future__ import absolute_import</span>
+<span class="line-empty" title="No Anys on this line!"># from __future__ import division</span>
+<span class="line-empty" title="No Anys on this line!"># from __future__ import print_function</span>
+<span class="line-empty" title="No Anys on this line!"># from __future__ import unicode_literals</span>
+<span class="line-empty" title="No Anys on this line!"># import logging</span>
+<span class="line-empty" title="No Anys on this line!"># import re</span>
+<span class="line-empty" title="No Anys on this line!"></span>
+<span class="line-empty" title="No Anys on this line!"># from .common import optdelim, hyphen, slash</span>
+<span class="line-empty" title="No Anys on this line!"># from ..utils import first</span>
+<span class="line-empty" title="No Anys on this line!"># from ..parse.base import BaseParser</span>
+<span class="line-empty" title="No Anys on this line!"># from ..model import Compound, QuantumYield, NmrSpectrum, UvvisSpectrum, IrSpectrum, MeltingPoint, GlassTransition, FluorescenceLifetime</span>
+<span class="line-empty" title="No Anys on this line!"># from .actions import join, merge, fix_whitespace</span>
+<span class="line-empty" title="No Anys on this line!"># from .cem import chemical_name</span>
+<span class="line-empty" title="No Anys on this line!"># from .elements import I, T, R, W, ZeroOrMore, Optional, Group, OneOrMore, Any, Not</span>
+<span class="line-empty" title="No Anys on this line!"></span>
+<span class="line-empty" title="No Anys on this line!"># log = logging.getLogger(__name__)</span>
+<span class="line-empty" title="No Anys on this line!"></span>
+<span class="line-empty" title="No Anys on this line!"># dt = T('DT')</span>
+<span class="line-empty" title="No Anys on this line!"></span>
+<span class="line-empty" title="No Anys on this line!"># quantum_yield = (W('PLQY') | Optional(I('fluorescence') | I('luminescence') | I('photoluminescence') | I('emission')) + I('quantum') + I('yield') + Optional(optdelim + W('PLQY') + optdelim))('quantum_yield').add_action(join)</span>
+<span class="line-empty" title="No Anys on this line!"># nmr = (W('NMR') | (I('nuclear') + I('magnetic') + I('resonance')) | W('1H') | W('13C'))('nmr').add_action(join)</span>
+<span class="line-empty" title="No Anys on this line!"># uvvis = (I('UV') + (hyphen | slash) + R('^vis(ible)?$', re.I) + Optional(R('^abs(or[bp]tion)?$')))('uvvis').add_action(join).add_action(fix_whitespace)</span>
+<span class="line-empty" title="No Anys on this line!"># ir = (R('^(FT-?)?IR|FT-?IS$'))('ir').add_action(join)</span>
+<span class="line-empty" title="No Anys on this line!"># mp = (I('melting') + I('points'))('melting_point').add_action(join)</span>
+<span class="line-empty" title="No Anys on this line!"># tg = (I('glass') + I('transition') + I('temperature'))('glass_transition').add_action(join)</span>
+<span class="line-empty" title="No Anys on this line!"># pp = (I('photophysical') + (I('measurements') | I('properties')))('photophysical_properties').add_action(join)</span>
+<span class="line-empty" title="No Anys on this line!"># measurement = Group(quantum_yield | nmr | uvvis | ir | mp | tg | pp)('measurement')</span>
+<span class="line-empty" title="No Anys on this line!"></span>
+<span class="line-empty" title="No Anys on this line!"># result_noun = I('data') | I('results') | I('experiments') | I('spectra')</span>
+<span class="line-empty" title="No Anys on this line!"></span>
+<span class="line-empty" title="No Anys on this line!"># verb = W('measured') | W('recorded') | W('collected') | W('taken') | W('acquired') | W('obtained') | W('run') | (W('carried') + W('out') | W('performed')) # | T('VBN')</span>
+<span class="line-empty" title="No Anys on this line!"></span>
+<span class="line-empty" title="No Anys on this line!"></span>
+<span class="line-empty" title="No Anys on this line!"># method = I('DSC') | I('TMA') | I('DTA') + I('RTL') | I('DMA') + I('DMTA') | I('dilatometer') | I('dilatometry') | I('PALS')</span>
+<span class="line-empty" title="No Anys on this line!"></span>
+<span class="line-empty" title="No Anys on this line!"># apparatus_type = R('^\d{2,}$') + W('MHz')</span>
+<span class="line-empty" title="No Anys on this line!"># brands = I('HORIBA') + I('Jobin') + I('Yvon') | I('Hitachi') | I('Bruker') | I('Cary') | I('Jeol') | I('PerkinElmer') | I('Agilent') | I('Shimadzu') | I('Varian')</span>
+<span class="line-empty" title="No Anys on this line!"># models = I('FluoroMax-4') | I('F-7000') | I('AVANCE') | I('Digital') | R('\d\d\d+') | I('UV–vis-NIR') | I('Mercury') | I('Avatar') | I('thermonicolet') | I('pulsed') | I('Fourier') | I('transform')</span>
+<span class="line-empty" title="No Anys on this line!"># instrument = I('spectrofluorimeter') | I('spectrophotometer') | Optional(I('fluorescence')) + I('spectrometer') | Optional(I('nmr')) + I('workstation') | W('NMR') | I('instrument') | I('spectrometer')</span>
+<span class="line-empty" title="No Anys on this line!"># apparatus = (ZeroOrMore(T('JJ')) + Optional(apparatus_type) + OneOrMore(T('NNP') | T('NN') | brands) + ZeroOrMore(T('NNP') | T('NN') | T('HYPH') | T('CD') | brands | models) + Optional(instrument))('apparatus').add_action(join).add_action(fix_whitespace)</span>
+<span class="line-empty" title="No Anys on this line!"># apparatus_blacklist = R('^(following|usual|equation|standard|accepted|method)$', re.I)</span>
+<span class="line-empty" title="No Anys on this line!"># apparatus_phrase = (W('with') | W('using') | W('on')).hide() + Optional(dt).hide() + Not(apparatus_blacklist) + apparatus</span>
+<span class="line-empty" title="No Anys on this line!"></span>
+<span class="line-empty" title="No Anys on this line!"># temp_value = (Optional(R('^[~∼\&lt;\&gt;]$')) + Optional(R('^[\-–−]$')) + R('^[\+\-–−]?\d+(\.\d+)?$') + Optional(W('±') + R('^\d+(\.\d+)?$')))('value').add_action(merge)</span>
+<span class="line-empty" title="No Anys on this line!"># temp_range = (Optional(R('^[\-–−]$')) + (R('^[\+\-–−]?\d+(\.\d+)?[\-–−]\d+(\.\d+)?$') | (R('^[\+\-–−]?\d+(\.\d+)?$') + R('^[\-–−]$') + R('^[\+\-–−]?\d+(\.\d+)?$'))))('value').add_action(merge)</span>
+<span class="line-empty" title="No Anys on this line!"># temp_word = (I('room') + R('^temp(erature)?$') | R('^r\.?t\.?$', re.I))('value').add_action(join)</span>
+<span class="line-empty" title="No Anys on this line!"># temp = (temp_range | temp_value)('value')</span>
+<span class="line-empty" title="No Anys on this line!"># temp_units = (W('°') + R('[CFK]') | W('K'))('units').add_action(merge)</span>
+<span class="line-empty" title="No Anys on this line!"># temperature_phrase = Optional(I('at').hide()) + Group((temp + temp_units) | temp_word)('temperature')</span>
+<span class="line-empty" title="No Anys on this line!"></span>
+<span class="line-empty" title="No Anys on this line!"># solvent_phrase = (I('in').hide() + chemical_name)('solvent')</span>
+<span class="line-empty" title="No Anys on this line!"></span>
+<span class="line-empty" title="No Anys on this line!"># standard = (ZeroOrMore(T('JJ')) + OneOrMore(T('NNP') | T('NN') | T('HYPH') | T('CD') | T('B-CM') | T('I-CM')))('standard').add_action(join).add_action(fix_whitespace)</span>
+<span class="line-empty" title="No Anys on this line!"># standard_phrase = (W('with') | W('using')).hide() + Optional(dt).hide() + standard + (ZeroOrMore(W('as') | dt) + Optional(T('JJ')) + I('standard')).hide()</span>
+<span class="line-empty" title="No Anys on this line!"></span>
+<span class="line-empty" title="No Anys on this line!"># context_phrase = Group(measurement + optdelim + Optional(result_noun).hide() + Optional(T('VBD')).hide() + ZeroOrMore(Not(verb) + Any()).hide() + verb.hide() + OneOrMore(standard_phrase | apparatus_phrase | temperature_phrase | solvent_phrase | method | Any().hide()))('context_phrase')</span>
+<span class="line-empty" title="No Anys on this line!"></span>
+<span class="line-empty" title="No Anys on this line!"># # TODO: Multiple measurements, multiple apparatus.</span>
+<span class="line-empty" title="No Anys on this line!"># # TODO: 'respectively' phrase</span>
+<span class="line-empty" title="No Anys on this line!"></span>
+<span class="line-empty" title="No Anys on this line!"></span>
+<span class="line-empty" title="No Anys on this line!"># class ContextParser(BaseParser):</span>
+<span class="line-empty" title="No Anys on this line!">#     """"""</span>
+<span class="line-empty" title="No Anys on this line!">#     root = context_phrase</span>
+<span class="line-empty" title="No Anys on this line!"></span>
+<span class="line-empty" title="No Anys on this line!">#     def __init__(self):</span>
+<span class="line-empty" title="No Anys on this line!">#         pass</span>
+<span class="line-empty" title="No Anys on this line!"></span>
+<span class="line-empty" title="No Anys on this line!">#     def interpret(self, result, start, end):</span>
+<span class="line-empty" title="No Anys on this line!">#         c = Compound()</span>
+<span class="line-empty" title="No Anys on this line!">#         context = {</span>
+<span class="line-empty" title="No Anys on this line!">#             'apparatus': first(result.xpath('./apparatus/text()')),</span>
+<span class="line-empty" title="No Anys on this line!">#             'solvent': first(result.xpath('./solvent/name/text()'))</span>
+<span class="line-empty" title="No Anys on this line!">#         }</span>
+<span class="line-empty" title="No Anys on this line!">#         measurement = result.xpath('./measurement/*[1]')[0]</span>
+<span class="line-empty" title="No Anys on this line!"></span>
+<span class="line-empty" title="No Anys on this line!">#         if not measurement.tag == 'melting_point' and not measurement.tag =='glass_transition':</span>
+<span class="line-empty" title="No Anys on this line!">#             context['temperature'] = first(result.xpath('./temperature/value/text()'))</span>
+<span class="line-empty" title="No Anys on this line!">#             context['temperature_units'] = first(result.xpath('./temperature/units/text()'))</span>
+<span class="line-empty" title="No Anys on this line!"></span>
+<span class="line-empty" title="No Anys on this line!"></span>
+<span class="line-empty" title="No Anys on this line!">#         if measurement.tag == 'photophysical_properties':</span>
+<span class="line-empty" title="No Anys on this line!">#             c.quantum_yields.append(QuantumYield(**context))</span>
+<span class="line-empty" title="No Anys on this line!">#             c.fluorescence_lifetimes.append(FluorescenceLifetime(**context))</span>
+<span class="line-empty" title="No Anys on this line!">#             c.uvvis_spectra.append(UvvisSpectrum(**context))</span>
+<span class="line-empty" title="No Anys on this line!">#         if measurement.tag == 'quantum_yield':</span>
+<span class="line-empty" title="No Anys on this line!">#             c.quantum_yields.append(QuantumYield(**context))</span>
+<span class="line-empty" title="No Anys on this line!">#         if measurement.tag == 'melting_point':</span>
+<span class="line-empty" title="No Anys on this line!">#             c.melting_points.append(MeltingPoint(**context))</span>
+<span class="line-empty" title="No Anys on this line!">#         if measurement.tag == 'glass_transition':</span>
+<span class="line-empty" title="No Anys on this line!">#             c.glass_transitions.append(GlassTransition(**context))</span>
+<span class="line-empty" title="No Anys on this line!">#         if measurement.tag == 'nmr':</span>
+<span class="line-empty" title="No Anys on this line!">#             c.nmr_spectra.append(NmrSpectrum(**context))</span>
+<span class="line-empty" title="No Anys on this line!">#         if measurement.tag == 'uvvis':</span>
+<span class="line-empty" title="No Anys on this line!">#             c.uvvis_spectra.append(UvvisSpectrum(**context))</span>
+<span class="line-empty" title="No Anys on this line!">#         if measurement.tag == 'ir':</span>
+<span class="line-empty" title="No Anys on this line!">#             c.ir_spectra.append(IrSpectrum(**context))</span>
+<span class="line-empty" title="No Anys on this line!">#         yield c</span>
+</pre></td>
+</tr></tbody>
+</table>
+</body>
+</html>

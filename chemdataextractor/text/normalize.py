@@ -1,31 +1,25 @@
-# -*- coding: utf-8 -*-
 """
 Tools for normalizing text.
 
 """
 
-from __future__ import absolute_import
-from __future__ import division
-from __future__ import print_function
-from __future__ import unicode_literals
-from abc import ABCMeta, abstractmethod
 import re
 import unicodedata
+from abc import ABCMeta
+from abc import abstractmethod
 
-
-from . import (
-    CONTROLS,
-    HYPHENS,
-    QUOTES,
-    DOUBLE_QUOTES,
-    ACCENTS,
-    SINGLE_QUOTES,
-    APOSTROPHES,
-    SLASHES,
-    TILDES,
-    MINUSES,
-)
+from . import ACCENTS
+from . import APOSTROPHES
+from . import CONTROLS
+from . import DOUBLE_QUOTES
+from . import HYPHENS
+from . import MINUSES
+from . import QUOTES
+from . import SINGLE_QUOTES
+from . import SLASHES
+from . import TILDES
 from .processors import BaseProcessor
+from ..parse.regex_patterns import normalize_chemical_spelling
 
 
 class BaseNormalizer(BaseProcessor, metaclass=ABCMeta):
@@ -154,9 +148,7 @@ class Normalizer(BaseNormalizer):
 
 
 #: Default normalize that canonicalizes unicode and fixes whitespace.
-normalize = Normalizer(
-    strip=True, collapse=True, hyphens=False, quotes=False, ellipsis=False
-)
+normalize = Normalizer(strip=True, collapse=True, hyphens=False, quotes=False, ellipsis=False)
 #: More aggressive normalize that also standardizes hyphens, and quotes.
 strict_normalize = Normalizer(
     strip=True, collapse=True, hyphens=True, quotes=True, ellipsis=True, tildes=True
@@ -243,9 +235,7 @@ class ChemNormalizer(Normalizer):
         text = super(ChemNormalizer, self).normalize(text)
         # Normalize element spelling
         if self.chem_spell:
-            text = re.sub(r"sulph", r"sulf", text, flags=re.I)
-            text = re.sub(r"aluminum", r"aluminium", text, flags=re.I)
-            text = re.sub(r"cesium", r"caesium", text, flags=re.I)
+            text = normalize_chemical_spelling(text)
         return text
 
 

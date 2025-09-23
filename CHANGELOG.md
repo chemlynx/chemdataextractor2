@@ -1,6 +1,6 @@
 # Changelog
 
-##[v2.1.0](https://github.com/CambridgeMolecularEngineering/ChemDataExtractor/releases/tag/v2.1.0) 
+##[v2.1.0](https://github.com/CambridgeMolecularEngineering/ChemDataExtractor/releases/tag/v2.1.0)
 
 **Implemented Enhancements:**
 - An improved NER system that allows for much better performance on inorganic materials.

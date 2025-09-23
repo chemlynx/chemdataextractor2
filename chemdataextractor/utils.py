@@ -1,25 +1,19 @@
-# -*- coding: utf-8 -*-
 """
 Miscellaneous utility functions.
 
 """
 
-from __future__ import absolute_import
-from __future__ import division
-from __future__ import print_function
-from __future__ import unicode_literals
 import errno
 import functools
 import logging
 import os
-
 
 log = logging.getLogger(__name__)
 
 
 def memoized_property(fget):
     """Decorator to create memoized properties."""
-    attr_name = "_{}".format(fget.__name__)
+    attr_name = f"_{fget.__name__}"
 
     @functools.wraps(fget)
     def fget_memoized(self):

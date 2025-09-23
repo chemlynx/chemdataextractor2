@@ -13,4 +13,3 @@
 .. automodule:: chemdataextractor.eval.evaluation
     :members:
     :undoc-members:
-

@@ -29,5 +29,3 @@ Misc tools for parsing bibliographic information such as bibtex files, author na
 .. automodule:: chemdataextractor.biblio.xmp
     :members:
     :undoc-members:
-
-

@@ -1,23 +1,26 @@
-# -*- coding: utf-8 -*-
 """
 Glass transition temperature parser.
 
 """
 
-from __future__ import absolute_import
-from __future__ import division
-from __future__ import print_function
-from __future__ import unicode_literals
 import logging
-import re
 
-from .cem import cem, chemical_label, lenient_chemical_label, solvent_name
-from .quantity import value_element
-from .common import lbrct, dt, rbrct, hyphen
 from ..utils import first
-from .actions import merge, join
+from .actions import merge
 from .base import BaseParser
-from .elements import W, I, R, Optional, Any, OneOrMore, Not, ZeroOrMore
+from .cem import cem
+from .cem import chemical_label
+from .common import lbrct
+from .common import rbrct
+from .elements import Any
+from .elements import I
+from .elements import Not
+from .elements import OneOrMore
+from .elements import Optional
+from .elements import R
+from .elements import W
+from .elements import ZeroOrMore
+from .quantity import value_element
 
 log = logging.getLogger(__name__)
 
@@ -28,8 +31,8 @@ prefix = (
         Optional(lbrct) + W("Tg") + Optional(rbrct)
         | I("glass")
         + Optional(I("transition"))
-        + Optional((I("temperature") | I("range") | (I("temp") + I("."))))
-        | W("transition") + Optional((I("temperature") | I("range") | I("temp.")))
+        + Optional(I("temperature") | I("range") | (I("temp") + I(".")))
+        | W("transition") + Optional(I("temperature") | I("range") | I("temp."))
     ).hide()
     + Optional(lbrct + W("Tg") + rbrct)
     + Optional(W("=") | I("of") | I("was") | I("is") | I("at")).hide()
@@ -43,19 +46,15 @@ prefix = (
 )
 
 
-delim = R("^[:;\.,]$")
+delim = R(r"^[:;\.,]$")
 
 # TODO: Consider allowing degree symbol to be optional. The prefix should be restrictive enough to stop false positives.
-units = (W("°") + Optional(R("^[CFK]\.?$")) | W("K\.?") | W("°C"))("units").add_action(
-    merge
-)
+units = (W("°") + Optional(R(r"^[CFK]\.?$")) | W(r"K\.?") | W("°C"))("units").add_action(merge)
 
 value = value_element()(None)
-temp_range = (Optional(R("^[\-–−]$")) + value)("value").add_action(merge)
+temp_range = (Optional(R(r"^[\-–−]$")) + value)("value").add_action(merge)
 temp_value = value("value").add_action(merge)
-temp = (
-    Optional(lbrct).hide() + (temp_range | temp_value)("value") + Optional(rbrct).hide()
-)
+temp = Optional(lbrct).hide() + (temp_range | temp_value)("value") + Optional(rbrct).hide()
 
 tg = (prefix + Optional(delim).hide() + temp + units)("tg")
 

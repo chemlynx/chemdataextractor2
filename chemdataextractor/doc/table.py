@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Table document elements
 
@@ -8,35 +7,51 @@ Table document elements
 
 """
 
-from __future__ import absolute_import
-from __future__ import division
-from __future__ import print_function
-from __future__ import unicode_literals
+from __future__ import annotations
 
 import logging
-import copy
+from typing import TYPE_CHECKING
+from typing import Any
+from typing import List
 
-
-from .element import CaptionedElement
 from tabledataextractor import Table as TdeTable
 from tabledataextractor import TrivialTable as TrivialTdeTable
 from tabledataextractor.exceptions import TDEError
+
 from ..doc.text import Cell
-from ..model.model import Compound
-from ..model.base import ModelList, ModelType
+from ..model.base import ModelList
 from ..utils import memoized_property
-from pprint import pprint
+from .element import CaptionedElement
+
+if TYPE_CHECKING:
+    from ..model.base import BaseModel
+
+# Type aliases for table processing
+TableData = List[List[Any]]  # Raw table data structure
+CDETable = List[List[Cell]]  # CDE table with Cell objects
+CDETables = List[CDETable]  # List of CDE tables
+CategoryTable = List[Any]  # Table category data
+TableRecords = ModelList  # Collection of extracted model records
 
 log = logging.getLogger(__name__)
 log.setLevel(logging.INFO)
 
 
 class Table(CaptionedElement):
-    """
-    Main Table object. Relies on TableDataExtractor.
+    """Main Table object for processing tabular data in scientific documents.
+
+    Relies on TableDataExtractor for parsing and ChemDataExtractor for extraction.
+    Handles complex table structures with chemical entities, quantities, and properties.
     """
 
-    def __init__(self, caption, label=None, table_data=[], models=None, **kwargs):
+    def __init__(
+        self,
+        caption: CaptionedElement,
+        label: str | None = None,
+        table_data: TableData | None = None,
+        models: List[BaseModel] | None = None,
+        **kwargs: Any,
+    ) -> None:
         """
         In addition to the parameters below, any keyword arguments supported by TableDataExtractor.TdeTable
         can be passed in as keyword arguments and they will be passed on to TableDataExtractor.TdeTable.
@@ -61,30 +76,28 @@ class Table(CaptionedElement):
         :param Document document: (Optional) The document containing this element.
         :param Any id: (Optional) Some identifier for this element. Must be equatable.
         """
-        super(Table, self).__init__(
-            caption=caption, label=label, models=models, **kwargs
-        )
+        if table_data is None:
+            table_data = []
+        super(Table, self).__init__(caption=caption, label=label, models=models, **kwargs)
         try:
             #: TableDataExtractor `Table` object. Can pass any kwargs into TDE directly.
             self.tde_table = TdeTable(table_data, **kwargs)
 
         except (TDEError, TypeError) as e:
-            log.error("TableDataExtractor 'Table' error: {}".format(e))
+            log.error(f"TableDataExtractor 'Table' error: {e}")
             log.info("Attempting TableDataExtractor 'TrivialTable' interpretation.")
 
             try:
                 #: TableDataExtractor `TrivialTable` object. Can pass any kwargs into TDE directly.
-                self.tde_table = TrivialTdeTable(
-                    table_data, standardize_empty_data=True, **kwargs
-                )
+                self.tde_table = TrivialTdeTable(table_data, standardize_empty_data=True, **kwargs)
             except (TDEError, TypeError) as e:
-                log.error("TableDataExtractor 'TrivialTable' error: {}".format(e))
+                log.error(f"TableDataExtractor 'TrivialTable' error: {e}")
                 self.tde_subtables = []
                 self.tde_table = None
                 self.heading = None
 
     @memoized_property
-    def cde_tables(self):
+    def cde_tables(self) -> CDETables:
         """
         CDE tables are lists of lists of Cells, that are used for the purpose of parsing
         in CDE. For other purposes, the underlying TDE table (`tde_table`) is probably more useful.
@@ -94,9 +107,7 @@ class Table(CaptionedElement):
             # get the subtables
             self.tde_subtables = self.tde_table.subtables
             # adjust the CDE Table heading from TDE results
-            self.heading = (
-                self.tde_table.title_row if self.tde_table.title_row is not None else []
-            )
+            self.heading = self.tde_table.title_row if self.tde_table.title_row is not None else []
 
             if self.tde_subtables:
                 for table in self.tde_subtables:
@@ -118,9 +129,7 @@ class Table(CaptionedElement):
         for category_table in self._category_tables(tde_table):
             cde_table = []
             for cell in category_table:
-                cde_cell = Cell.from_tdecell(
-                    cell, models=self.models, document=document
-                )
+                cde_cell = Cell.from_tdecell(cell, models=self.models, document=document)
                 cde_table.append(cde_cell)
             cde_tables.append(cde_table)
         return cde_tables
@@ -213,9 +222,7 @@ class Table(CaptionedElement):
         table_records.remove_subsets()
 
         # Step 6
-        caption_records = ModelList(
-            *[c for c in caption_records if c.required_fulfilled]
-        )
+        caption_records = ModelList(*[c for c in caption_records if c.required_fulfilled])
         table_records = self._merge(table_records, caption_records)
 
         return table_records
@@ -245,11 +252,11 @@ class Table(CaptionedElement):
         for record in records:
             col_key = " ".join(record.table_col_categories)
             row_key = " ".join(record.table_row_categories)
-            if col_key in col_first.keys():
+            if col_key in col_first:
                 col_first[col_key].append(record)
             else:
                 col_first[col_key] = ModelList(record)
-            if row_key in row_first.keys():
+            if row_key in row_first:
                 row_first[row_key].append(record)
             else:
                 row_first[row_key] = ModelList(record)

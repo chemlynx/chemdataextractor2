@@ -1,44 +1,44 @@
-# -*- coding: utf-8 -*-
 """
 XML and HTML readers based on lxml.
 
+Provides base classes and utilities for parsing structured markup documents
+(XML, HTML) into ChemDataExtractor document elements.
 """
 
-from __future__ import absolute_import
-from __future__ import division
-from __future__ import print_function
-from __future__ import unicode_literals
+from __future__ import annotations
+
 import logging
-from abc import abstractmethod, ABCMeta
+from abc import ABCMeta
+from abc import abstractmethod
 from collections import defaultdict
+from typing import TYPE_CHECKING
+
+if TYPE_CHECKING:
+    pass
 
 from lxml import etree
 from lxml.etree import XMLParser
 from lxml.html import HTMLParser
 
-
-from ..errors import ReaderError
 from ..doc.document import Document
-from ..doc.text import (
-    Title,
-    Heading,
-    Paragraph,
-    Caption,
-    Citation,
-    Footnote,
-    Text,
-    Sentence,
-    Cell,
-)
+from ..doc.figure import Figure
 from ..doc.meta import MetaData
 from ..doc.table import Table
-from ..doc.figure import Figure
+from ..doc.text import Caption
+from ..doc.text import Cell
+from ..doc.text import Citation
+from ..doc.text import Footnote
+from ..doc.text import Heading
+from ..doc.text import Paragraph
+from ..doc.text import Sentence
+from ..doc.text import Text
+from ..doc.text import Title
+from ..errors import ReaderError
 from ..scrape import INLINE_ELEMENTS
 from ..scrape.clean import clean
 from ..scrape.csstranslator import CssXmlTranslator
 from ..text import get_encoding
 from .base import BaseReader
-
 
 log = logging.getLogger(__name__)
 
@@ -67,11 +67,19 @@ class LxmlReader(BaseReader, metaclass=ABCMeta):
 
     metadata_css = "head"
     metadata_publisher_css = 'meta[name="DC.publisher"]::attr("content"), meta[name="citation_publisher"]::attr("content")'
-    metadata_author_css = 'meta[name="DC.Creator"]::attr("content"), meta[name="citation_author"]::attr("content")'
-    metadata_title_css = 'meta[name="DC.title"]::attr("content"), meta[name="citation_title"]::attr("content")'
+    metadata_author_css = (
+        'meta[name="DC.Creator"]::attr("content"), meta[name="citation_author"]::attr("content")'
+    )
+    metadata_title_css = (
+        'meta[name="DC.title"]::attr("content"), meta[name="citation_title"]::attr("content")'
+    )
     metadata_date_css = 'meta[name="DC.Date"]::attr("content"), meta[name="citation_date"]::attr("content"), meta[name="citation_online_date"]::attr("content")'
-    metadata_doi_css = 'meta[name="DC.Identifier"]::attr("content"), meta[name="citation_doi"]::attr("content")'
-    metadata_language_css = 'meta[name="DC.Language"]::attr("content"), meta[name="citation_language"]::attr("content")'
+    metadata_doi_css = (
+        'meta[name="DC.Identifier"]::attr("content"), meta[name="citation_doi"]::attr("content")'
+    )
+    metadata_language_css = (
+        'meta[name="DC.Language"]::attr("content"), meta[name="citation_language"]::attr("content")'
+    )
     metadata_journal_css = 'meta[name="citation_journal_title"]::attr("content")'
     metadata_volume_css = 'meta[name="citation_volume"]::attr("content")'
     metadata_issue_css = 'meta[name="citation_issue"]::attr("content")'
@@ -138,9 +146,7 @@ class LxmlReader(BaseReader, metaclass=ABCMeta):
             specials = {}
         if refs is None:
             refs = {}
-        elements = self._parse_element_r(
-            el, specials=specials, refs=refs, element_cls=element_cls
-        )
+        elements = self._parse_element_r(el, specials=specials, refs=refs, element_cls=element_cls)
         final_elements = []
         for element in elements:
             # Filter empty text elements
@@ -157,9 +163,7 @@ class LxmlReader(BaseReader, metaclass=ABCMeta):
             specials = {}
         if refs is None:
             refs = {}
-        elements = self._parse_element_r(
-            el, specials=specials, refs=refs, element_cls=element_cls
-        )
+        elements = self._parse_element_r(el, specials=specials, refs=refs, element_cls=element_cls)
         # This occurs if the input element is self-closing... (some table td in NLM XML)
         if not elements:
             return [element_cls("")]
@@ -167,7 +171,7 @@ class LxmlReader(BaseReader, metaclass=ABCMeta):
         for next_element in elements[1:]:
             try:
                 element += element_cls(" ") + next_element
-            except TypeError as e:
+            except TypeError:
                 log.warning(
                     "Adding of two objects was skipped. {} and {} cannot be added.".format(
                         str(type(element)), str(type(next_element))
@@ -186,9 +190,7 @@ class LxmlReader(BaseReader, metaclass=ABCMeta):
 
         links = self._parse_figure_links(el)
         caption = (
-            self._parse_text(
-                caps[0], refs=refs, specials=specials, element_cls=Caption
-            )[0]
+            self._parse_text(caps[0], refs=refs, specials=specials, element_cls=Caption)[0]
             if caps
             else Caption("")
         )
@@ -200,15 +202,13 @@ class LxmlReader(BaseReader, metaclass=ABCMeta):
         for row, tr in enumerate(els):
             colnum = 0
             for td in self._css(self.table_cell_css, tr):
-                cell = self._parse_text(
-                    td, refs=refs, specials=specials, element_cls=Cell
-                )
+                cell = self._parse_text(td, refs=refs, specials=specials, element_cls=Cell)
                 colspan = int(td.get("colspan", "1"))
                 rowspan = int(td.get("rowspan", "1"))
                 for i in range(colspan):
                     for j in range(rowspan):
                         rownum = row + j
-                        if not rownum in hdict:
+                        if rownum not in hdict:
                             hdict[rownum] = {}
                         while colnum in hdict[rownum]:
                             colnum += 1
@@ -253,9 +253,7 @@ class LxmlReader(BaseReader, metaclass=ABCMeta):
     def _parse_table(self, el, refs, specials):
         caption_css = self._css(self.table_caption_css, el)
         caption = (
-            self._parse_text(
-                caption_css[0], refs=refs, specials=specials, element_cls=Caption
-            )[0]
+            self._parse_text(caption_css[0], refs=refs, specials=specials, element_cls=Caption)[0]
             if caption_css
             else Caption("")
         )
@@ -311,7 +309,7 @@ class LxmlReader(BaseReader, metaclass=ABCMeta):
         result = root.xpath(query, smart_strings=False)
         if type(result) is not list:
             result = [result]
-        log.debug("Selecting XPath: {}: {}".format(query, result))
+        log.debug(f"Selecting XPath: {query}: {result}")
         return result
 
     def _css(self, query, root):
@@ -403,7 +401,5 @@ class HtmlReader(LxmlReader):
         return True
 
     def _make_tree(self, fstring):
-        root = etree.fromstring(
-            fstring, parser=HTMLParser(encoding=get_encoding(fstring))
-        )
+        root = etree.fromstring(fstring, parser=HTMLParser(encoding=get_encoding(fstring)))
         return root

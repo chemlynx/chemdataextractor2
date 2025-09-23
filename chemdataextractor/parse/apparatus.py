@@ -1,29 +1,31 @@
-# -*- coding: utf-8 -*-
 """
 Parser for sentences that provide contextual information, such as apparatus, solvent, and temperature.
 
 """
 
-from __future__ import absolute_import
-from __future__ import division
-from __future__ import print_function
-from __future__ import unicode_literals
 import logging
 import re
+
 from lxml import etree
 
-from .common import optdelim, hyphen, slash
-from ..utils import first
 from ..parse.base import BaseSentenceParser
-from .actions import join, merge, fix_whitespace
-from .cem import chemical_name
-from .elements import I, T, R, W, ZeroOrMore, Optional, Group, OneOrMore, Any, Not
+from ..utils import first
+from .actions import fix_whitespace
+from .actions import join
+from .elements import I
+from .elements import Not
+from .elements import OneOrMore
+from .elements import Optional
+from .elements import R
+from .elements import T
+from .elements import W
+from .elements import ZeroOrMore
 
 log = logging.getLogger(__name__)
 
 dt = T("DT")
 
-apparatus_type = R("^\d{2,}$") + W("MHz")
+apparatus_type = R(r"^\d{2,}$") + W("MHz")
 brands = (
     I("HORIBA") + I("Jobin") + I("Yvon")
     | I("Hitachi")
@@ -40,7 +42,7 @@ models = (
     | I("F-7000")
     | I("AVANCE")
     | I("Digital")
-    | R("\d\d\d+")
+    | R(r"\d\d\d+")
     | I("UV–vis-NIR")
     | I("Mercury")
     | I("Avatar")
@@ -82,7 +84,6 @@ apparatus_phrase = (
 
 
 class ApparatusParser(BaseSentenceParser):
-
     root = apparatus_phrase
 
     def interpret(self, result, start, end):

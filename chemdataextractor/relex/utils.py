@@ -1,37 +1,37 @@
-
-# -*- coding: utf-8 -*-
 """
 Various utility functions
 """
-import numpy as np
+
 from collections import OrderedDict
+
+import numpy as np
 
 
 def match_score(pi, pj, prefix_weight=0.1, middle_weight=0.8, suffix_weight=0.1):
-    """ Compute match between phrases using a dot product of vectors
+    """Compute match between phrases using a dot product of vectors
     :param pi Phrase or pattern
     :param pj phrase or pattern
     # add weights to dot products to put more emphasis on matching the middles
     """
-    assert(pi.keys() == pj.keys())
+    assert pi.keys() == pj.keys()
 
-    number_of_middles = len([i for i in pi.keys() if i.startswith('middle')])
+    number_of_middles = len([i for i in pi.keys() if i.startswith("middle")])
 
-    prefix_i = pi['prefix']
+    prefix_i = pi["prefix"]
 
     middles_i = []
     for m in range(0, number_of_middles):
-        middles_i.append(pi['middle_' + str(m+1)])
+        middles_i.append(pi["middle_" + str(m + 1)])
 
-    suffix_i = pi['suffix']
+    suffix_i = pi["suffix"]
 
-    prefix_j = pj['prefix']
+    prefix_j = pj["prefix"]
 
     middles_j = []
     for m in range(0, number_of_middles):
-        middles_j.append(pj['middle_' + str(m+1)])
+        middles_j.append(pj["middle_" + str(m + 1)])
 
-    suffix_j = pj['suffix']
+    suffix_j = pj["suffix"]
 
     if len(prefix_i) == 0 and len(prefix_j) == 0:
         prefix_dot_prod = 1.0
@@ -53,13 +53,17 @@ def match_score(pi, pj, prefix_weight=0.1, middle_weight=0.8, suffix_weight=0.1)
     else:
         suffix_dot_prod = np.dot(suffix_i, suffix_j)
 
-    sim = (prefix_weight * prefix_dot_prod) + ((middle_weight/number_of_middles)*sum(middle_dot_prod)) + (suffix_weight * suffix_dot_prod)
+    sim = (
+        (prefix_weight * prefix_dot_prod)
+        + ((middle_weight / number_of_middles) * sum(middle_dot_prod))
+        + (suffix_weight * suffix_dot_prod)
+    )
     return sim
 
 
 def vectorise(phrase, cluster):
     """Vectorise a phrase object against a given cluster
-    
+
     Arguments:
         phrase {[type]} -- [description]
         cluster {[type]} -- [description]
@@ -69,47 +73,51 @@ def vectorise(phrase, cluster):
     phrase_element_vectors = {}
     pattern_element_vectors = {}
     pattern = cluster.pattern
-    
 
     for element in cluster.dictionaries.keys():  # prefix, middles, suffix
         # print("element", element, '\n')
         local_dictionary = OrderedDict()
 
         # fill the local dictionary with the cluster tokens
-        for token in cluster.dictionaries[element]['token dict']:
+        for token in cluster.dictionaries[element]["token dict"]:
             if token in local_dictionary.keys():
                 local_dictionary[token] += 1
             else:
-                local_dictionary[token] = cluster.dictionaries[element]['token dict'][token][0]
-        
+                local_dictionary[token] = cluster.dictionaries[element]["token dict"][token][0]
+
         # Same for the phrase tokens
-        for token in phrase.elements[element]['tokens']:
+        for token in phrase.elements[element]["tokens"]:
             if token in local_dictionary.keys():
                 local_dictionary[token] += 1
             else:
                 local_dictionary[token] = 1
         # print(local_dictionary, '\n')
-        
+
         phrase_element_vector = np.zeros(len(local_dictionary.keys()))
         pattern_element_vector = np.zeros(len(local_dictionary.keys()))
         # Now vectorise the phrase and pattern
         for i, token in enumerate(local_dictionary.keys()):
-            if token in phrase.elements[element]['tokens']:
+            if token in phrase.elements[element]["tokens"]:
                 phrase_element_vector[i] += 1
-            if token in pattern.elements[element]['tokens']:
+            if token in pattern.elements[element]["tokens"]:
                 pattern_element_vector[i] += 1
 
         # normalise the vectors
-        phrase_element_vectors[element] = phrase_element_vector / np.linalg.norm(phrase_element_vector)
-        pattern_element_vectors[element] = pattern_element_vector / np.linalg.norm(pattern_element_vector)
-    
+        phrase_element_vectors[element] = phrase_element_vector / np.linalg.norm(
+            phrase_element_vector
+        )
+        pattern_element_vectors[element] = pattern_element_vector / np.linalg.norm(
+            pattern_element_vector
+        )
+
     # print(phrase_element_vectors)
     # print(pattern_element_vectors)
     return phrase_element_vectors, pattern_element_vectors
 
+
 def match(phrase, cluster, prefix_weight, middles_weight, suffix_weight):
     """Vectorise the phrase against this cluster to determine the match score
-    
+
     Arguments:
         phrase {[type]} -- [description]
         cluster {[type]} -- [description]
@@ -118,9 +126,12 @@ def match(phrase, cluster, prefix_weight, middles_weight, suffix_weight):
         return 0
 
     phrase_vectors, pattern_vectors = vectorise(phrase, cluster)
-    score = match_score(phrase_vectors, pattern_vectors, prefix_weight, middles_weight, suffix_weight)
+    score = match_score(
+        phrase_vectors, pattern_vectors, prefix_weight, middles_weight, suffix_weight
+    )
     # print(score)
     return score
+
 
 def mode_rows(a):
     """
@@ -131,12 +142,11 @@ def mode_rows(a):
     """
     a = np.ascontiguousarray(a)
     void_dt = np.dtype((np.void, a.dtype.itemsize * np.prod(a.shape[1:])))
-    _, ids, count = np.unique(a.view(void_dt).ravel(),
-                              return_index=True,
-                              return_counts=True)
+    _, ids, count = np.unique(a.view(void_dt).ravel(), return_index=True, return_counts=True)
     largest_count_id = ids[count.argmax()]
     most_frequent_row = a[largest_count_id]
     return most_frequent_row
+
 
 def KnuthMorrisPratt(text, pattern):
     """Yields all starting positions of copies of the pattern in the text.
@@ -155,24 +165,24 @@ def KnuthMorrisPratt(text, pattern):
     shifts = [1] * (len(pattern) + 1)
     shift = 1
     for pos in range(len(pattern)):
-        while shift <= pos and pattern[pos] != pattern[pos-shift]:
-            shift += shifts[pos-shift]
-        shifts[pos+1] = shift
+        while shift <= pos and pattern[pos] != pattern[pos - shift]:
+            shift += shifts[pos - shift]
+        shifts[pos + 1] = shift
 
     # do the actual search
     startPos = 0
     matchLen = 0
     for c in text:
-        while matchLen == len(pattern) or \
-              matchLen >= 0 and pattern[matchLen] != c:
+        while matchLen == len(pattern) or matchLen >= 0 and pattern[matchLen] != c:
             startPos += shifts[matchLen]
             matchLen -= shifts[matchLen]
         matchLen += 1
         if matchLen == len(pattern):
             yield startPos
 
+
 def subfinder(mylist, pattern):
     for i in range(len(mylist)):
-        if mylist[i] == pattern[0] and mylist[i:i+len(pattern)] == pattern:
-            return (i, i+len(pattern))
+        if mylist[i] == pattern[0] and mylist[i : i + len(pattern)] == pattern:
+            return (i, i + len(pattern))
     return None, None

@@ -1,21 +1,15 @@
-# -*- coding: utf-8 -*-
 """
 Readers for USPTO patents.
 
 """
 
-from __future__ import absolute_import
-from __future__ import division
-from __future__ import print_function
-from __future__ import unicode_literals
-
-from ..scrape.clean import clean
-
 # from ..doc.table import Table
 from ..doc.table import Table
-from ..doc.text import Caption, Footnote, Cell
+from ..doc.text import Caption
+from ..doc.text import Cell
+from ..doc.text import Footnote
+from ..scrape.clean import clean
 from .markup import XmlReader
-
 
 # TODO: The below has only been tested with us-patent-grant-v42
 
@@ -107,15 +101,13 @@ class UsptoXmlReader(XmlReader):
         for row, tr in enumerate(self._css(self.table_body_row_css, el)):
             colnum = 0
             for td in self._css(self.table_cell_css, tr):
-                cell = self._parse_text(
-                    td, refs=refs, specials=specials, element_cls=Cell
-                )
+                cell = self._parse_text(td, refs=refs, specials=specials, element_cls=Cell)
                 colspan = int(td.get("colspan", "1"))
                 rowspan = int(td.get("rowspan", "1"))
                 for i in range(colspan):
                     for j in range(rowspan):
                         rownum = row + j
-                        if not rownum in hdict:
+                        if rownum not in hdict:
                             hdict[rownum] = {}
                         while colnum in hdict[rownum]:
                             colnum += 1
@@ -188,15 +180,13 @@ class UsptoXmlReader(XmlReader):
         for row, tr in enumerate(els):
             colnum = 0
             for td in self._css(self.table_cell_css, tr):
-                cell = self._parse_text(
-                    td, refs=refs, specials=specials, element_cls=Cell
-                )
+                cell = self._parse_text(td, refs=refs, specials=specials, element_cls=Cell)
                 colspan = int(td.get("colspan", "1"))
                 rowspan = int(td.get("rowspan", "1"))
                 for i in range(colspan):
                     for j in range(rowspan):
                         rownum = row + j
-                        if not rownum in hdict:
+                        if rownum not in hdict:
                             hdict[rownum] = {}
                         while colnum in hdict[rownum]:
                             colnum += 1

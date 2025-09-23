@@ -1,24 +1,28 @@
-# -*- coding: utf-8 -*-
 """
 IR spectrum text parser.
 
 """
 
-from __future__ import absolute_import
-from __future__ import division
-from __future__ import print_function
-from __future__ import unicode_literals
 import logging
 import re
 
 from lxml.builder import E
-from .base import BaseSentenceParser
-from ..utils import first
-from .actions import join, merge, strip_stop
-from .common import hyphen
-from .elements import W, I, T, R, Optional, ZeroOrMore, OneOrMore, Not
-from .cem import chemical_name
 
+from ..utils import first
+from .actions import join
+from .actions import merge
+from .actions import strip_stop
+from .base import BaseSentenceParser
+from .cem import chemical_name
+from .common import hyphen
+from .elements import I
+from .elements import Not
+from .elements import OneOrMore
+from .elements import Optional
+from .elements import R
+from .elements import T
+from .elements import W
+from .elements import ZeroOrMore
 
 log = logging.getLogger(__name__)
 
@@ -32,7 +36,7 @@ def extract_units(tokens, start, result):
     return []
 
 
-delim = R("^[;:,\./]$").hide()
+delim = R(r"^[;:,\./]$").hide()
 
 # Not really just solvent, also nujol suspension, pellet, or ATR
 ir_solvent = (
@@ -42,23 +46,17 @@ ir_solvent = (
 solvent = (ir_solvent | chemical_name)("solvent").add_action(join)
 
 units = Optional(W("/")).hide() + (
-    (Optional(W("[")) + R("^\[?cm[-–−‒]?1\]?$") + Optional(W("]")))
+    (Optional(W("[")) + R(r"^\[?cm[-–−‒]?1\]?$") + Optional(W("]")))
     | (W("cm") + R("^[-–−‒]$") + W("1"))
     | (W("cm") + W("-1"))
 )("units").add_action(merge)
 
 
 value_range = (
-    (
-        R("^\d{,2}[ ,]?\d{3}(\.\d+)?[\-–−‒]\d{,2}[ ,]?\d{3}(\.\d+)?$")
-        | (
-            R("^\d{,2}[ ,]?\d{3}(\.\d+)?$")
-            + R("^[\-–−‒]$")
-            + R("^\d{,2}[ ,]?\d{3}(\.\d+)?$")
-        )
-    )
+    R(r"^\d{,2}[ ,]?\d{3}(\.\d+)?[\-–−‒]\d{,2}[ ,]?\d{3}(\.\d+)?$")
+    | (R(r"^\d{,2}[ ,]?\d{3}(\.\d+)?$") + R(r"^[\-–−‒]$") + R(r"^\d{,2}[ ,]?\d{3}(\.\d+)?$"))
 )("value").add_action(merge)
-value = R("^\d{,2}[ ,]?\d{3}(\.\d+)?\.?$")("value").add_action(strip_stop)
+value = R(r"^\d{,2}[ ,]?\d{3}(\.\d+)?\.?$")("value").add_action(strip_stop)
 
 strength = (
     R("^(m|medium|w|weak|s|strong|n|narrow|b|broad|sh|sharp)$", re.I)("strength")
@@ -84,15 +82,12 @@ bond = OneOrMore(
 peak_meta_options = strength | bond
 
 peak_meta = (
-    W("(").hide()
-    + peak_meta_options
-    + ZeroOrMore(delim + peak_meta_options)
-    + W(")").hide()
+    W("(").hide() + peak_meta_options + ZeroOrMore(delim + peak_meta_options) + W(")").hide()
 )
 
-nu = (
-    R("^[vνυ]̃?(max)?(\(cm−1\))?$") + Optional(W("max")) + Optional(W("="))
-).add_action(extract_units)
+nu = (R(r"^[vνυ]̃?(max)?(\(cm−1\))?$") + Optional(W("max")) + Optional(W("="))).add_action(
+    extract_units
+)
 
 spectrum_meta = (
     W("(").hide()
@@ -105,9 +100,7 @@ spectrum_meta = (
 insolvent = T("IN") + solvent
 
 ir_type = (
-    Optional(W("FT") + hyphen)
-    + R("^(FT-?)?IR|FT-?IS|IR-ATR$")
-    + Optional(hyphen + W("ATR"))
+    Optional(W("FT") + hyphen) + R("^(FT-?)?IR|FT-?IS|IR-ATR$") + Optional(hyphen + W("ATR"))
 )("type").add_action(merge)
 
 prelude = (

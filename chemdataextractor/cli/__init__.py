@@ -1,24 +1,23 @@
-# -*- coding: utf-8 -*-
 """
 ChemDataExtractor command line interface.
 
-Once installed, ChemDataExtractor provides a command-line tool that can be used by typing 'cde' in a terminal.
-
+Once installed, ChemDataExtractor provides a command-line tool that can be used
+by typing 'cde' in a terminal for document extraction and processing.
 """
 
-from __future__ import absolute_import
-from __future__ import division
-from __future__ import print_function
+from __future__ import annotations
 
 import json
 import logging
+from typing import Any
+from typing import BinaryIO
+from typing import Dict
+from typing import TextIO
 
 import click
 
-
 from .. import __version__
 from ..doc import Document
-
 
 log = logging.getLogger(__name__)
 
@@ -28,8 +27,13 @@ log = logging.getLogger(__name__)
 @click.version_option(__version__, "--version", "-V")
 @click.help_option("--help", "-h")
 @click.pass_context
-def cli(ctx, verbose):
-    """ChemDataExtractor command line interface."""
+def cli(ctx: click.Context, verbose: bool) -> None:
+    """ChemDataExtractor command line interface.
+
+    Args:
+        ctx: click.Context - Click context object
+        verbose: bool - Enable verbose debug logging
+    """
     log.debug("ChemDataExtractor v%s" % __version__)
     logging.basicConfig(level=logging.DEBUG if verbose else logging.INFO)
     logging.getLogger("requests").setLevel(logging.WARN)
@@ -44,12 +48,16 @@ def cli(ctx, verbose):
     help="Output file.",
     default=click.get_text_stream("stdout"),
 )
-@click.argument(
-    "input", type=click.File("rb"), default=click.get_binary_stream("stdin")
-)
+@click.argument("input", type=click.File("rb"), default=click.get_binary_stream("stdin"))
 @click.pass_obj
-def extract(ctx, input, output):
-    """Run ChemDataExtractor on a document."""
+def extract(ctx: Dict[str, Any], input: BinaryIO, output: TextIO) -> None:
+    """Run ChemDataExtractor on a document.
+
+    Args:
+        ctx: Dict[str, Any] - Click context object
+        input: BinaryIO - Input file stream
+        output: TextIO - Output file stream
+    """
     log.info("chemdataextractor.extract")
     log.info("Reading %s" % input.name)
     doc = Document.from_file(input, fname=input.name)
@@ -66,12 +74,16 @@ def extract(ctx, input, output):
     help="Output file.",
     default=click.get_text_stream("stdout"),
 )
-@click.argument(
-    "input", type=click.File("rb"), default=click.get_binary_stream("stdin")
-)
+@click.argument("input", type=click.File("rb"), default=click.get_binary_stream("stdin"))
 @click.pass_obj
-def read(ctx, input, output):
-    """Output processed document elements."""
+def read(ctx: Dict[str, Any], input: BinaryIO, output: TextIO) -> None:
+    """Output processed document elements.
+
+    Args:
+        ctx: Dict[str, Any] - Click context object
+        input: BinaryIO - Input file stream
+        output: TextIO - Output file stream
+    """
     log.info("chemdataextractor.read")
     log.info("Reading %s" % input.name)
     doc = Document.from_file(input)
@@ -79,8 +91,15 @@ def read(ctx, input, output):
         output.write("%s : %s\n=====\n" % (element.__class__.__name__, str(element)))
 
 
-from . import cluster, config, data, tokenize, pos, chemdner, cem, dict, evaluate
-
+from . import cem
+from . import chemdner
+from . import cluster
+from . import config
+from . import data
+from . import dict
+from . import evaluate
+from . import pos
+from . import tokenize
 
 cli.add_command(cluster.cluster_cli)
 cli.add_command(config.config_cli)

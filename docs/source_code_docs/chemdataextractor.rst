@@ -33,4 +33,3 @@ chemdataextractor
 .. automodule:: chemdataextractor.utils
     :members:
     :undoc-members:
-

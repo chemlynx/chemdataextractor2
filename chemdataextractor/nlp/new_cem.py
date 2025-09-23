@@ -1,17 +1,11 @@
-# -*- coding: utf-8 -*-
 """
 New and improved named entity recognition (NER) for Chemical entity mentions (CEM).
 """
 
-from __future__ import absolute_import
-from __future__ import division
-from __future__ import print_function
-from __future__ import unicode_literals
-
-from .tag import EnsembleTagger
-from .bertcrf_tagger import _BertCrfTokenTagger, ProcessedTextTagger
 from .bertcrf_tagger import BertCrfTagger
-
+from .bertcrf_tagger import ProcessedTextTagger
+from .bertcrf_tagger import _BertCrfTokenTagger
+from .tag import EnsembleTagger
 
 tokentagger = _BertCrfTokenTagger()
 processtagger = ProcessedTextTagger()

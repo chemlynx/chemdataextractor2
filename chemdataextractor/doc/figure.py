@@ -1,23 +1,18 @@
-# -*- coding: utf-8 -*-
 """
 Figure document elements.
 :codeauthor:: Callum Court (cc889@cam.ac.uk)
 """
 
-from __future__ import absolute_import
-from __future__ import division
-from __future__ import print_function
-from __future__ import unicode_literals
 import logging
 
+from ..model import Compound
+from ..model import ModelList
 from .element import CaptionedElement
-from ..model import ModelList, Compound
 
 log = logging.getLogger(__name__)
 
 
 class Figure(CaptionedElement):
-
     def __init__(self, caption, label=None, links=None, models=None, **kwargs):
         """
         Create a new Figure element, to interface with FDE
@@ -80,8 +75,8 @@ class Figure(CaptionedElement):
                     # Skip just labels that have already been seen (bit of a hack)
                     if (
                         isinstance(record, Compound)
-                        and "Compound" in p.keys()
-                        and all(k in {"labels", "roles"} for k in p["Compound"].keys())
+                        and "Compound" in p
+                        and all(k in {"labels", "roles"} for k in p["Compound"])
                         and set(record.labels).issubset(seen_labels)
                     ):
                         continue
@@ -95,13 +90,13 @@ class Figure(CaptionedElement):
                                 or not set(record.labels).isdisjoint(seen_record.labels)
                             ):
                                 seen_record.names = sorted(
-                                    list(set(seen_record.names).union(record.names))
+                                    set(seen_record.names).union(record.names)
                                 )
                                 seen_record.labels = sorted(
-                                    list(set(seen_record.labels).union(record.labels))
+                                    set(seen_record.labels).union(record.labels)
                                 )
                                 seen_record.roles = sorted(
-                                    list(set(seen_record.roles).union(record.roles))
+                                    set(seen_record.roles).union(record.roles)
                                 )
                                 found = True
                         if found:

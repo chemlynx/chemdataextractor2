@@ -155,4 +155,3 @@ Command line interface tools
     .. autofunction:: sentences(ctx, input, output)
 
     .. autofunction:: words(ctx, input, output)
-

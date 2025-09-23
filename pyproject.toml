@@ -1,0 +1,247 @@
+[project]
+description = "A toolkit for extracting chemical information from the scientific literature"
+name = "chemdataextractor2"
+version = "2.4.0"
+authors = [
+  { name = "Matt Swain", email = "m.swain@me.com" },
+  { name = "Callum Court", email = "cc889@cam.ac.uk" },
+]
+readme = "README.md"
+requires-python = ">=3.9"
+dependencies = [
+  "appdirs>=1.4.3",
+  "beautifulsoup4>=4.12.0",
+  "boto3>=1.15.18",
+  "botocore>=1.18.18",
+  "click>=6.7",
+  "cssselect>=1.0.1",
+  "dawg2>=0.13.2",
+  "deprecation>=2.1.0",
+  "lxml>=3.7.2",
+  "nltk>=3.2.2",
+  "numpy>=1.17,<2.0.0",
+  "overrides>=3.1.0",
+  "pdfminer-six>=20160614,<=20220524 ; python_full_version < '3.8'",
+  "pdfminer-six>=20250506 ; python_full_version >= '3.8'",
+  "protobuf>=3.0.0",
+  "python-crfsuite>=0.9.1",
+  "python-dateutil>=2.6.0",
+  "pyyaml>=3.12",
+  "requests>=2.12.5",
+  "scikit-learn>=0.22.1",
+  "scipy<1.13.0",
+  "selenium>=3.14.1",
+  "stanza>=1.6.1",
+  "tabledataextractor>=1.5.11",
+  "tokenizers>=0.12.1",
+  "transformers>=4.30.1",
+  "yaspin>=3.1.0",
+]
+
+[tool.uv.workspace]
+members = ["."]
+
+[tool.uv.sources]
+chemdataextractor2 = { workspace = true }
+
+[dependency-groups]
+dev = [
+  "bandit>=1.8.6",
+  "chemdataextractor2",
+  "coverage>=7.10.6",
+  "mypy>=1.17.1",
+  "pre-commit>=4.3.0",
+  "pytest>=8.4.2",
+  "pytest-cov>=7.0.0",
+  "radon>=6.0.1",
+  "ruff>=0.12.12",
+  "safety>=3.6.1",
+  "vulture>=2.14",
+]
+[project.scripts]
+cde = "chemdataextractor.cli:cli"
+
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+include = ["chemdataextractor*"]
+
+# MyPy Configuration - Advanced Typing System
+[tool.mypy]
+python_version = "3.11"
+# Enhanced configuration for advanced typing patterns
+strict = false # Gradual adoption with selective strict mode
+# Core quality warnings
+warn_return_any = true
+warn_unused_configs = true
+warn_redundant_casts = true
+warn_unused_ignores = false # Disabled during migration
+warn_unreachable = true
+warn_no_return = true
+show_error_codes = true
+show_error_context = true
+# Advanced features for generic typing
+namespace_packages = true
+explicit_package_bases = true
+# Protocol and generic support
+disallow_any_generics = false   # Allow during migration
+disallow_subclassing_any = true
+check_untyped_defs = true
+disallow_untyped_calls = false  # Allow during migration
+disallow_incomplete_defs = true
+# Enhanced inference
+follow_imports = "normal"
+ignore_missing_imports = false
+# Exclude test files from strict checking
+exclude = '''/tests/*'''
+
+# === PHASE 1: Foundation Modules (Strict Mode) ===
+[[tool.mypy.overrides]]
+module = ["chemdataextractor.types"]
+strict = true
+disallow_untyped_defs = true
+disallow_incomplete_defs = true
+disallow_any_generics = true
+warn_return_any = true
+# Enable all protocol and generic checks
+disallow_untyped_calls = true
+
+# === PHASE 1: Core Base Classes (Enhanced Typing) ===
+[[tool.mypy.overrides]]
+module = [
+  "chemdataextractor.doc.document",
+  "chemdataextractor.doc.element",
+  "chemdataextractor.model.base",
+]
+# Enhanced typing for core classes
+disallow_untyped_defs = true
+disallow_incomplete_defs = true
+warn_return_any = true
+check_untyped_defs = true
+# Enable protocol support
+disallow_any_generics = false # Allow during BaseModel enhancement
+warn_unreachable = true
+
+# === PHASE 2: Public API Modules (Enhanced) ===
+[[tool.mypy.overrides]]
+module = [
+  "chemdataextractor.doc.*",
+  "chemdataextractor.model.model",
+  "chemdataextractor.model.contextual_range",
+  "chemdataextractor.model.units.quantity_model",
+  "chemdataextractor.model.units.unit",
+  "chemdataextractor.model.units.dimension",
+  "chemdataextractor.parse.base",
+  "chemdataextractor.reader.base",
+]
+# Enhanced API typing with protocol support
+check_untyped_defs = true
+disallow_incomplete_defs = true
+warn_return_any = false         # Allow during migration
+# Enable generic checks for quantity models
+disallow_any_generics = false
+
+# === PHASE 3: Internal Systems ===
+[[tool.mypy.overrides]]
+module = [
+  "chemdataextractor.nlp.*",
+  "chemdataextractor.parse.*",
+  "chemdataextractor.reader.*",
+]
+# Minimal enforcement during migration
+ignore_errors = false
+check_untyped_defs = false
+
+# === PHASE 4: Legacy Systems ===
+[[tool.mypy.overrides]]
+module = [
+  "chemdataextractor.scrape.*",
+  "chemdataextractor.relex.*",
+  "chemdataextractor.cli.*",
+]
+# Skip for now, will address in Phase 4
+ignore_errors = true
+
+# === External Dependencies ===
+[[tool.mypy.overrides]]
+module = [
+  "tabledataextractor.*",
+  "DAWG2.*",
+  "dawg2.*",
+  "python_crfsuite.*",
+  "stanza.*",
+  "yaspin.*",
+  "appdirs.*",
+  "lxml.*",
+  "nltk.*",
+  "yaml.*",
+  "selenium.*",
+  "overrides.*",
+]
+ignore_missing_imports = true
+
+# Ruff Configuration
+[tool.ruff]
+target-version = "py311"
+line-length = 100
+
+[tool.ruff.lint]
+select = [
+  "E",   # pycodestyle errors
+  "W",   # pycodestyle warnings
+  "F",   # pyflakes
+  "I",   # isort
+  "B",   # flake8-bugbear
+  "C4",  # flake8-comprehensions
+  "UP",  # pyupgrade
+  "ARG", # flake8-unused-arguments
+  "SIM", # flake8-simplify
+]
+ignore = [
+  "E501",   # line too long (handled by formatter)
+  "B008",   # do not perform function calls in argument defaults
+  "B011",   # assert false
+  "ARG002", # unused method arguments
+  "UP006",  # this prefers list over List etc - at least for now we want to keep the imports from the Typing module
+  "UP035",  # need to keep using typing module
+]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/*" = ["ARG", "S101"] # Allow assert in tests
+"__init__.py" = ["F401"]    # Allow unused imports in __init__.py
+
+[tool.ruff.lint.isort]
+known-first-party = ["chemdataextractor"]
+force-single-line = true
+
+# Coverage Configuration
+[tool.coverage.run]
+source = ["chemdataextractor"]
+omit = ["*/tests/*", "*/test_*", "setup.py"]
+
+[tool.coverage.report]
+exclude_lines = [
+  "pragma: no cover",
+  "def __repr__",
+  "raise AssertionError",
+  "raise NotImplementedError",
+  "if __name__ == .__main__.:",
+  "if TYPE_CHECKING:",
+]
+
+[tool.coverage.html]
+directory = "htmlcov"
+
+# Pytest Configuration
+[tool.pytest.ini_options]
+addopts = "--cov=chemdataextractor --cov-report=html --cov-report=term-missing  --cov-report=xml"
+testpaths = ["tests"]
+python_files = ["test_*.py", "*_test.py"]
+python_classes = ["Test*"]
+python_functions = ["test_*"]
+filterwarnings = [
+  "ignore::DeprecationWarning",
+  "ignore::PendingDeprecationWarning",
+]

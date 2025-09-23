@@ -1,21 +1,16 @@
-# -*- coding: utf-8 -*-
 """
 BibTeX parser.
 
 """
 
-from __future__ import absolute_import
-from __future__ import division
-from __future__ import print_function
-from __future__ import unicode_literals
-from collections import OrderedDict
 import json
 import re
+from collections import OrderedDict
 
 from ..text.latex import latex_to_unicode
 
 
-class BibtexParser(object):
+class BibtexParser:
     """A class for parsing a BibTeX string into JSON or a python data structure.
 
     Example usage:
@@ -47,9 +42,9 @@ class BibtexParser(object):
         self.meta = kwargs
         self._token = None
         self.token_type = None
-        self._tokens = re.compile(
-            r'([^\s"\'#%@{}()=,]+|\s|"|\'|#|%|@|{|}|\(|\)|=|,)'
-        ).finditer(self.data)
+        self._tokens = re.compile(r'([^\s"\'#%@{}()=,]+|\s|"|\'|#|%|@|{|}|\(|\)|=|,)').finditer(
+            self.data
+        )
         self.mode = None
         self.definitions = {}
         self.records = OrderedDict()
@@ -172,11 +167,7 @@ class BibtexParser(object):
     @classmethod
     def parse_names(cls, names):
         """Parse a string of names separated by "and" like in a BibTeX authors field."""
-        names = [
-            latex_to_unicode(n)
-            for n in re.split(r"\sand\s(?=[^{}]*(?:\{|$))", names)
-            if n
-        ]
+        names = [latex_to_unicode(n) for n in re.split(r"\sand\s(?=[^{}]*(?:\{|$))", names) if n]
         return names
 
     @property
@@ -200,9 +191,7 @@ class BibtexParser(object):
     def json(self):
         """Return a list of records as a JSON string. Follows the BibJSON convention."""
         return json.dumps(
-            OrderedDict(
-                [("metadata", self.metadata), ("records", self.records.values())]
-            )
+            OrderedDict([("metadata", self.metadata), ("records", self.records.values())])
         )
 
 

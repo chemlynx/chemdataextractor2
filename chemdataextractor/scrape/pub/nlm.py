@@ -1,21 +1,19 @@
-# -*- coding: utf-8 -*-
 """
 Tools for scraping documents from NLM Journal Archiving and Interchange DTD XML files.
 
 """
 
-from __future__ import absolute_import
-from __future__ import division
-from __future__ import print_function
-from __future__ import unicode_literals
 import logging
 import re
 
 from ...text.normalize import normalize
-from ...text.processors import Chain, Discard
+from ...text.processors import Chain
 from ..clean import Cleaner
 from ..entity import Entity
-from ..fields import StringField, EntityField, UrlField, IntField
+from ..fields import EntityField
+from ..fields import IntField
+from ..fields import StringField
+from ..fields import UrlField
 
 log = logging.getLogger(__name__)
 
@@ -44,7 +42,7 @@ def space_labels(document):
     """Ensure space around bold compound labels."""
     for label in document.xpath(".//bold"):
         # TODO: Make this more permissive to match chemical_label in parser
-        if not label.text or not re.match("^\(L?\d\d?[a-z]?\):?$", label.text, re.I):
+        if not label.text or not re.match(r"^\(L?\d\d?[a-z]?\):?$", label.text, re.I):
             continue
         parent = label.getparent()
         previous = label.getprevious()
@@ -158,16 +156,12 @@ class NlmXmlDocument(Entity):
         xpath=True,
         all=True,
     )
-    journal_title = StringField(
-        "/article/front/journal-meta//journal-title/text()", xpath=True
-    )
+    journal_title = StringField("/article/front/journal-meta//journal-title/text()", xpath=True)
     journal_abbreviation = StringField(
         '/article/front/journal-meta/journal-id[@journal-id-type="iso-abbrev"]/text()|/article/front/journal-meta/journal-id[@journal-id-type="nlm-ta"]/text()',
         xpath=True,
     )
-    publisher = StringField(
-        "/article/front/journal-meta//publisher-name/text()", xpath=True
-    )
+    publisher = StringField("/article/front/journal-meta//publisher-name/text()", xpath=True)
     volume = StringField("/article/front/article-meta/volume/text()", xpath=True)
     firstpage = StringField("/article/front/article-meta/fpage/text()", xpath=True)
     lastpage = StringField("/article/front/article-meta/lpage/text()", xpath=True)

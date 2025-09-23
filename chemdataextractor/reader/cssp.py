@@ -1,20 +1,12 @@
-# -*- coding: utf-8 -*-
 """
 Readers for ChemSpider SyntheticPages.
 
 """
 
-from __future__ import absolute_import
-from __future__ import division
-from __future__ import print_function
-from __future__ import unicode_literals
 import logging
 
 from ..doc.text import Footnote
-from ..scrape.pub.rsc import replace_rsc_img_chars
-from ..scrape.clean import clean
 from .markup import HtmlReader
-
 
 log = logging.getLogger(__name__)
 
@@ -31,9 +23,7 @@ class CsspHtmlReader(HtmlReader):
         """Override to account for awkward RSC table footnotes."""
         footnotes = []
         for fn in fns:
-            footnote = self._parse_text(
-                fn, refs=refs, specials=specials, element_cls=Footnote
-            )[0]
+            footnote = self._parse_text(fn, refs=refs, specials=specials, element_cls=Footnote)[0]
             footnote += Footnote("", id=fn.getprevious().get("id"))
             footnotes.append(footnote)
         return footnotes

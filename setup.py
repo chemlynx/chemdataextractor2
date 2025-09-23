@@ -1,9 +1,9 @@
 #!/usr/bin/env python
-# -*- coding: utf-8 -*-
 
 import os
-from setuptools import setup, find_packages
 
+from setuptools import find_packages
+from setuptools import setup
 
 if os.path.exists("README.md"):
     long_description = open("README.md").read()

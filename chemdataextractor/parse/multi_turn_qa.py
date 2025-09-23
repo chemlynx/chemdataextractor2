@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Functionality to enable multi-turn question answering for information extraction in ChemDataExtractor
 
@@ -6,15 +5,17 @@ Functionality to enable multi-turn question answering for information extraction
 """
 
 import torch
+from transformers.pipelines import pipeline
+
 from ..doc.text import Subsentence
 from ..model.contextual_range import SentenceRange
 from ..parse.auto import AutoSentenceParser
-from ..parse.base import BaseSentenceParser
-from ..parse.elements import NoMatch, OneOrMore, Optional, SkipTo
+from ..parse.elements import NoMatch
+from ..parse.elements import OneOrMore
+from ..parse.elements import Optional
+from ..parse.elements import SkipTo
 from ..parse.quantity import value_element
 from ..utils import memoized_property
-
-from transformers.pipelines import pipeline
 
 
 class Question(NoMatch):
@@ -170,9 +171,7 @@ class _BatchQuestion:
                 heading = sentence.document.heading_for_sentence(sentence)
                 if heading is not None:
                     context += heading.text + "\n\n"
-            context += " ".join(
-                context_sentence.text for context_sentence in context_sentences
-            )
+            context += " ".join(context_sentence.text for context_sentence in context_sentences)
         else:
             context = self.sentence.text
         return {
@@ -216,21 +215,14 @@ class _BatchQuestion:
                     and question.can_ask_question(record)
                     and (
                         id(record) not in asked_questions
-                        or question.formatted_question(record)
-                        not in asked_questions[id(record)]
+                        or question.formatted_question(record) not in asked_questions[id(record)]
                     )
                 ):
-                    batch_questions_list.append(
-                        cls(record, sentence, question, field_name)
-                    )
+                    batch_questions_list.append(cls(record, sentence, question, field_name))
                     if id(record) in asked_questions:
-                        asked_questions[id(record)].append(
-                            question.formatted_question(record)
-                        )
+                        asked_questions[id(record)].append(question.formatted_question(record))
                     else:
-                        asked_questions[id(record)] = [
-                            question.formatted_question(record)
-                        ]
+                        asked_questions[id(record)] = [question.formatted_question(record)]
         return batch_questions_list
 
     @classmethod
@@ -406,7 +398,7 @@ class MultiTurnQAParser(AutoSentenceParser):
 
                 try:
                     answer["answer"] = question.postprocess_answer(answer["answer"])
-                except ValueError as e:
+                except ValueError:
                     answer = None
 
                 if (
@@ -456,9 +448,7 @@ class MultiTurnQAParser(AutoSentenceParser):
                     new_records_list[index].append(batch_question.record)
             # Another loop iterating through current records and checking if that is in
             # the new records list, if not, appending it to the list
-            for old_sentence_records, new_sentence_records in zip(
-                records, new_records_list
-            ):
+            for old_sentence_records, new_sentence_records in zip(records, new_records_list):
                 for record in old_sentence_records:
                     if record not in new_sentence_records:
                         new_sentence_records.append(record)
@@ -472,15 +462,8 @@ class MultiTurnQAParser(AutoSentenceParser):
 
     def _is_valid_sentence(self, sentence):
         if len(
-            [
-                result
-                for result in self.model.specifier.parse_expression.scan(
-                    sentence.tokens
-                )
-            ]
-        ) and len(
-            [result for result in self.numerical_value_expression.scan(sentence.tokens)]
-        ):
+            [result for result in self.model.specifier.parse_expression.scan(sentence.tokens)]
+        ) and len([result for result in self.numerical_value_expression.scan(sentence.tokens)]):
             return True
         return False
 
@@ -549,23 +532,18 @@ class MultiTurnQAParser(AutoSentenceParser):
                 "specifier",
             ]:
                 try:
-                    if (
-                        self.model.__getattribute__(self.model, field).parse_expression
-                        is not None
-                    ):
+                    if self.model.__getattribute__(self.model, field).parse_expression is not None:
                         entities.append(
-                            self.model.__getattribute__(
-                                self.model, field
-                            ).parse_expression(field)
+                            self.model.__getattribute__(self.model, field).parse_expression(field)
                         )
                 except AttributeError:
                     pass
 
         # logic for finding all the elements in any order
         combined_entities = _create_entities_list(entities)
-        root_phrase = OneOrMore(
-            combined_entities + Optional(SkipTo(combined_entities))
-        )("root_phrase")
+        root_phrase = OneOrMore(combined_entities + Optional(SkipTo(combined_entities)))(
+            "root_phrase"
+        )
         return root_phrase
 
 

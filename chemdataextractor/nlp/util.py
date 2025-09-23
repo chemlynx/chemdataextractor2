@@ -1,8 +1,11 @@
-import torch
-from chemdataextractor.errors import ConfigurationError
-from typing import List, Optional
-import math
 import logging
+import math
+from typing import List
+from typing import Optional
+
+import torch
+
+from chemdataextractor.errors import ConfigurationError
 
 logger = logging.getLogger(__name__)
 
@@ -41,9 +44,7 @@ def combine_initial_dims(tensor: torch.Tensor) -> torch.Tensor:
         return tensor.view(-1, tensor.size(-1))
 
 
-def uncombine_initial_dims(
-    tensor: torch.Tensor, original_size: torch.Size
-) -> torch.Tensor:
+def uncombine_initial_dims(tensor: torch.Tensor, original_size: torch.Size) -> torch.Tensor:
     """
     Given a tensor of embeddings with shape
     (d1 * ... * dn, sequence_length, embedding_dim)
@@ -116,9 +117,7 @@ def viterbi_decode(
     elif top_k >= 1:
         flatten_output = False
     else:
-        raise ValueError(
-            f"top_k must be either None or an integer >=1. Instead received {top_k}"
-        )
+        raise ValueError(f"top_k must be either None or an integer >=1. Instead received {top_k}")
 
     sequence_length, num_tags = list(tag_sequence.size())
 
@@ -127,7 +126,6 @@ def viterbi_decode(
     )
 
     if has_start_end_restrictions:
-
         if allowed_end_transitions is None:
             allowed_end_transitions = torch.zeros(num_tags)
         if allowed_start_transitions is None:

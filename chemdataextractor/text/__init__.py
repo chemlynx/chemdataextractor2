@@ -1,18 +1,12 @@
-# -*- coding: utf-8 -*-
 """
 Tools for processing text.
 
 """
 
-from __future__ import absolute_import
-from __future__ import division
-from __future__ import print_function
-from __future__ import unicode_literals
 import re
 import unicodedata
 
 from bs4 import UnicodeDammit
-
 
 #: Control characters.
 CONTROLS = {
@@ -397,9 +391,7 @@ DOI_RE = re.compile(r"^10\.\d{4,9}/[-\._;()/:A-Z0-9]+$", re.U)
 #: Regular expression that matches ISSNs.
 ISSN_RE = re.compile(r"^\d{4}-\d{3}[\dX]$", re.U)
 #: Regular expression that matches control characters not allowed in XML.
-CONTROL_RE = re.compile(
-    "[^\u0020-\ud7ff\u0009\u000a\u000d\ue000-\ufffd\u10000-\u10ffFF]+"
-)
+CONTROL_RE = re.compile("[^\u0020-\ud7ff\u0009\u000a\u000d\ue000-\ufffd\u10000-\u10ffFF]+")
 
 
 def get_encoding(input_string, guesses=None, is_html=False):

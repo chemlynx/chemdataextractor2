@@ -1,26 +1,48 @@
-# -*- coding: utf-8 -*-
 """
 Base classes for parsing sentences and tables.
+
+Provides abstract base classes for implementing parsers that extract
+structured chemical data from text and tables.
 """
 
-from __future__ import absolute_import
-from __future__ import division
-from __future__ import print_function
-from __future__ import unicode_literals
-from abc import abstractproperty, abstractmethod
-from .quantity import extract_error, extract_units, extract_value
+from __future__ import annotations
+
 import logging
+from abc import abstractmethod
+from abc import abstractproperty
+from typing import TYPE_CHECKING
+from typing import Any
+from typing import Optional
+
+from .quantity import extract_error
+from .quantity import extract_units
+from .quantity import extract_value
+
+if TYPE_CHECKING:
+    from ..doc.element import BaseElement
+    from ..model.base import BaseModel
 
 log = logging.getLogger(__name__)
 
 
-class BaseParser(object):
-    """"""
+class BaseParser:
+    """Abstract base class for all parsers.
 
-    model = None
-    trigger_phrase = None
-    skip_section_phrase = None
-    allow_section_phrase = None
+    Provides the fundamental interface for parsing chemical data from
+    document elements. Parsers extract structured data using grammar
+    rules and convert it into model instances.
+
+    Attributes:
+        model: type[BaseModel] - The model class this parser creates
+        trigger_phrase: Optional[BaseParserElement] - Fast pre-filter for performance
+        skip_section_phrase: Optional[BaseParserElement] - Sections to skip
+        allow_section_phrase: Optional[BaseParserElement] - Sections to allow
+    """
+
+    model: Optional[type[BaseModel]] = None
+    trigger_phrase: Optional[Any] = None  # BaseParserElement
+    skip_section_phrase: Optional[Any] = None  # BaseParserElement
+    allow_section_phrase: Optional[Any] = None  # BaseParserElement
     """
     Optional :class:`~chemdataextractor.parse.elements.BaseParserElement` instance.
     All sentences are run through this before the full root phrase is applied to the
@@ -36,55 +58,69 @@ class BaseParser(object):
     """
 
     @abstractproperty
-    def root(self):
+    def root(self) -> Any:
+        """The root parsing element for this parser.
+
+        Returns:
+            BaseParserElement - The main parsing rule
+        """
         pass
 
     @abstractmethod
-    def interpret(self, result, start, end):
+    def interpret(self, result: Any, start: int, end: int) -> list[BaseModel]:
+        """Interpret a parse result into model instances.
+
+        Args:
+            result: Any - The parse result to interpret
+            start: int - Start position in the text
+            end: int - End position in the text
+
+        Returns:
+            list[BaseModel] - List of extracted model instances
+        """
         pass
 
-    def extract_error(self, string):
-        """
-        Extract the error from a string
+    def extract_error(self, string: str) -> Optional[float]:
+        """Extract the error from a value string.
 
         Usage::
 
             bp = BaseParser()
             test_string = '150±5'
             end_value = bp.extract_error(test_string)
-            print(end_value) # 5
+            print(end_value)  # 5.0
 
-        :param str string: A representation of the value and error as a string
-        :returns: The error expressed as a float .
-        :rtype: float
+        Args:
+            string: str - A representation of the value and error as a string
+
+        Returns:
+            Optional[float] - The error value, or None if no error found
         """
         return extract_error(string)
 
-    def extract_value(self, string):
-        """
-        Takes a string and returns a list of floats representing the string given.
+    def extract_value(self, string: str) -> list[float]:
+        """Extract numeric values from a string.
 
         Usage::
 
             bp = BaseParser()
             test_string = '150 to 160'
             end_value = bp.extract_value(test_string)
-            print(end_value) # [150., 160.]
+            print(end_value)  # [150.0, 160.0]
 
-        :param str string: A representation of the values as a string
-        :returns: The value expressed as a list of floats of length 1 if the value had no range,
-            and as a list of floats of length 2 if it was a range.
-        :rtype: list(float)
+        Args:
+            string: str - A representation of the values as a string
+
+        Returns:
+            list[float] - Single value or range as list of floats
         """
         return extract_value(string)
 
-    def extract_units(self, string, strict=False):
-        """
-        Takes a string and returns a Unit.
-        Raises TypeError if strict and the dimensions do not match the expected dimensions
-        or the string has extraneous characters, e.g. if a string Fe was given, and we were
-        looking for a temperature, strict=False would return Fahrenheit, strinct=True would
-        raise a TypeError.
+    def extract_units(self, string: str, strict: bool = False) -> Optional[Any]:
+        """Extract units from a string.
+
+        Raises TypeError if strict=True and dimensions don't match expected
+        dimensions or string has extraneous characters.
 
         Usage::
 
@@ -93,28 +129,41 @@ class BaseParser(object):
             bp.model.dimensions = Temperature() * Length()**0.5 * Time()**(1.5)
             test_string = 'Kh2/(km/s)-1/2'
             end_units = bp.extract_units(test_string, strict=True)
-            print(end_units) # Units of: (10^1.5) * Hour^(2.0)  Meter^(0.5)  Second^(-0.5)  Kelvin^(1.0)
+            print(end_units)  # Units of: (10^1.5) * Hour^(2.0)  Meter^(0.5)  ...
 
-        :param str string: A representation of the units as a string
-        :param bool strict: Whether to raise a TypeError if the dimensions of the parsed units do not have the expected dimensions.
-        :returns: The string expressed as a Unit
-        :rtype: chemdataextractor.quantities.Unit
+        Args:
+            string: str - A representation of the units as a string
+            strict: bool - Whether to raise TypeError for dimension mismatches
+
+        Returns:
+            Optional[Unit] - The parsed unit, or None if parsing failed
+
+        Raises:
+            TypeError: If strict=True and dimensions don't match
         """
         return extract_units(string, self.model.dimensions, strict)
 
 
 class BaseSentenceParser(BaseParser):
-    """
-    Base class for parsing sentences. To implement a parser for a new property,
-    impelement the interpret function.
+    """Base class for parsing sentences.
+
+    Specialized parser for extracting data from sentence-level text.
+    To implement a parser for a new property, implement the interpret function.
     """
 
-    parse_full_sentence = False
+    parse_full_sentence: bool = False
 
-    def should_read_section(self, heading):
+    def should_read_section(self, heading: BaseElement) -> bool:
+        """Determine if a section should be read based on section phrases.
+
+        Args:
+            heading: BaseElement - The section heading to evaluate
+
+        Returns:
+            bool - True if section should be processed
+        """
         should_read = True
         for sentence in heading.sentences:
-
             if self.allow_section_phrase is not None:
                 allow_phrase_results = [
                     result for result in self.allow_section_phrase.scan(sentence.tokens)
@@ -131,17 +180,17 @@ class BaseSentenceParser(BaseParser):
                     should_read = False
         return should_read
 
-    def parse_sentence(self, sentence):
-        """
-        Parse a sentence. This function is primarily called by the
-        :attr:`~chemdataextractor.doc.text.Sentence.records` property of
-        :class:`~chemdataextractor.doc.text.Sentence`.
+    def parse_sentence(self, sentence: BaseElement):
+        """Parse a sentence for chemical data.
 
-        :param list[(token,tag)] tokens: List of tokens for parsing. When this method
-            is called by :attr:`chemdataextractor.doc.text.Sentence.records`,
-            the tokens passed in are :attr:`chemdataextractor.doc.text.Sentence.tagged_tokens`.
-        :returns: All the models found in the sentence.
-        :rtype: Iterator[:class:`chemdataextractor.model.base.BaseModel`]
+        This function is primarily called by the
+        :attr:`~chemdataextractor.doc.text.Sentence.records` property.
+
+        Args:
+            sentence: BaseElement - The sentence element to parse
+
+        Yields:
+            BaseModel - Extracted model instances from the sentence
         """
         if self.trigger_phrase is not None:
             trigger_phrase_results = [
@@ -154,32 +203,27 @@ class BaseSentenceParser(BaseParser):
 
 
 class BaseTableParser(BaseParser):
-    """
-    Base class for parsing new-style tables. To implement a parser for a new property,
-    impelement the interpret function.
+    """Base class for parsing table data.
+
+    Specialized parser for extracting data from table cells.
+    To implement a parser for a new property, implement the interpret function.
     """
 
-    def parse_cell(self, cell):
-        """
-        Parse a cell. This function is primarily called by the
-        :attr:`~chemdataextractor.doc.table.Table.records` property of
-        :class:`~chemdataextractor.doc.table.Table`.
+    def parse_cell(self, cell: BaseElement):
+        """Parse a table cell for chemical data.
 
-        :param list[(token,tag)] tokens: List of tokens for parsing. When this method
-            is called by :attr:`chemdataextractor.doc.text.table.Table`,
-            the tokens passed in are in the same form as
-            :attr:`chemdataextractor.doc.text.Sentence.tagged_tokens`, after the
-            category table has been flattened into a sentence.
-        :returns: All the models found in the table.
-        :rtype: Iterator[:class:`chemdataextractor.model.base.BaseModel`]
+        This function is primarily called by the
+        :attr:`~chemdataextractor.doc.table.Table.records` property.
+
+        Args:
+            cell: BaseElement - The table cell element to parse
+
+        Yields:
+            BaseModel - Extracted model instances from the cell
         """
         if self.trigger_phrase is not None:
-            trigger_phrase_results = [
-                result for result in self.trigger_phrase.scan(cell.tokens)
-            ]
-        if (
-            self.trigger_phrase is None or trigger_phrase_results
-        ) and self.root is not None:
+            trigger_phrase_results = [result for result in self.trigger_phrase.scan(cell.tokens)]
+        if (self.trigger_phrase is None or trigger_phrase_results) and self.root is not None:
             for result in self.root.scan(cell.tokens):
                 try:
                     for model in self.interpret(*result):

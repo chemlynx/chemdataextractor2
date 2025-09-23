@@ -1,18 +1,15 @@
-# -*- coding: utf-8 -*-
 """
 Common parser elements.
 
 """
 
-from __future__ import absolute_import
-from __future__ import division
-from __future__ import print_function
-from __future__ import unicode_literals
 import logging
 import re
 
-from .elements import W, T, R, Optional
-
+from .elements import Optional
+from .elements import R
+from .elements import T
+from .elements import W
 
 log = logging.getLogger(__name__)
 
@@ -73,7 +70,7 @@ icm = T("I-CM")
 roman_numeral = R("^(I|II|III|IV|V|VI|VII|VIII|IX|XI|XII|XIII|XIV)$", re.I)
 
 # Punctuation delimiter that is hidden
-delim = R("^[,:;\.\[\]\(\)\{\}/]$")
+delim = R(r"^[,:;\.\[\]\(\)\{\}/]$")
 optdelim = Optional(delim)
 
 # CEM: optdelim = Optional(R('^[;:,\.\(\)]$').hide())
@@ -88,7 +85,7 @@ lbrct = W("(").hide()
 rbrct = W(")").hide()
 
 # All hyphen and minus characters. Probably more robust than the hyph POS tag.
-hyphen = R("^[\-‐‑⁃‒–—―−－⁻]$")
+hyphen = R(r"^[\-‐‑⁃‒–—―−－⁻]$")
 
 # All quote and apostrophe characters
 quote = R("^['’՚Ꞌꞌ＇‘’‚‛\"“”„‟`´’‘]$")

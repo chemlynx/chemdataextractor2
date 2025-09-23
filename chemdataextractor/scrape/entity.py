@@ -1,28 +1,23 @@
-# -*- coding: utf-8 -*-
 """
 An entity to extract.
 
 """
 
-from __future__ import absolute_import
-from __future__ import division
-from __future__ import print_function
-from __future__ import unicode_literals
-from collections.abc import Sequence
 import json
 import logging
+from collections.abc import Sequence
 
-
-from .base import BaseEntity, EntityMeta
-from .fields import StringField, DateTimeField, UrlField
 from ..text.normalize import normalize
-
+from .base import BaseEntity
+from .base import EntityMeta
+from .fields import DateTimeField
+from .fields import StringField
+from .fields import UrlField
 
 log = logging.getLogger(__name__)
 
 
 class Entity(BaseEntity, metaclass=EntityMeta):
-
     fields = {}
 
     def __init__(self, selector):
@@ -163,9 +158,7 @@ class DocumentEntity(Entity):
         '//meta[@name="citation_publication_date"]/@content | //meta[@name="prism.publicationDate"]/@content | //meta[@name="citation_date"]/@content | //meta[@name="dc.date"]/@content | //meta[@name="DC.date"]/@content | //meta[@name="DC.Date"]/@content | //meta[@name="dc.Date"]/@content',
         xpath=True,
     )
-    online_date = DateTimeField(
-        '//meta[@name="citation_online_date"]/@content', xpath=True
-    )
+    online_date = DateTimeField('//meta[@name="citation_online_date"]/@content', xpath=True)
     journal = StringField(
         '//meta[@name="citation_journal_title"]/@content | //meta[@name="citation_journal_abbrev"]/@content | //meta[@name="prism.publicationName"]/@content | //meta[@name="dc.source"]/@content | //meta[@name="DC.source"]/@content | //meta[@name="DC.Source"]/@content',
         xpath=True,
@@ -184,9 +177,7 @@ class DocumentEntity(Entity):
         xpath=True,
     )
     lastpage = StringField('//meta[@name="citation_lastpage"]/@content', xpath=True)
-    abstract = StringField(
-        '//meta[@name="citation_abstract"]/@content', xpath=True, strip=True
-    )
+    abstract = StringField('//meta[@name="citation_abstract"]/@content', xpath=True, strip=True)
     publisher = StringField(
         '//meta[@name="citation_publisher"]/@content | //meta[@name="dc.publisher"]/@content | //meta[@name="DC.publisher"]/@content | //meta[@name="dc.Publisher"]/@content | //meta[@name="DC.Publisher"]/@content',
         xpath=True,
@@ -204,13 +195,9 @@ class DocumentEntity(Entity):
         xpath=True,
     )
     license = UrlField('//a[@rel="license"]/@href', xpath=True)
-    html_url = UrlField(
-        '//meta[@name="citation_fulltext_html_url"]/@content', xpath=True
-    )
+    html_url = UrlField('//meta[@name="citation_fulltext_html_url"]/@content', xpath=True)
     pdf_url = UrlField('//meta[@name="citation_pdf_url"]/@content', xpath=True)
-    landing_url = UrlField(
-        '//meta[@name="citation_abstract_html_url"]/@content', xpath=True
-    )
+    landing_url = UrlField('//meta[@name="citation_abstract_html_url"]/@content', xpath=True)
 
     process_title = normalize
     process_journal = normalize

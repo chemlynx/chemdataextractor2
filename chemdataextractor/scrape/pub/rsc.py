@@ -1,136 +1,142 @@
-# -*- coding: utf-8 -*-
 """
 Tools for scraping documents from The Royal Society of Chemistry.
 
 """
 
-from __future__ import absolute_import
-from __future__ import division
-from __future__ import print_function
-from __future__ import unicode_literals
 import logging
 import re
+import urllib.parse
+from time import sleep
 
 from bs4 import UnicodeDammit
 from lxml.etree import fromstring
-from lxml.html import HTMLParser, Element
-import urllib.parse
-from time import sleep
+from lxml.html import Element
+from lxml.html import HTMLParser
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
 
-from ...text.processors import Substitutor, Discard, Chain, LStrip, RStrip, LAdd
 from ...text.normalize import normalize
+from ...text.processors import Chain
+from ...text.processors import Discard
+from ...text.processors import LAdd
+from ...text.processors import LStrip
+from ...text.processors import RStrip
+from ...text.processors import Substitutor
 from .. import BLOCK_ELEMENTS
-from ..clean import Cleaner, clean
-from ..entity import Entity, DocumentEntity
-from ..fields import StringField, EntityField, UrlField
-from ..scraper import RssScraper, SearchScraper, UrlScraper, SeleniumSearchResult
-from ..selector import Selector
-
+from ..clean import Cleaner
+from ..clean import clean
+from ..entity import DocumentEntity
+from ..entity import Entity
+from ..fields import EntityField
+from ..fields import StringField
+from ..fields import UrlField
+from ..scraper import RssScraper
+from ..scraper import SearchScraper
+from ..scraper import SeleniumSearchResult
+from ..scraper import UrlScraper
 
 log = logging.getLogger(__name__)
 
 
 #: Map placeholder text to unicode characters.
 CHAR_REPLACEMENTS = [
-    ("\[?\[1 with combining macron\]\]?", "1\u0304"),
-    ("\[?\[2 with combining macron\]\]?", "2\u0304"),
-    ("\[?\[3 with combining macron\]\]?", "3\u0304"),
-    ("\[?\[4 with combining macron\]\]?", "4\u0304"),
-    ("\[?\[approximate\]\]?", "\u2248"),
-    ("\[?\[bottom\]\]?", "\u22a5"),
-    ("\[?\[c with combining tilde\]\]?", "C\u0303"),
-    ("\[?\[capital delta\]\]?", "\u0394"),
-    ("\[?\[capital lambda\]\]?", "\u039b"),
-    ("\[?\[capital omega\]\]?", "\u03a9"),
-    ("\[?\[capital phi\]\]?", "\u03a6"),
-    ("\[?\[capital pi\]\]?", "\u03a0"),
-    ("\[?\[capital psi\]\]?", "\u03a8"),
-    ("\[?\[capital sigma\]\]?", "\u03a3"),
-    ("\[?\[caret\]\]?", "^"),
-    ("\[?\[congruent with\]\]?", "\u2245"),
-    ("\[?\[curly or open phi\]\]?", "\u03d5"),
-    ("\[?\[dagger\]\]?", "\u2020"),
-    ("\[?\[dbl greater-than\]\]?", "\u226b"),
-    ("\[?\[dbl vertical bar\]\]?", "\u2016"),
-    ("\[?\[degree\]\]?", "\xb0"),
-    ("\[?\[double bond, length as m-dash\]\]?", "="),
-    ("\[?\[double bond, length half m-dash\]\]?", "="),
-    ("\[?\[double dagger\]\]?", "\u2021"),
-    ("\[?\[double equals\]\]?", "\u2267"),
-    ("\[?\[double less-than\]\]?", "\u226a"),
-    ("\[?\[double prime\]\]?", "\u2033"),
-    ("\[?\[downward arrow\]\]?", "\u2193"),
-    ("\[?\[fraction five-over-two\]\]?", "5/2"),
-    ("\[?\[fraction three-over-two\]\]?", "3/2"),
-    ("\[?\[gamma\]\]?", "\u03b3"),
-    ("\[?\[greater-than-or-equal\]\]?", "\u2265"),
-    ("\[?\[greater, similar\]\]?", "\u2273"),
-    ("\[?\[gt-or-equal\]\]?", "\u2265"),
-    ("\[?\[i without dot\]\]?", "\u0131"),
-    ("\[?\[identical with\]\]?", "\u2261"),
-    ("\[?\[infinity\]\]?", "\u221e"),
-    ("\[?\[intersection\]\]?", "\u2229"),
-    ("\[?\[iota\]\]?", "\u03b9"),
-    ("\[?\[is proportional to\]\]?", "\u221d"),
-    ("\[?\[leftrightarrow\]\]?", "\u2194"),
-    ("\[?\[leftrightarrows\]\]?", "\u21c4"),
-    ("\[?\[less-than-or-equal\]\]?", "\u2264"),
-    ("\[?\[less, similar\]\]?", "\u2272"),
-    ("\[?\[logical and\]\]?", "\u2227"),
-    ("\[?\[middle dot\]\]?", "\xb7"),
-    ("\[?\[not equal\]\]?", "\u2260"),
-    ("\[?\[parallel\]\]?", "\u2225"),
-    ("\[?\[per thousand\]\]?", "\u2030"),
-    ("\[?\[prime or minute\]\]?", "\u2032"),
-    ("\[?\[quadruple bond, length as m-dash\]\]?", "\u2263"),
-    ("\[?\[radical dot\]\]?", " \u0307"),
-    ("\[?\[ratio\]\]?", "\u2236"),
-    ("\[?\[registered sign\]\]?", "\xae"),
-    ("\[?\[reverse similar\]\]?", "\u223d"),
-    ("\[?\[right left arrows\]\]?", "\u21c4"),
-    ("\[?\[right left harpoons\]\]?", "\u21cc"),
-    ("\[?\[rightward arrow\]\]?", "\u2192"),
-    ("\[?\[round bullet, filled\]\]?", "\u2022"),
-    ("\[?\[sigma\]\]?", "\u03c3"),
-    ("\[?\[similar\]\]?", "\u223c"),
-    ("\[?\[small alpha\]\]?", "\u03b1"),
-    ("\[?\[small beta\]\]?", "\u03b2"),
-    ("\[?\[small chi\]\]?", "\u03c7"),
-    ("\[?\[small delta\]\]?", "\u03b4"),
-    ("\[?\[small eta\]\]?", "\u03b7"),
-    ("\[?\[small gamma, Greek, dot above\]\]?", "\u03b3\u0307"),
-    ("\[?\[small kappa\]\]?", "\u03ba"),
-    ("\[?\[small lambda\]\]?", "\u03bb"),
-    ("\[?\[small micro\]\]?", "\xb5"),
-    ("\[?\[small mu \]\]?", "\u03bc"),
-    ("\[?\[small nu\]\]?", "\u03bd"),
-    ("\[?\[small omega\]\]?", "\u03c9"),
-    ("\[?\[small phi\]\]?", "\u03c6"),
-    ("\[?\[small pi\]\]?", "\u03c0"),
-    ("\[?\[small psi\]\]?", "\u03c8"),
-    ("\[?\[small tau\]\]?", "\u03c4"),
-    ("\[?\[small theta\]\]?", "\u03b8"),
-    ("\[?\[small upsilon\]\]?", "\u03c5"),
-    ("\[?\[small xi\]\]?", "\u03be"),
-    ("\[?\[small zeta\]\]?", "\u03b6"),
-    ("\[?\[space\]\]?", " "),
-    ("\[?\[square\]\]?", "\u25a1"),
-    ("\[?\[subset or is implied by\]\]?", "\u2282"),
-    ("\[?\[summation operator\]\]?", "\u2211"),
-    ("\[?\[times\]\]?", "\xd7"),
-    ("\[?\[trade mark sign\]\]?", "\u2122"),
-    ("\[?\[triple bond, length as m-dash\]\]?", "\u2261"),
-    ("\[?\[triple bond, length half m-dash\]\]?", "\u2261"),
-    ("\[?\[triple prime\]\]?", "\u2034"),
-    ("\[?\[upper bond 1 end\]\]?", ""),
-    ("\[?\[upper bond 1 start\]\]?", ""),
-    ("\[?\[upward arrow\]\]?", "\u2191"),
-    ("\[?\[varepsilon\]\]?", "\u03b5"),
-    ("\[?\[x with combining tilde\]\]?", "X\u0303"),
+    (r"\[?\[1 with combining macron\]\]?", "1\u0304"),
+    (r"\[?\[2 with combining macron\]\]?", "2\u0304"),
+    (r"\[?\[3 with combining macron\]\]?", "3\u0304"),
+    (r"\[?\[4 with combining macron\]\]?", "4\u0304"),
+    (r"\[?\[approximate\]\]?", "\u2248"),
+    (r"\[?\[bottom\]\]?", "\u22a5"),
+    (r"\[?\[c with combining tilde\]\]?", "C\u0303"),
+    (r"\[?\[capital delta\]\]?", "\u0394"),
+    (r"\[?\[capital lambda\]\]?", "\u039b"),
+    (r"\[?\[capital omega\]\]?", "\u03a9"),
+    (r"\[?\[capital phi\]\]?", "\u03a6"),
+    (r"\[?\[capital pi\]\]?", "\u03a0"),
+    (r"\[?\[capital psi\]\]?", "\u03a8"),
+    (r"\[?\[capital sigma\]\]?", "\u03a3"),
+    (r"\[?\[caret\]\]?", "^"),
+    (r"\[?\[congruent with\]\]?", "\u2245"),
+    (r"\[?\[curly or open phi\]\]?", "\u03d5"),
+    (r"\[?\[dagger\]\]?", "\u2020"),
+    (r"\[?\[dbl greater-than\]\]?", "\u226b"),
+    (r"\[?\[dbl vertical bar\]\]?", "\u2016"),
+    (r"\[?\[degree\]\]?", "\xb0"),
+    (r"\[?\[double bond, length as m-dash\]\]?", "="),
+    (r"\[?\[double bond, length half m-dash\]\]?", "="),
+    (r"\[?\[double dagger\]\]?", "\u2021"),
+    (r"\[?\[double equals\]\]?", "\u2267"),
+    (r"\[?\[double less-than\]\]?", "\u226a"),
+    (r"\[?\[double prime\]\]?", "\u2033"),
+    (r"\[?\[downward arrow\]\]?", "\u2193"),
+    (r"\[?\[fraction five-over-two\]\]?", "5/2"),
+    (r"\[?\[fraction three-over-two\]\]?", "3/2"),
+    (r"\[?\[gamma\]\]?", "\u03b3"),
+    (r"\[?\[greater-than-or-equal\]\]?", "\u2265"),
+    (r"\[?\[greater, similar\]\]?", "\u2273"),
+    (r"\[?\[gt-or-equal\]\]?", "\u2265"),
+    (r"\[?\[i without dot\]\]?", "\u0131"),
+    (r"\[?\[identical with\]\]?", "\u2261"),
+    (r"\[?\[infinity\]\]?", "\u221e"),
+    (r"\[?\[intersection\]\]?", "\u2229"),
+    (r"\[?\[iota\]\]?", "\u03b9"),
+    (r"\[?\[is proportional to\]\]?", "\u221d"),
+    (r"\[?\[leftrightarrow\]\]?", "\u2194"),
+    (r"\[?\[leftrightarrows\]\]?", "\u21c4"),
+    (r"\[?\[less-than-or-equal\]\]?", "\u2264"),
+    (r"\[?\[less, similar\]\]?", "\u2272"),
+    (r"\[?\[logical and\]\]?", "\u2227"),
+    (r"\[?\[middle dot\]\]?", "\xb7"),
+    (r"\[?\[not equal\]\]?", "\u2260"),
+    (r"\[?\[parallel\]\]?", "\u2225"),
+    (r"\[?\[per thousand\]\]?", "\u2030"),
+    (r"\[?\[prime or minute\]\]?", "\u2032"),
+    (r"\[?\[quadruple bond, length as m-dash\]\]?", "\u2263"),
+    (r"\[?\[radical dot\]\]?", " \u0307"),
+    (r"\[?\[ratio\]\]?", "\u2236"),
+    (r"\[?\[registered sign\]\]?", "\xae"),
+    (r"\[?\[reverse similar\]\]?", "\u223d"),
+    (r"\[?\[right left arrows\]\]?", "\u21c4"),
+    (r"\[?\[right left harpoons\]\]?", "\u21cc"),
+    (r"\[?\[rightward arrow\]\]?", "\u2192"),
+    (r"\[?\[round bullet, filled\]\]?", "\u2022"),
+    (r"\[?\[sigma\]\]?", "\u03c3"),
+    (r"\[?\[similar\]\]?", "\u223c"),
+    (r"\[?\[small alpha\]\]?", "\u03b1"),
+    (r"\[?\[small beta\]\]?", "\u03b2"),
+    (r"\[?\[small chi\]\]?", "\u03c7"),
+    (r"\[?\[small delta\]\]?", "\u03b4"),
+    (r"\[?\[small eta\]\]?", "\u03b7"),
+    (r"\[?\[small gamma, Greek, dot above\]\]?", "\u03b3\u0307"),
+    (r"\[?\[small kappa\]\]?", "\u03ba"),
+    (r"\[?\[small lambda\]\]?", "\u03bb"),
+    (r"\[?\[small micro\]\]?", "\xb5"),
+    (r"\[?\[small mu \]\]?", "\u03bc"),
+    (r"\[?\[small nu\]\]?", "\u03bd"),
+    (r"\[?\[small omega\]\]?", "\u03c9"),
+    (r"\[?\[small phi\]\]?", "\u03c6"),
+    (r"\[?\[small pi\]\]?", "\u03c0"),
+    (r"\[?\[small psi\]\]?", "\u03c8"),
+    (r"\[?\[small tau\]\]?", "\u03c4"),
+    (r"\[?\[small theta\]\]?", "\u03b8"),
+    (r"\[?\[small upsilon\]\]?", "\u03c5"),
+    (r"\[?\[small xi\]\]?", "\u03be"),
+    (r"\[?\[small zeta\]\]?", "\u03b6"),
+    (r"\[?\[space\]\]?", " "),
+    (r"\[?\[square\]\]?", "\u25a1"),
+    (r"\[?\[subset or is implied by\]\]?", "\u2282"),
+    (r"\[?\[summation operator\]\]?", "\u2211"),
+    (r"\[?\[times\]\]?", "\xd7"),
+    (r"\[?\[trade mark sign\]\]?", "\u2122"),
+    (r"\[?\[triple bond, length as m-dash\]\]?", "\u2261"),
+    (r"\[?\[triple bond, length half m-dash\]\]?", "\u2261"),
+    (r"\[?\[triple prime\]\]?", "\u2034"),
+    (r"\[?\[upper bond 1 end\]\]?", ""),
+    (r"\[?\[upper bond 1 start\]\]?", ""),
+    (r"\[?\[upward arrow\]\]?", "\u2191"),
+    (r"\[?\[varepsilon\]\]?", "\u03b5"),
+    (r"\[?\[x with combining tilde\]\]?", "X\u0303"),
 ]
 
 
@@ -266,12 +272,7 @@ def parse_rsc_html(htmlstring):
                 newp = None
             else:
                 newp.append(child)
-        if (
-            newp is None
-            and child.tag in BLOCK_ELEMENTS
-            and child.tail
-            and child.tail.strip()
-        ):
+        if newp is None and child.tag in BLOCK_ELEMENTS and child.tail and child.tail.strip():
             newp = Element("p", **{"class": "otherpara"})
             newp.text = child.tail
             child.tail = ""
@@ -281,11 +282,9 @@ def parse_rsc_html(htmlstring):
 def replace_rsc_img_chars(document):
     """Replace image characters with unicode equivalents."""
     image_re = re.compile(
-        "http://www.rsc.org/images/entities/(?:h[23]+_)?(?:[ib]+_)?char_([0-9a-f]{4})(?:_([0-9a-f]{4}))?\.gif"
+        r"http://www.rsc.org/images/entities/(?:h[23]+_)?(?:[ib]+_)?char_([0-9a-f]{4})(?:_([0-9a-f]{4}))?\.gif"
     )
-    for img in document.xpath(
-        './/img[starts-with(@src, "http://www.rsc.org/images/entities/")]'
-    ):
+    for img in document.xpath('.//img[starts-with(@src, "http://www.rsc.org/images/entities/")]'):
         m = image_re.match(img.get("src"))
         if m:
             u1, u2 = m.group(1), m.group(2)
@@ -354,9 +353,7 @@ class RscSearchDocument(Entity):
     pdf_url = UrlField(
         '.btn.btn--primary.btn--tiny::attr("href")', lower=True, strip_querystring=True
     )
-    html_url = UrlField(
-        '.btn.btn--tiny::attr("href")', lower=True, strip_querystring=True
-    )
+    html_url = UrlField('.btn.btn--tiny::attr("href")', lower=True, strip_querystring=True)
     journal = StringField(".text--small strong::text")
     abstract = StringField(".capsule__text")
 
@@ -424,9 +421,7 @@ class RscSearchScraper(SearchScraper):
             # To make sure we don't overload the server
             sleep(1)
             next_button = wait.until(
-                EC.visibility_of_all_elements_located(
-                    (By.CSS_SELECTOR, "a[class^=paging__btn]")
-                )
+                EC.visibility_of_all_elements_located((By.CSS_SELECTOR, "a[class^=paging__btn]"))
             )[1]
             page_string = (
                 """document.querySelectorAll("a[class^=paging__btn]")[1].setAttribute("data-pageno", \""""
@@ -439,9 +434,7 @@ class RscSearchScraper(SearchScraper):
 
         # To ensure that we wait until the elements have loaded before scraping the webpage
         _ = wait.until(
-            EC.visibility_of_element_located(
-                (By.CSS_SELECTOR, ".capsule.capsule--article")
-            )
+            EC.visibility_of_element_located((By.CSS_SELECTOR, ".capsule.capsule--article"))
         )
         return SeleniumSearchResult(driver)
 
@@ -481,9 +474,7 @@ class RscChemicalMention(Entity):
     chemspider_id = StringField(
         'a[href^="http://www.chemspider.com/Chemical-Structure."]::attr("href")'
     )
-    inchi = StringField(
-        'a[href^="http://www.chemspider.com/Search.aspx?q="]::attr("href")'
-    )
+    inchi = StringField('a[href^="http://www.chemspider.com/Search.aspx?q="]::attr("href")')
 
     clean_text = Chain(replace_rsc_img_chars, strip_rsc_html)
 
@@ -531,12 +522,8 @@ class RscHtmlDocument(DocumentEntity):
     abstract = StringField(".abstract")
     # chemical_mentions = EntityField(RscChemicalMention, 'span.TC', all=True)
     pdf_url = UrlField('meta[name="citation_pdf_url"]::attr("content")', lower=True)
-    html_url = UrlField(
-        'meta[name="citation_fulltext_html_url"]::attr("content")', lower=True
-    )
-    landing_url = UrlField(
-        'meta[name="citation_abstract_html_url"]::attr("content")', lower=True
-    )
+    html_url = UrlField('meta[name="citation_fulltext_html_url"]::attr("content")', lower=True)
+    landing_url = UrlField('meta[name="citation_abstract_html_url"]::attr("content")', lower=True)
     # figures = EntityField(RscImage, '.image_table', all=True)
     # schemes = EntityField(RscImage, '.image_table', all=True)
     # tables = EntityField(RscTable, '.table_caption', all=True)

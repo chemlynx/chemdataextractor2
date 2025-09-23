@@ -1,14 +1,20 @@
-# -*- coding: utf-8 -*-
 """
 Parser for automatic parsing, without user-written parsing rules, implemeting the DepIE algorithm
 """
-from .auto import AutoSentenceParser, match_dimensions_of, construct_unit_element
+
+import copy
+
+from lxml.builder import E
+
 from ..model import ModelType
-from .cem import cem, chemical_label, lenient_chemical_label
+from .auto import AutoSentenceParser
+from .auto import construct_unit_element
+from .auto import match_dimensions_of
+from .cem import cem
+from .cem import chemical_label
+from .cem import lenient_chemical_label
 from .elements import Group
 from .quantity import value_element
-import copy
-from lxml.builder import E
 
 
 class _LabelledRange:
@@ -41,7 +47,7 @@ class _LabelledRange:
         return False
 
     def __str__(self):
-        return "_LabelledRange(data: {}, range:{}".format(self.data, self.range)
+        return f"_LabelledRange(data: {self.data}, range:{self.range}"
 
     def __repr__(self):
         return str(self)
@@ -84,9 +90,7 @@ class AutoDependencyParser(AutoSentenceParser):
         """
         super().__init__()
         self.chem_name = (
-            chem_name
-            if chem_name is not None
-            else (cem | chemical_label | lenient_chemical_label)
+            chem_name if chem_name is not None else (cem | chemical_label | lenient_chemical_label)
         )
         self.skip_phrase = skip_phrase
         self.primary_keypath = primary_keypath
@@ -97,9 +101,7 @@ class AutoDependencyParser(AutoSentenceParser):
     def parse_sentence(self, sentence):
         # Skip parsing sentence if it fits skip_phrase
         if self.skip_phrase is not None:
-            skip_phrase_results = [
-                result for result in self.skip_phrase.scan(sentence.tokens)
-            ]
+            skip_phrase_results = [result for result in self.skip_phrase.scan(sentence.tokens)]
             if skip_phrase_results:
                 return []
         # Skip parsing sentence unless it fits trigger_phrase
@@ -117,10 +119,7 @@ class AutoDependencyParser(AutoSentenceParser):
         #   first code path?
         if self.primary_keypath is not None:
             return self._parse_sentence_primary_keypath(sentence)
-        elif all(
-            hasattr(self.model, field)
-            for field in self._excluded_fields_for_quantity_model
-        ):
+        elif all(hasattr(self.model, field) for field in self._excluded_fields_for_quantity_model):
             return self._parse_sentence_quantity_model(sentence)
         elif hasattr(self.model, "specifier"):
             return self._parse_sentence_specifier(sentence)
@@ -135,9 +134,7 @@ class AutoDependencyParser(AutoSentenceParser):
         if "raw_value" in self.model.fields:
             value_results = self.do_value_phrase(sentence)
         try:
-            return self._create_models_primary_keypath(
-                value_results, other_results, sentence
-            )
+            return self._create_models_primary_keypath(value_results, other_results, sentence)
         except AttributeError as e:
             print(e)
             return []
@@ -150,9 +147,7 @@ class AutoDependencyParser(AutoSentenceParser):
                 other_values_map[keypath] = _find_associated(
                     primary_results, results, False, sentence
                 )
-            values_map = _find_associated(
-                primary_results, value_results, True, sentence
-            )
+            values_map = _find_associated(primary_results, value_results, True, sentence)
 
             for primary in primary_results:
                 record = self.model()
@@ -165,10 +160,7 @@ class AutoDependencyParser(AutoSentenceParser):
                 record.set_confidence(self.primary_keypath, 1.0)
 
                 for keypath, results_map in other_values_map.items():
-                    if (
-                        primary in results_map.keys()
-                        and results_map[primary] is not None
-                    ):
+                    if primary in results_map.keys() and results_map[primary] is not None:
                         data = results_map[primary][0].data
                         if isinstance(data, list):
                             record[keypath] = data[0].text
@@ -213,13 +205,9 @@ class AutoDependencyParser(AutoSentenceParser):
             print(e)
             return []
 
-    def _create_models_specifier(
-        self, chem_results, specifier_results, other_results, sentence
-    ):
+    def _create_models_specifier(self, chem_results, specifier_results, other_results, sentence):
         try:
-            chem_values_map = _find_associated(
-                specifier_results, chem_results, False, sentence
-            )
+            chem_values_map = _find_associated(specifier_results, chem_results, False, sentence)
 
             other_values_map = {}
             for keypath, results in other_results.items():
@@ -237,13 +225,8 @@ class AutoDependencyParser(AutoSentenceParser):
 
                 record.set_confidence("specifier", 1.0)
 
-                if (
-                    specifier in chem_values_map.keys()
-                    and chem_values_map[specifier] is not None
-                ):
-                    test_result = E(
-                        "wrapped_result", chem_values_map[specifier][0].data
-                    )
+                if specifier in chem_values_map.keys() and chem_values_map[specifier] is not None:
+                    test_result = E("wrapped_result", chem_values_map[specifier][0].data)
                     parsed_result = self._get_data(
                         "compound", self.model.fields["compound"], test_result
                     )["compound"]
@@ -253,10 +236,7 @@ class AutoDependencyParser(AutoSentenceParser):
                     record.set_confidence("compound", chem_values_map[specifier][1])
 
                 for keypath, results_map in other_values_map.items():
-                    if (
-                        specifier in results_map.keys()
-                        and results_map[specifier] is not None
-                    ):
+                    if specifier in results_map.keys() and results_map[specifier] is not None:
                         data = results_map[specifier][0].data
                         if isinstance(data, list):
                             record[keypath] = data[0].text
@@ -285,9 +265,7 @@ class AutoDependencyParser(AutoSentenceParser):
         _remove_contained_ranges(chem_results, parent_results)
 
         try:
-            return self._create_models(
-                chem_results, value_results, other_results, sentence
-            )
+            return self._create_models(chem_results, value_results, other_results, sentence)
         except AttributeError as e:
             print(e)
             return []
@@ -295,9 +273,7 @@ class AutoDependencyParser(AutoSentenceParser):
     def _create_models(self, chem_results, value_results, other_results, sentence):
         # TODO(ti250): refactor so all of these create_models are the same - or at least share a lot more...
         try:
-            chem_values_map = _find_associated(
-                value_results, chem_results, False, sentence
-            )
+            chem_values_map = _find_associated(value_results, chem_results, False, sentence)
 
             other_values_map = {}
             for keypath, results in other_results.items():
@@ -316,10 +292,7 @@ class AutoDependencyParser(AutoSentenceParser):
                 record.set_confidence("raw_value", 1.0)
                 record.set_confidence("raw_units", 1.0)
 
-                if (
-                    value in chem_values_map.keys()
-                    and chem_values_map[value] is not None
-                ):
+                if value in chem_values_map.keys() and chem_values_map[value] is not None:
                     test_result = E("wrapped_result", chem_values_map[value][0].data)
                     parsed_result = self._get_data(
                         "compound", self.model.fields["compound"], test_result
@@ -392,9 +365,7 @@ class AutoDependencyParser(AutoSentenceParser):
     def _phrases_for_keypaths(self):
         phrases_keypaths = {}
         for field_name, field in self.model.fields.items():
-            phrases_keypaths.update(
-                self._get_phrases_for_field(field_name, field, do_model=False)
-            )
+            phrases_keypaths.update(self._get_phrases_for_field(field_name, field, do_model=False))
         return phrases_keypaths
 
     def _get_phrases_for_field(self, field_name, field, do_model=True):
@@ -505,7 +476,6 @@ def _find_associated(parents, children, remove_children, sentence):
                     parent_blocked_paths.add(j)
 
         for child_index, labelled_child_range in enumerate(children):
-
             child_blocked_paths = set()
             for i, el in enumerate(children):
                 if i != child_index:
@@ -526,9 +496,7 @@ def _find_associated(parents, children, remove_children, sentence):
                 lenient_distance = 2 * _find_distance(child_route, parent_route)
                 if lenient_distance is None:
                     lenient_distance = 10000
-                distances[labelled_parent_range][
-                    labelled_child_range
-                ] = lenient_distance
+                distances[labelled_parent_range][labelled_child_range] = lenient_distance
 
     merged = {}
     removed_children = []

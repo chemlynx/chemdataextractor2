@@ -1,4 +1,3 @@
-# # -*- coding: utf-8 -*-
 # """
 # Test scraping documents from the Royal Society of Chemistry.
 

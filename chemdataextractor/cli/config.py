@@ -1,18 +1,13 @@
-# -*- coding: utf-8 -*-
 """
 Commands for managing ChemDataExtractor configuration.
 
 """
 
-from __future__ import absolute_import
-from __future__ import division
-from __future__ import print_function
 import logging
 
 import click
 
 from ..config import config
-
 
 log = logging.getLogger(__name__)
 

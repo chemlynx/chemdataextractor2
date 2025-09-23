@@ -1,27 +1,19 @@
-# -*- coding: utf-8 -*-
 """
 Document processing.
 
 """
 
-from __future__ import absolute_import
-from __future__ import division
-from __future__ import print_function
-from __future__ import unicode_literals
-
 from .document import Document
-from .text import (
-    Text,
-    Title,
-    Heading,
-    Paragraph,
-    Footnote,
-    Citation,
-    Caption,
-    Sentence,
-    Span,
-    Token,
-)
+from .document_cacher import PlainTextCacher
 from .figure import Figure
 from .table import Table
-from .document_cacher import PlainTextCacher
+from .text import Caption
+from .text import Citation
+from .text import Footnote
+from .text import Heading
+from .text import Paragraph
+from .text import Sentence
+from .text import Span
+from .text import Text
+from .text import Title
+from .text import Token

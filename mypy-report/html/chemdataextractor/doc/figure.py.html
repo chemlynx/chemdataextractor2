@@ -1,0 +1,351 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link rel="stylesheet" type="text/css" href="../../../mypy-html.css">
+</head>
+<body>
+<h2>chemdataextractor.doc.figure</h2>
+<table>
+<caption>chemdataextractor/doc/figure.py</caption>
+<tbody><tr>
+<td class="table-lines"><pre><span id="L1" class="lineno"><a class="lineno" href="#L1">1</a></span>
+<span id="L2" class="lineno"><a class="lineno" href="#L2">2</a></span>
+<span id="L3" class="lineno"><a class="lineno" href="#L3">3</a></span>
+<span id="L4" class="lineno"><a class="lineno" href="#L4">4</a></span>
+<span id="L5" class="lineno"><a class="lineno" href="#L5">5</a></span>
+<span id="L6" class="lineno"><a class="lineno" href="#L6">6</a></span>
+<span id="L7" class="lineno"><a class="lineno" href="#L7">7</a></span>
+<span id="L8" class="lineno"><a class="lineno" href="#L8">8</a></span>
+<span id="L9" class="lineno"><a class="lineno" href="#L9">9</a></span>
+<span id="L10" class="lineno"><a class="lineno" href="#L10">10</a></span>
+<span id="L11" class="lineno"><a class="lineno" href="#L11">11</a></span>
+<span id="L12" class="lineno"><a class="lineno" href="#L12">12</a></span>
+<span id="L13" class="lineno"><a class="lineno" href="#L13">13</a></span>
+<span id="L14" class="lineno"><a class="lineno" href="#L14">14</a></span>
+<span id="L15" class="lineno"><a class="lineno" href="#L15">15</a></span>
+<span id="L16" class="lineno"><a class="lineno" href="#L16">16</a></span>
+<span id="L17" class="lineno"><a class="lineno" href="#L17">17</a></span>
+<span id="L18" class="lineno"><a class="lineno" href="#L18">18</a></span>
+<span id="L19" class="lineno"><a class="lineno" href="#L19">19</a></span>
+<span id="L20" class="lineno"><a class="lineno" href="#L20">20</a></span>
+<span id="L21" class="lineno"><a class="lineno" href="#L21">21</a></span>
+<span id="L22" class="lineno"><a class="lineno" href="#L22">22</a></span>
+<span id="L23" class="lineno"><a class="lineno" href="#L23">23</a></span>
+<span id="L24" class="lineno"><a class="lineno" href="#L24">24</a></span>
+<span id="L25" class="lineno"><a class="lineno" href="#L25">25</a></span>
+<span id="L26" class="lineno"><a class="lineno" href="#L26">26</a></span>
+<span id="L27" class="lineno"><a class="lineno" href="#L27">27</a></span>
+<span id="L28" class="lineno"><a class="lineno" href="#L28">28</a></span>
+<span id="L29" class="lineno"><a class="lineno" href="#L29">29</a></span>
+<span id="L30" class="lineno"><a class="lineno" href="#L30">30</a></span>
+<span id="L31" class="lineno"><a class="lineno" href="#L31">31</a></span>
+<span id="L32" class="lineno"><a class="lineno" href="#L32">32</a></span>
+<span id="L33" class="lineno"><a class="lineno" href="#L33">33</a></span>
+<span id="L34" class="lineno"><a class="lineno" href="#L34">34</a></span>
+<span id="L35" class="lineno"><a class="lineno" href="#L35">35</a></span>
+<span id="L36" class="lineno"><a class="lineno" href="#L36">36</a></span>
+<span id="L37" class="lineno"><a class="lineno" href="#L37">37</a></span>
+<span id="L38" class="lineno"><a class="lineno" href="#L38">38</a></span>
+<span id="L39" class="lineno"><a class="lineno" href="#L39">39</a></span>
+<span id="L40" class="lineno"><a class="lineno" href="#L40">40</a></span>
+<span id="L41" class="lineno"><a class="lineno" href="#L41">41</a></span>
+<span id="L42" class="lineno"><a class="lineno" href="#L42">42</a></span>
+<span id="L43" class="lineno"><a class="lineno" href="#L43">43</a></span>
+<span id="L44" class="lineno"><a class="lineno" href="#L44">44</a></span>
+<span id="L45" class="lineno"><a class="lineno" href="#L45">45</a></span>
+<span id="L46" class="lineno"><a class="lineno" href="#L46">46</a></span>
+<span id="L47" class="lineno"><a class="lineno" href="#L47">47</a></span>
+<span id="L48" class="lineno"><a class="lineno" href="#L48">48</a></span>
+<span id="L49" class="lineno"><a class="lineno" href="#L49">49</a></span>
+<span id="L50" class="lineno"><a class="lineno" href="#L50">50</a></span>
+<span id="L51" class="lineno"><a class="lineno" href="#L51">51</a></span>
+<span id="L52" class="lineno"><a class="lineno" href="#L52">52</a></span>
+<span id="L53" class="lineno"><a class="lineno" href="#L53">53</a></span>
+<span id="L54" class="lineno"><a class="lineno" href="#L54">54</a></span>
+<span id="L55" class="lineno"><a class="lineno" href="#L55">55</a></span>
+<span id="L56" class="lineno"><a class="lineno" href="#L56">56</a></span>
+<span id="L57" class="lineno"><a class="lineno" href="#L57">57</a></span>
+<span id="L58" class="lineno"><a class="lineno" href="#L58">58</a></span>
+<span id="L59" class="lineno"><a class="lineno" href="#L59">59</a></span>
+<span id="L60" class="lineno"><a class="lineno" href="#L60">60</a></span>
+<span id="L61" class="lineno"><a class="lineno" href="#L61">61</a></span>
+<span id="L62" class="lineno"><a class="lineno" href="#L62">62</a></span>
+<span id="L63" class="lineno"><a class="lineno" href="#L63">63</a></span>
+<span id="L64" class="lineno"><a class="lineno" href="#L64">64</a></span>
+<span id="L65" class="lineno"><a class="lineno" href="#L65">65</a></span>
+<span id="L66" class="lineno"><a class="lineno" href="#L66">66</a></span>
+<span id="L67" class="lineno"><a class="lineno" href="#L67">67</a></span>
+<span id="L68" class="lineno"><a class="lineno" href="#L68">68</a></span>
+<span id="L69" class="lineno"><a class="lineno" href="#L69">69</a></span>
+<span id="L70" class="lineno"><a class="lineno" href="#L70">70</a></span>
+<span id="L71" class="lineno"><a class="lineno" href="#L71">71</a></span>
+<span id="L72" class="lineno"><a class="lineno" href="#L72">72</a></span>
+<span id="L73" class="lineno"><a class="lineno" href="#L73">73</a></span>
+<span id="L74" class="lineno"><a class="lineno" href="#L74">74</a></span>
+<span id="L75" class="lineno"><a class="lineno" href="#L75">75</a></span>
+<span id="L76" class="lineno"><a class="lineno" href="#L76">76</a></span>
+<span id="L77" class="lineno"><a class="lineno" href="#L77">77</a></span>
+<span id="L78" class="lineno"><a class="lineno" href="#L78">78</a></span>
+<span id="L79" class="lineno"><a class="lineno" href="#L79">79</a></span>
+<span id="L80" class="lineno"><a class="lineno" href="#L80">80</a></span>
+<span id="L81" class="lineno"><a class="lineno" href="#L81">81</a></span>
+<span id="L82" class="lineno"><a class="lineno" href="#L82">82</a></span>
+<span id="L83" class="lineno"><a class="lineno" href="#L83">83</a></span>
+<span id="L84" class="lineno"><a class="lineno" href="#L84">84</a></span>
+<span id="L85" class="lineno"><a class="lineno" href="#L85">85</a></span>
+<span id="L86" class="lineno"><a class="lineno" href="#L86">86</a></span>
+<span id="L87" class="lineno"><a class="lineno" href="#L87">87</a></span>
+<span id="L88" class="lineno"><a class="lineno" href="#L88">88</a></span>
+<span id="L89" class="lineno"><a class="lineno" href="#L89">89</a></span>
+<span id="L90" class="lineno"><a class="lineno" href="#L90">90</a></span>
+<span id="L91" class="lineno"><a class="lineno" href="#L91">91</a></span>
+<span id="L92" class="lineno"><a class="lineno" href="#L92">92</a></span>
+<span id="L93" class="lineno"><a class="lineno" href="#L93">93</a></span>
+<span id="L94" class="lineno"><a class="lineno" href="#L94">94</a></span>
+<span id="L95" class="lineno"><a class="lineno" href="#L95">95</a></span>
+<span id="L96" class="lineno"><a class="lineno" href="#L96">96</a></span>
+<span id="L97" class="lineno"><a class="lineno" href="#L97">97</a></span>
+<span id="L98" class="lineno"><a class="lineno" href="#L98">98</a></span>
+<span id="L99" class="lineno"><a class="lineno" href="#L99">99</a></span>
+<span id="L100" class="lineno"><a class="lineno" href="#L100">100</a></span>
+<span id="L101" class="lineno"><a class="lineno" href="#L101">101</a></span>
+<span id="L102" class="lineno"><a class="lineno" href="#L102">102</a></span>
+<span id="L103" class="lineno"><a class="lineno" href="#L103">103</a></span>
+<span id="L104" class="lineno"><a class="lineno" href="#L104">104</a></span>
+<span id="L105" class="lineno"><a class="lineno" href="#L105">105</a></span>
+<span id="L106" class="lineno"><a class="lineno" href="#L106">106</a></span>
+<span id="L107" class="lineno"><a class="lineno" href="#L107">107</a></span>
+<span id="L108" class="lineno"><a class="lineno" href="#L108">108</a></span>
+<span id="L109" class="lineno"><a class="lineno" href="#L109">109</a></span>
+<span id="L110" class="lineno"><a class="lineno" href="#L110">110</a></span>
+<span id="L111" class="lineno"><a class="lineno" href="#L111">111</a></span>
+<span id="L112" class="lineno"><a class="lineno" href="#L112">112</a></span>
+<span id="L113" class="lineno"><a class="lineno" href="#L113">113</a></span>
+<span id="L114" class="lineno"><a class="lineno" href="#L114">114</a></span>
+<span id="L115" class="lineno"><a class="lineno" href="#L115">115</a></span>
+<span id="L116" class="lineno"><a class="lineno" href="#L116">116</a></span>
+<span id="L117" class="lineno"><a class="lineno" href="#L117">117</a></span>
+<span id="L118" class="lineno"><a class="lineno" href="#L118">118</a></span>
+<span id="L119" class="lineno"><a class="lineno" href="#L119">119</a></span>
+<span id="L120" class="lineno"><a class="lineno" href="#L120">120</a></span>
+<span id="L121" class="lineno"><a class="lineno" href="#L121">121</a></span>
+<span id="L122" class="lineno"><a class="lineno" href="#L122">122</a></span>
+<span id="L123" class="lineno"><a class="lineno" href="#L123">123</a></span>
+<span id="L124" class="lineno"><a class="lineno" href="#L124">124</a></span>
+<span id="L125" class="lineno"><a class="lineno" href="#L125">125</a></span>
+<span id="L126" class="lineno"><a class="lineno" href="#L126">126</a></span>
+<span id="L127" class="lineno"><a class="lineno" href="#L127">127</a></span>
+<span id="L128" class="lineno"><a class="lineno" href="#L128">128</a></span>
+<span id="L129" class="lineno"><a class="lineno" href="#L129">129</a></span>
+<span id="L130" class="lineno"><a class="lineno" href="#L130">130</a></span>
+<span id="L131" class="lineno"><a class="lineno" href="#L131">131</a></span>
+<span id="L132" class="lineno"><a class="lineno" href="#L132">132</a></span>
+<span id="L133" class="lineno"><a class="lineno" href="#L133">133</a></span>
+</pre></td>
+<td class="table-code"><pre><span class="line-empty" title="No Anys on this line!">"""</span>
+<span class="line-empty" title="No Anys on this line!">Figure document elements.</span>
+<span class="line-empty" title="No Anys on this line!">:codeauthor:: Callum Court (cc889@cam.ac.uk)</span>
+<span class="line-empty" title="No Anys on this line!">"""</span>
+<span class="line-empty" title="No Anys on this line!"></span>
+<span class="line-precise" title="No Anys on this line!">import logging</span>
+<span class="line-empty" title="No Anys on this line!"></span>
+<span class="line-precise" title="No Anys on this line!">from ..model import Compound</span>
+<span class="line-precise" title="No Anys on this line!">from ..model import ModelList</span>
+<span class="line-precise" title="No Anys on this line!">from .element import CaptionedElement</span>
+<span class="line-empty" title="No Anys on this line!"></span>
+<span class="line-precise" title="No Anys on this line!">log = logging.getLogger(__name__)</span>
+<span class="line-empty" title="No Anys on this line!"></span>
+<span class="line-empty" title="No Anys on this line!"></span>
+<span class="line-precise" title="No Anys on this line!">class Figure(CaptionedElement):</span>
+<span class="line-any" title="No Anys on this line!">    def __init__(self, caption, label=None, links=None, models=None, **kwargs):</span>
+<span class="line-empty" title="No Anys on this line!">        """</span>
+<span class="line-empty" title="No Anys on this line!">        Create a new Figure element, to interface with FDE</span>
+<span class="line-empty" title="No Anys on this line!">        """</span>
+<span class="line-any" title="Any Types on this line: 
+Unannotated (x9)">        super(Figure, self).__init__(caption=caption, label=label, models=models, **kwargs)</span>
+<span class="line-any" title="Any Types on this line: 
+Unannotated (x2)">        self.links = links</span>
+<span class="line-any" title="No Anys on this line!">        self.caption_tokens = None</span>
+<span class="line-empty" title="No Anys on this line!"></span>
+<span class="line-empty" title="No Anys on this line!">    @property</span>
+<span class="line-any" title="No Anys on this line!">    def records(self):</span>
+<span class="line-empty" title="No Anys on this line!">        """Return FigureData records</span>
+<span class="line-empty" title="No Anys on this line!"></span>
+<span class="line-empty" title="No Anys on this line!">        Returns:</span>
+<span class="line-empty" title="No Anys on this line!">            [type] -- [description]</span>
+<span class="line-empty" title="No Anys on this line!">        """</span>
+<span class="line-imprecise" title="Any Types on this line: 
+Error (x1)">        records = ModelList()</span>
+<span class="line-precise" title="Any Types on this line: 
+Omitted Generics (x3)">        seen_labels = set()</span>
+<span class="line-any" title="Any Types on this line: 
+Explicit (x2)">        skip_parsers = self.document.skip_parsers if self.document is not None else []</span>
+<span class="line-empty" title="No Anys on this line!"></span>
+<span class="line-any" title="No Anys on this line!">        p = None</span>
+<span class="line-empty" title="No Anys on this line!"></span>
+<span class="line-imprecise" title="Any Types on this line: 
+Unannotated (x1)">        if not self.caption_tokens:</span>
+<span class="line-imprecise" title="Any Types on this line: 
+Unannotated (x1)">            self.caption_tokens = []</span>
+<span class="line-any" title="Any Types on this line: 
+Error (x2)">            for sent in self.caption.sentences:</span>
+<span class="line-any" title="Any Types on this line: 
+Unannotated (x2)
+Error (x2)">                self.caption_tokens.extend(sent.tokens)</span>
+<span class="line-empty" title="No Anys on this line!"></span>
+<span class="line-precise" title="No Anys on this line!">        for model in self._streamlined_models:</span>
+<span class="line-precise" title="No Anys on this line!">            for parser in model.parsers:</span>
+<span class="line-imprecise" title="Any Types on this line: 
+Explicit (x1)">                if parser in skip_parsers:</span>
+<span class="line-empty" title="No Anys on this line!">                    # print(f"Figure Skipped: {parser.model}")</span>
+<span class="line-any" title="No Anys on this line!">                    continue</span>
+<span class="line-precise" title="No Anys on this line!">                parser_records = []</span>
+<span class="line-empty" title="No Anys on this line!"></span>
+<span class="line-any" title="No Anys on this line!">                if hasattr(parser, "parse_caption"):</span>
+<span class="line-any" title="Any Types on this line: 
+Unannotated (x4)">                    for record in parser.parse_caption(self.caption, self.label, self.links):</span>
+<span class="line-any" title="Any Types on this line: 
+Unannotated (x3)">                        parser_records.append(record)</span>
+<span class="line-empty" title="No Anys on this line!"></span>
+<span class="line-any" title="No Anys on this line!">                elif hasattr(parser, "parse_sentence"):</span>
+<span class="line-any" title="Any Types on this line: 
+Error (x2)">                    for caption_sentence in self.caption.sentences:</span>
+<span class="line-any" title="Any Types on this line: 
+Error (x3)">                        for subsentence in caption_sentence.subsentences:</span>
+<span class="line-any" title="Any Types on this line: 
+Unannotated (x3)
+Error (x1)">                            for record in parser.parse_sentence(subsentence):</span>
+<span class="line-any" title="Any Types on this line: 
+Unannotated (x3)">                                parser_records.append(record)</span>
+<span class="line-empty" title="No Anys on this line!">                else:</span>
+<span class="line-any" title="No Anys on this line!">                    continue</span>
+<span class="line-empty" title="No Anys on this line!"></span>
+<span class="line-imprecise" title="Any Types on this line: 
+Unannotated (x1)">                if not parser_records:</span>
+<span class="line-any" title="No Anys on this line!">                    continue</span>
+<span class="line-empty" title="No Anys on this line!"></span>
+<span class="line-any" title="Any Types on this line: 
+Unannotated (x2)">                for record in parser_records:</span>
+<span class="line-any" title="Any Types on this line: 
+Unannotated (x4)">                    p = record.serialize()</span>
+<span class="line-any" title="Any Types on this line: 
+Unannotated (x1)">                    if not p:  # TODO: Potential performance issues?</span>
+<span class="line-any" title="No Anys on this line!">                        continue</span>
+<span class="line-empty" title="No Anys on this line!">                    # Skip duplicate records</span>
+<span class="line-any" title="Any Types on this line: 
+Unannotated (x1)
+Error (x1)">                    if record in records:</span>
+<span class="line-any" title="No Anys on this line!">                        continue</span>
+<span class="line-empty" title="No Anys on this line!">                    # Skip just labels that have already been seen (bit of a hack)</span>
+<span class="line-empty" title="No Anys on this line!">                    if (</span>
+<span class="line-any" title="Any Types on this line: 
+Unannotated (x1)
+Explicit (x1)">                        isinstance(record, Compound)</span>
+<span class="line-any" title="Any Types on this line: 
+Unannotated (x3)">                        and "Compound" in p.keys()</span>
+<span class="line-any" title="Any Types on this line: 
+Unannotated (x6)">                        and all(k in {"labels", "roles"} for k in p["Compound"].keys())</span>
+<span class="line-imprecise" title="Any Types on this line: 
+Explicit (x1)
+Omitted Generics (x4)">                        and set(record.labels).issubset(seen_labels)</span>
+<span class="line-empty" title="No Anys on this line!">                    ):</span>
+<span class="line-any" title="No Anys on this line!">                        continue</span>
+<span class="line-any" title="Any Types on this line: 
+Unannotated (x1)
+Explicit (x1)">                    if isinstance(record, Compound):</span>
+<span class="line-imprecise" title="Any Types on this line: 
+Omitted Generics (x2)">                        seen_labels.update(record.labels)</span>
+<span class="line-empty" title="No Anys on this line!">                        # This could be super slow if we find lots of things</span>
+<span class="line-any" title="No Anys on this line!">                        found = False</span>
+<span class="line-any" title="Any Types on this line: 
+Error (x2)">                        for seen_record in records:</span>
+<span class="line-any" title="Any Types on this line: 
+Error (x1)
+Explicit (x1)">                            if isinstance(seen_record, Compound) and (</span>
+<span class="line-imprecise" title="Any Types on this line: 
+Explicit (x1)
+Omitted Generics (x3)">                                not set(record.names).isdisjoint(seen_record.names)</span>
+<span class="line-imprecise" title="Any Types on this line: 
+Explicit (x1)
+Omitted Generics (x3)">                                or not set(record.labels).isdisjoint(seen_record.labels)</span>
+<span class="line-empty" title="No Anys on this line!">                            ):</span>
+<span class="line-imprecise" title="Any Types on this line: 
+Omitted Generics (x5)
+Explicit (x1)">                                seen_record.names = sorted(</span>
+<span class="line-precise" title="Any Types on this line: 
+Omitted Generics (x6)">                                    list(set(seen_record.names).union(record.names))</span>
+<span class="line-empty" title="No Anys on this line!">                                )</span>
+<span class="line-imprecise" title="Any Types on this line: 
+Omitted Generics (x5)
+Explicit (x1)">                                seen_record.labels = sorted(</span>
+<span class="line-precise" title="Any Types on this line: 
+Omitted Generics (x6)">                                    list(set(seen_record.labels).union(record.labels))</span>
+<span class="line-empty" title="No Anys on this line!">                                )</span>
+<span class="line-imprecise" title="Any Types on this line: 
+Omitted Generics (x5)
+Explicit (x1)">                                seen_record.roles = sorted(</span>
+<span class="line-precise" title="Any Types on this line: 
+Omitted Generics (x6)">                                    list(set(seen_record.roles).union(record.roles))</span>
+<span class="line-empty" title="No Anys on this line!">                                )</span>
+<span class="line-any" title="No Anys on this line!">                                found = True</span>
+<span class="line-precise" title="No Anys on this line!">                        if found:</span>
+<span class="line-any" title="No Anys on this line!">                            continue</span>
+<span class="line-any" title="Any Types on this line: 
+Unannotated (x3)">                    elif hasattr(record, "compound") and record.compound is not None:</span>
+<span class="line-any" title="Any Types on this line: 
+Omitted Generics (x2)
+Unannotated (x3)">                        seen_labels.update(record.compound.labels)</span>
+<span class="line-any" title="Any Types on this line: 
+Error (x2)
+Unannotated (x1)">                    records.append(record)</span>
+<span class="line-any" title="No Anys on this line!">        i = 0</span>
+<span class="line-imprecise" title="Any Types on this line: 
+Error (x1)">        length = len(records)</span>
+<span class="line-precise" title="No Anys on this line!">        while i &lt; length:</span>
+<span class="line-any" title="No Anys on this line!">            j = 0</span>
+<span class="line-precise" title="No Anys on this line!">            while j &lt; length:</span>
+<span class="line-precise" title="No Anys on this line!">                if i != j:</span>
+<span class="line-any" title="Any Types on this line: 
+Error (x6)">                    records[j].merge_all(records[i])</span>
+<span class="line-any" title="No Anys on this line!">                j += 1</span>
+<span class="line-any" title="No Anys on this line!">            i += 1</span>
+<span class="line-empty" title="No Anys on this line!"></span>
+<span class="line-precise" title="No Anys on this line!">        cleaned_records = []</span>
+<span class="line-any" title="Any Types on this line: 
+Unannotated (x1)
+Error (x1)">        for record in records:</span>
+<span class="line-any" title="Any Types on this line: 
+Unannotated (x3)">            record._clean(clean_contextual=False)</span>
+<span class="line-any" title="Any Types on this line: 
+Unannotated (x2)">            if record.noncontextual_required_fulfilled:</span>
+<span class="line-any" title="Any Types on this line: 
+Unannotated (x3)">                cleaned_records.append(record)</span>
+<span class="line-empty" title="No Anys on this line!"></span>
+<span class="line-imprecise" title="Any Types on this line: 
+Unannotated (x4)">        sorted_records = ModelList(</span>
+<span class="line-imprecise" title="Any Types on this line: 
+Unannotated (x1)
+Omitted Generics (x5)">            *sorted(</span>
+<span class="line-imprecise" title="Any Types on this line: 
+Unannotated (x1)">                cleaned_records,</span>
+<span class="line-empty" title="No Anys on this line!">                key=lambda el: (</span>
+<span class="line-any" title="Any Types on this line: 
+Unannotated (x6)">                    el.total_confidence() if el.total_confidence() is not None else -10000</span>
+<span class="line-empty" title="No Anys on this line!">                ),</span>
+<span class="line-any" title="No Anys on this line!">                reverse=True,</span>
+<span class="line-empty" title="No Anys on this line!">            )</span>
+<span class="line-empty" title="No Anys on this line!">        )</span>
+<span class="line-imprecise" title="Any Types on this line: 
+Unannotated (x1)">        return sorted_records</span>
+<span class="line-empty" title="No Anys on this line!"></span>
+<span class="line-any" title="No Anys on this line!">    def _repr_html_(self):</span>
+<span class="line-any" title="Any Types on this line: 
+Error (x3)">        html_lines = ["&lt;figure&gt;", self.caption._repr_html_(), "&lt;/figure&gt;"]</span>
+<span class="line-empty" title="No Anys on this line!">        # TODO: img element with figure URL</span>
+<span class="line-any" title="Any Types on this line: 
+Error (x1)">        return "\n".join(html_lines)</span>
+</pre></td>
+</tr></tbody>
+</table>
+</body>
+</html>

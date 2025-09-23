@@ -1,22 +1,14 @@
-# -*- coding: utf-8 -*-
 """
 Readers for documents from the ACS.
 
 """
 
-from __future__ import absolute_import
-from __future__ import division
-from __future__ import print_function
-from __future__ import unicode_literals
-
+from ..scrape.clean import Cleaner
+from ..scrape.clean import clean
 from .markup import HtmlReader
-from ..scrape.clean import clean, Cleaner
-
 
 #: Additional cleaner for ACS HTML  TODO: Move to ignore_css?
-clean_acs_html = Cleaner(
-    kill_xpath='.//ul[@class="anchors"] | .//div[@class="citationLinks"]'
-)
+clean_acs_html = Cleaner(kill_xpath='.//ul[@class="anchors"] | .//div[@class="citationLinks"]')
 
 
 class AcsHtmlReader(HtmlReader):

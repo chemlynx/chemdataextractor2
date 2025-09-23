@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 tests.test_model_units.py
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -9,26 +8,33 @@ Taketomo Isazawa (ti250@cam.ac.uk)
 
 """
 
-from __future__ import absolute_import
-from __future__ import division
-from __future__ import print_function
-from __future__ import unicode_literals
 
+import copy
 import logging
 import unittest
-import copy
 
-from chemdataextractor.model.units.quantity_model import QuantityModel, DimensionlessModel
-from chemdataextractor.model.units.dimension import Dimensionless, Dimension
-from chemdataextractor.model.units.unit import DimensionlessUnit, Unit
-
-from chemdataextractor.model.units.time import Second, Minute, Hour, Time, TimeModel
-from chemdataextractor.model.units.length import Meter, Mile, Length, LengthModel
-from chemdataextractor.model.units.temperature import Temperature, TemperatureModel, Kelvin, Celsius, Fahrenheit
-from chemdataextractor.model.units.mass import Mass, Gram
-
+from chemdataextractor.model.units.dimension import Dimension
+from chemdataextractor.model.units.dimension import Dimensionless
+from chemdataextractor.model.units.length import Length
+from chemdataextractor.model.units.length import LengthModel
+from chemdataextractor.model.units.length import Meter
+from chemdataextractor.model.units.length import Mile
+from chemdataextractor.model.units.mass import Gram
+from chemdataextractor.model.units.mass import Mass
+from chemdataextractor.model.units.quantity_model import DimensionlessModel
+from chemdataextractor.model.units.quantity_model import QuantityModel
+from chemdataextractor.model.units.temperature import Celsius
+from chemdataextractor.model.units.temperature import Fahrenheit
+from chemdataextractor.model.units.temperature import Kelvin
+from chemdataextractor.model.units.temperature import Temperature
+from chemdataextractor.model.units.time import Hour
+from chemdataextractor.model.units.time import Minute
+from chemdataextractor.model.units.time import Second
+from chemdataextractor.model.units.time import Time
+from chemdataextractor.model.units.time import TimeModel
+from chemdataextractor.model.units.unit import DimensionlessUnit
+from chemdataextractor.model.units.unit import Unit
 from chemdataextractor.parse.elements import R
-
 
 logging.basicConfig(level=logging.DEBUG)
 log = logging.getLogger(__name__)
@@ -52,12 +58,11 @@ class WeirdUnit(SpeedUnit):
     pass
 
 
-weird_entry = {R('weirdunit', group=0): WeirdUnit}
+weird_entry = {R("weirdunit", group=0): WeirdUnit}
 Speed.units_dict.update(weird_entry)
 
 
 class TestUnitClass(unittest.TestCase):
-
     def test_division(self):
         speed = Meter(magnitude=1.0) / Second(magnitude=1.0)
         self.assertEqual(speed.dimensions, Length() / Time())
@@ -66,7 +71,7 @@ class TestUnitClass(unittest.TestCase):
 
     def test_pow(self):
         meters_cubed = Meter(magnitude=2.0) ** 3.0
-        self.assertEqual(meters_cubed.dimensions, Length()**3.0)
+        self.assertEqual(meters_cubed.dimensions, Length() ** 3.0)
         self.assertEqual(meters_cubed.magnitude, 6.0)
         self.assertEqual(meters_cubed.powers, {Meter(): 3.0})
 
@@ -77,7 +82,7 @@ class TestUnitClass(unittest.TestCase):
         self.assertEqual(meterseconds.powers, {Meter(): 1.0, Second(): 1.0})
 
     def test_equality(self):
-        self.assertEqual(Second(), Second()**(1.0))
+        self.assertEqual(Second(), Second() ** (1.0))
 
     def test_convert_value_to_standard_temp(self):
         temp = Celsius()
@@ -87,7 +92,7 @@ class TestUnitClass(unittest.TestCase):
     def test_unit_convert_value_to_standard(self):
         speed = Mile() / Hour()
         standard_val = speed.convert_value_to_standard(60.0)
-        self.assertLess(abs(26.8224 - standard_val), 10**(-3.5))
+        self.assertLess(abs(26.8224 - standard_val), 10 ** (-3.5))
 
     def test_unit_convert_value_from_standard(self):
         speed = Mile() / Hour()
@@ -109,7 +114,7 @@ class TestUnitClass(unittest.TestCase):
     def test_unit_convert_error_from_standard(self):
         speed = Mile() / Hour()
         standard_err = speed.convert_error_from_standard(26.8224)
-        self.assertAlmostEqual(standard_err, 60., places)
+        self.assertAlmostEqual(standard_err, 60.0, places)
 
     def test_dimensionless(self):
         dimensionless_div = Meter() / Meter()
@@ -137,12 +142,15 @@ class TestUnitClass(unittest.TestCase):
 
     def test_units_hashing(self):
         unit1 = Kelvin(magnitude=2.0) * Meter(magnitude=1.0) / Second(magnitude=1.0)
-        unit2 = (Second(magnitude=1.0) ** (-1.0)) * Meter(magnitude=1.0) * Kelvin(magnitude=2.0)
+        unit2 = (
+            (Second(magnitude=1.0) ** (-1.0))
+            * Meter(magnitude=1.0)
+            * Kelvin(magnitude=2.0)
+        )
         self.assertEqual(unit1.__hash__(), unit2.__hash__())
 
 
 class TestDimensions(unittest.TestCase):
-
     def test_division(self):
         speed = Length() / Time()
         self.assertEqual(speed._dimensions, {Length(): 1.0, Time(): -1.0})
@@ -179,6 +187,7 @@ class TestDimensions(unittest.TestCase):
     def test_units_dict_divide_composite_1(self):
         class NewDimension(Dimension):
             constituent_dimensions = Speed() / Length()
+
         self.assertDictEqual(NewDimension.units_dict, Speed.units_dict)
         self.assertEqual(NewDimension().standard_units, Second() ** (-1.0))
 
@@ -188,24 +197,25 @@ class TestDimensions(unittest.TestCase):
 
         class NewDimension2(Dimension):
             constituent_dimensions = NewDimension() / Length()
+
         self.assertDictEqual(NewDimension2.units_dict, Time.units_dict)
         self.assertEqual(NewDimension2().standard_units, Second() ** (-1.0))
 
     def test_units_dict_divide_composite_3(self):
         class NewDimension(Dimension):
             constituent_dimensions = Length() / Speed()
+
         self.assertDictEqual(NewDimension.units_dict, Speed.units_dict)
         print(NewDimension().standard_units)
         self.assertEqual(NewDimension().standard_units, Second())
 
     def test_dimension_as_string(self):
         test_dimension = Length() * Time() / Mass()
-        expected = 'Length^(1.0)  Mass^(-1.0)  Time^(1.0)'
+        expected = "Length^(1.0)  Mass^(-1.0)  Time^(1.0)"
         self.assertEqual(str(test_dimension), expected)
 
 
 class TestQuantity(unittest.TestCase):
-
     def test_equality(self):
         distance1 = LengthModel()
         distance1.value = [50.0, 60.0]
@@ -224,7 +234,7 @@ class TestQuantity(unittest.TestCase):
         time.value = [60.0]
         time.units = Minute()
         speed = distance / time
-        self.assertEqual(speed.value, [1.])
+        self.assertEqual(speed.value, [1.0])
         self.assertEqual(speed.units, Meter(magnitude=3.0) / Minute())
         self.assertEqual(speed.dimensions, Length() / Time())
 
@@ -233,8 +243,8 @@ class TestQuantity(unittest.TestCase):
         length.value = [10.0]
         length.units = Meter(magnitude=-2.0)
         volume = length**3.0
-        self.assertEqual(volume.units, Meter(-2.0)**3.0)
-        self.assertEqual(volume.dimensions, Length()**3.0)
+        self.assertEqual(volume.units, Meter(-2.0) ** 3.0)
+        self.assertEqual(volume.dimensions, Length() ** 3.0)
         self.assertEqual(volume.value, [1000.0])
 
     def test_mul(self):
@@ -246,7 +256,7 @@ class TestQuantity(unittest.TestCase):
         time.units = Hour()
         distance = speed * time
         self.assertEqual(distance.value, [300.0])
-        self.assertEqual(distance.units, (Meter(magnitude=3.0))**1.0)
+        self.assertEqual(distance.units, (Meter(magnitude=3.0)) ** 1.0)
         self.assertEqual(distance.dimensions, Length())
 
     def test_mul_range_val(self):
@@ -258,7 +268,7 @@ class TestQuantity(unittest.TestCase):
         time.units = Hour()
         distance = speed * time
         self.assertEqual(distance.value, [300.0, 600.0])
-        self.assertEqual(distance.units, (Meter(magnitude=3.0))**1.0)
+        self.assertEqual(distance.units, (Meter(magnitude=3.0)) ** 1.0)
         self.assertEqual(distance.dimensions, Length())
 
     def test_mul_range_range(self):
@@ -270,7 +280,7 @@ class TestQuantity(unittest.TestCase):
         time.units = Hour()
         distance = speed * time
         self.assertEqual(distance.value, [300.0, 1800.0])
-        self.assertEqual(distance.units, (Meter(magnitude=3.0))**1.0)
+        self.assertEqual(distance.units, (Meter(magnitude=3.0)) ** 1.0)
         self.assertEqual(distance.dimensions, Length())
 
     def test_convert(self):
@@ -293,6 +303,7 @@ class TestQuantity(unittest.TestCase):
     def test_convert_zero(self):
         class InvTempModel(QuantityModel):
             dimensions = Temperature() ** -1.0
+
         with self.assertRaises(ValueError):
             invtemp = InvTempModel()
             invtemp.value = [0.0]

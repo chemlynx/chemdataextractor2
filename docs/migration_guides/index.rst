@@ -16,4 +16,3 @@ Whilst the scale differs depending on the release, some changes will need to be 
 
     migration_guide2.1
     migration_guide
-

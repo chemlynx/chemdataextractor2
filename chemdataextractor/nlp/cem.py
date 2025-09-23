@@ -1,29 +1,43 @@
-# -*- coding: utf-8 -*-
 """
 Named entity recognition (NER) for Chemical entity mentions (CEM).
 
-This was the default NER system up to version 2.0, while the new NER is
-included in new_cem.
+Provides the legacy CEM tagging system that was default through version 2.0.
+Includes CRF-based models, dictionary taggers, and ensemble methods for
+identifying chemical entities in scientific text.
+
+Note: The new NER system is in new_cem.py
 """
 
-from __future__ import absolute_import
-from __future__ import division
-from __future__ import print_function
-from __future__ import unicode_literals
+from __future__ import annotations
+
 import logging
 import re
-
+from typing import TYPE_CHECKING
+from typing import Any
+from typing import Dict
+from typing import List
+from typing import Tuple
 
 from ..text import bracket_level
 from .lexicon import ChemLexicon
-from .tag import EnsembleTagger, CrfTagger, DictionaryTagger, NER_TAG_TYPE, POS_TAG_TYPE
+from .tag import NER_TAG_TYPE
+from .tag import POS_TAG_TYPE
+from .tag import CrfTagger
+from .tag import DictionaryTagger
+from .tag import EnsembleTagger
 
+if TYPE_CHECKING:
+    pass
+
+# Type aliases for CEM tagging
+CEMTag = str  # Chemical entity mention tag (e.g., 'B-CM', 'I-CM')
+TokenTags = List[Tuple[str, CEMTag]]  # List of (token, tag) pairs
 
 log = logging.getLogger(__name__)
 
 
 #: Token endings to ignore when considering stopwords and deriving spans
-IGNORE_SUFFIX = [
+IGNORE_SUFFIX: List[str] = [
     # Many of these are now unnecessary due to tokenization improvements, but not much harm in leaving them here.
     "-",
     "'s",
@@ -2123,26 +2137,26 @@ STOPLIST = {
 #: Regular expressions that define disallowed chemical entity mentions. Note: the entity text is passed as lowercase.
 STOP_RES = [
     "^(http|ftp)://",  # URL
-    "\.(com|uk|eu|org|net)$",  # URL
-    "^\d{4}-\d{3}[\dx]$",  # ISSN
-    "^[\w\-\.\+%]{4,} @ \w[\w\-\.]+\.(com?|edu|gov|ac)(\.[\w\-\.]+)?$",  # email
-    "^[\d,:\- ]*\d{4,}[\d,:\- ]*$",  # numbers
-    "\d{3,} , \d{3,}",  # numbers
-    "(\d\d+\.\d+|\d\.\d\d+)",  # numbers
-    "\d and \d",  # numbers
-    "^(\[\d+\]\s*)+$",  # numbers
-    "^\d+$",  # numbers
-    "= \d",  # numbers
-    "^\+?\d[ \d-]$",  # phone numbers
+    r"\.(com|uk|eu|org|net)$",  # URL
+    r"^\d{4}-\d{3}[\dx]$",  # ISSN
+    r"^[\w\-\.\+%]{4,} @ \w[\w\-\.]+\.(com?|edu|gov|ac)(\.[\w\-\.]+)?$",  # email
+    r"^[\d,:\- ]*\d{4,}[\d,:\- ]*$",  # numbers
+    r"\d{3,} , \d{3,}",  # numbers
+    r"(\d\d+\.\d+|\d\.\d\d+)",  # numbers
+    r"\d and \d",  # numbers
+    r"^(\[\d+\]\s*)+$",  # numbers
+    r"^\d+$",  # numbers
+    r"= \d",  # numbers
+    r"^\+?\d[ \d-]$",  # phone numbers
     "cm-1",  # units
-    "^(compound|ligand|chemical|dye|derivative|complex|example|intermediate|product|formulae?)s? [a-z\d]{1,3}",  # labels
-    "(b3lyp|31g\(d,p\)|td-dft)",
-    "et al\.?$",
-    "^(ep|wo|us)\s*\d\s*\d\d[\d\s]*([AB]\d)?($|\s*and)",  # patent numbers
-    "^(pre|post)-\d\d\d\d",  # common mistake
-    "\d ml$",  # properties
-    "\.(png|gif|jpg|txt|html|docx?|xlsx?)$",  # File extensions
-    "^(tel|fax)\s*:?\s*\+?\s*\d",  # phone numbers
+    r"^(compound|ligand|chemical|dye|derivative|complex|example|intermediate|product|formulae?)s? [a-z\d]{1,3}",  # labels
+    r"(b3lyp|31g\(d,p\)|td-dft)",
+    r"et al\.?$",
+    r"^(ep|wo|us)\s*\d\s*\d\d[\d\s]*([AB]\d)?($|\s*and)",  # patent numbers
+    r"^(pre|post)-\d\d\d\d",  # common mistake
+    r"\d ml$",  # properties
+    r"\.(png|gif|jpg|txt|html|docx?|xlsx?)$",  # File extensions
+    r"^(tel|fax)\s*:?\s*\+?\s*\d",  # phone numbers
 ]
 
 #: Regular expressions defining collections of words that should be split if joined by hyphens or -to-
@@ -2154,15 +2168,15 @@ SPLITS = [
     "^(sugar|phospate)$",
     "^(azide|alkyne|alkene|alkane)$",
     "^(arginine|cysteine|glycine|aspartic acid|glutamate|dopamine|serotonin|acetone|methanol|ethanol|EtOH|MeOH|AcOEt|melatonin|leucine|alanine|histidine|isoleucine|lysine|threonine|tryptophan|nicotine|gentamicin|ATP|FITC|biotin|tamoxifen|catechin|asparagine)$",
-    "^(Ala|Arg|Asn|Asp|Cys|Glu|Gln|Gly|His|Ile|Leu|Lys|Met|Phe|Pro|Ser|Thr|Trp|Tyr|Val)(?:\(?\d+\)?)?$",
-    "^(\(?1\)?H|\(?1[45]\)?N|\(?1[234]\)?C|\(?19\)?F)$",
-    "^(F|Cl|Zn[OS]|H\(?2\)?O(\(?2\)?)?|Ni\(OH\)\(?2\)?|(NiF|SnO|TiO|NO)\(?2\)?|(Al|Y|Fe)\(?2\)?O\(?3\)?|CaCO\(?3\)?)$",
+    r"^(Ala|Arg|Asn|Asp|Cys|Glu|Gln|Gly|His|Ile|Leu|Lys|Met|Phe|Pro|Ser|Thr|Trp|Tyr|Val)(?:\(?\d+\)?)?$",
+    r"^(\(?1\)?H|\(?1[45]\)?N|\(?1[234]\)?C|\(?19\)?F)$",
+    r"^(F|Cl|Zn[OS]|H\(?2\)?O(\(?2\)?)?|Ni\(OH\)\(?2\)?|(NiF|SnO|TiO|NO)\(?2\)?|(Al|Y|Fe)\(?2\)?O\(?3\)?|CaCO\(?3\)?)$",
     "^(ester|amide)$",
 ]
 
 # Special case boundary adjustments (only used for cems output)
 SPECIALS = [
-    "(?:^|-)([CONS])-\w+ases?$",
+    r"(?:^|-)([CONS])-\w+ases?$",
     "(?:^|-)(S)-(sulfonates?)$",
     "^(GABA)-(benzodiazepine|A)$",
     "^(ZnO|Au|Ag)-NPs?$",  # Nanoparticles
@@ -2171,22 +2185,22 @@ SPECIALS = [
     "^(N|S)-(?:acetyl|nitros|hydroxyl)(?:ation|ated)$",
     "^-(NO2|CH3|F|Cl|Br|OH)$",  # Remove leading dash
     "^(.+)[²³]?⁺$",  # Remove trailing superscript plus \u207a
-    "^δ(\([^\(]+\).+)$",  # Remove leading δ \u03b4 but keep opening bracket if the closing bracket is within name
-    "^δ\((.+)\)?$",  # Otherwise remove leading δ \u03b4 and opening bracket
-    "^(Ala|Arg|Asn|Asp|Cys|Glu|Gln|Gly|His|Ile|Leu|Lys|Met|Phe|Pro|Ser|Thr|Trp|Tyr|Val)-?\(?\d+\)?$",
-    "^(\w{4,})(?:\)?-to-\(?|\+)(\w{4,})$",
+    r"^δ(\([^\(]+\).+)$",  # Remove leading δ \u03b4 but keep opening bracket if the closing bracket is within name
+    r"^δ\((.+)\)?$",  # Otherwise remove leading δ \u03b4 and opening bracket
+    r"^(Ala|Arg|Asn|Asp|Cys|Glu|Gln|Gly|His|Ile|Leu|Lys|Met|Phe|Pro|Ser|Thr|Trp|Tyr|Val)-?\(?\d+\)?$",
+    r"^(\w{4,})(?:\)?-to-\(?|\+)(\w{4,})$",
     "^(.+)(?:-| )(?:linker|activated|gated|mediated|containing|doped|labeled|coated|enriched|catalyzed|modified|···)(?:-| )(.+)$",
-    "^(.+)\s?···\s?(.+)$",
-    "^(.+[A-Z])\+([A-Z].+)$",  # Split on plus surrounded by uppercase alpha
-    "^([^\(\)]+\w)\+(\w[^\(\)]+)$",  # Split on plus surrounded by any letter or number provided no brackets
-    "^(.+\(\d+[A-Za-z]*\)) and (.+)$",  # Split on bracketed alphanumeric label followed by and
-    "^(.+)\.$",  # Trim off final punctuation
+    r"^(.+)\s?···\s?(.+)$",
+    r"^(.+[A-Z])\+([A-Z].+)$",  # Split on plus surrounded by uppercase alpha
+    r"^([^\(\)]+\w)\+(\w[^\(\)]+)$",  # Split on plus surrounded by any letter or number provided no brackets
+    r"^(.+\(\d+[A-Za-z]*\)) and (.+)$",  # Split on bracketed alphanumeric label followed by and
+    r"^(.+)\.$",  # Trim off final punctuation
     #'^((?:.* )acid)-(.+)$',
     # TODO: Slash-separated names? ', ' separated? ' and ' separated? Probably have a min length limit
 ]
 
 
-class _CompatibilityToken(object):
+class _CompatibilityToken:
     """
     A wrapper around tokens to ensure backwards compatibility when using RichTokens.
 
@@ -2224,31 +2238,51 @@ class _CompatibilityToken(object):
 
 
 class CiDictCemTagger(DictionaryTagger):
-    """Case-insensitive CEM dictionary tagger."""
+    """Case-insensitive CEM dictionary tagger.
 
-    tag_type = NER_TAG_TYPE
-    lexicon = ChemLexicon()
-    model = "models/cem_dict-1.0.pickle"
+    Uses chemical lexicon for fast dictionary-based entity recognition
+    without case sensitivity requirements.
+    """
+
+    tag_type: str = NER_TAG_TYPE
+    lexicon: ChemLexicon = ChemLexicon()
+    model: str = "models/cem_dict-1.0.pickle"
 
 
 class CsDictCemTagger(DictionaryTagger):
-    """Case-sensitive CEM dictionary tagger."""
+    """Case-sensitive CEM dictionary tagger.
 
-    tag_type = NER_TAG_TYPE
+    Uses chemical lexicon for fast dictionary-based entity recognition
+    with exact case matching requirements.
+    """
+
+    tag_type: str = NER_TAG_TYPE
     lexicon = ChemLexicon()
     model = "models/cem_dict_cs-1.0.pickle"
     case_sensitive = True
 
 
 class CrfCemTagger(CrfTagger):
-    """"""
+    """CRF-based chemical entity mention tagger.
 
-    tag_type = NER_TAG_TYPE
-    model = "models/cem_crf_chemdner_cemp-1.0.pickle"
-    lexicon = ChemLexicon()
-    clusters = True
+    Uses Conditional Random Fields to identify chemical entities in text.
+    Trained on chemistry literature with features including word shapes,
+    lexicon matches, and contextual patterns.
 
-    params = {
+    Attributes:
+        tag_type: str - NER tag type for chemical entities
+        model: str - Path to trained CRF model file
+        lexicon: ChemLexicon - Chemical terminology lexicon
+        clusters: bool - Whether to use word clustering features
+        params: dict - CRF training/inference parameters
+    """
+
+    tag_type: str = NER_TAG_TYPE
+    model: str = "models/cem_crf_chemdner_cemp-1.0.pickle"
+    lexicon: ChemLexicon = ChemLexicon()
+    clusters: bool = True
+
+    params: Dict[str, Any] = {
         "c1": 1.0,  # Coefficient for L1 regularization (OWL-QN). Default 0.
         "c2": 0.001,  # Coefficient for L2 regularization. Default 1.
         "max_iterations": 200,  # The maximum number of iterations for L-BFGS optimization. Default INT_MAX.
@@ -2491,16 +2525,12 @@ class LegacyCemTagger(EnsembleTagger):
         for tag_type in self.taggers_dict.keys():
             if tag_type != self.tag_type:
                 tagger = self.taggers_dict[tag_type]
-                all_prefetched_tags[tag_type] = [
-                    el[1] for el in tagger.legacy_tag(tokens)
-                ]
+                all_prefetched_tags[tag_type] = [el[1] for el in tagger.legacy_tag(tokens)]
         for index, token in enumerate(tokens):
             prefetched_tags = {}
             for key, value in all_prefetched_tags.items():
                 prefetched_tags[key] = value[index]
-            pseudo_rich_tokens.append(
-                _CompatibilityToken(token[0], token[1], prefetched_tags)
-            )
+            pseudo_rich_tokens.append(_CompatibilityToken(token[0], token[1], prefetched_tags))
         tagged = self.tag(pseudo_rich_tokens)
         processed = []
         for index, element in enumerate(tagged):
@@ -2564,26 +2594,20 @@ class LegacyCemTagger(EnsembleTagger):
                     entity_tokens = entity_tokens[:-2]
 
                 entity = " ".join(entity_tokens)
-                if any(e in STOP_TOKENS for e in entity_tokens) or self._in_stoplist(
-                    entity
-                ):
+                if any(e in STOP_TOKENS for e in entity_tokens) or self._in_stoplist(entity):
                     tags[i:end_i] = [None] * (end_i - i)
                 else:
                     bl = bracket_level(entity)
                     # Try and add on brackets in neighbouring tokens if they form part of the name
                     # TODO: Check bracket type matches before adding on
-                    if (
-                        bl == 1
-                        and len(tokens) > end_i
-                        and bracket_level(tokens[end_i].text) == -1
-                    ):
+                    if bl == 1 and len(tokens) > end_i and bracket_level(tokens[end_i].text) == -1:
                         # print('BLADJUST: %s - %s' % (entity, tokens[end_i][0]))
                         tags[end_i] = "I-CM"
                     elif bl == -1 and i > 0 and bracket_level(tokens[i - 1].text) == 1:
                         # print('BLADJUST: %s - %s' % (tokens[i-1][0], entity))
                         tags[i - 1] = "B-CM"
                         tags[i] = "I-CM"
-                    elif not bracket_level(entity) == 0:
+                    elif bracket_level(entity) != 0:
                         # Filter entities that overall don't have balanced brackets
                         tags[i:end_i] = [None] * (end_i - i)
                     else:
@@ -2594,12 +2618,10 @@ class LegacyCemTagger(EnsembleTagger):
                             and entity_tokens[-3] == "("
                         ):
                             if re.match(
-                                "^(\d{1,2}[A-Za-z]?|I|II|III|IV|V|VI|VII|VIII|IX)$",
+                                r"^(\d{1,2}[A-Za-z]?|I|II|III|IV|V|VI|VII|VIII|IX)$",
                                 entity_tokens[-2],
                             ):
-                                log.debug(
-                                    "Removing %s from end of CEM", entity_tokens[-2]
-                                )
+                                log.debug("Removing %s from end of CEM", entity_tokens[-2])
                                 tags[end_i - 3 : end_i] = [None, None, None]
         tokentags = list(zip(tokens, tags))
         return tokentags

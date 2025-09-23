@@ -94,5 +94,3 @@ In the case you have a composite dimension, such as energy, you should **update*
     units_dict = {R('(J|j)(oule(s)?)?', group=0): Joule,
                 R('(E|e)(lectron)( )?(V|v)(olts)?', group=0): ElectronVolt}
     Energy.units_dict.update(units_dict)
-
-

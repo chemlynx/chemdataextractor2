@@ -1,20 +1,21 @@
-# -*- coding: utf-8 -*-
 """
 Part of speech tagging commands.
 
 """
 
-from __future__ import absolute_import
-from __future__ import division
-from __future__ import print_function
 import logging
 
 import click
 
-from ..doc import Document, Text
-from ..nlp.corpus import genia_training, wsj_training, wsj_evaluation, genia_evaluation
-from ..nlp.pos import TAGS, ChemApPosTagger, ChemCrfPosTagger
-
+from ..doc import Document
+from ..doc import Text
+from ..nlp.corpus import genia_evaluation
+from ..nlp.corpus import genia_training
+from ..nlp.corpus import wsj_evaluation
+from ..nlp.corpus import wsj_training
+from ..nlp.pos import TAGS
+from ..nlp.pos import ChemApPosTagger
+from ..nlp.pos import ChemCrfPosTagger
 
 log = logging.getLogger(__name__)
 
@@ -33,9 +34,7 @@ def train_all(ctx, output):
     """Train POS tagger on WSJ, GENIA, and both. With and without cluster features."""
     click.echo("chemdataextractor.pos.train_all")
     click.echo("Output: %s" % output)
-    ctx.invoke(
-        train, output="%s_wsj_nocluster.pickle" % output, corpus="wsj", clusters=False
-    )
+    ctx.invoke(train, output="%s_wsj_nocluster.pickle" % output, corpus="wsj", clusters=False)
     ctx.invoke(train, output="%s_wsj.pickle" % output, corpus="wsj", clusters=True)
     ctx.invoke(
         train,
@@ -50,9 +49,7 @@ def train_all(ctx, output):
         corpus="wsj+genia",
         clusters=False,
     )
-    ctx.invoke(
-        train, output="%s_wsj_genia.pickle" % output, corpus="wsj+genia", clusters=True
-    )
+    ctx.invoke(train, output="%s_wsj_genia.pickle" % output, corpus="wsj+genia", clusters=True)
 
 
 @pos_cli.command()
@@ -62,9 +59,7 @@ def evaluate_all(ctx, model):
     """Evaluate POS taggers on WSJ and GENIA."""
     click.echo("chemdataextractor.pos.evaluate_all")
     click.echo("Model: %s" % model)
-    ctx.invoke(
-        evaluate, model="%s_wsj_nocluster.pickle" % model, corpus="wsj", clusters=False
-    )
+    ctx.invoke(evaluate, model="%s_wsj_nocluster.pickle" % model, corpus="wsj", clusters=False)
     ctx.invoke(
         evaluate,
         model="%s_wsj_nocluster.pickle" % model,
@@ -99,22 +94,14 @@ def evaluate_all(ctx, model):
         corpus="genia",
         clusters=False,
     )
-    ctx.invoke(
-        evaluate, model="%s_wsj_genia.pickle" % model, corpus="wsj", clusters=True
-    )
-    ctx.invoke(
-        evaluate, model="%s_wsj_genia.pickle" % model, corpus="genia", clusters=True
-    )
+    ctx.invoke(evaluate, model="%s_wsj_genia.pickle" % model, corpus="wsj", clusters=True)
+    ctx.invoke(evaluate, model="%s_wsj_genia.pickle" % model, corpus="genia", clusters=True)
 
 
 @pos_cli.command()
 @click.option("--output", "-o", help="Output model file.", required=True)
-@click.option(
-    "--corpus", type=click.Choice(["wsj", "genia", "wsj+genia"]), help="Training corpus"
-)
-@click.option(
-    "--clusters/--no-clusters", help="Whether to use cluster features", default=True
-)
+@click.option("--corpus", type=click.Choice(["wsj", "genia", "wsj+genia"]), help="Training corpus")
+@click.option("--clusters/--no-clusters", help="Whether to use cluster features", default=True)
 @click.pass_context
 def train(ctx, output, corpus, clusters):
     """Train POS Tagger."""
@@ -130,7 +117,7 @@ def train(ctx, output, corpus, clusters):
         wsj_sents = list(wsj_training.tagged_sents())
         # For WSJ, remove all tokens with -NONE- tag
         for i, wsj_sent in enumerate(wsj_sents):
-            wsj_sents[i] = [t for t in wsj_sent if not t[1] == "-NONE-"]
+            wsj_sents[i] = [t for t in wsj_sent if t[1] != "-NONE-"]
 
     if corpus == "genia" or corpus == "wsj+genia":
         genia_sents = list(genia_training.tagged_sents())
@@ -185,9 +172,7 @@ def train(ctx, output, corpus, clusters):
 @pos_cli.command()
 @click.argument("model", required=True)
 @click.option("--corpus", type=click.Choice(["wsj", "genia"]), help="Evaluation corpus")
-@click.option(
-    "--clusters/--no-clusters", help="Whether to use cluster features", default=True
-)
+@click.option("--clusters/--no-clusters", help="Whether to use cluster features", default=True)
 @click.pass_context
 def evaluate(ctx, model, corpus, clusters):
     """Evaluate performance of POS Tagger."""
@@ -196,7 +181,7 @@ def evaluate(ctx, model, corpus, clusters):
         evaluation = wsj_evaluation
         sents = list(evaluation.tagged_sents())
         for i, wsj_sent in enumerate(sents):
-            sents[i] = [t for t in wsj_sent if not t[1] == "-NONE-"]
+            sents[i] = [t for t in wsj_sent if t[1] != "-NONE-"]
     elif corpus == "genia":
         evaluation = genia_evaluation
         sents = list(evaluation.tagged_sents())
@@ -215,15 +200,9 @@ def evaluate(ctx, model, corpus, clusters):
 
 
 @pos_cli.command()
-@click.option(
-    "--output", "-o", type=click.File("wb"), help="Output model file.", required=True
-)
-@click.option(
-    "--corpus", type=click.Choice(["wsj", "genia", "wsj+genia"]), help="Training corpus"
-)
-@click.option(
-    "--clusters/--no-clusters", help="Whether to use cluster features", default=True
-)
+@click.option("--output", "-o", type=click.File("wb"), help="Output model file.", required=True)
+@click.option("--corpus", type=click.Choice(["wsj", "genia", "wsj+genia"]), help="Training corpus")
+@click.option("--clusters/--no-clusters", help="Whether to use cluster features", default=True)
 @click.pass_obj
 def train_perceptron(ctx, output, corpus, clusters):
     """Train Averaged Perceptron POS Tagger."""
@@ -239,7 +218,7 @@ def train_perceptron(ctx, output, corpus, clusters):
         wsj_sents = list(wsj_training.tagged_sents())
         # For WSJ, remove all tokens with -NONE- tag
         for i, wsj_sent in enumerate(wsj_sents):
-            wsj_sents[i] = [t for t in wsj_sent if not t[1] == "-NONE-"]
+            wsj_sents[i] = [t for t in wsj_sent if t[1] != "-NONE-"]
 
     if corpus == "genia" or corpus == "wsj+genia":
         genia_sents = list(genia_training.tagged_sents())
@@ -303,7 +282,7 @@ def evaluate_perceptron(ctx, model, corpus):
         evaluation = wsj_evaluation
         sents = list(evaluation.tagged_sents())
         for i, wsj_sent in enumerate(sents):
-            sents[i] = [t for t in wsj_sent if not t[1] == "-NONE-"]
+            sents[i] = [t for t in wsj_sent if t[1] != "-NONE-"]
     elif corpus == "genia":
         evaluation = genia_evaluation
         sents = list(evaluation.tagged_sents())
@@ -329,9 +308,7 @@ def evaluate_perceptron(ctx, model, corpus):
     help="Output file.",
     default=click.get_text_stream("stdout"),
 )
-@click.argument(
-    "input", type=click.File("rb"), default=click.get_binary_stream("stdin")
-)
+@click.argument("input", type=click.File("rb"), default=click.get_binary_stream("stdin"))
 @click.pass_obj
 def tag(ctx, input, output):
     """Output POS-tagged tokens."""
@@ -342,9 +319,6 @@ def tag(ctx, input, output):
         if isinstance(element, Text):
             for sentence in element.sentences:
                 output.write(
-                    " ".join(
-                        "/".join([token, tag])
-                        for token, tag in sentence.pos_tagged_tokens
-                    )
+                    " ".join("/".join([token, tag]) for token, tag in sentence.pos_tagged_tokens)
                 )
                 output.write("\n")

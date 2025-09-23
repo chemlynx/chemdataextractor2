@@ -1,15 +1,9 @@
-# -*- coding: utf-8 -*-
 """
 
 Types for representing quantities, dimensions, and units.
 
 :codeauthor: Taketomo Isazawa (ti250@cam.ac.uk)
 """
-
-from __future__ import absolute_import
-from __future__ import division
-from __future__ import print_function
-from __future__ import unicode_literals
 
 from .angle import *
 from .charge import *

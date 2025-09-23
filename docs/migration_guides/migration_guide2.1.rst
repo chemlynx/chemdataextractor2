@@ -216,7 +216,3 @@ If your tagger leverages other libraries that are much faster if you pass in mul
 In addition, you can now create custom taggers for custom tag types that leverage other taggers through the flexibility of :class:`~chemdataextractor.doc.text.RichToken`, in the same way that NER taggers can leverage PoS taggers. This is trivial to do by accessing ``token["tag_type"]``. By breaking apart your tagger in this way, you can potentially reuse large amounts of computation between taggers, potentially resulting in a much more efficient tagger.
 
 Finally, you can also easily collate multiple such taggers into one using :class:`~chemdataextractor.nlp.tag.EnsembleTagger`. The new NER tagger, :class:`~chemdataextractor.nlp.new_cem.CemTagger`, is an example of this, being composed of three other taggers.
-
-
-
-

@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 chemdataextractor.reader.springerjats
 
@@ -7,8 +6,10 @@ Springer XML reader for the JATS format
 
 author: Shu Huang <sh2009@cam.ac.uk>
 """
-from ..scrape.clean import clean, Cleaner
+
 from ..doc.meta import MetaData
+from ..scrape.clean import Cleaner
+from ..scrape.clean import clean
 from .markup import XmlReader
 
 # XML stripper that removes the tags around numbers in chemical formulas

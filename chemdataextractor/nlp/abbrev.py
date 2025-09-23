@@ -1,44 +1,77 @@
-# -*- coding: utf-8 -*-
 """
-Abbreviation detection.
+Abbreviation detection for chemical text.
 
+Implements abbreviation detection algorithms based on Schwartz & Hearst (2003)
+optimized for chemical and scientific terminology.
 """
 
-from __future__ import absolute_import
-from __future__ import division
-from __future__ import print_function
-from __future__ import unicode_literals
+from __future__ import annotations
+
 import logging
 import re
+from typing import TYPE_CHECKING
+from typing import List
+from typing import Optional
+from typing import Tuple
 
 from ..text import bracket_level
 
+if TYPE_CHECKING:
+    pass
+
+# Type aliases for abbreviation detection
+AbbreviationDef = Tuple[List[str], List[str], str]  # (definition_tokens, abbrev_tokens, abbrev_str)
 
 log = logging.getLogger(__name__)
 
 
-class AbbreviationDetector(object):
-    """Detect abbreviation definitions in a list of tokens.
+class AbbreviationDetector:
+    """Detect abbreviation definitions in chemical text.
 
-    Similar to the algorithm in Schwartz & Hearst 2003.
+    Implements an algorithm similar to Schwartz & Hearst (2003) for identifying
+    abbreviations and their full definitions in scientific literature.
+
+    Attributes:
+        abbr_min: int - Minimum abbreviation length
+        abbr_max: int - Maximum abbreviation length
+        abbr_equivs: List[str] - String equivalents for abbreviation matching
     """
 
     # TODO: Extend to Greek characters (custom method instead of .isalnum())
 
     #: Minimum abbreviation length
-    abbr_min = 3
+    abbr_min: int = 3
     #: Maximum abbreviation length
-    abbr_max = 10
+    abbr_max: int = 10
     #: String equivalents to use when detecting abbreviations.
-    abbr_equivs = []
+    abbr_equivs: List[str] = []
 
-    def __init__(self, abbr_min=None, abbr_max=None, abbr_equivs=None):
+    def __init__(
+        self,
+        abbr_min: Optional[int] = None,
+        abbr_max: Optional[int] = None,
+        abbr_equivs: Optional[List[str]] = None,
+    ) -> None:
+        """Initialize abbreviation detector.
+
+        Args:
+            abbr_min: Optional[int] - Minimum abbreviation length
+            abbr_max: Optional[int] - Maximum abbreviation length
+            abbr_equivs: Optional[List[str]] - String equivalents for matching
+        """
         self.abbr_min = abbr_min if abbr_min is not None else self.abbr_min
         self.abbr_max = abbr_max if abbr_max is not None else self.abbr_max
         self.abbr_equivs = abbr_equivs if abbr_equivs is not None else self.abbr_equivs
 
-    def _is_allowed_abbr(self, tokens):
-        """Return True if text is an allowed abbreviation."""
+    def _is_allowed_abbr(self, tokens: List[str]) -> bool:
+        """Check if token sequence is an allowed abbreviation.
+
+        Args:
+            tokens: List[str] - Token sequence to check
+
+        Returns:
+            bool - True if sequence forms a valid abbreviation
+        """
         num_hyph = tokens.count("-")
         # Abbreviations should contain at most 2 tokens; number tokens minus number of hyphens minus the number of tokens due to splitting on hyphens
         if len(tokens) - 2 * num_hyph <= 2:
@@ -50,7 +83,7 @@ class AbbreviationDetector(object):
                 # Check the number of characters in abbrev_text and if it contains balanced brackets or no brackets
                 if abbr_text[0].isalnum() and any(c.isalpha() for c in abbr_text):
                     # Disallow property values
-                    if re.match("^\d+(\.\d+)?(g|m[lL]|cm)$", abbr_text):
+                    if re.match(r"^\d+(\.\d+)?(g|m[lL]|cm)$", abbr_text):
                         # int or float followed by "q" or "ml" or "cm"
                         # TODO: generalize to any units
                         return False
@@ -99,9 +132,7 @@ class AbbreviationDetector(object):
                     # abbr = [tokens[span[0]-2]]
                     abbr_span = (span[0] - 2, span[0] - 1)
                     # long = self._get_long(abbr, inside, fix_left=True, fix_right=True)
-                    long_span = self._get_long_span(
-                        tokens, abbr_span, start=span[0], end=span[1]
-                    )
+                    long_span = self._get_long_span(tokens, abbr_span, start=span[0], end=span[1])
                     if long_span:
                         candidates.append((abbr_span, long_span))
             elif tokens[span[1]] == ",":
@@ -127,9 +158,7 @@ class AbbreviationDetector(object):
         max_length = self._max_long_length(abbr)
         # print(max_length)
         if start is not None and end is not None:
-            if end - start <= max_length and self._is_valid_long(
-                abbr, tokens[start:end]
-            ):
+            if end - start <= max_length and self._is_valid_long(abbr, tokens[start:end]):
                 return start, end
         elif start is None and end is not None:
             # Expand long backwards from end
@@ -177,7 +206,7 @@ class AbbreviationDetector(object):
                 # Ignore non-alphanumeric  # TODO: Greek!
                 if not current.isalnum():
                     continue
-                while (l_i >= 0 and not long[l_i].lower() == current) or (
+                while (l_i >= 0 and long[l_i].lower() != current) or (
                     a_i == 0 and l_i > 0 and long[l_i - 1].isalnum()
                 ):
                     # The letters in an abbreviation should appear in the long name
@@ -220,9 +249,7 @@ class AbbreviationDetector(object):
         for abbr_span, long_span in candidates:
             abbr = tokens[abbr_span[0] : abbr_span[1]]
             long = tokens[long_span[0] : long_span[1]]
-            if not all(a in long for a in abbr) and len("".join(long)) > len(
-                "".join(abbr)
-            ):
+            if not all(a in long for a in abbr) and len("".join(long)) > len("".join(abbr)):
                 results.append((abbr_span, long_span))
         return results
 

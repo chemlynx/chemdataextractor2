@@ -23,14 +23,14 @@ The latest results are updated in 1results.txt`.
 
 """
 
-import sys
 import os
-import webbrowser
-from playsound import playsound
 import pickle
+import sys
+import webbrowser
 from importlib.resources import files
-import os
 from pprint import pprint
+
+from playsound import playsound
 
 from .. import Document
 
@@ -140,17 +140,16 @@ class Evaluate:
         """Evaluates the corpus"""
         f = open("results.txt", "w", encoding="utf-8")
         for n_paper, doc in enumerate(documents(self.folder)):
-
             # if loaded from pickle, eval will start where left of
             if n_paper <= self.n_paper and self.n_paper >= 0:
                 continue
 
-            print("Paper {}/{}".format(n_paper, self.n_papers))
-            print("DOI:       {}".format(doc[0].metadata.doi))
-            print("Journal:   {}".format(doc[0].metadata.journal))
-            print("Publisher: {}".format(doc[0].metadata.publisher))
-            print("PDF Url:   {}".format(doc[0].metadata.pdf_url))
-            print("HTML Url:  {}".format(doc[0].metadata.html_url))
+            print(f"Paper {n_paper}/{self.n_papers}")
+            print(f"DOI:       {doc[0].metadata.doi}")
+            print(f"Journal:   {doc[0].metadata.journal}")
+            print(f"Publisher: {doc[0].metadata.publisher}")
+            print(f"PDF Url:   {doc[0].metadata.pdf_url}")
+            print(f"HTML Url:  {doc[0].metadata.html_url}")
 
             doc_opened = False
             for record in records(doc[0], self.models):
@@ -159,10 +158,10 @@ class Evaluate:
                 if not record.is_unidentified:
                     self.n_records += 1
 
-                    print("Record {}: \n".format(self.n_records))
+                    print(f"Record {self.n_records}: \n")
                     pprint(record.serialize())
-                    print("    Method:  {}".format(record.record_method))
-                    print("    Updated: {}".format(record.updated))
+                    print(f"    Method:  {record.record_method}")
+                    print(f"    Updated: {record.updated}")
                     if self.play_sound:
                         sound_file = files("chemdataextractor") / "eval/sound.mp3"
                         playsound(sound_file)
@@ -183,7 +182,7 @@ class Evaluate:
                                 "    Correct (0)   OR   Correct and duplicate (1)   OR   Wrong (2)   OR   SKIP (3)?"
                             )
                             input_cw = int(input_cw)
-                            print("         {}".format(input_cw))
+                            print(f"         {input_cw}")
 
                     if input_cw == 0:
                         self.nc += 1
@@ -192,8 +191,7 @@ class Evaluate:
                             self.nc_autosentence += 1
                         elif (
                             record.record_method == "QuantityModelTemplateParser"
-                            or record.record_method
-                            == "MultiQuantityModelTemplateParser"
+                            or record.record_method == "MultiQuantityModelTemplateParser"
                         ):
                             self.nc_template += 1
                         elif record.record_method == "Snowball":
@@ -212,8 +210,7 @@ class Evaluate:
                             self.ncd_autosentence += 1
                         elif (
                             record.record_method == "QuantityModelTemplateParser"
-                            or record.record_method
-                            == "MultiQuantityModelTemplateParser"
+                            or record.record_method == "MultiQuantityModelTemplateParser"
                         ):
                             self.ncd_template += 1
                         elif record.record_method == "Snowball":
@@ -237,7 +234,7 @@ class Evaluate:
                                 "    CER (1), AutoSentence (2), AutoTemplate (3), Snowball (4), Table (5), Definition update (6), Interdependency resolution (7), Other (8)? "
                             )
                             input_w = int(input_w)
-                        print("         {}".format(input_w))
+                        print(f"         {input_w}")
 
                         if input_w == 1:
                             self.nw_cer += 1
@@ -268,7 +265,7 @@ class Evaluate:
                             except ValueError:
                                 input_w_table = input("    TDE (1) or CDE (2)?")
                                 input_w_table = int(input_w_table)
-                            print("         {}".format(input_w_table))
+                            print(f"         {input_w_table}")
 
                             if input_w_table == 1:
                                 self.nw_table_tde += 1
@@ -278,7 +275,7 @@ class Evaluate:
                         if input_w == 8:
                             input_w_other = input("    Describe: ")
                             self.w_other.append(input_w_other)
-                            print("             {}".format(input_w_other))
+                            print(f"             {input_w_other}")
 
                     if input_cw == 3:
                         continue
@@ -305,10 +302,7 @@ class Evaluate:
 
     @property
     def limits_reached(self):
-        if (
-            self.n_paper + 1 >= self.n_papers_limit
-            and self.n_records >= self.n_records_limit
-        ):
+        if self.n_paper + 1 >= self.n_papers_limit and self.n_records >= self.n_records_limit:
             return True
         else:
             return False
@@ -319,60 +313,52 @@ class Evaluate:
         print("                  RESULTS                          ", file=destination)
         print("===================================================", file=destination)
         print("", file=destination)
-        print("Number of papers tested: {}".format(self.n_paper + 1), file=destination)
-        print("Unidentified records: {}".format(self.n_unidentified), file=destination)
+        print(f"Number of papers tested: {self.n_paper + 1}", file=destination)
+        print(f"Unidentified records: {self.n_unidentified}", file=destination)
         print(
-            "Total records (correct+wrong+skipped): {}".format(self.n_records),
+            f"Total records (correct+wrong+skipped): {self.n_records}",
             file=destination,
         )
         print("", file=destination)
-        print("Correct records: {}".format(self.nc), file=destination)
+        print(f"Correct records: {self.nc}", file=destination)
         print(
-            "    Correct AutoSentence: {}".format(self.nc_autosentence),
+            f"    Correct AutoSentence: {self.nc_autosentence}",
             file=destination,
         )
-        print("    Correct Template:     {}".format(self.nc_template), file=destination)
-        print("    Correct Snowball:     {}".format(self.nc_snowball), file=destination)
-        print("    Correct AutoTable:    {}".format(self.nc_table), file=destination)
-        print(
-            "    Correct Definition:   {}".format(self.nc_definition), file=destination
-        )
+        print(f"    Correct Template:     {self.nc_template}", file=destination)
+        print(f"    Correct Snowball:     {self.nc_snowball}", file=destination)
+        print(f"    Correct AutoTable:    {self.nc_table}", file=destination)
+        print(f"    Correct Definition:   {self.nc_definition}", file=destination)
         print("", file=destination)
-        print("Correct and duplicate records: {}".format(self.ncd), file=destination)
+        print(f"Correct and duplicate records: {self.ncd}", file=destination)
         print(
-            "    Duplicate AutoSentence: {}".format(self.ncd_autosentence),
+            f"    Duplicate AutoSentence: {self.ncd_autosentence}",
             file=destination,
         )
+        print(f"    Duplicate Template:     {self.ncd_template}", file=destination)
+        print(f"    Duplicate Snowball:     {self.ncd_snowball}", file=destination)
+        print(f"    Duplicate AutoTable:    {self.ncd_table}", file=destination)
         print(
-            "    Duplicate Template:     {}".format(self.ncd_template), file=destination
-        )
-        print(
-            "    Duplicate Snowball:     {}".format(self.ncd_snowball), file=destination
-        )
-        print("    Duplicate AutoTable:    {}".format(self.ncd_table), file=destination)
-        print(
-            "    Duplicate Definition:   {}".format(self.ncd_definition),
+            f"    Duplicate Definition:   {self.ncd_definition}",
             file=destination,
         )
         print("", file=destination)
-        print("Wrong records: {}".format(self.nw), file=destination)
-        print("    Wrong CER:          {}".format(self.nw_cer), file=destination)
+        print(f"Wrong records: {self.nw}", file=destination)
+        print(f"    Wrong CER:          {self.nw_cer}", file=destination)
+        print(f"    Wrong AutoSentence: {self.nw_autosentence}", file=destination)
+        print(f"    Wrong Template:     {self.nw_template}", file=destination)
+        print(f"    Wrong Snowball:     {self.nw_snowball}", file=destination)
+        print(f"    Wrong AutoTable:    {self.nw_table}", file=destination)
+        print(f"        TDE:            {self.nw_table_tde}", file=destination)
+        print(f"        CDE:            {self.nw_table_cde}", file=destination)
+        print(f"    Wrong Definition:   {self.nw_definition}", file=destination)
         print(
-            "    Wrong AutoSentence: {}".format(self.nw_autosentence), file=destination
-        )
-        print("    Wrong Template:     {}".format(self.nw_template), file=destination)
-        print("    Wrong Snowball:     {}".format(self.nw_snowball), file=destination)
-        print("    Wrong AutoTable:    {}".format(self.nw_table), file=destination)
-        print("        TDE:            {}".format(self.nw_table_tde), file=destination)
-        print("        CDE:            {}".format(self.nw_table_cde), file=destination)
-        print("    Wrong Definition:   {}".format(self.nw_definition), file=destination)
-        print(
-            "    W. Interdependency: {}".format(self.nw_interdependency),
+            f"    W. Interdependency: {self.nw_interdependency}",
             file=destination,
         )
-        print("    Other:              {}".format(self.nw_other), file=destination)
+        print(f"    Other:              {self.nw_other}", file=destination)
         for item in self.w_other:
-            print("        {}".format(item), file=destination)
+            print(f"        {item}", file=destination)
         print("", file=destination)
         print(" PRECISION ", file=destination)
         print("===========", file=destination)
@@ -387,8 +373,7 @@ class Evaluate:
         if (self.nc + self.nw - self.nw_autosentence) != 0:
             print(
                 "Precision without AutoSentenceParser = {:4.2f}, {}/{}   ---> Approximation".format(
-                    (self.nc - self.nc_autosentence)
-                    / (self.nc + self.nw - self.nw_autosentence),
+                    (self.nc - self.nc_autosentence) / (self.nc + self.nw - self.nw_autosentence),
                     (self.nc - self.nc_autosentence),
                     (self.nc + self.nw - self.nw_autosentence),
                 ),

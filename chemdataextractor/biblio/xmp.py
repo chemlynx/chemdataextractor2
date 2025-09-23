@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Parse metadata stored as XMP (Extensible Metadata Platform).
 
@@ -10,14 +9,9 @@ More information is available on the Adobe website:
 
 """
 
-from __future__ import absolute_import
-from __future__ import division
-from __future__ import print_function
-from __future__ import unicode_literals
-
 from collections import defaultdict
-from lxml import etree
 
+from lxml import etree
 
 RDF_NS = "{http://www.w3.org/1999/02/22-rdf-syntax-ns#}"
 XML_NS = "{http://www.w3.org/XML/1998/namespace}"
@@ -35,7 +29,7 @@ NS_MAP = {
 }
 
 
-class XmpParser(object):
+class XmpParser:
     """A parser that converts an XMP metadata string into a python dictionary.
 
     Usage::

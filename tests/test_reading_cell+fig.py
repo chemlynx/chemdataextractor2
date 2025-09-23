@@ -1,12 +1,5 @@
-# -*- coding: utf-8 -*-
-
-from __future__ import absolute_import
-from __future__ import division
-from __future__ import print_function
-from __future__ import unicode_literals
-
-import sys
 import logging
+import sys
 import unittest
 from builtins import bytes
 
@@ -18,7 +11,7 @@ log = logging.getLogger(__name__)
 
 class TestAddingCellFigure(unittest.TestCase):
 
-    """ Test parsing warning for when a figure is nested inside a table and can not be added."""
+    """Test parsing warning for when a figure is nested inside a table and can not be added."""
 
     def test_reader_adding(self):
         xml_string = """<full-text-retrieval-response xmlns="http://www.elsevier.com/xml/svapi/article/dtd" xmlns:bk="http://www.elsevier.com/xml/bk/dtd" xmlns:cals="http://www.elsevier.com/xml/common/cals/dtd" xmlns:ce="http://www.elsevier.com/xml/common/dtd" xmlns:ja="http://www.elsevier.com/xml/ja/dtd" xmlns:mml="http://www.w3.org/1998/Math/MathML" xmlns:sa="http://www.elsevier.com/xml/common/struct-aff/dtd" xmlns:sb="http://www.elsevier.com/xml/common/struct-bib/dtd" xmlns:tb="http://www.elsevier.com/xml/common/table/dtd" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xocs="http://www.elsevier.com/xml/xocs/dtd" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:prism="http://prismstandard.org/namespaces/basic/2.0/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><coredata><prism:url>https://api.elsevier.com/content/article/pii/S0022072802014705</prism:url><dc:identifier>doi:10.1016/S0022-0728(02)01470-5</dc:identifier><eid>1-s2.0-S0022072802014705</eid><prism:doi>10.1016/S0022-0728(02)01470-5</prism:doi><pii>S0022-0728(02)01470-5</pii><dc:title>Colloidal silver iodide: synthesis by a reverse micelle method and investigation by a small-angle neutron scattering study </dc:title><prism:publicationName>Journal of Electroanalytical Chemistry</prism:publicationName><prism:aggregationType>Journal</prism:aggregationType><pubType>
@@ -85,11 +78,11 @@ class TestAddingCellFigure(unittest.TestCase):
 
         with self.assertLogs(level=logging.WARNING) as cm:
             if sys.version_info[0] < 3:
-                d = Document().from_string(bytes(xml_string, 'utf-8'))
+                d = Document().from_string(bytes(xml_string, "utf-8"))
             else:
-                d = Document().from_string(xml_string.encode('utf-8'))
-            self.assertTrue(cm.output[0].startswith('WARNING'))
+                d = Document().from_string(xml_string.encode("utf-8"))
+            self.assertTrue(cm.output[0].startswith("WARNING"))
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     unittest2.main()

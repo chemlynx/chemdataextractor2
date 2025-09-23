@@ -1,18 +1,14 @@
-# -*- coding: utf-8 -*-
 """
 Part-of-speech tagging.
 
 """
 
-from __future__ import absolute_import
-from __future__ import division
-from __future__ import print_function
-from __future__ import unicode_literals
 import logging
 
 from .lexicon import ChemLexicon
-from .tag import ApTagger, CrfTagger, POS_TAG_TYPE
-
+from .tag import POS_TAG_TYPE
+from .tag import ApTagger
+from .tag import CrfTagger
 
 log = logging.getLogger(__name__)
 
@@ -300,8 +296,7 @@ class CrfPosTagger(CrfTagger):
                     [
                         "p2.lower=%s" % p2.lower,
                         "p2.lower=%s+p1.lower=%s" % (p2.lower, p1.lower),
-                        "p2.lower=%s+p1.lower=%s+w.lower=%s"
-                        % (p2.lower, p1.lower, w.lower),
+                        "p2.lower=%s+p1.lower=%s+w.lower=%s" % (p2.lower, p1.lower, w.lower),
                         "p2.shape=%s" % p2.shape,
                     ]
                 )
@@ -344,8 +339,7 @@ class CrfPosTagger(CrfTagger):
                     [
                         "n2.lower=%s" % n2.lower,
                         "n1.lower=%s+n2.lower=%s" % (n1.lower, n2.lower),
-                        "w.lower=%s+n1.lower=%s+n2.lower=%s"
-                        % (w.lower, n1.lower, n2.lower),
+                        "w.lower=%s+n1.lower=%s+n2.lower=%s" % (w.lower, n1.lower, n2.lower),
                         "n2.shape=%s" % n2.shape,
                     ]
                 )

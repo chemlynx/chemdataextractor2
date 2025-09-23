@@ -1,16 +1,9 @@
-# -*- coding: utf-8 -*-
 """
 Config file reader/writer.
 
 """
 
-from __future__ import absolute_import
-from __future__ import division
-from __future__ import print_function
-from __future__ import unicode_literals
-import io
 import os
-import sys
 from collections.abc import MutableMapping
 
 import appdirs
@@ -64,17 +57,12 @@ class Config(MutableMapping):
             self._path = os.environ.get("CHEMDATAEXTRACTOR_CONFIG")
         # Use OS-dependent config directory given by appdirs
         if not self._path:
-            if sys.version_info[0] == 2:
-                self._path = os.path.join(
-                    os.path.dirname(os.path.abspath(__file__)), "python2_config.yml"
-                )
-            else:
-                self._path = os.path.join(
-                    appdirs.user_config_dir("ChemDataExtractor"),
-                    "chemdataextractor.yml",
-                )
+            self._path = os.path.join(
+                appdirs.user_config_dir("ChemDataExtractor"),
+                "chemdataextractor.yml",
+            )
         if os.path.isfile(self.path):
-            with io.open(self.path, encoding="utf8") as f:
+            with open(self.path, encoding="utf8") as f:
                 self._data = yaml.safe_load(f)
                 if self._data is None:
                     self._data = {}
@@ -89,7 +77,7 @@ class Config(MutableMapping):
         d = os.path.dirname(self.path)
         if not os.path.isdir(d):
             os.makedirs(d)
-        with io.open(self.path, "w", encoding="utf8") as f:
+        with open(self.path, "w", encoding="utf8") as f:
             yaml.safe_dump(self._data, f, default_flow_style=False, encoding=None)
 
     def __contains__(self, k):

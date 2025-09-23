@@ -1,22 +1,15 @@
-# -*- coding: utf-8 -*-
 """
 Readers for documents from the RSC.
 
 """
 
-from __future__ import absolute_import
-from __future__ import division
-from __future__ import print_function
-from __future__ import unicode_literals
 import logging
 
-from ..doc.text import Footnote, Caption
+from ..doc.text import Footnote
+from ..scrape.clean import Cleaner
+from ..scrape.clean import clean
 from ..scrape.pub.rsc import replace_rsc_img_chars
-from ..scrape.clean import clean, Cleaner
 from .markup import HtmlReader
-from ..doc.table import Table
-from lxml import etree
-
 
 log = logging.getLogger(__name__)
 
@@ -88,9 +81,7 @@ class RscHtmlReader(HtmlReader):
         """Override to account for awkward RSC table footnotes."""
         footnotes = []
         for fn in fns:
-            footnote = self._parse_text(
-                fn, refs=refs, specials=specials, element_cls=Footnote
-            )[0]
+            footnote = self._parse_text(fn, refs=refs, specials=specials, element_cls=Footnote)[0]
             footnote += Footnote("", id=fn.getprevious().get("id"))
             footnotes.append(footnote)
         return footnotes

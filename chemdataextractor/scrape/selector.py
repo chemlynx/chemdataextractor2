@@ -1,31 +1,27 @@
-# -*- coding: utf-8 -*-
 """
 Tool for selecting content from HTML or XML using CSS or XPath expressions.
 
 """
 
-from __future__ import absolute_import
-from __future__ import division
-from __future__ import print_function
-from __future__ import unicode_literals
-from collections.abc import Sequence
-from copy import deepcopy
 import logging
 import re
-from bs4 import UnicodeDammit
+from collections.abc import Sequence
+from copy import deepcopy
 
-from lxml.etree import XMLParser, fromstring, tostring
+from bs4 import UnicodeDammit
+from lxml.etree import XMLParser
+from lxml.etree import fromstring
+from lxml.etree import tostring
 from lxml.html import HTMLParser
 
-
 from ..utils import flatten
-from .csstranslator import CssHTMLTranslator, CssXmlTranslator
-
+from .csstranslator import CssHTMLTranslator
+from .csstranslator import CssXmlTranslator
 
 log = logging.getLogger(__name__)
 
 
-class Selector(object):
+class Selector:
     """Tool for selecting content from HTML or XML using XPath selectors."""
 
     #: Default namespaces for all selectors
@@ -62,7 +58,7 @@ class Selector(object):
         namespaces=None,
         encoding=None,
     ):
-        log.debug("Parsing {} with {}".format(fmt, parser))
+        log.debug(f"Parsing {fmt} with {parser}")
         root = fromstring(
             text,
             parser=parser(recover=True, encoding=cls._get_encoding(text, encoding)),
@@ -146,9 +142,7 @@ class Selector(object):
         return self._root.tag
 
     def xpath(self, query):
-        result = self._root.xpath(
-            query, namespaces=self.namespaces, smart_strings=False
-        )
+        result = self._root.xpath(query, namespaces=self.namespaces, smart_strings=False)
         if type(result) is not list:
             result = [result]
         # log.debug('Selecting XPath: {}: {}'.format(query, result))
@@ -177,10 +171,8 @@ class Selector(object):
             root = deepcopy(self._root)
             if cleaner:
                 cleaner(root)
-            return tostring(
-                root, method=self.fmt if raw else "text", encoding=str, with_tail=False
-            )
-        except (AttributeError, TypeError) as e:
+            return tostring(root, method=self.fmt if raw else "text", encoding=str, with_tail=False)
+        except (AttributeError, TypeError):
             # log.warn(e)
             return str(self._root)
 

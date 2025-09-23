@@ -1,13 +1,7 @@
-# -*- coding: utf-8 -*-
 """
 Chemistry text handling tools.
 
 """
-
-from __future__ import absolute_import
-from __future__ import division
-from __future__ import print_function
-from __future__ import unicode_literals
 
 import re
 
@@ -737,9 +731,7 @@ SOLVENT_RE = re.compile(
 )
 
 # Regular expressions for validating chemical identifiers
-CAS_RE = re.compile(
-    r"^\d{1,7}-\d\d-\d$"
-)  # TODO: Should be  (([1-9]\d{2,5})|([5-9]\d))-\d\d-\d
+CAS_RE = re.compile(r"^\d{1,7}-\d\d-\d$")  # TODO: Should be  (([1-9]\d{2,5})|([5-9]\d))-\d\d-\d
 INCHIKEY_RE = re.compile(r"^[A-Z]{14}-[A-Z]{10}-[A-Z\d]$")
 INCHI_RE = re.compile(
     r"^(InChI=)?1S?\/(p\+1|\d*[a-ik-z][a-ik-z\d\.]*(\/c[\d\-*(),;]+)?(\/h[\d\-*h(),;]+)?)(\/[bmpqst][\d\-\.+*,;?m]*|\/i[hdt\d\-+*,;]*(\/h[hdt\d]+)?|\/r[a-ik-z\d]+(\/c[\d\-*(),;]+)?(\/h[\d\-*h(),;]+)?|\/f[a-ik-z\d\.]*(\/h[\d\-*h(),;]+)?)*$",
@@ -772,11 +764,6 @@ def extract_smiles(s):
     # TODO: This still gets a lot of false positives.
     smiles = []
     for t in s.split():
-        if (
-            len(t) > 2
-            and SMILES_RE.match(t)
-            and not t.endswith(".")
-            and bracket_level(t) == 0
-        ):
+        if len(t) > 2 and SMILES_RE.match(t) and not t.endswith(".") and bracket_level(t) == 0:
             smiles.append(t)
     return smiles

@@ -1,39 +1,46 @@
-# -*- coding: utf-8 -*-
 """
-Text processors.
+Text processors for cleaning and normalizing text.
 
+Provides various text processing utilities for preparing chemical text
+for parsing and extraction operations.
 """
 
-from __future__ import absolute_import
-from __future__ import division
-from __future__ import print_function
-from __future__ import unicode_literals
-from abc import ABCMeta, abstractmethod
+from __future__ import annotations
+
 import logging
 import re
-
 import urllib.parse
-from . import EMAIL_RE, APOSTROPHES
+from abc import ABCMeta
+from abc import abstractmethod
+from typing import Optional
 
+from . import APOSTROPHES
+from . import EMAIL_RE
+from ..parse.regex_patterns import remove_bracketed_numbers, remove_uncertainty, convert_scientific_notation
 
 log = logging.getLogger(__name__)
 
 
 class BaseProcessor(metaclass=ABCMeta):
-    """Abstract processor class from which all processors inherit. Subclasses must implement a ``__call__()`` method."""
+    """Abstract processor class from which all processors inherit.
+
+    Subclasses must implement a ``__call__()`` method to process text.
+    """
 
     @abstractmethod
-    def __call__(self, text):
-        """Process the text.
+    def __call__(self, text: str) -> Optional[str]:
+        """Process the input text.
 
-        :param string text: The input text.
-        :returns: The processed text or None.
-        :rtype: string or None
+        Args:
+            text: The input text to process
+
+        Returns:
+            The processed text, or None if text should be discarded
         """
         return text
 
 
-class Chain(object):
+class Chain:
     """Apply a series of processors in turn. Stops if a processors returns None."""
 
     def __init__(self, *callables):
@@ -47,7 +54,7 @@ class Chain(object):
         return value
 
 
-class Discard(object):
+class Discard:
     """Return None if value matches a string."""
 
     def __init__(self, *match):
@@ -59,7 +66,7 @@ class Discard(object):
         return value
 
 
-class LAdd(object):
+class LAdd:
     """Add a substring to the start of a value."""
 
     def __init__(self, substring):
@@ -69,7 +76,7 @@ class LAdd(object):
         return "%s%s" % (self.substring, value)
 
 
-class RAdd(object):
+class RAdd:
     """Add a substring to the end of a value."""
 
     def __init__(self, substring):
@@ -79,7 +86,7 @@ class RAdd(object):
         return "%s%s" % (value, self.substring)
 
 
-class LStrip(object):
+class LStrip:
     """Remove a substring from the start of a value."""
 
     def __init__(self, *substrings):
@@ -92,7 +99,7 @@ class LStrip(object):
         return value
 
 
-class RStrip(object):
+class RStrip:
     """Remove a substring from the end of a value."""
 
     def __init__(self, *substrings):
@@ -110,17 +117,13 @@ def floats(s):
     try:
         return float(s)
     except ValueError:
-        s = re.sub(
-            r"(\d)\s*\(\d+(\.\d+)?\)", r"\1", s
-        )  # Remove bracketed numbers from end
-        s = re.sub(r"(\d)\s*±\s*\d+(\.\d+)?", r"\1", s)  # Remove uncertainties from end
+        s = remove_bracketed_numbers(s)  # Remove bracketed numbers from end
+        s = remove_uncertainty(s)  # Remove uncertainties from end
         s = s.rstrip("'\"+-=<>/,.:;!?)]}…∼~≈×*_≥≤")  # Remove trailing punctuation
         s = s.lstrip("'\"+=<>/([{∼~≈×*_≥≤£$€#§")  # Remove leading punctuation
         s = s.replace(",", "")  # Remove commas
         s = "".join(s.split())  # Strip whitespace
-        s = re.sub(
-            r"(\d)\s*[×x]\s*10\^?(-?\d)", r"\1e\2", s
-        )  # Convert scientific notation
+        s = convert_scientific_notation(s)  # Convert scientific notation
         return float(s)
 
 
@@ -130,7 +133,7 @@ def strip_querystring(url):
     return p.scheme + "://" + p.netloc + p.path
 
 
-class Substitutor(object):
+class Substitutor:
     """Perform a list of substitutions defined by regex on text.
 
     Useful to clean up text where placeholders are used in place of actual unicode characters.

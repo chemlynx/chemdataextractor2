@@ -555,7 +555,3 @@ The above code will print::
                                         'specifier': 'measured with'}}}}}}]
 
 .. tip:: Complex hierarchies of nested models are now possible, taking the appropriate ``required`` flags into account for each nested model. For table data, models will automatically be extracted and merged appropriately, regardless of the ``contextual`` flags, as long as all the submodels share a common ``compound`` element.
-
-
-
-
