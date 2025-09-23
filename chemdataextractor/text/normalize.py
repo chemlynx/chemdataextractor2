@@ -173,7 +173,7 @@ class ExcessNormalizer(Normalizer):
         tildes=True,
     ):
         """"""
-        super(ExcessNormalizer, self).__init__(
+        super().__init__(
             form,
             strip=strip,
             collapse=collapse,
@@ -185,7 +185,7 @@ class ExcessNormalizer(Normalizer):
 
     def normalize(self, text):
         # Lowercase and normalize unicode
-        text = super(ExcessNormalizer, self).normalize(text.lower())
+        text = super().normalize(text.lower())
         # Remove all whitespace
         text = "".join(text.split())
         # Convert all apostrophes, quotes, accents, primes to single ascii apostrophe
@@ -219,7 +219,7 @@ class ChemNormalizer(Normalizer):
         chem_spell=True,
     ):
         """"""
-        super(ChemNormalizer, self).__init__(
+        super().__init__(
             form,
             strip=strip,
             collapse=collapse,
@@ -232,7 +232,7 @@ class ChemNormalizer(Normalizer):
 
     def normalize(self, text):
         """Normalize unicode, hyphens, whitespace, and some chemistry terms and formatting."""
-        text = super(ChemNormalizer, self).normalize(text)
+        text = super().normalize(text)
         # Normalize element spelling
         if self.chem_spell:
             text = normalize_chemical_spelling(text)

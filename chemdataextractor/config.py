@@ -101,7 +101,7 @@ class Config(MutableMapping):
         return len(self._data)
 
     def __repr__(self):
-        return "<Config: %s>" % self.path
+        return f"<Config: {self.path}>"
 
     def clear(self):
         """Clear all values from config."""

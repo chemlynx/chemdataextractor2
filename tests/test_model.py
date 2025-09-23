@@ -55,12 +55,8 @@ class TestModel(unittest.TestCase):
         self.assertEqual(Compound().is_unidentified, True)
         self.assertEqual(Compound(names=["Coumarin 343"]).is_unidentified, False)
         self.assertEqual(Compound(labels=["3a"]).is_unidentified, False)
-        self.assertEqual(
-            Compound(names=["Coumarin 343"], labels=["3a"]).is_unidentified, False
-        )
-        self.assertEqual(
-            Compound(melting_points=[MeltingPoint(value="250")]).is_unidentified, True
-        )
+        self.assertEqual(Compound(names=["Coumarin 343"], labels=["3a"]).is_unidentified, False)
+        self.assertEqual(Compound(melting_points=[MeltingPoint(value="250")]).is_unidentified, True)
 
     def test_contextual_fulfilled(self):
         """Test contextual_fulfilled method returns expected result."""
@@ -68,9 +64,7 @@ class TestModel(unittest.TestCase):
         self.assertEqual(MeltingPoint(value=[240]).contextual_fulfilled, False)
         self.assertEqual(MeltingPoint(raw_units="K").contextual_fulfilled, False)
         self.assertEqual(
-            MeltingPoint(
-                apparatus=Apparatus(apparatus="Some apparatus")
-            ).contextual_fulfilled,
+            MeltingPoint(apparatus=Apparatus(apparatus="Some apparatus")).contextual_fulfilled,
             False,
         )
         Compound.fields["names"].contextual = True
@@ -324,9 +318,7 @@ class TestModel(unittest.TestCase):
                 "inferred_from_nested": "4321",
             }
         }
-        self.assertEqual(
-            OuterModel.deserialize(expected).serialize(), outer_model.serialize()
-        )
+        self.assertEqual(OuterModel.deserialize(expected).serialize(), outer_model.serialize())
 
 
 if __name__ == "__main__":

@@ -26,7 +26,7 @@ def list(ctx):
     """List all config values."""
     log.debug("chemdataextractor.config.list")
     for k in config:
-        click.echo("%s : %s" % (k, config[k]))
+        click.echo(f"{k} : {config[k]}")
 
 
 @config_cli.command()

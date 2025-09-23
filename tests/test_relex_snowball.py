@@ -26,9 +26,7 @@ log = logging.getLogger(__name__)
 # Define a test model
 class CurieTemperature(TemperatureModel):
     specifier_expression = (W("Curie") + I("temperature")).add_action(join)
-    specifier = StringType(
-        parse_expression=specifier_expression, required=True, updatable=True
-    )
+    specifier = StringType(parse_expression=specifier_expression, required=True, updatable=True)
     compound = ModelType(Compound, required=True)
     parsers = [AutoSentenceParser()]
 
@@ -56,18 +54,14 @@ class BandGap(EnergyModel):
         contextual=True,
         updatable=True,
     )
-    compound = ModelType(
-        Compound, required=True, contextual=True, binding=True, updatable=False
-    )
+    compound = ModelType(Compound, required=True, contextual=True, binding=True, updatable=False)
     temperature = ModelType(Temperature, required=False, contextual=False)
     temperature.model_class.fields["raw_value"].required = False
     temperature.model_class.fields["raw_units"].required = False
     parsers = [AutoSentenceParser()]
 
 
-nested_snowball = Snowball(
-    model=BandGap, tc=0.5, tsim=0.5, max_candidate_combinations=40
-)
+nested_snowball = Snowball(model=BandGap, tc=0.5, tsim=0.5, max_candidate_combinations=40)
 
 
 class TestSnowball(unittest.TestCase):
@@ -94,9 +88,7 @@ class TestSnowball(unittest.TestCase):
     def test_retrieve_entities(self):
         """Test entity retrieval from a parse result"""
         sentence = Sentence("BiFeO3 displays a Curie temperature of 1103 K,")
-        sentence_parser = [
-            p for p in sb.model.parsers if isinstance(p, AutoSentenceParser)
-        ][0]
+        sentence_parser = [p for p in sb.model.parsers if isinstance(p, AutoSentenceParser)][0]
         detected = []
         for result in sentence_parser.root.scan(sentence.tokens):
             if result:
@@ -136,9 +128,7 @@ class TestSnowball(unittest.TestCase):
         self.assertDictEqual(expected[0], models[0])
 
     def test_parse_nested_sentence(self):
-        s1 = Sentence(
-            "Si has a  band gap of 1.1 eV at an applied temperature of 300 K."
-        )
+        s1 = Sentence("Si has a  band gap of 1.1 eV at an applied temperature of 300 K.")
         s2 = Sentence("MnO has a band gap of 5 eV in an applied temperature of 700 K.")
         candidates = nested_snowball.candidates(s1.tokens)
         c = [i for i in candidates if i.entities[2].tag == "bandgap__raw_value"]

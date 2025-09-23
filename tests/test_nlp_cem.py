@@ -88,12 +88,8 @@ class TestCemTagger(unittest.TestCase):
             [(("benzene-aromatic", "NN"), "B-CM")],
             ct.legacy_tag([("benzene-aromatic", "NN")]),
         )
-        self.assertEqual(
-            [(("-aromatic", "JJ"), None)], ct.legacy_tag([("-aromatic", "JJ")])
-        )
-        self.assertEqual(
-            [(("non-aromatic", "JJ"), None)], ct.legacy_tag([("non-aromatic", "JJ")])
-        )
+        self.assertEqual([(("-aromatic", "JJ"), None)], ct.legacy_tag([("-aromatic", "JJ")]))
+        self.assertEqual([(("non-aromatic", "JJ"), None)], ct.legacy_tag([("non-aromatic", "JJ")]))
 
     def test_cems_stoplist(self):
         """Test Document cems removes words in stoplist, ncluding words entirely made up of ignore prefix/suffix.

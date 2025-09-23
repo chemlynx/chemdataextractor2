@@ -46,7 +46,7 @@ class UnitType(BaseType[Optional["Unit"]]):
         else:
             instance._values[self.name] = None
 
-    def process(self, value: Any) -> Optional[Unit]:
+    def process(self, value: Any) -> Unit | None:
         """Process and validate unit value.
 
         Args:
@@ -59,7 +59,7 @@ class UnitType(BaseType[Optional["Unit"]]):
             return value
         return None
 
-    def serialize(self, value: Optional[Unit], primitive: bool = False) -> str:
+    def serialize(self, value: Unit | None, primitive: bool = False) -> str:
         """Serialize unit to string representation.
 
         Args:
@@ -92,7 +92,7 @@ class MetaUnit(type):
     to and from standard units by wrapping conversion methods.
     """
 
-    def __new__(mcs, name: str, bases: Tuple[type, ...], attrs: Dict[str, Any]) -> type:
+    def __new__(mcs, name: str, bases: tuple[type, ...], attrs: dict[str, Any]) -> type:
         cls = type.__new__(mcs, name, bases, attrs)
 
         if hasattr(cls, "convert_value_to_standard"):
@@ -206,7 +206,7 @@ class Unit(metaclass=MetaUnit):
         self,
         dimensions: Dimension,
         magnitude: float = 0.0,
-        powers: Optional[Dict[Unit, float]] = None,
+        powers: dict[Unit, float] | None = None,
     ) -> None:
         """Create a unit object.
 

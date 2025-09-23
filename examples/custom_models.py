@@ -437,7 +437,7 @@ def create_model_validation_system():
     """Create a validation system for custom models."""
     print("\n=== Model Validation System ===")
 
-    def validate_photoluminescence(record: PhotoluminescenceModel) -> Dict[str, Any]:
+    def validate_photoluminescence(record: PhotoluminescenceModel) -> dict[str, Any]:
         """Validate photoluminescence data."""
         validation = {"valid": True, "warnings": [], "errors": []}
 

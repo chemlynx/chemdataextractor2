@@ -97,7 +97,7 @@ class BaseText(BaseElement):
         """
         if not isinstance(text, str):
             raise TypeError("Text must be a unicode string")
-        super(BaseText, self).__init__(**kwargs)
+        super().__init__(**kwargs)
         self._text = text
         self.word_tokenizer = word_tokenizer if word_tokenizer is not None else self.word_tokenizer
         self.lexicon = lexicon if lexicon is not None else self.lexicon
@@ -256,7 +256,7 @@ class Text(collections.abc.Sequence, BaseText):
             inside a :class:`~chemdataextractor.doc.text.Paragraph`), or is part of a :class:`~chemdataextractor.doc.document.Document`,
             this is set automatically to be the same as that of the containing element, unless manually set otherwise.
         """
-        super(Text, self).__init__(
+        super().__init__(
             text,
             word_tokenizer=word_tokenizer,
             lexicon=lexicon,
@@ -499,7 +499,7 @@ class Text(collections.abc.Sequence, BaseText):
 
 class Title(Text):
     def __init__(self, text, **kwargs):
-        super(Title, self).__init__(text, **kwargs)
+        super().__init__(text, **kwargs)
         self.models = []
 
     def _repr_html_(self):
@@ -508,7 +508,7 @@ class Title(Text):
 
 class Heading(Text):
     def __init__(self, text, **kwargs):
-        super(Heading, self).__init__(text, **kwargs)
+        super().__init__(text, **kwargs)
         self.models = []
         # default_parsers = [CompoundHeadingParser(), ChemicalLabelParser()]
 
@@ -518,7 +518,7 @@ class Heading(Text):
 
 class Paragraph(Text):
     def __init__(self, text, **kwargs):
-        super(Paragraph, self).__init__(text, **kwargs)
+        super().__init__(text, **kwargs)
         # default_parsers = [CompoundParser(), ChemicalLabelParser(), NmrParser(), IrParser(), UvvisParser(), MpParser(),
         #        TgParser(), ContextParser()]
         self.models = []
@@ -529,7 +529,7 @@ class Paragraph(Text):
 
 class Footnote(Text):
     def __init__(self, text, **kwargs):
-        super(Footnote, self).__init__(text, **kwargs)
+        super().__init__(text, **kwargs)
         # default_parsers = [ContextParser(), CaptionContextParser()]
         self.models = []
 
@@ -555,7 +555,7 @@ class Citation(Text):
 
 class Caption(Text):
     def __init__(self, text, **kwargs):
-        super(Caption, self).__init__(text, **kwargs)
+        super().__init__(text, **kwargs)
         self.models = []
         # default_parsers = [CompoundParser(), ChemicalLabelParser(), CaptionContextParser()]
 
@@ -623,7 +623,7 @@ class Sentence(BaseText):
             this is set automatically to be the same as that of the containing element, unless manually set otherwise.
         """
         self.models = []
-        super(Sentence, self).__init__(
+        super().__init__(
             text,
             word_tokenizer=word_tokenizer,
             lexicon=lexicon,
@@ -1141,7 +1141,7 @@ class Cell(Sentence):
     subsentence_extractor = NoneSubsentenceExtractor()
 
     def __init__(self, *args, **kwargs):
-        super(Cell, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
         self.data = None
         self.row_categories = None
         self.col_categories = None
@@ -1293,7 +1293,7 @@ class Token(Span):
         :param int end: The end offset of this token in the original text.
         :param Lexicon lexicon: The lexicon which contains this token.
         """
-        super(Token, self).__init__(text, start, end)
+        super().__init__(text, start, end)
         #: The lexicon for this token.
         self.lexicon = lexicon
         self.lexicon.add(text)
@@ -1329,7 +1329,7 @@ class RichToken(Token):
     """
 
     def __init__(self, text, start, end, lexicon, sentence):
-        super(RichToken, self).__init__(text, start, end, lexicon)
+        super().__init__(text, start, end, lexicon)
         self.sentence = sentence
         self._tags = {}
 

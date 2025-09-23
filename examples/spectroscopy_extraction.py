@@ -262,7 +262,7 @@ def spectral_data_validation():
     return validation_results
 
 
-def export_spectral_data(spectral_data: Dict[str, List[Any]], output_dir: Path):
+def export_spectral_data(spectral_data: dict[str, list[Any]], output_dir: Path):
     """Export extracted spectroscopic data to various formats."""
     print(f"\n=== Exporting Spectral Data to {output_dir} ===")
 

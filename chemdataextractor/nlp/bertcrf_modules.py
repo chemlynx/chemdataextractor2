@@ -33,7 +33,7 @@ class TimeDistributed(torch.nn.Module):
         self._module = module
 
     @overrides
-    def forward(self, *inputs, pass_through: List[str] = None, **kwargs):
+    def forward(self, *inputs, pass_through: list[str] = None, **kwargs):
         pass_through = pass_through or []
 
         reshaped_inputs = [self._reshape_tensor(input_tensor) for input_tensor in inputs]

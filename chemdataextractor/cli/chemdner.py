@@ -34,7 +34,7 @@ def prepare_gold(ctx, annotations, gout):
     click.echo("chemdataextractor.chemdner.prepare_gold")
     for line in annotations:
         pmid, ta, start, end, text, category = line.strip().split("\t")
-        gout.write("%s\t%s:%s:%s\n" % (pmid, ta, start, end))
+        gout.write(f"{pmid}\t{ta}:{start}:{end}\n")
 
 
 @chemdner_cli.command()
@@ -121,7 +121,7 @@ def tag(ctx, corpus, output):
         d = Document(Title(title), Paragraph(abstract))
         for t, section in [(d.elements[0], "T"), (d.elements[1], "A")]:
             for cem in t.cems:
-                code = "%s:%s:%s" % (section, cem.start, cem.end)
+                code = f"{section}:{cem.start}:{cem.end}"
                 output.write("\t".join([pmid, code, str(counter), "1"]))
                 output.write("\n")
                 counter += 1

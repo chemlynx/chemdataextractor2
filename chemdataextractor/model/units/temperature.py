@@ -37,7 +37,7 @@ class TemperatureUnit(Unit):
     """
 
     def __init__(self, magnitude=0.0, powers=None):
-        super(TemperatureUnit, self).__init__(Temperature(), magnitude, powers)
+        super().__init__(Temperature(), magnitude, powers)
 
 
 class Kelvin(TemperatureUnit):

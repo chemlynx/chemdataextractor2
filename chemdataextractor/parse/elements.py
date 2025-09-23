@@ -19,7 +19,7 @@ from copy import deepcopy
 from functools import lru_cache
 from typing import TYPE_CHECKING
 from typing import Any
-from typing import Callable
+from collections.abc import Callable
 from typing import List
 from typing import Optional
 
@@ -29,10 +29,10 @@ if TYPE_CHECKING:
     pass
 
 # Type aliases for parsing
-ParseAction = Callable[[List[Any]], Any]  # Function that processes parse results
-ParseCondition = Callable[[List[Any]], bool]  # Function that validates parse results
-TokenList = List[str]  # List of token strings
-ParseResults = List[Any]  # Results from parsing operations
+ParseAction = Callable[[list[Any]], Any]  # Function that processes parse results
+ParseCondition = Callable[[list[Any]], bool]  # Function that validates parse results
+TokenList = list[str]  # List of token strings
+ParseResults = list[Any]  # Results from parsing operations
 
 log = logging.getLogger(__name__)
 
@@ -40,19 +40,19 @@ log = logging.getLogger(__name__)
 @lru_cache(maxsize=512)
 def _compile_regex(pattern: str, flags: int = 0):
     """Cached regex compilation to avoid redundant re.compile() calls.
-    
+
     This function provides significant performance improvements by caching compiled
     regex objects. Since regex compilation is expensive and patterns are often
     reused throughout ChemDataExtractor parsing, this cache can provide 40-70%
     performance improvements in regex-heavy operations.
-    
+
     Args:
         pattern: The regex pattern string to compile
         flags: Regex compilation flags (default: 0)
-        
+
     Returns:
         Compiled regex pattern object
-        
+
     Note:
         Cache size of 512 is chosen to accommodate typical ChemDataExtractor
         usage patterns while limiting memory usage. Most parsing workflows
@@ -149,7 +149,7 @@ class BaseParserElement:
         """
         self.name: Optional[str] = None
         #: Name for BaseParserElement. Used to set the name of the Element when a result is found
-        self.actions: List[ParseAction] = []
+        self.actions: list[ParseAction] = []
         #: List of actions that will be applied to the results after parsing
         self.streamlined: bool = False
         self.condition: Optional[ParseCondition] = None
@@ -391,21 +391,21 @@ class Word(BaseParserElement):
     """Match token text exactly. Case-sensitive."""
 
     def __init__(self, match):
-        super(Word, self).__init__()
+        super().__init__()
         self.match = match
 
     def _parse_tokens(self, tokens, i, actions=True):
         token_text = tokens[i][0]
         if token_text == self.match:
             return [E(self.name or safe_name(tokens[i][1]), token_text)], i + 1
-        raise ParseException(tokens, i, "Expected %s, got %s" % (self.match, token_text), self)
+        raise ParseException(tokens, i, f"Expected {self.match}, got {token_text}", self)
 
 
 class Tag(BaseParserElement):
     """Match tag exactly."""
 
     def __init__(self, match, tag_type=None):
-        super(Tag, self).__init__()
+        super().__init__()
         self.match = match
         if tag_type:
             self.tag_type = tag_type
@@ -417,32 +417,32 @@ class Tag(BaseParserElement):
         tag = token[self.tag_type]
         if tag == self.match:
             return [E(self.name or safe_name(tag), token[0])], i + 1
-        raise ParseException(tokens, i, "Expected %s, got %s" % (self.match, tag), self)
+        raise ParseException(tokens, i, f"Expected {self.match}, got {tag}", self)
 
 
 class IWord(Word):
     """Case-insensitive match token text."""
 
     def __init__(self, match):
-        super(IWord, self).__init__(match.lower())
+        super().__init__(match.lower())
 
     def _parse_tokens(self, tokens, i, actions=True):
         token_text = tokens[i][0]
         if token_text.lower() == self.match:
             return [E(self.name or safe_name(tokens[i][1]), tokens[i][0])], i + 1
-        raise ParseException(tokens, i, "Expected %s, got %s" % (self.match, tokens[i][0]), self)
+        raise ParseException(tokens, i, f"Expected {self.match}, got {tokens[i][0]}", self)
 
 
 class Regex(BaseParserElement):
     """Match token text with regular expression.
-    
+
     This class uses cached regex compilation for improved performance.
     Identical patterns with the same flags will reuse compiled regex objects,
     providing significant speedups in parser element creation.
     """
 
     def __init__(self, pattern, flags=0, group=None):
-        super(Regex, self).__init__()
+        super().__init__()
         if isinstance(pattern, str):
             # Use cached compilation for string patterns
             self.regex = _compile_regex(pattern, flags)
@@ -459,7 +459,7 @@ class Regex(BaseParserElement):
         if result:
             text = token_text if self.group is None else result.group(self.group)
             return [E(self.name or safe_name(tokens[i][1]), text)], i + 1
-        raise ParseException(tokens, i, "Expected %s, got %s" % (self.pattern, token_text), self)
+        raise ParseException(tokens, i, f"Expected {self.pattern}, got {token_text}", self)
 
     # Solves issues with deepcopying of records, jm2111
     # only the pattern is copied and the object is created from scratch
@@ -471,7 +471,7 @@ class Start(BaseParserElement):
     """Match at start of tokens."""
 
     def __init__(self):
-        super(Start, self).__init__()
+        super().__init__()
 
     def _parse_tokens(self, tokens, i, actions=True):
         if i != 0:
@@ -483,7 +483,7 @@ class End(BaseParserElement):
     """Match at end of tokens."""
 
     def __init__(self):
-        super(End, self).__init__()
+        super().__init__()
 
     def _parse_tokens(self, tokens, i, actions=True):
         if i < len(tokens):
@@ -495,7 +495,7 @@ class ParseExpression(BaseParserElement):
     """Abstract class for combining and post-processing parsed tokens."""
 
     def __init__(self, exprs):
-        super(ParseExpression, self).__init__()
+        super().__init__()
         if isinstance(exprs, types.GeneratorType):
             exprs = list(exprs)
         if isinstance(exprs, str):
@@ -518,13 +518,13 @@ class ParseExpression(BaseParserElement):
         return self
 
     def copy(self):
-        ret = super(ParseExpression, self).copy()
+        ret = super().copy()
         ret.exprs = [e.copy() for e in self.exprs]
         return ret
 
     def streamline(self):
         if not self.streamlined:
-            super(ParseExpression, self).streamline()
+            super().streamline()
             for e in self.exprs:
                 if not e.streamlined:
                     e.streamline()
@@ -546,7 +546,7 @@ class And(ParseExpression):
     """
 
     def __init__(self, exprs):
-        super(And, self).__init__(exprs)
+        super().__init__(exprs)
 
     def _parse_tokens(self, tokens, i, actions=True):
         results = []
@@ -668,7 +668,7 @@ class First(ParseExpression):
     """Match the first."""
 
     def __init__(self, exprs):
-        super(First, self).__init__(exprs)
+        super().__init__(exprs)
 
     def _parse_tokens(self, tokens, i, actions=True):
         furthest_i = -1
@@ -701,7 +701,7 @@ class ParseElementEnhance(BaseParserElement):
     """Abstract class for combining and post-processing parsed tokens."""
 
     def __init__(self, expr):
-        super(ParseElementEnhance, self).__init__()
+        super().__init__()
         if isinstance(expr, str):
             expr = Word(expr)
         self.expr = expr
@@ -714,7 +714,7 @@ class ParseElementEnhance(BaseParserElement):
 
     def streamline(self):
         if not self.streamlined:
-            super(ParseElementEnhance, self).streamline()
+            super().streamline()
             if self.expr is not None:
                 if not self.expr.streamlined:
                     self.expr.streamline()
@@ -799,7 +799,7 @@ class Optional(ParseElementEnhance):
     """
 
     def __init__(self, expr):
-        super(Optional, self).__init__(expr)
+        super().__init__(expr)
 
     def _parse_tokens(self, tokens, i, actions=True):
         results = []
@@ -837,7 +837,7 @@ class SkipTo(ParseElementEnhance):
     """
 
     def __init__(self, expr, include=False):
-        super(SkipTo, self).__init__(expr)
+        super().__init__(expr)
         self.include = include
 
     def _parse_tokens(self, tokens, i, actions=True):
@@ -864,7 +864,7 @@ class Hide(ParseElementEnhance):
     """
 
     def _parse_tokens(self, tokens, i, actions=True):
-        results, i = super(Hide, self)._parse_tokens(tokens, i)
+        results, i = super()._parse_tokens(tokens, i)
         return [], i
 
     def hide(self):

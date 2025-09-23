@@ -64,7 +64,7 @@ def uncombine_initial_dims(tensor: torch.Tensor, original_size: torch.Size) -> t
 def viterbi_decode(
     tag_sequence: torch.Tensor,
     transition_matrix: torch.Tensor,
-    tag_observations: Optional[List[int]] = None,
+    tag_observations: list[int] | None = None,
     allowed_start_transitions: torch.Tensor = None,
     allowed_end_transitions: torch.Tensor = None,
     top_k: int = None,
@@ -159,9 +159,7 @@ def viterbi_decode(
         if len(tag_observations) != sequence_length:
             raise ConfigurationError(
                 "Observations were provided, but they were not the same length "
-                "as the sequence. Found sequence of length: {} and evidence: {}".format(
-                    sequence_length, tag_observations
-                )
+                f"as the sequence. Found sequence of length: {sequence_length} and evidence: {tag_observations}"
             )
     else:
         tag_observations = [-1 for _ in range(sequence_length)]

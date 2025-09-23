@@ -10,10 +10,10 @@ from __future__ import annotations
 from collections.abc import Callable
 from typing import TYPE_CHECKING
 from typing import Any
-from typing import Dict
-from typing import List
+from typing import ClassVar
+from typing import Final
+from typing import Literal
 from typing import Protocol
-from typing import Tuple
 from typing import TypeVar
 from typing import Union
 from typing import runtime_checkable
@@ -46,6 +46,62 @@ ParseableT = TypeVar("ParseableT", bound="Parseable")  # For parseable elements
 UnitT = TypeVar("UnitT", bound="Unit")  # For unit types and conversions
 DimensionT = TypeVar("DimensionT", bound="Dimension")  # For dimensional analysis
 
+# Final constants for ChemDataExtractor
+DEFAULT_CONFIDENCE_THRESHOLD: Final[float] = 0.7
+MIN_CONFIDENCE_SCORE: Final[float] = 0.0
+MAX_CONFIDENCE_SCORE: Final[float] = 1.0
+DEFAULT_TIMEOUT_SECONDS: Final[int] = 30
+MAX_DOCUMENT_SIZE_MB: Final[int] = 100
+DEFAULT_ENCODING: Final[str] = "utf-8"
+VERSION_PATTERN: Final[str] = r"\d+\.\d+\.\d+"
+CHEMICAL_FORMULA_PATTERN: Final[str] = r"[A-Z][a-z]?(\d+)?(\([A-Z][a-z]?\d*\)\d*)?"
+TEMPERATURE_UNITS: Final[tuple[str, ...]] = ("°C", "°F", "K", "celsius", "fahrenheit", "kelvin")
+MASS_UNITS: Final[tuple[str, ...]] = ("g", "kg", "mg", "μg", "ng", "lb", "oz")
+SUPPORTED_ELEMENTS: Final[frozenset[str]] = frozenset(
+    [
+        "H",
+        "He",
+        "Li",
+        "Be",
+        "B",
+        "C",
+        "N",
+        "O",
+        "F",
+        "Ne",
+        "Na",
+        "Mg",
+        "Al",
+        "Si",
+        "P",
+        "S",
+        "Cl",
+        "Ar",
+        "K",
+        "Ca",
+        "Sc",
+        "Ti",
+        "V",
+        "Cr",
+        "Mn",
+        "Fe",
+        "Co",
+        "Ni",
+        "Cu",
+        "Zn",
+        "Ga",
+        "Ge",
+        "As",
+        "Se",
+        "Br",
+        "Kr",
+        "Rb",
+        "Sr",
+        "Y",
+        "Zr",
+    ]
+)
+
 if TYPE_CHECKING:
     from chemdataextractor.doc.element import BaseElement
     from chemdataextractor.model.base import BaseModel
@@ -73,7 +129,7 @@ class Serializable(Protocol):
     to and from dictionary representations for data persistence and exchange.
     """
 
-    def serialize(self, primitive: bool = False) -> Dict[str, Any]:
+    def serialize(self, primitive: bool = False) -> dict[str, Any]:
         """Serialize object to dictionary representation.
 
         Args:
@@ -85,7 +141,7 @@ class Serializable(Protocol):
         ...
 
     @classmethod
-    def deserialize(cls, data: Dict[str, Any]) -> Self:
+    def deserialize(cls, data: dict[str, Any]) -> Self:
         """Deserialize object from dictionary representation.
 
         Args:
@@ -137,7 +193,7 @@ class Parseable(Protocol):
     and extract structured information using parsing expressions.
     """
 
-    def parse(self, text: str, **kwargs: Any) -> List[BaseModel]:
+    def parse(self, text: str, **kwargs: Any) -> list[BaseModel]:
         """Parse text and extract model instances.
 
         Args:
@@ -168,12 +224,12 @@ class ChemicalEntity(Protocol):
     """
 
     @property
-    def names(self) -> List[str]:
+    def names(self) -> list[str]:
         """List of names for this chemical entity."""
         ...
 
     @property
-    def labels(self) -> List[str]:
+    def labels(self) -> list[str]:
         """List of labels/identifiers for this entity."""
         ...
 
@@ -195,7 +251,7 @@ class QuantitativeProperty(Protocol[NumericT]):
     """
 
     @property
-    def value(self) -> List[NumericT]:
+    def value(self) -> list[NumericT]:
         """Numeric value(s) for this property."""
         ...
 
@@ -221,6 +277,135 @@ class QuantitativeProperty(Protocol[NumericT]):
         ...
 
 
+@runtime_checkable
+class Cacheable(Protocol):
+    """Protocol for objects that support caching operations.
+
+    This protocol defines the interface for objects that can be cached
+    and invalidated for performance optimization.
+    """
+
+    def cache_key(self) -> str:
+        """Generate a unique cache key for this object.
+
+        Returns:
+            A unique string identifier for caching
+        """
+        ...
+
+    def is_cache_valid(self) -> bool:
+        """Check if cached data is still valid.
+
+        Returns:
+            True if cache is valid, False if needs refresh
+        """
+        ...
+
+    def invalidate_cache(self) -> None:
+        """Invalidate any cached data for this object."""
+        ...
+
+
+@runtime_checkable
+class Configurable(Protocol):
+    """Protocol for objects that can be configured with settings.
+
+    This protocol defines the interface for objects that accept
+    configuration dictionaries and can validate settings.
+    """
+
+    def configure(self, config: dict[str, Any]) -> None:
+        """Apply configuration settings to this object.
+
+        Args:
+            config: Dictionary of configuration settings
+        """
+        ...
+
+    def get_config(self) -> dict[str, Any]:
+        """Get current configuration settings.
+
+        Returns:
+            Dictionary of current configuration
+        """
+        ...
+
+    def validate_config(self, config: dict[str, Any]) -> bool:
+        """Validate configuration settings.
+
+        Args:
+            config: Dictionary of configuration to validate
+
+        Returns:
+            True if configuration is valid, False otherwise
+        """
+        ...
+
+
+@runtime_checkable
+class Extractable(Protocol):
+    """Protocol for objects that can extract structured data.
+
+    This protocol defines the interface for data extraction operations
+    that return confidence-scored results.
+    """
+
+    def extract(self, source: str) -> list[dict[str, Any]]:
+        """Extract structured data from source text.
+
+        Args:
+            source: Source text to extract from
+
+        Returns:
+            List of extracted data dictionaries
+        """
+        ...
+
+    def extract_with_confidence(self, source: str) -> list[tuple[dict[str, Any], float]]:
+        """Extract data with confidence scores.
+
+        Args:
+            source: Source text to extract from
+
+        Returns:
+            List of (data, confidence) tuples
+        """
+        ...
+
+
+@runtime_checkable
+class Validatable(Protocol):
+    """Protocol for objects that can validate their data.
+
+    This protocol defines the interface for self-validating objects
+    that can check their internal consistency and data quality.
+    """
+
+    def validate(self) -> bool:
+        """Validate the object's data.
+
+        Returns:
+            True if data is valid, False otherwise
+        """
+        ...
+
+    def get_validation_errors(self) -> list[str]:
+        """Get detailed validation error messages.
+
+        Returns:
+            List of validation error descriptions
+        """
+        ...
+
+    def is_complete(self) -> bool:
+        """Check if the object has all required data.
+
+        Returns:
+            True if complete, False if missing required data
+        """
+        ...
+
+
 # Configuration type definitions
 class ParserConfig(TypedDict):
     """Configuration for parser behavior."""
@@ -234,40 +419,147 @@ class ParserConfig(TypedDict):
 class ModelConfig(TypedDict):
     """Configuration for model behavior."""
 
-    parsers: List[Any]  # BaseParser - avoiding circular import
+    parsers: list[Any]  # BaseParser - avoiding circular import
     contextual_range: Any  # ContextualRange
     required: NotRequired[bool]
     contextual: NotRequired[bool]
 
 
+class ExtractionResult(TypedDict):
+    """Structured result from data extraction operations."""
+
+    text: str  # Original text that was extracted from
+    value: Any  # Extracted value (could be string, number, etc.)
+    confidence: NotRequired[float]  # Confidence score (0.0-1.0)
+    units: NotRequired[str]  # Units for numeric values
+    error: NotRequired[float]  # Error/uncertainty values
+    context: NotRequired[str]  # Surrounding context text
+    start_pos: NotRequired[int]  # Start position in source text
+    end_pos: NotRequired[int]  # End position in source text
+
+
+class CompoundData(TypedDict):
+    """Structured data for chemical compounds."""
+
+    names: list[str]  # List of compound names
+    labels: NotRequired[list[str]]  # List of labels/identifiers
+    smiles: NotRequired[str]  # SMILES representation
+    inchi: NotRequired[str]  # InChI representation
+    formula: NotRequired[str]  # Molecular formula
+    properties: NotRequired[dict[str, Any]]  # Associated properties
+    confidence: NotRequired[float]  # Identification confidence
+
+
+class PropertyData(TypedDict):
+    """Structured data for chemical properties."""
+
+    property_type: str  # Type of property (e.g., 'melting_point')
+    value: list[float]  # Numeric value(s)
+    units: NotRequired[str]  # Units of measurement
+    error: NotRequired[float]  # Uncertainty/error value
+    conditions: NotRequired[dict[str, Any]]  # Experimental conditions
+    method: NotRequired[str]  # Measurement method
+    reference: NotRequired[str]  # Literature reference
+    confidence: NotRequired[float]  # Extraction confidence
+
+
+class SpectroscopyData(TypedDict):
+    """Structured data for spectroscopic measurements."""
+
+    spectrum_type: str  # Type (e.g., 'IR', 'NMR', 'UV-Vis')
+    peaks: list[dict[str, Any]]  # List of peak data
+    solvent: NotRequired[str]  # Solvent used
+    temperature: NotRequired[float]  # Measurement temperature
+    frequency_range: NotRequired[tuple[float, float]]  # Frequency range
+    instrument: NotRequired[str]  # Instrument used
+    conditions: NotRequired[dict[str, Any]]  # Other conditions
+
+
+class ValidationError(TypedDict):
+    """Structured validation error information."""
+
+    field: str  # Field name that failed validation
+    message: str  # Error message
+    value: Any  # Invalid value
+    expected_type: NotRequired[str]  # Expected type/format
+    severity: NotRequired[str]  # Error severity level
+
+
 # Type aliases for common patterns
-RecordDict = Dict[str, Any]
-SerializedRecord = Dict[str, RecordDict]
-ElementList = List[Any]  # List[BaseElement]
-ModelList = List[Any]  # List[BaseModel]
+type RecordDict = dict[str, Any]
+type SerializedRecord = dict[str, RecordDict]
+type ElementList = list[Any]  # List[BaseElement]
+type ModelList = list[Any]  # List[BaseModel]
 
 # Enhanced type aliases from Phase 3 work
-TokenSpan = Tuple[int, int]  # Start and end positions of tokens
-TokenList = List[str]  # List of token strings
-CEMTag = str  # Chemical entity mention tag (e.g., 'B-CM', 'I-CM')
-TokenTags = List[Tuple[str, CEMTag]]  # List of (token, tag) pairs
-AbbreviationDef = Tuple[List[str], List[str], str]  # (definition_tokens, abbrev_tokens, abbrev_str)
+type TokenSpan = tuple[int, int]  # Start and end positions of tokens
+type TokenList = list[str]  # List of token strings
+type CEMTag = str  # Chemical entity mention tag (e.g., 'B-CM', 'I-CM')
+type TokenTags = list[tuple[str, CEMTag]]  # List of (token, tag) pairs
+type AbbreviationDef = tuple[
+    list[str], list[str], str
+]  # (definition_tokens, abbrev_tokens, abbrev_str)
 
 # Table processing types
-TableData = List[List[Any]]  # Raw table data structure
-CDETable = List[Any]  # CDE table with Cell objects (avoiding circular import)
-CDETables = List[Any]  # List of CDE tables
-CategoryTable = List[Any]  # Table category data
-TableRecords = Any  # ModelList collection (avoiding circular import)
+type TableData = list[list[Any]]  # Raw table data structure
+type CDETable = list[Any]  # CDE table with Cell objects (avoiding circular import)
+type CDETables = list[Any]  # List of CDE tables
+type CategoryTable = list[Any]  # Table category data
+type TableRecords = Any  # ModelList collection (avoiding circular import)
 
 # Contextual merging types
-RangeCount = Dict[Any, float]  # Maps ContextualRange types to counts (avoiding circular import)
-NumericValue = Union[int, float]  # Numeric values for range calculations
+type RangeCount = dict[
+    Any, float
+]  # Maps ContextualRange types to counts (avoiding circular import)
+type NumericValue = int | float  # Numeric values for range calculations
 
 # Parser types
-ParseResult = Tuple[List[Any], int]  # Parse result with tokens and position
-ParserFunction = Callable[[ParseResult], bool]  # Function to validate parse results
-EntityList = List[Any]  # List of parser elements (avoiding circular import)
+type ParseResult = tuple[list[Any], int]  # Parse result with tokens and position
+type ParserFunction = Callable[[ParseResult], bool]  # Function to validate parse results
+type EntityList = list[Any]  # List of parser elements (avoiding circular import)
+
+# Literal types for constants and enums
+type PropertyType = Literal[
+    "melting_point",
+    "boiling_point",
+    "glass_transition",
+    "density",
+    "refractive_index",
+    "molecular_weight",
+    "solubility",
+    "vapor_pressure",
+    "dielectric_constant",
+    "thermal_conductivity",
+]
+
+type SpectrumType = Literal[
+    "IR", "NMR", "UV-Vis", "MS", "Raman", "XRD", "XPS", "TGA", "DSC", "GC-MS"
+]
+
+type UnitCategory = Literal[
+    "temperature",
+    "mass",
+    "length",
+    "volume",
+    "pressure",
+    "energy",
+    "frequency",
+    "concentration",
+    "time",
+    "electrical",
+]
+
+type ConfidenceLevel = Literal["high", "medium", "low"]
+
+type ExtractionMode = Literal["strict", "relaxed", "experimental"]
+
+type DocumentType = Literal["html", "xml", "pdf", "txt", "json"]
+
+type ElementType = Literal[
+    "paragraph", "heading", "table", "figure", "caption", "list_item", "footnote", "reference"
+]
+
+type LogLevel = Literal["DEBUG", "INFO", "WARNING", "ERROR", "CRITICAL"]
 
 __all__ = [
     # Enhanced TypeVars
@@ -318,4 +610,36 @@ __all__ = [
     "ParseResult",
     "ParserFunction",
     "EntityList",
+    # Phase 3 Enhanced Protocols
+    "Cacheable",
+    "Configurable",
+    "Extractable",
+    "Validatable",
+    # Phase 3 Enhanced TypedDicts
+    "ExtractionResult",
+    "CompoundData",
+    "PropertyData",
+    "SpectroscopyData",
+    "ValidationError",
+    # Phase 3 Literal Types
+    "PropertyType",
+    "SpectrumType",
+    "UnitCategory",
+    "ConfidenceLevel",
+    "ExtractionMode",
+    "DocumentType",
+    "ElementType",
+    "LogLevel",
+    # Phase 3 Final Constants
+    "DEFAULT_CONFIDENCE_THRESHOLD",
+    "MIN_CONFIDENCE_SCORE",
+    "MAX_CONFIDENCE_SCORE",
+    "DEFAULT_TIMEOUT_SECONDS",
+    "MAX_DOCUMENT_SIZE_MB",
+    "DEFAULT_ENCODING",
+    "VERSION_PATTERN",
+    "CHEMICAL_FORMULA_PATTERN",
+    "TEMPERATURE_UNITS",
+    "MASS_UNITS",
+    "SUPPORTED_ELEMENTS",
 ]

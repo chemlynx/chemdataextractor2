@@ -8,7 +8,6 @@ Taketomo Isazawa (ti250@cam.ac.uk)
 
 """
 
-
 import copy
 import logging
 import unittest
@@ -51,7 +50,7 @@ class SpeedModel(QuantityModel):
 
 class SpeedUnit(QuantityModel):
     def __init__(self, magnitude=0.0, powers=None):
-        super(SpeedUnit, self).__init__(Speed(), magnitude, powers)
+        super().__init__(Speed(), magnitude, powers)
 
 
 class WeirdUnit(SpeedUnit):
@@ -142,11 +141,7 @@ class TestUnitClass(unittest.TestCase):
 
     def test_units_hashing(self):
         unit1 = Kelvin(magnitude=2.0) * Meter(magnitude=1.0) / Second(magnitude=1.0)
-        unit2 = (
-            (Second(magnitude=1.0) ** (-1.0))
-            * Meter(magnitude=1.0)
-            * Kelvin(magnitude=2.0)
-        )
+        unit2 = (Second(magnitude=1.0) ** (-1.0)) * Meter(magnitude=1.0) * Kelvin(magnitude=2.0)
         self.assertEqual(unit1.__hash__(), unit2.__hash__())
 
 

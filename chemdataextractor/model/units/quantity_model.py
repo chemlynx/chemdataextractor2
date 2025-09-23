@@ -40,7 +40,7 @@ else:
     try:
         from typing import Self
     except ImportError:
-        from typing_extensions import Self
+        from typing import Self
 
 
 class _QuantityModelMeta(ModelMeta):
@@ -50,8 +50,8 @@ class _QuantityModelMeta(ModelMeta):
     fields based on the model's dimensions.
     """
 
-    def __new__(mcs, name: str, bases: Tuple[type, ...], attrs: Dict[str, Any]) -> type:
-        cls = super(_QuantityModelMeta, mcs).__new__(mcs, name, bases, attrs)
+    def __new__(mcs, name: str, bases: tuple[type, ...], attrs: dict[str, Any]) -> type:
+        cls = super().__new__(mcs, name, bases, attrs)
         unit_element = construct_unit_element(cls.dimensions)
         if unit_element:
             cls.fields["raw_units"].parse_expression = unit_element(None)

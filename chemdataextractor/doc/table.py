@@ -12,7 +12,6 @@ from __future__ import annotations
 import logging
 from typing import TYPE_CHECKING
 from typing import Any
-from typing import List
 
 from tabledataextractor import Table as TdeTable
 from tabledataextractor import TrivialTable as TrivialTdeTable
@@ -27,10 +26,10 @@ if TYPE_CHECKING:
     from ..model.base import BaseModel
 
 # Type aliases for table processing
-TableData = List[List[Any]]  # Raw table data structure
-CDETable = List[List[Cell]]  # CDE table with Cell objects
-CDETables = List[CDETable]  # List of CDE tables
-CategoryTable = List[Any]  # Table category data
+TableData = list[list[Any]]  # Raw table data structure
+CDETable = list[list[Cell]]  # CDE table with Cell objects
+CDETables = list[CDETable]  # List of CDE tables
+CategoryTable = list[Any]  # Table category data
 TableRecords = ModelList  # Collection of extracted model records
 
 log = logging.getLogger(__name__)
@@ -49,7 +48,7 @@ class Table(CaptionedElement):
         caption: CaptionedElement,
         label: str | None = None,
         table_data: TableData | None = None,
-        models: List[BaseModel] | None = None,
+        models: list[BaseModel] | None = None,
         **kwargs: Any,
     ) -> None:
         """
@@ -78,7 +77,7 @@ class Table(CaptionedElement):
         """
         if table_data is None:
             table_data = []
-        super(Table, self).__init__(caption=caption, label=label, models=models, **kwargs)
+        super().__init__(caption=caption, label=label, models=models, **kwargs)
         try:
             #: TableDataExtractor `Table` object. Can pass any kwargs into TDE directly.
             self.tde_table = TdeTable(table_data, **kwargs)

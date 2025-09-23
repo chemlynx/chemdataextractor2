@@ -350,9 +350,7 @@ class SubsentenceExtractor:
             previous_operation = operation
         if total_subsentences > self.max_subsentences:
             raise RuntimeError(
-                "Too many subsentences. Maximum of {} subsentences, found {}.".format(
-                    total_subsentences, self.max_subsentences
-                )
+                f"Too many subsentences. Maximum of {total_subsentences} subsentences, found {self.max_subsentences}."
             )
         return operations
 

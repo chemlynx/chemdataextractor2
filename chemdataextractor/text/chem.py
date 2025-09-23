@@ -722,8 +722,7 @@ PREFIXES = {"iso", "tert", "sec", "ortho", "meta", "para", "meso"}
 
 # A regular expression that matches common solvents.
 SOLVENT_RE = re.compile(
-    r"(?:^|\b)(?:(?:%s|d\d?\d?|[\dn](?:,[\dn]){0,3}|[imnoptDLRS])-?)?(?:%s)(?:-d\d?\d?)?(?=$|\b)"
-    % (
+    r"(?:^|\b)(?:(?:{}|d\d?\d?|[\dn](?:,[\dn]){{0,3}}|[imnoptDLRS])-?)?(?:{})(?:-d\d?\d?)?(?=$|\b)".format(
         "|".join(re.escape(s) for s in PREFIXES),
         "|".join(re.escape(s).replace(r"\ ", r"[\s\-]?") for s in SOLVENTS),
     ),
@@ -738,9 +737,9 @@ INCHI_RE = re.compile(
     re.I,
 )
 SMILES_RE = re.compile(
-    r"^([BCNOPSFIbcnosp*]|Cl|Br|\[\d*(%(e)s|se|as|\*)(@+([THALSPBO]\d+)?)?(H\d?)?([\-+]+\d*)?(:\d+)?\])"
-    r"([BCNOPSFIbcnosp*]|Cl|Br|\[\d*(%(e)s|se|as|\*)(@+([THALSPBO]\d+)?)?(H\d?)?([\-+]+\d*)?(:\d+)?\]|"
-    r"[\-=#$:\\/\(\)%%\.+\d])*$" % {"e": "|".join(ELEMENT_SYMBOLS)}
+    r"^([BCNOPSFIbcnosp*]|Cl|Br|\[\d*({e}|se|as|\*)(@+([THALSPBO]\d+)?)?(H\d?)?([\-+]+\d*)?(:\d+)?\])"
+    r"([BCNOPSFIbcnosp*]|Cl|Br|\[\d*({e}|se|as|\*)(@+([THALSPBO]\d+)?)?(H\d?)?([\-+]+\d*)?(:\d+)?\]|"
+    r"[\-=#$:\\/\(\)%\.+\d])*$".format(e="|".join(ELEMENT_SYMBOLS))
 )
 
 

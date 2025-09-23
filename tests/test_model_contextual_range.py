@@ -36,9 +36,7 @@ class InnerModel(BaseModel):
 
 class OuterModel(BaseModel):
     string_field = StringType(contextual=True, contextual_range=SectionRange())
-    model_field = ModelType(
-        InnerModel, contextual=True, contextual_range=SectionRange()
-    )
+    model_field = ModelType(InnerModel, contextual=True, contextual_range=SectionRange())
 
 
 class BoilingPoint(TemperatureModel):
@@ -115,12 +113,8 @@ class TestContextualRange(unittest.TestCase):
 
         inner_model_b = InnerModel(string_field_2="test_string_2")
         outer_model_a.merge_contextual(inner_model_b, distance=ParagraphRange())
-        self.assertEqual(
-            outer_model_a.get("model_field").get("string_field"), "test_string"
-        )
-        self.assertEqual(
-            outer_model_a.get("model_field").get("string_field_2"), "test_string_2"
-        )
+        self.assertEqual(outer_model_a.get("model_field").get("string_field"), "test_string")
+        self.assertEqual(outer_model_a.get("model_field").get("string_field_2"), "test_string_2")
 
     def parse_document_1(self, expected):
         doc = Document(
@@ -156,9 +150,7 @@ class TestContextualRange(unittest.TestCase):
         self.parse_document_1(expected)
 
     def test_contextual_range_during_parsing_2(self):
-        BoilingPoint.compound.contextual_range = (
-            2 * SectionRange() + 10 * ParagraphRange()
-        )
+        BoilingPoint.compound.contextual_range = 2 * SectionRange() + 10 * ParagraphRange()
         expected = [
             {
                 "BoilingPoint": {

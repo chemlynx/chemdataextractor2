@@ -21,7 +21,7 @@ import re
 from functools import lru_cache
 from typing import Any
 from typing import Dict
-from typing import Pattern
+from re import Pattern
 
 # Pre-compiled pattern registry for common operations
 # These patterns are used frequently throughout the codebase
@@ -94,7 +94,7 @@ DIGITS_ONLY_PATTERN = re.compile(r"\d+$", re.U)
 # ============================================================================
 
 # Central registry mapping pattern names to compiled patterns
-PATTERN_REGISTRY: Dict[str, Pattern[str]] = {
+PATTERN_REGISTRY: dict[str, Pattern[str]] = {
     # Quantity parsing
     "error_extraction": ERROR_EXTRACTION_PATTERN,
     "space_dash": SPACE_DASH_PATTERN,
@@ -342,7 +342,7 @@ def list_available_patterns() -> list[str]:
     return sorted(PATTERN_REGISTRY.keys())
 
 
-def get_pattern_info() -> Dict[str, Dict[str, Any]]:
+def get_pattern_info() -> dict[str, dict[str, Any]]:
     """Get information about all patterns in the registry.
 
     Returns:

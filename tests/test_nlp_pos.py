@@ -36,9 +36,7 @@ class TestApPosTagger(unittest.TestCase):
                 ("completely", "RB"),
                 ("different", "JJ"),
             ],
-            self.t.legacy_tag(
-                ["And", "now", "for", "something", "completely", "different"]
-            ),
+            self.t.legacy_tag(["And", "now", "for", "something", "completely", "different"]),
         )
 
     def test_text_sentence(self):
@@ -77,9 +75,7 @@ class TestChemApPosTagger(unittest.TestCase):
                 ("completely", "RB"),
                 ("different", "JJ"),
             ],
-            self.t.legacy_tag(
-                ["And", "now", "for", "something", "completely", "different"]
-            ),
+            self.t.legacy_tag(["And", "now", "for", "something", "completely", "different"]),
         )
 
     def test_text_sentence(self):

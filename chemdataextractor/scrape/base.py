@@ -34,7 +34,7 @@ class BaseScraper(metaclass=ABCMeta):
     def name(self):
         """A unique name for this scraper."""
         return (
-            "".join("_%s" % c if c.isupper() else c for c in self.__class__.__name__)
+            "".join(f"_{c}" if c.isupper() else c for c in self.__class__.__name__)
             .strip("_")
             .lower()
         )
@@ -142,7 +142,7 @@ class EntityMeta(ABCMeta):
         # Set default _meta values, then update with any custom definitions from meta
         # attrs['_meta'] = {'root': None}
         # attrs['_meta'].update(attrs.pop('meta', {}))
-        cls = super(EntityMeta, mcs).__new__(mcs, name, bases, attrs)
+        cls = super().__new__(mcs, name, bases, attrs)
         cls.fields = cls.fields.copy()
         cls.fields.update(fields)
         return cls
@@ -214,7 +214,7 @@ class BaseField(metaclass=ABCMeta):
         # Take first unless all is specified
         if not self.all:
             value = value[0] if value else None
-        log.debug("Scraped %s: %s from %s" % (self.name, value, self.selection))
+        log.debug(f"Scraped {self.name}: {value} from {self.selection}")
         return value
 
     def scrape(self, selector, cleaner=None, processor=None):

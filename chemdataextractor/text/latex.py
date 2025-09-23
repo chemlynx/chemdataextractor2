@@ -78,11 +78,11 @@ def latex_to_unicode(text, capitalize=False):
             "mathslbb",
             "mathtt",
         ]:
-            text = re.sub(r"\\%s\{([\\\w]+)\}" % mod, r"\1", text)
+            text = re.sub(rf"\\{mod}\{{([\\\w]+)\}}", r"\1", text)
         for k, v in LATEX_SUB_SUB_MAPPINGS.items():
             text = text.replace(k, v)
         for k, v in LATEX_COMBINING_CHARS.items():
-            text = re.sub(r"%s\{?(\w)\}?" % k, r"\1%s" % v, text)
+            text = re.sub(rf"{k}\{{?(\w)\}}?", rf"\1{v}", text)
         text = re.sub(r"\\noopsort\{.*?\}", r"", text)
         text = re.sub(r"\\path\|(.*?)\|", r"\1", text)
         text = re.sub(r"(?<!\\)[{}$]", r"", text)

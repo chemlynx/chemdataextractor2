@@ -5,6 +5,7 @@ Test reader for Springer.
 
 .. codeauthor:: Shu Huang <sh2009@cam.ac.uk>
 """
+
 import logging
 import os
 import unittest
@@ -21,9 +22,7 @@ class TestSpringerJatsReader(unittest.TestCase):
         """Test RscXMLReader can detect an RSC document."""
         r = SpringerJatsReader()
         fname = "spr_test1.xml"
-        f = open(
-            os.path.join(os.path.dirname(__file__), "data", "springer", fname), "rb"
-        )
+        f = open(os.path.join(os.path.dirname(__file__), "data", "springer", fname), "rb")
         content = f.read()
         f.close()
         self.assertEqual(r.detect(content, fname=fname), True)
@@ -32,9 +31,7 @@ class TestSpringerJatsReader(unittest.TestCase):
         """Test RscXMLReader used directly to parse file."""
         r = SpringerJatsReader()
         fname = "spr_test1.xml"
-        f = open(
-            os.path.join(os.path.dirname(__file__), "data", "springer", fname), "rb"
-        )
+        f = open(os.path.join(os.path.dirname(__file__), "data", "springer", fname), "rb")
         content = f.read()
         d = r.readstring(content)
         f.close()
@@ -43,9 +40,7 @@ class TestSpringerJatsReader(unittest.TestCase):
     def test_document_usage(self):
         """Test RscXMLReader used via Document.from_file."""
         fname = "spr_test1.xml"
-        f = open(
-            os.path.join(os.path.dirname(__file__), "data", "springer", fname), "rb"
-        )
+        f = open(os.path.join(os.path.dirname(__file__), "data", "springer", fname), "rb")
         d = Document.from_file(f, readers=[SpringerJatsReader()])
         self.assertEqual(len(d.elements), 307)
 

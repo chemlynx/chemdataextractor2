@@ -123,8 +123,8 @@ class LxmlReader(BaseReader, metaclass=ABCMeta):
                 self._is_inline(child)
                 and len(elements) > 0
                 and len(child_elements) > 0
-                and isinstance(elements[-1], (Text, Sentence))
-                and isinstance(child_elements[0], (Text, Sentence))
+                and isinstance(elements[-1], Text | Sentence)
+                and isinstance(child_elements[0], Text | Sentence)
                 and type(elements[-1]) == type(child_elements[0])
             ):
                 elements[-1] += child_elements.pop(0)
@@ -173,9 +173,7 @@ class LxmlReader(BaseReader, metaclass=ABCMeta):
                 element += element_cls(" ") + next_element
             except TypeError:
                 log.warning(
-                    "Adding of two objects was skipped. {} and {} cannot be added.".format(
-                        str(type(element)), str(type(next_element))
-                    )
+                    f"Adding of two objects was skipped. {str(type(element))} and {str(type(next_element))} cannot be added."
                 )
         return [element]
 

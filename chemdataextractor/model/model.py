@@ -11,8 +11,6 @@ from __future__ import annotations
 import logging
 from typing import TYPE_CHECKING
 from typing import Any
-from typing import Dict
-from typing import List
 
 if TYPE_CHECKING:
     from ..typing import Self
@@ -84,7 +82,7 @@ class Compound(BaseModel):
         Returns:
             Self - This compound instance with merged data
         """
-        log.debug("Merging: %s and %s" % (self.serialize(), other.serialize()))
+        log.debug(f"Merging: {self.serialize()} and {other.serialize()}")
         if type(other) is not type(self):
             return self
         for k in self.keys():
@@ -93,7 +91,7 @@ class Compound(BaseModel):
                     for new_item in other[k]:
                         if new_item not in self[k]:
                             self[k].add(new_item)
-        log.debug("Result: %s" % self.serialize())
+        log.debug(f"Result: {self.serialize()}")
         return self
 
     @property
@@ -122,7 +120,7 @@ class Compound(BaseModel):
         return False
 
     @classmethod
-    def update(cls, definitions: List[Dict[str, Any]], strict: bool = True) -> None:
+    def update(cls, definitions: list[dict[str, Any]], strict: bool = True) -> None:
         """Update the Compound labels parse expression.
 
         Args:

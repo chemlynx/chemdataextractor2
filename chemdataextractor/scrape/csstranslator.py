@@ -55,7 +55,7 @@ class CdeXPathExpr(XPathExpr):
         return x
 
     def __str__(self):
-        path = super(CdeXPathExpr, self).__str__()
+        path = super().__str__()
         if self.textnode:
             if path == "*":
                 path = "text()"
@@ -66,11 +66,11 @@ class CdeXPathExpr(XPathExpr):
         if self.attribute is not None:
             if path.endswith("::*/*"):
                 path = path[:-2]
-            path += "/@%s" % self.attribute
+            path += f"/@{self.attribute}"
         return path
 
     def join(self, combiner, other):
-        super(CdeXPathExpr, self).join(combiner, other)
+        super().join(combiner, other)
         self.textnode = other.textnode
         self.attribute = other.attribute
         return self
@@ -78,30 +78,32 @@ class CdeXPathExpr(XPathExpr):
 
 class TranslatorMixin:
     def xpath_element(self, selector):
-        xpath = super(TranslatorMixin, self).xpath_element(selector)
+        xpath = super().xpath_element(selector)
         return CdeXPathExpr.from_xpath(xpath)
 
     def xpath_pseudo_element(self, xpath, pseudo_element):
         if isinstance(pseudo_element, FunctionalPseudoElement):
-            method = "xpath_%s_functional_pseudo_element" % (pseudo_element.name.replace("-", "_"))
+            method = "xpath_{}_functional_pseudo_element".format(
+                pseudo_element.name.replace("-", "_")
+            )
             method = getattr(self, method, None)
             if not method:
                 raise ExpressionError(
-                    "The functional pseudo-element ::%s() is unknown" % pseudo_element.name
+                    f"The functional pseudo-element ::{pseudo_element.name}() is unknown"
                 )
             xpath = method(xpath, pseudo_element)
         else:
-            method = "xpath_%s_simple_pseudo_element" % (pseudo_element.replace("-", "_"))
+            method = "xpath_{}_simple_pseudo_element".format(pseudo_element.replace("-", "_"))
             method = getattr(self, method, None)
             if not method:
-                raise ExpressionError("The pseudo-element ::%s is unknown" % pseudo_element)
+                raise ExpressionError(f"The pseudo-element ::{pseudo_element} is unknown")
             xpath = method(xpath)
         return xpath
 
     def xpath_attr_functional_pseudo_element(self, xpath, function):
         if function.argument_types() not in (["STRING"], ["IDENT"]):
             raise ExpressionError(
-                "Expected a single string or ident for ::attr(), got %r" % function.arguments
+                f"Expected a single string or ident for ::attr(), got {function.arguments!r}"
             )
         return CdeXPathExpr.from_xpath(xpath, attribute=function.arguments[0].value)
 

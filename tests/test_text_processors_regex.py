@@ -6,7 +6,7 @@ test_text_processors_regex
 Unit tests for Phase 2 text processing regex operations optimization.
 
 Tests the text processing functions that will be optimized with pre-compiled patterns:
-- strip_extras_text() function in text processors 
+- strip_extras_text() function in text processors
 - Various regex operations in document text processing
 
 These tests ensure our optimization preserves existing functionality while
@@ -29,10 +29,10 @@ class TestFloatsRegexOperations(unittest.TestCase):
         result = floats("123(45)")
         # Should remove the bracketed number and return float
         self.assertEqual(result, 123.0)
-        
+
         result = floats("456(78)")
         self.assertEqual(result, 456.0)
-        
+
         result = floats("100(200)")
         self.assertEqual(result, 100.0)
 
@@ -41,10 +41,10 @@ class TestFloatsRegexOperations(unittest.TestCase):
         result = floats("123±45")
         # Should remove the uncertainty part and return float
         self.assertEqual(result, 123.0)
-        
+
         result = floats("456.7±8.9")
         self.assertEqual(result, 456.7)
-        
+
         result = floats("100±5")
         self.assertEqual(result, 100.0)
 
@@ -53,10 +53,10 @@ class TestFloatsRegexOperations(unittest.TestCase):
         result = floats("1.5×10^3")
         # Should convert to exponential notation
         self.assertEqual(result, 1500.0)
-        
+
         result = floats("2.3x10^-4")
         self.assertEqual(result, 0.00023)
-        
+
         result = floats("5×10^2")
         self.assertEqual(result, 500.0)
 
@@ -65,7 +65,7 @@ class TestFloatsRegexOperations(unittest.TestCase):
         result = floats("123(45)±6")
         # Should remove both bracketed number and uncertainty
         self.assertEqual(result, 123.0)
-        
+
         result = floats("1.5×10^3(20)")
         # Should convert scientific notation and remove brackets
         self.assertEqual(result, 1500.0)
@@ -74,10 +74,10 @@ class TestFloatsRegexOperations(unittest.TestCase):
         """Test when no regex operations are needed - sad path."""
         result = floats("123")
         self.assertEqual(result, 123.0)
-        
+
         result = floats("456.7")
         self.assertEqual(result, 456.7)
-        
+
         result = floats("0")
         self.assertEqual(result, 0.0)
 
@@ -85,10 +85,10 @@ class TestFloatsRegexOperations(unittest.TestCase):
         """Test with invalid input - sad path."""
         with self.assertRaises(ValueError):
             floats("not_a_number")
-        
+
         with self.assertRaises(ValueError):
             floats("abc123def")
-            
+
         with self.assertRaises(ValueError):
             floats("")
 
@@ -97,11 +97,11 @@ class TestFloatsRegexOperations(unittest.TestCase):
         result = floats("123.45,")
         # Should strip trailing comma
         self.assertEqual(result, 123.45)
-        
+
         result = floats("$123.45")
         # Should strip leading currency symbol
         self.assertEqual(result, 123.45)
-        
+
         result = floats("(123.45)")
         # Should handle parentheses around entire number
         self.assertEqual(result, 123.45)
@@ -111,7 +111,7 @@ class TestFloatsRegexOperations(unittest.TestCase):
         result = floats("123 456")
         # Should handle numbers with spaces (after stripping whitespace)
         self.assertEqual(result, 123456.0)
-        
+
         result = floats("  123.45  ")
         # Should handle leading/trailing whitespace
         self.assertEqual(result, 123.45)
@@ -120,10 +120,10 @@ class TestFloatsRegexOperations(unittest.TestCase):
         """Test edge cases with number formatting."""
         result = floats("0(1)")
         self.assertEqual(result, 0.0)
-        
+
         result = floats("123.0(0.1)")
         self.assertEqual(result, 123.0)
-        
+
         result = floats("1000(50)")
         self.assertEqual(result, 1000.0)
 
@@ -132,7 +132,7 @@ class TestFloatsRegexOperations(unittest.TestCase):
         result = floats("1,234.56")
         # Should remove comma and parse correctly
         self.assertEqual(result, 1234.56)
-        
+
         result = floats("12,345")
         self.assertEqual(result, 12345.0)
 

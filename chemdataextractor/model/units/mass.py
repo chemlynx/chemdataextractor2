@@ -37,7 +37,7 @@ class MassUnit(Unit):
     """
 
     def __init__(self, magnitude=0.0, powers=None):
-        super(MassUnit, self).__init__(Mass(), magnitude, powers)
+        super().__init__(Mass(), magnitude, powers)
 
 
 class Gram(MassUnit):

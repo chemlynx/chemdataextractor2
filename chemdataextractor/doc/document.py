@@ -16,9 +16,7 @@ from abc import abstractproperty
 from typing import TYPE_CHECKING
 from typing import Any
 from typing import BinaryIO
-from typing import List
 from typing import TextIO
-from typing import Tuple
 
 try:
     from typing import Self
@@ -57,12 +55,12 @@ if TYPE_CHECKING:
     # Type aliases using forward references
     FileInput = str | BinaryIO | TextIO
     ElementInput = str | bytes | "BaseElement"
-    AbbreviationDef = Tuple[List[str], list[str], str]
+    AbbreviationDef = tuple[list[str], list[str], str]
 else:
     # Runtime type aliases
     FileInput = str | BinaryIO | TextIO
     ElementInput = str | bytes | Any  # BaseElement not available at runtime
-    AbbreviationDef = Tuple[List[str], list[str], str]
+    AbbreviationDef = tuple[list[str], list[str], str]
 
 log = logging.getLogger(__name__)
 
@@ -151,7 +149,7 @@ class Document(BaseDocument):
                 - skip_elements: Element types to skip during parsing
                 - _should_remove_subrecord_if_merged_in: Internal flag for merging
         """
-        self._elements: List[BaseElement] = []
+        self._elements: list[BaseElement] = []
         for element in elements:
             # Convert raw text to Paragraph elements
             if isinstance(element, str):
@@ -173,17 +171,17 @@ class Document(BaseDocument):
         if "models" in kwargs:
             self.models = kwargs["models"]
         else:
-            self._models: List[type[BaseModel]] = []
+            self._models: list[type[BaseModel]] = []
 
         # Merging configuration
-        self.adjacent_sections_for_merging: List[tuple[List[str], list[str]]] | None = (
+        self.adjacent_sections_for_merging: list[tuple[list[str], list[str]]] | None = (
             copy.copy(kwargs["adjacent_sections_for_merging"])
             if "adjacent_sections_for_merging" in kwargs
             else None
         )
 
         # Element processing configuration
-        self.skip_elements: List[type[BaseElement]] = kwargs.get("skip_elements", [])
+        self.skip_elements: list[type[BaseElement]] = kwargs.get("skip_elements", [])
         self._should_remove_subrecord_if_merged_in: bool = kwargs.get(
             "_should_remove_subrecord_if_merged_in", False
         )
@@ -192,10 +190,10 @@ class Document(BaseDocument):
         for element in elements:
             if callable(getattr(element, "set_config", None)):
                 element.set_config()
-        self.skip_parsers: List[Any] = []  # List of parsers to skip
+        self.skip_parsers: list[Any] = []  # List of parsers to skip
         log.debug(f"{self.__class__.__name__}: Initializing with {len(self.elements)} elements")
 
-    def add_models(self, models: List[type[BaseModel]]) -> None:
+    def add_models(self, models: list[type[BaseModel]]) -> None:
         """Add models to all elements for data extraction.
 
         Args:
@@ -223,7 +221,7 @@ class Document(BaseDocument):
         return self._models
 
     @models.setter
-    def models(self, value: List[type[BaseModel]]) -> None:
+    def models(self, value: list[type[BaseModel]]) -> None:
         """Set the models for extraction and propagate to all elements.
 
         Args:
@@ -238,7 +236,7 @@ class Document(BaseDocument):
         cls,
         f: FileInput,
         fname: str | None = None,
-        readers: List[BaseReader] | None = None,
+        readers: list[BaseReader] | None = None,
     ) -> Self:
         """Create a Document from a file with automatic format detection.
 
@@ -326,7 +324,7 @@ class Document(BaseDocument):
         cls,
         fstring: bytes,
         fname: str | None = None,
-        readers: List[BaseReader] | None = None,
+        readers: list[BaseReader] | None = None,
     ) -> Self:
         """Create a Document from a byte string containing file contents.
 
@@ -475,7 +473,7 @@ class Document(BaseDocument):
                     model.update(element_definitions)
 
             # Check any parsers that should be skipped
-            if isinstance(el, (Title, Heading)):
+            if isinstance(el, Title | Heading):
                 self.skip_parsers = []
                 for model in el._streamlined_models:
                     for parser in model.parsers:
@@ -1124,7 +1122,7 @@ class Document(BaseDocument):
     def _section_name_for_index(self, index):
         while index >= 0:
             el = self.elements[index]
-            if isinstance(el, (Heading, Title)):
+            if isinstance(el, Heading | Title):
                 return el.text
             index -= 1
         return None

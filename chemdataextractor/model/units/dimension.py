@@ -14,19 +14,17 @@ from __future__ import annotations
 
 import copy
 from abc import ABCMeta
-from typing import Dict
-from typing import Union
 
 from .unit import Unit
 
 # Type aliases for dimension system
-UnitDict = Dict[Unit, float]  # Maps units to their powers
-DimensionValue = Union[int, float]  # Numeric dimension values
+type UnitDict = dict[Unit, float]  # Maps units to their powers
+type DimensionValue = int | float  # Numeric dimension values
 
 
 class _DimensionMeta(ABCMeta):
     def __new__(mcs, name, bases, attrs):
-        cls = super(_DimensionMeta, mcs).__new__(mcs, name, bases, attrs)
+        cls = super().__new__(mcs, name, bases, attrs)
         if hasattr(cls, "constituent_dimensions") and cls.constituent_dimensions is not None:
             cls.units_dict = copy.copy(cls.constituent_dimensions.units_dict)
             cls._dimensions = cls.constituent_dimensions._dimensions
@@ -37,7 +35,7 @@ class _DimensionMeta(ABCMeta):
         if key == "standard_units" and not isinstance(value, property):
             cls._standard_units = {value: 1.0}
         else:
-            return super(_DimensionMeta, cls).__setattr__(key, value)
+            return super().__setattr__(key, value)
 
 
 class Dimension(metaclass=_DimensionMeta):

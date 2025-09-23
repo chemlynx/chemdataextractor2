@@ -27,7 +27,7 @@ class ElectricPotentialModel(QuantityModel):
 
 class ElectricPotentialUnit(Unit):
     def __init__(self, magnitude=0.0, powers=None):
-        super(ElectricPotentialUnit, self).__init__(ElectricPotential(), magnitude, powers)
+        super().__init__(ElectricPotential(), magnitude, powers)
 
 
 class Volt(ElectricPotentialUnit):

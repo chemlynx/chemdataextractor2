@@ -8,8 +8,6 @@ validation capabilities, and recovery suggestions for chemical data extraction o
 from __future__ import annotations
 
 from typing import Any
-from typing import Dict
-from typing import List
 
 
 class ChemDataExtractorError(Exception):
@@ -31,8 +29,8 @@ class ChemDataExtractorError(Exception):
         self,
         message: str,
         *,
-        context: Dict[str, Any] | None = None,
-        suggestions: List[str] | None = None,
+        context: dict[str, Any] | None = None,
+        suggestions: list[str] | None = None,
         error_code: str | None = None,
         source_location: str | None = None,
         original_error: Exception | None = None,
@@ -288,7 +286,7 @@ def wrap_exception(
     return error_class(error_message, original_error=original_error, **kwargs)
 
 
-def validate_not_none(value: Any, name: str, *, context: Dict[str, Any] | None = None) -> Any:
+def validate_not_none(value: Any, name: str, *, context: dict[str, Any] | None = None) -> Any:
     """Validate that a value is not None.
 
     Args:
@@ -316,7 +314,7 @@ def validate_not_none(value: Any, name: str, *, context: Dict[str, Any] | None =
 
 
 def validate_type(
-    value: Any, expected_type: type, name: str, *, context: Dict[str, Any] | None = None
+    value: Any, expected_type: type, name: str, *, context: dict[str, Any] | None = None
 ) -> Any:
     """Validate that a value is of expected type.
 
@@ -356,7 +354,7 @@ def validate_range(
     max_val: int | float | None = None,
     name: str = "value",
     *,
-    context: Dict[str, Any] | None = None,
+    context: dict[str, Any] | None = None,
 ) -> int | float:
     """Validate that a numeric value is within specified range.
 

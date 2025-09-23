@@ -29,13 +29,13 @@ class Entity(BaseEntity, metaclass=EntityMeta):
         # Iterate all defined fields
         for field_name, field in self.fields.items():
             # Scrape field values from selector
-            cleaner = getattr(self, "clean_%s" % field_name, None)
-            processor = getattr(self, "process_%s" % field_name, None)
+            cleaner = getattr(self, f"clean_{field_name}", None)
+            processor = getattr(self, f"process_{field_name}", None)
             value = field.scrape(selector, cleaner=cleaner, processor=processor)
             # Finalize value using finalize_* method on scrape, if it exists
-            if hasattr(self, "finalize_%s" % field_name):
-                value = getattr(self, "finalize_%s" % field_name)(value)
-            log.debug("Assigning %s: %s" % (field_name, value))
+            if hasattr(self, f"finalize_{field_name}"):
+                value = getattr(self, f"finalize_{field_name}")(value)
+            log.debug(f"Assigning {field_name}: {value}")
             setattr(self, field_name, value)
 
     def __eq__(self, other):
@@ -55,7 +55,7 @@ class Entity(BaseEntity, metaclass=EntityMeta):
         if attr in self.fields:
             setattr(self, attr, self.fields[attr].default)
         else:
-            super(Entity, self).__delattr__(attr)
+            super().__delattr__(attr)
 
     def __getitem__(self, key):
         """Redirect dictionary-style field access to attribute-style."""
@@ -80,12 +80,12 @@ class Entity(BaseEntity, metaclass=EntityMeta):
             return False
 
     def __repr__(self):
-        return "%s()" % self.__class__.__name__
+        return f"{self.__class__.__name__}()"
 
     @classmethod
     def scrape(cls, selector, root, xpath=False):
         """Return EntityList for the given selector."""
-        log.debug("Called scrape classmethod with root: %s" % root)
+        log.debug(f"Called scrape classmethod with root: {root}")
         roots = selector.xpath(root) if xpath else selector.css(root)
         results = [cls(r) for r in roots]
         return EntityList(*results)

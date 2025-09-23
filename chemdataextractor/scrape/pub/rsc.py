@@ -291,9 +291,9 @@ def replace_rsc_img_chars(document):
             if not u2 and u1 in RSC_IMG_CHARS:
                 rep = RSC_IMG_CHARS[u1]
             else:
-                rep = ("\\u%s" % u1).encode("ascii").decode("unicode-escape")
+                rep = (f"\\u{u1}").encode("ascii").decode("unicode-escape")
                 if u2:
-                    rep += ("\\u%s" % u2).encode("ascii").decode("unicode-escape")
+                    rep += (f"\\u{u2}").encode("ascii").decode("unicode-escape")
             if img.tail is not None:
                 rep += img.tail  # Make sure we don't remove any tail text
             parent = img.getparent()
@@ -334,7 +334,7 @@ class RscRssDocument(Entity):
 
     def finalize_doi(self, value):
         """Derive the DOI from the GUID."""
-        return "10.1039/%s" % value.rsplit("/", 1)[1].lower()
+        return "10.1039/{}".format(value.rsplit("/", 1)[1].lower())
 
 
 class RscRssScraper(RssScraper):
@@ -394,7 +394,7 @@ class RscSearchScraper(SearchScraper):
         """
         self.max_wait_time = max_wait_time
         self.driver = driver
-        super(RscSearchScraper, self).__init__()
+        super().__init__()
 
     def perform_search(self, query, page=1, driver=None):
         """Due to RSC not accepting html requests, Selenium is used.
@@ -404,7 +404,7 @@ class RscSearchScraper(SearchScraper):
                 driver = webdriver.Firefox()
             else:
                 driver = self.driver
-        log.debug("Processing query: %s" % query)
+        log.debug(f"Processing query: {query}")
 
         url = "http://pubs.rsc.org/en/results?searchtext="
 

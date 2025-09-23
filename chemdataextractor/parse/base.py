@@ -39,10 +39,10 @@ class BaseParser:
         allow_section_phrase: Optional[BaseParserElement] - Sections to allow
     """
 
-    model: Optional[type[BaseModel]] = None
-    trigger_phrase: Optional[Any] = None  # BaseParserElement
-    skip_section_phrase: Optional[Any] = None  # BaseParserElement
-    allow_section_phrase: Optional[Any] = None  # BaseParserElement
+    model: type[BaseModel] | None = None
+    trigger_phrase: Any | None = None  # BaseParserElement
+    skip_section_phrase: Any | None = None  # BaseParserElement
+    allow_section_phrase: Any | None = None  # BaseParserElement
     """
     Optional :class:`~chemdataextractor.parse.elements.BaseParserElement` instance.
     All sentences are run through this before the full root phrase is applied to the
@@ -80,7 +80,7 @@ class BaseParser:
         """
         pass
 
-    def extract_error(self, string: str) -> Optional[float]:
+    def extract_error(self, string: str) -> float | None:
         """Extract the error from a value string.
 
         Usage::
@@ -116,7 +116,7 @@ class BaseParser:
         """
         return extract_value(string)
 
-    def extract_units(self, string: str, strict: bool = False) -> Optional[Any]:
+    def extract_units(self, string: str, strict: bool = False) -> Any | None:
         """Extract units from a string.
 
         Raises TypeError if strict=True and dimensions don't match expected
@@ -198,8 +198,7 @@ class BaseSentenceParser(BaseParser):
             ]
         if self.trigger_phrase is None or trigger_phrase_results:
             for result in self.root.scan(sentence.tokens):
-                for model in self.interpret(*result):
-                    yield model
+                yield from self.interpret(*result)
 
 
 class BaseTableParser(BaseParser):
@@ -226,8 +225,7 @@ class BaseTableParser(BaseParser):
         if (self.trigger_phrase is None or trigger_phrase_results) and self.root is not None:
             for result in self.root.scan(cell.tokens):
                 try:
-                    for model in self.interpret(*result):
-                        yield model
+                    yield from self.interpret(*result)
                 except (AttributeError, TypeError) as e:
                     print(e)
                     pass

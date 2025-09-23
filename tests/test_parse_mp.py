@@ -200,7 +200,9 @@ class TestParseMp(unittest.TestCase):
 
     def test_tm0(self):
         s = "A copolymer with 8% mole percent of MeDX units exhibits a Tm of 95.5 °C, which is about 15° lower than PDX homopolymer."
-        expected = "<mp_phrase><mp><raw_value>95.5</raw_value><raw_units>°C</raw_units></mp></mp_phrase>"
+        expected = (
+            "<mp_phrase><mp><raw_value>95.5</raw_value><raw_units>°C</raw_units></mp></mp_phrase>"
+        )
         self.do_parse(s, expected)
 
 
@@ -259,9 +261,7 @@ class TestParseMpCompound(unittest.TestCase):
                     "raw_units": "°C",
                     "units": "Celsius^(1.0)",
                     "value": [71.0, 72.0],
-                    "compound": {
-                        "Compound": {"names": ["3-Bromo-2,6-dichloroaniline"]}
-                    },
+                    "compound": {"Compound": {"names": ["3-Bromo-2,6-dichloroaniline"]}},
                 }
             },
         ]

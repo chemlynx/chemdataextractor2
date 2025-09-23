@@ -42,7 +42,7 @@ def simple_property_table():
     for i, element in enumerate(doc.elements):
         element_type = element.__class__.__name__
         preview = str(element)[:80].replace("\n", " ").replace("  ", " ")
-        print(f"   {i+1}. {element_type}: {preview}...")
+        print(f"   {i + 1}. {element_type}: {preview}...")
 
     print("\n2. Table detection:")
     tables = [el for el in doc.elements if isinstance(el, Table)]
@@ -58,7 +58,7 @@ def simple_property_table():
             for cell in row:
                 if hasattr(cell, "text"):
                     row_content.append(cell.text[:20])
-            print(f"     Row {i+1}: {' | '.join(row_content)}")
+            print(f"     Row {i + 1}: {' | '.join(row_content)}")
 
     print("\n3. Extracted records analysis:")
     record_types = defaultdict(int)
@@ -137,7 +137,7 @@ def complex_experimental_table():
                 for cell in row:
                     if hasattr(cell, "text"):
                         row_data.append(cell.text.strip()[:15])
-                print(f"     Row {i+2}: {' | '.join(row_data)}")
+                print(f"     Row {i + 2}: {' | '.join(row_data)}")
 
     print("\n2. Extracted chemical information:")
     compounds = [r for r in records if isinstance(r, Compound)]
@@ -590,7 +590,7 @@ def export_table_data():
         print(f"   VALUES ('{compound}', {mp}, {bp}, {conf}, '{source}');")
 
     if len(export_data) > 3:
-        print(f"   -- ... and {len(export_data)-3} more INSERT statements")
+        print(f"   -- ... and {len(export_data) - 3} more INSERT statements")
 
     print("\n" + "-" * 50 + "\n")
 

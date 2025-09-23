@@ -25,7 +25,7 @@ class RatioModel(QuantityModel):
 
 class RatioUnit(Unit):
     def __init__(self, magnitude=0.0, powers=None):
-        super(RatioUnit, self).__init__(Ratio(), magnitude, powers)
+        super().__init__(Ratio(), magnitude, powers)
 
 
 class Percent(RatioUnit):

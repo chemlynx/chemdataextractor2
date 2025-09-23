@@ -1,7 +1,6 @@
 import logging
 import sys
 import unittest
-from builtins import bytes
 
 from chemdataextractor import Document
 
@@ -10,7 +9,6 @@ log = logging.getLogger(__name__)
 
 
 class TestAddingCellFigure(unittest.TestCase):
-
     """Test parsing warning for when a figure is nested inside a table and can not be added."""
 
     def test_reader_adding(self):
@@ -77,10 +75,7 @@ class TestAddingCellFigure(unittest.TestCase):
                     </xocs:doc></originalText></full-text-retrieval-response>"""
 
         with self.assertLogs(level=logging.WARNING) as cm:
-            if sys.version_info[0] < 3:
-                d = Document().from_string(bytes(xml_string, "utf-8"))
-            else:
-                d = Document().from_string(xml_string.encode("utf-8"))
+            d = Document().from_string(xml_string.encode("utf-8"))
             self.assertTrue(cm.output[0].startswith("WARNING"))
 
 

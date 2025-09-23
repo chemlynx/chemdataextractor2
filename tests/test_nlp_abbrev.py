@@ -159,9 +159,7 @@ class TestChemAbbreviationDetector(unittest.TestCase):
         self.assertEqual(
             [(["NAG"], ["N", "-", "acetyl", "-", "β", "-", "glucosaminidase"])],
             ad.detect(
-                Sentence(
-                    "blood urea nitrogen, N-acetyl-β-glucosaminidase (NAG),"
-                ).raw_tokens
+                Sentence("blood urea nitrogen, N-acetyl-β-glucosaminidase (NAG),").raw_tokens
             ),
         )
 

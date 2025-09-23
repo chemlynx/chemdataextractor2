@@ -58,7 +58,7 @@ def show_available_models():
 
     print(f"\n💡 Default models: {', '.join(DEFAULT_MODELS)}")
     print(
-        f"⚡ Fast models (no BERT): {', '.join([k for k in AVAILABLE_MODELS.keys() if k not in BERT_DEPENDENT_MODELS])}"
+        f"⚡ Fast models (no BERT): {', '.join([k for k in AVAILABLE_MODELS if k not in BERT_DEPENDENT_MODELS])}"
     )
 
 
@@ -78,7 +78,7 @@ def parse_model_selection(model_input):
         selected_keys = list(AVAILABLE_MODELS.keys())
     elif model_input.lower() == "fast":
         # Only models that don't require BERT
-        selected_keys = [k for k in AVAILABLE_MODELS.keys() if k not in BERT_DEPENDENT_MODELS]
+        selected_keys = [k for k in AVAILABLE_MODELS if k not in BERT_DEPENDENT_MODELS]
     else:
         # Parse comma-separated list
         selected_keys = [key.strip().lower() for key in model_input.split(",")]

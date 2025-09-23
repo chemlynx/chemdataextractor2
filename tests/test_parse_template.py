@@ -41,23 +41,17 @@ class TestQuantityModelTemplate(unittest.TestCase):
     def test_cem_before_specifier_and_value(self):
         s = Sentence("BiFeO3 with a Curie temperature of approximately 1100 K")
         expected = b"<root_phrase><cem_phrase><compound><names>BiFeO3</names></compound></cem_phrase><specifier>Curie temperature</specifier><raw_value>1100</raw_value><raw_units>K</raw_units></root_phrase>"
-        self.assertEqual(
-            expected, self.parse(s, "cem_before_specifier_and_value_phrase")
-        )
+        self.assertEqual(expected, self.parse(s, "cem_before_specifier_and_value_phrase"))
 
     def test_specifier_before_cem_and_value(self):
         s = Sentence("The Curie temperature of La0.7Ca0.3MnO3 is 300 K")
         expected = b"<root_phrase><specifier>Curie temperature</specifier><cem_phrase><compound><names>La0.7Ca0.3MnO3</names></compound></cem_phrase><raw_value>300</raw_value><raw_units>K</raw_units></root_phrase>"
-        self.assertEqual(
-            expected, self.parse(s, "specifier_before_cem_and_value_phrase")
-        )
+        self.assertEqual(expected, self.parse(s, "specifier_before_cem_and_value_phrase"))
 
     def test_cem_after_specifier_and_value(self):
         s = Sentence("Curie temperature of 1100 K in BiFeO3")
         expected = b"<root_phrase><specifier>Curie temperature</specifier><raw_value>1100</raw_value><raw_units>K</raw_units><cem_phrase><compound><names>BiFeO3</names></compound></cem_phrase></root_phrase>"
-        self.assertEqual(
-            expected, self.parse(s, "cem_after_specifier_and_value_phrase")
-        )
+        self.assertEqual(expected, self.parse(s, "cem_after_specifier_and_value_phrase"))
 
     def test_value_specifier_cem(self):
         s = Sentence("1100 K, corresponding to the Curie temperature of BiFeO3")
@@ -123,9 +117,7 @@ class TestMultiQuantityTemplate(unittest.TestCase):
         self.assertEqual(expected, self.parse(s, "multi_entity_phrase_3a"))
 
     def test_multi_entity_phrase_3b(self):
-        s = Sentence(
-            "Curie temperatures of 100, 200 and 300 K in BiFeO3, LaFeO3 and MnO"
-        )
+        s = Sentence("Curie temperatures of 100, 200 and 300 K in BiFeO3, LaFeO3 and MnO")
         expected = b"<multi_entity_phrase_3><specifier>Curie temperatures</specifier><value_list><raw_value>100</raw_value><raw_value>200</raw_value><raw_value>300</raw_value><raw_units>K</raw_units></value_list><IN>in</IN><cem_list><compound><names>BiFeO3</names></compound><compound><names>LaFeO3</names></compound><compound><names>MnO</names></compound></cem_list></multi_entity_phrase_3>"
         self.assertEqual(expected, self.parse(s, "multi_entity_phrase_3b"))
 

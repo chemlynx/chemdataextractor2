@@ -37,7 +37,7 @@ class AmountOfSubstanceUnit(Unit):
     """
 
     def __init__(self, magnitude=0.0, powers=None):
-        super(AmountOfSubstanceUnit, self).__init__(AmountOfSubstance(), magnitude, powers)
+        super().__init__(AmountOfSubstance(), magnitude, powers)
 
 
 class Mol(AmountOfSubstanceUnit):

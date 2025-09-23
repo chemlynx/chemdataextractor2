@@ -45,9 +45,7 @@ class CoordinationNumber(DimensionlessModel):
         inorganic_elements + Optional("-") + inorganic_elements
     ).add_action(merge)
     specifier_expression = R("^(N|n|k)$")
-    specifier = StringType(
-        parse_expression=specifier_expression, required=True, contextual=True
-    )
+    specifier = StringType(parse_expression=specifier_expression, required=True, contextual=True)
     cn_label = StringType(parse_expression=coordination_number_label)
     compound = ModelType(Compound)
 
@@ -72,19 +70,11 @@ class CoordinationNumber2(DimensionlessModel):
 
 class InteratomicDistance(LengthModel):
     specifier_expression = (R("^bond$") + R("^distance")).add_action(merge)
-    specifier = StringType(
-        parse_expression=specifier_expression, required=True, contextual=True
-    )
+    specifier = StringType(parse_expression=specifier_expression, required=True, contextual=True)
     not_rij_label = Not(
-        inorganic_elements
-        + Optional("-")
-        + inorganic_elements
-        + Optional("-")
-        + inorganic_elements
+        inorganic_elements + Optional("-") + inorganic_elements + Optional("-") + inorganic_elements
     )
-    rij_label = Group(
-        inorganic_elements + Optional("-") + inorganic_elements
-    ).add_action(merge)
+    rij_label = Group(inorganic_elements + Optional("-") + inorganic_elements).add_action(merge)
     species = StringType(
         parse_expression=Every([rij_label, not_rij_label]),
         required=True,

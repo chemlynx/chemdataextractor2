@@ -31,7 +31,7 @@ class EnergyModel(QuantityModel):
 
 class EnergyUnit(Unit):
     def __init__(self, magnitude=0.0, powers=None):
-        super(EnergyUnit, self).__init__(Energy(), magnitude, powers)
+        super().__init__(Energy(), magnitude, powers)
 
 
 class Joule(EnergyUnit):

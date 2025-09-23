@@ -38,7 +38,7 @@ class ElectricalCurrentUnit(Unit):
     """
 
     def __init__(self, magnitude=0.0, powers=None):
-        super(ElectricalCurrentUnit, self).__init__(ElectricalCurrent(), magnitude, powers)
+        super().__init__(ElectricalCurrent(), magnitude, powers)
 
 
 class Ampere(ElectricalCurrentUnit):

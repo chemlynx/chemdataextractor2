@@ -36,9 +36,7 @@ class TestParseTg(unittest.TestCase):
     # Test: "glass transition temperature of"
     def test_tg1(self):
         s = "The poly(azide) shows a glass transition temperature of 282.6 °C."
-        expected = (
-            "<tg_phrase><tg><value>282.6</value><units>°C</units></tg></tg_phrase>"
-        )
+        expected = "<tg_phrase><tg><value>282.6</value><units>°C</units></tg></tg_phrase>"
         self.do_parse(s, expected)
 
     # Test: "glass transition temp. of with temperature withing '()'"
@@ -62,7 +60,9 @@ class TestParseTg(unittest.TestCase):
     # Test: (Tg) of
     def test_tg5(self):
         s = "The resulting poly(AdS) had predicted mol. wts., narrow mol. wt. distributions, and high glass transition temp. (Tg) around 232 °C."
-        expected = "<tg_phrase><tg><NN>Tg</NN><value>232</value><units>\xb0C</units></tg></tg_phrase>"
+        expected = (
+            "<tg_phrase><tg><NN>Tg</NN><value>232</value><units>\xb0C</units></tg></tg_phrase>"
+        )
         self.do_parse(s, expected)
 
     # Test ommitting "transition"
@@ -81,9 +81,7 @@ class TestParseTg(unittest.TestCase):
 
     def test_tg8(self):
         s = "DSC experiments revealed that PGFDTDPP has a high glass-transition temperature at 150 °C compared with 90 °C for PGFDTDPP."
-        expected = (
-            "<tg_phrase><tg><value>150</value><units>\xb0C</units></tg></tg_phrase>"
-        )
+        expected = "<tg_phrase><tg><value>150</value><units>\xb0C</units></tg></tg_phrase>"
         self.do_parse(s, expected)
 
 

@@ -126,10 +126,10 @@ class Package:
         return True
 
     def __repr__(self):
-        return "<Package: %s>" % self.path
+        return f"<Package: {self.path}>"
 
     def __str__(self):
-        return "<Package: %s>" % self.path
+        return f"<Package: {self.path}>"
 
 
 def get_data_dir():
@@ -149,7 +149,7 @@ def find_data(path, warn=True, get_data=True):
     elif warn and not os.path.exists(full_path):
         for package in PACKAGES:
             if path == package.path:
-                log.warn("%s doesn't exist. Run `cde data download` to get it." % path)
+                log.warn(f"{path} doesn't exist. Run `cde data download` to get it.")
                 break
     return full_path
 
@@ -163,14 +163,14 @@ def load_model(path):
     abspath = find_data(path)
     cached = _model_cache.get(abspath)
     if cached is not None:
-        log.debug("Using cached copy of %s" % path)
+        log.debug(f"Using cached copy of {path}")
         return cached
-    log.debug("Loading model %s" % path)
+    log.debug(f"Loading model {path}")
     try:
         with open(abspath, "rb") as f:
             model = pickle.load(f)
     except OSError:
-        raise ModelNotFoundError("Could not load %s. Have you run `cde data download`?" % path)
+        raise ModelNotFoundError(f"Could not load {path}. Have you run `cde data download`?")
     _model_cache[abspath] = model
     return model
 

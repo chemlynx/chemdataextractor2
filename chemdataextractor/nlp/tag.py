@@ -32,32 +32,33 @@ if TYPE_CHECKING:
     pass
 
 # Type aliases for tagging
-Token = Tuple[str, str]  # (word, tag) pair
-TaggedSentence = List[Token]  # List of tagged tokens
-TagList = List[str]  # List of tags
-TokenList = List[str]  # List of token strings
+Token = tuple[str, str]  # (word, tag) pair
+TaggedSentence = list[Token]  # List of tagged tokens
+TagList = list[str]  # List of tags
+TokenList = list[str]  # List of token strings
 
 
 @lru_cache(maxsize=256)
 def _compile_tagger_regex(pattern: str, flags: int = 0):
     """Cached regex compilation for tagger patterns.
-    
+
     Provides performance optimization by caching compiled regex objects
     used in RegexTagger and other NLP taggers. This prevents redundant
     compilation of identical patterns across multiple tagger instances.
-    
+
     Args:
         pattern: The regex pattern string to compile
         flags: Regex compilation flags (default: 0)
-        
+
     Returns:
         Compiled regex pattern object
-        
+
     Note:
         Cache size of 256 is optimized for tagger usage patterns which
         typically involve fewer unique patterns than parser elements.
     """
     return re.compile(pattern, flags)
+
 
 log = logging.getLogger(__name__)
 
@@ -158,7 +159,7 @@ class EnsembleTagger(BaseTagger):
     taggers = []
 
     def __init__(self, *args, **kwargs):
-        super(EnsembleTagger, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
         taggers_dict = {}
         for i, tagger in enumerate(self.taggers):
             if tagger.tag_type == self.tag_type:
@@ -256,11 +257,11 @@ class RegexTagger(BaseTagger):
         """
         self.patterns = patterns if patterns is not None else self.patterns
         # Use cached compilation for improved performance
-        self.regexes = [(_compile_tagger_regex(pattern, re.I | re.U), tag) for pattern, tag in self.patterns]
+        self.regexes = [
+            (_compile_tagger_regex(pattern, re.I | re.U), tag) for pattern, tag in self.patterns
+        ]
         self.lexicon = lexicon if lexicon is not None else self.lexicon
-        log.debug(
-            "%s: Initializing with %s patterns" % (self.__class__.__name__, len(self.patterns))
-        )
+        log.debug(f"{self.__class__.__name__}: Initializing with {len(self.patterns)} patterns")
 
     def tag(self, tokens):
         """Return a list of (token, tag) tuples for a given list of tokens."""
@@ -373,7 +374,7 @@ class ApTagger(BaseTagger, metaclass=ABCMeta):
         self.model = model if model is not None else self.model
         self.lexicon = lexicon if lexicon is not None else self.lexicon
         self.clusters = clusters if clusters is not None else self.clusters
-        log.debug("%s: Initializing with %s" % (self.__class__.__name__, self.model))
+        log.debug(f"{self.__class__.__name__}: Initializing with {self.model}")
 
     def legacy_tag(self, tokens):
         """Return a list of (token, tag) tuples for a given list of tokens."""
@@ -417,7 +418,7 @@ class ApTagger(BaseTagger, metaclass=ABCMeta):
                     c += guess == tag
                     n += 1
             random.shuffle(sentences)
-            log.debug("Iter %s: %s/%s=%s" % (iter_, c, n, (float(c) / n) * 100))
+            log.debug(f"Iter {iter_}: {c}/{n}={(float(c) / n) * 100}")
         self.perceptron.average_weights()
 
     def save(self, f):
@@ -483,7 +484,7 @@ class CrfTagger(BaseTagger):
         self._loaded_model = False
 
     def load(self, model):
-        log.debug("Loading %s" % model)
+        log.debug(f"Loading {model}")
         self._tagger.open(find_data(model))
         self._loaded_model = True
 
@@ -613,10 +614,8 @@ class DictionaryTagger(BaseTagger):
             start_token = token_at_index[start_i]
             end_token = token_at_index[end_i]
             # Possible for match to start in 'I' token from prev match. Merge matches by not overwriting to 'B'.
-            if tags[start_token] != "I-%s" % self.entity:
-                tags[start_token] = "B-%s" % self.entity
-            tags[start_token + 1 : end_token + 1] = ["I-%s" % self.entity] * (
-                end_token - start_token
-            )
+            if tags[start_token] != f"I-{self.entity}":
+                tags[start_token] = f"B-{self.entity}"
+            tags[start_token + 1 : end_token + 1] = [f"I-{self.entity}"] * (end_token - start_token)
         tokentags = list(zip(tokens, tags))
         return tokentags

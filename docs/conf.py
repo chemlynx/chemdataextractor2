@@ -163,9 +163,7 @@ latex_documents = [
 
 # One entry per manual page. List of tuples
 # (source start file, name, description, authors, manual section).
-man_pages = [
-    (master_doc, "chemdataextractor", "ChemDataExtractor Documentation", [author], 1)
-]
+man_pages = [(master_doc, "chemdataextractor", "ChemDataExtractor Documentation", [author], 1)]
 
 
 # -- Options for Texinfo output ----------------------------------------------
@@ -249,7 +247,7 @@ def add_directive_header(self, sig):
     elif self.options.annotation is SUPPRESS:
         pass
     else:
-        self.add_line("   :annotation: %s" % self.options.annotation, "<autodoc>")
+        self.add_line(f"   :annotation: {self.options.annotation}", "<autodoc>")
 
 
 DataDocumenter.add_directive_header = add_directive_header

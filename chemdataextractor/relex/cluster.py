@@ -24,7 +24,7 @@ from .utils import mode_rows
 from .utils import subfinder
 
 # Type aliases for clustering
-PhraseList = List[Phrase]  # List of phrases in a cluster
+PhraseList = list[Phrase]  # List of phrases in a cluster
 ClusterDict = OrderedDict[str, Any]  # Dictionary of cluster properties
 DistanceMatrix = np.ndarray  # Matrix of distances between patterns
 
@@ -36,7 +36,7 @@ class Cluster:
     for learning relationship extraction rules.
     """
 
-    def __init__(self, label: Optional[str] = None, learning_rate: float = 0.5) -> None:
+    def __init__(self, label: str | None = None, learning_rate: float = 0.5) -> None:
         """Create a new cluster.
 
         Args:

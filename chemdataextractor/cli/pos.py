@@ -33,23 +33,23 @@ def pos_cli(ctx):
 def train_all(ctx, output):
     """Train POS tagger on WSJ, GENIA, and both. With and without cluster features."""
     click.echo("chemdataextractor.pos.train_all")
-    click.echo("Output: %s" % output)
-    ctx.invoke(train, output="%s_wsj_nocluster.pickle" % output, corpus="wsj", clusters=False)
-    ctx.invoke(train, output="%s_wsj.pickle" % output, corpus="wsj", clusters=True)
+    click.echo(f"Output: {output}")
+    ctx.invoke(train, output=f"{output}_wsj_nocluster.pickle", corpus="wsj", clusters=False)
+    ctx.invoke(train, output=f"{output}_wsj.pickle", corpus="wsj", clusters=True)
     ctx.invoke(
         train,
-        output="%s_genia_nocluster.pickle" % output,
+        output=f"{output}_genia_nocluster.pickle",
         corpus="genia",
         clusters=False,
     )
-    ctx.invoke(train, output="%s_genia.pickle" % output, corpus="genia", clusters=True)
+    ctx.invoke(train, output=f"{output}_genia.pickle", corpus="genia", clusters=True)
     ctx.invoke(
         train,
-        output="%s_wsj_genia_nocluster.pickle" % output,
+        output=f"{output}_wsj_genia_nocluster.pickle",
         corpus="wsj+genia",
         clusters=False,
     )
-    ctx.invoke(train, output="%s_wsj_genia.pickle" % output, corpus="wsj+genia", clusters=True)
+    ctx.invoke(train, output=f"{output}_wsj_genia.pickle", corpus="wsj+genia", clusters=True)
 
 
 @pos_cli.command()
@@ -58,44 +58,44 @@ def train_all(ctx, output):
 def evaluate_all(ctx, model):
     """Evaluate POS taggers on WSJ and GENIA."""
     click.echo("chemdataextractor.pos.evaluate_all")
-    click.echo("Model: %s" % model)
-    ctx.invoke(evaluate, model="%s_wsj_nocluster.pickle" % model, corpus="wsj", clusters=False)
+    click.echo(f"Model: {model}")
+    ctx.invoke(evaluate, model=f"{model}_wsj_nocluster.pickle", corpus="wsj", clusters=False)
     ctx.invoke(
         evaluate,
-        model="%s_wsj_nocluster.pickle" % model,
+        model=f"{model}_wsj_nocluster.pickle",
         corpus="genia",
         clusters=False,
     )
-    ctx.invoke(evaluate, model="%s_wsj.pickle" % model, corpus="wsj", clusters=True)
-    ctx.invoke(evaluate, model="%s_wsj.pickle" % model, corpus="genia", clusters=True)
+    ctx.invoke(evaluate, model=f"{model}_wsj.pickle", corpus="wsj", clusters=True)
+    ctx.invoke(evaluate, model=f"{model}_wsj.pickle", corpus="genia", clusters=True)
     ctx.invoke(
         evaluate,
-        model="%s_genia_nocluster.pickle" % model,
+        model=f"{model}_genia_nocluster.pickle",
         corpus="wsj",
         clusters=False,
     )
     ctx.invoke(
         evaluate,
-        model="%s_genia_nocluster.pickle" % model,
+        model=f"{model}_genia_nocluster.pickle",
         corpus="genia",
         clusters=False,
     )
-    ctx.invoke(evaluate, model="%s_genia.pickle" % model, corpus="wsj", clusters=True)
-    ctx.invoke(evaluate, model="%s_genia.pickle" % model, corpus="genia", clusters=True)
+    ctx.invoke(evaluate, model=f"{model}_genia.pickle", corpus="wsj", clusters=True)
+    ctx.invoke(evaluate, model=f"{model}_genia.pickle", corpus="genia", clusters=True)
     ctx.invoke(
         evaluate,
-        model="%s_wsj_genia_nocluster.pickle" % model,
+        model=f"{model}_wsj_genia_nocluster.pickle",
         corpus="wsj",
         clusters=False,
     )
     ctx.invoke(
         evaluate,
-        model="%s_wsj_genia_nocluster.pickle" % model,
+        model=f"{model}_wsj_genia_nocluster.pickle",
         corpus="genia",
         clusters=False,
     )
-    ctx.invoke(evaluate, model="%s_wsj_genia.pickle" % model, corpus="wsj", clusters=True)
-    ctx.invoke(evaluate, model="%s_wsj_genia.pickle" % model, corpus="genia", clusters=True)
+    ctx.invoke(evaluate, model=f"{model}_wsj_genia.pickle", corpus="wsj", clusters=True)
+    ctx.invoke(evaluate, model=f"{model}_wsj_genia.pickle", corpus="genia", clusters=True)
 
 
 @pos_cli.command()
@@ -106,9 +106,9 @@ def evaluate_all(ctx, model):
 def train(ctx, output, corpus, clusters):
     """Train POS Tagger."""
     click.echo("chemdataextractor.pos.train")
-    click.echo("Output: %s" % output)
-    click.echo("Corpus: %s" % corpus)
-    click.echo("Clusters: %s" % clusters)
+    click.echo(f"Output: {output}")
+    click.echo(f"Corpus: {corpus}")
+    click.echo(f"Clusters: {clusters}")
 
     wsj_sents = []
     genia_sents = []
@@ -196,7 +196,7 @@ def evaluate(ctx, model, corpus, clusters):
         raise click.ClickException("Invalid corpus")
     tagger = ChemCrfPosTagger(model=model, clusters=clusters)
     accuracy = tagger.evaluate(sents)
-    click.echo("%s on %s: %s" % (model, evaluation, accuracy))
+    click.echo(f"{model} on {evaluation}: {accuracy}")
 
 
 @pos_cli.command()
@@ -207,9 +207,9 @@ def evaluate(ctx, model, corpus, clusters):
 def train_perceptron(ctx, output, corpus, clusters):
     """Train Averaged Perceptron POS Tagger."""
     click.echo("chemdataextractor.pos.train")
-    click.echo("Output: %s" % output)
-    click.echo("Corpus: %s" % corpus)
-    click.echo("Clusters: %s" % clusters)
+    click.echo(f"Output: {output}")
+    click.echo(f"Corpus: {corpus}")
+    click.echo(f"Clusters: {clusters}")
 
     wsj_sents = []
     genia_sents = []
@@ -297,7 +297,7 @@ def evaluate_perceptron(ctx, model, corpus):
         raise click.ClickException("Invalid corpus")
     tagger = ChemApPosTagger(model=model)
     accuracy = tagger.evaluate(sents)
-    click.echo("%s on %s: %s" % (model, evaluation, accuracy))
+    click.echo(f"{model} on {evaluation}: {accuracy}")
 
 
 @pos_cli.command()
@@ -313,7 +313,7 @@ def evaluate_perceptron(ctx, model, corpus):
 def tag(ctx, input, output):
     """Output POS-tagged tokens."""
     log.info("chemdataextractor.pos.tag")
-    log.info("Reading %s" % input.name)
+    log.info(f"Reading {input.name}")
     doc = Document.from_file(input)
     for element in doc.elements:
         if isinstance(element, Text):

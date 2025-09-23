@@ -16,7 +16,11 @@ from typing import Optional
 
 from . import APOSTROPHES
 from . import EMAIL_RE
-from ..parse.regex_patterns import remove_bracketed_numbers, remove_uncertainty, convert_scientific_notation
+from ..parse.regex_patterns import (
+    remove_bracketed_numbers,
+    remove_uncertainty,
+    convert_scientific_notation,
+)
 
 log = logging.getLogger(__name__)
 
@@ -28,7 +32,7 @@ class BaseProcessor(metaclass=ABCMeta):
     """
 
     @abstractmethod
-    def __call__(self, text: str) -> Optional[str]:
+    def __call__(self, text: str) -> str | None:
         """Process the input text.
 
         Args:
@@ -73,7 +77,7 @@ class LAdd:
         self.substring = substring
 
     def __call__(self, value):
-        return "%s%s" % (self.substring, value)
+        return f"{self.substring}{value}"
 
 
 class RAdd:
@@ -83,7 +87,7 @@ class RAdd:
         self.substring = substring
 
     def __call__(self, value):
-        return "%s%s" % (value, self.substring)
+        return f"{value}{self.substring}"
 
 
 class LStrip:
@@ -171,5 +175,5 @@ def extract_emails(text):
 
 def unapostrophe(text):
     """Strip apostrophe and 's' from the end of a string."""
-    text = re.sub(r"[%s]s?$" % "".join(APOSTROPHES), "", text)
+    text = re.sub(r"[{}]s?$".format("".join(APOSTROPHES)), "", text)
     return text

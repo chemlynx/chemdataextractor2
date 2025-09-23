@@ -7,7 +7,7 @@ Unit tests for Phase 2 string-based regex operations optimization.
 
 Tests the core string operations that will be optimized with pre-compiled patterns:
 - extract_error() in quantity parsing
-- split_values_range() in quantity parsing  
+- split_values_range() in quantity parsing
 - split_by_text_divisions() in quantity parsing
 - ChemNormalizer.normalize() in text processing
 
@@ -31,10 +31,10 @@ class TestExtractError(unittest.TestCase):
         """Test extracting error with ± symbol - happy path."""
         result = extract_error("100±5")
         self.assertEqual(result, 5.0)
-        
+
         result = extract_error("25.5±0.2")
         self.assertEqual(result, 0.2)
-        
+
         result = extract_error("1000±50")
         self.assertEqual(result, 50.0)
 
@@ -44,10 +44,10 @@ class TestExtractError(unittest.TestCase):
         result = extract_error("100(5)")
         # Should extract some error or return None gracefully
         self.assertIsInstance(result, (float, type(None)))
-        
+
         result = extract_error("25.50(15)")
         self.assertIsInstance(result, (float, type(None)))
-        
+
         result = extract_error("1.234(56)")
         self.assertIsInstance(result, (float, type(None)))
 
@@ -55,7 +55,7 @@ class TestExtractError(unittest.TestCase):
         """Test extracting error with scientific notation - happy path."""
         result = extract_error("1.5±0.1")
         self.assertEqual(result, 0.1)
-        
+
         result = extract_error("123.45±2.5")
         self.assertEqual(result, 2.5)
 
@@ -63,13 +63,13 @@ class TestExtractError(unittest.TestCase):
         """Test when no error is present - sad path."""
         result = extract_error("100")
         self.assertIsNone(result)
-        
+
         result = extract_error("25.5")
         self.assertIsNone(result)
-        
+
         result = extract_error("plain_text")
         self.assertIsNone(result)
-        
+
         result = extract_error("")
         self.assertIsNone(result)
 
@@ -82,13 +82,13 @@ class TestExtractError(unittest.TestCase):
         except (IndexError, ValueError):
             # Function may raise exception, which is acceptable behavior
             pass
-        
+
         try:
-            result = extract_error("100(")   # Unclosed parenthesis
+            result = extract_error("100(")  # Unclosed parenthesis
             self.assertIsInstance(result, (float, type(None)))
         except (IndexError, ValueError):
             pass
-        
+
         result = extract_error("100±abc")  # Non-numeric error
         # This should return None due to ValueError in float conversion
         self.assertIsNone(result)
@@ -97,7 +97,7 @@ class TestExtractError(unittest.TestCase):
         """Test edge cases for error extraction."""
         result = extract_error("0±1")
         self.assertEqual(result, 1.0)
-        
+
         result = extract_error("100.0±0.0")
         self.assertEqual(result, 0.0)
 
@@ -111,11 +111,11 @@ class TestFindValueStrings(unittest.TestCase):
         # Should find both values in the range
         self.assertIsNotNone(result)
         self.assertIsInstance(result, list)
-        
+
         result = _find_value_strings("25.5-30.2")
         self.assertIsNotNone(result)
         self.assertIsInstance(result, list)
-        
+
         result = _find_value_strings("1000-2000")
         self.assertIsNotNone(result)
         self.assertIsInstance(result, list)
@@ -125,7 +125,7 @@ class TestFindValueStrings(unittest.TestCase):
         result = _find_value_strings("100 - 200")
         self.assertIsNotNone(result)
         self.assertIsInstance(result, list)
-        
+
         result = _find_value_strings("25.5 30.2")
         self.assertIsNotNone(result)
         self.assertIsInstance(result, list)
@@ -135,7 +135,7 @@ class TestFindValueStrings(unittest.TestCase):
         result = _find_value_strings("-100")
         self.assertIsNotNone(result)
         self.assertIsInstance(result, list)
-        
+
         result = _find_value_strings("100--50")  # 100 to -50
         self.assertIsNotNone(result)
         self.assertIsInstance(result, list)
@@ -172,11 +172,11 @@ class TestSplit(unittest.TestCase):
         self.assertIsNotNone(result)
         self.assertIsInstance(result, list)
         self.assertTrue(len(result) >= 1)
-        
+
         result = _split("cm/s")
         self.assertIsNotNone(result)
         self.assertIsInstance(result, list)
-        
+
         result = _split("mol/L")
         self.assertIsNotNone(result)
         self.assertIsInstance(result, list)
@@ -187,7 +187,7 @@ class TestSplit(unittest.TestCase):
         # Should handle superscript numbers
         self.assertIsNotNone(result)
         self.assertIsInstance(result, list)
-        
+
         result = _split("kg3")
         self.assertIsNotNone(result)
         self.assertIsInstance(result, list)
@@ -198,7 +198,7 @@ class TestSplit(unittest.TestCase):
         # Should split at brackets
         self.assertIsNotNone(result)
         self.assertIsInstance(result, list)
-        
+
         result = _split("unit(special)")
         self.assertIsNotNone(result)
         self.assertIsInstance(result, list)
@@ -209,7 +209,7 @@ class TestSplit(unittest.TestCase):
         # Should return the unit as-is
         self.assertIsNotNone(result)
         self.assertIsInstance(result, list)
-        
+
         result = _split("temperature")
         self.assertIsNotNone(result)
         self.assertIsInstance(result, list)
@@ -227,7 +227,7 @@ class TestSplit(unittest.TestCase):
         # Should handle complex unit notation
         self.assertIsNotNone(result)
         self.assertIsInstance(result, list)
-        
+
         result = _split("mol/(L⋅s)")
         self.assertIsNotNone(result)
         self.assertIsInstance(result, list)
@@ -235,7 +235,7 @@ class TestSplit(unittest.TestCase):
 
 class TestChemNormalizerRegexOperations(unittest.TestCase):
     """Test the ChemNormalizer.normalize() method that uses multiple regex substitutions."""
-    
+
     def setUp(self):
         """Set up normalizer instance for testing."""
         self.normalizer = ChemNormalizer(chem_spell=True, strip=True)
@@ -244,10 +244,10 @@ class TestChemNormalizerRegexOperations(unittest.TestCase):
         """Test chemical spelling corrections - happy path."""
         result = self.normalizer.normalize("sulphur compound")
         self.assertIn("sulf", result)
-        
+
         result = self.normalizer.normalize("aluminum oxide")
         self.assertIn("aluminium", result)
-        
+
         result = self.normalizer.normalize("cesium chloride")
         self.assertIn("caesium", result)
 
@@ -255,7 +255,7 @@ class TestChemNormalizerRegexOperations(unittest.TestCase):
         """Test case insensitive corrections - happy path."""
         result = self.normalizer.normalize("SULPHUR")
         self.assertIn("sulf", result.lower())
-        
+
         result = self.normalizer.normalize("Aluminum")
         self.assertIn("aluminium", result.lower())
 
@@ -263,7 +263,7 @@ class TestChemNormalizerRegexOperations(unittest.TestCase):
         """Test multiple corrections in same text - happy path."""
         result = self.normalizer.normalize("aluminum sulphate and cesium")
         self.assertIn("aluminium", result)
-        self.assertIn("sulf", result)  
+        self.assertIn("sulf", result)
         self.assertIn("caesium", result)
 
     def test_normalize_no_corrections_needed_sad_path(self):
@@ -272,7 +272,7 @@ class TestChemNormalizerRegexOperations(unittest.TestCase):
         result = self.normalizer.normalize(original)
         # Should return text unchanged (except for stripping)
         self.assertEqual(result.strip(), original)
-        
+
         original = "benzene solution"
         result = self.normalizer.normalize(original)
         self.assertEqual(result.strip(), original)
@@ -281,7 +281,7 @@ class TestChemNormalizerRegexOperations(unittest.TestCase):
         """Test with empty or None input - sad path."""
         result = self.normalizer.normalize("")
         self.assertEqual(result, "")
-        
+
         result = self.normalizer.normalize("   ")
         self.assertEqual(result, "")  # Should strip whitespace
 
@@ -297,7 +297,7 @@ class TestChemNormalizerRegexOperations(unittest.TestCase):
         """Test text stripping behavior."""
         result = self.normalizer.normalize("  text with spaces  ")
         self.assertEqual(result.strip(), "text with spaces")
-        
+
         # Test with strip disabled
         normalizer_no_strip = ChemNormalizer(chem_spell=False, strip=False)
         result = normalizer_no_strip.normalize("  text with spaces  ")

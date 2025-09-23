@@ -35,7 +35,7 @@ def list(ctx):
     log.debug("chemdataextractor.data.list")
     click.echo("Downloaded\tPackage")
     for package in PACKAGES:
-        click.echo("%s\t%s" % (package.local_exists(), package.path))
+        click.echo(f"{package.local_exists()}\t{package.path}")
 
 
 @data_cli.command()
@@ -49,8 +49,7 @@ def download(ctx):
         if success:
             count += 1
     click.echo(
-        "Successfully downloaded %s new data packages (%s existing)"
-        % (count, len(PACKAGES) - count)
+        f"Successfully downloaded {count} new data packages ({len(PACKAGES) - count} existing)"
     )
 
 

@@ -8,7 +8,6 @@ Taketomo Isazawa (ti250@cam.ac.uk)
 
 """
 
-
 import logging
 import unittest
 

@@ -107,13 +107,15 @@ UNAMBIGUOUS_GREEK_WORDS = {
     "omega": "ω",  # \u03c9
 }
 
-DOT_GREEK_RE = re.compile(r"\.(%s)\." % "|".join(re.escape(s) for s in GREEK_WORDS.keys()), re.U)
+DOT_GREEK_RE = re.compile(
+    r"\.({})\.".format("|".join(re.escape(s) for s in GREEK_WORDS.keys())), re.U
+)
 GREEK_RE = re.compile(
-    r"([\daA\W]|^)(%s)([\d\W]|$)" % "|".join(re.escape(s) for s in GREEK_WORDS.keys()),
+    r"([\daA\W]|^)({})([\d\W]|$)".format("|".join(re.escape(s) for s in GREEK_WORDS.keys())),
     re.U,
 )
 UNAMBIGUOUS_GREEK_RE = re.compile(
-    "(%s)" % "|".join(re.escape(s) for s in UNAMBIGUOUS_GREEK_WORDS.keys()), re.U
+    "({})".format("|".join(re.escape(s) for s in UNAMBIGUOUS_GREEK_WORDS.keys())), re.U
 )
 
 
@@ -146,14 +148,14 @@ def _process_name(name):
     if len(comps) == 2:
         if comps[1].endswith("-"):
             name = comps[0]
-            name = "%s%s" % (comps[1], name)
+            name = f"{comps[1]}{name}"
     elif len(comps) > 2:
         name = comps[0]
         for i in range(1, len(comps)):
             if comps[i].endswith("-"):
-                name = "%s%s" % (comps[i], name)
+                name = f"{comps[i]}{name}"
             else:
-                name = "%s %s" % (name, comps[i])
+                name = f"{name} {comps[i]}"
     return name
 
 
@@ -303,7 +305,7 @@ def prepare_jochem(ctx, jochem, output, csoutput):
     """Process and filter jochem file to produce list of names for dictionary."""
     click.echo("chemdataextractor.dict.prepare_jochem")
     for i, line in enumerate(jochem):
-        print("JC%s" % i)
+        print(f"JC{i}")
         if line.startswith("TM "):
             if line.endswith("	@match=ci\n"):
                 for tokens in _make_tokens(line[3:-11]):
@@ -329,7 +331,7 @@ def prepare_include(ctx, include, output):
     """Process and filter include file to produce list of names for dictionary."""
     click.echo("chemdataextractor.dict.prepare_include")
     for i, line in enumerate(include):
-        print("IN%s" % i)
+        print(f"IN{i}")
         for tokens in _make_tokens(line.strip()):
             output.write(" ".join(tokens))
             output.write("\n")

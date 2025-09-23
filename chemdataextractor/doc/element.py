@@ -15,9 +15,6 @@ from abc import ABCMeta
 from abc import abstractproperty
 from typing import TYPE_CHECKING
 from typing import Any
-from typing import List
-from typing import Set
-from typing import Tuple
 
 try:
     from typing import Self
@@ -34,7 +31,7 @@ if TYPE_CHECKING:
 ElementID = Any  # Element identifiers can be any equatable type
 Citation = Any  # TODO: Type when Citation class is typed
 Span = Any  # TODO: Type when Span class is typed
-AbbreviationDef = Tuple[List[str], list[str], str]
+AbbreviationDef = tuple[list[str], list[str], str]
 
 log = logging.getLogger(__name__)
 
@@ -56,9 +53,9 @@ class BaseElement(metaclass=ABCMeta):
     def __init__(
         self,
         document: Document | None = None,
-        references: List[Citation] | None = None,
+        references: list[Citation] | None = None,
         id: ElementID | None = None,
-        models: List[type[BaseModel]] | None = None,
+        models: list[type[BaseModel]] | None = None,
         **kwargs: Any,
     ) -> None:
         """Initialize a BaseElement.
@@ -78,14 +75,14 @@ class BaseElement(metaclass=ABCMeta):
         # The containing Document
         self._document: Document | None = document
         self.id: ElementID | None = id
-        self.references: List[Citation] = references if references is not None else []
+        self.references: list[Citation] = references if references is not None else []
 
         # Model configuration
         if models:
             self.models = models
         else:
             self.models = []
-        self._streamlined_models_list: List[type[BaseModel]] | None = None
+        self._streamlined_models_list: list[type[BaseModel]] | None = None
 
     def __repr__(self) -> str:
         """Return string representation of the element."""
@@ -135,13 +132,13 @@ class BaseElement(metaclass=ABCMeta):
     #     """Convert Element to python dictionary."""
     #     return []
 
-    def add_models(self, models: List[type[BaseModel]]) -> None:
+    def add_models(self, models: list[type[BaseModel]]) -> None:
         """Add models to this element for data extraction.
 
         Args:
             models: List of model classes to add
         """
-        log.debug("Setting models on %s" % self)
+        log.debug(f"Setting models on {self}")
         self._streamlined_models_list = None
         self.models.extend(models)
         self.models = self.models
@@ -156,7 +153,7 @@ class BaseElement(metaclass=ABCMeta):
         return self._models
 
     @models.setter
-    def models(self, value: List[type[BaseModel]]) -> None:
+    def models(self, value: list[type[BaseModel]]) -> None:
         """Set the models for this element.
 
         Args:
@@ -173,13 +170,11 @@ class BaseElement(metaclass=ABCMeta):
             Sorted list of model classes including nested dependencies
         """
         if self._streamlined_models_list is None:
-            models: Set[type[BaseModel]] = set()
+            models: set[type[BaseModel]] = set()
             log.debug(self.models)
             for model in self.models:
                 models.update(model.flatten(include_inferred=False))
-            self._streamlined_models_list = sorted(
-                models, key=operator.attrgetter("__name__")
-            )
+            self._streamlined_models_list = sorted(models, key=operator.attrgetter("__name__"))
         for model in self._streamlined_models_list:
             for parser in model.parsers:
                 parser.model = model
@@ -198,7 +193,7 @@ class BaseElement(metaclass=ABCMeta):
         return json.dumps(self.serialize(), *args, **kwargs)
 
     @property
-    def elements(self) -> List[BaseElement] | None:
+    def elements(self) -> list[BaseElement] | None:
         """List of child elements.
 
         Returns:
@@ -219,9 +214,7 @@ class CaptionedElement(BaseElement):
         label: Optional label identifier (e.g., "1" for "Table 1")
     """
 
-    def __init__(
-        self, caption: BaseElement, label: str | None = None, **kwargs: Any
-    ) -> None:
+    def __init__(self, caption: BaseElement, label: str | None = None, **kwargs: Any) -> None:
         """Initialize a CaptionedElement.
 
         Args:
@@ -235,7 +228,7 @@ class CaptionedElement(BaseElement):
         """
         self.caption: BaseElement = caption
         self.label: str | None = label
-        super(CaptionedElement, self).__init__(**kwargs)
+        super().__init__(**kwargs)
         self.caption.document = self.document
 
     def __repr__(self) -> str:
@@ -330,7 +323,7 @@ class CaptionedElement(BaseElement):
         return self._models
 
     @models.setter
-    def models(self, value: List[type[BaseModel]]) -> None:
+    def models(self, value: list[type[BaseModel]]) -> None:
         """Set the models for this element and propagate to caption.
 
         Args:

@@ -16,15 +16,9 @@ from collections.abc import Callable
 from collections.abc import MutableSequence
 from typing import TYPE_CHECKING
 from typing import Any
-from typing import Dict
-from typing import Generic
-from typing import Iterable
-from typing import Iterator
-from typing import List
-from typing import Optional
-from typing import Set
-from typing import Tuple
-from typing import Union
+from typing import ClassVar
+from collections.abc import Iterable
+from collections.abc import Iterator
 from typing import overload
 
 try:
@@ -50,7 +44,7 @@ if TYPE_CHECKING:
 log = logging.getLogger(__name__)
 
 
-class BaseType(Generic[T], metaclass=ABCMeta):
+class BaseType[T](metaclass=ABCMeta):
     """Base class for all field types in ChemDataExtractor models.
 
     BaseType implements the descriptor protocol to provide type-safe field access
@@ -61,17 +55,17 @@ class BaseType(Generic[T], metaclass=ABCMeta):
     """
 
     # This is assigned by ModelMeta to match the attribute on the Model
-    name: Optional[str] = None
+    name: ClassVar[str | None] = None
 
     def __init__(
         self,
-        default: Optional[T] = None,
+        default: T | None = None,
         null: bool = False,
         required: bool = False,
         requiredness: float = 1.0,
         contextual: bool = False,
         contextual_range: ContextualRange = DocumentRange(),
-        parse_expression: Optional[BaseParserElement] = None,
+        parse_expression: BaseParserElement | None = None,
         updatable: bool = False,
         binding: bool = False,
         ignore_when_merging: bool = False,
@@ -116,8 +110,8 @@ class BaseType(Generic[T], metaclass=ABCMeta):
         self._default_parse_expression = parse_expression
         # When a record is created from a table, these are filled with row/col header category strings
         # which helps merging based on same row/column category
-        self.table_row_categories: Optional[List[str]] = None
-        self.table_col_categories: Optional[List[str]] = None
+        self.table_row_categories: list[str] | None = None
+        self.table_col_categories: list[str] | None = None
 
     def reset(self) -> None:
         """Reset the parse expression to the initial value."""
@@ -125,14 +119,12 @@ class BaseType(Generic[T], metaclass=ABCMeta):
             self.parse_expression = copy.copy(self._default_parse_expression)
 
     @overload
-    def __get__(self, instance: None, owner: type[BaseModel]) -> Self:
-        ...
+    def __get__(self, instance: None, owner: type[BaseModel]) -> Self: ...
 
     @overload
-    def __get__(self, instance: BaseModel, owner: type[BaseModel]) -> T:
-        ...
+    def __get__(self, instance: BaseModel, owner: type[BaseModel]) -> T: ...
 
-    def __get__(self, instance: Optional[BaseModel], owner: type[BaseModel]) -> Union[T, Self]:
+    def __get__(self, instance: BaseModel | None, owner: type[BaseModel]) -> T | Self:
         """Descriptor for retrieving a value from a field in a Model.
 
         Args:
@@ -152,7 +144,7 @@ class BaseType(Generic[T], metaclass=ABCMeta):
         #     return self.default
         return value
 
-    def __set__(self, instance: BaseModel, value: Optional[T]) -> None:
+    def __set__(self, instance: BaseModel, value: T | None) -> None:
         """Descriptor for assigning a value to a field in a Model.
 
         Args:
@@ -200,10 +192,10 @@ class BaseType(Generic[T], metaclass=ABCMeta):
         return False
 
 
-class StringType(BaseType[Optional[str]]):
+class StringType(BaseType[str | None]):
     """A string field type that converts values to Unicode strings."""
 
-    def process(self, value: Any) -> Optional[str]:
+    def process(self, value: Any) -> str | None:
         """Convert value to a unicode string.
 
         Useful in case lxml _ElementUnicodeResult are passed from parser.
@@ -216,7 +208,7 @@ class StringType(BaseType[Optional[str]]):
         """
         return str(value) if value is not None else None
 
-    def is_empty(self, value: Optional[str]) -> bool:
+    def is_empty(self, value: str | None) -> bool:
         """Check if string value is empty.
 
         Args:
@@ -230,10 +222,10 @@ class StringType(BaseType[Optional[str]]):
         return True
 
 
-class FloatType(BaseType[Optional[float]]):
+class FloatType(BaseType[float | None]):
     """A floating point number field."""
 
-    def process(self, value: Any) -> Optional[float]:
+    def process(self, value: Any) -> float | None:
         """Convert value to a float.
 
         Args:
@@ -246,7 +238,7 @@ class FloatType(BaseType[Optional[float]]):
             return float(value)
         return None
 
-    def is_empty(self, value: Optional[float]) -> bool:
+    def is_empty(self, value: float | None) -> bool:
         """Check if float value is empty.
 
         Args:
@@ -260,7 +252,7 @@ class FloatType(BaseType[Optional[float]]):
         return True
 
 
-class ModelType(BaseType[Optional[ModelT]]):
+class ModelType(BaseType[ModelT | None]):
     """A field type for nested model instances.
 
     Type Parameters:
@@ -276,9 +268,9 @@ class ModelType(BaseType[Optional[ModelT]]):
         """
         self.model_class: type[ModelT] = model
         self.model_name: str = self.model_class.__name__
-        super(ModelType, self).__init__(**kwargs)
+        super().__init__(**kwargs)
 
-    def process(self, value: Any) -> Optional[ModelT]:
+    def process(self, value: Any) -> ModelT | None:
         """Process a value into a model instance.
 
         Args:
@@ -292,9 +284,7 @@ class ModelType(BaseType[Optional[ModelT]]):
         else:
             return None
 
-    def serialize(
-        self, value: Optional[ModelT], primitive: bool = False
-    ) -> Optional[Dict[str, Any]]:
+    def serialize(self, value: ModelT | None, primitive: bool = False) -> dict[str, Any] | None:
         """Serialize the nested model.
 
         Args:
@@ -308,7 +298,7 @@ class ModelType(BaseType[Optional[ModelT]]):
             return value.serialize(primitive=primitive)
         return None
 
-    def is_empty(self, value: Optional[ModelT]) -> bool:
+    def is_empty(self, value: ModelT | None) -> bool:
         """Check if the model value is empty.
 
         Args:
@@ -322,7 +312,7 @@ class ModelType(BaseType[Optional[ModelT]]):
         return True
 
 
-class ListType(BaseType[Optional[List[T]]]):
+class ListType[T](BaseType[list[T] | None]):
     """A field type for lists of values processed by a nested field type.
 
     Type Parameters:
@@ -332,7 +322,7 @@ class ListType(BaseType[Optional[List[T]]]):
     def __init__(
         self,
         field: BaseType[T],
-        default: Optional[List[T]] = None,
+        default: list[T] | None = None,
         sorted_: bool = False,
         **kwargs: Any,
     ) -> None:
@@ -344,12 +334,12 @@ class ListType(BaseType[Optional[List[T]]]):
             sorted_: Whether to keep the list sorted
             **kwargs: Additional field configuration options
         """
-        super(ListType, self).__init__(**kwargs)
+        super().__init__(**kwargs)
         self.field: BaseType[T] = field
-        self.default: List[T] = default if default is not None else []
+        self.default: list[T] = default if default is not None else []
         self.sorted: bool = sorted_
 
-    def __set__(self, instance: BaseModel, value: Optional[List[Any]]) -> None:
+    def __set__(self, instance: BaseModel, value: list[Any] | None) -> None:
         """Descriptor for assigning a value to a ListField in a Model.
 
         Args:
@@ -365,7 +355,7 @@ class ListType(BaseType[Optional[List[T]]]):
                 processed = sorted(processed)
             instance._values[self.name] = processed
 
-    def serialize(self, value: Optional[List[T]], primitive: bool = False) -> Optional[List[Any]]:
+    def serialize(self, value: list[T] | None, primitive: bool = False) -> list[Any] | None:
         """Serialize the list field.
 
         Args:
@@ -380,7 +370,7 @@ class ListType(BaseType[Optional[List[T]]]):
         else:
             return None
 
-    def is_empty(self, value: Optional[List[T]]) -> bool:
+    def is_empty(self, value: list[T] | None) -> bool:
         """Check if the list value is empty.
 
         Args:
@@ -423,9 +413,9 @@ class InferredProperty(BaseType[T]):
         self.field: BaseType[T] = field
         self.origin_field: str = origin_field
         self.inferrer: Callable[[Any, BaseModel], T] = inferrer
-        super(InferredProperty, self).__init__(**kwargs)
+        super().__init__(**kwargs)
 
-    def __get__(self, instance: Optional[BaseModel], owner: type[BaseModel]) -> Union[T, Self]:
+    def __get__(self, instance: BaseModel | None, owner: type[BaseModel]) -> T | Self:
         """Get the inferred value, computing it if necessary.
 
         Args:
@@ -482,14 +472,14 @@ class InferredProperty(BaseType[T]):
         return self.field.is_empty(value)
 
 
-class SetType(BaseType[Optional[Set[T]]]):
+class SetType[T](BaseType[set[T] | None]):
     """A field type for sets of values processed by a nested field type.
 
     Type Parameters:
         T: The type of items in the set (determined by the nested field)
     """
 
-    def __init__(self, field: BaseType[T], default: Optional[Set[T]] = None, **kwargs: Any) -> None:
+    def __init__(self, field: BaseType[T], default: set[T] | None = None, **kwargs: Any) -> None:
         """Initialize a SetType field.
 
         Args:
@@ -497,11 +487,11 @@ class SetType(BaseType[Optional[Set[T]]]):
             default: Default value for the set (empty set if None)
             **kwargs: Additional field configuration options
         """
-        super(SetType, self).__init__(**kwargs)
+        super().__init__(**kwargs)
         self.field: BaseType[T] = field
-        self.default: Set[T] = default if default is not None else set()
+        self.default: set[T] = default if default is not None else set()
 
-    def __set__(self, instance: BaseModel, value: Optional[Set[Any]]) -> None:
+    def __set__(self, instance: BaseModel, value: set[Any] | None) -> None:
         """Descriptor for assigning a value to a SetField in a Model.
 
         Args:
@@ -514,7 +504,7 @@ class SetType(BaseType[Optional[Set[T]]]):
         else:
             instance._values[self.name] = set(self.field.process(v) for v in value if v is not None)
 
-    def serialize(self, value: Optional[Set[T]], primitive: bool = False) -> Optional[List[Any]]:
+    def serialize(self, value: set[T] | None, primitive: bool = False) -> list[Any] | None:
         """Serialize the set field to a sorted list for JSON compatibility.
 
         Args:
@@ -532,7 +522,7 @@ class SetType(BaseType[Optional[Set[T]]]):
         rec_list = list(self.field.serialize(v, primitive=primitive) for v in value)
         return sorted(rec_list)
 
-    def is_empty(self, value: Optional[Set[T]]) -> bool:
+    def is_empty(self, value: set[T] | None) -> bool:
         """Check if the set value is empty.
 
         Args:
@@ -549,7 +539,7 @@ class SetType(BaseType[Optional[Set[T]]]):
 class ModelMeta(ABCMeta):
     """Metaclass for BaseModel that collects field descriptors and sets up parsers."""
 
-    def __new__(mcs, name: str, bases: Tuple[type, ...], attrs: Dict[str, Any]) -> type[BaseModel]:
+    def __new__(mcs, name: str, bases: tuple[type, ...], attrs: dict[str, Any]) -> type[BaseModel]:
         """Create a new model class with field descriptors and parsers configured.
 
         Args:
@@ -560,8 +550,8 @@ class ModelMeta(ABCMeta):
         Returns:
             The new model class
         """
-        cls = super(ModelMeta, mcs).__new__(mcs, name, bases, attrs)
-        fields: Dict[str, BaseType] = {}
+        cls = super().__new__(mcs, name, bases, attrs)
+        fields: dict[str, BaseType] = {}
 
         # Inherit fields from base classes
         for base in bases:
@@ -596,7 +586,7 @@ class ModelMeta(ABCMeta):
         if isinstance(value, BaseType):
             value.name = str(key)
             cls.fields[key] = value
-        return super(ModelMeta, cls).__setattr__(key, value)
+        return super().__setattr__(key, value)
 
     @property
     def required_fields(cls) -> list[str]:
@@ -605,7 +595,7 @@ class ModelMeta(ABCMeta):
         Returns:
             List of required field names, with nested fields using '__' separator
         """
-        output: List[str] = []
+        output: list[str] = []
         for key, field in cls.fields.items():
             if hasattr(field, "model_class"):
                 nest_req_fields = field.model_class.required_fields
@@ -649,30 +639,30 @@ class BaseModel(metaclass=ModelMeta):
         example_record2["model_field.string_field"]
     """
 
-    fields: Dict[str, BaseType] = {}
-    parsers: List[BaseParser] = []
-    specifier: Optional[BaseType] = None
+    fields: dict[str, BaseType] = {}
+    parsers: list[BaseParser] = []
+    specifier: BaseType | None = None
     _updated: bool = False
 
     def __init__(self, **raw_data: Any) -> None:
         """"""
-        self._values: Dict[str, Any] = {}
-        self._confidences: Dict[str, Optional[float]] = {}
+        self._values: dict[str, Any] = {}
+        self._confidences: dict[str, float | None] = {}
         for key, value in raw_data.items():
             setattr(self, key, value)
         # Set defaults
         for key, field in self.fields.items():
             if key not in raw_data:
                 setattr(self, key, copy.copy(field.default))
-        self._record_method: Optional[str] = None
+        self._record_method: str | None = None
         self.was_updated: bool = self._updated
         # Keep track of the number of times we've merged contextually.
         # This is then used to diminish the confidence if we've merged many times.
         self._contextual_merge_count: int = 0
-        self._no_merge_ranges: Dict[str, ContextualRange] = {}
+        self._no_merge_ranges: dict[str, ContextualRange] = {}
 
     @classmethod
-    def deserialize(cls, serialized: Dict[str, Any]) -> Self:
+    def deserialize(cls, serialized: dict[str, Any]) -> Self:
         record = cls()
         flattened_serialized = cls._flatten_serialized(serialized)
         cleaned_serialized = [(cls._clean_key(key), value) for (key, value) in flattened_serialized]
@@ -806,10 +796,10 @@ class BaseModel(metaclass=ModelMeta):
             return True
 
     def __repr__(self):
-        return "<%s>" % (self.__class__.__name__,)
+        return f"<{self.__class__.__name__}>"
 
     def __str__(self):
-        return "<%s>" % (self.__class__.__name__,)
+        return f"<{self.__class__.__name__}>"
 
     def __eq__(self, other):
         # TODO: Check this actually works as expected (what about default values?)
@@ -827,7 +817,7 @@ class BaseModel(metaclass=ModelMeta):
         if attr in self.fields:
             setattr(self, attr, self.fields[attr].default)
         else:
-            super(BaseModel, self).__delattr__(attr)
+            super().__delattr__(attr)
 
     def __getitem__(self, key):
         """Redirect dictionary-style field access to attribute-style."""
@@ -1038,7 +1028,7 @@ class BaseModel(metaclass=ModelMeta):
                     return False
         return True
 
-    def serialize(self, primitive: bool = False) -> Dict[str, Any]:
+    def serialize(self, primitive: bool = False) -> dict[str, Any]:
         """Convert Model to python dictionary representation.
 
         This method serializes all non-empty fields of the model into a dictionary
@@ -1617,14 +1607,14 @@ class BaseModel(metaclass=ModelMeta):
         Returns:
             Dictionary with the names of all binding fields as keys and their values
         """
-        binding_properties: Dict[str, Any] = {}
+        binding_properties: dict[str, Any] = {}
         for field_name, field in self.fields.items():
             if field.binding and self[field_name]:
                 binding_properties[field_name] = self[field_name]
         return binding_properties
 
     def _binding_compatible(
-        self, other: BaseModel, binding_properties: Optional[dict[str, Any]] = None
+        self, other: BaseModel, binding_properties: dict[str, Any] | None = None
     ) -> bool:
         """Check whether two models are compatible in terms of their binding properties.
 
@@ -1663,7 +1653,7 @@ class BaseModel(metaclass=ModelMeta):
                         return False
         return True
 
-    def _consolidate_binding(self, binding_properties: Optional[dict[str, Any]] = None) -> None:
+    def _consolidate_binding(self, binding_properties: dict[str, Any] | None = None) -> None:
         """Consolidate binding properties across model fields.
 
         Args:
@@ -1733,7 +1723,7 @@ class BaseModel(metaclass=ModelMeta):
         return True
 
 
-class ModelList(MutableSequence[ModelT], Generic[ModelT]):
+class ModelList[ModelT](MutableSequence[ModelT]):
     """Type-safe wrapper around a list of Model objects with enhanced operations.
 
     This generic container provides type safety for collections of model instances
@@ -1753,17 +1743,15 @@ class ModelList(MutableSequence[ModelT], Generic[ModelT]):
         Args:
             *models: Variable number of model instances to initialize with
         """
-        self.models: List[ModelT] = list(models)
+        self.models: list[ModelT] = list(models)
 
     @overload
-    def __getitem__(self, index: int) -> ModelT:
-        ...
+    def __getitem__(self, index: int) -> ModelT: ...
 
     @overload
-    def __getitem__(self, index: slice) -> ModelList[ModelT]:
-        ...
+    def __getitem__(self, index: slice) -> Modellist[ModelT]: ...
 
-    def __getitem__(self, index: Union[int, slice]) -> Union[ModelT, ModelList[ModelT]]:
+    def __getitem__(self, index: int | slice) -> ModelT | Modellist[ModelT]:
         """Get item(s) from the list with proper type annotation.
 
         Args:
@@ -1777,7 +1765,7 @@ class ModelList(MutableSequence[ModelT], Generic[ModelT]):
             return ModelList(result)
         return result
 
-    def __setitem__(self, index: Union[int, slice], value: Union[ModelT, Iterable[ModelT]]) -> None:
+    def __setitem__(self, index: int | slice, value: ModelT | Iterable[ModelT]) -> None:
         """Set item(s) in the list with type safety.
 
         Args:
@@ -1786,7 +1774,7 @@ class ModelList(MutableSequence[ModelT], Generic[ModelT]):
         """
         self.models[index] = value
 
-    def __delitem__(self, index: Union[int, slice]) -> None:
+    def __delitem__(self, index: int | slice) -> None:
         """Delete item(s) from the list.
 
         Args:
@@ -1865,7 +1853,7 @@ class ModelList(MutableSequence[ModelT], Generic[ModelT]):
         """
         self.models.extend(values)
 
-    def serialize(self, primitive: bool = False) -> List[Dict[str, Any]]:
+    def serialize(self, primitive: bool = False) -> list[dict[str, Any]]:
         """Serialize to a list of python dictionaries.
 
         Args:
@@ -1884,7 +1872,7 @@ class ModelList(MutableSequence[ModelT], Generic[ModelT]):
         """
         return json.dumps(self.serialize(), *args, **kwargs)
 
-    def merge_contextual(self, distance: ContextualRange = None) -> ModelList[ModelT]:
+    def merge_contextual(self, distance: ContextualRange = None) -> Modellist[ModelT]:
         """Perform contextual merging on compatible models in the list.
 
         Args:
@@ -1898,8 +1886,8 @@ class ModelList(MutableSequence[ModelT], Generic[ModelT]):
 
             distance = DocumentRange()
 
-        merged_models: List[ModelT] = []
-        used_indices: Set[int] = set()
+        merged_models: list[ModelT] = []
+        used_indices: set[int] = set()
 
         for i, model in enumerate(self.models):
             if i in used_indices:
@@ -1988,9 +1976,9 @@ class ModelList(MutableSequence[ModelT], Generic[ModelT]):
 
 
 def sort_merge_candidates(
-    merge_candidates: List[Tuple[ContextualRange, BaseModel]],
+    merge_candidates: list[tuple[ContextualRange, BaseModel]],
     adjust_by_confidence: bool = True,
-) -> List[Tuple[ContextualRange, BaseModel]]:
+) -> list[tuple[ContextualRange, BaseModel]]:
     """Sort merge candidates by distance and optionally by confidence.
 
     Args:

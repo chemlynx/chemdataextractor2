@@ -26,7 +26,7 @@ def load(ctx, input, output):
     log.debug("chemdataextractor.cluster.load")
     import pickle
 
-    click.echo("Reading %s" % input.name)
+    click.echo(f"Reading {input.name}")
     clusters = {}
     for line in input.readlines():
         cluster, word, freq = line.split()

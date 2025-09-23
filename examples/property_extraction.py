@@ -672,7 +672,7 @@ def export_properties_for_analysis():
     # Simple CSV export (would need better compound-property linking)
     csv_rows = []
     for i, compound in enumerate(compounds):
-        name = compound.names[0] if compound.names else f"Compound_{i+1}"
+        name = compound.names[0] if compound.names else f"Compound_{i + 1}"
         formula = "N/A"  # Would extract from compound data
 
         # Find associated properties (simplified)
@@ -711,7 +711,7 @@ def export_properties_for_analysis():
     if database_records:
         print(json.dumps(database_records[0], indent=2))
         if len(database_records) > 1:
-            print(f"   ... and {len(database_records)-1} more records")
+            print(f"   ... and {len(database_records) - 1} more records")
 
     print("\n" + "-" * 50 + "\n")
 

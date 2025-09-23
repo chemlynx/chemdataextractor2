@@ -8,7 +8,9 @@ from setuptools import setup
 if os.path.exists("README.md"):
     long_description = open("README.md").read()
 else:
-    long_description = """A toolkit for extracting chemical information from the scientific literature."""
+    long_description = (
+        """A toolkit for extracting chemical information from the scientific literature."""
+    )
 
 setup(
     name="chemdataextractor2",

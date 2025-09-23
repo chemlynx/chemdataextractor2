@@ -353,7 +353,7 @@ class TestChemTokenizer(unittest.TestCase):
 
         class PressureUnit(Unit):
             def __init__(self, magnitude=0.0, powers=None):
-                super(PressureUnit, self).__init__(Pressure(), magnitude, powers)
+                super().__init__(Pressure(), magnitude, powers)
 
         class Pascal(PressureUnit):
             def convert_value_to_standard(self, value):

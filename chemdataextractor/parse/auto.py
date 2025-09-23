@@ -21,7 +21,7 @@ import copy
 import logging
 from typing import TYPE_CHECKING
 from typing import Any
-from typing import Callable
+from collections.abc import Callable
 from typing import List
 from typing import Optional
 from typing import Tuple
@@ -54,9 +54,9 @@ if TYPE_CHECKING:
     from .base import BaseParserElement
 
 # Type aliases for auto parsing
-ParseResult = Tuple[List[Any], int]  # Parse result with tokens and position
+ParseResult = tuple[list[Any], int]  # Parse result with tokens and position
 ParserFunction = Callable[[ParseResult], bool]  # Function to validate parse results
-EntityList = List[BaseParserElement]  # List of parser elements
+EntityList = list[BaseParserElement]  # List of parser elements
 
 log = logging.getLogger(__name__)
 
@@ -247,10 +247,10 @@ class BaseAutoParser(BaseParser):
     _root_phrase: Optional[BaseParserElement] = None
 
     def __init__(self) -> None:
-        super(BaseAutoParser, self).__init__()
+        super().__init__()
         self._trigger_property: Optional[str] = None
 
-    def interpret(self, results: Any, start: int, end: int) -> List[BaseModel]:
+    def interpret(self, results: Any, start: int, end: int) -> list[BaseModel]:
         """Interpret parse results and extract model instances.
 
         Args:
@@ -381,7 +381,7 @@ class BaseAutoParser(BaseParser):
 
 class AutoSentenceParser(BaseAutoParser, BaseSentenceParser):
     def __init__(self, lenient=False, chem_name=(cem | chemical_label), activate_to_range=False):
-        super(AutoSentenceParser, self).__init__()
+        super().__init__()
         self.lenient = lenient
         self.chem_name = chem_name
         self.activate_to_range = activate_to_range
@@ -490,7 +490,7 @@ class AutoTableParser(BaseAutoParser, BaseTableParser):
         Args:
             chem_name: Parser element for recognizing chemical names
         """
-        super(AutoTableParser, self).__init__()
+        super().__init__()
         self.chem_name: BaseParserElement = chem_name
 
     @property

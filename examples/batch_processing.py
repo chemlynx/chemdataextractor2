@@ -46,7 +46,7 @@ class ProcessingStats:
     failed_files: int = 0
     total_records: int = 0
     processing_time: float = 0.0
-    errors: List[str] = None
+    errors: list[str] = None
 
     def __post_init__(self):
         if self.errors is None:
@@ -59,7 +59,7 @@ class DocumentResult:
 
     filename: str
     success: bool
-    records: List[Dict[str, Any]] = None
+    records: list[dict[str, Any]] = None
     error_message: str = ""
     processing_time: float = 0.0
     record_count: int = 0
@@ -108,8 +108,8 @@ def process_single_document(file_path: Path) -> DocumentResult:
 
 
 def batch_process_sequential(
-    file_paths: List[Path]
-) -> Tuple[List[DocumentResult], ProcessingStats]:
+    file_paths: list[Path],
+) -> tuple[list[DocumentResult], ProcessingStats]:
     """Process documents sequentially."""
     print("=== Sequential Batch Processing ===")
 
@@ -118,7 +118,7 @@ def batch_process_sequential(
     start_time = time.time()
 
     for i, file_path in enumerate(file_paths, 1):
-        print(f"Progress: {i}/{len(file_paths)} ({i/len(file_paths)*100:.1f}%)")
+        print(f"Progress: {i}/{len(file_paths)} ({i / len(file_paths) * 100:.1f}%)")
 
         result = process_single_document(file_path)
         results.append(result)
@@ -139,8 +139,8 @@ def batch_process_sequential(
 
 
 def batch_process_parallel(
-    file_paths: List[Path], max_workers: int = 4
-) -> Tuple[List[DocumentResult], ProcessingStats]:
+    file_paths: list[Path], max_workers: int = 4
+) -> tuple[list[DocumentResult], ProcessingStats]:
     """Process documents in parallel using multiprocessing."""
     print(f"=== Parallel Batch Processing (workers: {max_workers}) ===")
 
@@ -158,7 +158,9 @@ def batch_process_parallel(
         completed = 0
         for future in as_completed(future_to_path):
             completed += 1
-            print(f"Progress: {completed}/{len(file_paths)} ({completed/len(file_paths)*100:.1f}%)")
+            print(
+                f"Progress: {completed}/{len(file_paths)} ({completed / len(file_paths) * 100:.1f}%)"
+            )
 
             try:
                 result = future.result()
@@ -185,7 +187,7 @@ def batch_process_parallel(
     return results, stats
 
 
-def create_sample_documents(sample_dir: Path, num_docs: int = 10) -> List[Path]:
+def create_sample_documents(sample_dir: Path, num_docs: int = 10) -> list[Path]:
     """Create sample documents for batch processing demonstration."""
     print(f"=== Creating {num_docs} Sample Documents ===")
 
@@ -206,7 +208,7 @@ def create_sample_documents(sample_dir: Path, num_docs: int = 10) -> List[Path]:
 
     file_paths = []
     for i in range(num_docs):
-        file_path = sample_dir / f"sample_document_{i+1:02d}.txt"
+        file_path = sample_dir / f"sample_document_{i + 1:02d}.txt"
 
         # Cycle through sample texts and add some variation
         text_index = i % len(sample_texts)
@@ -214,7 +216,7 @@ def create_sample_documents(sample_dir: Path, num_docs: int = 10) -> List[Path]:
 
         # Add some document structure
         full_text = f"""
-        Title: Chemical Properties of Compound {i+1}
+        Title: Chemical Properties of Compound {i + 1}
 
         Abstract: This document describes the physical and spectroscopic properties
         of an organic compound.
@@ -233,7 +235,7 @@ def create_sample_documents(sample_dir: Path, num_docs: int = 10) -> List[Path]:
     return file_paths
 
 
-def analyze_batch_results(results: List[DocumentResult]) -> Dict[str, Any]:
+def analyze_batch_results(results: list[DocumentResult]) -> dict[str, Any]:
     """Analyze and summarize batch processing results."""
     print("\n=== Analyzing Batch Results ===")
 
@@ -295,7 +297,7 @@ def analyze_batch_results(results: List[DocumentResult]) -> Dict[str, Any]:
 
 
 def export_batch_results(
-    results: List[DocumentResult], analysis: Dict[str, Any], output_dir: Path, format: str = "json"
+    results: list[DocumentResult], analysis: dict[str, Any], output_dir: Path, format: str = "json"
 ):
     """Export batch processing results to files."""
     print(f"\n=== Exporting Results to {output_dir} ===")

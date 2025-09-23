@@ -13,10 +13,10 @@ import torch
 from chemdataextractor.errors import ConfigurationError
 from chemdataextractor.nlp import util as util
 
-VITERBI_DECODING = Tuple[List[int], float]  # a list of tags, and a viterbi score
+VITERBI_DECODING = tuple[list[int], float]  # a list of tags, and a viterbi score
 
 
-def allowed_transitions(constraint_type: str, labels: Dict[int, str]) -> list[tuple[int, int]]:
+def allowed_transitions(constraint_type: str, labels: dict[int, str]) -> list[tuple[int, int]]:
     """
     Given labels and a constraint type, returns the allowed transitions. It will
     additionally include transitions for the start and end states, which are used
@@ -187,7 +187,7 @@ class ConditionalRandomField(torch.nn.Module):
     def __init__(
         self,
         num_tags: int,
-        constraints: List[tuple[int, int]] = None,
+        constraints: list[tuple[int, int]] = None,
         include_start_end_transitions: bool = True,
     ) -> None:
         super().__init__()
@@ -343,7 +343,7 @@ class ConditionalRandomField(torch.nn.Module):
 
     def viterbi_tags(
         self, logits: torch.Tensor, mask: torch.BoolTensor = None, top_k: int = None
-    ) -> Union[List[VITERBI_DECODING], list[List[VITERBI_DECODING]]]:
+    ) -> list[VITERBI_DECODING] | list[list[VITERBI_DECODING]]:
         """
         Uses viterbi algorithm to find most likely tags for the given inputs.
         If constraints are applied, disallows all other transitions.

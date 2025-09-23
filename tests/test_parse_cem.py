@@ -192,30 +192,22 @@ class TestParseCem(unittest.TestCase):
 
     def test_inorganic_chemical_formula_1(self):
         s = "Y2Ba2Cu4O7"
-        expected = [
-            "<cem_phrase><compound><names>Y2Ba2Cu4O7</names></compound></cem_phrase>"
-        ]
+        expected = ["<cem_phrase><compound><names>Y2Ba2Cu4O7</names></compound></cem_phrase>"]
         self.do_parse(s, expected)
 
     def test_inorganic_chemical_formula_2(self):
         s = "La0.7Sr0.3MnO3"
-        expected = [
-            "<cem_phrase><compound><names>La0.7Sr0.3MnO3</names></compound></cem_phrase>"
-        ]
+        expected = ["<cem_phrase><compound><names>La0.7Sr0.3MnO3</names></compound></cem_phrase>"]
         self.do_parse(s, expected)
 
     def test_inorganic_chemical_formula_3(self):
         s = "La1+xSrxMnO3"
-        expected = [
-            "<cem_phrase><compound><names>La1 + xSrxMnO3</names></compound></cem_phrase>"
-        ]
+        expected = ["<cem_phrase><compound><names>La1 + xSrxMnO3</names></compound></cem_phrase>"]
         self.do_parse(s, expected)
 
     def test_inorganic_chemical_formula_4(self):
         s = "(La,Sr)MnO3"
-        expected = [
-            "<cem_phrase><compound><names>(La, Sr)MnO3</names></compound></cem_phrase>"
-        ]
+        expected = ["<cem_phrase><compound><names>(La, Sr)MnO3</names></compound></cem_phrase>"]
         self.do_parse(s, expected)
 
     def test_inorganic_chemical_formula_5(self):
@@ -363,9 +355,7 @@ class TestParseHeading(unittest.TestCase):
             {
                 "Compound": {
                     "labels": ["3j"],
-                    "names": [
-                        "1,3,5-Tricyano-2,4,6-tris[4-(p-diphenylaminostyryl)styryl]benzene"
-                    ],
+                    "names": ["1,3,5-Tricyano-2,4,6-tris[4-(p-diphenylaminostyryl)styryl]benzene"],
                 }
             }
         ]
@@ -404,9 +394,7 @@ class TestParseHeading(unittest.TestCase):
     def test_step(self):
         """Test synthesis step."""
         s = "Step B: 7-Fluoro-4H-1,2,4-benzothiadiazine 1,1-dioxide"
-        expected = [
-            {"Compound": {"names": ["7-Fluoro-4H-1,2,4-benzothiadiazine 1,1-dioxide"]}}
-        ]
+        expected = [{"Compound": {"names": ["7-Fluoro-4H-1,2,4-benzothiadiazine 1,1-dioxide"]}}]
         self.do_parse(s, expected)
 
     def test_label_14(self):
@@ -416,9 +404,7 @@ class TestParseHeading(unittest.TestCase):
             {
                 "Compound": {
                     "labels": ["14"],
-                    "names": [
-                        "1-(3,4-Dibenzyloxycinnamoyl)-3,4 \u2032-dibenzyloxyresveratrol"
-                    ],
+                    "names": ["1-(3,4-Dibenzyloxycinnamoyl)-3,4 \u2032-dibenzyloxyresveratrol"],
                 }
             }
         ]
@@ -428,11 +414,7 @@ class TestParseHeading(unittest.TestCase):
         """"""
         s = "3.2: [3-(2-p-Tolylimidazo[1,2-a]pyridin-6-yl)phenyl]methanol"
         expected = [
-            {
-                "Compound": {
-                    "names": ["[3-(2-p-Tolylimidazo[1,2-a]pyridin-6-yl)phenyl]methanol"]
-                }
-            }
+            {"Compound": {"names": ["[3-(2-p-Tolylimidazo[1,2-a]pyridin-6-yl)phenyl]methanol"]}}
         ]
         self.do_parse(s, expected)
 
@@ -443,9 +425,7 @@ class TestParseHeading(unittest.TestCase):
             {
                 "Compound": {
                     "labels": ["I"],
-                    "names": [
-                        "(E)-1-(4-(benzyloxy)phenyl)-2-(3,5-bis(benzyloxy)phenyl)ethene"
-                    ],
+                    "names": ["(E)-1-(4-(benzyloxy)phenyl)-2-(3,5-bis(benzyloxy)phenyl)ethene"],
                     "roles": ["product"],
                 }
             }
@@ -535,16 +515,12 @@ class TestParseLabelPhrase(unittest.TestCase):
 
     def test_doped_label_2(self):
         s = "La1-xSrxMnO3 (x = 0.1-0.5)"
-        expected = [
-            "<chemical_label_phrase><labels>x = 0.1 - 0.5</labels></chemical_label_phrase>"
-        ]
+        expected = ["<chemical_label_phrase><labels>x = 0.1 - 0.5</labels></chemical_label_phrase>"]
         self.do_parse(s, expected)
 
     def test_doped_label_3(self):
         s = "La1-ySryMnO3 (y = 0 to 1)"
-        expected = [
-            "<chemical_label_phrase><labels>y = 0 to 1</labels></chemical_label_phrase>"
-        ]
+        expected = ["<chemical_label_phrase><labels>y = 0 to 1</labels></chemical_label_phrase>"]
         self.do_parse(s, expected)
 
     def test_informal_label_1(self):
@@ -604,9 +580,7 @@ class TestParseDocument(unittest.TestCase):
                         "value": [70.0, 75.0],
                         "raw_value": "70-75",
                         "raw_units": "\xb0C",
-                        "compound": {
-                            "Compound": {"labels": ["VII"], "roles": ["formula"]}
-                        },
+                        "compound": {"Compound": {"labels": ["VII"], "roles": ["formula"]}},
                     }
                 },
                 {

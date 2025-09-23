@@ -11,13 +11,13 @@ import json
 import logging
 from typing import Any
 from typing import BinaryIO
-from typing import Dict
 from typing import TextIO
 
 import click
 
 from .. import __version__
 from ..doc import Document
+import builtins
 
 log = logging.getLogger(__name__)
 
@@ -34,7 +34,7 @@ def cli(ctx: click.Context, verbose: bool) -> None:
         ctx: click.Context - Click context object
         verbose: bool - Enable verbose debug logging
     """
-    log.debug("ChemDataExtractor v%s" % __version__)
+    log.debug(f"ChemDataExtractor v{__version__}")
     logging.basicConfig(level=logging.DEBUG if verbose else logging.INFO)
     logging.getLogger("requests").setLevel(logging.WARN)
     ctx.obj = {}
@@ -50,7 +50,7 @@ def cli(ctx: click.Context, verbose: bool) -> None:
 )
 @click.argument("input", type=click.File("rb"), default=click.get_binary_stream("stdin"))
 @click.pass_obj
-def extract(ctx: Dict[str, Any], input: BinaryIO, output: TextIO) -> None:
+def extract(ctx: builtins.dict[str, Any], input: BinaryIO, output: TextIO) -> None:
     """Run ChemDataExtractor on a document.
 
     Args:
@@ -59,7 +59,7 @@ def extract(ctx: Dict[str, Any], input: BinaryIO, output: TextIO) -> None:
         output: TextIO - Output file stream
     """
     log.info("chemdataextractor.extract")
-    log.info("Reading %s" % input.name)
+    log.info(f"Reading {input.name}")
     doc = Document.from_file(input, fname=input.name)
     records = [record.serialize(primitive=True) for record in doc.records]
     jsonstring = json.dumps(records, indent=2, ensure_ascii=False)
@@ -76,7 +76,7 @@ def extract(ctx: Dict[str, Any], input: BinaryIO, output: TextIO) -> None:
 )
 @click.argument("input", type=click.File("rb"), default=click.get_binary_stream("stdin"))
 @click.pass_obj
-def read(ctx: Dict[str, Any], input: BinaryIO, output: TextIO) -> None:
+def read(ctx: builtins.dict[str, Any], input: BinaryIO, output: TextIO) -> None:
     """Output processed document elements.
 
     Args:
@@ -85,10 +85,10 @@ def read(ctx: Dict[str, Any], input: BinaryIO, output: TextIO) -> None:
         output: TextIO - Output file stream
     """
     log.info("chemdataextractor.read")
-    log.info("Reading %s" % input.name)
+    log.info(f"Reading {input.name}")
     doc = Document.from_file(input)
     for element in doc.elements:
-        output.write("%s : %s\n=====\n" % (element.__class__.__name__, str(element)))
+        output.write(f"{element.__class__.__name__} : {str(element)}\n=====\n")
 
 
 from . import cem

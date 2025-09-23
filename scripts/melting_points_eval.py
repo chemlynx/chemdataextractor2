@@ -50,13 +50,13 @@ def extract():
 
     for path, filename, size in patents:
         print(path)
-        shutil.copyfile(path, "../examples/mp/used/%s" % filename)
+        shutil.copyfile(path, f"../examples/mp/used/{filename}")
         with open(path) as f:
             d = Document.from_file(f)
-        if os.path.isfile("../examples/mp/results/%s.json" % filename):
+        if os.path.isfile(f"../examples/mp/results/{filename}.json"):
             continue
         records = [r.serialize() for r in d.records if len(r.melting_points) == 1]
-        with open("../examples/mp/results/%s.json" % filename, "w") as fout:
+        with open(f"../examples/mp/results/{filename}.json", "w") as fout:
             fout.write(json.dumps(records, ensure_ascii=False, indent=2).encode("utf8"))
 
 
@@ -101,7 +101,7 @@ def load_tetko():
 
     for filename in os.listdir("../examples/mp/results"):
         patent_id = filename[:-9]
-        with open("../examples/mp/tetko/%s.json" % patent_id, "w") as fout:
+        with open(f"../examples/mp/tetko/{patent_id}.json", "w") as fout:
             json.dump(melting_points[patent_id], fout, ensure_ascii=False, indent=2)
 
 
@@ -125,7 +125,7 @@ def _get_standardized_result(result, tetko_results, n2s):
                 }
     for name in names:
         if name not in n2s:
-            print("MISSING: %s" % name)
+            print(f"MISSING: {name}")
             continue
             # results = cirpy.query(name.encode('utf8'), 'smiles', ['name_by_opsin', 'name_by_cir'])
             # print(name)
@@ -164,10 +164,10 @@ def standardize_results():
             continue
         patent_id = filename[:-9]
         print(patent_id)
-        tetko_file = "../examples/mp/tetko/%s.json" % patent_id
+        tetko_file = f"../examples/mp/tetko/{patent_id}.json"
         if not os.path.isfile(tetko_file):
             continue
-        with open("%s/%s" % (result_dir, filename)) as fin:
+        with open(f"{result_dir}/{filename}") as fin:
             results = json.loads(fin.read().decode("utf8"))
         with open(tetko_file) as tin:
             tetko_results = json.loads(tin.read().decode("utf8"))
@@ -179,13 +179,9 @@ def standardize_results():
 
             if standardized_result:
                 standardized_results.append(standardized_result)
-        with open(
-            "../examples/mp/standardized_results/%s.json" % patent_id, "w"
-        ) as fout:
+        with open(f"../examples/mp/standardized_results/{patent_id}.json", "w") as fout:
             fout.write(
-                json.dumps(standardized_results, ensure_ascii=False, indent=2).encode(
-                    "utf8"
-                )
+                json.dumps(standardized_results, ensure_ascii=False, indent=2).encode("utf8")
             )
 
 
@@ -198,10 +194,10 @@ def make_opsin_input():
                 continue
             patent_id = filename[:-9]
             print(patent_id)
-            tetko_file = "../examples/mp/tetko/%s.json" % patent_id
+            tetko_file = f"../examples/mp/tetko/{patent_id}.json"
             if not os.path.isfile(tetko_file):
                 continue
-            with open("%s/%s" % (result_dir, filename)) as fin:
+            with open(f"{result_dir}/{filename}") as fin:
                 results = json.loads(fin.read().decode("utf8"))
             with open(tetko_file) as tin:
                 tetko_results = json.loads(tin.read().decode("utf8"))
@@ -211,14 +207,12 @@ def make_opsin_input():
                 for name in result["names"]:
                     in_tetko = False
                     for tetko_result in tetko_results:
-                        if excess_normalize(name) == excess_normalize(
-                            tetko_result["name"]
-                        ):
+                        if excess_normalize(name) == excess_normalize(tetko_result["name"]):
                             in_tetko = True
                             break
                     if not in_tetko and name not in seen:
                         seen.add(name)
-                        op_out.write(("%s\n" % name).encode("utf8"))
+                        op_out.write((f"{name}\n").encode())
 
 
 def standardize_value(value):
@@ -230,13 +224,9 @@ def standardize_value(value):
         start = range_m.group(1)
         end = range_m.group(2)
         # Fix e.g. 123-7 or 120-40
-        if (
-            re.match(r"^\d+$", start)
-            and re.match(r"^\d+$", end)
-            and len(end) < len(start)
-        ):
+        if re.match(r"^\d+$", start) and re.match(r"^\d+$", end) and len(end) < len(start):
             end = start[: len(start) - len(end)] + end
-        value = "%s to %s" % (start, end)
+        value = f"{start} to {end}"
     return value
 
 
@@ -340,11 +330,11 @@ def compare():
             continue
         patent_id = filename[:-5]
 
-        tetko_file = "../examples/mp/tetko/%s.json" % patent_id
+        tetko_file = f"../examples/mp/tetko/{patent_id}.json"
         if not os.path.isfile(tetko_file):
             continue
 
-        with open("%s/%s" % (result_dir, filename)) as fin:
+        with open(f"{result_dir}/{filename}") as fin:
             results = json.loads(fin.read().decode("utf8"))
             for m in results:
                 m["patent_id"] = patent_id
@@ -382,10 +372,7 @@ def compare():
         my_smiles.append(chosen["smiles"])
 
         # Lenient tetko
-        if (
-            inchikey not in tetko_results_by_inchikey
-            and inchikey in tetko_all_by_inchi_key
-        ):
+        if inchikey not in tetko_results_by_inchikey and inchikey in tetko_all_by_inchi_key:
             tetko_lenient_results_by_inchikey[inchikey].append(chosen)
             tetko_lenient_results_by_patent[chosen["patent_id"]].append(chosen)
 
@@ -405,9 +392,9 @@ def compare():
         tetko_lenient_values.append(results[0]["float_value"])
         tetko_lenient_smiles.append(results[0]["smiles"])
 
-    print("My count: %s" % len(my_melting_points))
-    print("Tetko count: %s" % len(tetko_melting_points))
-    print("Tetko lenient count: %s" % len(tetko_lenient_melting_points))
+    print(f"My count: {len(my_melting_points)}")
+    print(f"Tetko count: {len(tetko_melting_points)}")
+    print(f"Tetko lenient count: {len(tetko_lenient_melting_points)}")
     print("--------")
 
     exact_match_count = 0
@@ -423,20 +410,16 @@ def compare():
                 nonzero_differences.append(
                     tetko_results_by_inchikey[inchikey][0]["float_value"] - value
                 )
-            differences.append(
-                tetko_results_by_inchikey[inchikey][0]["float_value"] - value
-            )
+            differences.append(tetko_results_by_inchikey[inchikey][0]["float_value"] - value)
 
     # Root mean squared difference between values of the same compound
     rmsd = math.sqrt(sum(d * d for d in differences) / len(differences))
-    nonzero_rmsd = math.sqrt(
-        sum(d * d for d in nonzero_differences) / len(nonzero_differences)
-    )
+    nonzero_rmsd = math.sqrt(sum(d * d for d in nonzero_differences) / len(nonzero_differences))
 
-    print("Exact matches: %s" % exact_match_count)
-    print("Compound matches, values different: %s" % non_match_count)
-    print("RMSD: %s" % rmsd)
-    print("Nonzero diff RMSD: %s" % nonzero_rmsd)
+    print(f"Exact matches: {exact_match_count}")
+    print(f"Compound matches, values different: {non_match_count}")
+    print(f"RMSD: {rmsd}")
+    print(f"Nonzero diff RMSD: {nonzero_rmsd}")
     print("--------")
 
     common = len(my_melting_points & tetko_melting_points)
@@ -444,10 +427,10 @@ def compare():
     tetko = len(tetko_melting_points - my_melting_points)
     total = len(my_melting_points | tetko_melting_points)
 
-    print("Common: %s (%s%%)" % (common, (100.0 * common / total)))
-    print("Just Mine: %s (%s%%)" % (my, (100.0 * my / total)))
-    print("Just Tetko: %s (%s%%)" % (tetko, (100.0 * tetko / total)))
-    print("Total count: %s" % total)
+    print(f"Common: {common} ({100.0 * common / total}%)")
+    print(f"Just Mine: {my} ({100.0 * my / total}%)")
+    print(f"Just Tetko: {tetko} ({100.0 * tetko / total}%)")
+    print(f"Total count: {total}")
     print("--------")
 
     common_l = len(my_melting_points & tetko_lenient_melting_points)
@@ -455,15 +438,15 @@ def compare():
     tetko_l = len(tetko_lenient_melting_points - my_melting_points)
     total_l = len(my_melting_points | tetko_lenient_melting_points)
 
-    print("Common lenient: %s (%s%%)" % (common_l, (100.0 * common_l / total_l)))
-    print("Just Mine lenient: %s (%s%%)" % (my_l, (100.0 * my_l / total_l)))
-    print("Just Tetko lenient: %s (%s%%)" % (tetko_l, (100.0 * tetko_l / total_l)))
-    print("Total count lenient: %s" % total_l)
+    print(f"Common lenient: {common_l} ({100.0 * common_l / total_l}%)")
+    print(f"Just Mine lenient: {my_l} ({100.0 * my_l / total_l}%)")
+    print(f"Just Tetko lenient: {tetko_l} ({100.0 * tetko_l / total_l}%)")
+    print(f"Total count lenient: {total_l}")
     print("--------")
 
-    print("tetko_all_values mean %s" % np.mean(tetko_all_values))
-    print("tetko_values mean %s" % np.mean(tetko_values))
-    print("my_values mean %s" % np.mean(my_values))
+    print(f"tetko_all_values mean {np.mean(tetko_all_values)}")
+    print(f"tetko_values mean {np.mean(tetko_values)}")
+    print(f"my_values mean {np.mean(my_values)}")
 
     # result_dir = '../examples/mp/standardized_results'
     # for filename in os.listdir(result_dir):
@@ -527,9 +510,7 @@ def compare():
     binrange = range(0, 400, 10)
     mn, mbins, mpatches = plt.hist(my_values, binrange, normed=1)
     tn, tbins, tpatches = plt.hist(tetko_values, binrange, normed=1, facecolor="green")
-    tan, tabins, tapatches = plt.hist(
-        tetko_all_values, binrange, normed=1, facecolor="green"
-    )
+    tan, tabins, tapatches = plt.hist(tetko_all_values, binrange, normed=1, facecolor="green")
     bincenters = 0.5 * (mbins[1:] + mbins[:-1])
     fig = plt.figure(num=None, figsize=(8, 5), dpi=200)
     plt.plot(bincenters, mn, "-", linewidth=3, label="ChemDataExtractor")
@@ -548,13 +529,13 @@ def run_n2s():
     if os.path.isfile("n2s.pickle"):
         with open("n2s.pickle") as fin:
             n2s = pickle.load(fin)
-    print("Starting with %s names" % len(n2s))
+    print(f"Starting with {len(n2s)} names")
     result_dir = "../examples/mp/results"
     for filename in os.listdir(result_dir):
         if not filename.endswith(".json"):
             continue
         print(filename)
-        with open("%s/%s" % (result_dir, filename)) as fin:
+        with open(f"{result_dir}/{filename}") as fin:
             results = json.loads(fin.read().decode("utf8"))
             for compound in results:
                 if "names" not in compound or "melting_points" not in compound:
@@ -633,18 +614,18 @@ def make_sdf():
     #     AllChem.Compute2DCoords(mol)
     #     writer.write(mol)
 
-    with open(
-        "../examples/mp/sdf/chemdataextractor-melting-points.sdf", "rb"
-    ) as f_in, gzip.open(
-        "../examples/mp/sdf/chemdataextractor-melting-points.sdf.gz", "wb"
-    ) as f_out:
+    with (
+        open("../examples/mp/sdf/chemdataextractor-melting-points.sdf", "rb") as f_in,
+        gzip.open("../examples/mp/sdf/chemdataextractor-melting-points.sdf.gz", "wb") as f_out,
+    ):
         shutil.copyfileobj(f_in, f_out)
 
-    with open(
-        "../examples/mp/sdf/chemdataextractor-melting-points-filtered.sdf", "rb"
-    ) as f_in, gzip.open(
-        "../examples/mp/sdf/chemdataextractor-melting-points-filtered.sdf.gz", "wb"
-    ) as f_out:
+    with (
+        open("../examples/mp/sdf/chemdataextractor-melting-points-filtered.sdf", "rb") as f_in,
+        gzip.open(
+            "../examples/mp/sdf/chemdataextractor-melting-points-filtered.sdf.gz", "wb"
+        ) as f_out,
+    ):
         shutil.copyfileobj(f_in, f_out)
 
 

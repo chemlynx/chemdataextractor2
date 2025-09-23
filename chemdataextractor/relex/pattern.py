@@ -21,9 +21,9 @@ from .entity import Entity
 from .relationship import Relation
 
 # Type aliases for pattern learning
-PatternElements = List[Any]  # Elements that make up a pattern
-EntityList = List[Entity]  # List of entities in a pattern
-RelationList = List[Relation]  # List of relations associated with a pattern
+PatternElements = list[Any]  # Elements that make up a pattern
+EntityList = list[Entity]  # List of entities in a pattern
+RelationList = list[Relation]  # List of relations associated with a pattern
 
 
 class Pattern:
@@ -35,12 +35,12 @@ class Pattern:
 
     def __init__(
         self,
-        entities: Optional[EntityList] = None,
-        elements: Optional[PatternElements] = None,
-        label: Optional[str] = None,
-        sentences: Optional[List[str]] = None,
-        order: Optional[List[int]] = None,
-        relations: Optional[RelationList] = None,
+        entities: EntityList | None = None,
+        elements: PatternElements | None = None,
+        label: str | None = None,
+        sentences: list[str] | None = None,
+        order: list[int] | None = None,
+        relations: RelationList | None = None,
         confidence: float = 0.0,
     ) -> None:
         """Initialize a Pattern.

@@ -57,8 +57,8 @@ class TestExtract(unittest.TestCase):
                     "compound": {
                         "Compound": {
                             "names": [
-                                "4-Amino-2-(3-thienyl)phenol " "Hydrochloride",
-                                "4-amino-2-(3-thienyl)phenol " "hydrochloride",
+                                "4-Amino-2-(3-thienyl)phenol Hydrochloride",
+                                "4-amino-2-(3-thienyl)phenol hydrochloride",
                             ],
                             "roles": ["product"],
                         }
@@ -114,14 +114,12 @@ class TestExtract(unittest.TestCase):
             {"Apparatus": {"name": "HORIBA F-7000 spectrofluorimeter"}},
             {
                 "MeltingPoint": {
-                    "apparatus": {
-                        "Apparatus": {"name": "HORIBA F-7000 " "spectrofluorimeter"}
-                    },
+                    "apparatus": {"Apparatus": {"name": "HORIBA F-7000 spectrofluorimeter"}},
                     "compound": {
                         "Compound": {
                             "names": [
-                                "4-Amino-2-(3-thienyl)phenol " "Hydrochloride",
-                                "4-amino-2-(3-thienyl)phenol " "hydrochloride",
+                                "4-Amino-2-(3-thienyl)phenol Hydrochloride",
+                                "4-amino-2-(3-thienyl)phenol hydrochloride",
                             ],
                             "roles": ["product"],
                         }

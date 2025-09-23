@@ -27,9 +27,7 @@ class TestElsXMLReader(unittest.TestCase):
         """Test RscXMLReader can detect an RSC document."""
         r = ElsevierXmlReader()
         fname = "j.jnoncrysol.2017.07.006.xml"
-        f = open(
-            os.path.join(os.path.dirname(__file__), "data", "elsevier", fname), "rb"
-        )
+        f = open(os.path.join(os.path.dirname(__file__), "data", "elsevier", fname), "rb")
         content = f.read()
         f.close()
         self.assertEqual(r.detect(content, fname=fname), True)
@@ -38,9 +36,7 @@ class TestElsXMLReader(unittest.TestCase):
         """Test RscXMLReader used directly to parse file."""
         r = ElsevierXmlReader()
         fname = "j.jnoncrysol.2017.07.006.xml"
-        f = open(
-            os.path.join(os.path.dirname(__file__), "data", "elsevier", fname), "rb"
-        )
+        f = open(os.path.join(os.path.dirname(__file__), "data", "elsevier", fname), "rb")
         content = f.read()
         d = r.readstring(content)
         f.close()
@@ -49,18 +45,14 @@ class TestElsXMLReader(unittest.TestCase):
     def test_document_usage(self):
         """Test XMLReader used via Document.from_file."""
         fname = "j.jnoncrysol.2017.07.006.xml"
-        f = open(
-            os.path.join(os.path.dirname(__file__), "data", "elsevier", fname), "rb"
-        )
+        f = open(os.path.join(os.path.dirname(__file__), "data", "elsevier", fname), "rb")
         d = Document.from_file(f, readers=[ElsevierXmlReader()])
         self.assertEqual(len(d.elements), 129)
 
     def test_metadata(self):
         """Test that the retrieved metadata is correct"""
         fname = "j.jnoncrysol.2017.07.006.xml"
-        f = open(
-            os.path.join(os.path.dirname(__file__), "data", "elsevier", fname), "rb"
-        )
+        f = open(os.path.join(os.path.dirname(__file__), "data", "elsevier", fname), "rb")
         d = Document.from_file(f, readers=[ElsevierXmlReader()])
         meta = d.metadata.serialize()
         expected = {
@@ -83,9 +75,7 @@ class TestElsXMLReader(unittest.TestCase):
     def test_parse_table_rows(self):
         """Test that the elsevier colspan and rowspan work correctly"""
         fname = "j.jnoncrysol.2018.02.024.xml"
-        f = open(
-            os.path.join(os.path.dirname(__file__), "data", "elsevier", fname), "rb"
-        )
+        f = open(os.path.join(os.path.dirname(__file__), "data", "elsevier", fname), "rb")
         d = Document.from_file(f, readers=[ElsevierXmlReader()])
         table_1 = d.tables[0].tde_table.category_table
         expected = [

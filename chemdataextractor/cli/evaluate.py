@@ -43,7 +43,7 @@ def run(input):
     records = [
         record for record in records if record.keys() != ["names"] and record.keys() != ["labels"]
     ]
-    with open("%s-out.json" % os.path.splitext(input.name)[0], "w") as outf:
+    with open(f"{os.path.splitext(input.name)[0]}-out.json", "w") as outf:
         json.dump(records, outf, indent=2)
 
 
@@ -374,7 +374,7 @@ def compare():
         "data/cde-evaluation",
     )
     for eval_name, transform in EVALS:
-        print("Evaluation: %s" % eval_name)
+        print(f"Evaluation: {eval_name}")
         doc_count = 0
         tp, fp, fn = 0, 0, 0
         for filename in os.listdir(edir):
@@ -383,20 +383,20 @@ def compare():
             if filename.endswith("-out.json"):
                 with open(filename) as outf:
                     out = json.load(outf)
-                if not os.path.isfile("%s-gold.json" % filename[:-9]):
+                if not os.path.isfile(f"{filename[:-9]}-gold.json"):
                     continue
-                with open("%s-gold.json" % filename[:-9]) as goldf:
+                with open(f"{filename[:-9]}-gold.json") as goldf:
                     gold = json.load(goldf)
                 doctp, docfp, docfn = eval_document(gold, out, transform)
                 doc_count += 1
                 tp += doctp
                 fp += docfp
                 fn += docfn
-        print("TP: %s\tFP:%s\tFN:%s" % (tp, fp, fn))
+        print(f"TP: {tp}\tFP:{fp}\tFN:{fn}")
         # if tp + fp > 0 and tp + fn > 0:
         p = 100 * float(tp) / (tp + fp) if tp > 0 or fp > 0 else 0
         r = 100 * float(tp) / (tp + fn) if tp > 0 or fn > 0 else 0
         f = 2 * p * r / (p + r) if p > 0 or r > 0 else 0
-        print("P: %0.2f%%\tR: %0.2f%%\tF: %0.2f%%" % (p, r, f))
-        print("%s documents" % doc_count)
+        print(f"P: {p:0.2f}%\tR: {r:0.2f}%\tF: {f:0.2f}%")
+        print(f"{doc_count} documents")
         print("================================")

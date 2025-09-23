@@ -94,8 +94,8 @@ class BertCrfConfig(PretrainedConfig):
         num_tags: int = 3,
         dropout=0.1,
         label_namespace: str = "labels",
-        label_encoding: Optional[str] = None,
-        index_and_label: List[Tuple[int, str]] = None,
+        label_encoding: str | None = None,
+        index_and_label: list[tuple[int, str]] = None,
         constrain_crf_decoding: bool = True,
         include_start_end_transitions: bool = True,
         model_name_or_path: str = None,
@@ -492,7 +492,7 @@ class BertCrfModel(PreTrainedModel):
         return output
 
     def forward_on_instances(
-        self, instances: Dict[str, torch.Tensor]
+        self, instances: dict[str, torch.Tensor]
     ) -> list[dict[str, np.ndarray]]:
         """
         Takes a list of  :class:`~allennlp.data.instance.Instance`s, converts that text into
@@ -518,7 +518,7 @@ class BertCrfModel(PreTrainedModel):
             instances = {k: v.to(self.device) for k, v in instances.items()}
             outputs = self.decode(self(**instances))
 
-            instance_separated_output: List[dict[str, np.ndarray]] = [{} for _ in range(batch_size)]
+            instance_separated_output: list[dict[str, np.ndarray]] = [{} for _ in range(batch_size)]
             for name, output in list(outputs.items()):
                 if isinstance(output, torch.Tensor):
                     # NOTE(markn): This is a hack because 0-dim pytorch tensors are not iterable.
@@ -531,7 +531,7 @@ class BertCrfModel(PreTrainedModel):
                     instance_output[name] = batch_element
             return instance_separated_output
 
-    def decode(self, output_dict: Dict[str, torch.Tensor]) -> dict[str, torch.Tensor]:
+    def decode(self, output_dict: dict[str, torch.Tensor]) -> dict[str, torch.Tensor]:
         """
         Converts the tag ids to the actual tags.
         ``output_dict["tags"]`` is a list of lists of tag_ids,

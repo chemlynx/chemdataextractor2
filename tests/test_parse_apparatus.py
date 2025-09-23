@@ -39,9 +39,7 @@ class TestParseApparatus(unittest.TestCase):
         """"""
 
         s = "The photoluminescence quantum yield (PLQY) was measured using a HORIBA Jobin Yvon FluoroMax-4 spectrofluorimeter"
-        expected = [
-            "<apparatus>HORIBA Jobin Yvon FluoroMax-4 spectrofluorimeter</apparatus>"
-        ]
+        expected = ["<apparatus>HORIBA Jobin Yvon FluoroMax-4 spectrofluorimeter</apparatus>"]
         self.do_parse(s, expected)
 
     def test_apparatus2(self):
@@ -56,9 +54,7 @@ class TestParseApparatus(unittest.TestCase):
             "The photoluminescence quantum yield (PLQY) was measured using a HORIBA Jobin Yvon FluoroMax-4 spectrofluorimeter."
         )
         p.models = [Apparatus]
-        expected = [
-            {"Apparatus": {"name": "HORIBA Jobin Yvon FluoroMax-4 spectrofluorimeter"}}
-        ]
+        expected = [{"Apparatus": {"name": "HORIBA Jobin Yvon FluoroMax-4 spectrofluorimeter"}}]
         self.assertEqual(expected, [r.serialize() for r in p.records])
 
     def test_apparatus_record2(self):

@@ -15,10 +15,6 @@ import re
 from fractions import Fraction
 from typing import TYPE_CHECKING
 from typing import Any
-from typing import Dict
-from typing import List
-from typing import Optional
-from typing import Union
 
 from deprecation import deprecated
 
@@ -28,10 +24,10 @@ if TYPE_CHECKING:
     pass
 
 # Type aliases for quantity parsing
-NumericValue = Union[int, float]  # Numeric values
-ValueList = List[float]  # List of extracted values
-UnitString = str  # String representation of units
-MagnitudeDict = Dict[Any, float]  # Magnitude multipliers
+type NumericValue = int | float  # Numeric values
+type ValueList = list[float]  # List of extracted values
+type UnitString = str  # String representation of units
+type MagnitudeDict = dict[Any, float]  # Magnitude multipliers
 
 from ..utils import memoize
 from .actions import join
@@ -201,7 +197,7 @@ def construct_quantity_re(*models):
     return re.compile(units_regex)
 
 
-def extract_error(string: Optional[str]) -> Optional[float]:
+def extract_error(string: str | None) -> float | None:
     """Extract the error from a string containing a value with uncertainty.
 
     Usage::
@@ -241,7 +237,7 @@ def extract_error(string: Optional[str]) -> Optional[float]:
     return error
 
 
-def extract_value(string: Optional[str]) -> Optional[ValueList]:
+def extract_value(string: str | None) -> ValueList | None:
     """Extract numeric values from a string, handling ranges and single values.
 
     Takes a string and returns a list of floats representing the values found.
@@ -314,7 +310,7 @@ def _find_value_strings(string):
     # Use pre-compiled pattern for improved performance
     split_by_space = split_by_space_dash(string)
     split_by_num = []
-    number_pattern = get_pattern('number')
+    number_pattern = get_pattern("number")
     for elem in split_by_space:
         split_by_num.extend([r for r in number_pattern.split(elem) if r])
     split_by_num_merge_minus = []
@@ -475,7 +471,7 @@ def _split(string):
     """
 
     # Split at numbers using pre-compiled pattern
-    simple_number_pattern = get_pattern('simple_number')
+    simple_number_pattern = get_pattern("simple_number")
     split_by_num = simple_number_pattern.split(string)
     split_by_num_cleaned = []
     for element in split_by_num:
@@ -491,14 +487,14 @@ def _split(string):
                 split_by_num_cleaned.append(element)
 
     # Split at slashes using pre-compiled pattern
-    unit_fraction_pattern = get_pattern('unit_fraction')
+    unit_fraction_pattern = get_pattern("unit_fraction")
     split_by_slash = []
     for element in split_by_num_cleaned:
         split = unit_fraction_pattern.split(element)
         split_by_slash += split
 
     # Split at brackets using pre-compiled pattern
-    brackets_pattern = get_pattern('brackets')
+    brackets_pattern = get_pattern("brackets")
     split_by_bracket = []
     for element in split_by_slash:
         split = brackets_pattern.split(element)

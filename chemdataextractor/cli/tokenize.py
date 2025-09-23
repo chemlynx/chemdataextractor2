@@ -53,17 +53,17 @@ def train_punkt(ctx, input, output, abbr, colloc):
     # punkt.MIN_COLLOC_FREQ = 1
     # Don't train on titles. They may contain abbreviations, but basically never have actual sentence boundaries.
     for fin in input:
-        click.echo("Training on %s" % fin.name)
+        click.echo(f"Training on {fin.name}")
         sentences = fin.read()  # .replace('.\n', '. \n\n')
         punkt.train(sentences, finalize=False, verbose=True)
     punkt.finalize_training(verbose=True)
     if abbr:
         abbreviations = abbr.read().strip().split("\n")
-        click.echo("Manually adding abbreviations: %s" % abbreviations)
+        click.echo(f"Manually adding abbreviations: {abbreviations}")
         punkt._params.abbrev_types.update(abbreviations)
     if colloc:
         collocations = [tuple(l.split(". ", 1)) for l in colloc.read().strip().split("\n")]
-        click.echo("Manually adding collocs: %s" % collocations)
+        click.echo(f"Manually adding collocs: {collocations}")
         punkt._params.collocations.update(collocations)
     model = PunktSentenceTokenizer(punkt.get_params())
     pickle.dump(model, output, protocol=pickle.HIGHEST_PROTOCOL)
@@ -82,7 +82,7 @@ def train_punkt(ctx, input, output, abbr, colloc):
 def sentences(ctx, input, output):
     """Read input document, and output sentences."""
     log.info("chemdataextractor.read.elements")
-    log.info("Reading %s" % input.name)
+    log.info(f"Reading {input.name}")
     doc = Document.from_file(input)
     for element in doc.elements:
         if isinstance(element, Text):
@@ -104,7 +104,7 @@ def sentences(ctx, input, output):
 def words(ctx, input, output):
     """Read input document, and output words."""
     log.info("chemdataextractor.read.elements")
-    log.info("Reading %s" % input.name)
+    log.info(f"Reading {input.name}")
     doc = Document.from_file(input)
     for element in doc.elements:
         if isinstance(element, Text):

@@ -170,9 +170,7 @@ class TestPersonName(unittest.TestCase):
             "fullname": "Charles Louis Xavier Joseph de la Vallee Poussin",
             "firstname": "Charles",
         }
-        self.assertEqual(
-            res, dict(PersonName("Charles Louis Xavier Joseph de la Vallee Poussin"))
-        )
+        self.assertEqual(res, dict(PersonName("Charles Louis Xavier Joseph de la Vallee Poussin")))
 
         res = {
             "lastname": "Ford",
@@ -190,9 +188,7 @@ class TestPersonName(unittest.TestCase):
             "fullname": "Guy L Steele Jr",
             "firstname": "Guy",
         }
-        self.assertEqual(
-            res, dict(PersonName("{Steele Jr.}, Guy L.", from_bibtex=True))
-        )
+        self.assertEqual(res, dict(PersonName("{Steele Jr.}, Guy L.", from_bibtex=True)))
         self.assertEqual(res, dict(PersonName("Guy L. {Steele Jr.}", from_bibtex=True)))
 
         res = {
@@ -209,24 +205,14 @@ class TestPersonName(unittest.TestCase):
         self.assertEqual("Juan Q Xavier Velasquez y Garcia", p.fullname)
 
     def test_equality(self):
-        self.assertEqual(
-            PersonName("Henry Ford, Jr., III"), PersonName("Ford, Jr., III, Henry")
-        )
+        self.assertEqual(PersonName("Henry Ford, Jr., III"), PersonName("Ford, Jr., III, Henry"))
         self.assertEqual(PersonName("Jones, John Paul"), PersonName("John Paul Jones"))
 
     def test_could_be(self):
-        self.assertTrue(
-            PersonName("G. Bluth").could_be(PersonName("George Oscar Bluth Jr."))
-        )
-        self.assertFalse(
-            PersonName("G. Bluth Sr.").could_be(PersonName("George Oscar Bluth Jr."))
-        )
-        self.assertFalse(
-            PersonName("Oscar Bluth").could_be(PersonName("George Oscar Bluth"))
-        )
-        self.assertTrue(
-            PersonName("J F K").could_be(PersonName('John Fitzgerald "Jack" Kennedy'))
-        )
+        self.assertTrue(PersonName("G. Bluth").could_be(PersonName("George Oscar Bluth Jr.")))
+        self.assertFalse(PersonName("G. Bluth Sr.").could_be(PersonName("George Oscar Bluth Jr.")))
+        self.assertFalse(PersonName("Oscar Bluth").could_be(PersonName("George Oscar Bluth")))
+        self.assertTrue(PersonName("J F K").could_be(PersonName('John Fitzgerald "Jack" Kennedy')))
 
 
 if __name__ == "__main__":

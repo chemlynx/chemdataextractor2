@@ -49,7 +49,7 @@ class LazyCorpusLoader:
         return getattr(self, attr)
 
     def __repr__(self):
-        return "<%s in %r (not loaded yet)>" % (
+        return "<{} in {!r} (not loaded yet)>".format(
             self.__reader_cls.__name__,
             ".../corpora/" + self.__name,
         )

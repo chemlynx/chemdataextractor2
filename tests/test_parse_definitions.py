@@ -4,7 +4,6 @@ Test definition parsers
 
 """
 
-
 import logging
 import unittest
 

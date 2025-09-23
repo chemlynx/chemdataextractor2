@@ -22,8 +22,8 @@ if TYPE_CHECKING:
     from ..parse.base import BaseParserElement
 
 # Type aliases for entities
-EntityTag = Union[str, List[str]]  # Tag(s) for entity classification
-TextSpan = Tuple[int, int]  # Start and end positions in text
+type EntityTag = str | list[str]  # Tag(s) for entity classification
+type TextSpan = tuple[int, int]  # Start and end positions in text
 
 
 class Entity:

@@ -27,7 +27,7 @@ class ChargeModel(QuantityModel):
 
 class ChargeUnit(Unit):
     def __init__(self, magnitude=0.0, powers=None):
-        super(ChargeUnit, self).__init__(Charge(), magnitude, powers)
+        super().__init__(Charge(), magnitude, powers)
 
 
 class Coulomb(ChargeUnit):

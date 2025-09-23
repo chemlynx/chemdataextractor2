@@ -54,7 +54,7 @@ def file_processing_examples():
             # Show document structure
             print("  Document elements:")
             for i, element in enumerate(doc.elements):
-                print(f"    {i+1}. {element.__class__.__name__}: {str(element)[:50]}...")
+                print(f"    {i + 1}. {element.__class__.__name__}: {str(element)[:50]}...")
 
         except Exception as e:
             print(f"  Error processing HTML: {e}")
@@ -200,7 +200,7 @@ def table_processing_examples():
     for i, element in enumerate(doc.elements):
         element_type = element.__class__.__name__
         content_preview = str(element)[:60].replace("\n", " ")
-        print(f"  {i+1}. {element_type}: {content_preview}...")
+        print(f"  {i + 1}. {element_type}: {content_preview}...")
 
     print("\n2. Extracted records from table:")
     records = doc.records
@@ -337,7 +337,9 @@ def data_validation_examples():
     print(f"  Total compounds: {len(compounds)}")
     print(f"  Complete records (name + properties): {complete_records}")
     print(
-        f"  Completeness rate: {complete_records/len(compounds)*100:.1f}%" if compounds else "N/A"
+        f"  Completeness rate: {complete_records / len(compounds) * 100:.1f}%"
+        if compounds
+        else "N/A"
     )
 
     print("\n" + "-" * 50 + "\n")
@@ -422,7 +424,7 @@ def integration_examples():
     for db_record in database_records[:2]:  # Show first 2
         print(f"   {json.dumps(db_record, indent=4)}")
     if len(database_records) > 2:
-        print(f"   ... and {len(database_records)-2} more records")
+        print(f"   ... and {len(database_records) - 2} more records")
 
     print("\n" + "-" * 50 + "\n")
 

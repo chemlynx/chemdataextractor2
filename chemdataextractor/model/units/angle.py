@@ -37,7 +37,7 @@ class AngleUnit(Unit):
     """
 
     def __init__(self, magnitude=0.0, powers=None):
-        super(AngleUnit, self).__init__(Angle(), magnitude, powers)
+        super().__init__(Angle(), magnitude, powers)
 
 
 class Degrees(AngleUnit):

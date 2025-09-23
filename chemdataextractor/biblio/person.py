@@ -392,12 +392,12 @@ class PersonName(dict):
         :param str fullname: The person's name.
         :param bool from_bibtex: (Optional) Whether the fullname parameter is in BibTeX format. Default False.
         """
-        super(PersonName, self).__init__()
+        super().__init__()
         self._from_bibtex = from_bibtex
         self.fullname = fullname
 
     def __repr__(self):
-        return "%s(%r)" % (self.__class__.__name__, self.fullname)
+        return f"{self.__class__.__name__}({self.fullname!r})"
 
     def __str__(self):
         return dict.__repr__(self)
@@ -568,5 +568,5 @@ class PersonName(dict):
             "suffix",
         ]:
             if attr in self:
-                namelist.append('"%s"' % self[attr] if attr == "nickname" else self[attr])
+                namelist.append(f'"{self[attr]}"' if attr == "nickname" else self[attr])
         self["fullname"] = " ".join(namelist)

@@ -126,7 +126,7 @@ def analyze_document_structure(file_path):
         if experimental_elements:
             print(f"Found {len(experimental_elements)} potentially experimental elements:")
             for i, (idx, elem_type, text) in enumerate(experimental_elements[:10]):
-                print(f"  {i+1}. Element {idx} ({elem_type}): {text}")
+                print(f"  {i + 1}. Element {idx} ({elem_type}): {text}")
         else:
             print("No obvious experimental sections found")
 

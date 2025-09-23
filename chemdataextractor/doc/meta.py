@@ -12,7 +12,7 @@ log = logging.getLogger(__name__)
 
 class MetaData(BaseElement):
     def __init__(self, data):
-        super(MetaData, self).__init__()
+        super().__init__()
         self._data = data
         self._title = None
         self._authors = None

@@ -356,27 +356,17 @@ class Evaluate:
         print("", file=destination)
         if (self.nc + self.nw) != 0:
             print(
-                "Total precision                      = {:4.2f}, {}/{}".format(
-                    (self.nc / (self.nc + self.nw)), self.nc, self.nc + self.nw
-                ),
+                f"Total precision                      = {self.nc / (self.nc + self.nw):4.2f}, {self.nc}/{self.nc + self.nw}",
                 file=destination,
             )
         if (self.nc + self.nw - self.nw_autosentence) != 0:
             print(
-                "Precision without AutoSentenceParser = {:4.2f}, {}/{}   ---> Approximation".format(
-                    (self.nc - self.nc_autosentence) / (self.nc + self.nw - self.nw_autosentence),
-                    (self.nc - self.nc_autosentence),
-                    (self.nc + self.nw - self.nw_autosentence),
-                ),
+                f"Precision without AutoSentenceParser = {(self.nc - self.nc_autosentence) / (self.nc + self.nw - self.nw_autosentence):4.2f}, {self.nc - self.nc_autosentence}/{self.nc + self.nw - self.nw_autosentence}   ---> Approximation",
                 file=destination,
             )
         if (self.nc + self.nw - self.nw_cer) != 0:
             print(
-                "Precision without CER Errors         = {:4.2f}, {}/{}".format(
-                    (self.nc / (self.nc + self.nw - self.nw_cer)),
-                    self.nc,
-                    (self.nc + self.nw - self.nw_cer),
-                ),
+                f"Precision without CER Errors         = {self.nc / (self.nc + self.nw - self.nw_cer):4.2f}, {self.nc}/{self.nc + self.nw - self.nw_cer}",
                 file=destination,
             )
         if (self.nc + self.nw - self.nw_autosentence - self.nw_cer) != 0:
@@ -391,57 +381,35 @@ class Evaluate:
             )
         if (self.nc_table + self.nw_table) != 0:
             print(
-                "Table Precision                      = {:4.2f}, {}/{}".format(
-                    self.nc_table / (self.nc_table + self.nw_table),
-                    self.nc_table,
-                    (self.nc_table + self.nw_table),
-                ),
+                f"Table Precision                      = {self.nc_table / (self.nc_table + self.nw_table):4.2f}, {self.nc_table}/{self.nc_table + self.nw_table}",
                 file=destination,
             )
         if self.nw_table != 0:
             print(
-                "   TDE Errors within Table Errors    = {:4.2f}, {}/{}".format(
-                    self.nw_table_tde / self.nw_table, self.nw_table_tde, self.nw_table
-                ),
+                f"   TDE Errors within Table Errors    = {self.nw_table_tde / self.nw_table:4.2f}, {self.nw_table_tde}/{self.nw_table}",
                 file=destination,
             )
             print(
-                "   CDE Errors within Table Errors    = {:4.2f}, {}/{}".format(
-                    self.nw_table_cde / self.nw_table, self.nw_table_cde, self.nw_table
-                ),
+                f"   CDE Errors within Table Errors    = {self.nw_table_cde / self.nw_table:4.2f}, {self.nw_table_cde}/{self.nw_table}",
                 file=destination,
             )
         if (self.nc_template + self.nw_template) != 0:
             print(
-                "Template Precision                   = {:4.2f}, {}/{}".format(
-                    self.nc_template / (self.nc_template + self.nw_template),
-                    self.nc_template,
-                    (self.nc_template + self.nw_template),
-                ),
+                f"Template Precision                   = {self.nc_template / (self.nc_template + self.nw_template):4.2f}, {self.nc_template}/{self.nc_template + self.nw_template}",
                 file=destination,
             )
         if (self.nc_snowball + self.nw_snowball) != 0:
             print(
-                "Snowball Precision                   = {:4.2f}, {}/{}".format(
-                    self.nc_snowball / (self.nc_snowball + self.nw_snowball),
-                    self.nc_snowball,
-                    (self.nc_snowball + self.nw_snowball),
-                ),
+                f"Snowball Precision                   = {self.nc_snowball / (self.nc_snowball + self.nw_snowball):4.2f}, {self.nc_snowball}/{self.nc_snowball + self.nw_snowball}",
                 file=destination,
             )
         if (self.nc_definition + self.nw_definition) != 0:
             print(
-                "Definitions update Precision         = {:4.2f}, {}/{}".format(
-                    self.nc_definition / (self.nc_definition + self.nw_definition),
-                    self.nc_definition,
-                    (self.nc_definition + self.nw_definition),
-                ),
+                f"Definitions update Precision         = {self.nc_definition / (self.nc_definition + self.nw_definition):4.2f}, {self.nc_definition}/{self.nc_definition + self.nw_definition}",
                 file=destination,
             )
         if self.nw != 0:
             print(
-                "Percentage of 'other' errors         = {:4.2f}, {}/{}".format(
-                    self.nw_other / self.nw, self.nw_other, self.nw
-                ),
+                f"Percentage of 'other' errors         = {self.nw_other / self.nw:4.2f}, {self.nw_other}/{self.nw}",
                 file=destination,
             )

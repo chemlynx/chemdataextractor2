@@ -28,7 +28,7 @@ class TestNormalization(unittest.TestCase):
         # Unusual whitespace characters
         self.assertEqual(
             "The quick brown fox jumped",
-            normalize("The\u00A0quick\u2000brown\u2008fox\u000Bjumped"),
+            normalize("The\u00a0quick\u2000brown\u2008fox\u000bjumped"),
         )
         # u2024 instead of full stop
         self.assertEqual("www.bbc.co.uk", normalize("www\u2024bbc\u2024co\u2024uk"))
@@ -59,19 +59,13 @@ class TestLaTeX(unittest.TestCase):
             "Feng, Wen-mei Hwu",
             latex_to_unicode("Feng, Wen{-mei} Hwu", capitalize="name"),
         )
-        self.assertEqual(
-            "McCartney, Paul", latex_to_unicode("McCartney, Paul", capitalize="name")
-        )
-        self.assertEqual(
-            "Leo MacGarry", latex_to_unicode("Leo MacGarry", capitalize="name")
-        )
+        self.assertEqual("McCartney, Paul", latex_to_unicode("McCartney, Paul", capitalize="name"))
+        self.assertEqual("Leo MacGarry", latex_to_unicode("Leo MacGarry", capitalize="name"))
         self.assertEqual(
             "Patrick O'Mahoney",
             latex_to_unicode("Patrick O'Mahoney", capitalize="name"),
         )
-        self.assertEqual(
-            "O'Boyle, Jim", latex_to_unicode("O'Boyle, Jim", capitalize="name")
-        )
+        self.assertEqual("O'Boyle, Jim", latex_to_unicode("O'Boyle, Jim", capitalize="name"))
 
     def test_latex_to_unicode_titles(self):
         self.assertEqual(
@@ -90,15 +84,11 @@ class TestLaTeX(unittest.TestCase):
     def test_latex_to_unicode_math(self):
         self.assertEqual(
             "[g,f]-colorings of Partial k-trees",
-            latex_to_unicode(
-                "$[g,f]$-colorings of Partial $k$-trees", capitalize="title"
-            ),
+            latex_to_unicode("$[g,f]$-colorings of Partial $k$-trees", capitalize="title"),
         )
         self.assertEqual(
             "On K_3,3-free or K_5-free Graphs",
-            latex_to_unicode(
-                "On {$K_{3,3}$}-free or {$K_5$}-free graphs", capitalize="title"
-            ),
+            latex_to_unicode("On {$K_{3,3}$}-free or {$K_5$}-free graphs", capitalize="title"),
         )
         self.assertEqual(
             "Clique-width \u22643 Graphs",
@@ -123,9 +113,7 @@ class TestExtraction(unittest.TestCase):
         """Test extract_urls function."""
         self.assertEqual(
             ["matt+test@example.com", "test%what@example.com"],
-            extract_emails(
-                "Send to <matt+test@example.com> or <test%what@example.com>"
-            ),
+            extract_emails("Send to <matt+test@example.com> or <test%what@example.com>"),
         )
         self.assertEqual(
             ["example@example.com"], extract_emails("The email is example@example.com.")
@@ -134,9 +122,7 @@ class TestExtraction(unittest.TestCase):
             ["matt@server.department.company.ac.uk"],
             extract_emails("What about <matt@server.department.company.ac.uk>?"),
         )
-        self.assertEqual(
-            [], extract_emails("Invalid - matt@me...com, hithere@ex*ample.com")
-        )
+        self.assertEqual([], extract_emails("Invalid - matt@me...com, hithere@ex*ample.com"))
 
 
 if __name__ == "__main__":

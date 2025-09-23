@@ -77,12 +77,12 @@ class ApPosTagger(ApTagger):
         w = self.lexicon[context[i]]
         features = [
             "bias",
-            "w:shape=%s" % w.shape,
-            "w:lower=%s" % w.lower,
-            "p1:tag=%s" % prev,
-            "p2:tag=%s" % prev2,
-            "p1:tag+w:lower=%s+%s" % (prev, w.lower),
-            "p1:tag+p2:tag=%s+%s" % (prev, prev2),
+            f"w:shape={w.shape}",
+            f"w:lower={w.lower}",
+            f"p1:tag={prev}",
+            f"p2:tag={prev2}",
+            f"p1:tag+w:lower={prev}+{w.lower}",
+            f"p1:tag+p2:tag={prev}+{prev2}",
         ]
         if w.like_number:
             features.append("w:like_number")
@@ -93,13 +93,13 @@ class ApPosTagger(ApTagger):
         else:
             features.extend(
                 [
-                    "w:suffix2=%s" % w.lower[-2:],
-                    "w:suffix3=%s" % w.lower[-3:],
-                    "w:suffix4=%s" % w.lower[-4:],
-                    "w:suffix5=%s" % w.lower[-5:],
-                    "w:prefix1=%s" % w.lower[:1],
-                    "w:prefix2=%s" % w.lower[:2],
-                    "w:prefix3=%s" % w.lower[:3],
+                    f"w:suffix2={w.lower[-2:]}",
+                    f"w:suffix3={w.lower[-3:]}",
+                    f"w:suffix4={w.lower[-4:]}",
+                    f"w:suffix5={w.lower[-5:]}",
+                    f"w:prefix1={w.lower[:1]}",
+                    f"w:prefix2={w.lower[:2]}",
+                    f"w:prefix3={w.lower[:3]}",
                 ]
             )
             if w.is_alpha:
@@ -115,10 +115,10 @@ class ApPosTagger(ApTagger):
         if self.clusters and w.cluster:
             features.extend(
                 [
-                    "w:cluster4=%s" % w.cluster[:4],
-                    "w:cluster6=%s" % w.cluster[:6],
-                    "w:cluster10=%s" % w.cluster[:10],
-                    "w:cluster20=%s" % w.cluster[:20],
+                    f"w:cluster4={w.cluster[:4]}",
+                    f"w:cluster6={w.cluster[:6]}",
+                    f"w:cluster10={w.cluster[:10]}",
+                    f"w:cluster20={w.cluster[:20]}",
                 ]
             )
         # Add features for previous tokens if present
@@ -126,64 +126,64 @@ class ApPosTagger(ApTagger):
             p1 = self.lexicon[context[i - 1]]
             features.extend(
                 [
-                    "p1:lower=%s" % p1.lower,
-                    "p1:shape=%s" % p1.shape,
+                    f"p1:lower={p1.lower}",
+                    f"p1:shape={p1.shape}",
                 ]
             )
             if not (p1.like_number or p1.is_punct or p1.like_url):
-                features.append("p1:suffix3=%s" % p1.lower[-3:])
+                features.append(f"p1:suffix3={p1.lower[-3:]}")
             if self.clusters and p1.cluster:
                 features.extend(
                     [
-                        "p1:cluster4=%s" % p1.cluster[:4],
-                        "p1:cluster6=%s" % p1.cluster[:6],
-                        "p1:cluster10=%s" % p1.cluster[:10],
-                        "p1:cluster20=%s" % p1.cluster[:20],
+                        f"p1:cluster4={p1.cluster[:4]}",
+                        f"p1:cluster6={p1.cluster[:6]}",
+                        f"p1:cluster10={p1.cluster[:10]}",
+                        f"p1:cluster20={p1.cluster[:20]}",
                     ]
                 )
             if i > 1:
                 p2 = self.lexicon[context[i - 2]]
                 features.extend(
                     [
-                        "p2:lower=%s" % p2.lower,
-                        "p2:shape=%s" % p2.shape,
+                        f"p2:lower={p2.lower}",
+                        f"p2:shape={p2.shape}",
                     ]
                 )
                 if self.clusters and p2.cluster:
                     features.extend(
                         [
-                            "p2:cluster4=%s" % p2.cluster[:4],
-                            "p2:cluster6=%s" % p2.cluster[:6],
-                            "p2:cluster10=%s" % p2.cluster[:10],
-                            "p2:cluster20=%s" % p2.cluster[:20],
+                            f"p2:cluster4={p2.cluster[:4]}",
+                            f"p2:cluster6={p2.cluster[:6]}",
+                            f"p2:cluster10={p2.cluster[:10]}",
+                            f"p2:cluster20={p2.cluster[:20]}",
                         ]
                     )
         # Add features for next tokens if present
         end = len(context) - 1
         if i < end:
             n1 = self.lexicon[context[i + 1]]
-            features.extend(["n1:lower=%s" % n1.lower, "n1:shape=%s" % n1.shape])
+            features.extend([f"n1:lower={n1.lower}", f"n1:shape={n1.shape}"])
             if not (n1.like_number or n1.is_punct or n1.like_url):
-                features.append("n1:suffix3=%s" % n1.lower[-3:])
+                features.append(f"n1:suffix3={n1.lower[-3:]}")
             if self.clusters and n1.cluster:
                 features.extend(
                     [
-                        "n1:cluster4=%s" % n1.cluster[:4],
-                        "n1:cluster6=%s" % n1.cluster[:6],
-                        "n1:cluster10=%s" % n1.cluster[:10],
-                        "n1:cluster20=%s" % n1.cluster[:20],
+                        f"n1:cluster4={n1.cluster[:4]}",
+                        f"n1:cluster6={n1.cluster[:6]}",
+                        f"n1:cluster10={n1.cluster[:10]}",
+                        f"n1:cluster20={n1.cluster[:20]}",
                     ]
                 )
             if i < end - 1:
                 n2 = self.lexicon[context[i + 2]]
-                features.extend(["n2:lower=%s" % n2.lower, "n2:shape=%s" % n2.shape])
+                features.extend([f"n2:lower={n2.lower}", f"n2:shape={n2.shape}"])
                 if self.clusters and n2.cluster:
                     features.extend(
                         [
-                            "n2:cluster4=%s" % n2.cluster[:4],
-                            "n2:cluster6=%s" % n2.cluster[:6],
-                            "n2:cluster10=%s" % n2.cluster[:10],
-                            "n2:cluster20=%s" % n2.cluster[:20],
+                            f"n2:cluster4={n2.cluster[:4]}",
+                            f"n2:cluster6={n2.cluster[:6]}",
+                            f"n2:cluster10={n2.cluster[:10]}",
+                            f"n2:cluster20={n2.cluster[:20]}",
                         ]
                     )
         # Add position features
@@ -222,10 +222,10 @@ class CrfPosTagger(CrfTagger):
         token = tokens[i]
         w = self.lexicon[token]
         features = [
-            "w.shape=%s" % w.shape,
+            f"w.shape={w.shape}",
             # 'w.normalized=%s' % w.normalized,
-            "w.lower=%s" % w.lower,
-            "w.length=%s" % w.length,
+            f"w.lower={w.lower}",
+            f"w.length={w.length}",
         ]
         if w.like_number:
             features.append("w.like_number")
@@ -236,16 +236,16 @@ class CrfPosTagger(CrfTagger):
         else:
             features.extend(
                 [
-                    "w.suffix1=%s" % w.lower[-1:],
-                    "w.suffix2=%s" % w.lower[-2:],
-                    "w.suffix3=%s" % w.lower[-3:],
-                    "w.suffix4=%s" % w.lower[-4:],
-                    "w.suffix5=%s" % w.lower[-5:],
-                    "w.prefix1=%s" % w.lower[:1],
-                    "w.prefix2=%s" % w.lower[:2],
-                    "w.prefix3=%s" % w.lower[:3],
-                    "w.prefix4=%s" % w.lower[:4],
-                    "w.prefix5=%s" % w.lower[:5],
+                    f"w.suffix1={w.lower[-1:]}",
+                    f"w.suffix2={w.lower[-2:]}",
+                    f"w.suffix3={w.lower[-3:]}",
+                    f"w.suffix4={w.lower[-4:]}",
+                    f"w.suffix5={w.lower[-5:]}",
+                    f"w.prefix1={w.lower[:1]}",
+                    f"w.prefix2={w.lower[:2]}",
+                    f"w.prefix3={w.lower[:3]}",
+                    f"w.prefix4={w.lower[:4]}",
+                    f"w.prefix5={w.lower[:5]}",
                 ]
             )
             if w.is_alpha:
@@ -261,10 +261,10 @@ class CrfPosTagger(CrfTagger):
         if self.clusters and w.cluster:
             features.extend(
                 [
-                    "w.cluster4=%s" % w.cluster[:4],
-                    "w.cluster6=%s" % w.cluster[:6],
-                    "w.cluster10=%s" % w.cluster[:10],
-                    "w.cluster20=%s" % w.cluster[:20],
+                    f"w.cluster4={w.cluster[:4]}",
+                    f"w.cluster6={w.cluster[:6]}",
+                    f"w.cluster10={w.cluster[:10]}",
+                    f"w.cluster20={w.cluster[:20]}",
                 ]
             )
         # Add features for previous tokens if present
@@ -273,20 +273,20 @@ class CrfPosTagger(CrfTagger):
             p1 = self.lexicon[p1token]
             features.extend(
                 [
-                    "p1.lower=%s" % p1.lower,
-                    "p1.lower=%s+w.lower=%s" % (p1.lower, w.lower),
-                    "p1.shape=%s" % p1.shape,
+                    f"p1.lower={p1.lower}",
+                    f"p1.lower={p1.lower}+w.lower={w.lower}",
+                    f"p1.shape={p1.shape}",
                 ]
             )
             if not (p1.like_number or p1.is_punct or p1.like_url):
-                features.append("p1:suffix3=%s" % p1.lower[-3:])
+                features.append(f"p1:suffix3={p1.lower[-3:]}")
             if self.clusters and p1.cluster:
                 features.extend(
                     [
-                        "p1.cluster4=%s" % p1.cluster[:4],
-                        "p1.cluster6=%s" % p1.cluster[:6],
-                        "p1.cluster10=%s" % p1.cluster[:10],
-                        "p1.cluster20=%s" % p1.cluster[:20],
+                        f"p1.cluster4={p1.cluster[:4]}",
+                        f"p1.cluster6={p1.cluster[:6]}",
+                        f"p1.cluster10={p1.cluster[:10]}",
+                        f"p1.cluster20={p1.cluster[:20]}",
                     ]
                 )
             if i > 1:
@@ -294,19 +294,19 @@ class CrfPosTagger(CrfTagger):
                 p2 = self.lexicon[p2token]
                 features.extend(
                     [
-                        "p2.lower=%s" % p2.lower,
-                        "p2.lower=%s+p1.lower=%s" % (p2.lower, p1.lower),
-                        "p2.lower=%s+p1.lower=%s+w.lower=%s" % (p2.lower, p1.lower, w.lower),
-                        "p2.shape=%s" % p2.shape,
+                        f"p2.lower={p2.lower}",
+                        f"p2.lower={p2.lower}+p1.lower={p1.lower}",
+                        f"p2.lower={p2.lower}+p1.lower={p1.lower}+w.lower={w.lower}",
+                        f"p2.shape={p2.shape}",
                     ]
                 )
                 if self.clusters and p2.cluster:
                     features.extend(
                         [
-                            "p2.cluster4=%s" % p2.cluster[:4],
-                            "p2.cluster6=%s" % p2.cluster[:6],
-                            "p2.cluster10=%s" % p2.cluster[:10],
-                            "p2.cluster20=%s" % p2.cluster[:20],
+                            f"p2.cluster4={p2.cluster[:4]}",
+                            f"p2.cluster6={p2.cluster[:6]}",
+                            f"p2.cluster10={p2.cluster[:10]}",
+                            f"p2.cluster20={p2.cluster[:20]}",
                         ]
                     )
         # Add features for next tokens if present
@@ -316,20 +316,20 @@ class CrfPosTagger(CrfTagger):
             n1 = self.lexicon[n1token]
             features.extend(
                 [
-                    "n1.lower=%s" % n1.lower,
-                    "w.lower=%s+n1.lower=%s" % (w.lower, n1.lower),
-                    "n1.shape=%s" % n1.shape,
+                    f"n1.lower={n1.lower}",
+                    f"w.lower={w.lower}+n1.lower={n1.lower}",
+                    f"n1.shape={n1.shape}",
                 ]
             )
             if not (n1.like_number or n1.is_punct or n1.like_url):
-                features.append("n1.suffix3=%s" % n1.lower[-3:])
+                features.append(f"n1.suffix3={n1.lower[-3:]}")
             if self.clusters and n1.cluster:
                 features.extend(
                     [
-                        "n1.cluster4=%s" % n1.cluster[:4],
-                        "n1.cluster6=%s" % n1.cluster[:6],
-                        "n1.cluster10=%s" % n1.cluster[:10],
-                        "n1.cluster20=%s" % n1.cluster[:20],
+                        f"n1.cluster4={n1.cluster[:4]}",
+                        f"n1.cluster6={n1.cluster[:6]}",
+                        f"n1.cluster10={n1.cluster[:10]}",
+                        f"n1.cluster20={n1.cluster[:20]}",
                     ]
                 )
             if i < end - 1:
@@ -337,19 +337,19 @@ class CrfPosTagger(CrfTagger):
                 n2 = self.lexicon[n2token]
                 features.extend(
                     [
-                        "n2.lower=%s" % n2.lower,
-                        "n1.lower=%s+n2.lower=%s" % (n1.lower, n2.lower),
-                        "w.lower=%s+n1.lower=%s+n2.lower=%s" % (w.lower, n1.lower, n2.lower),
-                        "n2.shape=%s" % n2.shape,
+                        f"n2.lower={n2.lower}",
+                        f"n1.lower={n1.lower}+n2.lower={n2.lower}",
+                        f"w.lower={w.lower}+n1.lower={n1.lower}+n2.lower={n2.lower}",
+                        f"n2.shape={n2.shape}",
                     ]
                 )
                 if self.clusters and n2.cluster:
                     features.extend(
                         [
-                            "n2.cluster4=%s" % n2.cluster[:4],
-                            "n2.cluster6=%s" % n2.cluster[:6],
-                            "n2.cluster10=%s" % n2.cluster[:10],
-                            "n2.cluster20=%s" % n2.cluster[:20],
+                            f"n2.cluster4={n2.cluster[:4]}",
+                            f"n2.cluster6={n2.cluster[:6]}",
+                            f"n2.cluster10={n2.cluster[:10]}",
+                            f"n2.cluster20={n2.cluster[:20]}",
                         ]
                     )
         if i == 0:

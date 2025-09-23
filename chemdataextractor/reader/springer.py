@@ -106,7 +106,8 @@ class SpringerHtmlReader(HtmlReader):
     figure_caption_css = "figcaption"
     figure_label_css = 'figcaption span[class^="CaptionNumber"]'
     # citation_css = 'ce|bib-reference'
-    ignore_css = 'a[class="skip-to__link pseudo-focus"], div[class="nojs-banner u-interface"], a[class="skip-to__link skip-to__link--contents pseudo-focus"],\
+    ignore_css = (
+        'a[class="skip-to__link pseudo-focus"], div[class="nojs-banner u-interface"], a[class="skip-to__link skip-to__link--contents pseudo-focus"],\
                   p[class="leaderboard__label"], div[class="u-screenreader-only"], label[for="search-springerlink"], span[class="search-button__title"],\
                   span[class="u-overflow-ellipsis"], span[class="u-overflow-ellipsis"], a[class="c-button c-button--blue c-button__icon-right gtm-pdf-link"],\
                   div[class="leaderboard u-hide"], title, li[class="article-metrics__item"], aside[class="section section--collapsible"], a[class="gtm-cite-link"],\
@@ -117,6 +118,7 @@ class SpringerHtmlReader(HtmlReader):
                   a[class="gtm-export-citation"], ul[class="citations__content"], h3[data-role="button-dropdown__title"],\
                   div[class="section section--collapsible uptodate-recommendations gtm-recommendations"], span[class="InlineEquation"], div[class="EquationContent"],\
                   div[class="EquationNumber"], footer'
+    )
 
     def detect(self, fstring, fname=None):
         """"""

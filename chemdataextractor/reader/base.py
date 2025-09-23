@@ -20,7 +20,7 @@ if TYPE_CHECKING:
     from ..doc.document import Document
 
 # Type aliases for file-like objects
-FileInput = Union[str, bytes, BinaryIO, TextIO]
+type FileInput = str | bytes | BinaryIO | TextIO
 
 
 class BaseReader(metaclass=ABCMeta):
@@ -35,9 +35,9 @@ class BaseReader(metaclass=ABCMeta):
 
     def __init__(self) -> None:
         """Initialize the reader."""
-        self.root: Optional[Any] = None
+        self.root: Any | None = None
 
-    def detect(self, fstring: Union[str, bytes], fname: Optional[str] = None) -> bool:
+    def detect(self, fstring: str | bytes, fname: str | None = None) -> bool:
         """Quickly check if this reader can parse the input.
 
         Reader subclasses should override this method to provide format detection.
@@ -54,7 +54,7 @@ class BaseReader(metaclass=ABCMeta):
         return True
 
     @abstractmethod
-    def parse(self, fstring: Union[str, bytes]) -> Document:
+    def parse(self, fstring: str | bytes) -> Document:
         """Parse the input and return a Document.
 
         Args:
@@ -68,7 +68,7 @@ class BaseReader(metaclass=ABCMeta):
         """
         pass
 
-    def read(self, f: Union[BinaryIO, TextIO]) -> Document:
+    def read(self, f: BinaryIO | TextIO) -> Document:
         """Read a file-like object and return a Document.
 
         Args:
@@ -79,7 +79,7 @@ class BaseReader(metaclass=ABCMeta):
         """
         return self.parse(f.read())
 
-    def readstring(self, fstring: Union[str, bytes]) -> Document:
+    def readstring(self, fstring: str | bytes) -> Document:
         """Read a file string and return a Document.
 
         Args:

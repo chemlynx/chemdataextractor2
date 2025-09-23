@@ -31,22 +31,16 @@ class TestSelector(unittest.TestCase):
         selector = Selector.from_text(HTML)
         self.assertEqual(len(selector.xpath(".//div")), 4)
         self.assertEqual(selector.xpath(".//a").extract(), ["Link"])
-        self.assertEqual(
-            selector.xpath(".//a").extract(raw=True), ['<a href="page">Link</a>']
-        )
+        self.assertEqual(selector.xpath(".//a").extract(raw=True), ['<a href="page">Link</a>'])
         self.assertEqual(selector.xpath(".//a/text()").extract(), ["Link"])
         self.assertEqual(selector.xpath(".//a/@href").extract(), ["page"])
-        self.assertEqual(
-            selector.xpath("/html/body/div/h1/text()").extract(), ["Heading"]
-        )
+        self.assertEqual(selector.xpath("/html/body/div/h1/text()").extract(), ["Heading"])
 
     def test_html_css(self):
         selector = Selector.from_text(HTML)
         self.assertEqual(len(selector.css("div")), 4)
         self.assertEqual(selector.css("a").extract(), ["Link"])
-        self.assertEqual(
-            selector.css("a").extract(raw=True), ['<a href="page">Link</a>']
-        )
+        self.assertEqual(selector.css("a").extract(raw=True), ['<a href="page">Link</a>'])
         self.assertEqual(selector.css("a::text").extract(), ["Link"])
         self.assertEqual(selector.css("a::attr(href)").extract(), ["page"])
         self.assertEqual(selector.css("html>body>div>h1::text").extract(), ["Heading"])

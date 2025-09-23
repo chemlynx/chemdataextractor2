@@ -20,7 +20,7 @@ if TYPE_CHECKING:
     pass
 
 # Type aliases for abbreviation detection
-AbbreviationDef = Tuple[List[str], List[str], str]  # (definition_tokens, abbrev_tokens, abbrev_str)
+AbbreviationDef = tuple[list[str], list[str], str]  # (definition_tokens, abbrev_tokens, abbrev_str)
 
 log = logging.getLogger(__name__)
 
@@ -44,13 +44,13 @@ class AbbreviationDetector:
     #: Maximum abbreviation length
     abbr_max: int = 10
     #: String equivalents to use when detecting abbreviations.
-    abbr_equivs: List[str] = []
+    abbr_equivs: list[str] = []
 
     def __init__(
         self,
-        abbr_min: Optional[int] = None,
-        abbr_max: Optional[int] = None,
-        abbr_equivs: Optional[List[str]] = None,
+        abbr_min: int | None = None,
+        abbr_max: int | None = None,
+        abbr_equivs: list[str] | None = None,
     ) -> None:
         """Initialize abbreviation detector.
 
@@ -63,7 +63,7 @@ class AbbreviationDetector:
         self.abbr_max = abbr_max if abbr_max is not None else self.abbr_max
         self.abbr_equivs = abbr_equivs if abbr_equivs is not None else self.abbr_equivs
 
-    def _is_allowed_abbr(self, tokens: List[str]) -> bool:
+    def _is_allowed_abbr(self, tokens: list[str]) -> bool:
         """Check if token sequence is an allowed abbreviation.
 
         Args:

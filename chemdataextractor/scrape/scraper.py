@@ -38,7 +38,7 @@ class GetRequester(BaseRequester):
         :returns: The response to the request.
         :rtype: requests.Response
         """
-        log.debug("Making request: GET %s %s" % (url, kwargs))
+        log.debug(f"Making request: GET {url} {kwargs}")
         return session.get(url, **kwargs)
 
 
@@ -51,7 +51,7 @@ class PostRequester(BaseRequester):
         :returns: The response to the request.
         :rtype: requests.Response
         """
-        log.debug("Making request: POST %s %s" % (url, kwargs))
+        log.debug(f"Making request: POST {url} {kwargs}")
         return session.post(url, **kwargs)
 
 

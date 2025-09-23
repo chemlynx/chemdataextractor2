@@ -38,7 +38,7 @@ class TimeUnit(Unit):
         Base class for units with dimensions of time.
         The standard value for time is defined to be a second, implemented in the Second class.
         """
-        super(TimeUnit, self).__init__(Time(), magnitude, powers)
+        super().__init__(Time(), magnitude, powers)
 
 
 class Second(TimeUnit):

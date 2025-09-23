@@ -13,7 +13,7 @@ import re
 from abc import ABCMeta
 from abc import abstractmethod
 from typing import TYPE_CHECKING
-from typing import Iterator
+from collections.abc import Iterator
 from typing import List
 from typing import Optional
 from typing import Set
@@ -31,8 +31,8 @@ if TYPE_CHECKING:
     pass
 
 # Type aliases for tokenization
-TokenSpan = Tuple[int, int]  # Start and end positions of tokens
-TokenList = List[str]  # List of token strings
+TokenSpan = tuple[int, int]  # Start and end positions of tokens
+TokenList = list[str]  # List of token strings
 
 log = logging.getLogger(__name__)
 
@@ -112,15 +112,15 @@ class SentenceTokenizer(BaseTokenizer):
 
     model: str = "models/punkt_english.pickle"  # This is available from NLTK
 
-    def __init__(self, model: Optional[str] = None) -> None:
+    def __init__(self, model: str | None = None) -> None:
         """Initialize sentence tokenizer.
 
         Args:
             model: Optional[str] - Path to custom Punkt model file
         """
         self.model = model if model is not None else self.model
-        self._tokenizer: Optional[object] = None  # NLTK tokenizer instance
-        log.debug("%s: Initializing with %s" % (self.__class__.__name__, self.model))
+        self._tokenizer: object | None = None  # NLTK tokenizer instance
+        log.debug(f"{self.__class__.__name__}: Initializing with {self.model}")
 
     def get_sentences(self, text: object) -> list[object]:  # Text -> list[Sentence]
         """Get sentence objects from text using tokenization.
@@ -173,7 +173,7 @@ class WordTokenizer(BaseTokenizer):
     """
 
     #: Split before and after these sequences, wherever they occur, unless entire token is one of these sequences
-    SPLIT: List[str] = [
+    SPLIT: list[str] = [
         "----",
         "––––",  # \u2013 en dash
         "————",  # \u2014 em dash
@@ -331,7 +331,7 @@ class WordTokenizer(BaseTokenizer):
         ("'twas", 2),
     ]
     #: Don't split these sequences.
-    NO_SPLIT: Set[str] = {"mm-hm", "mm-mm", "o-kay", "uh-huh", "uh-oh", "wanna-be"}
+    NO_SPLIT: set[str] = {"mm-hm", "mm-mm", "o-kay", "uh-huh", "uh-oh", "wanna-be"}
     #: Don't split around hyphens with these prefixes
     NO_SPLIT_PREFIX = {
         "e",
@@ -1879,7 +1879,7 @@ class FineWordTokenizer(WordTokenizer):
                     return [(span[0], span[0] + i + 1), (span[0] + i + 1, span[1])]
 
         # Perform all normal WordTokenizer splits
-        return super(FineWordTokenizer, self)._subspan(s, span, nextspan, additional_regex)
+        return super()._subspan(s, span, nextspan, additional_regex)
 
 
 class BertWordTokenizer(ChemWordTokenizer):

@@ -124,9 +124,7 @@ class TestMultiScrape(unittest.TestCase):
         """Test the EntityList class."""
         self.assertIsInstance(self.blogs, EntityList)
         self.assertEqual(len(self.blogs), 3)
-        self.assertEqual(
-            [s.title for s in self.blogs[1:]], ["Second article", "Third article"]
-        )
+        self.assertEqual([s.title for s in self.blogs[1:]], ["Second article", "Third article"])
 
     def test_serialize(self):
         """Test serialization of results to a list of dictionaries."""
@@ -183,9 +181,7 @@ class TestComplexScrape(unittest.TestCase):
         """Test the ScrapeResults class."""
         self.assertIsInstance(self.scrapes, EntityList)
         self.assertEqual(len(self.scrapes), 3)
-        self.assertEqual(
-            [s.title for s in self.scrapes[1:]], ["Second article", "Third article"]
-        )
+        self.assertEqual([s.title for s in self.scrapes[1:]], ["Second article", "Third article"])
 
     def test_serialize(self):
         """Test serialization of results to a list of dictionaries."""
@@ -226,9 +222,7 @@ class TestCssScrape(unittest.TestCase):
     """Test scrape using CSS selectors."""
 
     def setUp(self):
-        self.scrapes = ArticleC.scrape(
-            Selector.from_text(COMPLEX_HTML), root="html>body>div"
-        )
+        self.scrapes = ArticleC.scrape(Selector.from_text(COMPLEX_HTML), root="html>body>div")
 
     def test_scrape_multiple(self):
         """Test using the scrape classmethod to get multiple scrapes from the same HTML."""
@@ -243,9 +237,7 @@ class TestCssScrape(unittest.TestCase):
         """Test the ScrapeResults class."""
         self.assertIsInstance(self.scrapes, EntityList)
         self.assertEqual(len(self.scrapes), 3)
-        self.assertEqual(
-            [s.title for s in self.scrapes[1:]], ["Second article", "Third article"]
-        )
+        self.assertEqual([s.title for s in self.scrapes[1:]], ["Second article", "Third article"])
 
     def test_serialize(self):
         """Test serialization of results to a list of dictionaries."""

@@ -4,15 +4,13 @@ import numbers
 from functools import total_ordering
 from typing import TYPE_CHECKING
 from typing import Any
-from typing import Dict
-from typing import Union
 
 if TYPE_CHECKING:
     pass
 
 # Type aliases for contextual distance calculations
-RangeCount = Dict["ContextualRange", float]  # Maps range types to counts
-NumericValue = Union[int, float]  # Numeric values for range calculations
+type RangeCount = dict["ContextualRange", float]  # Maps range types to counts
+type NumericValue = int | float  # Numeric values for range calculations
 
 
 @total_ordering

@@ -24,13 +24,13 @@ class StringField(BaseField):
         :param bool upper: (Optional) Whether to uppercase the string. Default False.
         :param bool strip: (Optional) Whether to strip whitespace from start/end. Default False.
         """
-        super(StringField, self).__init__(selection, **kwargs)
+        super().__init__(selection, **kwargs)
         self.lower = lower
         self.upper = upper
         self.strip = strip
 
     def process(self, value):
-        value = super(StringField, self).process(value)
+        value = super().process(value)
         if value is not None:
             if self.strip:
                 value = value.strip()
@@ -50,10 +50,10 @@ class UrlField(StringField):
         :param strip_querystring: (Optional) Whether to remove the querystring. Default False.
         """
         self.strip_querystring = strip_querystring
-        super(UrlField, self).__init__(selection, **kwargs)
+        super().__init__(selection, **kwargs)
 
     def process(self, value):
-        value = super(UrlField, self).process(value)
+        value = super().process(value)
         if value is not None and self.strip_querystring:
             value = strip_querystring(value)
         return value
@@ -68,7 +68,7 @@ class EntityField(BaseField):
         :param entity: The embedded entity.
         """
         self.entity = entity
-        super(EntityField, self).__init__(selection, **kwargs)
+        super().__init__(selection, **kwargs)
 
     def scrape(self, selector, cleaner=None, processor=None):
         """Scrape the value for this field from the selector."""
@@ -115,7 +115,7 @@ class BoolField(BaseField):
         """
         self.true = re.compile(true, re.U) if isinstance(true, str) else true
         self.false = re.compile(false, re.U) if isinstance(false, str) else false
-        super(BoolField, self).__init__(selection, **kwargs)
+        super().__init__(selection, **kwargs)
 
     def process(self, value):
         if self.true.match(value):

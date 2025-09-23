@@ -217,7 +217,7 @@ def performance_tips():
 
     all_records = []
     for i, text in enumerate(documents):
-        print(f"  Processing document {i+1}...")
+        print(f"  Processing document {i + 1}...")
         doc = Document(text)
         records = doc.records
         all_records.extend(records)

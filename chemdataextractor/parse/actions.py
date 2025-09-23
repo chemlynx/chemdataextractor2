@@ -18,8 +18,8 @@ from lxml.etree import strip_tags
 from ..text import HYPHENS
 
 # Type aliases for parse actions
-TokenList = List[str]  # List of tokens
-ParseResult = List[Any]  # List of XML elements from parsing
+TokenList = list[str]  # List of tokens
+ParseResult = list[Any]  # List of XML elements from parsing
 
 log = logging.getLogger(__name__)
 
@@ -88,7 +88,7 @@ def fix_whitespace(tokens, start, result):
             if child.text:
                 child.text = child.text.replace(" , ", ", ")
                 for hyphen in HYPHENS:
-                    child.text = child.text.replace(" %s " % hyphen, "%s" % hyphen)
+                    child.text = child.text.replace(f" {hyphen} ", f"{hyphen}")
                 child.text = re.sub(r"- (.) -", r"-\1-", child.text)
                 child.text = child.text.replace(" -", "-")
                 child.text = child.text.replace(" : ", ":").replace(" ) ", ")")

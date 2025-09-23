@@ -27,7 +27,7 @@ class PowerModel(QuantityModel):
 
 class PowerUnit(Unit):
     def __init__(self, magnitude=0.0, powers=None):
-        super(PowerUnit, self).__init__(Power(), magnitude, powers)
+        super().__init__(Power(), magnitude, powers)
 
 
 class Watt(PowerUnit):

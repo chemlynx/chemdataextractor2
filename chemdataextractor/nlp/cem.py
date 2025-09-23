@@ -31,13 +31,13 @@ if TYPE_CHECKING:
 
 # Type aliases for CEM tagging
 CEMTag = str  # Chemical entity mention tag (e.g., 'B-CM', 'I-CM')
-TokenTags = List[Tuple[str, CEMTag]]  # List of (token, tag) pairs
+TokenTags = list[tuple[str, CEMTag]]  # List of (token, tag) pairs
 
 log = logging.getLogger(__name__)
 
 
 #: Token endings to ignore when considering stopwords and deriving spans
-IGNORE_SUFFIX: List[str] = [
+IGNORE_SUFFIX: list[str] = [
     # Many of these are now unnecessary due to tokenization improvements, but not much harm in leaving them here.
     "-",
     "'s",
@@ -2282,7 +2282,7 @@ class CrfCemTagger(CrfTagger):
     lexicon: ChemLexicon = ChemLexicon()
     clusters: bool = True
 
-    params: Dict[str, Any] = {
+    params: dict[str, Any] = {
         "c1": 1.0,  # Coefficient for L1 regularization (OWL-QN). Default 0.
         "c2": 0.001,  # Coefficient for L2 regularization. Default 1.
         "max_iterations": 200,  # The maximum number of iterations for L-BFGS optimization. Default INT_MAX.
@@ -2326,14 +2326,14 @@ class CrfCemTagger(CrfTagger):
         tag = tokens[i][POS_TAG_TYPE]
         w = self.lexicon[token]
         features = [
-            "w.shape=%s" % w.shape,
-            "w.normalized=%s" % w.normalized,
-            "w.lower=%s" % w.lower,
-            "w.length=%s" % w.length,
-            "w.digit_count=%s" % w.digit_count,
-            "w.upper_count=%s" % w.upper_count,
-            "w.lower_count=%s" % w.lower_count,
-            "w.tag=%s" % tag,
+            f"w.shape={w.shape}",
+            f"w.normalized={w.normalized}",
+            f"w.lower={w.lower}",
+            f"w.length={w.length}",
+            f"w.digit_count={w.digit_count}",
+            f"w.upper_count={w.upper_count}",
+            f"w.lower_count={w.lower_count}",
+            f"w.tag={tag}",
         ]
         if w.like_number:
             features.append("w.like_number")
@@ -2344,16 +2344,16 @@ class CrfCemTagger(CrfTagger):
         else:
             features.extend(
                 [
-                    "w.suffix1=%s" % w.lower[-1:],
-                    "w.suffix2=%s" % w.lower[-2:],
-                    "w.suffix3=%s" % w.lower[-3:],
-                    "w.suffix4=%s" % w.lower[-4:],
-                    "w.suffix5=%s" % w.lower[-5:],
-                    "w.prefix1=%s" % w.lower[:1],
-                    "w.prefix2=%s" % w.lower[:2],
-                    "w.prefix3=%s" % w.lower[:3],
-                    "w.prefix4=%s" % w.lower[:4],
-                    "w.prefix5=%s" % w.lower[:5],
+                    f"w.suffix1={w.lower[-1:]}",
+                    f"w.suffix2={w.lower[-2:]}",
+                    f"w.suffix3={w.lower[-3:]}",
+                    f"w.suffix4={w.lower[-4:]}",
+                    f"w.suffix5={w.lower[-5:]}",
+                    f"w.prefix1={w.lower[:1]}",
+                    f"w.prefix2={w.lower[:2]}",
+                    f"w.prefix3={w.lower[:3]}",
+                    f"w.prefix4={w.lower[:4]}",
+                    f"w.prefix5={w.lower[:5]}",
                 ]
             )
             if w.is_alpha:
@@ -2369,10 +2369,10 @@ class CrfCemTagger(CrfTagger):
         if self.clusters and w.cluster:
             features.extend(
                 [
-                    "w.cluster4=%s" % w.cluster[:4],
-                    "w.cluster6=%s" % w.cluster[:6],
-                    "w.cluster10=%s" % w.cluster[:10],
-                    "w.cluster20=%s" % w.cluster[:20],
+                    f"w.cluster4={w.cluster[:4]}",
+                    f"w.cluster6={w.cluster[:6]}",
+                    f"w.cluster10={w.cluster[:10]}",
+                    f"w.cluster20={w.cluster[:20]}",
                 ]
             )
         # Add features for previous tokens if present
@@ -2382,20 +2382,20 @@ class CrfCemTagger(CrfTagger):
             p1 = self.lexicon[p1token]
             features.extend(
                 [
-                    "p1.lower=%s" % p1.lower,
-                    "p1.shape=%s" % p1.shape,
-                    "p1.tag=%s" % p1tag,
+                    f"p1.lower={p1.lower}",
+                    f"p1.shape={p1.shape}",
+                    f"p1.tag={p1tag}",
                 ]
             )
             if not (p1.like_number or p1.is_punct or p1.like_url):
-                features.append("p1:suffix3=%s" % p1.lower[-3:])
+                features.append(f"p1:suffix3={p1.lower[-3:]}")
             if self.clusters and p1.cluster:
                 features.extend(
                     [
-                        "p1.cluster4=%s" % p1.cluster[:4],
-                        "p1.cluster6=%s" % p1.cluster[:6],
-                        "p1.cluster10=%s" % p1.cluster[:10],
-                        "p1.cluster20=%s" % p1.cluster[:20],
+                        f"p1.cluster4={p1.cluster[:4]}",
+                        f"p1.cluster6={p1.cluster[:6]}",
+                        f"p1.cluster10={p1.cluster[:10]}",
+                        f"p1.cluster20={p1.cluster[:20]}",
                     ]
                 )
             if i > 1:
@@ -2404,18 +2404,18 @@ class CrfCemTagger(CrfTagger):
                 p2 = self.lexicon[p2token]
                 features.extend(
                     [
-                        "p2.lower=%s" % p2.lower,
-                        "p2.shape=%s" % p2.shape,
-                        "p2.tag=%s" % p2tag,
+                        f"p2.lower={p2.lower}",
+                        f"p2.shape={p2.shape}",
+                        f"p2.tag={p2tag}",
                     ]
                 )
                 if self.clusters and p2.cluster:
                     features.extend(
                         [
-                            "p2.cluster4=%s" % p2.cluster[:4],
-                            "p2.cluster6=%s" % p2.cluster[:6],
-                            "p2.cluster10=%s" % p2.cluster[:10],
-                            "p2.cluster20=%s" % p2.cluster[:20],
+                            f"p2.cluster4={p2.cluster[:4]}",
+                            f"p2.cluster6={p2.cluster[:6]}",
+                            f"p2.cluster10={p2.cluster[:10]}",
+                            f"p2.cluster20={p2.cluster[:20]}",
                         ]
                     )
         # Add features for next tokens if present
@@ -2426,20 +2426,20 @@ class CrfCemTagger(CrfTagger):
             n1 = self.lexicon[n1token]
             features.extend(
                 [
-                    "n1.lower=%s" % n1.lower,
-                    "n1.shape=%s" % n1.shape,
-                    "n1.tag=%s" % n1tag,
+                    f"n1.lower={n1.lower}",
+                    f"n1.shape={n1.shape}",
+                    f"n1.tag={n1tag}",
                 ]
             )
             if not (n1.like_number or n1.is_punct or n1.like_url):
-                features.append("n1.suffix3=%s" % n1.lower[-3:])
+                features.append(f"n1.suffix3={n1.lower[-3:]}")
             if self.clusters and n1.cluster:
                 features.extend(
                     [
-                        "n1.cluster4=%s" % n1.cluster[:4],
-                        "n1.cluster6=%s" % n1.cluster[:6],
-                        "n1.cluster10=%s" % n1.cluster[:10],
-                        "n1.cluster20=%s" % n1.cluster[:20],
+                        f"n1.cluster4={n1.cluster[:4]}",
+                        f"n1.cluster6={n1.cluster[:6]}",
+                        f"n1.cluster10={n1.cluster[:10]}",
+                        f"n1.cluster20={n1.cluster[:20]}",
                     ]
                 )
             if i < end - 1:
@@ -2448,18 +2448,18 @@ class CrfCemTagger(CrfTagger):
                 n2 = self.lexicon[n2token]
                 features.extend(
                     [
-                        "n2.lower=%s" % n2.lower,
-                        "n2.shape=%s" % n2.shape,
-                        "n2.tag=%s" % n2tag,
+                        f"n2.lower={n2.lower}",
+                        f"n2.shape={n2.shape}",
+                        f"n2.tag={n2tag}",
                     ]
                 )
                 if self.clusters and n2.cluster:
                     features.extend(
                         [
-                            "n2.cluster4=%s" % n2.cluster[:4],
-                            "n2.cluster6=%s" % n2.cluster[:6],
-                            "n2.cluster10=%s" % n2.cluster[:10],
-                            "n2.cluster20=%s" % n2.cluster[:20],
+                            f"n2.cluster4={n2.cluster[:4]}",
+                            f"n2.cluster6={n2.cluster[:6]}",
+                            f"n2.cluster10={n2.cluster[:10]}",
+                            f"n2.cluster20={n2.cluster[:20]}",
                         ]
                     )
         if i == 0:

@@ -70,7 +70,7 @@ class Cleaner:
         # TODO: This is weird. Why don't we change to proper individual keyword arguments with class attribs as default
         for name, value in kwargs.items():
             if not hasattr(self, name):
-                raise TypeError("Unknown parameter: %s=%r" % (name, value))
+                raise TypeError(f"Unknown parameter: {name}={value!r}")
             setattr(self, name, value)
 
     def __call__(self, doc):

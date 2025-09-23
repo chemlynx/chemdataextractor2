@@ -20,7 +20,7 @@ def create_extraction_summary():
     if os.path.exists(input_file):
         file_size = os.path.getsize(input_file)
         print(f"📄 RSC Publication: {input_file}")
-        print(f"📏 File Size: {file_size:,} bytes ({file_size/1024:.1f} KB)")
+        print(f"📏 File Size: {file_size:,} bytes ({file_size / 1024:.1f} KB)")
 
     # Load text analysis results
     text_results_file = "/home/dave/code/ChemDataExtractor2/rsc_text_analysis_results.json"

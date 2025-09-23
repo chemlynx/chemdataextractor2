@@ -31,9 +31,7 @@ class AbsentModel(TemperatureModel):
     specifier = StringType(
         parse_expression=W("Nothing"), required=True, contextual=False, updatable=False
     )
-    compound = ModelType(
-        Compound, required=True, contextual=True, updatable=False, binding=True
-    )
+    compound = ModelType(Compound, required=True, contextual=True, updatable=False, binding=True)
     parser = [AutoTableParser()]
 
 
@@ -53,9 +51,7 @@ class Reference(DimensionlessModel):
     specifier = StringType(
         parse_expression=R("Ref"), required=True, contextual=False, updatable=False
     )
-    compound = ModelType(
-        Compound, required=True, contextual=True, updatable=False, binding=True
-    )
+    compound = ModelType(Compound, required=True, contextual=True, updatable=False, binding=True)
     enthalpy = ModelType(Enthalpy, required=True, contextual=True, updatable=False)
     parsers = [AutoTableParser()]
 
@@ -67,9 +63,7 @@ class CurieTemperature(TemperatureModel):
         contextual=False,
         updatable=True,
     )
-    compound = ModelType(
-        Compound, required=True, contextual=True, updatable=False, binding=True
-    )
+    compound = ModelType(Compound, required=True, contextual=True, updatable=False, binding=True)
     reference = ModelType(Reference, required=True, contextual=True, updatable=False)
     parsers = [AutoTableParser()]
 
@@ -216,9 +210,7 @@ class TestNestedTable(unittest.TestCase):
                                     "value": [1.0],
                                     "units": "(10^3.0) * Joule^(1.0)",
                                     "specifier": "Enthalpy",
-                                    "compound": {
-                                        "Compound": {"names": ["La2/3Ba1/3MnO3"]}
-                                    },
+                                    "compound": {"Compound": {"names": ["La2/3Ba1/3MnO3"]}},
                                 }
                             },
                         }
@@ -246,9 +238,7 @@ class TestNestedTable(unittest.TestCase):
                                     "value": [5.0],
                                     "units": "(10^3.0) * Joule^(1.0)",
                                     "specifier": "Enthalpy",
-                                    "compound": {
-                                        "Compound": {"names": ["La0.67Ba0.33"]}
-                                    },
+                                    "compound": {"Compound": {"names": ["La0.67Ba0.33"]}},
                                 }
                             },
                         }
@@ -276,9 +266,7 @@ class TestNestedTable(unittest.TestCase):
                                     "value": [5.0],
                                     "units": "(10^3.0) * Joule^(1.0)",
                                     "specifier": "Enthalpy",
-                                    "compound": {
-                                        "Compound": {"names": ["La0.67Ca0.33"]}
-                                    },
+                                    "compound": {"Compound": {"names": ["La0.67Ca0.33"]}},
                                 }
                             },
                         }
@@ -306,9 +294,7 @@ class TestNestedTable(unittest.TestCase):
                                     "value": [1.5],
                                     "units": "(10^3.0) * Joule^(1.0)",
                                     "specifier": "Enthalpy",
-                                    "compound": {
-                                        "Compound": {"names": ["La0.67Sr0.33MnO3"]}
-                                    },
+                                    "compound": {"Compound": {"names": ["La0.67Sr0.33MnO3"]}},
                                 }
                             },
                         }
@@ -336,9 +322,7 @@ class TestNestedTable(unittest.TestCase):
                                     "value": [1.5],
                                     "units": "(10^3.0) * Joule^(1.0)",
                                     "specifier": "Enthalpy",
-                                    "compound": {
-                                        "Compound": {"names": ["La0.67Sr0.33MnO3"]}
-                                    },
+                                    "compound": {"Compound": {"names": ["La0.67Sr0.33MnO3"]}},
                                 }
                             },
                         }
@@ -358,9 +342,7 @@ class TestNestedTable(unittest.TestCase):
                             "raw_value": "39",
                             "value": [39.0],
                             "specifier": "Ref",
-                            "compound": {
-                                "Compound": {"names": ["Ba0.33Mn0.98Ti0.02O3"]}
-                            },
+                            "compound": {"Compound": {"names": ["Ba0.33Mn0.98Ti0.02O3"]}},
                             "enthalpy": {
                                 "Enthalpy": {
                                     "raw_value": "1",
@@ -368,9 +350,7 @@ class TestNestedTable(unittest.TestCase):
                                     "value": [1.0],
                                     "units": "(10^3.0) * Joule^(1.0)",
                                     "specifier": "Enthalpy",
-                                    "compound": {
-                                        "Compound": {"names": ["Ba0.33Mn0.98Ti0.02O3"]}
-                                    },
+                                    "compound": {"Compound": {"names": ["Ba0.33Mn0.98Ti0.02O3"]}},
                                 }
                             },
                         }
@@ -390,9 +370,7 @@ class TestNestedTable(unittest.TestCase):
                             "raw_value": "39",
                             "value": [39.0],
                             "specifier": "Ref",
-                            "compound": {
-                                "Compound": {"names": ["Ba0.33Mn0.98Ti0.02O3"]}
-                            },
+                            "compound": {"Compound": {"names": ["Ba0.33Mn0.98Ti0.02O3"]}},
                             "enthalpy": {
                                 "Enthalpy": {
                                     "raw_value": "5",
@@ -400,9 +378,7 @@ class TestNestedTable(unittest.TestCase):
                                     "value": [5.0],
                                     "units": "(10^3.0) * Joule^(1.0)",
                                     "specifier": "Enthalpy",
-                                    "compound": {
-                                        "Compound": {"names": ["Ba0.33Mn0.98Ti0.02O3"]}
-                                    },
+                                    "compound": {"Compound": {"names": ["Ba0.33Mn0.98Ti0.02O3"]}},
                                 }
                             },
                         }
@@ -422,9 +398,7 @@ class TestNestedTable(unittest.TestCase):
                             "raw_value": "286",
                             "value": [286.0],
                             "specifier": "Ref",
-                            "compound": {
-                                "Compound": {"names": ["Ba0.33Mn0.98Ti0.02O3"]}
-                            },
+                            "compound": {"Compound": {"names": ["Ba0.33Mn0.98Ti0.02O3"]}},
                             "enthalpy": {
                                 "Enthalpy": {
                                     "raw_value": "5",
@@ -432,9 +406,7 @@ class TestNestedTable(unittest.TestCase):
                                     "value": [5.0],
                                     "units": "(10^3.0) * Joule^(1.0)",
                                     "specifier": "Enthalpy",
-                                    "compound": {
-                                        "Compound": {"names": ["Ba0.33Mn0.98Ti0.02O3"]}
-                                    },
+                                    "compound": {"Compound": {"names": ["Ba0.33Mn0.98Ti0.02O3"]}},
                                 }
                             },
                         }
@@ -454,9 +426,7 @@ class TestNestedTable(unittest.TestCase):
                             "raw_value": "286",
                             "value": [286.0],
                             "specifier": "Ref",
-                            "compound": {
-                                "Compound": {"names": ["Ba0.33Mn0.98Ti0.02O3"]}
-                            },
+                            "compound": {"Compound": {"names": ["Ba0.33Mn0.98Ti0.02O3"]}},
                             "enthalpy": {
                                 "Enthalpy": {
                                     "raw_value": "1",
@@ -464,9 +434,7 @@ class TestNestedTable(unittest.TestCase):
                                     "value": [1.0],
                                     "units": "(10^3.0) * Joule^(1.0)",
                                     "specifier": "Enthalpy",
-                                    "compound": {
-                                        "Compound": {"names": ["Ba0.33Mn0.98Ti0.02O3"]}
-                                    },
+                                    "compound": {"Compound": {"names": ["Ba0.33Mn0.98Ti0.02O3"]}},
                                 }
                             },
                         }
@@ -624,9 +592,7 @@ class TestNestedTable(unittest.TestCase):
                             "raw_value": "39",
                             "value": [39.0],
                             "specifier": "Ref",
-                            "compound": {
-                                "Compound": {"names": ["Ba0.33Mn0.98Ti0.02O3"]}
-                            },
+                            "compound": {"Compound": {"names": ["Ba0.33Mn0.98Ti0.02O3"]}},
                         }
                     },
                 }
@@ -644,9 +610,7 @@ class TestNestedTable(unittest.TestCase):
                             "raw_value": "286",
                             "value": [286.0],
                             "specifier": "Ref",
-                            "compound": {
-                                "Compound": {"names": ["Ba0.33Mn0.98Ti0.02O3"]}
-                            },
+                            "compound": {"Compound": {"names": ["Ba0.33Mn0.98Ti0.02O3"]}},
                         }
                     },
                 }
@@ -739,9 +703,7 @@ class TestNestedTable(unittest.TestCase):
                                     "value": [1.0],
                                     "units": "(10^3.0) * Joule^(1.0)",
                                     "specifier": "Enthalpy",
-                                    "compound": {
-                                        "Compound": {"names": ["La2/3Ba1/3MnO3"]}
-                                    },
+                                    "compound": {"Compound": {"names": ["La2/3Ba1/3MnO3"]}},
                                 }
                             },
                         }
@@ -769,9 +731,7 @@ class TestNestedTable(unittest.TestCase):
                                     "value": [5.0],
                                     "units": "(10^3.0) * Joule^(1.0)",
                                     "specifier": "Enthalpy",
-                                    "compound": {
-                                        "Compound": {"names": ["La0.67Ba0.33"]}
-                                    },
+                                    "compound": {"Compound": {"names": ["La0.67Ba0.33"]}},
                                 }
                             },
                         }
@@ -799,9 +759,7 @@ class TestNestedTable(unittest.TestCase):
                                     "value": [5.0],
                                     "units": "(10^3.0) * Joule^(1.0)",
                                     "specifier": "Enthalpy",
-                                    "compound": {
-                                        "Compound": {"names": ["La0.67Ca0.33"]}
-                                    },
+                                    "compound": {"Compound": {"names": ["La0.67Ca0.33"]}},
                                 }
                             },
                         }
@@ -829,9 +787,7 @@ class TestNestedTable(unittest.TestCase):
                                     "value": [1.5],
                                     "units": "(10^3.0) * Joule^(1.0)",
                                     "specifier": "Enthalpy",
-                                    "compound": {
-                                        "Compound": {"names": ["La0.67Sr0.33MnO3"]}
-                                    },
+                                    "compound": {"Compound": {"names": ["La0.67Sr0.33MnO3"]}},
                                 }
                             },
                         }
@@ -859,9 +815,7 @@ class TestNestedTable(unittest.TestCase):
                                     "value": [1.5],
                                     "units": "(10^3.0) * Joule^(1.0)",
                                     "specifier": "Enthalpy",
-                                    "compound": {
-                                        "Compound": {"names": ["La0.67Sr0.33MnO3"]}
-                                    },
+                                    "compound": {"Compound": {"names": ["La0.67Sr0.33MnO3"]}},
                                 }
                             },
                         }
@@ -881,9 +835,7 @@ class TestNestedTable(unittest.TestCase):
                             "raw_value": "39",
                             "value": [39.0],
                             "specifier": "Ref",
-                            "compound": {
-                                "Compound": {"names": ["Ba0.33Mn0.98Ti0.02O3"]}
-                            },
+                            "compound": {"Compound": {"names": ["Ba0.33Mn0.98Ti0.02O3"]}},
                             "enthalpy": {
                                 "Enthalpy": {
                                     "raw_value": "1",
@@ -891,9 +843,7 @@ class TestNestedTable(unittest.TestCase):
                                     "value": [1.0],
                                     "units": "(10^3.0) * Joule^(1.0)",
                                     "specifier": "Enthalpy",
-                                    "compound": {
-                                        "Compound": {"names": ["Ba0.33Mn0.98Ti0.02O3"]}
-                                    },
+                                    "compound": {"Compound": {"names": ["Ba0.33Mn0.98Ti0.02O3"]}},
                                 }
                             },
                         }
@@ -913,9 +863,7 @@ class TestNestedTable(unittest.TestCase):
                             "raw_value": "39",
                             "value": [39.0],
                             "specifier": "Ref",
-                            "compound": {
-                                "Compound": {"names": ["Ba0.33Mn0.98Ti0.02O3"]}
-                            },
+                            "compound": {"Compound": {"names": ["Ba0.33Mn0.98Ti0.02O3"]}},
                             "enthalpy": {
                                 "Enthalpy": {
                                     "raw_value": "5",
@@ -923,9 +871,7 @@ class TestNestedTable(unittest.TestCase):
                                     "value": [5.0],
                                     "units": "(10^3.0) * Joule^(1.0)",
                                     "specifier": "Enthalpy",
-                                    "compound": {
-                                        "Compound": {"names": ["Ba0.33Mn0.98Ti0.02O3"]}
-                                    },
+                                    "compound": {"Compound": {"names": ["Ba0.33Mn0.98Ti0.02O3"]}},
                                 }
                             },
                         }
@@ -945,9 +891,7 @@ class TestNestedTable(unittest.TestCase):
                             "raw_value": "286",
                             "value": [286.0],
                             "specifier": "Ref",
-                            "compound": {
-                                "Compound": {"names": ["Ba0.33Mn0.98Ti0.02O3"]}
-                            },
+                            "compound": {"Compound": {"names": ["Ba0.33Mn0.98Ti0.02O3"]}},
                             "enthalpy": {
                                 "Enthalpy": {
                                     "raw_value": "5",
@@ -955,9 +899,7 @@ class TestNestedTable(unittest.TestCase):
                                     "value": [5.0],
                                     "units": "(10^3.0) * Joule^(1.0)",
                                     "specifier": "Enthalpy",
-                                    "compound": {
-                                        "Compound": {"names": ["Ba0.33Mn0.98Ti0.02O3"]}
-                                    },
+                                    "compound": {"Compound": {"names": ["Ba0.33Mn0.98Ti0.02O3"]}},
                                 }
                             },
                         }
@@ -977,9 +919,7 @@ class TestNestedTable(unittest.TestCase):
                             "raw_value": "286",
                             "value": [286.0],
                             "specifier": "Ref",
-                            "compound": {
-                                "Compound": {"names": ["Ba0.33Mn0.98Ti0.02O3"]}
-                            },
+                            "compound": {"Compound": {"names": ["Ba0.33Mn0.98Ti0.02O3"]}},
                             "enthalpy": {
                                 "Enthalpy": {
                                     "raw_value": "1",
@@ -987,9 +927,7 @@ class TestNestedTable(unittest.TestCase):
                                     "value": [1.0],
                                     "units": "(10^3.0) * Joule^(1.0)",
                                     "specifier": "Enthalpy",
-                                    "compound": {
-                                        "Compound": {"names": ["Ba0.33Mn0.98Ti0.02O3"]}
-                                    },
+                                    "compound": {"Compound": {"names": ["Ba0.33Mn0.98Ti0.02O3"]}},
                                 }
                             },
                         }
@@ -1177,9 +1115,7 @@ class TestNestedTable(unittest.TestCase):
                                     "value": [1.0],
                                     "units": "(10^3.0) * Joule^(1.0)",
                                     "specifier": "Enthalpy",
-                                    "compound": {
-                                        "Compound": {"names": ["La2/3Ba1/3MnO3"]}
-                                    },
+                                    "compound": {"Compound": {"names": ["La2/3Ba1/3MnO3"]}},
                                 }
                             },
                         }
@@ -1207,9 +1143,7 @@ class TestNestedTable(unittest.TestCase):
                                     "value": [5.0],
                                     "units": "(10^3.0) * Joule^(1.0)",
                                     "specifier": "Enthalpy",
-                                    "compound": {
-                                        "Compound": {"names": ["La0.67Ba0.33"]}
-                                    },
+                                    "compound": {"Compound": {"names": ["La0.67Ba0.33"]}},
                                 }
                             },
                         }
@@ -1237,9 +1171,7 @@ class TestNestedTable(unittest.TestCase):
                                     "value": [5.0],
                                     "units": "(10^3.0) * Joule^(1.0)",
                                     "specifier": "Enthalpy",
-                                    "compound": {
-                                        "Compound": {"names": ["La0.67Ca0.33"]}
-                                    },
+                                    "compound": {"Compound": {"names": ["La0.67Ca0.33"]}},
                                 }
                             },
                         }
@@ -1267,9 +1199,7 @@ class TestNestedTable(unittest.TestCase):
                                     "value": [1.5],
                                     "units": "(10^3.0) * Joule^(1.0)",
                                     "specifier": "Enthalpy",
-                                    "compound": {
-                                        "Compound": {"names": ["La0.67Sr0.33MnO3"]}
-                                    },
+                                    "compound": {"Compound": {"names": ["La0.67Sr0.33MnO3"]}},
                                 }
                             },
                         }
@@ -1297,9 +1227,7 @@ class TestNestedTable(unittest.TestCase):
                                     "value": [1.5],
                                     "units": "(10^3.0) * Joule^(1.0)",
                                     "specifier": "Enthalpy",
-                                    "compound": {
-                                        "Compound": {"names": ["La0.67Sr0.33MnO3"]}
-                                    },
+                                    "compound": {"Compound": {"names": ["La0.67Sr0.33MnO3"]}},
                                 }
                             },
                         }
@@ -1319,9 +1247,7 @@ class TestNestedTable(unittest.TestCase):
                             "raw_value": "39",
                             "value": [39.0],
                             "specifier": "Ref",
-                            "compound": {
-                                "Compound": {"names": ["Ba0.33Mn0.98Ti0.02O3"]}
-                            },
+                            "compound": {"Compound": {"names": ["Ba0.33Mn0.98Ti0.02O3"]}},
                             "enthalpy": {
                                 "Enthalpy": {
                                     "raw_value": "1",
@@ -1329,9 +1255,7 @@ class TestNestedTable(unittest.TestCase):
                                     "value": [1.0],
                                     "units": "(10^3.0) * Joule^(1.0)",
                                     "specifier": "Enthalpy",
-                                    "compound": {
-                                        "Compound": {"names": ["Ba0.33Mn0.98Ti0.02O3"]}
-                                    },
+                                    "compound": {"Compound": {"names": ["Ba0.33Mn0.98Ti0.02O3"]}},
                                 }
                             },
                         }
@@ -1351,9 +1275,7 @@ class TestNestedTable(unittest.TestCase):
                             "raw_value": "39",
                             "value": [39.0],
                             "specifier": "Ref",
-                            "compound": {
-                                "Compound": {"names": ["Ba0.33Mn0.98Ti0.02O3"]}
-                            },
+                            "compound": {"Compound": {"names": ["Ba0.33Mn0.98Ti0.02O3"]}},
                             "enthalpy": {
                                 "Enthalpy": {
                                     "raw_value": "5",
@@ -1361,9 +1283,7 @@ class TestNestedTable(unittest.TestCase):
                                     "value": [5.0],
                                     "units": "(10^3.0) * Joule^(1.0)",
                                     "specifier": "Enthalpy",
-                                    "compound": {
-                                        "Compound": {"names": ["Ba0.33Mn0.98Ti0.02O3"]}
-                                    },
+                                    "compound": {"Compound": {"names": ["Ba0.33Mn0.98Ti0.02O3"]}},
                                 }
                             },
                         }
@@ -1383,9 +1303,7 @@ class TestNestedTable(unittest.TestCase):
                             "raw_value": "286",
                             "value": [286.0],
                             "specifier": "Ref",
-                            "compound": {
-                                "Compound": {"names": ["Ba0.33Mn0.98Ti0.02O3"]}
-                            },
+                            "compound": {"Compound": {"names": ["Ba0.33Mn0.98Ti0.02O3"]}},
                             "enthalpy": {
                                 "Enthalpy": {
                                     "raw_value": "5",
@@ -1393,9 +1311,7 @@ class TestNestedTable(unittest.TestCase):
                                     "value": [5.0],
                                     "units": "(10^3.0) * Joule^(1.0)",
                                     "specifier": "Enthalpy",
-                                    "compound": {
-                                        "Compound": {"names": ["Ba0.33Mn0.98Ti0.02O3"]}
-                                    },
+                                    "compound": {"Compound": {"names": ["Ba0.33Mn0.98Ti0.02O3"]}},
                                 }
                             },
                         }
@@ -1415,9 +1331,7 @@ class TestNestedTable(unittest.TestCase):
                             "raw_value": "286",
                             "value": [286.0],
                             "specifier": "Ref",
-                            "compound": {
-                                "Compound": {"names": ["Ba0.33Mn0.98Ti0.02O3"]}
-                            },
+                            "compound": {"Compound": {"names": ["Ba0.33Mn0.98Ti0.02O3"]}},
                             "enthalpy": {
                                 "Enthalpy": {
                                     "raw_value": "1",
@@ -1425,9 +1339,7 @@ class TestNestedTable(unittest.TestCase):
                                     "value": [1.0],
                                     "units": "(10^3.0) * Joule^(1.0)",
                                     "specifier": "Enthalpy",
-                                    "compound": {
-                                        "Compound": {"names": ["Ba0.33Mn0.98Ti0.02O3"]}
-                                    },
+                                    "compound": {"Compound": {"names": ["Ba0.33Mn0.98Ti0.02O3"]}},
                                 }
                             },
                         }
@@ -1585,9 +1497,7 @@ class TestNestedTable(unittest.TestCase):
                             "raw_value": "39",
                             "value": [39.0],
                             "specifier": "Ref",
-                            "compound": {
-                                "Compound": {"names": ["Ba0.33Mn0.98Ti0.02O3"]}
-                            },
+                            "compound": {"Compound": {"names": ["Ba0.33Mn0.98Ti0.02O3"]}},
                         }
                     },
                 }
@@ -1605,9 +1515,7 @@ class TestNestedTable(unittest.TestCase):
                             "raw_value": "286",
                             "value": [286.0],
                             "specifier": "Ref",
-                            "compound": {
-                                "Compound": {"names": ["Ba0.33Mn0.98Ti0.02O3"]}
-                            },
+                            "compound": {"Compound": {"names": ["Ba0.33Mn0.98Ti0.02O3"]}},
                         }
                     },
                 }
@@ -1700,9 +1608,7 @@ class TestNestedTable(unittest.TestCase):
                                     "value": [1.0],
                                     "units": "(10^3.0) * Joule^(1.0)",
                                     "specifier": "Enthalpy",
-                                    "compound": {
-                                        "Compound": {"names": ["La2/3Ba1/3MnO3"]}
-                                    },
+                                    "compound": {"Compound": {"names": ["La2/3Ba1/3MnO3"]}},
                                 }
                             },
                         }
@@ -1730,9 +1636,7 @@ class TestNestedTable(unittest.TestCase):
                                     "value": [5.0],
                                     "units": "(10^3.0) * Joule^(1.0)",
                                     "specifier": "Enthalpy",
-                                    "compound": {
-                                        "Compound": {"names": ["La0.67Ba0.33"]}
-                                    },
+                                    "compound": {"Compound": {"names": ["La0.67Ba0.33"]}},
                                 }
                             },
                         }
@@ -1760,9 +1664,7 @@ class TestNestedTable(unittest.TestCase):
                                     "value": [5.0],
                                     "units": "(10^3.0) * Joule^(1.0)",
                                     "specifier": "Enthalpy",
-                                    "compound": {
-                                        "Compound": {"names": ["La0.67Ca0.33"]}
-                                    },
+                                    "compound": {"Compound": {"names": ["La0.67Ca0.33"]}},
                                 }
                             },
                         }
@@ -1790,9 +1692,7 @@ class TestNestedTable(unittest.TestCase):
                                     "value": [1.5],
                                     "units": "(10^3.0) * Joule^(1.0)",
                                     "specifier": "Enthalpy",
-                                    "compound": {
-                                        "Compound": {"names": ["La0.67Sr0.33MnO3"]}
-                                    },
+                                    "compound": {"Compound": {"names": ["La0.67Sr0.33MnO3"]}},
                                 }
                             },
                         }
@@ -1820,9 +1720,7 @@ class TestNestedTable(unittest.TestCase):
                                     "value": [1.5],
                                     "units": "(10^3.0) * Joule^(1.0)",
                                     "specifier": "Enthalpy",
-                                    "compound": {
-                                        "Compound": {"names": ["La0.67Sr0.33MnO3"]}
-                                    },
+                                    "compound": {"Compound": {"names": ["La0.67Sr0.33MnO3"]}},
                                 }
                             },
                         }
@@ -1842,9 +1740,7 @@ class TestNestedTable(unittest.TestCase):
                             "raw_value": "39",
                             "value": [39.0],
                             "specifier": "Ref",
-                            "compound": {
-                                "Compound": {"names": ["Ba0.33Mn0.98Ti0.02O3"]}
-                            },
+                            "compound": {"Compound": {"names": ["Ba0.33Mn0.98Ti0.02O3"]}},
                             "enthalpy": {
                                 "Enthalpy": {
                                     "raw_value": "1",
@@ -1852,9 +1748,7 @@ class TestNestedTable(unittest.TestCase):
                                     "value": [1.0],
                                     "units": "(10^3.0) * Joule^(1.0)",
                                     "specifier": "Enthalpy",
-                                    "compound": {
-                                        "Compound": {"names": ["Ba0.33Mn0.98Ti0.02O3"]}
-                                    },
+                                    "compound": {"Compound": {"names": ["Ba0.33Mn0.98Ti0.02O3"]}},
                                 }
                             },
                         }
@@ -1874,9 +1768,7 @@ class TestNestedTable(unittest.TestCase):
                             "raw_value": "39",
                             "value": [39.0],
                             "specifier": "Ref",
-                            "compound": {
-                                "Compound": {"names": ["Ba0.33Mn0.98Ti0.02O3"]}
-                            },
+                            "compound": {"Compound": {"names": ["Ba0.33Mn0.98Ti0.02O3"]}},
                             "enthalpy": {
                                 "Enthalpy": {
                                     "raw_value": "5",
@@ -1884,9 +1776,7 @@ class TestNestedTable(unittest.TestCase):
                                     "value": [5.0],
                                     "units": "(10^3.0) * Joule^(1.0)",
                                     "specifier": "Enthalpy",
-                                    "compound": {
-                                        "Compound": {"names": ["Ba0.33Mn0.98Ti0.02O3"]}
-                                    },
+                                    "compound": {"Compound": {"names": ["Ba0.33Mn0.98Ti0.02O3"]}},
                                 }
                             },
                         }
@@ -1906,9 +1796,7 @@ class TestNestedTable(unittest.TestCase):
                             "raw_value": "286",
                             "value": [286.0],
                             "specifier": "Ref",
-                            "compound": {
-                                "Compound": {"names": ["Ba0.33Mn0.98Ti0.02O3"]}
-                            },
+                            "compound": {"Compound": {"names": ["Ba0.33Mn0.98Ti0.02O3"]}},
                             "enthalpy": {
                                 "Enthalpy": {
                                     "raw_value": "5",
@@ -1916,9 +1804,7 @@ class TestNestedTable(unittest.TestCase):
                                     "value": [5.0],
                                     "units": "(10^3.0) * Joule^(1.0)",
                                     "specifier": "Enthalpy",
-                                    "compound": {
-                                        "Compound": {"names": ["Ba0.33Mn0.98Ti0.02O3"]}
-                                    },
+                                    "compound": {"Compound": {"names": ["Ba0.33Mn0.98Ti0.02O3"]}},
                                 }
                             },
                         }
@@ -1938,9 +1824,7 @@ class TestNestedTable(unittest.TestCase):
                             "raw_value": "286",
                             "value": [286.0],
                             "specifier": "Ref",
-                            "compound": {
-                                "Compound": {"names": ["Ba0.33Mn0.98Ti0.02O3"]}
-                            },
+                            "compound": {"Compound": {"names": ["Ba0.33Mn0.98Ti0.02O3"]}},
                             "enthalpy": {
                                 "Enthalpy": {
                                     "raw_value": "1",
@@ -1948,9 +1832,7 @@ class TestNestedTable(unittest.TestCase):
                                     "value": [1.0],
                                     "units": "(10^3.0) * Joule^(1.0)",
                                     "specifier": "Enthalpy",
-                                    "compound": {
-                                        "Compound": {"names": ["Ba0.33Mn0.98Ti0.02O3"]}
-                                    },
+                                    "compound": {"Compound": {"names": ["Ba0.33Mn0.98Ti0.02O3"]}},
                                 }
                             },
                         }
