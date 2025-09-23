@@ -30,7 +30,6 @@ import webbrowser
 from importlib.resources import files
 from pprint import pprint
 
-from playsound import playsound
 
 from .. import Document
 
@@ -84,12 +83,10 @@ class Evaluate:
         folder=r"./",
         n_papers_limit=200,
         n_records_limit=200,
-        play_sound=True,
         show_website=True,
         _automated=False,
     ):
         self._automated = _automated
-        self.play_sound = play_sound
         self.show_website = show_website
         self.folder = folder
         self.models = models
@@ -162,9 +159,6 @@ class Evaluate:
                     pprint(record.serialize())
                     print(f"    Method:  {record.record_method}")
                     print(f"    Updated: {record.updated}")
-                    if self.play_sound:
-                        sound_file = files("chemdataextractor") / "eval/sound.mp3"
-                        playsound(sound_file)
 
                     if not doc_opened and self.show_website:
                         webbrowser.open(doc[0].metadata.html_url)
@@ -293,9 +287,6 @@ class Evaluate:
             f.flush()
 
             if self.limits_reached:
-                if self.play_sound:
-                    sound_end_file = files("chemdataextractor") / "eval/sound_end.mp3"
-                    playsound(sound_end_file)
                 break
             print("")
         f.close()
