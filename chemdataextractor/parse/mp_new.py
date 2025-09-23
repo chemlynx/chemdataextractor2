@@ -101,16 +101,10 @@ class MpParser(BaseSentenceParser):
     def interpret(self, result, start, end):
         log.debug(etree.tostring(result))
         try:
-            compound = self.model.fields["compound"].model_class()
             raw_value = first(result.xpath("./mp/raw_value/text()"))
             raw_units = first(result.xpath("./mp/raw_units/text()"))
             melting_point = self.model(raw_value=raw_value, raw_units=raw_units)
-            cem_el = first(result.xpath("./compound"))
-            if cem_el is not None:
-                log.debug(etree.tostring(cem_el))
-                melting_point.compound = compound
-                melting_point.compound.names = cem_el.xpath("./names/text()")
-                melting_point.compound.labels = cem_el.xpath("./labels/text()")
+            # Don't manually extract compound fields - let contextual merging handle it
             log.debug(melting_point.serialize())
             yield melting_point
         except TypeError as e:

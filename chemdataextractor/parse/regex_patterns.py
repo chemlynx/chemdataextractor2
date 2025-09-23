@@ -74,14 +74,14 @@ QUANTITY_PATTERN = re.compile(
     r"^((?P<split>\d\d\d)g|(?P<_split1>[-−]?\d+\.\d+|10[-−]\d+)(g|s|m|N|V)([-−]?[1-4])?|(?P<_split2>\d*[-−]?\d+\.?\d*)([pnµμm]A|[µμmk]g|[kM]J|m[lL]|[nµμm]?M|[nµμmc]m|kN|[mk]V|[mkMG]?W|[mnpμµ]s|Hz|[Mm][Oo][Ll](e|ar)?s?|k?Pa|ppm|min)([-−]?[1-4])?)$", re.U
 )
 NO_SPLIT_PREFIX_ENDING_PATTERN = re.compile(
-    r"(^\\(.*\\)|^[\\d,'\"""„‟''‚‛`´′″‴‵‶‷⁗Α-Ωα-ω]+|ano|ato|azo|boc|bromo|cbz|chloro|eno|fluoro|fmoc|ido|ino|io|iodo|mercapto|nitro|ono|oso|oxalo|oxo|oxy|phospho|telluro|tms|yl|ylen|ylene|yliden|ylidene|ylidyn|ylidyne)$", re.U
+    r"(^\(.*\)|^[\d,'\"""„‟''‚‛`´′″‴‵‶‷⁗Α-Ωα-ω]+|ano|ato|azo|boc|bromo|cbz|chloro|eno|fluoro|fmoc|ido|ino|io|iodo|mercapto|nitro|ono|oso|oxalo|oxo|oxy|phospho|telluro|tms|yl|ylen|ylene|yliden|ylidene|ylidyn|ylidyne)$", re.U
 )
 NO_SPLIT_CHEM_PATTERN = re.compile(
-    r"([\\-α-ω]|\\d+,\\d+|\\d+[A-Z]|^d\\d\\d?$|acetic|acetyl|acid|acyl|anol|azo|benz|bromo|carb|cbz|chlor|cyclo|ethan|ethyl|fluoro|fmoc|gluc|hydro|idyl|indol|iene|ione|iodo|mercapto|n,n|nitro|noic|o,o|oxalo|oxo|oxy|oyl|onyl|phen|phth|phospho|pyrid|telluro|tetra|tms|ylen|yli|zole|alpha|beta|gamma|delta|epsilon|theta|kappa|lambda|sigma|omega)", re.U | re.I
+    r"([\-α-ω]|\d+,\d+|\d+[A-Z]|^d\d\d?$|acetic|acetyl|acid|acyl|anol|azo|benz|bromo|carb|cbz|chlor|cyclo|ethan|ethyl|fluoro|fmoc|gluc|hydro|idyl|indol|iene|ione|iodo|mercapto|n,n|nitro|noic|o,o|oxalo|oxo|oxy|oyl|onyl|phen|phth|phospho|pyrid|telluro|tetra|tms|ylen|yli|zole|alpha|beta|gamma|delta|epsilon|theta|kappa|lambda|sigma|omega)", re.U | re.I
 )
 
 # Additional tokenizer patterns for optimization
-DIGITS_ONLY_PATTERN = re.compile(r"\\d+$", re.U)
+DIGITS_ONLY_PATTERN = re.compile(r"\d+$", re.U)
 
 # ============================================================================
 # PATTERN REGISTRY

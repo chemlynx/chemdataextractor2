@@ -37,7 +37,9 @@ class PlainTextCacher:
 
         # Save document configuration
         document_configuration = get_document_configuration(document)
-        cache_location_root = os.path.join(self.cache_location, self._safe_document_id(document_id))
+        cache_location_root = os.path.join(
+            self.cache_location, self._safe_document_id(document_id)
+        )
         if not os.path.isdir(cache_location_root):
             os.makedirs(cache_location_root)
         elif overwrite_cache:
@@ -87,18 +89,23 @@ class PlainTextCacher:
                 for sentence in sentences:
                     # TODO(ti250): Assumes tags are plain text
                     sentence_tags = [
-                        token[tag] if token[tag] is not None else "😂" for token in sentence.tokens
+                        token[tag] if token[tag] is not None else "😂"
+                        for token in sentence.tokens
                     ]
                     f.write(str(("🙃".join(sentence_tags) + "🔥").encode("utf-8")))
 
-        with open(self._document_subsentence_cache_path(cache_location_root), "w+") as f:
+        with open(
+            self._document_subsentence_cache_path(cache_location_root), "w+"
+        ) as f:
             for sentence in sentences:
                 indices = []
                 for subsentence in sentence.subsentences:
                     indices.append([token.index for token in subsentence.tokens])
                 f.write(str(indices) + "\n")
 
-        with open(self._document_subsentence_cache_path(cache_location_root), "w+") as f:
+        with open(
+            self._document_subsentence_cache_path(cache_location_root), "w+"
+        ) as f:
             for sentence in sentences:
                 indices = []
                 for subsentence in sentence.subsentences:
@@ -108,7 +115,9 @@ class PlainTextCacher:
     def hydrate_document(self, document, document_id, tags=None):
         # Add in all the tags, tokenisation for a document.
         document_configuration = get_document_configuration(document)
-        cache_location_root = os.path.join(self.cache_location, self._safe_document_id(document_id))
+        cache_location_root = os.path.join(
+            self.cache_location, self._safe_document_id(document_id)
+        )
 
         # Check cache looks good
         if not os.path.isdir(cache_location_root):
@@ -133,8 +142,12 @@ class PlainTextCacher:
             )
         ) as f:
             # Need to remove the final element as it will be an empty one
-            tokenized_sentences = [sent.split("🙃") for sent in f.read().split("🔥")][:-1]
-            for sentence, tokenized_sentence in zip(sentences, tokenized_sentences, strict=False):
+            tokenized_sentences = [sent.split("🙃") for sent in f.read().split("🔥")][
+                :-1
+            ]
+            for sentence, tokenized_sentence in zip(
+                sentences, tokenized_sentences, strict=False
+            ):
                 # TODO(ti250): We currently don't retain spans correctly here; what to do? We can always actually cache this...
                 toks = [
                     RichToken(
@@ -166,7 +179,9 @@ class PlainTextCacher:
             tags = ["ner_tag", "pos_tag"]
 
         for tag_type in tags:
-            with open(self._document_tag_cache_path(cache_location_root, tag_type)) as f:
+            with open(
+                self._document_tag_cache_path(cache_location_root, tag_type)
+            ) as f:
                 all_tags = [sent.split("🙃") for sent in f.read().split("🔥")][:-1]
                 for sentence, sentence_tags in zip(sentences, all_tags, strict=False):
                     tokens = sentence.tokens
@@ -183,7 +198,9 @@ class PlainTextCacher:
             for sentence, sent_indices in zip(sentences, all_indices, strict=False):
                 subsentences = []
                 for subsent_indices in sent_indices:
-                    subsent_tokens = [sentence.tokens[index] for index in subsent_indices]
+                    subsent_tokens = [
+                        sentence.tokens[index] for index in subsent_indices
+                    ]
                     subsentences.append(Subsentence(sentence, subsent_tokens))
                 if len(subsentences) == 1:
                     subsentences[0]._is_only_subsentence = True

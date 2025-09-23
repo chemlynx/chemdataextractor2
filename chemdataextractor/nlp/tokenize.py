@@ -26,7 +26,6 @@ from ..data import find_data
 from ..data import load_model
 from ..text import GREEK
 from ..text import bracket_level
-from ..parse.regex_patterns import get_pattern
 
 if TYPE_CHECKING:
     pass
@@ -690,19 +689,19 @@ class ChemWordTokenizer(WordTokenizer):
     #: Don't split around slash when both preceded and followed by these characters
     NO_SPLIT_SLASH = ["+", "-", "−"]
     #: Regular expression that matches a numeric quantity with units
-    @property
-    def QUANTITY_RE(self):
-        return get_pattern('quantity')
-    
+    QUANTITY_RE = re.compile(
+        r"^((?P<split>\d\d\d)g|(?P<_split1>[-−]?\d+\.\d+|10[-−]\d+)(g|s|m|N|V)([-−]?[1-4])?|(?P<_split2>\d*[-−]?\d+\.?\d*)([pnµμm]A|[µμmk]g|[kM]J|m[lL]|[nµμm]?M|[nµμmc]m|kN|[mk]V|[mkMG]?W|[mnpμµ]s|Hz|[Mm][Oo][Ll](e|ar)?s?|k?Pa|ppm|min)([-−]?[1-4])?)$"
+    )
     #: Don't split on hyphen if the prefix matches this regular expression
-    @property 
-    def NO_SPLIT_PREFIX_ENDING(self):
-        return get_pattern('no_split_prefix_ending')
-    
+    NO_SPLIT_PREFIX_ENDING = re.compile(
+        "(^\\(.*\\)|^[\\d,'\"“”„‟‘’‚‛`´′″‴‵‶‷⁗Α-Ωα-ω]+|ano|ato|azo|boc|bromo|cbz|chloro|eno|fluoro|fmoc|ido|ino|io|iodo|mercapto|nitro|ono|oso|oxalo|oxo|oxy|phospho|telluro|tms|yl|ylen|ylene|yliden|ylidene|ylidyn|ylidyne)$",
+        re.U,
+    )
     #: Don't split on hyphen if prefix or suffix match this regular expression
-    @property
-    def NO_SPLIT_CHEM(self):
-        return get_pattern('no_split_chem')
+    NO_SPLIT_CHEM = re.compile(
+        r"([\-α-ω]|\d+,\d+|\d+[A-Z]|^d\d\d?$|acetic|acetyl|acid|acyl|anol|azo|benz|bromo|carb|cbz|chlor|cyclo|ethan|ethyl|fluoro|fmoc|gluc|hydro|idyl|indol|iene|ione|iodo|mercapto|n,n|nitro|noic|o,o|oxalo|oxo|oxy|oyl|onyl|phen|phth|phospho|pyrid|telluro|tetra|tms|ylen|yli|zole|alpha|beta|gamma|delta|epsilon|theta|kappa|lambda|sigma|omega)",
+        re.U | re.I,
+    )
     #: Don't split on hyphen if the prefix is one of these sequences
     NO_SPLIT_PREFIX = {
         "e",
@@ -1473,7 +1472,7 @@ class ChemWordTokenizer(WordTokenizer):
             and before[-1].isdigit()
             and after[0].isdigit()
             and before.rstrip("0123456789").endswith("(")
-            and after.lstrip("0123456789").startswith(")-")
+            and after.lstrip("0123456789").startswith(")")
         ):
             return True
         else:
@@ -1560,7 +1559,7 @@ class ChemWordTokenizer(WordTokenizer):
             return self._split_span(span, 2, 1)
 
         # Split things like \d+\.\d+([a-z]+) e.g. UV-vis/IR peaks with bracketed strength/shape
-        m = get_pattern('digit_parentheses').match(text)
+        m = re.match(r"^(\d+\.\d+|\d{3,})(\([a-z]+\))$", text, re.I)
         if m:
             return self._split_span(span, m.start(2), 1)
 
@@ -1919,7 +1918,7 @@ class BertWordTokenizer(ChemWordTokenizer):
                 and offset[0] == current_span[1]
                 and i < len(zipped) - 1
                 and zipped[i + 1][0][0] == offset[1]
-                and get_pattern('digits_only').match(s[zipped[i + 1][0][0] : zipped[i + 1][0][1]])
+                and re.match(r"\d+$", s[zipped[i + 1][0][0] : zipped[i + 1][0][1]])
             ):
                 i += 1
                 offset, token = zipped[i]
@@ -1941,12 +1940,12 @@ class BertWordTokenizer(ChemWordTokenizer):
                 s[offset[0] : offset[1]] == "-"
                 and i < len(zipped) - 1
                 and zipped[i + 1][0][0] == offset[1]
-                and get_pattern('digits_only').match(s[zipped[i + 1][0][0] : zipped[i + 1][0][1]])
+                and re.match(r"\d+$", s[zipped[i + 1][0][0] : zipped[i + 1][0][1]])
                 and (
                     i == 0
                     or not (
                         zipped[i - 1][0][1] == offset[0]
-                        and get_pattern('digits_only').match(s[zipped[i - 1][0][0] : zipped[i - 1][0][1]])
+                        and re.match(r"\d+$", s[zipped[i - 1][0][0] : zipped[i - 1][0][1]])
                     )
                 )
                 and (

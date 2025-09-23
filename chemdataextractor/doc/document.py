@@ -193,7 +193,9 @@ class Document(BaseDocument):
             if callable(getattr(element, "set_config", None)):
                 element.set_config()
         self.skip_parsers: List[Any] = []  # List of parsers to skip
-        log.debug(f"{self.__class__.__name__}: Initializing with {len(self.elements)} elements")
+        log.debug(
+            f"{self.__class__.__name__}: Initializing with {len(self.elements)} elements"
+        )
 
     def add_models(self, models: List[type[BaseModel]]) -> None:
         """Add models to all elements for data extraction.
@@ -438,12 +440,20 @@ class Document(BaseDocument):
         """
         log.debug("Getting chemical records")
         records = ModelList()  # Final list of records -- output
-        records_by_el = []  # List of records by element -- used for some merging, should contain all the same records as records
-        head_def_record = None  # Most recent record from a heading, title or short paragraph
+        for rec in records:
+            print(rec)
+        records_by_el = (
+            []
+        )  # List of records by element -- used for some merging, should contain all the same records as records
+        head_def_record = (
+            None  # Most recent record from a heading, title or short paragraph
+        )
         head_def_record_i = None  # Element index of head_def_record
         last_product_record = None
         title_record = None  # Records found in the title
-        record_id_el_map = {}  # A dictionary that tells what element each record ID came from. We use their IDs as the records themselves change as they are updated
+        record_id_el_map = (
+            {}
+        )  # A dictionary that tells what element each record ID came from. We use their IDs as the records themselves change as they are updated
 
         prev_records = []
         el_records = []
@@ -514,7 +524,10 @@ class Document(BaseDocument):
             # Paragraph with multiple sentences
             # We assume that if the first sentence of a paragraph contains only 1 ID Record, we can treat it as a header definition record, unless directly proceeding a header def record
             elif isinstance(el, Paragraph) and len(el.sentences) > 0:
-                if not (isinstance(self.elements[i - 1], Heading) and head_def_record_i == i - 1):
+                if not (
+                    isinstance(self.elements[i - 1], Heading)
+                    and head_def_record_i == i - 1
+                ):
                     first_sent_records = el.sentences[0].records
                     if (
                         len(first_sent_records) == 1
@@ -524,12 +537,9 @@ class Document(BaseDocument):
                         sent_record = first_sent_records[0]
                         if sent_record.names:
                             longest_name = sorted(sent_record.names, key=len)[0]
-                        if (
-                            sent_record.labels
-                            or (
-                                sent_record.names
-                                and len(longest_name) > len(el.sentences[0].text) / 2
-                            )
+                        if sent_record.labels or (
+                            sent_record.names
+                            and len(longest_name) > len(el.sentences[0].text) / 2
                         ):  # TODO: Why do the length check? Maybe to make sure that the sentence mostly refers to a compound?
                             head_def_record = sent_record
                             head_def_record_i = i
@@ -572,7 +582,10 @@ class Document(BaseDocument):
                     if hasattr(record, "compound"):
                         # We have property values but no names or labels... try merge those from previous records
                         if isinstance(el, Paragraph) and (
-                            head_def_record or last_product_record or last_id_record or title_record
+                            head_def_record
+                            or last_product_record
+                            or last_id_record
+                            or title_record
                         ):
                             # head_def_record from heading takes priority if the heading directly precedes the paragraph ( NOPE: or the last_id_record has no name)
                             if (
@@ -653,7 +666,9 @@ class Document(BaseDocument):
                 other_r_compound = None
                 if isinstance(other_r, Compound):
                     other_r_compound = other_r
-                elif hasattr(other_r, "compound") and isinstance(other_r.compound, Compound):
+                elif hasattr(other_r, "compound") and isinstance(
+                    other_r.compound, Compound
+                ):
                     other_r_compound = other_r.compound
                 if r_compound and other_r_compound:
                     # Strip whitespace and lowercase to compare names
@@ -685,7 +700,10 @@ class Document(BaseDocument):
                         and onames_std is not None
                         and (
                             any(name in rnames_std for name in onames_std)
-                            or any(label in r_compound.labels for label in other_r_compound.labels)
+                            or any(
+                                label in r_compound.labels
+                                for label in other_r_compound.labels
+                            )
                         )
                     ):
                         r_compound.merge(other_r_compound)
@@ -726,7 +744,9 @@ class Document(BaseDocument):
                 backwards_index = i - offset
                 forwards_index = i + offset
                 if backwards_index >= 0 and len(records_by_el[backwards_index]) != 0:
-                    backwards_el = record_id_el_map[id(records_by_el[backwards_index][0])]
+                    backwards_el = record_id_el_map[
+                        id(records_by_el[backwards_index][0])
+                    ]
                     distance = self._element_distance(el, backwards_el)
                     # If we're going backwards, we should iterate over the corresponding record backwards
                     # as those at the end will be closest to the current record
@@ -738,7 +758,8 @@ class Document(BaseDocument):
                     forwards_el = record_id_el_map[id(records_by_el[forwards_index][0])]
                     distance = self._element_distance(el, forwards_el)
                     merge_candidates.extend(
-                        (distance, candidate) for candidate in records_by_el[forwards_index]
+                        (distance, candidate)
+                        for candidate in records_by_el[forwards_index]
                     )
                 offset += 1
 
@@ -1009,7 +1030,9 @@ class Document(BaseDocument):
                             sentences_for_parser_at_index.append([sentence])
                         else:
                             batch_parser_index = self._batch_parsers.index(parser)
-                            sentences_for_parser_at_index[batch_parser_index].append(sentence)
+                            sentences_for_parser_at_index[batch_parser_index].append(
+                                sentence
+                            )
         for parser, sentences in zip(
             self._batch_parsers, sentences_for_parser_at_index, strict=False
         ):
@@ -1073,13 +1096,17 @@ class Document(BaseDocument):
     def preceding_sentences(self, sentence, num_preceding=2):
         sentences = self.sentences
         sentence_index = sentences.index(sentence)
-        adjacent_sentences = sentences[max(0, sentence_index - num_preceding) : sentence_index]
+        adjacent_sentences = sentences[
+            max(0, sentence_index - num_preceding) : sentence_index
+        ]
         return adjacent_sentences
 
     def following_sentences(self, sentence, num_following=2):
         sentences = self.sentences
         sentence_index = sentences.index(sentence)
-        adjacent_sentences = sentences[sentence_index + 1 : sentence_index + num_following + 1]
+        adjacent_sentences = sentences[
+            sentence_index + 1 : sentence_index + num_following + 1
+        ]
         return adjacent_sentences
 
     def _element_distance(self, element_a, element_b):
@@ -1094,7 +1121,9 @@ class Document(BaseDocument):
             index_a = self.elements.index(element_a)
             index_b = self.elements.index(element_b)
         except ValueError:
-            raise ValueError(f"Elements {index_a} and {index_b} not in elements for this document")
+            raise ValueError(
+                f"Elements {index_a} and {index_b} not in elements for this document"
+            )
         if index_a == index_b:
             return SentenceRange()
         if index_a > index_b:
@@ -1131,7 +1160,11 @@ class Document(BaseDocument):
         return any(substring in parent_string for substring in substrings)
 
     def _are_adjacent_sections_for_merging(self, section_a, section_b):
-        if self.adjacent_sections_for_merging is None or section_a is None or section_b is None:
+        if (
+            self.adjacent_sections_for_merging is None
+            or section_a is None
+            or section_b is None
+        ):
             return False
         section_a = section_a.lower()
         section_b = section_b.lower()

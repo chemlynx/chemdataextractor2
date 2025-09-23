@@ -29,6 +29,7 @@ class TestDocument(unittest.TestCase):
         doc = Document.from_file(full_path)
         doc.models = [Compound]
         cacher = PlainTextCacher(test_cache_location)
+        print("Shambala")
         cacher.cache_document(doc, "test_cache", overwrite_cache=True)
 
         cached_document = Document.from_file(full_path)
