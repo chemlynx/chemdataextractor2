@@ -359,7 +359,7 @@
 <span class="line-precise" title="No Anys on this line!">    pass</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!"># Type aliases for abbreviation detection</span>
-<span class="line-precise" title="No Anys on this line!">AbbreviationDef = Tuple[List[str], List[str], str]  # (definition_tokens, abbrev_tokens, abbrev_str)</span>
+<span class="line-precise" title="No Anys on this line!">AbbreviationDef = tuple[list[str], list[str], str]  # (definition_tokens, abbrev_tokens, abbrev_str)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">log = logging.getLogger(__name__)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
@@ -383,13 +383,13 @@
 <span class="line-empty" title="No Anys on this line!">    #: Maximum abbreviation length</span>
 <span class="line-precise" title="No Anys on this line!">    abbr_max: int = 10</span>
 <span class="line-empty" title="No Anys on this line!">    #: String equivalents to use when detecting abbreviations.</span>
-<span class="line-precise" title="No Anys on this line!">    abbr_equivs: List[str] = []</span>
+<span class="line-precise" title="No Anys on this line!">    abbr_equivs: list[str] = []</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">    def __init__(</span>
 <span class="line-empty" title="No Anys on this line!">        self,</span>
-<span class="line-precise" title="No Anys on this line!">        abbr_min: Optional[int] = None,</span>
-<span class="line-precise" title="No Anys on this line!">        abbr_max: Optional[int] = None,</span>
-<span class="line-precise" title="No Anys on this line!">        abbr_equivs: Optional[List[str]] = None,</span>
+<span class="line-precise" title="No Anys on this line!">        abbr_min: int | None = None,</span>
+<span class="line-precise" title="No Anys on this line!">        abbr_max: int | None = None,</span>
+<span class="line-precise" title="No Anys on this line!">        abbr_equivs: list[str] | None = None,</span>
 <span class="line-empty" title="No Anys on this line!">    ) -&gt; None:</span>
 <span class="line-empty" title="No Anys on this line!">        """Initialize abbreviation detector.</span>
 <span class="line-empty" title="No Anys on this line!"></span>
@@ -402,7 +402,7 @@
 <span class="line-precise" title="No Anys on this line!">        self.abbr_max = abbr_max if abbr_max is not None else self.abbr_max</span>
 <span class="line-precise" title="No Anys on this line!">        self.abbr_equivs = abbr_equivs if abbr_equivs is not None else self.abbr_equivs</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-precise" title="No Anys on this line!">    def _is_allowed_abbr(self, tokens: List[str]) -&gt; bool:</span>
+<span class="line-precise" title="No Anys on this line!">    def _is_allowed_abbr(self, tokens: list[str]) -&gt; bool:</span>
 <span class="line-empty" title="No Anys on this line!">        """Check if token sequence is an allowed abbreviation.</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">        Args:</span>

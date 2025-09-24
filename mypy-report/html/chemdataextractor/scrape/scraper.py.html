@@ -221,7 +221,7 @@
 <span class="line-empty" title="No Anys on this line!">        :returns: The response to the request.</span>
 <span class="line-empty" title="No Anys on this line!">        :rtype: requests.Response</span>
 <span class="line-empty" title="No Anys on this line!">        """</span>
-<span class="line-empty" title="No Anys on this line!">        log.debug("Making request: GET %s %s" % (url, kwargs))</span>
+<span class="line-empty" title="No Anys on this line!">        log.debug(f"Making request: GET {url} {kwargs}")</span>
 <span class="line-empty" title="No Anys on this line!">        return session.get(url, **kwargs)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!"></span>
@@ -234,7 +234,7 @@
 <span class="line-empty" title="No Anys on this line!">        :returns: The response to the request.</span>
 <span class="line-empty" title="No Anys on this line!">        :rtype: requests.Response</span>
 <span class="line-empty" title="No Anys on this line!">        """</span>
-<span class="line-empty" title="No Anys on this line!">        log.debug("Making request: POST %s %s" % (url, kwargs))</span>
+<span class="line-empty" title="No Anys on this line!">        log.debug(f"Making request: POST {url} {kwargs}")</span>
 <span class="line-empty" title="No Anys on this line!">        return session.post(url, **kwargs)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!"></span>

@@ -411,8 +411,6 @@
 <span id="L401" class="lineno"><a class="lineno" href="#L401">401</a></span>
 <span id="L402" class="lineno"><a class="lineno" href="#L402">402</a></span>
 <span id="L403" class="lineno"><a class="lineno" href="#L403">403</a></span>
-<span id="L404" class="lineno"><a class="lineno" href="#L404">404</a></span>
-<span id="L405" class="lineno"><a class="lineno" href="#L405">405</a></span>
 </pre></td>
 <td class="table-code"><pre><span class="line-empty" title="No Anys on this line!">"""</span>
 <span class="line-empty" title="No Anys on this line!">XML and HTML readers based on lxml.</span>
@@ -562,15 +560,15 @@ Unannotated (x3)">                and len(elements) &gt; 0</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x3)">                and len(child_elements) &gt; 0</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x24)">                and isinstance(elements[-1], (Text, Sentence))</span>
+Unannotated (x25)">                and isinstance(elements[-1], Text | Sentence)</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x23)">                and isinstance(child_elements[0], (Text, Sentence))</span>
+Unannotated (x24)">                and isinstance(child_elements[0], Text | Sentence)</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x8)
+Unannotated (x6)
 Explicit (x4)">                and type(elements[-1]) == type(child_elements[0])</span>
 <span class="line-empty" title="No Anys on this line!">            ):</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x6)">                elements[-1] += child_elements.pop(0)</span>
+Unannotated (x5)">                elements[-1] += child_elements.pop(0)</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x4)">            elements.extend(child_elements)</span>
 <span class="line-any" title="Any Types on this line: 
@@ -650,11 +648,8 @@ Unannotated (x5)">                element += element_cls(" ") + next_element</sp
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x2)">                log.warning(</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">                    "Adding of two objects was skipped. {} and {} cannot be added.".format(</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x6)
-Explicit (x4)">                        str(type(element)), str(type(next_element))</span>
-<span class="line-empty" title="No Anys on this line!">                    )</span>
+Unannotated (x12)
+Explicit (x4)">                    f"Adding of two objects was skipped. {str(type(element))} and {str(type(next_element))} cannot be added."</span>
 <span class="line-empty" title="No Anys on this line!">                )</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">        return [element]</span>

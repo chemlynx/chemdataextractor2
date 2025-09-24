@@ -258,7 +258,6 @@
 <span id="L248" class="lineno"><a class="lineno" href="#L248">248</a></span>
 <span id="L249" class="lineno"><a class="lineno" href="#L249">249</a></span>
 <span id="L250" class="lineno"><a class="lineno" href="#L250">250</a></span>
-<span id="L251" class="lineno"><a class="lineno" href="#L251">251</a></span>
 </pre></td>
 <td class="table-code"><pre><span class="line-empty" title="No Anys on this line!">"""</span>
 <span class="line-empty" title="No Anys on this line!">Tools for normalizing text.</span>
@@ -281,6 +280,7 @@
 <span class="line-precise" title="No Anys on this line!">from . import SLASHES</span>
 <span class="line-precise" title="No Anys on this line!">from . import TILDES</span>
 <span class="line-precise" title="No Anys on this line!">from .processors import BaseProcessor</span>
+<span class="line-precise" title="No Anys on this line!">from ..parse.regex_patterns import normalize_chemical_spelling</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">class BaseNormalizer(BaseProcessor, metaclass=ABCMeta):</span>
@@ -477,7 +477,7 @@ Unannotated (x8)">strict_normalize = Normalizer(</span>
 <span class="line-empty" title="No Anys on this line!">    ):</span>
 <span class="line-empty" title="No Anys on this line!">        """"""</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x8)">        super(ExcessNormalizer, self).__init__(</span>
+Unannotated (x1)">        super().__init__(</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">            form,</span>
 <span class="line-any" title="Any Types on this line: 
@@ -497,7 +497,7 @@ Unannotated (x1)">            tildes=tildes,</span>
 <span class="line-any" title="No Anys on this line!">    def normalize(self, text):</span>
 <span class="line-empty" title="No Anys on this line!">        # Lowercase and normalize unicode</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x12)">        text = super(ExcessNormalizer, self).normalize(text.lower())</span>
+Unannotated (x5)">        text = super().normalize(text.lower())</span>
 <span class="line-empty" title="No Anys on this line!">        # Remove all whitespace</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x4)">        text = "".join(text.split())</span>
@@ -538,7 +538,7 @@ Unannotated (x7)">excess_normalize = ExcessNormalizer(</span>
 <span class="line-empty" title="No Anys on this line!">    ):</span>
 <span class="line-empty" title="No Anys on this line!">        """"""</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x9)">        super(ChemNormalizer, self).__init__(</span>
+Unannotated (x1)">        super().__init__(</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">            form,</span>
 <span class="line-any" title="Any Types on this line: 
@@ -560,16 +560,12 @@ Unannotated (x2)">        self.chem_spell = chem_spell</span>
 <span class="line-any" title="No Anys on this line!">    def normalize(self, text):</span>
 <span class="line-empty" title="No Anys on this line!">        """Normalize unicode, hyphens, whitespace, and some chemistry terms and formatting."""</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x11)">        text = super(ChemNormalizer, self).normalize(text)</span>
+Unannotated (x3)">        text = super().normalize(text)</span>
 <span class="line-empty" title="No Anys on this line!">        # Normalize element spelling</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">        if self.chem_spell:</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            text = re.sub(r"sulph", r"sulf", text, flags=re.I)</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            text = re.sub(r"aluminum", r"aluminium", text, flags=re.I)</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            text = re.sub(r"cesium", r"caesium", text, flags=re.I)</span>
+Unannotated (x2)">            text = normalize_chemical_spelling(text)</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">        return text</span>
 <span class="line-empty" title="No Anys on this line!"></span>

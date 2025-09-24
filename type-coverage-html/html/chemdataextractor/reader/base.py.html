@@ -122,7 +122,7 @@
 <span class="line-precise" title="No Anys on this line!">    from ..doc.document import Document</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!"># Type aliases for file-like objects</span>
-<span class="line-precise" title="No Anys on this line!">FileInput = Union[str, bytes, BinaryIO, TextIO]</span>
+<span class="line-precise" title="No Anys on this line!">type FileInput = str | bytes | BinaryIO | TextIO</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">class BaseReader(metaclass=ABCMeta):</span>
@@ -138,9 +138,9 @@
 <span class="line-precise" title="No Anys on this line!">    def __init__(self) -&gt; None:</span>
 <span class="line-empty" title="No Anys on this line!">        """Initialize the reader."""</span>
 <span class="line-imprecise" title="Any Types on this line: 
-Explicit (x1)">        self.root: Optional[Any] = None</span>
+Explicit (x1)">        self.root: Any | None = None</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-precise" title="No Anys on this line!">    def detect(self, fstring: Union[str, bytes], fname: Optional[str] = None) -&gt; bool:</span>
+<span class="line-precise" title="No Anys on this line!">    def detect(self, fstring: str | bytes, fname: str | None = None) -&gt; bool:</span>
 <span class="line-empty" title="No Anys on this line!">        """Quickly check if this reader can parse the input.</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">        Reader subclasses should override this method to provide format detection.</span>
@@ -157,7 +157,7 @@ Explicit (x1)">        self.root: Optional[Any] = None</span>
 <span class="line-precise" title="No Anys on this line!">        return True</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">    @abstractmethod</span>
-<span class="line-precise" title="No Anys on this line!">    def parse(self, fstring: Union[str, bytes]) -&gt; Document:</span>
+<span class="line-precise" title="No Anys on this line!">    def parse(self, fstring: str | bytes) -&gt; Document:</span>
 <span class="line-empty" title="No Anys on this line!">        """Parse the input and return a Document.</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">        Args:</span>
@@ -171,7 +171,7 @@ Explicit (x1)">        self.root: Optional[Any] = None</span>
 <span class="line-empty" title="No Anys on this line!">        """</span>
 <span class="line-precise" title="No Anys on this line!">        pass</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-precise" title="No Anys on this line!">    def read(self, f: Union[BinaryIO, TextIO]) -&gt; Document:</span>
+<span class="line-precise" title="No Anys on this line!">    def read(self, f: BinaryIO | TextIO) -&gt; Document:</span>
 <span class="line-empty" title="No Anys on this line!">        """Read a file-like object and return a Document.</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">        Args:</span>
@@ -182,7 +182,7 @@ Explicit (x1)">        self.root: Optional[Any] = None</span>
 <span class="line-empty" title="No Anys on this line!">        """</span>
 <span class="line-precise" title="No Anys on this line!">        return self.parse(f.read())</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-precise" title="No Anys on this line!">    def readstring(self, fstring: Union[str, bytes]) -&gt; Document:</span>
+<span class="line-precise" title="No Anys on this line!">    def readstring(self, fstring: str | bytes) -&gt; Document:</span>
 <span class="line-empty" title="No Anys on this line!">        """Read a file string and return a Document.</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">        Args:</span>

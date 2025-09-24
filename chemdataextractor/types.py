@@ -20,13 +20,17 @@ from typing import runtime_checkable
 
 try:
     from typing import NotRequired
+    from typing import ParamSpec
     from typing import Self
+    from typing import TypeVarTuple
 
     from typing_extensions import TypedDict
 except ImportError:
     from typing import NotRequired
     from typing import Self
     from typing import TypedDict
+    from typing_extensions import ParamSpec
+    from typing_extensions import TypeVarTuple
 
 # Enhanced TypeVars for generic programming with proper bounds and constraints
 T = TypeVar("T")  # Generic type parameter for BaseType descriptors
@@ -45,6 +49,20 @@ SerializableT = TypeVar("SerializableT", bound="Serializable")  # For serializab
 ParseableT = TypeVar("ParseableT", bound="Parseable")  # For parseable elements
 UnitT = TypeVar("UnitT", bound="Unit")  # For unit types and conversions
 DimensionT = TypeVar("DimensionT", bound="Dimension")  # For dimensional analysis
+
+# Phase 4: Advanced Generic Patterns
+P = ParamSpec("P")  # For function signatures in decorators and higher-order functions
+Ts = TypeVarTuple("Ts")  # For variadic generics (multiple model types)
+
+# Phase 4a: ParamSpec for advanced callable typing
+DecoratorP = ParamSpec("DecoratorP")  # For decorator function signatures
+CallbackP = ParamSpec("CallbackP")  # For callback function signatures
+ParserP = ParamSpec("ParserP")  # For parser function signatures
+
+# Phase 4b: TypeVarTuple for variadic model collections
+ModelTs = TypeVarTuple("ModelTs")  # For multiple model types in parsers
+PropertyTs = TypeVarTuple("PropertyTs")  # For multiple property types
+ElementTs = TypeVarTuple("ElementTs")  # For multiple element types
 
 # Final constants for ChemDataExtractor
 DEFAULT_CONFIDENCE_THRESHOLD: Final[float] = 0.7
@@ -561,6 +579,34 @@ type ElementType = Literal[
 
 type LogLevel = Literal["DEBUG", "INFO", "WARNING", "ERROR", "CRITICAL"]
 
+# Phase 4a: Advanced Callable Types with ParamSpec
+type ParserFunction[P: ParamSpec, T] = Callable[P, list[T]]  # Parser with preserved signature
+type DecoratedParser[P: ParamSpec, T] = Callable[P, T]  # Decorated function with exact signature
+type CacheableFunction[P: ParamSpec, T] = Callable[P, T]  # Function that can be cached
+type ConfidenceFunction[P: ParamSpec, T] = Callable[
+    P, tuple[T, float]
+]  # Function returning confidence
+
+# Phase 4a: Specific decorator type patterns
+type CachingDecorator[P: ParamSpec, T] = Callable[
+    [CacheableFunction[P, T]], CacheableFunction[P, T]
+]
+type ConfidenceDecorator[P: ParamSpec, T] = Callable[
+    [ParserFunction[P, T]], Callable[P, list[tuple[T, float]]]
+]
+type ValidationDecorator[P: ParamSpec, T] = Callable[[Callable[P, T]], Callable[P, T]]
+type TimingDecorator[P: ParamSpec, T] = Callable[[Callable[P, T]], Callable[P, T]]
+
+# Phase 4b: Variadic Generic Types with TypeVarTuple
+type MultiModelParser[*Ts] = Callable[[str], tuple[*Ts]]  # Parser returning multiple model types
+type MultiPropertyExtractor[*Ts] = Callable[[str], tuple[*Ts]]  # Multiple property extractors
+type VariadicProcessor[*Ts] = Callable[[*Ts], Any]  # Function accepting variable model types
+type ModelTuple[*Ts] = tuple[*Ts]  # Tuple of specific model types
+
+# Phase 4b: Advanced collection types
+type HeterogeneousResults[*Ts] = dict[str, tuple[*Ts]]  # Results with different types per key
+type TypedExtractionResults[*Ts] = dict[PropertyType, tuple[*Ts]]  # Property-specific result types
+
 __all__ = [
     # Enhanced TypeVars
     "T",
@@ -642,4 +688,29 @@ __all__ = [
     "TEMPERATURE_UNITS",
     "MASS_UNITS",
     "SUPPORTED_ELEMENTS",
+    # Phase 4 Advanced Generic Patterns
+    "P",
+    "Ts",
+    "DecoratorP",
+    "CallbackP",
+    "ParserP",
+    "ModelTs",
+    "PropertyTs",
+    "ElementTs",
+    # Phase 4a ParamSpec Function Types
+    "ParserFunction",
+    "DecoratedParser",
+    "CacheableFunction",
+    "ConfidenceFunction",
+    "CachingDecorator",
+    "ConfidenceDecorator",
+    "ValidationDecorator",
+    "TimingDecorator",
+    # Phase 4b TypeVarTuple Types
+    "MultiModelParser",
+    "MultiPropertyExtractor",
+    "VariadicProcessor",
+    "ModelTuple",
+    "HeterogeneousResults",
+    "TypedExtractionResults",
 ]

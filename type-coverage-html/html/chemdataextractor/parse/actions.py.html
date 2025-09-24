@@ -130,8 +130,8 @@
 <span class="line-precise" title="No Anys on this line!">from ..text import HYPHENS</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!"># Type aliases for parse actions</span>
-<span class="line-precise" title="No Anys on this line!">TokenList = List[str]  # List of tokens</span>
-<span class="line-precise" title="No Anys on this line!">ParseResult = List[Any]  # List of XML elements from parsing</span>
+<span class="line-precise" title="No Anys on this line!">TokenList = list[str]  # List of tokens</span>
+<span class="line-precise" title="No Anys on this line!">ParseResult = list[Any]  # List of XML elements from parsing</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">log = logging.getLogger(__name__)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
@@ -221,7 +221,7 @@ Unannotated (x6)">                child.text = child.text.replace(" , ", ", ")</
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">                for hyphen in HYPHENS:</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x8)">                    child.text = child.text.replace(" %s " % hyphen, "%s" % hyphen)</span>
+Unannotated (x14)">                    child.text = child.text.replace(f" {hyphen} ", f"{hyphen}")</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x5)">                child.text = re.sub(r"- (.) -", r"-\1-", child.text)</span>
 <span class="line-any" title="Any Types on this line: 

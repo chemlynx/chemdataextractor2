@@ -299,7 +299,7 @@
 <span class="line-precise" title="No Anys on this line!">from .utils import subfinder</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!"># Type aliases for clustering</span>
-<span class="line-precise" title="No Anys on this line!">PhraseList = List[Phrase]  # List of phrases in a cluster</span>
+<span class="line-precise" title="No Anys on this line!">PhraseList = list[Phrase]  # List of phrases in a cluster</span>
 <span class="line-precise" title="No Anys on this line!">ClusterDict = OrderedDict[str, Any]  # Dictionary of cluster properties</span>
 <span class="line-precise" title="Any Types on this line: 
 Explicit (x6)
@@ -313,7 +313,7 @@ Omitted Generics (x4)">DistanceMatrix = np.ndarray  # Matrix of distances betwee
 <span class="line-empty" title="No Anys on this line!">    for learning relationship extraction rules.</span>
 <span class="line-empty" title="No Anys on this line!">    """</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-precise" title="No Anys on this line!">    def __init__(self, label: Optional[str] = None, learning_rate: float = 0.5) -&gt; None:</span>
+<span class="line-precise" title="No Anys on this line!">    def __init__(self, label: str | None = None, learning_rate: float = 0.5) -&gt; None:</span>
 <span class="line-empty" title="No Anys on this line!">        """Create a new cluster.</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">        Args:</span>

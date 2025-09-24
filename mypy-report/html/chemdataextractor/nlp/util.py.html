@@ -245,8 +245,6 @@
 <span id="L235" class="lineno"><a class="lineno" href="#L235">235</a></span>
 <span id="L236" class="lineno"><a class="lineno" href="#L236">236</a></span>
 <span id="L237" class="lineno"><a class="lineno" href="#L237">237</a></span>
-<span id="L238" class="lineno"><a class="lineno" href="#L238">238</a></span>
-<span id="L239" class="lineno"><a class="lineno" href="#L239">239</a></span>
 </pre></td>
 <td class="table-code"><pre><span class="line-precise" title="No Anys on this line!">import logging</span>
 <span class="line-precise" title="No Anys on this line!">import math</span>
@@ -317,7 +315,7 @@ Omitted Generics (x3)">        view_args = list(original_size) + [tensor.size(-1
 Unannotated (x1)">def viterbi_decode(</span>
 <span class="line-empty" title="No Anys on this line!">    tag_sequence: torch.Tensor,</span>
 <span class="line-empty" title="No Anys on this line!">    transition_matrix: torch.Tensor,</span>
-<span class="line-precise" title="No Anys on this line!">    tag_observations: Optional[List[int]] = None,</span>
+<span class="line-precise" title="No Anys on this line!">    tag_observations: list[int] | None = None,</span>
 <span class="line-precise" title="No Anys on this line!">    allowed_start_transitions: torch.Tensor = None,</span>
 <span class="line-precise" title="No Anys on this line!">    allowed_end_transitions: torch.Tensor = None,</span>
 <span class="line-precise" title="No Anys on this line!">    top_k: int = None,</span>
@@ -416,9 +414,7 @@ Explicit (x1)">            [allowed_end_transitions, torch.tensor([-math.inf, -m
 <span class="line-precise" title="Any Types on this line: 
 Explicit (x1)">            raise ConfigurationError(</span>
 <span class="line-precise" title="No Anys on this line!">                "Observations were provided, but they were not the same length "</span>
-<span class="line-empty" title="No Anys on this line!">                "as the sequence. Found sequence of length: {} and evidence: {}".format(</span>
-<span class="line-precise" title="No Anys on this line!">                    sequence_length, tag_observations</span>
-<span class="line-empty" title="No Anys on this line!">                )</span>
+<span class="line-precise" title="No Anys on this line!">                f"as the sequence. Found sequence of length: {sequence_length} and evidence: {tag_observations}"</span>
 <span class="line-empty" title="No Anys on this line!">            )</span>
 <span class="line-empty" title="No Anys on this line!">    else:</span>
 <span class="line-precise" title="No Anys on this line!">        tag_observations = [-1 for _ in range(sequence_length)]</span>

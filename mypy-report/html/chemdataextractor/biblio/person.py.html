@@ -976,8 +976,7 @@ Omitted Generics (x4)">ORCID_RE = re.compile(r"^\d{4}-\d{4}-\d{4}-\d{4}$")</span
 <span class="line-empty" title="No Anys on this line!">        :param str fullname: The person's name.</span>
 <span class="line-empty" title="No Anys on this line!">        :param bool from_bibtex: (Optional) Whether the fullname parameter is in BibTeX format. Default False.</span>
 <span class="line-empty" title="No Anys on this line!">        """</span>
-<span class="line-precise" title="Any Types on this line: 
-Unannotated (x2)">        super(PersonName, self).__init__()</span>
+<span class="line-precise" title="No Anys on this line!">        super().__init__()</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x2)">        self._from_bibtex = from_bibtex</span>
 <span class="line-any" title="Any Types on this line: 
@@ -985,7 +984,7 @@ Unannotated (x2)">        self.fullname = fullname</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="No Anys on this line!">    def __repr__(self):</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x1)">        return "%s(%r)" % (self.__class__.__name__, self.fullname)</span>
+Unannotated (x1)">        return f"{self.__class__.__name__}({self.fullname!r})"</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="No Anys on this line!">    def __str__(self):</span>
 <span class="line-precise" title="Any Types on this line: 
@@ -1231,7 +1230,7 @@ Unannotated (x5)">            self["middlename"] = self._clean(" ".join(tokens),
 <span class="line-empty" title="No Anys on this line!">        ]:</span>
 <span class="line-precise" title="No Anys on this line!">            if attr in self:</span>
 <span class="line-any" title="Any Types on this line: 
-Error (x4)">                namelist.append('"%s"' % self[attr] if attr == "nickname" else self[attr])</span>
+Error (x4)">                namelist.append(f'"{self[attr]}"' if attr == "nickname" else self[attr])</span>
 <span class="line-any" title="Any Types on this line: 
 Error (x1)">        self["fullname"] = " ".join(namelist)</span>
 </pre></td>

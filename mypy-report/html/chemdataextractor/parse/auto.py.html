@@ -593,7 +593,7 @@
 <span class="line-precise" title="No Anys on this line!">import logging</span>
 <span class="line-precise" title="No Anys on this line!">from typing import TYPE_CHECKING</span>
 <span class="line-precise" title="No Anys on this line!">from typing import Any</span>
-<span class="line-precise" title="No Anys on this line!">from typing import Callable</span>
+<span class="line-precise" title="No Anys on this line!">from collections.abc import Callable</span>
 <span class="line-precise" title="No Anys on this line!">from typing import List</span>
 <span class="line-precise" title="No Anys on this line!">from typing import Optional</span>
 <span class="line-precise" title="No Anys on this line!">from typing import Tuple</span>
@@ -627,9 +627,9 @@
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!"># Type aliases for auto parsing</span>
 <span class="line-any" title="Any Types on this line: 
-Explicit (x1)">ParseResult = Tuple[List[Any], int]  # Parse result with tokens and position</span>
+Explicit (x1)">ParseResult = tuple[list[Any], int]  # Parse result with tokens and position</span>
 <span class="line-precise" title="No Anys on this line!">ParserFunction = Callable[[ParseResult], bool]  # Function to validate parse results</span>
-<span class="line-precise" title="No Anys on this line!">EntityList = List[BaseParserElement]  # List of parser elements</span>
+<span class="line-precise" title="No Anys on this line!">EntityList = list[BaseParserElement]  # List of parser elements</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">log = logging.getLogger(__name__)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
@@ -881,11 +881,11 @@ Unannotated (x1)">        result = result | entity</span>
 <span class="line-precise" title="No Anys on this line!">    _root_phrase: Optional[BaseParserElement] = None</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">    def __init__(self) -&gt; None:</span>
-<span class="line-precise" title="No Anys on this line!">        super(BaseAutoParser, self).__init__()</span>
+<span class="line-precise" title="No Anys on this line!">        super().__init__()</span>
 <span class="line-precise" title="No Anys on this line!">        self._trigger_property: Optional[str] = None</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="Any Types on this line: 
-Explicit (x1)">    def interpret(self, results: Any, start: int, end: int) -&gt; List[BaseModel]:</span>
+Explicit (x1)">    def interpret(self, results: Any, start: int, end: int) -&gt; list[BaseModel]:</span>
 <span class="line-empty" title="No Anys on this line!">        """Interpret parse results and extract model instances.</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">        Args:</span>
@@ -1105,7 +1105,7 @@ Unannotated (x5)">            return result.xpath("//" + field_name)</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x3)">    def __init__(self, lenient=False, chem_name=(cem | chemical_label), activate_to_range=False):</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x1)">        super(AutoSentenceParser, self).__init__()</span>
+Unannotated (x1)">        super().__init__()</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x2)">        self.lenient = lenient</span>
 <span class="line-any" title="Any Types on this line: 
@@ -1261,7 +1261,7 @@ Unannotated (x5)">        chem_name: BaseParserElement = (cem | chemical_label |
 <span class="line-empty" title="No Anys on this line!">        Args:</span>
 <span class="line-empty" title="No Anys on this line!">            chem_name: Parser element for recognizing chemical names</span>
 <span class="line-empty" title="No Anys on this line!">        """</span>
-<span class="line-precise" title="No Anys on this line!">        super(AutoTableParser, self).__init__()</span>
+<span class="line-precise" title="No Anys on this line!">        super().__init__()</span>
 <span class="line-precise" title="No Anys on this line!">        self.chem_name: BaseParserElement = chem_name</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">    @property</span>

@@ -2017,7 +2017,7 @@
 <span class="line-precise" title="No Anys on this line!">from abc import ABCMeta</span>
 <span class="line-precise" title="No Anys on this line!">from abc import abstractmethod</span>
 <span class="line-precise" title="No Anys on this line!">from typing import TYPE_CHECKING</span>
-<span class="line-precise" title="No Anys on this line!">from typing import Iterator</span>
+<span class="line-precise" title="No Anys on this line!">from collections.abc import Iterator</span>
 <span class="line-precise" title="No Anys on this line!">from typing import List</span>
 <span class="line-precise" title="No Anys on this line!">from typing import Optional</span>
 <span class="line-precise" title="No Anys on this line!">from typing import Set</span>
@@ -2035,8 +2035,8 @@
 <span class="line-precise" title="No Anys on this line!">    pass</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!"># Type aliases for tokenization</span>
-<span class="line-precise" title="No Anys on this line!">TokenSpan = Tuple[int, int]  # Start and end positions of tokens</span>
-<span class="line-precise" title="No Anys on this line!">TokenList = List[str]  # List of token strings</span>
+<span class="line-precise" title="No Anys on this line!">TokenSpan = tuple[int, int]  # Start and end positions of tokens</span>
+<span class="line-precise" title="No Anys on this line!">TokenList = list[str]  # List of token strings</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">log = logging.getLogger(__name__)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
@@ -2117,15 +2117,15 @@ Unimported (x2)">    @deprecated(</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">    model: str = "models/punkt_english.pickle"  # This is available from NLTK</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-precise" title="No Anys on this line!">    def __init__(self, model: Optional[str] = None) -&gt; None:</span>
+<span class="line-precise" title="No Anys on this line!">    def __init__(self, model: str | None = None) -&gt; None:</span>
 <span class="line-empty" title="No Anys on this line!">        """Initialize sentence tokenizer.</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">        Args:</span>
 <span class="line-empty" title="No Anys on this line!">            model: Optional[str] - Path to custom Punkt model file</span>
 <span class="line-empty" title="No Anys on this line!">        """</span>
 <span class="line-precise" title="No Anys on this line!">        self.model = model if model is not None else self.model</span>
-<span class="line-precise" title="No Anys on this line!">        self._tokenizer: Optional[object] = None  # NLTK tokenizer instance</span>
-<span class="line-precise" title="No Anys on this line!">        log.debug("%s: Initializing with %s" % (self.__class__.__name__, self.model))</span>
+<span class="line-precise" title="No Anys on this line!">        self._tokenizer: object | None = None  # NLTK tokenizer instance</span>
+<span class="line-precise" title="No Anys on this line!">        log.debug(f"{self.__class__.__name__}: Initializing with {self.model}")</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">    def get_sentences(self, text: object) -&gt; list[object]:  # Text -&gt; list[Sentence]</span>
 <span class="line-empty" title="No Anys on this line!">        """Get sentence objects from text using tokenization.</span>
@@ -2183,7 +2183,7 @@ Unannotated (x1)">        return self._tokenizer.span_tokenize(s)</span>
 <span class="line-empty" title="No Anys on this line!">    """</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">    #: Split before and after these sequences, wherever they occur, unless entire token is one of these sequences</span>
-<span class="line-precise" title="No Anys on this line!">    SPLIT: List[str] = [</span>
+<span class="line-precise" title="No Anys on this line!">    SPLIT: list[str] = [</span>
 <span class="line-precise" title="No Anys on this line!">        "----",</span>
 <span class="line-precise" title="No Anys on this line!">        "––––",  # \u2013 en dash</span>
 <span class="line-precise" title="No Anys on this line!">        "————",  # \u2014 em dash</span>
@@ -2341,7 +2341,7 @@ Unannotated (x1)">        return self._tokenizer.span_tokenize(s)</span>
 <span class="line-precise" title="No Anys on this line!">        ("'twas", 2),</span>
 <span class="line-empty" title="No Anys on this line!">    ]</span>
 <span class="line-empty" title="No Anys on this line!">    #: Don't split these sequences.</span>
-<span class="line-precise" title="No Anys on this line!">    NO_SPLIT: Set[str] = {"mm-hm", "mm-mm", "o-kay", "uh-huh", "uh-oh", "wanna-be"}</span>
+<span class="line-precise" title="No Anys on this line!">    NO_SPLIT: set[str] = {"mm-hm", "mm-mm", "o-kay", "uh-huh", "uh-oh", "wanna-be"}</span>
 <span class="line-empty" title="No Anys on this line!">    #: Don't split around hyphens with these prefixes</span>
 <span class="line-precise" title="No Anys on this line!">    NO_SPLIT_PREFIX = {</span>
 <span class="line-precise" title="No Anys on this line!">        "e",</span>
@@ -3597,7 +3597,7 @@ Unannotated (x4)">            and after[0].isdigit()</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x5)">            and before.rstrip("0123456789").endswith("(")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x5)">            and after.lstrip("0123456789").startswith(")-")</span>
+Unannotated (x5)">            and after.lstrip("0123456789").startswith(")")</span>
 <span class="line-empty" title="No Anys on this line!">        ):</span>
 <span class="line-any" title="No Anys on this line!">            return True</span>
 <span class="line-empty" title="No Anys on this line!">        else:</span>
@@ -4168,7 +4168,7 @@ Unannotated (x14)">                    return [(span[0], span[0] + i + 1), (span
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">        # Perform all normal WordTokenizer splits</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x5)">        return super(FineWordTokenizer, self)._subspan(s, span, nextspan, additional_regex)</span>
+Unannotated (x5)">        return super()._subspan(s, span, nextspan, additional_regex)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">class BertWordTokenizer(ChemWordTokenizer):</span>

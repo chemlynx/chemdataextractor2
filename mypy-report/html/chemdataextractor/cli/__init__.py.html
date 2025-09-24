@@ -134,13 +134,13 @@
 <span class="line-precise" title="No Anys on this line!">import logging</span>
 <span class="line-precise" title="No Anys on this line!">from typing import Any</span>
 <span class="line-precise" title="No Anys on this line!">from typing import BinaryIO</span>
-<span class="line-precise" title="No Anys on this line!">from typing import Dict</span>
 <span class="line-precise" title="No Anys on this line!">from typing import TextIO</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">import click</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">from .. import __version__</span>
 <span class="line-precise" title="No Anys on this line!">from ..doc import Document</span>
+<span class="line-precise" title="No Anys on this line!">import builtins</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">log = logging.getLogger(__name__)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
@@ -166,7 +166,7 @@ Omitted Generics (x6)">@click.pass_context</span>
 <span class="line-empty" title="No Anys on this line!">        ctx: click.Context - Click context object</span>
 <span class="line-empty" title="No Anys on this line!">        verbose: bool - Enable verbose debug logging</span>
 <span class="line-empty" title="No Anys on this line!">    """</span>
-<span class="line-empty" title="No Anys on this line!">    log.debug("ChemDataExtractor v%s" % __version__)</span>
+<span class="line-empty" title="No Anys on this line!">    log.debug(f"ChemDataExtractor v{__version__}")</span>
 <span class="line-empty" title="No Anys on this line!">    logging.basicConfig(level=logging.DEBUG if verbose else logging.INFO)</span>
 <span class="line-empty" title="No Anys on this line!">    logging.getLogger("requests").setLevel(logging.WARN)</span>
 <span class="line-empty" title="No Anys on this line!">    ctx.obj = {}</span>
@@ -189,7 +189,7 @@ Explicit (x1)">@click.argument("input", type=click.File("rb"), default=click.get
 <span class="line-precise" title="Any Types on this line: 
 Omitted Generics (x7)">@click.pass_obj</span>
 <span class="line-imprecise" title="Any Types on this line: 
-Explicit (x1)">def extract(ctx: Dict[str, Any], input: BinaryIO, output: TextIO) -&gt; None:</span>
+Explicit (x1)">def extract(ctx: builtins.dict[str, Any], input: BinaryIO, output: TextIO) -&gt; None:</span>
 <span class="line-empty" title="No Anys on this line!">    """Run ChemDataExtractor on a document.</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">    Args:</span>
@@ -198,7 +198,7 @@ Explicit (x1)">def extract(ctx: Dict[str, Any], input: BinaryIO, output: TextIO)
 <span class="line-empty" title="No Anys on this line!">        output: TextIO - Output file stream</span>
 <span class="line-empty" title="No Anys on this line!">    """</span>
 <span class="line-empty" title="No Anys on this line!">    log.info("chemdataextractor.extract")</span>
-<span class="line-empty" title="No Anys on this line!">    log.info("Reading %s" % input.name)</span>
+<span class="line-empty" title="No Anys on this line!">    log.info(f"Reading {input.name}")</span>
 <span class="line-empty" title="No Anys on this line!">    doc = Document.from_file(input, fname=input.name)</span>
 <span class="line-empty" title="No Anys on this line!">    records = [record.serialize(primitive=True) for record in doc.records]</span>
 <span class="line-empty" title="No Anys on this line!">    jsonstring = json.dumps(records, indent=2, ensure_ascii=False)</span>
@@ -222,7 +222,7 @@ Explicit (x1)">@click.argument("input", type=click.File("rb"), default=click.get
 <span class="line-precise" title="Any Types on this line: 
 Omitted Generics (x7)">@click.pass_obj</span>
 <span class="line-imprecise" title="Any Types on this line: 
-Explicit (x1)">def read(ctx: Dict[str, Any], input: BinaryIO, output: TextIO) -&gt; None:</span>
+Explicit (x1)">def read(ctx: builtins.dict[str, Any], input: BinaryIO, output: TextIO) -&gt; None:</span>
 <span class="line-empty" title="No Anys on this line!">    """Output processed document elements.</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">    Args:</span>
@@ -231,10 +231,10 @@ Explicit (x1)">def read(ctx: Dict[str, Any], input: BinaryIO, output: TextIO) -&
 <span class="line-empty" title="No Anys on this line!">        output: TextIO - Output file stream</span>
 <span class="line-empty" title="No Anys on this line!">    """</span>
 <span class="line-empty" title="No Anys on this line!">    log.info("chemdataextractor.read")</span>
-<span class="line-empty" title="No Anys on this line!">    log.info("Reading %s" % input.name)</span>
+<span class="line-empty" title="No Anys on this line!">    log.info(f"Reading {input.name}")</span>
 <span class="line-empty" title="No Anys on this line!">    doc = Document.from_file(input)</span>
 <span class="line-empty" title="No Anys on this line!">    for element in doc.elements:</span>
-<span class="line-empty" title="No Anys on this line!">        output.write("%s : %s\n=====\n" % (element.__class__.__name__, str(element)))</span>
+<span class="line-empty" title="No Anys on this line!">        output.write(f"{element.__class__.__name__} : {str(element)}\n=====\n")</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">from . import cem</span>

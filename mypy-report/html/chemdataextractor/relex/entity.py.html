@@ -135,8 +135,10 @@
 <span class="line-precise" title="No Anys on this line!">    from ..parse.base import BaseParserElement</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!"># Type aliases for entities</span>
-<span class="line-precise" title="No Anys on this line!">EntityTag = Union[str, List[str]]  # Tag(s) for entity classification</span>
-<span class="line-precise" title="No Anys on this line!">TextSpan = Tuple[int, int]  # Start and end positions in text</span>
+<span class="line-precise" title="Any Types on this line: 
+Omitted Generics (x6)">type EntityTag = str | list[str]  # Tag(s) for entity classification</span>
+<span class="line-precise" title="Any Types on this line: 
+Omitted Generics (x6)">type TextSpan = tuple[int, int]  # Start and end positions in text</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">class Entity:</span>

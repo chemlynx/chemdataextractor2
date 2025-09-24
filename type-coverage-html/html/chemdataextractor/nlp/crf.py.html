@@ -457,10 +457,10 @@
 <span class="line-precise" title="No Anys on this line!">from chemdataextractor.errors import ConfigurationError</span>
 <span class="line-precise" title="No Anys on this line!">from chemdataextractor.nlp import util as util</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-precise" title="No Anys on this line!">VITERBI_DECODING = Tuple[List[int], float]  # a list of tags, and a viterbi score</span>
+<span class="line-precise" title="No Anys on this line!">VITERBI_DECODING = tuple[list[int], float]  # a list of tags, and a viterbi score</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-precise" title="No Anys on this line!">def allowed_transitions(constraint_type: str, labels: Dict[int, str]) -&gt; list[tuple[int, int]]:</span>
+<span class="line-precise" title="No Anys on this line!">def allowed_transitions(constraint_type: str, labels: dict[int, str]) -&gt; list[tuple[int, int]]:</span>
 <span class="line-empty" title="No Anys on this line!">    """</span>
 <span class="line-empty" title="No Anys on this line!">    Given labels and a constraint type, returns the allowed transitions. It will</span>
 <span class="line-empty" title="No Anys on this line!">    additionally include transitions for the start and end states, which are used</span>
@@ -635,7 +635,7 @@ Explicit (x1)">        raise ConfigurationError(f"Unknown constraint type: {cons
 <span class="line-precise" title="No Anys on this line!">    def __init__(</span>
 <span class="line-empty" title="No Anys on this line!">        self,</span>
 <span class="line-empty" title="No Anys on this line!">        num_tags: int,</span>
-<span class="line-precise" title="No Anys on this line!">        constraints: List[tuple[int, int]] = None,</span>
+<span class="line-precise" title="No Anys on this line!">        constraints: list[tuple[int, int]] = None,</span>
 <span class="line-precise" title="No Anys on this line!">        include_start_end_transitions: bool = True,</span>
 <span class="line-empty" title="No Anys on this line!">    ) -&gt; None:</span>
 <span class="line-precise" title="No Anys on this line!">        super().__init__()</span>
@@ -802,7 +802,7 @@ Error (x2)">        return util.logsumexp(stops)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">    def viterbi_tags(</span>
 <span class="line-precise" title="No Anys on this line!">        self, logits: torch.Tensor, mask: torch.BoolTensor = None, top_k: int = None</span>
-<span class="line-empty" title="No Anys on this line!">    ) -&gt; Union[List[VITERBI_DECODING], list[List[VITERBI_DECODING]]]:</span>
+<span class="line-empty" title="No Anys on this line!">    ) -&gt; list[VITERBI_DECODING] | list[list[VITERBI_DECODING]]:</span>
 <span class="line-empty" title="No Anys on this line!">        """</span>
 <span class="line-empty" title="No Anys on this line!">        Uses viterbi algorithm to find most likely tags for the given inputs.</span>
 <span class="line-empty" title="No Anys on this line!">        If constraints are applied, disallows all other transitions.</span>

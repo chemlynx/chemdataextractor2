@@ -181,7 +181,7 @@ Omitted Generics (x7)">@click.pass_obj</span>
 <span class="line-empty" title="No Anys on this line!">    click.echo("chemdataextractor.chemdner.prepare_gold")</span>
 <span class="line-empty" title="No Anys on this line!">    for line in annotations:</span>
 <span class="line-empty" title="No Anys on this line!">        pmid, ta, start, end, text, category = line.strip().split("\t")</span>
-<span class="line-empty" title="No Anys on this line!">        gout.write("%s\t%s:%s:%s\n" % (pmid, ta, start, end))</span>
+<span class="line-empty" title="No Anys on this line!">        gout.write(f"{pmid}\t{ta}:{start}:{end}\n")</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="Any Types on this line: 
@@ -284,7 +284,7 @@ Omitted Generics (x7)">@click.pass_obj</span>
 <span class="line-empty" title="No Anys on this line!">        d = Document(Title(title), Paragraph(abstract))</span>
 <span class="line-empty" title="No Anys on this line!">        for t, section in [(d.elements[0], "T"), (d.elements[1], "A")]:</span>
 <span class="line-empty" title="No Anys on this line!">            for cem in t.cems:</span>
-<span class="line-empty" title="No Anys on this line!">                code = "%s:%s:%s" % (section, cem.start, cem.end)</span>
+<span class="line-empty" title="No Anys on this line!">                code = f"{section}:{cem.start}:{cem.end}"</span>
 <span class="line-empty" title="No Anys on this line!">                output.write("\t".join([pmid, code, str(counter), "1"]))</span>
 <span class="line-empty" title="No Anys on this line!">                output.write("\n")</span>
 <span class="line-empty" title="No Anys on this line!">                counter += 1</span>

@@ -182,6 +182,11 @@
 <span id="L172" class="lineno"><a class="lineno" href="#L172">172</a></span>
 <span id="L173" class="lineno"><a class="lineno" href="#L173">173</a></span>
 <span id="L174" class="lineno"><a class="lineno" href="#L174">174</a></span>
+<span id="L175" class="lineno"><a class="lineno" href="#L175">175</a></span>
+<span id="L176" class="lineno"><a class="lineno" href="#L176">176</a></span>
+<span id="L177" class="lineno"><a class="lineno" href="#L177">177</a></span>
+<span id="L178" class="lineno"><a class="lineno" href="#L178">178</a></span>
+<span id="L179" class="lineno"><a class="lineno" href="#L179">179</a></span>
 </pre></td>
 <td class="table-code"><pre><span class="line-empty" title="No Anys on this line!">"""</span>
 <span class="line-empty" title="No Anys on this line!">Text processors for cleaning and normalizing text.</span>
@@ -201,6 +206,11 @@
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">from . import APOSTROPHES</span>
 <span class="line-precise" title="No Anys on this line!">from . import EMAIL_RE</span>
+<span class="line-precise" title="No Anys on this line!">from ..parse.regex_patterns import (</span>
+<span class="line-empty" title="No Anys on this line!">    remove_bracketed_numbers,</span>
+<span class="line-empty" title="No Anys on this line!">    remove_uncertainty,</span>
+<span class="line-empty" title="No Anys on this line!">    convert_scientific_notation,</span>
+<span class="line-empty" title="No Anys on this line!">)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">log = logging.getLogger(__name__)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
@@ -212,7 +222,7 @@
 <span class="line-empty" title="No Anys on this line!">    """</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">    @abstractmethod</span>
-<span class="line-precise" title="No Anys on this line!">    def __call__(self, text: str) -&gt; Optional[str]:</span>
+<span class="line-precise" title="No Anys on this line!">    def __call__(self, text: str) -&gt; str | None:</span>
 <span class="line-empty" title="No Anys on this line!">        """Process the input text.</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">        Args:</span>
@@ -267,7 +277,7 @@ Unannotated (x2)">        self.substring = substring</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="No Anys on this line!">    def __call__(self, value):</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">        return "%s%s" % (self.substring, value)</span>
+Unannotated (x2)">        return f"{self.substring}{value}"</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">class RAdd:</span>
@@ -279,7 +289,7 @@ Unannotated (x2)">        self.substring = substring</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="No Anys on this line!">    def __call__(self, value):</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">        return "%s%s" % (value, self.substring)</span>
+Unannotated (x2)">        return f"{value}{self.substring}"</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">class LStrip:</span>
@@ -325,9 +335,9 @@ Unannotated (x1)">        return value</span>
 Unannotated (x1)">        return float(s)</span>
 <span class="line-precise" title="No Anys on this line!">    except ValueError:</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">        s = re.sub(r"(\d)\s*\(\d+(\.\d+)?\)", r"\1", s)  # Remove bracketed numbers from end</span>
+Unannotated (x2)">        s = remove_bracketed_numbers(s)  # Remove bracketed numbers from end</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">        s = re.sub(r"(\d)\s*±\s*\d+(\.\d+)?", r"\1", s)  # Remove uncertainties from end</span>
+Unannotated (x2)">        s = remove_uncertainty(s)  # Remove uncertainties from end</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x4)">        s = s.rstrip("'\"+-=&lt;&gt;/,.:;!?)]}…∼~≈×*_≥≤")  # Remove trailing punctuation</span>
 <span class="line-any" title="Any Types on this line: 
@@ -337,7 +347,7 @@ Unannotated (x4)">        s = s.replace(",", "")  # Remove commas</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x4)">        s = "".join(s.split())  # Strip whitespace</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">        s = re.sub(r"(\d)\s*[×x]\s*10\^?(-?\d)", r"\1e\2", s)  # Convert scientific notation</span>
+Unannotated (x2)">        s = convert_scientific_notation(s)  # Convert scientific notation</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">        return float(s)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
@@ -401,7 +411,7 @@ Explicit (x1)">    return emails</span>
 <span class="line-any" title="No Anys on this line!">def unapostrophe(text):</span>
 <span class="line-empty" title="No Anys on this line!">    """Strip apostrophe and 's' from the end of a string."""</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">    text = re.sub(r"[%s]s?$" % "".join(APOSTROPHES), "", text)</span>
+Unannotated (x2)">    text = re.sub(r"[{}]s?$".format("".join(APOSTROPHES)), "", text)</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">    return text</span>
 </pre></td>

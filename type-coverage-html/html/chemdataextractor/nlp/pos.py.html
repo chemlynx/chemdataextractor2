@@ -463,17 +463,17 @@ Unannotated (x6)">        w = self.lexicon[context[i]]</span>
 Unannotated (x1)">        features = [</span>
 <span class="line-any" title="No Anys on this line!">            "bias",</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            "w:shape=%s" % w.shape,</span>
+Unannotated (x6)">            f"w:shape={w.shape}",</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            "w:lower=%s" % w.lower,</span>
+Unannotated (x6)">            f"w:lower={w.lower}",</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x1)">            "p1:tag=%s" % prev,</span>
+Unannotated (x5)">            f"p1:tag={prev}",</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x1)">            "p2:tag=%s" % prev2,</span>
+Unannotated (x5)">            f"p2:tag={prev2}",</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x3)">            "p1:tag+w:lower=%s+%s" % (prev, w.lower),</span>
+Unannotated (x9)">            f"p1:tag+w:lower={prev}+{w.lower}",</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            "p1:tag+p2:tag=%s+%s" % (prev, prev2),</span>
+Unannotated (x8)">            f"p1:tag+p2:tag={prev}+{prev2}",</span>
 <span class="line-empty" title="No Anys on this line!">        ]</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x2)">        if w.like_number:</span>
@@ -492,19 +492,19 @@ Unannotated (x3)">            features.append("w:like_url")</span>
 Unannotated (x3)">            features.extend(</span>
 <span class="line-empty" title="No Anys on this line!">                [</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x4)">                    "w:suffix2=%s" % w.lower[-2:],</span>
+Unannotated (x8)">                    f"w:suffix2={w.lower[-2:]}",</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x4)">                    "w:suffix3=%s" % w.lower[-3:],</span>
+Unannotated (x8)">                    f"w:suffix3={w.lower[-3:]}",</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x4)">                    "w:suffix4=%s" % w.lower[-4:],</span>
+Unannotated (x8)">                    f"w:suffix4={w.lower[-4:]}",</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x4)">                    "w:suffix5=%s" % w.lower[-5:],</span>
+Unannotated (x8)">                    f"w:suffix5={w.lower[-5:]}",</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x3)">                    "w:prefix1=%s" % w.lower[:1],</span>
+Unannotated (x7)">                    f"w:prefix1={w.lower[:1]}",</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x3)">                    "w:prefix2=%s" % w.lower[:2],</span>
+Unannotated (x7)">                    f"w:prefix2={w.lower[:2]}",</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x3)">                    "w:prefix3=%s" % w.lower[:3],</span>
+Unannotated (x7)">                    f"w:prefix3={w.lower[:3]}",</span>
 <span class="line-empty" title="No Anys on this line!">                ]</span>
 <span class="line-empty" title="No Anys on this line!">            )</span>
 <span class="line-any" title="Any Types on this line: 
@@ -533,13 +533,13 @@ Unannotated (x4)">        if self.clusters and w.cluster:</span>
 Unannotated (x3)">            features.extend(</span>
 <span class="line-empty" title="No Anys on this line!">                [</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x3)">                    "w:cluster4=%s" % w.cluster[:4],</span>
+Unannotated (x7)">                    f"w:cluster4={w.cluster[:4]}",</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x3)">                    "w:cluster6=%s" % w.cluster[:6],</span>
+Unannotated (x7)">                    f"w:cluster6={w.cluster[:6]}",</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x3)">                    "w:cluster10=%s" % w.cluster[:10],</span>
+Unannotated (x7)">                    f"w:cluster10={w.cluster[:10]}",</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x3)">                    "w:cluster20=%s" % w.cluster[:20],</span>
+Unannotated (x7)">                    f"w:cluster20={w.cluster[:20]}",</span>
 <span class="line-empty" title="No Anys on this line!">                ]</span>
 <span class="line-empty" title="No Anys on this line!">            )</span>
 <span class="line-empty" title="No Anys on this line!">        # Add features for previous tokens if present</span>
@@ -551,28 +551,28 @@ Unannotated (x7)">            p1 = self.lexicon[context[i - 1]]</span>
 Unannotated (x3)">            features.extend(</span>
 <span class="line-empty" title="No Anys on this line!">                [</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">                    "p1:lower=%s" % p1.lower,</span>
+Unannotated (x6)">                    f"p1:lower={p1.lower}",</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">                    "p1:shape=%s" % p1.shape,</span>
+Unannotated (x6)">                    f"p1:shape={p1.shape}",</span>
 <span class="line-empty" title="No Anys on this line!">                ]</span>
 <span class="line-empty" title="No Anys on this line!">            )</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x8)">            if not (p1.like_number or p1.is_punct or p1.like_url):</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x7)">                features.append("p1:suffix3=%s" % p1.lower[-3:])</span>
+Unannotated (x11)">                features.append(f"p1:suffix3={p1.lower[-3:]}")</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x4)">            if self.clusters and p1.cluster:</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x3)">                features.extend(</span>
 <span class="line-empty" title="No Anys on this line!">                    [</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x3)">                        "p1:cluster4=%s" % p1.cluster[:4],</span>
+Unannotated (x7)">                        f"p1:cluster4={p1.cluster[:4]}",</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x3)">                        "p1:cluster6=%s" % p1.cluster[:6],</span>
+Unannotated (x7)">                        f"p1:cluster6={p1.cluster[:6]}",</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x3)">                        "p1:cluster10=%s" % p1.cluster[:10],</span>
+Unannotated (x7)">                        f"p1:cluster10={p1.cluster[:10]}",</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x3)">                        "p1:cluster20=%s" % p1.cluster[:20],</span>
+Unannotated (x7)">                        f"p1:cluster20={p1.cluster[:20]}",</span>
 <span class="line-empty" title="No Anys on this line!">                    ]</span>
 <span class="line-empty" title="No Anys on this line!">                )</span>
 <span class="line-any" title="Any Types on this line: 
@@ -583,9 +583,9 @@ Unannotated (x7)">                p2 = self.lexicon[context[i - 2]]</span>
 Unannotated (x3)">                features.extend(</span>
 <span class="line-empty" title="No Anys on this line!">                    [</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">                        "p2:lower=%s" % p2.lower,</span>
+Unannotated (x6)">                        f"p2:lower={p2.lower}",</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">                        "p2:shape=%s" % p2.shape,</span>
+Unannotated (x6)">                        f"p2:shape={p2.shape}",</span>
 <span class="line-empty" title="No Anys on this line!">                    ]</span>
 <span class="line-empty" title="No Anys on this line!">                )</span>
 <span class="line-any" title="Any Types on this line: 
@@ -594,13 +594,13 @@ Unannotated (x4)">                if self.clusters and p2.cluster:</span>
 Unannotated (x3)">                    features.extend(</span>
 <span class="line-empty" title="No Anys on this line!">                        [</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x3)">                            "p2:cluster4=%s" % p2.cluster[:4],</span>
+Unannotated (x7)">                            f"p2:cluster4={p2.cluster[:4]}",</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x3)">                            "p2:cluster6=%s" % p2.cluster[:6],</span>
+Unannotated (x7)">                            f"p2:cluster6={p2.cluster[:6]}",</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x3)">                            "p2:cluster10=%s" % p2.cluster[:10],</span>
+Unannotated (x7)">                            f"p2:cluster10={p2.cluster[:10]}",</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x3)">                            "p2:cluster20=%s" % p2.cluster[:20],</span>
+Unannotated (x7)">                            f"p2:cluster20={p2.cluster[:20]}",</span>
 <span class="line-empty" title="No Anys on this line!">                        ]</span>
 <span class="line-empty" title="No Anys on this line!">                    )</span>
 <span class="line-empty" title="No Anys on this line!">        # Add features for next tokens if present</span>
@@ -611,24 +611,24 @@ Unannotated (x3)">        if i &lt; end:</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x7)">            n1 = self.lexicon[context[i + 1]]</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x7)">            features.extend(["n1:lower=%s" % n1.lower, "n1:shape=%s" % n1.shape])</span>
+Unannotated (x15)">            features.extend([f"n1:lower={n1.lower}", f"n1:shape={n1.shape}"])</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x8)">            if not (n1.like_number or n1.is_punct or n1.like_url):</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x7)">                features.append("n1:suffix3=%s" % n1.lower[-3:])</span>
+Unannotated (x11)">                features.append(f"n1:suffix3={n1.lower[-3:]}")</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x4)">            if self.clusters and n1.cluster:</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x3)">                features.extend(</span>
 <span class="line-empty" title="No Anys on this line!">                    [</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x3)">                        "n1:cluster4=%s" % n1.cluster[:4],</span>
+Unannotated (x7)">                        f"n1:cluster4={n1.cluster[:4]}",</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x3)">                        "n1:cluster6=%s" % n1.cluster[:6],</span>
+Unannotated (x7)">                        f"n1:cluster6={n1.cluster[:6]}",</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x3)">                        "n1:cluster10=%s" % n1.cluster[:10],</span>
+Unannotated (x7)">                        f"n1:cluster10={n1.cluster[:10]}",</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x3)">                        "n1:cluster20=%s" % n1.cluster[:20],</span>
+Unannotated (x7)">                        f"n1:cluster20={n1.cluster[:20]}",</span>
 <span class="line-empty" title="No Anys on this line!">                    ]</span>
 <span class="line-empty" title="No Anys on this line!">                )</span>
 <span class="line-any" title="Any Types on this line: 
@@ -636,20 +636,20 @@ Unannotated (x4)">            if i &lt; end - 1:</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x7)">                n2 = self.lexicon[context[i + 2]]</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x7)">                features.extend(["n2:lower=%s" % n2.lower, "n2:shape=%s" % n2.shape])</span>
+Unannotated (x15)">                features.extend([f"n2:lower={n2.lower}", f"n2:shape={n2.shape}"])</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x4)">                if self.clusters and n2.cluster:</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x3)">                    features.extend(</span>
 <span class="line-empty" title="No Anys on this line!">                        [</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x3)">                            "n2:cluster4=%s" % n2.cluster[:4],</span>
+Unannotated (x7)">                            f"n2:cluster4={n2.cluster[:4]}",</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x3)">                            "n2:cluster6=%s" % n2.cluster[:6],</span>
+Unannotated (x7)">                            f"n2:cluster6={n2.cluster[:6]}",</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x3)">                            "n2:cluster10=%s" % n2.cluster[:10],</span>
+Unannotated (x7)">                            f"n2:cluster10={n2.cluster[:10]}",</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x3)">                            "n2:cluster20=%s" % n2.cluster[:20],</span>
+Unannotated (x7)">                            f"n2:cluster20={n2.cluster[:20]}",</span>
 <span class="line-empty" title="No Anys on this line!">                        ]</span>
 <span class="line-empty" title="No Anys on this line!">                    )</span>
 <span class="line-empty" title="No Anys on this line!">        # Add position features</span>
@@ -701,12 +701,12 @@ Unannotated (x4)">        w = self.lexicon[token]</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">        features = [</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            "w.shape=%s" % w.shape,</span>
+Unannotated (x6)">            f"w.shape={w.shape}",</span>
 <span class="line-empty" title="No Anys on this line!">            # 'w.normalized=%s' % w.normalized,</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            "w.lower=%s" % w.lower,</span>
+Unannotated (x6)">            f"w.lower={w.lower}",</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            "w.length=%s" % w.length,</span>
+Unannotated (x6)">            f"w.length={w.length}",</span>
 <span class="line-empty" title="No Anys on this line!">        ]</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x2)">        if w.like_number:</span>
@@ -723,25 +723,25 @@ Unannotated (x3)">            features.append("w.is_punct")</span>
 Unannotated (x3)">            features.extend(</span>
 <span class="line-empty" title="No Anys on this line!">                [</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x4)">                    "w.suffix1=%s" % w.lower[-1:],</span>
+Unannotated (x8)">                    f"w.suffix1={w.lower[-1:]}",</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x4)">                    "w.suffix2=%s" % w.lower[-2:],</span>
+Unannotated (x8)">                    f"w.suffix2={w.lower[-2:]}",</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x4)">                    "w.suffix3=%s" % w.lower[-3:],</span>
+Unannotated (x8)">                    f"w.suffix3={w.lower[-3:]}",</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x4)">                    "w.suffix4=%s" % w.lower[-4:],</span>
+Unannotated (x8)">                    f"w.suffix4={w.lower[-4:]}",</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x4)">                    "w.suffix5=%s" % w.lower[-5:],</span>
+Unannotated (x8)">                    f"w.suffix5={w.lower[-5:]}",</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x3)">                    "w.prefix1=%s" % w.lower[:1],</span>
+Unannotated (x7)">                    f"w.prefix1={w.lower[:1]}",</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x3)">                    "w.prefix2=%s" % w.lower[:2],</span>
+Unannotated (x7)">                    f"w.prefix2={w.lower[:2]}",</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x3)">                    "w.prefix3=%s" % w.lower[:3],</span>
+Unannotated (x7)">                    f"w.prefix3={w.lower[:3]}",</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x3)">                    "w.prefix4=%s" % w.lower[:4],</span>
+Unannotated (x7)">                    f"w.prefix4={w.lower[:4]}",</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x3)">                    "w.prefix5=%s" % w.lower[:5],</span>
+Unannotated (x7)">                    f"w.prefix5={w.lower[:5]}",</span>
 <span class="line-empty" title="No Anys on this line!">                ]</span>
 <span class="line-empty" title="No Anys on this line!">            )</span>
 <span class="line-any" title="Any Types on this line: 
@@ -770,13 +770,13 @@ Unannotated (x4)">        if self.clusters and w.cluster:</span>
 Unannotated (x3)">            features.extend(</span>
 <span class="line-empty" title="No Anys on this line!">                [</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x3)">                    "w.cluster4=%s" % w.cluster[:4],</span>
+Unannotated (x7)">                    f"w.cluster4={w.cluster[:4]}",</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x3)">                    "w.cluster6=%s" % w.cluster[:6],</span>
+Unannotated (x7)">                    f"w.cluster6={w.cluster[:6]}",</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x3)">                    "w.cluster10=%s" % w.cluster[:10],</span>
+Unannotated (x7)">                    f"w.cluster10={w.cluster[:10]}",</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x3)">                    "w.cluster20=%s" % w.cluster[:20],</span>
+Unannotated (x7)">                    f"w.cluster20={w.cluster[:20]}",</span>
 <span class="line-empty" title="No Anys on this line!">                ]</span>
 <span class="line-empty" title="No Anys on this line!">            )</span>
 <span class="line-empty" title="No Anys on this line!">        # Add features for previous tokens if present</span>
@@ -790,30 +790,30 @@ Unannotated (x4)">            p1 = self.lexicon[p1token]</span>
 Unannotated (x3)">            features.extend(</span>
 <span class="line-empty" title="No Anys on this line!">                [</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">                    "p1.lower=%s" % p1.lower,</span>
+Unannotated (x6)">                    f"p1.lower={p1.lower}",</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x4)">                    "p1.lower=%s+w.lower=%s" % (p1.lower, w.lower),</span>
+Unannotated (x10)">                    f"p1.lower={p1.lower}+w.lower={w.lower}",</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">                    "p1.shape=%s" % p1.shape,</span>
+Unannotated (x6)">                    f"p1.shape={p1.shape}",</span>
 <span class="line-empty" title="No Anys on this line!">                ]</span>
 <span class="line-empty" title="No Anys on this line!">            )</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x8)">            if not (p1.like_number or p1.is_punct or p1.like_url):</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x7)">                features.append("p1:suffix3=%s" % p1.lower[-3:])</span>
+Unannotated (x11)">                features.append(f"p1:suffix3={p1.lower[-3:]}")</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x4)">            if self.clusters and p1.cluster:</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x3)">                features.extend(</span>
 <span class="line-empty" title="No Anys on this line!">                    [</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x3)">                        "p1.cluster4=%s" % p1.cluster[:4],</span>
+Unannotated (x7)">                        f"p1.cluster4={p1.cluster[:4]}",</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x3)">                        "p1.cluster6=%s" % p1.cluster[:6],</span>
+Unannotated (x7)">                        f"p1.cluster6={p1.cluster[:6]}",</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x3)">                        "p1.cluster10=%s" % p1.cluster[:10],</span>
+Unannotated (x7)">                        f"p1.cluster10={p1.cluster[:10]}",</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x3)">                        "p1.cluster20=%s" % p1.cluster[:20],</span>
+Unannotated (x7)">                        f"p1.cluster20={p1.cluster[:20]}",</span>
 <span class="line-empty" title="No Anys on this line!">                    ]</span>
 <span class="line-empty" title="No Anys on this line!">                )</span>
 <span class="line-any" title="Any Types on this line: 
@@ -826,13 +826,13 @@ Unannotated (x4)">                p2 = self.lexicon[p2token]</span>
 Unannotated (x3)">                features.extend(</span>
 <span class="line-empty" title="No Anys on this line!">                    [</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">                        "p2.lower=%s" % p2.lower,</span>
+Unannotated (x6)">                        f"p2.lower={p2.lower}",</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x4)">                        "p2.lower=%s+p1.lower=%s" % (p2.lower, p1.lower),</span>
+Unannotated (x10)">                        f"p2.lower={p2.lower}+p1.lower={p1.lower}",</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x6)">                        "p2.lower=%s+p1.lower=%s+w.lower=%s" % (p2.lower, p1.lower, w.lower),</span>
+Unannotated (x14)">                        f"p2.lower={p2.lower}+p1.lower={p1.lower}+w.lower={w.lower}",</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">                        "p2.shape=%s" % p2.shape,</span>
+Unannotated (x6)">                        f"p2.shape={p2.shape}",</span>
 <span class="line-empty" title="No Anys on this line!">                    ]</span>
 <span class="line-empty" title="No Anys on this line!">                )</span>
 <span class="line-any" title="Any Types on this line: 
@@ -841,13 +841,13 @@ Unannotated (x4)">                if self.clusters and p2.cluster:</span>
 Unannotated (x3)">                    features.extend(</span>
 <span class="line-empty" title="No Anys on this line!">                        [</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x3)">                            "p2.cluster4=%s" % p2.cluster[:4],</span>
+Unannotated (x7)">                            f"p2.cluster4={p2.cluster[:4]}",</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x3)">                            "p2.cluster6=%s" % p2.cluster[:6],</span>
+Unannotated (x7)">                            f"p2.cluster6={p2.cluster[:6]}",</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x3)">                            "p2.cluster10=%s" % p2.cluster[:10],</span>
+Unannotated (x7)">                            f"p2.cluster10={p2.cluster[:10]}",</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x3)">                            "p2.cluster20=%s" % p2.cluster[:20],</span>
+Unannotated (x7)">                            f"p2.cluster20={p2.cluster[:20]}",</span>
 <span class="line-empty" title="No Anys on this line!">                        ]</span>
 <span class="line-empty" title="No Anys on this line!">                    )</span>
 <span class="line-empty" title="No Anys on this line!">        # Add features for next tokens if present</span>
@@ -863,30 +863,30 @@ Unannotated (x4)">            n1 = self.lexicon[n1token]</span>
 Unannotated (x3)">            features.extend(</span>
 <span class="line-empty" title="No Anys on this line!">                [</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">                    "n1.lower=%s" % n1.lower,</span>
+Unannotated (x6)">                    f"n1.lower={n1.lower}",</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x4)">                    "w.lower=%s+n1.lower=%s" % (w.lower, n1.lower),</span>
+Unannotated (x10)">                    f"w.lower={w.lower}+n1.lower={n1.lower}",</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">                    "n1.shape=%s" % n1.shape,</span>
+Unannotated (x6)">                    f"n1.shape={n1.shape}",</span>
 <span class="line-empty" title="No Anys on this line!">                ]</span>
 <span class="line-empty" title="No Anys on this line!">            )</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x8)">            if not (n1.like_number or n1.is_punct or n1.like_url):</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x7)">                features.append("n1.suffix3=%s" % n1.lower[-3:])</span>
+Unannotated (x11)">                features.append(f"n1.suffix3={n1.lower[-3:]}")</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x4)">            if self.clusters and n1.cluster:</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x3)">                features.extend(</span>
 <span class="line-empty" title="No Anys on this line!">                    [</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x3)">                        "n1.cluster4=%s" % n1.cluster[:4],</span>
+Unannotated (x7)">                        f"n1.cluster4={n1.cluster[:4]}",</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x3)">                        "n1.cluster6=%s" % n1.cluster[:6],</span>
+Unannotated (x7)">                        f"n1.cluster6={n1.cluster[:6]}",</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x3)">                        "n1.cluster10=%s" % n1.cluster[:10],</span>
+Unannotated (x7)">                        f"n1.cluster10={n1.cluster[:10]}",</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x3)">                        "n1.cluster20=%s" % n1.cluster[:20],</span>
+Unannotated (x7)">                        f"n1.cluster20={n1.cluster[:20]}",</span>
 <span class="line-empty" title="No Anys on this line!">                    ]</span>
 <span class="line-empty" title="No Anys on this line!">                )</span>
 <span class="line-any" title="Any Types on this line: 
@@ -899,13 +899,13 @@ Unannotated (x4)">                n2 = self.lexicon[n2token]</span>
 Unannotated (x3)">                features.extend(</span>
 <span class="line-empty" title="No Anys on this line!">                    [</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">                        "n2.lower=%s" % n2.lower,</span>
+Unannotated (x6)">                        f"n2.lower={n2.lower}",</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x4)">                        "n1.lower=%s+n2.lower=%s" % (n1.lower, n2.lower),</span>
+Unannotated (x10)">                        f"n1.lower={n1.lower}+n2.lower={n2.lower}",</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x6)">                        "w.lower=%s+n1.lower=%s+n2.lower=%s" % (w.lower, n1.lower, n2.lower),</span>
+Unannotated (x14)">                        f"w.lower={w.lower}+n1.lower={n1.lower}+n2.lower={n2.lower}",</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">                        "n2.shape=%s" % n2.shape,</span>
+Unannotated (x6)">                        f"n2.shape={n2.shape}",</span>
 <span class="line-empty" title="No Anys on this line!">                    ]</span>
 <span class="line-empty" title="No Anys on this line!">                )</span>
 <span class="line-any" title="Any Types on this line: 
@@ -914,13 +914,13 @@ Unannotated (x4)">                if self.clusters and n2.cluster:</span>
 Unannotated (x3)">                    features.extend(</span>
 <span class="line-empty" title="No Anys on this line!">                        [</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x3)">                            "n2.cluster4=%s" % n2.cluster[:4],</span>
+Unannotated (x7)">                            f"n2.cluster4={n2.cluster[:4]}",</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x3)">                            "n2.cluster6=%s" % n2.cluster[:6],</span>
+Unannotated (x7)">                            f"n2.cluster6={n2.cluster[:6]}",</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x3)">                            "n2.cluster10=%s" % n2.cluster[:10],</span>
+Unannotated (x7)">                            f"n2.cluster10={n2.cluster[:10]}",</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x3)">                            "n2.cluster20=%s" % n2.cluster[:20],</span>
+Unannotated (x7)">                            f"n2.cluster20={n2.cluster[:20]}",</span>
 <span class="line-empty" title="No Anys on this line!">                        ]</span>
 <span class="line-empty" title="No Anys on this line!">                    )</span>
 <span class="line-any" title="Any Types on this line: 

@@ -287,8 +287,6 @@
 <span id="L277" class="lineno"><a class="lineno" href="#L277">277</a></span>
 <span id="L278" class="lineno"><a class="lineno" href="#L278">278</a></span>
 <span id="L279" class="lineno"><a class="lineno" href="#L279">279</a></span>
-<span id="L280" class="lineno"><a class="lineno" href="#L280">280</a></span>
-<span id="L281" class="lineno"><a class="lineno" href="#L281">281</a></span>
 </pre></td>
 <td class="table-code"><pre><span class="line-precise" title="No Anys on this line!">from __future__ import annotations</span>
 <span class="line-empty" title="No Anys on this line!"></span>
@@ -296,15 +294,14 @@
 <span class="line-precise" title="No Anys on this line!">from functools import total_ordering</span>
 <span class="line-precise" title="No Anys on this line!">from typing import TYPE_CHECKING</span>
 <span class="line-precise" title="No Anys on this line!">from typing import Any</span>
-<span class="line-precise" title="No Anys on this line!">from typing import Dict</span>
-<span class="line-precise" title="No Anys on this line!">from typing import Union</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">if TYPE_CHECKING:</span>
 <span class="line-precise" title="No Anys on this line!">    pass</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!"># Type aliases for contextual distance calculations</span>
-<span class="line-precise" title="No Anys on this line!">RangeCount = Dict["ContextualRange", float]  # Maps range types to counts</span>
-<span class="line-precise" title="No Anys on this line!">NumericValue = Union[int, float]  # Numeric values for range calculations</span>
+<span class="line-precise" title="Any Types on this line: 
+Omitted Generics (x36)">type RangeCount = dict["ContextualRange", float]  # Maps range types to counts</span>
+<span class="line-precise" title="No Anys on this line!">type NumericValue = int | float  # Numeric values for range calculations</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="Any Types on this line: 

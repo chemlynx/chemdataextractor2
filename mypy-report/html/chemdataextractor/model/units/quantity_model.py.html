@@ -473,7 +473,7 @@
 <span class="line-empty" title="No Anys on this line!">    try:</span>
 <span class="line-precise" title="No Anys on this line!">        from typing import Self</span>
 <span class="line-unanalyzed" title="No Anys on this line!">    except ImportError:</span>
-<span class="line-precise" title="No Anys on this line!">        from typing_extensions import Self</span>
+<span class="line-precise" title="No Anys on this line!">        from typing import Self</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">class _QuantityModelMeta(ModelMeta):</span>
@@ -484,9 +484,9 @@
 <span class="line-empty" title="No Anys on this line!">    """</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-imprecise" title="Any Types on this line: 
-Explicit (x1)">    def __new__(mcs, name: str, bases: Tuple[type, ...], attrs: Dict[str, Any]) -&gt; type:</span>
+Explicit (x1)">    def __new__(mcs, name: str, bases: tuple[type, ...], attrs: dict[str, Any]) -&gt; type:</span>
 <span class="line-imprecise" title="Any Types on this line: 
-Explicit (x2)">        cls = super(_QuantityModelMeta, mcs).__new__(mcs, name, bases, attrs)</span>
+Explicit (x1)">        cls = super().__new__(mcs, name, bases, attrs)</span>
 <span class="line-any" title="Any Types on this line: 
 Explicit (x1)
 Error (x1)">        unit_element = construct_unit_element(cls.dimensions)</span>

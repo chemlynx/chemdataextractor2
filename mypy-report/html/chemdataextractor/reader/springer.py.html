@@ -146,6 +146,8 @@
 <span id="L136" class="lineno"><a class="lineno" href="#L136">136</a></span>
 <span id="L137" class="lineno"><a class="lineno" href="#L137">137</a></span>
 <span id="L138" class="lineno"><a class="lineno" href="#L138">138</a></span>
+<span id="L139" class="lineno"><a class="lineno" href="#L139">139</a></span>
+<span id="L140" class="lineno"><a class="lineno" href="#L140">140</a></span>
 </pre></td>
 <td class="table-code"><pre><span class="line-empty" title="No Anys on this line!">"""</span>
 <span class="line-empty" title="No Anys on this line!">Readers for documents from Springer.</span>
@@ -280,7 +282,8 @@ Unannotated (x2)">        fix_springer_table_whitespace,</span>
 <span class="line-precise" title="No Anys on this line!">    figure_caption_css = "figcaption"</span>
 <span class="line-precise" title="No Anys on this line!">    figure_label_css = 'figcaption span[class^="CaptionNumber"]'</span>
 <span class="line-empty" title="No Anys on this line!">    # citation_css = 'ce|bib-reference'</span>
-<span class="line-precise" title="No Anys on this line!">    ignore_css = 'a[class="skip-to__link pseudo-focus"], div[class="nojs-banner u-interface"], a[class="skip-to__link skip-to__link--contents pseudo-focus"],\</span>
+<span class="line-precise" title="No Anys on this line!">    ignore_css = (</span>
+<span class="line-precise" title="No Anys on this line!">        'a[class="skip-to__link pseudo-focus"], div[class="nojs-banner u-interface"], a[class="skip-to__link skip-to__link--contents pseudo-focus"],\</span>
 <span class="line-empty" title="No Anys on this line!">                  p[class="leaderboard__label"], div[class="u-screenreader-only"], label[for="search-springerlink"], span[class="search-button__title"],\</span>
 <span class="line-empty" title="No Anys on this line!">                  span[class="u-overflow-ellipsis"], span[class="u-overflow-ellipsis"], a[class="c-button c-button--blue c-button__icon-right gtm-pdf-link"],\</span>
 <span class="line-empty" title="No Anys on this line!">                  div[class="leaderboard u-hide"], title, li[class="article-metrics__item"], aside[class="section section--collapsible"], a[class="gtm-cite-link"],\</span>
@@ -291,6 +294,7 @@ Unannotated (x2)">        fix_springer_table_whitespace,</span>
 <span class="line-empty" title="No Anys on this line!">                  a[class="gtm-export-citation"], ul[class="citations__content"], h3[data-role="button-dropdown__title"],\</span>
 <span class="line-empty" title="No Anys on this line!">                  div[class="section section--collapsible uptodate-recommendations gtm-recommendations"], span[class="InlineEquation"], div[class="EquationContent"],\</span>
 <span class="line-empty" title="No Anys on this line!">                  div[class="EquationNumber"], footer'</span>
+<span class="line-empty" title="No Anys on this line!">    )</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="No Anys on this line!">    def detect(self, fstring, fname=None):</span>
 <span class="line-empty" title="No Anys on this line!">        """"""</span>

@@ -401,8 +401,6 @@
 <span id="L391" class="lineno"><a class="lineno" href="#L391">391</a></span>
 <span id="L392" class="lineno"><a class="lineno" href="#L392">392</a></span>
 <span id="L393" class="lineno"><a class="lineno" href="#L393">393</a></span>
-<span id="L394" class="lineno"><a class="lineno" href="#L394">394</a></span>
-<span id="L395" class="lineno"><a class="lineno" href="#L395">395</a></span>
 </pre></td>
 <td class="table-code"><pre><span class="line-empty" title="No Anys on this line!">"""</span>
 <span class="line-empty" title="No Anys on this line!">Comprehensive error handling system for ChemDataExtractor.</span>
@@ -414,8 +412,6 @@
 <span class="line-precise" title="No Anys on this line!">from __future__ import annotations</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">from typing import Any</span>
-<span class="line-precise" title="No Anys on this line!">from typing import Dict</span>
-<span class="line-precise" title="No Anys on this line!">from typing import List</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">class ChemDataExtractorError(Exception):</span>
@@ -438,8 +434,8 @@ Explicit (x1)">    def __init__(</span>
 <span class="line-empty" title="No Anys on this line!">        self,</span>
 <span class="line-empty" title="No Anys on this line!">        message: str,</span>
 <span class="line-empty" title="No Anys on this line!">        *,</span>
-<span class="line-precise" title="No Anys on this line!">        context: Dict[str, Any] | None = None,</span>
-<span class="line-precise" title="No Anys on this line!">        suggestions: List[str] | None = None,</span>
+<span class="line-precise" title="No Anys on this line!">        context: dict[str, Any] | None = None,</span>
+<span class="line-precise" title="No Anys on this line!">        suggestions: list[str] | None = None,</span>
 <span class="line-precise" title="No Anys on this line!">        error_code: str | None = None,</span>
 <span class="line-precise" title="No Anys on this line!">        source_location: str | None = None,</span>
 <span class="line-precise" title="No Anys on this line!">        original_error: Exception | None = None,</span>
@@ -707,7 +703,7 @@ Explicit (x2)">    return error_class(error_message, original_error=original_err
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="Any Types on this line: 
-Explicit (x3)">def validate_not_none(value: Any, name: str, *, context: Dict[str, Any] | None = None) -&gt; Any:</span>
+Explicit (x3)">def validate_not_none(value: Any, name: str, *, context: dict[str, Any] | None = None) -&gt; Any:</span>
 <span class="line-empty" title="No Anys on this line!">    """Validate that a value is not None.</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">    Args:</span>
@@ -740,7 +736,7 @@ Explicit (x1)">    return value</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="Any Types on this line: 
 Explicit (x3)">def validate_type(</span>
-<span class="line-precise" title="No Anys on this line!">    value: Any, expected_type: type, name: str, *, context: Dict[str, Any] | None = None</span>
+<span class="line-precise" title="No Anys on this line!">    value: Any, expected_type: type, name: str, *, context: dict[str, Any] | None = None</span>
 <span class="line-empty" title="No Anys on this line!">) -&gt; Any:</span>
 <span class="line-empty" title="No Anys on this line!">    """Validate that a value is of expected type.</span>
 <span class="line-empty" title="No Anys on this line!"></span>
@@ -787,7 +783,7 @@ Explicit (x1)">def validate_range(</span>
 <span class="line-precise" title="No Anys on this line!">    max_val: int | float | None = None,</span>
 <span class="line-precise" title="No Anys on this line!">    name: str = "value",</span>
 <span class="line-empty" title="No Anys on this line!">    *,</span>
-<span class="line-precise" title="No Anys on this line!">    context: Dict[str, Any] | None = None,</span>
+<span class="line-precise" title="No Anys on this line!">    context: dict[str, Any] | None = None,</span>
 <span class="line-empty" title="No Anys on this line!">) -&gt; int | float:</span>
 <span class="line-empty" title="No Anys on this line!">    """Validate that a numeric value is within specified range.</span>
 <span class="line-empty" title="No Anys on this line!"></span>

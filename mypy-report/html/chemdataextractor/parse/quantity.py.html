@@ -864,6 +864,8 @@
 <span id="L854" class="lineno"><a class="lineno" href="#L854">854</a></span>
 <span id="L855" class="lineno"><a class="lineno" href="#L855">855</a></span>
 <span id="L856" class="lineno"><a class="lineno" href="#L856">856</a></span>
+<span id="L857" class="lineno"><a class="lineno" href="#L857">857</a></span>
+<span id="L858" class="lineno"><a class="lineno" href="#L858">858</a></span>
 </pre></td>
 <td class="table-code"><pre><span class="line-empty" title="No Anys on this line!">"""</span>
 <span class="line-empty" title="No Anys on this line!">Parser for finding quantities and units in chemical text.</span>
@@ -882,21 +884,22 @@
 <span class="line-precise" title="No Anys on this line!">from fractions import Fraction</span>
 <span class="line-precise" title="No Anys on this line!">from typing import TYPE_CHECKING</span>
 <span class="line-precise" title="No Anys on this line!">from typing import Any</span>
-<span class="line-precise" title="No Anys on this line!">from typing import Dict</span>
-<span class="line-precise" title="No Anys on this line!">from typing import List</span>
-<span class="line-precise" title="No Anys on this line!">from typing import Optional</span>
-<span class="line-precise" title="No Anys on this line!">from typing import Union</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="No Anys on this line!">from deprecation import deprecated</span>
+<span class="line-empty" title="No Anys on this line!"></span>
+<span class="line-precise" title="No Anys on this line!">from .regex_patterns import split_by_error_pattern, split_by_space_dash, get_pattern</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">if TYPE_CHECKING:</span>
 <span class="line-precise" title="No Anys on this line!">    pass</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!"># Type aliases for quantity parsing</span>
-<span class="line-precise" title="No Anys on this line!">NumericValue = Union[int, float]  # Numeric values</span>
-<span class="line-precise" title="No Anys on this line!">ValueList = List[float]  # List of extracted values</span>
-<span class="line-precise" title="No Anys on this line!">UnitString = str  # String representation of units</span>
-<span class="line-precise" title="No Anys on this line!">MagnitudeDict = Dict[Any, float]  # Magnitude multipliers</span>
+<span class="line-precise" title="No Anys on this line!">type NumericValue = int | float  # Numeric values</span>
+<span class="line-precise" title="Any Types on this line: 
+Omitted Generics (x6)">type ValueList = list[float]  # List of extracted values</span>
+<span class="line-precise" title="No Anys on this line!">type UnitString = str  # String representation of units</span>
+<span class="line-any" title="Any Types on this line: 
+Explicit (x6)
+Omitted Generics (x36)">type MagnitudeDict = dict[Any, float]  # Magnitude multipliers</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">from ..utils import memoize</span>
 <span class="line-precise" title="No Anys on this line!">from .actions import join</span>
@@ -1165,7 +1168,7 @@ Unannotated (x2)
 Omitted Generics (x4)">    return re.compile(units_regex)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-precise" title="No Anys on this line!">def extract_error(string: Optional[str]) -&gt; Optional[float]:</span>
+<span class="line-precise" title="No Anys on this line!">def extract_error(string: str | None) -&gt; float | None:</span>
 <span class="line-empty" title="No Anys on this line!">    """Extract the error from a string containing a value with uncertainty.</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">    Usage::</span>
@@ -1190,10 +1193,9 @@ Omitted Generics (x4)">    return re.compile(units_regex)</span>
 <span class="line-precise" title="No Anys on this line!">        return None</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x3)">    string = _clean_value_string(string)</span>
-<span class="line-precise" title="No Anys on this line!">    split_by_num_and_error = [</span>
+<span class="line-empty" title="No Anys on this line!">    # Use pre-compiled pattern for improved performance</span>
 <span class="line-imprecise" title="Any Types on this line: 
-Unannotated (x1)">        r for r in re.split(r"(\d+\.?(?:\d+)?)|(±)|(\()", string) if r and r != " "</span>
-<span class="line-empty" title="No Anys on this line!">    ]</span>
+Unannotated (x1)">    split_by_num_and_error = split_by_error_pattern(string)</span>
 <span class="line-precise" title="No Anys on this line!">    error = None</span>
 <span class="line-precise" title="No Anys on this line!">    for index, value in enumerate(split_by_num_and_error):</span>
 <span class="line-precise" title="No Anys on this line!">        if value == "±":</span>
@@ -1209,7 +1211,7 @@ Unannotated (x4)">            error = _extract_brackets_error(string)</span>
 <span class="line-precise" title="No Anys on this line!">    return error</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-precise" title="No Anys on this line!">def extract_value(string: Optional[str]) -&gt; Optional[ValueList]:</span>
+<span class="line-precise" title="No Anys on this line!">def extract_value(string: str | None) -&gt; ValueList | None:</span>
 <span class="line-empty" title="No Anys on this line!">    """Extract numeric values from a string, handling ranges and single values.</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">    Takes a string and returns a list of floats representing the values found.</span>
@@ -1295,14 +1297,17 @@ Unannotated (x5)">    string = _clean_value_string(string)</span>
 Unannotated (x5)">    string = string.split("±")[0]</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x5)">    string = string.split("(")[0]</span>
+<span class="line-empty" title="No Anys on this line!">    # Use pre-compiled pattern for improved performance</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x6)">    split_by_space = [r for r in re.split(" |(-)", string) if r]</span>
+Unannotated (x3)">    split_by_space = split_by_space_dash(string)</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">    split_by_num = []</span>
 <span class="line-any" title="Any Types on this line: 
+Unannotated (x2)">    number_pattern = get_pattern("number")</span>
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x2)">    for elem in split_by_space:</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x8)">        split_by_num.extend([r for r in re.split(_number_pattern, elem) if r])</span>
+Unannotated (x10)">        split_by_num.extend([r for r in number_pattern.split(elem) if r])</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">    split_by_num_merge_minus = []</span>
 <span class="line-any" title="Any Types on this line: 
@@ -1523,9 +1528,11 @@ Unannotated (x1)">    return end_unit</span>
 <span class="line-empty" title="No Anys on this line!">    :rtype: list(str)</span>
 <span class="line-empty" title="No Anys on this line!">    """</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-empty" title="No Anys on this line!">    # Split at numbers</span>
+<span class="line-empty" title="No Anys on this line!">    # Split at numbers using pre-compiled pattern</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x3)">    split_by_num = re.split(_simple_number_pattern, string)</span>
+Unannotated (x2)">    simple_number_pattern = get_pattern("simple_number")</span>
+<span class="line-any" title="Any Types on this line: 
+Unannotated (x5)">    split_by_num = simple_number_pattern.split(string)</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">    split_by_num_cleaned = []</span>
 <span class="line-any" title="Any Types on this line: 
@@ -1546,23 +1553,27 @@ Unannotated (x7)">                split_by_num_cleaned[-1] = split_by_num_cleane
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x4)">                split_by_num_cleaned.append(element)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-empty" title="No Anys on this line!">    # Split at slashes</span>
+<span class="line-empty" title="No Anys on this line!">    # Split at slashes using pre-compiled pattern</span>
+<span class="line-any" title="Any Types on this line: 
+Unannotated (x2)">    unit_fraction_pattern = get_pattern("unit_fraction")</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">    split_by_slash = []</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x2)">    for element in split_by_num_cleaned:</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x3)">        split = re.split(_unit_fraction_pattern, element)</span>
+Unannotated (x5)">        split = unit_fraction_pattern.split(element)</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x2)">        split_by_slash += split</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-empty" title="No Anys on this line!">    # Split at brackets</span>
+<span class="line-empty" title="No Anys on this line!">    # Split at brackets using pre-compiled pattern</span>
+<span class="line-any" title="Any Types on this line: 
+Unannotated (x2)">    brackets_pattern = get_pattern("brackets")</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">    split_by_bracket = []</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x2)">    for element in split_by_slash:</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x3)">        split = re.split(_brackets_pattern, element)</span>
+Unannotated (x5)">        split = brackets_pattern.split(element)</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x2)">        split_by_bracket += split</span>
 <span class="line-empty" title="No Anys on this line!"></span>

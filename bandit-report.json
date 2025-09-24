@@ -1,6 +1,6 @@
 {
   "errors": [],
-  "generated_at": "2025-09-12T20:52:23Z",
+  "generated_at": "2025-09-23T23:06:23Z",
   "metrics": {
     "_totals": {
       "CONFIDENCE.HIGH": 21,
@@ -11,7 +11,7 @@
       "SEVERITY.LOW": 18,
       "SEVERITY.MEDIUM": 12,
       "SEVERITY.UNDEFINED": 0,
-      "loc": 31610,
+      "loc": 32039,
       "nosec": 0,
       "skipped_tests": 0
     },
@@ -154,7 +154,7 @@
       "SEVERITY.LOW": 0,
       "SEVERITY.MEDIUM": 0,
       "SEVERITY.UNDEFINED": 0,
-      "loc": 46,
+      "loc": 45,
       "nosec": 0,
       "skipped_tests": 0
     },
@@ -167,7 +167,7 @@
       "SEVERITY.LOW": 0,
       "SEVERITY.MEDIUM": 0,
       "SEVERITY.UNDEFINED": 0,
-      "loc": 329,
+      "loc": 331,
       "nosec": 0,
       "skipped_tests": 0
     },
@@ -258,7 +258,7 @@
       "SEVERITY.LOW": 0,
       "SEVERITY.MEDIUM": 0,
       "SEVERITY.UNDEFINED": 0,
-      "loc": 905,
+      "loc": 899,
       "nosec": 0,
       "skipped_tests": 0
     },
@@ -284,7 +284,7 @@
       "SEVERITY.LOW": 0,
       "SEVERITY.MEDIUM": 0,
       "SEVERITY.UNDEFINED": 0,
-      "loc": 278,
+      "loc": 268,
       "nosec": 0,
       "skipped_tests": 0
     },
@@ -323,7 +323,7 @@
       "SEVERITY.LOW": 0,
       "SEVERITY.MEDIUM": 0,
       "SEVERITY.UNDEFINED": 0,
-      "loc": 292,
+      "loc": 291,
       "nosec": 0,
       "skipped_tests": 0
     },
@@ -336,7 +336,7 @@
       "SEVERITY.LOW": 0,
       "SEVERITY.MEDIUM": 5,
       "SEVERITY.UNDEFINED": 0,
-      "loc": 1171,
+      "loc": 1154,
       "nosec": 0,
       "skipped_tests": 0
     },
@@ -349,7 +349,7 @@
       "SEVERITY.LOW": 0,
       "SEVERITY.MEDIUM": 0,
       "SEVERITY.UNDEFINED": 0,
-      "loc": 258,
+      "loc": 256,
       "nosec": 0,
       "skipped_tests": 0
     },
@@ -375,7 +375,7 @@
       "SEVERITY.LOW": 1,
       "SEVERITY.MEDIUM": 0,
       "SEVERITY.UNDEFINED": 0,
-      "loc": 395,
+      "loc": 354,
       "nosec": 0,
       "skipped_tests": 0
     },
@@ -414,7 +414,7 @@
       "SEVERITY.LOW": 0,
       "SEVERITY.MEDIUM": 0,
       "SEVERITY.UNDEFINED": 0,
-      "loc": 1617,
+      "loc": 1609,
       "nosec": 0,
       "skipped_tests": 0
     },
@@ -440,7 +440,7 @@
       "SEVERITY.LOW": 0,
       "SEVERITY.MEDIUM": 0,
       "SEVERITY.UNDEFINED": 0,
-      "loc": 209,
+      "loc": 207,
       "nosec": 0,
       "skipped_tests": 0
     },
@@ -453,7 +453,7 @@
       "SEVERITY.LOW": 0,
       "SEVERITY.MEDIUM": 0,
       "SEVERITY.UNDEFINED": 0,
-      "loc": 460,
+      "loc": 458,
       "nosec": 0,
       "skipped_tests": 0
     },
@@ -518,7 +518,7 @@
       "SEVERITY.LOW": 0,
       "SEVERITY.MEDIUM": 0,
       "SEVERITY.UNDEFINED": 0,
-      "loc": 240,
+      "loc": 238,
       "nosec": 0,
       "skipped_tests": 0
     },
@@ -843,7 +843,7 @@
       "SEVERITY.LOW": 0,
       "SEVERITY.MEDIUM": 0,
       "SEVERITY.UNDEFINED": 0,
-      "loc": 275,
+      "loc": 273,
       "nosec": 0,
       "skipped_tests": 0
     },
@@ -856,7 +856,7 @@
       "SEVERITY.LOW": 1,
       "SEVERITY.MEDIUM": 1,
       "SEVERITY.UNDEFINED": 0,
-      "loc": 466,
+      "loc": 481,
       "nosec": 0,
       "skipped_tests": 0
     },
@@ -882,7 +882,7 @@
       "SEVERITY.LOW": 0,
       "SEVERITY.MEDIUM": 0,
       "SEVERITY.UNDEFINED": 0,
-      "loc": 185,
+      "loc": 183,
       "nosec": 0,
       "skipped_tests": 0
     },
@@ -960,7 +960,7 @@
       "SEVERITY.LOW": 0,
       "SEVERITY.MEDIUM": 0,
       "SEVERITY.UNDEFINED": 0,
-      "loc": 180,
+      "loc": 178,
       "nosec": 0,
       "skipped_tests": 0
     },
@@ -1051,7 +1051,7 @@
       "SEVERITY.LOW": 0,
       "SEVERITY.MEDIUM": 0,
       "SEVERITY.UNDEFINED": 0,
-      "loc": 630,
+      "loc": 653,
       "nosec": 0,
       "skipped_tests": 0
     },
@@ -1090,7 +1090,7 @@
       "SEVERITY.LOW": 0,
       "SEVERITY.MEDIUM": 0,
       "SEVERITY.UNDEFINED": 0,
-      "loc": 100,
+      "loc": 93,
       "nosec": 0,
       "skipped_tests": 0
     },
@@ -1142,7 +1142,20 @@
       "SEVERITY.LOW": 0,
       "SEVERITY.MEDIUM": 0,
       "SEVERITY.UNDEFINED": 0,
-      "loc": 694,
+      "loc": 693,
+      "nosec": 0,
+      "skipped_tests": 0
+    },
+    "chemdataextractor/parse/regex_patterns.py": {
+      "CONFIDENCE.HIGH": 0,
+      "CONFIDENCE.LOW": 0,
+      "CONFIDENCE.MEDIUM": 0,
+      "CONFIDENCE.UNDEFINED": 0,
+      "SEVERITY.HIGH": 0,
+      "SEVERITY.LOW": 0,
+      "SEVERITY.MEDIUM": 0,
+      "SEVERITY.UNDEFINED": 0,
+      "loc": 243,
       "nosec": 0,
       "skipped_tests": 0
     },
@@ -1259,7 +1272,7 @@
       "SEVERITY.LOW": 0,
       "SEVERITY.MEDIUM": 0,
       "SEVERITY.UNDEFINED": 0,
-      "loc": 345,
+      "loc": 343,
       "nosec": 0,
       "skipped_tests": 0
     },
@@ -1324,7 +1337,7 @@
       "SEVERITY.LOW": 0,
       "SEVERITY.MEDIUM": 0,
       "SEVERITY.UNDEFINED": 0,
-      "loc": 110,
+      "loc": 112,
       "nosec": 0,
       "skipped_tests": 0
     },
@@ -1454,7 +1467,7 @@
       "SEVERITY.LOW": 2,
       "SEVERITY.MEDIUM": 1,
       "SEVERITY.UNDEFINED": 0,
-      "loc": 615,
+      "loc": 604,
       "nosec": 0,
       "skipped_tests": 0
     },
@@ -1519,7 +1532,7 @@
       "SEVERITY.LOW": 0,
       "SEVERITY.MEDIUM": 0,
       "SEVERITY.UNDEFINED": 0,
-      "loc": 94,
+      "loc": 96,
       "nosec": 0,
       "skipped_tests": 0
     },
@@ -1662,7 +1675,7 @@
       "SEVERITY.LOW": 0,
       "SEVERITY.MEDIUM": 0,
       "SEVERITY.UNDEFINED": 0,
-      "loc": 741,
+      "loc": 740,
       "nosec": 0,
       "skipped_tests": 0
     },
@@ -1688,7 +1701,7 @@
       "SEVERITY.LOW": 0,
       "SEVERITY.MEDIUM": 0,
       "SEVERITY.UNDEFINED": 0,
-      "loc": 196,
+      "loc": 195,
       "nosec": 0,
       "skipped_tests": 0
     },
@@ -1701,7 +1714,7 @@
       "SEVERITY.LOW": 0,
       "SEVERITY.MEDIUM": 0,
       "SEVERITY.UNDEFINED": 0,
-      "loc": 124,
+      "loc": 129,
       "nosec": 0,
       "skipped_tests": 0
     },
@@ -1714,7 +1727,7 @@
       "SEVERITY.LOW": 0,
       "SEVERITY.MEDIUM": 0,
       "SEVERITY.UNDEFINED": 0,
-      "loc": 237,
+      "loc": 495,
       "nosec": 0,
       "skipped_tests": 0
     },
@@ -1994,7 +2007,7 @@
       "test_name": "blacklist"
     },
     {
-      "code": "292             if \"SENTENCE_TOKENIZER\" in c.keys():\n293                 self.sentence_tokenizer = eval(c[\"SENTENCE_TOKENIZER\"])()\n294             if \"WORD_TOKENIZER\" in c.keys():\n",
+      "code": "289             if \"SENTENCE_TOKENIZER\" in c:\n290                 self.sentence_tokenizer = eval(c[\"SENTENCE_TOKENIZER\"])()\n291             if \"WORD_TOKENIZER\" in c:\n",
       "col_offset": 42,
       "end_col_offset": 71,
       "filename": "chemdataextractor/doc/text.py",
@@ -2005,16 +2018,16 @@
       },
       "issue_severity": "MEDIUM",
       "issue_text": "Use of possibly insecure function - consider using safer ast.literal_eval.",
-      "line_number": 293,
+      "line_number": 290,
       "line_range": [
-        293
+        290
       ],
       "more_info": "https://bandit.readthedocs.io/en/1.8.6/blacklists/blacklist_calls.html#b307-eval",
       "test_id": "B307",
       "test_name": "blacklist"
     },
     {
-      "code": "294             if \"WORD_TOKENIZER\" in c.keys():\n295                 self.word_tokenizer = eval(c[\"WORD_TOKENIZER\"])()\n296             if \"POS_TAGGER\" in c.keys():\n",
+      "code": "291             if \"WORD_TOKENIZER\" in c:\n292                 self.word_tokenizer = eval(c[\"WORD_TOKENIZER\"])()\n293             if \"POS_TAGGER\" in c:\n",
       "col_offset": 38,
       "end_col_offset": 63,
       "filename": "chemdataextractor/doc/text.py",
@@ -2025,16 +2038,16 @@
       },
       "issue_severity": "MEDIUM",
       "issue_text": "Use of possibly insecure function - consider using safer ast.literal_eval.",
-      "line_number": 295,
+      "line_number": 292,
       "line_range": [
-        295
+        292
       ],
       "more_info": "https://bandit.readthedocs.io/en/1.8.6/blacklists/blacklist_calls.html#b307-eval",
       "test_id": "B307",
       "test_name": "blacklist"
     },
     {
-      "code": "296             if \"POS_TAGGER\" in c.keys():\n297                 self.pos_tagger = eval(c[\"POS_TAGGER\"])()\n298             if \"NER_TAGGER\" in c.keys():\n",
+      "code": "293             if \"POS_TAGGER\" in c:\n294                 self.pos_tagger = eval(c[\"POS_TAGGER\"])()\n295             if \"NER_TAGGER\" in c:\n",
       "col_offset": 34,
       "end_col_offset": 55,
       "filename": "chemdataextractor/doc/text.py",
@@ -2045,16 +2058,16 @@
       },
       "issue_severity": "MEDIUM",
       "issue_text": "Use of possibly insecure function - consider using safer ast.literal_eval.",
-      "line_number": 297,
+      "line_number": 294,
       "line_range": [
-        297
+        294
       ],
       "more_info": "https://bandit.readthedocs.io/en/1.8.6/blacklists/blacklist_calls.html#b307-eval",
       "test_id": "B307",
       "test_name": "blacklist"
     },
     {
-      "code": "298             if \"NER_TAGGER\" in c.keys():\n299                 self.ner_tagger = eval(c[\"NER_TAGGER\"])()\n300             if \"LEXICON\" in c.keys():\n",
+      "code": "295             if \"NER_TAGGER\" in c:\n296                 self.ner_tagger = eval(c[\"NER_TAGGER\"])()\n297             if \"LEXICON\" in c:\n",
       "col_offset": 34,
       "end_col_offset": 55,
       "filename": "chemdataextractor/doc/text.py",
@@ -2065,16 +2078,16 @@
       },
       "issue_severity": "MEDIUM",
       "issue_text": "Use of possibly insecure function - consider using safer ast.literal_eval.",
-      "line_number": 299,
+      "line_number": 296,
       "line_range": [
-        299
+        296
       ],
       "more_info": "https://bandit.readthedocs.io/en/1.8.6/blacklists/blacklist_calls.html#b307-eval",
       "test_id": "B307",
       "test_name": "blacklist"
     },
     {
-      "code": "300             if \"LEXICON\" in c.keys():\n301                 self.lexicon = eval(c[\"LEXICON\"])()\n302             if \"PARSERS\" in c.keys():\n",
+      "code": "297             if \"LEXICON\" in c:\n298                 self.lexicon = eval(c[\"LEXICON\"])()\n299             if \"PARSERS\" in c:\n",
       "col_offset": 31,
       "end_col_offset": 49,
       "filename": "chemdataextractor/doc/text.py",
@@ -2085,9 +2098,9 @@
       },
       "issue_severity": "MEDIUM",
       "issue_text": "Use of possibly insecure function - consider using safer ast.literal_eval.",
-      "line_number": 301,
+      "line_number": 298,
       "line_range": [
-        301
+        298
       ],
       "more_info": "https://bandit.readthedocs.io/en/1.8.6/blacklists/blacklist_calls.html#b307-eval",
       "test_id": "B307",
@@ -2216,7 +2229,7 @@
       "test_name": "blacklist"
     },
     {
-      "code": "327         with open(path, \"rb\") as fin:\n328             self.weights = pickle.load(fin)\n329 \n",
+      "code": "352         with open(path, \"rb\") as fin:\n353             self.weights = pickle.load(fin)\n354 \n",
       "col_offset": 27,
       "end_col_offset": 43,
       "filename": "chemdataextractor/nlp/tag.py",
@@ -2227,9 +2240,9 @@
       },
       "issue_severity": "MEDIUM",
       "issue_text": "Pickle and modules that wrap it can be unsafe when used to deserialize untrusted data, possible security issue.",
-      "line_number": 328,
+      "line_number": 353,
       "line_range": [
-        328
+        353
       ],
       "more_info": "https://bandit.readthedocs.io/en/1.8.6/blacklists/blacklist_calls.html#b301-pickle",
       "test_id": "B301",
@@ -2316,7 +2329,7 @@
       "test_name": "blacklist"
     },
     {
-      "code": "146         f = open(path, \"rb\")\n147         return pickle.load(f)\n148 \n",
+      "code": "143         f = open(path, \"rb\")\n144         return pickle.load(f)\n145 \n",
       "col_offset": 15,
       "end_col_offset": 29,
       "filename": "chemdataextractor/relex/snowball.py",
@@ -2327,16 +2340,16 @@
       },
       "issue_severity": "MEDIUM",
       "issue_text": "Pickle and modules that wrap it can be unsafe when used to deserialize untrusted data, possible security issue.",
-      "line_number": 147,
+      "line_number": 144,
       "line_range": [
-        147
+        144
       ],
       "more_info": "https://bandit.readthedocs.io/en/1.8.6/blacklists/blacklist_calls.html#b301-pickle",
       "test_id": "B301",
       "test_name": "blacklist"
     },
     {
-      "code": "222         else:\n223             assert isinstance(corpus, list)\n224             for s in corpus[skip:]:\n",
+      "code": "219         else:\n220             assert isinstance(corpus, list)\n221             for s in corpus[skip:]:\n",
       "col_offset": 12,
       "end_col_offset": 43,
       "filename": "chemdataextractor/relex/snowball.py",
@@ -2347,9 +2360,9 @@
       },
       "issue_severity": "LOW",
       "issue_text": "Use of assert detected. The enclosed code will be removed when compiling to optimised byte code.",
-      "line_number": 223,
+      "line_number": 220,
       "line_range": [
-        223
+        220
       ],
       "more_info": "https://bandit.readthedocs.io/en/1.8.6/plugins/b101_assert_used.html",
       "test_id": "B101",

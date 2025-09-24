@@ -423,47 +423,6 @@
 <span id="L413" class="lineno"><a class="lineno" href="#L413">413</a></span>
 <span id="L414" class="lineno"><a class="lineno" href="#L414">414</a></span>
 <span id="L415" class="lineno"><a class="lineno" href="#L415">415</a></span>
-<span id="L416" class="lineno"><a class="lineno" href="#L416">416</a></span>
-<span id="L417" class="lineno"><a class="lineno" href="#L417">417</a></span>
-<span id="L418" class="lineno"><a class="lineno" href="#L418">418</a></span>
-<span id="L419" class="lineno"><a class="lineno" href="#L419">419</a></span>
-<span id="L420" class="lineno"><a class="lineno" href="#L420">420</a></span>
-<span id="L421" class="lineno"><a class="lineno" href="#L421">421</a></span>
-<span id="L422" class="lineno"><a class="lineno" href="#L422">422</a></span>
-<span id="L423" class="lineno"><a class="lineno" href="#L423">423</a></span>
-<span id="L424" class="lineno"><a class="lineno" href="#L424">424</a></span>
-<span id="L425" class="lineno"><a class="lineno" href="#L425">425</a></span>
-<span id="L426" class="lineno"><a class="lineno" href="#L426">426</a></span>
-<span id="L427" class="lineno"><a class="lineno" href="#L427">427</a></span>
-<span id="L428" class="lineno"><a class="lineno" href="#L428">428</a></span>
-<span id="L429" class="lineno"><a class="lineno" href="#L429">429</a></span>
-<span id="L430" class="lineno"><a class="lineno" href="#L430">430</a></span>
-<span id="L431" class="lineno"><a class="lineno" href="#L431">431</a></span>
-<span id="L432" class="lineno"><a class="lineno" href="#L432">432</a></span>
-<span id="L433" class="lineno"><a class="lineno" href="#L433">433</a></span>
-<span id="L434" class="lineno"><a class="lineno" href="#L434">434</a></span>
-<span id="L435" class="lineno"><a class="lineno" href="#L435">435</a></span>
-<span id="L436" class="lineno"><a class="lineno" href="#L436">436</a></span>
-<span id="L437" class="lineno"><a class="lineno" href="#L437">437</a></span>
-<span id="L438" class="lineno"><a class="lineno" href="#L438">438</a></span>
-<span id="L439" class="lineno"><a class="lineno" href="#L439">439</a></span>
-<span id="L440" class="lineno"><a class="lineno" href="#L440">440</a></span>
-<span id="L441" class="lineno"><a class="lineno" href="#L441">441</a></span>
-<span id="L442" class="lineno"><a class="lineno" href="#L442">442</a></span>
-<span id="L443" class="lineno"><a class="lineno" href="#L443">443</a></span>
-<span id="L444" class="lineno"><a class="lineno" href="#L444">444</a></span>
-<span id="L445" class="lineno"><a class="lineno" href="#L445">445</a></span>
-<span id="L446" class="lineno"><a class="lineno" href="#L446">446</a></span>
-<span id="L447" class="lineno"><a class="lineno" href="#L447">447</a></span>
-<span id="L448" class="lineno"><a class="lineno" href="#L448">448</a></span>
-<span id="L449" class="lineno"><a class="lineno" href="#L449">449</a></span>
-<span id="L450" class="lineno"><a class="lineno" href="#L450">450</a></span>
-<span id="L451" class="lineno"><a class="lineno" href="#L451">451</a></span>
-<span id="L452" class="lineno"><a class="lineno" href="#L452">452</a></span>
-<span id="L453" class="lineno"><a class="lineno" href="#L453">453</a></span>
-<span id="L454" class="lineno"><a class="lineno" href="#L454">454</a></span>
-<span id="L455" class="lineno"><a class="lineno" href="#L455">455</a></span>
-<span id="L456" class="lineno"><a class="lineno" href="#L456">456</a></span>
 </pre></td>
 <td class="table-code"><pre><span class="line-empty" title="No Anys on this line!">"""</span>
 <span class="line-empty" title="No Anys on this line!">Scripts for evaluation.</span>
@@ -497,7 +456,6 @@
 <span class="line-precise" title="No Anys on this line!">from importlib.resources import files</span>
 <span class="line-precise" title="No Anys on this line!">from pprint import pprint</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-any" title="No Anys on this line!">from playsound import playsound</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">from .. import Document</span>
 <span class="line-empty" title="No Anys on this line!"></span>
@@ -569,14 +527,11 @@ Unannotated (x1)">                yield record</span>
 <span class="line-any" title="No Anys on this line!">        folder=r"./",</span>
 <span class="line-any" title="No Anys on this line!">        n_papers_limit=200,</span>
 <span class="line-any" title="No Anys on this line!">        n_records_limit=200,</span>
-<span class="line-any" title="No Anys on this line!">        play_sound=True,</span>
 <span class="line-any" title="No Anys on this line!">        show_website=True,</span>
 <span class="line-any" title="No Anys on this line!">        _automated=False,</span>
 <span class="line-empty" title="No Anys on this line!">    ):</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x2)">        self._automated = _automated</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">        self.play_sound = play_sound</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x2)">        self.show_website = show_website</span>
 <span class="line-any" title="Any Types on this line: 
@@ -669,11 +624,6 @@ Unannotated (x3)">                    pprint(record.serialize())</span>
 Unannotated (x2)">                    print(f"    Method:  {record.record_method}")</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x2)">                    print(f"    Updated: {record.updated}")</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x1)">                    if self.play_sound:</span>
-<span class="line-any" title="No Anys on this line!">                        sound_file = files("chemdataextractor") / "eval/sound.mp3"</span>
-<span class="line-any" title="Any Types on this line: 
-Unimported (x2)">                        playsound(sound_file)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x2)">                    if not doc_opened and self.show_website:</span>
@@ -826,11 +776,6 @@ Unannotated (x3)">            self.print_results(destination=f)</span>
 <span class="line-precise" title="No Anys on this line!">            f.flush()</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">            if self.limits_reached:</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x1)">                if self.play_sound:</span>
-<span class="line-any" title="No Anys on this line!">                    sound_end_file = files("chemdataextractor") / "eval/sound_end.mp3"</span>
-<span class="line-any" title="Any Types on this line: 
-Unimported (x2)">                    playsound(sound_end_file)</span>
 <span class="line-any" title="No Anys on this line!">                break</span>
 <span class="line-any" title="No Anys on this line!">            print("")</span>
 <span class="line-precise" title="No Anys on this line!">        f.close()</span>
@@ -940,29 +885,19 @@ Unannotated (x1)">        print("===========", file=destination)</span>
 Unannotated (x1)">        print("", file=destination)</span>
 <span class="line-any" title="No Anys on this line!">        if (self.nc + self.nw) != 0:</span>
 <span class="line-precise" title="No Anys on this line!">            print(</span>
-<span class="line-any" title="No Anys on this line!">                "Total precision                      = {:4.2f}, {}/{}".format(</span>
-<span class="line-precise" title="No Anys on this line!">                    (self.nc / (self.nc + self.nw)), self.nc, self.nc + self.nw</span>
-<span class="line-empty" title="No Anys on this line!">                ),</span>
+<span class="line-any" title="No Anys on this line!">                f"Total precision                      = {self.nc / (self.nc + self.nw):4.2f}, {self.nc}/{self.nc + self.nw}",</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">                file=destination,</span>
 <span class="line-empty" title="No Anys on this line!">            )</span>
 <span class="line-any" title="No Anys on this line!">        if (self.nc + self.nw - self.nw_autosentence) != 0:</span>
 <span class="line-precise" title="No Anys on this line!">            print(</span>
-<span class="line-any" title="No Anys on this line!">                "Precision without AutoSentenceParser = {:4.2f}, {}/{}   ---&gt; Approximation".format(</span>
-<span class="line-precise" title="No Anys on this line!">                    (self.nc - self.nc_autosentence) / (self.nc + self.nw - self.nw_autosentence),</span>
-<span class="line-precise" title="No Anys on this line!">                    (self.nc - self.nc_autosentence),</span>
-<span class="line-precise" title="No Anys on this line!">                    (self.nc + self.nw - self.nw_autosentence),</span>
-<span class="line-empty" title="No Anys on this line!">                ),</span>
+<span class="line-any" title="No Anys on this line!">                f"Precision without AutoSentenceParser = {(self.nc - self.nc_autosentence) / (self.nc + self.nw - self.nw_autosentence):4.2f}, {self.nc - self.nc_autosentence}/{self.nc + self.nw - self.nw_autosentence}   ---&gt; Approximation",</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">                file=destination,</span>
 <span class="line-empty" title="No Anys on this line!">            )</span>
 <span class="line-any" title="No Anys on this line!">        if (self.nc + self.nw - self.nw_cer) != 0:</span>
 <span class="line-precise" title="No Anys on this line!">            print(</span>
-<span class="line-any" title="No Anys on this line!">                "Precision without CER Errors         = {:4.2f}, {}/{}".format(</span>
-<span class="line-precise" title="No Anys on this line!">                    (self.nc / (self.nc + self.nw - self.nw_cer)),</span>
-<span class="line-precise" title="No Anys on this line!">                    self.nc,</span>
-<span class="line-precise" title="No Anys on this line!">                    (self.nc + self.nw - self.nw_cer),</span>
-<span class="line-empty" title="No Anys on this line!">                ),</span>
+<span class="line-any" title="No Anys on this line!">                f"Precision without CER Errors         = {self.nc / (self.nc + self.nw - self.nw_cer):4.2f}, {self.nc}/{self.nc + self.nw - self.nw_cer}",</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">                file=destination,</span>
 <span class="line-empty" title="No Anys on this line!">            )</span>
@@ -979,64 +914,42 @@ Unannotated (x1)">                file=destination,</span>
 <span class="line-empty" title="No Anys on this line!">            )</span>
 <span class="line-any" title="No Anys on this line!">        if (self.nc_table + self.nw_table) != 0:</span>
 <span class="line-precise" title="No Anys on this line!">            print(</span>
-<span class="line-any" title="No Anys on this line!">                "Table Precision                      = {:4.2f}, {}/{}".format(</span>
-<span class="line-precise" title="No Anys on this line!">                    self.nc_table / (self.nc_table + self.nw_table),</span>
-<span class="line-precise" title="No Anys on this line!">                    self.nc_table,</span>
-<span class="line-precise" title="No Anys on this line!">                    (self.nc_table + self.nw_table),</span>
-<span class="line-empty" title="No Anys on this line!">                ),</span>
+<span class="line-any" title="No Anys on this line!">                f"Table Precision                      = {self.nc_table / (self.nc_table + self.nw_table):4.2f}, {self.nc_table}/{self.nc_table + self.nw_table}",</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">                file=destination,</span>
 <span class="line-empty" title="No Anys on this line!">            )</span>
 <span class="line-any" title="No Anys on this line!">        if self.nw_table != 0:</span>
 <span class="line-precise" title="No Anys on this line!">            print(</span>
-<span class="line-any" title="No Anys on this line!">                "   TDE Errors within Table Errors    = {:4.2f}, {}/{}".format(</span>
-<span class="line-precise" title="No Anys on this line!">                    self.nw_table_tde / self.nw_table, self.nw_table_tde, self.nw_table</span>
-<span class="line-empty" title="No Anys on this line!">                ),</span>
+<span class="line-any" title="No Anys on this line!">                f"   TDE Errors within Table Errors    = {self.nw_table_tde / self.nw_table:4.2f}, {self.nw_table_tde}/{self.nw_table}",</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">                file=destination,</span>
 <span class="line-empty" title="No Anys on this line!">            )</span>
 <span class="line-precise" title="No Anys on this line!">            print(</span>
-<span class="line-any" title="No Anys on this line!">                "   CDE Errors within Table Errors    = {:4.2f}, {}/{}".format(</span>
-<span class="line-precise" title="No Anys on this line!">                    self.nw_table_cde / self.nw_table, self.nw_table_cde, self.nw_table</span>
-<span class="line-empty" title="No Anys on this line!">                ),</span>
+<span class="line-any" title="No Anys on this line!">                f"   CDE Errors within Table Errors    = {self.nw_table_cde / self.nw_table:4.2f}, {self.nw_table_cde}/{self.nw_table}",</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">                file=destination,</span>
 <span class="line-empty" title="No Anys on this line!">            )</span>
 <span class="line-any" title="No Anys on this line!">        if (self.nc_template + self.nw_template) != 0:</span>
 <span class="line-precise" title="No Anys on this line!">            print(</span>
-<span class="line-any" title="No Anys on this line!">                "Template Precision                   = {:4.2f}, {}/{}".format(</span>
-<span class="line-precise" title="No Anys on this line!">                    self.nc_template / (self.nc_template + self.nw_template),</span>
-<span class="line-precise" title="No Anys on this line!">                    self.nc_template,</span>
-<span class="line-precise" title="No Anys on this line!">                    (self.nc_template + self.nw_template),</span>
-<span class="line-empty" title="No Anys on this line!">                ),</span>
+<span class="line-any" title="No Anys on this line!">                f"Template Precision                   = {self.nc_template / (self.nc_template + self.nw_template):4.2f}, {self.nc_template}/{self.nc_template + self.nw_template}",</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">                file=destination,</span>
 <span class="line-empty" title="No Anys on this line!">            )</span>
 <span class="line-any" title="No Anys on this line!">        if (self.nc_snowball + self.nw_snowball) != 0:</span>
 <span class="line-precise" title="No Anys on this line!">            print(</span>
-<span class="line-any" title="No Anys on this line!">                "Snowball Precision                   = {:4.2f}, {}/{}".format(</span>
-<span class="line-precise" title="No Anys on this line!">                    self.nc_snowball / (self.nc_snowball + self.nw_snowball),</span>
-<span class="line-precise" title="No Anys on this line!">                    self.nc_snowball,</span>
-<span class="line-precise" title="No Anys on this line!">                    (self.nc_snowball + self.nw_snowball),</span>
-<span class="line-empty" title="No Anys on this line!">                ),</span>
+<span class="line-any" title="No Anys on this line!">                f"Snowball Precision                   = {self.nc_snowball / (self.nc_snowball + self.nw_snowball):4.2f}, {self.nc_snowball}/{self.nc_snowball + self.nw_snowball}",</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">                file=destination,</span>
 <span class="line-empty" title="No Anys on this line!">            )</span>
 <span class="line-any" title="No Anys on this line!">        if (self.nc_definition + self.nw_definition) != 0:</span>
 <span class="line-precise" title="No Anys on this line!">            print(</span>
-<span class="line-any" title="No Anys on this line!">                "Definitions update Precision         = {:4.2f}, {}/{}".format(</span>
-<span class="line-precise" title="No Anys on this line!">                    self.nc_definition / (self.nc_definition + self.nw_definition),</span>
-<span class="line-precise" title="No Anys on this line!">                    self.nc_definition,</span>
-<span class="line-precise" title="No Anys on this line!">                    (self.nc_definition + self.nw_definition),</span>
-<span class="line-empty" title="No Anys on this line!">                ),</span>
+<span class="line-any" title="No Anys on this line!">                f"Definitions update Precision         = {self.nc_definition / (self.nc_definition + self.nw_definition):4.2f}, {self.nc_definition}/{self.nc_definition + self.nw_definition}",</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">                file=destination,</span>
 <span class="line-empty" title="No Anys on this line!">            )</span>
 <span class="line-any" title="No Anys on this line!">        if self.nw != 0:</span>
 <span class="line-precise" title="No Anys on this line!">            print(</span>
-<span class="line-any" title="No Anys on this line!">                "Percentage of 'other' errors         = {:4.2f}, {}/{}".format(</span>
-<span class="line-precise" title="No Anys on this line!">                    self.nw_other / self.nw, self.nw_other, self.nw</span>
-<span class="line-empty" title="No Anys on this line!">                ),</span>
+<span class="line-any" title="No Anys on this line!">                f"Percentage of 'other' errors         = {self.nw_other / self.nw:4.2f}, {self.nw_other}/{self.nw}",</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">                file=destination,</span>
 <span class="line-empty" title="No Anys on this line!">            )</span>

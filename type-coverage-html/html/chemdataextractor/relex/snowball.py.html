@@ -782,17 +782,6 @@
 <span id="L772" class="lineno"><a class="lineno" href="#L772">772</a></span>
 <span id="L773" class="lineno"><a class="lineno" href="#L773">773</a></span>
 <span id="L774" class="lineno"><a class="lineno" href="#L774">774</a></span>
-<span id="L775" class="lineno"><a class="lineno" href="#L775">775</a></span>
-<span id="L776" class="lineno"><a class="lineno" href="#L776">776</a></span>
-<span id="L777" class="lineno"><a class="lineno" href="#L777">777</a></span>
-<span id="L778" class="lineno"><a class="lineno" href="#L778">778</a></span>
-<span id="L779" class="lineno"><a class="lineno" href="#L779">779</a></span>
-<span id="L780" class="lineno"><a class="lineno" href="#L780">780</a></span>
-<span id="L781" class="lineno"><a class="lineno" href="#L781">781</a></span>
-<span id="L782" class="lineno"><a class="lineno" href="#L782">782</a></span>
-<span id="L783" class="lineno"><a class="lineno" href="#L783">783</a></span>
-<span id="L784" class="lineno"><a class="lineno" href="#L784">784</a></span>
-<span id="L785" class="lineno"><a class="lineno" href="#L785">785</a></span>
 </pre></td>
 <td class="table-code"><pre><span class="line-empty" title="No Anys on this line!">"""</span>
 <span class="line-empty" title="No Anys on this line!">The Snowball Relationship Extraction algorithm.</span>
@@ -818,7 +807,6 @@
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">import numpy as np</span>
 <span class="line-any" title="No Anys on this line!">import six</span>
-<span class="line-any" title="No Anys on this line!">from playsound import playsound</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">from ..doc.document import Document</span>
 <span class="line-precise" title="No Anys on this line!">from ..doc.text import Sentence</span>
@@ -836,8 +824,8 @@
 <span class="line-precise" title="No Anys on this line!">    pass</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!"># Type aliases for relationship extraction</span>
-<span class="line-precise" title="No Anys on this line!">PatternList = List[Any]  # List of learned patterns</span>
-<span class="line-precise" title="No Anys on this line!">EntityPair = Tuple[Entity, Entity]  # Pair of entities in a relationship</span>
+<span class="line-precise" title="No Anys on this line!">PatternList = list[Any]  # List of learned patterns</span>
+<span class="line-precise" title="No Anys on this line!">EntityPair = tuple[Entity, Entity]  # Pair of entities in a relationship</span>
 <span class="line-precise" title="No Anys on this line!">ConfidenceScore = float  # Confidence score for patterns/relationships</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!"></span>
@@ -887,7 +875,6 @@
 <span class="line-any" title="No Anys on this line!">        learning_rate=0.5,</span>
 <span class="line-any" title="No Anys on this line!">        max_candidate_combinations=400,</span>
 <span class="line-any" title="No Anys on this line!">        save_dir="chemdataextractor/relex/data/",</span>
-<span class="line-any" title="No Anys on this line!">        play_sound=False,</span>
 <span class="line-empty" title="No Anys on this line!">    ):</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">        self.model = model</span>
@@ -902,8 +889,6 @@ Unannotated (x2)">        self.max_candidate_combinations = max_candidate_combin
 Unannotated (x2)">        self.save_dir = save_dir</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x3)">        self.save_file_name = model.__name__</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">        self.play_sound = play_sound</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">        # params</span>
 <span class="line-any" title="Any Types on this line: 
@@ -1109,11 +1094,6 @@ Unannotated (x2)">                candidate_dict[str(i)] = candidate</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">                print("Candidate " + str(i) + " " + str(candidate) + "\n")</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x1)">            if self.play_sound:</span>
-<span class="line-any" title="No Anys on this line!">                sound_file = files("chemdataextractor") / "eval/sound.mp3"</span>
-<span class="line-any" title="Any Types on this line: 
-Unimported (x2)">                playsound(sound_file)</span>
 <span class="line-any" title="Any Types on this line: 
 Unimported (x7)">            res = six.moves.input("...: ").replace(" ", "")</span>
 <span class="line-any" title="Any Types on this line: 
@@ -1348,16 +1328,12 @@ Unannotated (x2)">            if r.is_valid():</span>
 <span class="line-empty" title="No Anys on this line!">        """</span>
 <span class="line-empty" title="No Anys on this line!">        if isinstance(result, list):</span>
 <span class="line-empty" title="No Anys on this line!">            for r in result:</span>
-<span class="line-empty" title="No Anys on this line!">                for entity in self.retrieve_entities(model, r):</span>
-<span class="line-empty" title="No Anys on this line!">                    yield entity</span>
+<span class="line-empty" title="No Anys on this line!">                yield from self.retrieve_entities(model, r)</span>
 <span class="line-empty" title="No Anys on this line!">        else:</span>
 <span class="line-empty" title="No Anys on this line!">            for tag, field in model.fields.items():</span>
 <span class="line-empty" title="No Anys on this line!">                #: Nested models</span>
 <span class="line-empty" title="No Anys on this line!">                if hasattr(field, "model_class"):</span>
-<span class="line-empty" title="No Anys on this line!">                    for nested_entity in self.retrieve_entities(</span>
-<span class="line-empty" title="No Anys on this line!">                        field.model_class, result.xpath("./" + tag)</span>
-<span class="line-empty" title="No Anys on this line!">                    ):</span>
-<span class="line-empty" title="No Anys on this line!">                        yield nested_entity</span>
+<span class="line-empty" title="No Anys on this line!">                    yield from self.retrieve_entities(field.model_class, result.xpath("./" + tag))</span>
 <span class="line-empty" title="No Anys on this line!">                else:</span>
 <span class="line-empty" title="No Anys on this line!">                    text_list = result.xpath("./" + tag + "/text()")</span>
 <span class="line-empty" title="No Anys on this line!">                    for text in text_list:</span>
@@ -1573,9 +1549,7 @@ Unannotated (x2)">            self.save()</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x2)">            for relation in best_candidate_phrase.relations:</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x5)">                for model in self.interpret(relation):</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x1)">                    yield model</span>
+Unannotated (x4)">                yield from self.interpret(relation)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="No Anys on this line!">    def _get_data(self, field_name, field, relation_data):</span>
 <span class="line-empty" title="No Anys on this line!">        if hasattr(field, "model_class"):  # temperature, compound</span>

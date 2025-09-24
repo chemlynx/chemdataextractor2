@@ -119,12 +119,6 @@
 <span id="L109" class="lineno"><a class="lineno" href="#L109">109</a></span>
 <span id="L110" class="lineno"><a class="lineno" href="#L110">110</a></span>
 <span id="L111" class="lineno"><a class="lineno" href="#L111">111</a></span>
-<span id="L112" class="lineno"><a class="lineno" href="#L112">112</a></span>
-<span id="L113" class="lineno"><a class="lineno" href="#L113">113</a></span>
-<span id="L114" class="lineno"><a class="lineno" href="#L114">114</a></span>
-<span id="L115" class="lineno"><a class="lineno" href="#L115">115</a></span>
-<span id="L116" class="lineno"><a class="lineno" href="#L116">116</a></span>
-<span id="L117" class="lineno"><a class="lineno" href="#L117">117</a></span>
 </pre></td>
 <td class="table-code"><pre><span class="line-empty" title="No Anys on this line!">"""</span>
 <span class="line-empty" title="No Anys on this line!">Melting Point parser using the QuantityParser framework</span>
@@ -296,26 +290,12 @@ Unannotated (x5)
 Unimported (x1)">        log.debug(etree.tostring(result))</span>
 <span class="line-empty" title="No Anys on this line!">        try:</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x6)">            compound = self.model.fields["compound"].model_class()</span>
-<span class="line-any" title="Any Types on this line: 
 Unannotated (x7)">            raw_value = first(result.xpath("./mp/raw_value/text()"))</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x7)">            raw_units = first(result.xpath("./mp/raw_units/text()"))</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x5)">            melting_point = self.model(raw_value=raw_value, raw_units=raw_units)</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x7)">            cem_el = first(result.xpath("./compound"))</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x1)">            if cem_el is not None:</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x5)
-Unimported (x1)">                log.debug(etree.tostring(cem_el))</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x3)">                melting_point.compound = compound</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x6)">                melting_point.compound.names = cem_el.xpath("./names/text()")</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x6)">                melting_point.compound.labels = cem_el.xpath("./labels/text()")</span>
+<span class="line-empty" title="No Anys on this line!">            # Don't manually extract compound fields - let contextual merging handle it</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x5)">            log.debug(melting_point.serialize())</span>
 <span class="line-any" title="Any Types on this line: 

@@ -1737,13 +1737,13 @@ Unannotated (x4)">            text = text.replace(k, v)</span>
 <span class="line-any" title="No Anys on this line!">            "mathtt",</span>
 <span class="line-empty" title="No Anys on this line!">        ]:</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            text = re.sub(r"\\%s\{([\\\w]+)\}" % mod, r"\1", text)</span>
+Unannotated (x2)">            text = re.sub(rf"\\{mod}\{{([\\\w]+)\}}", r"\1", text)</span>
 <span class="line-precise" title="No Anys on this line!">        for k, v in LATEX_SUB_SUB_MAPPINGS.items():</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x4)">            text = text.replace(k, v)</span>
 <span class="line-precise" title="No Anys on this line!">        for k, v in LATEX_COMBINING_CHARS.items():</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            text = re.sub(r"%s\{?(\w)\}?" % k, r"\1%s" % v, text)</span>
+Unannotated (x2)">            text = re.sub(rf"{k}\{{?(\w)\}}?", rf"\1{v}", text)</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x2)">        text = re.sub(r"\\noopsort\{.*?\}", r"", text)</span>
 <span class="line-any" title="Any Types on this line: 

@@ -360,16 +360,6 @@
 <span id="L350" class="lineno"><a class="lineno" href="#L350">350</a></span>
 <span id="L351" class="lineno"><a class="lineno" href="#L351">351</a></span>
 <span id="L352" class="lineno"><a class="lineno" href="#L352">352</a></span>
-<span id="L353" class="lineno"><a class="lineno" href="#L353">353</a></span>
-<span id="L354" class="lineno"><a class="lineno" href="#L354">354</a></span>
-<span id="L355" class="lineno"><a class="lineno" href="#L355">355</a></span>
-<span id="L356" class="lineno"><a class="lineno" href="#L356">356</a></span>
-<span id="L357" class="lineno"><a class="lineno" href="#L357">357</a></span>
-<span id="L358" class="lineno"><a class="lineno" href="#L358">358</a></span>
-<span id="L359" class="lineno"><a class="lineno" href="#L359">359</a></span>
-<span id="L360" class="lineno"><a class="lineno" href="#L360">360</a></span>
-<span id="L361" class="lineno"><a class="lineno" href="#L361">361</a></span>
-<span id="L362" class="lineno"><a class="lineno" href="#L362">362</a></span>
 </pre></td>
 <td class="table-code"><pre><span class="line-empty" title="No Anys on this line!">"""</span>
 <span class="line-empty" title="No Anys on this line!">Document elements.</span>
@@ -388,9 +378,6 @@
 <span class="line-precise" title="No Anys on this line!">from abc import abstractproperty</span>
 <span class="line-precise" title="No Anys on this line!">from typing import TYPE_CHECKING</span>
 <span class="line-precise" title="No Anys on this line!">from typing import Any</span>
-<span class="line-precise" title="No Anys on this line!">from typing import List</span>
-<span class="line-precise" title="No Anys on this line!">from typing import Set</span>
-<span class="line-precise" title="No Anys on this line!">from typing import Tuple</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">try:</span>
 <span class="line-precise" title="No Anys on this line!">    from typing import Self</span>
@@ -407,7 +394,7 @@
 <span class="line-precise" title="No Anys on this line!">ElementID = Any  # Element identifiers can be any equatable type</span>
 <span class="line-precise" title="No Anys on this line!">Citation = Any  # TODO: Type when Citation class is typed</span>
 <span class="line-precise" title="No Anys on this line!">Span = Any  # TODO: Type when Span class is typed</span>
-<span class="line-precise" title="No Anys on this line!">AbbreviationDef = Tuple[List[str], list[str], str]</span>
+<span class="line-precise" title="No Anys on this line!">AbbreviationDef = tuple[list[str], list[str], str]</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">log = logging.getLogger(__name__)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
@@ -430,9 +417,9 @@
 Explicit (x1)">    def __init__(</span>
 <span class="line-empty" title="No Anys on this line!">        self,</span>
 <span class="line-precise" title="No Anys on this line!">        document: Document | None = None,</span>
-<span class="line-precise" title="No Anys on this line!">        references: List[Citation] | None = None,</span>
+<span class="line-precise" title="No Anys on this line!">        references: list[Citation] | None = None,</span>
 <span class="line-precise" title="No Anys on this line!">        id: ElementID | None = None,</span>
-<span class="line-precise" title="No Anys on this line!">        models: List[type[BaseModel]] | None = None,</span>
+<span class="line-precise" title="No Anys on this line!">        models: list[type[BaseModel]] | None = None,</span>
 <span class="line-empty" title="No Anys on this line!">        **kwargs: Any,</span>
 <span class="line-empty" title="No Anys on this line!">    ) -&gt; None:</span>
 <span class="line-empty" title="No Anys on this line!">        """Initialize a BaseElement.</span>
@@ -452,22 +439,22 @@ Explicit (x1)">    def __init__(</span>
 <span class="line-empty" title="No Anys on this line!">        # The containing Document</span>
 <span class="line-precise" title="No Anys on this line!">        self._document: Document | None = document</span>
 <span class="line-precise" title="No Anys on this line!">        self.id: ElementID | None = id</span>
-<span class="line-precise" title="No Anys on this line!">        self.references: List[Citation] = references if references is not None else []</span>
+<span class="line-precise" title="No Anys on this line!">        self.references: list[Citation] = references if references is not None else []</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">        # Model configuration</span>
 <span class="line-precise" title="No Anys on this line!">        if models:</span>
 <span class="line-precise" title="No Anys on this line!">            self.models = models</span>
 <span class="line-empty" title="No Anys on this line!">        else:</span>
 <span class="line-precise" title="No Anys on this line!">            self.models = []</span>
-<span class="line-precise" title="No Anys on this line!">        self._streamlined_models_list: List[type[BaseModel]] | None = None</span>
+<span class="line-precise" title="No Anys on this line!">        self._streamlined_models_list: list[type[BaseModel]] | None = None</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">    def __repr__(self) -&gt; str:</span>
 <span class="line-empty" title="No Anys on this line!">        """Return string representation of the element."""</span>
-<span class="line-precise" title="No Anys on this line!">        return "&lt;%s&gt;" % (self.__class__.__name__,)</span>
+<span class="line-precise" title="No Anys on this line!">        return f"&lt;{self.__class__.__name__}&gt;"</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">    def __str__(self) -&gt; str:</span>
 <span class="line-empty" title="No Anys on this line!">        """Return string representation of the element."""</span>
-<span class="line-precise" title="No Anys on this line!">        return "&lt;%s&gt;" % (self.__class__.__name__,)</span>
+<span class="line-precise" title="No Anys on this line!">        return f"&lt;{self.__class__.__name__}&gt;"</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">    @property</span>
 <span class="line-precise" title="No Anys on this line!">    def document(self) -&gt; Document | None:</span>
@@ -509,13 +496,13 @@ Explicit (x1)">    def __init__(</span>
 <span class="line-empty" title="No Anys on this line!">    #     """Convert Element to python dictionary."""</span>
 <span class="line-empty" title="No Anys on this line!">    #     return []</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-precise" title="No Anys on this line!">    def add_models(self, models: List[type[BaseModel]]) -&gt; None:</span>
+<span class="line-precise" title="No Anys on this line!">    def add_models(self, models: list[type[BaseModel]]) -&gt; None:</span>
 <span class="line-empty" title="No Anys on this line!">        """Add models to this element for data extraction.</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">        Args:</span>
 <span class="line-empty" title="No Anys on this line!">            models: List of model classes to add</span>
 <span class="line-empty" title="No Anys on this line!">        """</span>
-<span class="line-precise" title="No Anys on this line!">        log.debug("Setting models on %s" % self)</span>
+<span class="line-precise" title="No Anys on this line!">        log.debug(f"Setting models on {self}")</span>
 <span class="line-precise" title="No Anys on this line!">        self._streamlined_models_list = None</span>
 <span class="line-precise" title="No Anys on this line!">        self.models.extend(models)</span>
 <span class="line-precise" title="No Anys on this line!">        self.models = self.models</span>
@@ -530,7 +517,7 @@ Explicit (x1)">    def __init__(</span>
 <span class="line-precise" title="No Anys on this line!">        return self._models</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-unanalyzed" title="No Anys on this line!">    @models.setter</span>
-<span class="line-precise" title="No Anys on this line!">    def models(self, value: List[type[BaseModel]]) -&gt; None:</span>
+<span class="line-precise" title="No Anys on this line!">    def models(self, value: list[type[BaseModel]]) -&gt; None:</span>
 <span class="line-empty" title="No Anys on this line!">        """Set the models for this element.</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">        Args:</span>
@@ -548,17 +535,14 @@ Explicit (x1)">    def __init__(</span>
 <span class="line-empty" title="No Anys on this line!">        """</span>
 <span class="line-precise" title="No Anys on this line!">        if self._streamlined_models_list is None:</span>
 <span class="line-precise" title="Any Types on this line: 
-Omitted Generics (x3)">            models: Set[type[BaseModel]] = set()</span>
+Omitted Generics (x3)">            models: set[type[BaseModel]] = set()</span>
 <span class="line-precise" title="No Anys on this line!">            log.debug(self.models)</span>
 <span class="line-precise" title="No Anys on this line!">            for model in self.models:</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x3)">                models.update(model.flatten(include_inferred=False))</span>
-<span class="line-precise" title="Any Types on this line: 
-Omitted Generics (x5)">            self._streamlined_models_list = sorted(</span>
 <span class="line-imprecise" title="Any Types on this line: 
-Omitted Generics (x3)
-Explicit (x12)">                list(models), key=operator.attrgetter("__name__")</span>
-<span class="line-empty" title="No Anys on this line!">            )</span>
+Omitted Generics (x5)
+Explicit (x12)">            self._streamlined_models_list = sorted(models, key=operator.attrgetter("__name__"))</span>
 <span class="line-precise" title="No Anys on this line!">        for model in self._streamlined_models_list:</span>
 <span class="line-precise" title="No Anys on this line!">            for parser in model.parsers:</span>
 <span class="line-precise" title="No Anys on this line!">                parser.model = model</span>
@@ -580,7 +564,7 @@ Explicit (x6)
 Error (x2)">        return json.dumps(self.serialize(), *args, **kwargs)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">    @property</span>
-<span class="line-precise" title="No Anys on this line!">    def elements(self) -&gt; List[BaseElement] | None:</span>
+<span class="line-precise" title="No Anys on this line!">    def elements(self) -&gt; list[BaseElement] | None:</span>
 <span class="line-empty" title="No Anys on this line!">        """List of child elements.</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">        Returns:</span>
@@ -617,18 +601,13 @@ Explicit (x1)">    def __init__(self, caption: BaseElement, label: str | None = 
 <span class="line-precise" title="No Anys on this line!">        self.caption: BaseElement = caption</span>
 <span class="line-precise" title="No Anys on this line!">        self.label: str | None = label</span>
 <span class="line-any" title="Any Types on this line: 
-Explicit (x2)">        super(CaptionedElement, self).__init__(**kwargs)</span>
+Explicit (x1)">        super().__init__(**kwargs)</span>
 <span class="line-precise" title="No Anys on this line!">        self.caption.document = self.document</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">    def __repr__(self) -&gt; str:</span>
 <span class="line-empty" title="No Anys on this line!">        """Return detailed string representation of the captioned element."""</span>
-<span class="line-precise" title="No Anys on this line!">        return "%s(id=%r, references=%r, caption=%r)" % (</span>
-<span class="line-precise" title="No Anys on this line!">            self.__class__.__name__,</span>
-<span class="line-precise" title="No Anys on this line!">            self.id,</span>
-<span class="line-precise" title="No Anys on this line!">            self.references,</span>
 <span class="line-any" title="Any Types on this line: 
-Error (x1)">            self.caption.text,</span>
-<span class="line-empty" title="No Anys on this line!">        )</span>
+Error (x1)">        return f"{self.__class__.__name__}(id={self.id}, references={self.references}, captions={self.caption.text})"</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">    def __str__(self) -&gt; str:</span>
 <span class="line-empty" title="No Anys on this line!">        """Return the caption text as string representation."""</span>
@@ -726,7 +705,7 @@ Error (x1)">        return self.caption.chemical_definitions</span>
 <span class="line-precise" title="No Anys on this line!">        return self._models</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-unanalyzed" title="No Anys on this line!">    @models.setter</span>
-<span class="line-precise" title="No Anys on this line!">    def models(self, value: List[type[BaseModel]]) -&gt; None:</span>
+<span class="line-precise" title="No Anys on this line!">    def models(self, value: list[type[BaseModel]]) -&gt; None:</span>
 <span class="line-empty" title="No Anys on this line!">        """Set the models for this element and propagate to caption.</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">        Args:</span>

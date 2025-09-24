@@ -69,7 +69,6 @@
 <span id="L59" class="lineno"><a class="lineno" href="#L59">59</a></span>
 <span id="L60" class="lineno"><a class="lineno" href="#L60">60</a></span>
 <span id="L61" class="lineno"><a class="lineno" href="#L61">61</a></span>
-<span id="L62" class="lineno"><a class="lineno" href="#L62">62</a></span>
 </pre></td>
 <td class="table-code"><pre><span class="line-empty" title="No Anys on this line!">"""</span>
 <span class="line-empty" title="No Anys on this line!">Data and model management interface.</span>
@@ -115,7 +114,7 @@ Omitted Generics (x7)">@click.pass_obj</span>
 <span class="line-empty" title="No Anys on this line!">    log.debug("chemdataextractor.data.list")</span>
 <span class="line-empty" title="No Anys on this line!">    click.echo("Downloaded\tPackage")</span>
 <span class="line-empty" title="No Anys on this line!">    for package in PACKAGES:</span>
-<span class="line-empty" title="No Anys on this line!">        click.echo("%s\t%s" % (package.local_exists(), package.path))</span>
+<span class="line-empty" title="No Anys on this line!">        click.echo(f"{package.local_exists()}\t{package.path}")</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="Any Types on this line: 
@@ -131,8 +130,7 @@ Omitted Generics (x7)">@click.pass_obj</span>
 <span class="line-empty" title="No Anys on this line!">        if success:</span>
 <span class="line-empty" title="No Anys on this line!">            count += 1</span>
 <span class="line-empty" title="No Anys on this line!">    click.echo(</span>
-<span class="line-empty" title="No Anys on this line!">        "Successfully downloaded %s new data packages (%s existing)"</span>
-<span class="line-empty" title="No Anys on this line!">        % (count, len(PACKAGES) - count)</span>
+<span class="line-empty" title="No Anys on this line!">        f"Successfully downloaded {count} new data packages ({len(PACKAGES) - count} existing)"</span>
 <span class="line-empty" title="No Anys on this line!">    )</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!"></span>

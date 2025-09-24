@@ -410,11 +410,11 @@ Unannotated (x1)">            os.remove(download_path)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="No Anys on this line!">    def __repr__(self):</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x1)">        return "&lt;Package: %s&gt;" % self.path</span>
+Unannotated (x1)">        return f"&lt;Package: {self.path}&gt;"</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="No Anys on this line!">    def __str__(self):</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x1)">        return "&lt;Package: %s&gt;" % self.path</span>
+Unannotated (x1)">        return f"&lt;Package: {self.path}&gt;"</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="No Anys on this line!">def get_data_dir():</span>
@@ -444,7 +444,7 @@ Unannotated (x2)">    elif warn and not os.path.exists(full_path):</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x3)">            if path == package.path:</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x1)">                log.warn("%s doesn't exist. Run `cde data download` to get it." % path)</span>
+Unannotated (x1)">                log.warn(f"{path} doesn't exist. Run `cde data download` to get it.")</span>
 <span class="line-any" title="No Anys on this line!">                break</span>
 <span class="line-precise" title="No Anys on this line!">    return full_path</span>
 <span class="line-empty" title="No Anys on this line!"></span>
@@ -463,11 +463,11 @@ Omitted Generics (x2)">    cached = _model_cache.get(abspath)</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">    if cached is not None:</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x1)">        log.debug("Using cached copy of %s" % path)</span>
+Unannotated (x1)">        log.debug(f"Using cached copy of {path}")</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">        return cached</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x1)">    log.debug("Loading model %s" % path)</span>
+Unannotated (x1)">    log.debug(f"Loading model {path}")</span>
 <span class="line-empty" title="No Anys on this line!">    try:</span>
 <span class="line-any" title="Any Types on this line: 
 Unimported (x7)
@@ -478,7 +478,7 @@ Explicit (x4)">            model = pickle.load(f)</span>
 <span class="line-precise" title="No Anys on this line!">    except OSError:</span>
 <span class="line-any" title="Any Types on this line: 
 Explicit (x1)
-Unannotated (x1)">        raise ModelNotFoundError("Could not load %s. Have you run `cde data download`?" % path)</span>
+Unannotated (x1)">        raise ModelNotFoundError(f"Could not load {path}. Have you run `cde data download`?")</span>
 <span class="line-any" title="Any Types on this line: 
 Explicit (x2)
 Unannotated (x2)">    _model_cache[abspath] = model</span>

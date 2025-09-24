@@ -606,6 +606,29 @@
 <span id="L596" class="lineno"><a class="lineno" href="#L596">596</a></span>
 <span id="L597" class="lineno"><a class="lineno" href="#L597">597</a></span>
 <span id="L598" class="lineno"><a class="lineno" href="#L598">598</a></span>
+<span id="L599" class="lineno"><a class="lineno" href="#L599">599</a></span>
+<span id="L600" class="lineno"><a class="lineno" href="#L600">600</a></span>
+<span id="L601" class="lineno"><a class="lineno" href="#L601">601</a></span>
+<span id="L602" class="lineno"><a class="lineno" href="#L602">602</a></span>
+<span id="L603" class="lineno"><a class="lineno" href="#L603">603</a></span>
+<span id="L604" class="lineno"><a class="lineno" href="#L604">604</a></span>
+<span id="L605" class="lineno"><a class="lineno" href="#L605">605</a></span>
+<span id="L606" class="lineno"><a class="lineno" href="#L606">606</a></span>
+<span id="L607" class="lineno"><a class="lineno" href="#L607">607</a></span>
+<span id="L608" class="lineno"><a class="lineno" href="#L608">608</a></span>
+<span id="L609" class="lineno"><a class="lineno" href="#L609">609</a></span>
+<span id="L610" class="lineno"><a class="lineno" href="#L610">610</a></span>
+<span id="L611" class="lineno"><a class="lineno" href="#L611">611</a></span>
+<span id="L612" class="lineno"><a class="lineno" href="#L612">612</a></span>
+<span id="L613" class="lineno"><a class="lineno" href="#L613">613</a></span>
+<span id="L614" class="lineno"><a class="lineno" href="#L614">614</a></span>
+<span id="L615" class="lineno"><a class="lineno" href="#L615">615</a></span>
+<span id="L616" class="lineno"><a class="lineno" href="#L616">616</a></span>
+<span id="L617" class="lineno"><a class="lineno" href="#L617">617</a></span>
+<span id="L618" class="lineno"><a class="lineno" href="#L618">618</a></span>
+<span id="L619" class="lineno"><a class="lineno" href="#L619">619</a></span>
+<span id="L620" class="lineno"><a class="lineno" href="#L620">620</a></span>
+<span id="L621" class="lineno"><a class="lineno" href="#L621">621</a></span>
 </pre></td>
 <td class="table-code"><pre><span class="line-empty" title="No Anys on this line!">#!/usr/bin/env python</span>
 <span class="line-empty" title="No Anys on this line!">"""</span>
@@ -624,6 +647,7 @@
 <span class="line-precise" title="No Anys on this line!">from abc import ABCMeta</span>
 <span class="line-precise" title="No Anys on this line!">from abc import abstractmethod</span>
 <span class="line-precise" title="No Anys on this line!">from collections import defaultdict</span>
+<span class="line-precise" title="No Anys on this line!">from functools import lru_cache</span>
 <span class="line-precise" title="No Anys on this line!">from typing import TYPE_CHECKING</span>
 <span class="line-precise" title="No Anys on this line!">from typing import List</span>
 <span class="line-precise" title="No Anys on this line!">from typing import Tuple</span>
@@ -640,10 +664,38 @@
 <span class="line-precise" title="No Anys on this line!">    pass</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!"># Type aliases for tagging</span>
-<span class="line-precise" title="No Anys on this line!">Token = Tuple[str, str]  # (word, tag) pair</span>
-<span class="line-precise" title="No Anys on this line!">TaggedSentence = List[Token]  # List of tagged tokens</span>
-<span class="line-precise" title="No Anys on this line!">TagList = List[str]  # List of tags</span>
-<span class="line-precise" title="No Anys on this line!">TokenList = List[str]  # List of token strings</span>
+<span class="line-precise" title="No Anys on this line!">Token = tuple[str, str]  # (word, tag) pair</span>
+<span class="line-precise" title="No Anys on this line!">TaggedSentence = list[Token]  # List of tagged tokens</span>
+<span class="line-precise" title="No Anys on this line!">TagList = list[str]  # List of tags</span>
+<span class="line-precise" title="No Anys on this line!">TokenList = list[str]  # List of token strings</span>
+<span class="line-empty" title="No Anys on this line!"></span>
+<span class="line-empty" title="No Anys on this line!"></span>
+<span class="line-precise" title="Any Types on this line: 
+Omitted Generics (x6)
+Explicit (x6)">@lru_cache(maxsize=256)</span>
+<span class="line-any" title="Any Types on this line: 
+Unannotated (x1)">def _compile_tagger_regex(pattern: str, flags: int = 0):</span>
+<span class="line-empty" title="No Anys on this line!">    """Cached regex compilation for tagger patterns.</span>
+<span class="line-empty" title="No Anys on this line!"></span>
+<span class="line-empty" title="No Anys on this line!">    Provides performance optimization by caching compiled regex objects</span>
+<span class="line-empty" title="No Anys on this line!">    used in RegexTagger and other NLP taggers. This prevents redundant</span>
+<span class="line-empty" title="No Anys on this line!">    compilation of identical patterns across multiple tagger instances.</span>
+<span class="line-empty" title="No Anys on this line!"></span>
+<span class="line-empty" title="No Anys on this line!">    Args:</span>
+<span class="line-empty" title="No Anys on this line!">        pattern: The regex pattern string to compile</span>
+<span class="line-empty" title="No Anys on this line!">        flags: Regex compilation flags (default: 0)</span>
+<span class="line-empty" title="No Anys on this line!"></span>
+<span class="line-empty" title="No Anys on this line!">    Returns:</span>
+<span class="line-empty" title="No Anys on this line!">        Compiled regex pattern object</span>
+<span class="line-empty" title="No Anys on this line!"></span>
+<span class="line-empty" title="No Anys on this line!">    Note:</span>
+<span class="line-empty" title="No Anys on this line!">        Cache size of 256 is optimized for tagger usage patterns which</span>
+<span class="line-empty" title="No Anys on this line!">        typically involve fewer unique patterns than parser elements.</span>
+<span class="line-empty" title="No Anys on this line!">    """</span>
+<span class="line-imprecise" title="Any Types on this line: 
+Unannotated (x1)
+Omitted Generics (x4)">    return re.compile(pattern, flags)</span>
+<span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">log = logging.getLogger(__name__)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
@@ -758,7 +810,7 @@ Unannotated (x1)">        return accuracy</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="No Anys on this line!">    def __init__(self, *args, **kwargs):</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x3)">        super(EnsembleTagger, self).__init__(*args, **kwargs)</span>
+Unannotated (x3)">        super().__init__(*args, **kwargs)</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">        taggers_dict = {}</span>
 <span class="line-any" title="Any Types on this line: 
@@ -872,22 +924,22 @@ Unannotated (x3)">        return [(token, None) for token in tokens]</span>
 <span class="line-precise" title="No Anys on this line!">    lexicon = Lexicon()</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="No Anys on this line!">    def __init__(self, patterns=None, lexicon=None):</span>
-<span class="line-empty" title="No Anys on this line!">        """</span>
+<span class="line-empty" title="No Anys on this line!">        """Initialize RegexTagger with cached regex compilation.</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">        :param list(tuple(string, string)) patterns: List of (regex, tag) pairs.</span>
 <span class="line-empty" title="No Anys on this line!">        """</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x4)">        self.patterns = patterns if patterns is not None else self.patterns</span>
+<span class="line-empty" title="No Anys on this line!">        # Use cached compilation for improved performance</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x8)
-Omitted Generics (x4)">        self.regexes = [(re.compile(pattern, re.I | re.U), tag) for pattern, tag in self.patterns]</span>
+Unannotated (x1)">        self.regexes = [</span>
+<span class="line-any" title="Any Types on this line: 
+Unannotated (x8)">            (_compile_tagger_regex(pattern, re.I | re.U), tag) for pattern, tag in self.patterns</span>
+<span class="line-empty" title="No Anys on this line!">        ]</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x4)">        self.lexicon = lexicon if lexicon is not None else self.lexicon</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">        log.debug(</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x4)">            "%s: Initializing with %s patterns" % (self.__class__.__name__, len(self.patterns))</span>
-<span class="line-empty" title="No Anys on this line!">        )</span>
+Unannotated (x12)">        log.debug(f"{self.__class__.__name__}: Initializing with {len(self.patterns)} patterns")</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="No Anys on this line!">    def tag(self, tokens):</span>
 <span class="line-empty" title="No Anys on this line!">        """Return a list of (token, tag) tuples for a given list of tokens."""</span>
@@ -1065,7 +1117,7 @@ Unannotated (x4)">        self.lexicon = lexicon if lexicon is not None else sel
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x4)">        self.clusters = clusters if clusters is not None else self.clusters</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x5)">        log.debug("%s: Initializing with %s" % (self.__class__.__name__, self.model))</span>
+Unannotated (x11)">        log.debug(f"{self.__class__.__name__}: Initializing with {self.model}")</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="No Anys on this line!">    def legacy_tag(self, tokens):</span>
 <span class="line-empty" title="No Anys on this line!">        """Return a list of (token, tag) tuples for a given list of tokens."""</span>
@@ -1145,7 +1197,7 @@ Unannotated (x1)">                    n += 1</span>
 Unannotated (x2)
 Explicit (x1)">            random.shuffle(sentences)</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x10)">            log.debug("Iter %s: %s/%s=%s" % (iter_, c, n, (float(c) / n) * 100))</span>
+Unannotated (x20)">            log.debug(f"Iter {iter_}: {c}/{n}={(float(c) / n) * 100}")</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x3)">        self.perceptron.average_weights()</span>
 <span class="line-empty" title="No Anys on this line!"></span>
@@ -1242,7 +1294,7 @@ Unannotated (x1)">        self._loaded_model = False</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="No Anys on this line!">    def load(self, model):</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x3)">        log.debug("Loading %s" % model)</span>
+Unannotated (x7)">        log.debug(f"Loading {model}")</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x9)">        self._tagger.open(find_data(model))</span>
 <span class="line-any" title="Any Types on this line: 
@@ -1448,14 +1500,11 @@ Unannotated (x4)">            start_token = token_at_index[start_i]</span>
 Unannotated (x4)">            end_token = token_at_index[end_i]</span>
 <span class="line-empty" title="No Anys on this line!">            # Possible for match to start in 'I' token from prev match. Merge matches by not overwriting to 'B'.</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x5)">            if tags[start_token] != "I-%s" % self.entity:</span>
+Unannotated (x9)">            if tags[start_token] != f"I-{self.entity}":</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x3)">                tags[start_token] = "B-%s" % self.entity</span>
+Unannotated (x7)">                tags[start_token] = f"B-{self.entity}"</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x7)">            tags[start_token + 1 : end_token + 1] = ["I-%s" % self.entity] * (</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x3)">                end_token - start_token</span>
-<span class="line-empty" title="No Anys on this line!">            )</span>
+Unannotated (x14)">            tags[start_token + 1 : end_token + 1] = [f"I-{self.entity}"] * (end_token - start_token)</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x5)
 Omitted Generics (x33)

@@ -589,8 +589,6 @@
 <span id="L579" class="lineno"><a class="lineno" href="#L579">579</a></span>
 <span id="L580" class="lineno"><a class="lineno" href="#L580">580</a></span>
 <span id="L581" class="lineno"><a class="lineno" href="#L581">581</a></span>
-<span id="L582" class="lineno"><a class="lineno" href="#L582">582</a></span>
-<span id="L583" class="lineno"><a class="lineno" href="#L583">583</a></span>
 </pre></td>
 <td class="table-code"><pre><span class="line-empty" title="No Anys on this line!">"""</span>
 <span class="line-empty" title="No Anys on this line!">Model classes for physical properties.</span>
@@ -605,8 +603,6 @@
 <span class="line-precise" title="No Anys on this line!">import logging</span>
 <span class="line-precise" title="No Anys on this line!">from typing import TYPE_CHECKING</span>
 <span class="line-precise" title="No Anys on this line!">from typing import Any</span>
-<span class="line-precise" title="No Anys on this line!">from typing import Dict</span>
-<span class="line-precise" title="No Anys on this line!">from typing import List</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">if TYPE_CHECKING:</span>
 <span class="line-any" title="No Anys on this line!">    from ..typing import Self</span>
@@ -688,7 +684,7 @@ Unimported (x1)">    def merge(self, other: Compound) -&gt; Self:</span>
 <span class="line-empty" title="No Anys on this line!">            Self - This compound instance with merged data</span>
 <span class="line-empty" title="No Anys on this line!">        """</span>
 <span class="line-imprecise" title="Any Types on this line: 
-Explicit (x4)">        log.debug("Merging: %s and %s" % (self.serialize(), other.serialize()))</span>
+Explicit (x4)">        log.debug(f"Merging: {self.serialize()} and {other.serialize()}")</span>
 <span class="line-precise" title="Any Types on this line: 
 Explicit (x4)">        if type(other) is not type(self):</span>
 <span class="line-precise" title="No Anys on this line!">            return self</span>
@@ -705,7 +701,7 @@ Unannotated (x3)">                        if new_item not in self[k]:</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x5)">                            self[k].add(new_item)</span>
 <span class="line-imprecise" title="Any Types on this line: 
-Explicit (x2)">        log.debug("Result: %s" % self.serialize())</span>
+Explicit (x2)">        log.debug(f"Result: {self.serialize()}")</span>
 <span class="line-precise" title="No Anys on this line!">        return self</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">    @property</span>
@@ -737,7 +733,7 @@ Unannotated (x3)">            if key not in {"names", "labels", "roles"} and val
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">    @classmethod</span>
 <span class="line-imprecise" title="Any Types on this line: 
-Explicit (x1)">    def update(cls, definitions: List[Dict[str, Any]], strict: bool = True) -&gt; None:</span>
+Explicit (x1)">    def update(cls, definitions: list[dict[str, Any]], strict: bool = True) -&gt; None:</span>
 <span class="line-empty" title="No Anys on this line!">        """Update the Compound labels parse expression.</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">        Args:</span>

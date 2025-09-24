@@ -190,17 +190,17 @@ Omitted Generics (x7)">@click.pass_obj</span>
 <span class="line-empty" title="No Anys on this line!">    # punkt.MIN_COLLOC_FREQ = 1</span>
 <span class="line-empty" title="No Anys on this line!">    # Don't train on titles. They may contain abbreviations, but basically never have actual sentence boundaries.</span>
 <span class="line-empty" title="No Anys on this line!">    for fin in input:</span>
-<span class="line-empty" title="No Anys on this line!">        click.echo("Training on %s" % fin.name)</span>
+<span class="line-empty" title="No Anys on this line!">        click.echo(f"Training on {fin.name}")</span>
 <span class="line-empty" title="No Anys on this line!">        sentences = fin.read()  # .replace('.\n', '. \n\n')</span>
 <span class="line-empty" title="No Anys on this line!">        punkt.train(sentences, finalize=False, verbose=True)</span>
 <span class="line-empty" title="No Anys on this line!">    punkt.finalize_training(verbose=True)</span>
 <span class="line-empty" title="No Anys on this line!">    if abbr:</span>
 <span class="line-empty" title="No Anys on this line!">        abbreviations = abbr.read().strip().split("\n")</span>
-<span class="line-empty" title="No Anys on this line!">        click.echo("Manually adding abbreviations: %s" % abbreviations)</span>
+<span class="line-empty" title="No Anys on this line!">        click.echo(f"Manually adding abbreviations: {abbreviations}")</span>
 <span class="line-empty" title="No Anys on this line!">        punkt._params.abbrev_types.update(abbreviations)</span>
 <span class="line-empty" title="No Anys on this line!">    if colloc:</span>
 <span class="line-empty" title="No Anys on this line!">        collocations = [tuple(l.split(". ", 1)) for l in colloc.read().strip().split("\n")]</span>
-<span class="line-empty" title="No Anys on this line!">        click.echo("Manually adding collocs: %s" % collocations)</span>
+<span class="line-empty" title="No Anys on this line!">        click.echo(f"Manually adding collocs: {collocations}")</span>
 <span class="line-empty" title="No Anys on this line!">        punkt._params.collocations.update(collocations)</span>
 <span class="line-empty" title="No Anys on this line!">    model = PunktSentenceTokenizer(punkt.get_params())</span>
 <span class="line-empty" title="No Anys on this line!">    pickle.dump(model, output, protocol=pickle.HIGHEST_PROTOCOL)</span>
@@ -225,7 +225,7 @@ Omitted Generics (x7)">@click.pass_obj</span>
 <span class="line-any" title="No Anys on this line!">def sentences(ctx, input, output):</span>
 <span class="line-empty" title="No Anys on this line!">    """Read input document, and output sentences."""</span>
 <span class="line-empty" title="No Anys on this line!">    log.info("chemdataextractor.read.elements")</span>
-<span class="line-empty" title="No Anys on this line!">    log.info("Reading %s" % input.name)</span>
+<span class="line-empty" title="No Anys on this line!">    log.info(f"Reading {input.name}")</span>
 <span class="line-empty" title="No Anys on this line!">    doc = Document.from_file(input)</span>
 <span class="line-empty" title="No Anys on this line!">    for element in doc.elements:</span>
 <span class="line-empty" title="No Anys on this line!">        if isinstance(element, Text):</span>
@@ -253,7 +253,7 @@ Omitted Generics (x7)">@click.pass_obj</span>
 <span class="line-any" title="No Anys on this line!">def words(ctx, input, output):</span>
 <span class="line-empty" title="No Anys on this line!">    """Read input document, and output words."""</span>
 <span class="line-empty" title="No Anys on this line!">    log.info("chemdataextractor.read.elements")</span>
-<span class="line-empty" title="No Anys on this line!">    log.info("Reading %s" % input.name)</span>
+<span class="line-empty" title="No Anys on this line!">    log.info(f"Reading {input.name}")</span>
 <span class="line-empty" title="No Anys on this line!">    doc = Document.from_file(input)</span>
 <span class="line-empty" title="No Anys on this line!">    for element in doc.elements:</span>
 <span class="line-empty" title="No Anys on this line!">        if isinstance(element, Text):</span>

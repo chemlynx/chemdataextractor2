@@ -148,8 +148,8 @@ Unannotated (x6)">    return memoizer</span>
 <span class="line-imprecise" title="Any Types on this line: 
 Unannotated (x2)">        if cls not in cls._instances:</span>
 <span class="line-any" title="Any Types on this line: 
-Explicit (x3)
-Unannotated (x4)">            cls._instances[cls] = super(Singleton, cls).__call__(*args, **kwargs)</span>
+Explicit (x1)
+Unannotated (x4)">            cls._instances[cls] = super().__call__(*args, **kwargs)</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x3)">        return cls._instances[cls]</span>
 <span class="line-empty" title="No Anys on this line!"></span>

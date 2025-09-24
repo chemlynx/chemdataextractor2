@@ -401,6 +401,8 @@
 <span id="L391" class="lineno"><a class="lineno" href="#L391">391</a></span>
 <span id="L392" class="lineno"><a class="lineno" href="#L392">392</a></span>
 <span id="L393" class="lineno"><a class="lineno" href="#L393">393</a></span>
+<span id="L394" class="lineno"><a class="lineno" href="#L394">394</a></span>
+<span id="L395" class="lineno"><a class="lineno" href="#L395">395</a></span>
 </pre></td>
 <td class="table-code"><pre><span class="line-empty" title="No Anys on this line!">"""</span>
 <span class="line-empty" title="No Anys on this line!">Commands for building a dictionary-based chemical named entity recognizer.</span>
@@ -519,15 +521,17 @@ Omitted Generics (x4)">BRACKET_RE = re.compile(r"^\(([^\(\)]+)\)$", re.I | re.U)
 <span class="line-empty" title="No Anys on this line!">}</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="Any Types on this line: 
-Omitted Generics (x4)">DOT_GREEK_RE = re.compile(r"\.(%s)\." % "|".join(re.escape(s) for s in GREEK_WORDS.keys()), re.U)</span>
+Omitted Generics (x4)">DOT_GREEK_RE = re.compile(</span>
+<span class="line-precise" title="No Anys on this line!">    r"\.({})\.".format("|".join(re.escape(s) for s in GREEK_WORDS.keys())), re.U</span>
+<span class="line-empty" title="No Anys on this line!">)</span>
 <span class="line-precise" title="Any Types on this line: 
 Omitted Generics (x4)">GREEK_RE = re.compile(</span>
-<span class="line-precise" title="No Anys on this line!">    r"([\daA\W]|^)(%s)([\d\W]|$)" % "|".join(re.escape(s) for s in GREEK_WORDS.keys()),</span>
+<span class="line-precise" title="No Anys on this line!">    r"([\daA\W]|^)({})([\d\W]|$)".format("|".join(re.escape(s) for s in GREEK_WORDS.keys())),</span>
 <span class="line-precise" title="No Anys on this line!">    re.U,</span>
 <span class="line-empty" title="No Anys on this line!">)</span>
 <span class="line-precise" title="Any Types on this line: 
 Omitted Generics (x4)">UNAMBIGUOUS_GREEK_RE = re.compile(</span>
-<span class="line-precise" title="No Anys on this line!">    "(%s)" % "|".join(re.escape(s) for s in UNAMBIGUOUS_GREEK_WORDS.keys()), re.U</span>
+<span class="line-precise" title="No Anys on this line!">    "({})".format("|".join(re.escape(s) for s in UNAMBIGUOUS_GREEK_WORDS.keys())), re.U</span>
 <span class="line-empty" title="No Anys on this line!">)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!"></span>
@@ -563,14 +567,14 @@ Omitted Generics (x6)">@click.pass_context</span>
 <span class="line-empty" title="No Anys on this line!">    if len(comps) == 2:</span>
 <span class="line-empty" title="No Anys on this line!">        if comps[1].endswith("-"):</span>
 <span class="line-empty" title="No Anys on this line!">            name = comps[0]</span>
-<span class="line-empty" title="No Anys on this line!">            name = "%s%s" % (comps[1], name)</span>
+<span class="line-empty" title="No Anys on this line!">            name = f"{comps[1]}{name}"</span>
 <span class="line-empty" title="No Anys on this line!">    elif len(comps) &gt; 2:</span>
 <span class="line-empty" title="No Anys on this line!">        name = comps[0]</span>
 <span class="line-empty" title="No Anys on this line!">        for i in range(1, len(comps)):</span>
 <span class="line-empty" title="No Anys on this line!">            if comps[i].endswith("-"):</span>
-<span class="line-empty" title="No Anys on this line!">                name = "%s%s" % (comps[i], name)</span>
+<span class="line-empty" title="No Anys on this line!">                name = f"{comps[i]}{name}"</span>
 <span class="line-empty" title="No Anys on this line!">            else:</span>
-<span class="line-empty" title="No Anys on this line!">                name = "%s %s" % (name, comps[i])</span>
+<span class="line-empty" title="No Anys on this line!">                name = f"{name} {comps[i]}"</span>
 <span class="line-empty" title="No Anys on this line!">    return name</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!"></span>
@@ -728,7 +732,7 @@ Omitted Generics (x7)">@click.pass_obj</span>
 <span class="line-empty" title="No Anys on this line!">    """Process and filter jochem file to produce list of names for dictionary."""</span>
 <span class="line-empty" title="No Anys on this line!">    click.echo("chemdataextractor.dict.prepare_jochem")</span>
 <span class="line-empty" title="No Anys on this line!">    for i, line in enumerate(jochem):</span>
-<span class="line-empty" title="No Anys on this line!">        print("JC%s" % i)</span>
+<span class="line-empty" title="No Anys on this line!">        print(f"JC{i}")</span>
 <span class="line-empty" title="No Anys on this line!">        if line.startswith("TM "):</span>
 <span class="line-empty" title="No Anys on this line!">            if line.endswith("	@match=ci\n"):</span>
 <span class="line-empty" title="No Anys on this line!">                for tokens in _make_tokens(line[3:-11]):</span>
@@ -760,7 +764,7 @@ Omitted Generics (x7)">@click.pass_obj</span>
 <span class="line-empty" title="No Anys on this line!">    """Process and filter include file to produce list of names for dictionary."""</span>
 <span class="line-empty" title="No Anys on this line!">    click.echo("chemdataextractor.dict.prepare_include")</span>
 <span class="line-empty" title="No Anys on this line!">    for i, line in enumerate(include):</span>
-<span class="line-empty" title="No Anys on this line!">        print("IN%s" % i)</span>
+<span class="line-empty" title="No Anys on this line!">        print(f"IN{i}")</span>
 <span class="line-empty" title="No Anys on this line!">        for tokens in _make_tokens(line.strip()):</span>
 <span class="line-empty" title="No Anys on this line!">            output.write(" ".join(tokens))</span>
 <span class="line-empty" title="No Anys on this line!">            output.write("\n")</span>

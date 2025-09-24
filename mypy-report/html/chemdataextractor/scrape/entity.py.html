@@ -252,23 +252,23 @@ Unannotated (x8)">        for field_name, field in self.fields.items():</span>
 <span class="line-any" title="Any Types on this line: 
 Explicit (x14)
 Omitted Generics (x2)
-Unannotated (x1)">            cleaner = getattr(self, "clean_%s" % field_name, None)</span>
+Unannotated (x1)">            cleaner = getattr(self, f"clean_{field_name}", None)</span>
 <span class="line-any" title="Any Types on this line: 
 Explicit (x14)
 Omitted Generics (x2)
-Unannotated (x1)">            processor = getattr(self, "process_%s" % field_name, None)</span>
+Unannotated (x1)">            processor = getattr(self, f"process_{field_name}", None)</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x5)
 Explicit (x2)">            value = field.scrape(selector, cleaner=cleaner, processor=processor)</span>
 <span class="line-empty" title="No Anys on this line!">            # Finalize value using finalize_* method on scrape, if it exists</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x1)">            if hasattr(self, "finalize_%s" % field_name):</span>
+Unannotated (x1)">            if hasattr(self, f"finalize_{field_name}"):</span>
 <span class="line-any" title="Any Types on this line: 
 Explicit (x14)
 Omitted Generics (x2)
-Unannotated (x3)">                value = getattr(self, "finalize_%s" % field_name)(value)</span>
+Unannotated (x3)">                value = getattr(self, f"finalize_{field_name}")(value)</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            log.debug("Assigning %s: %s" % (field_name, value))</span>
+Unannotated (x2)">            log.debug(f"Assigning {field_name}: {value}")</span>
 <span class="line-any" title="Any Types on this line: 
 Explicit (x1)
 Unannotated (x2)">            setattr(self, field_name, value)</span>
@@ -290,7 +290,7 @@ Unannotated (x2)">            setattr(self, field_name, value)</span>
 <span class="line-empty" title="No Anys on this line!">        if attr in self.fields:</span>
 <span class="line-empty" title="No Anys on this line!">            setattr(self, attr, self.fields[attr].default)</span>
 <span class="line-empty" title="No Anys on this line!">        else:</span>
-<span class="line-empty" title="No Anys on this line!">            super(Entity, self).__delattr__(attr)</span>
+<span class="line-empty" title="No Anys on this line!">            super().__delattr__(attr)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="No Anys on this line!">    def __getitem__(self, key):</span>
 <span class="line-empty" title="No Anys on this line!">        """Redirect dictionary-style field access to attribute-style."""</span>
@@ -315,12 +315,12 @@ Unannotated (x2)">            setattr(self, field_name, value)</span>
 <span class="line-empty" title="No Anys on this line!">            return False</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="No Anys on this line!">    def __repr__(self):</span>
-<span class="line-empty" title="No Anys on this line!">        return "%s()" % self.__class__.__name__</span>
+<span class="line-empty" title="No Anys on this line!">        return f"{self.__class__.__name__}()"</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">    @classmethod</span>
 <span class="line-any" title="No Anys on this line!">    def scrape(cls, selector, root, xpath=False):</span>
 <span class="line-empty" title="No Anys on this line!">        """Return EntityList for the given selector."""</span>
-<span class="line-empty" title="No Anys on this line!">        log.debug("Called scrape classmethod with root: %s" % root)</span>
+<span class="line-empty" title="No Anys on this line!">        log.debug(f"Called scrape classmethod with root: {root}")</span>
 <span class="line-empty" title="No Anys on this line!">        roots = selector.xpath(root) if xpath else selector.css(root)</span>
 <span class="line-empty" title="No Anys on this line!">        results = [cls(r) for r in roots]</span>
 <span class="line-empty" title="No Anys on this line!">        return EntityList(*results)</span>

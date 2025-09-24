@@ -368,8 +368,6 @@
 <span id="L358" class="lineno"><a class="lineno" href="#L358">358</a></span>
 <span id="L359" class="lineno"><a class="lineno" href="#L359">359</a></span>
 <span id="L360" class="lineno"><a class="lineno" href="#L360">360</a></span>
-<span id="L361" class="lineno"><a class="lineno" href="#L361">361</a></span>
-<span id="L362" class="lineno"><a class="lineno" href="#L362">362</a></span>
 </pre></td>
 <td class="table-code"><pre><span class="line-precise" title="No Anys on this line!">import copy</span>
 <span class="line-precise" title="No Anys on this line!">from collections import namedtuple</span>
@@ -962,10 +960,7 @@ Unannotated (x3)">        if total_subsentences &gt; self.max_subsentences:</spa
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">            raise RuntimeError(</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">                "Too many subsentences. Maximum of {} subsentences, found {}.".format(</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">                    total_subsentences, self.max_subsentences</span>
-<span class="line-empty" title="No Anys on this line!">                )</span>
+Unannotated (x8)">                f"Too many subsentences. Maximum of {total_subsentences} subsentences, found {self.max_subsentences}."</span>
 <span class="line-empty" title="No Anys on this line!">            )</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">        return operations</span>

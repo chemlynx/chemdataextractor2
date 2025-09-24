@@ -868,9 +868,9 @@ Unannotated (x1)">rsc_substitute = Substitutor(CHAR_REPLACEMENTS)</span>
 <span class="line-empty" title="No Anys on this line!">            if not u2 and u1 in RSC_IMG_CHARS:</span>
 <span class="line-empty" title="No Anys on this line!">                rep = RSC_IMG_CHARS[u1]</span>
 <span class="line-empty" title="No Anys on this line!">            else:</span>
-<span class="line-empty" title="No Anys on this line!">                rep = ("\\u%s" % u1).encode("ascii").decode("unicode-escape")</span>
+<span class="line-empty" title="No Anys on this line!">                rep = (f"\\u{u1}").encode("ascii").decode("unicode-escape")</span>
 <span class="line-empty" title="No Anys on this line!">                if u2:</span>
-<span class="line-empty" title="No Anys on this line!">                    rep += ("\\u%s" % u2).encode("ascii").decode("unicode-escape")</span>
+<span class="line-empty" title="No Anys on this line!">                    rep += (f"\\u{u2}").encode("ascii").decode("unicode-escape")</span>
 <span class="line-empty" title="No Anys on this line!">            if img.tail is not None:</span>
 <span class="line-empty" title="No Anys on this line!">                rep += img.tail  # Make sure we don't remove any tail text</span>
 <span class="line-empty" title="No Anys on this line!">            parent = img.getparent()</span>
@@ -916,7 +916,7 @@ Unannotated (x1)">    process_title = Chain(rsc_substitute, normalize)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="No Anys on this line!">    def finalize_doi(self, value):</span>
 <span class="line-empty" title="No Anys on this line!">        """Derive the DOI from the GUID."""</span>
-<span class="line-empty" title="No Anys on this line!">        return "10.1039/%s" % value.rsplit("/", 1)[1].lower()</span>
+<span class="line-empty" title="No Anys on this line!">        return "10.1039/{}".format(value.rsplit("/", 1)[1].lower())</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">class RscRssScraper(RssScraper):</span>
@@ -1003,7 +1003,7 @@ Unannotated (x2)">        self.max_wait_time = max_wait_time</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x2)">        self.driver = driver</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x3)">        super(RscSearchScraper, self).__init__()</span>
+Unannotated (x1)">        super().__init__()</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="No Anys on this line!">    def perform_search(self, query, page=1, driver=None):</span>
 <span class="line-empty" title="No Anys on this line!">        """Due to RSC not accepting html requests, Selenium is used.</span>
@@ -1013,7 +1013,7 @@ Unannotated (x3)">        super(RscSearchScraper, self).__init__()</span>
 <span class="line-empty" title="No Anys on this line!">                driver = webdriver.Firefox()</span>
 <span class="line-empty" title="No Anys on this line!">            else:</span>
 <span class="line-empty" title="No Anys on this line!">                driver = self.driver</span>
-<span class="line-empty" title="No Anys on this line!">        log.debug("Processing query: %s" % query)</span>
+<span class="line-empty" title="No Anys on this line!">        log.debug(f"Processing query: {query}")</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">        url = "http://pubs.rsc.org/en/results?searchtext="</span>
 <span class="line-empty" title="No Anys on this line!"></span>

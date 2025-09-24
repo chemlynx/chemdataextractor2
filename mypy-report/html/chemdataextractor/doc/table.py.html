@@ -383,7 +383,6 @@
 <span id="L373" class="lineno"><a class="lineno" href="#L373">373</a></span>
 <span id="L374" class="lineno"><a class="lineno" href="#L374">374</a></span>
 <span id="L375" class="lineno"><a class="lineno" href="#L375">375</a></span>
-<span id="L376" class="lineno"><a class="lineno" href="#L376">376</a></span>
 </pre></td>
 <td class="table-code"><pre><span class="line-empty" title="No Anys on this line!">"""</span>
 <span class="line-empty" title="No Anys on this line!">Table document elements</span>
@@ -399,7 +398,6 @@
 <span class="line-precise" title="No Anys on this line!">import logging</span>
 <span class="line-precise" title="No Anys on this line!">from typing import TYPE_CHECKING</span>
 <span class="line-precise" title="No Anys on this line!">from typing import Any</span>
-<span class="line-precise" title="No Anys on this line!">from typing import List</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="No Anys on this line!">from tabledataextractor import Table as TdeTable</span>
 <span class="line-any" title="No Anys on this line!">from tabledataextractor import TrivialTable as TrivialTdeTable</span>
@@ -415,10 +413,10 @@
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!"># Type aliases for table processing</span>
 <span class="line-any" title="Any Types on this line: 
-Explicit (x1)">TableData = List[List[Any]]  # Raw table data structure</span>
-<span class="line-precise" title="No Anys on this line!">CDETable = List[List[Cell]]  # CDE table with Cell objects</span>
-<span class="line-precise" title="No Anys on this line!">CDETables = List[CDETable]  # List of CDE tables</span>
-<span class="line-precise" title="No Anys on this line!">CategoryTable = List[Any]  # Table category data</span>
+Explicit (x1)">TableData = list[list[Any]]  # Raw table data structure</span>
+<span class="line-precise" title="No Anys on this line!">CDETable = list[list[Cell]]  # CDE table with Cell objects</span>
+<span class="line-precise" title="No Anys on this line!">CDETables = list[CDETable]  # List of CDE tables</span>
+<span class="line-precise" title="No Anys on this line!">CategoryTable = list[Any]  # Table category data</span>
 <span class="line-precise" title="Any Types on this line: 
 Omitted Generics (x4)">TableRecords = ModelList  # Collection of extracted model records</span>
 <span class="line-empty" title="No Anys on this line!"></span>
@@ -439,7 +437,7 @@ Explicit (x1)">    def __init__(</span>
 <span class="line-empty" title="No Anys on this line!">        caption: CaptionedElement,</span>
 <span class="line-precise" title="No Anys on this line!">        label: str | None = None,</span>
 <span class="line-precise" title="No Anys on this line!">        table_data: TableData | None = None,</span>
-<span class="line-precise" title="No Anys on this line!">        models: List[BaseModel] | None = None,</span>
+<span class="line-precise" title="No Anys on this line!">        models: list[BaseModel] | None = None,</span>
 <span class="line-empty" title="No Anys on this line!">        **kwargs: Any,</span>
 <span class="line-empty" title="No Anys on this line!">    ) -&gt; None:</span>
 <span class="line-empty" title="No Anys on this line!">        """</span>
@@ -469,7 +467,7 @@ Explicit (x1)">    def __init__(</span>
 <span class="line-precise" title="No Anys on this line!">        if table_data is None:</span>
 <span class="line-precise" title="No Anys on this line!">            table_data = []</span>
 <span class="line-any" title="Any Types on this line: 
-Explicit (x2)">        super(Table, self).__init__(caption=caption, label=label, models=models, **kwargs)</span>
+Explicit (x1)">        super().__init__(caption=caption, label=label, models=models, **kwargs)</span>
 <span class="line-empty" title="No Anys on this line!">        try:</span>
 <span class="line-empty" title="No Anys on this line!">            #: TableDataExtractor `Table` object. Can pass any kwargs into TDE directly.</span>
 <span class="line-any" title="Any Types on this line: 
@@ -833,7 +831,7 @@ Unannotated (x4)">                        getattr(records_of_type[i], function_n
 Omitted Generics (x2)
 Unannotated (x1)">            record_set.update(records_of_type)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-imprecise" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line: 
 Omitted Generics (x9)">        final_records = ModelList(*list(record_set))</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x3)

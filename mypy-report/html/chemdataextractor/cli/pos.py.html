@@ -375,23 +375,23 @@ Omitted Generics (x6)">@click.pass_context</span>
 <span class="line-any" title="No Anys on this line!">def train_all(ctx, output):</span>
 <span class="line-empty" title="No Anys on this line!">    """Train POS tagger on WSJ, GENIA, and both. With and without cluster features."""</span>
 <span class="line-empty" title="No Anys on this line!">    click.echo("chemdataextractor.pos.train_all")</span>
-<span class="line-empty" title="No Anys on this line!">    click.echo("Output: %s" % output)</span>
-<span class="line-empty" title="No Anys on this line!">    ctx.invoke(train, output="%s_wsj_nocluster.pickle" % output, corpus="wsj", clusters=False)</span>
-<span class="line-empty" title="No Anys on this line!">    ctx.invoke(train, output="%s_wsj.pickle" % output, corpus="wsj", clusters=True)</span>
+<span class="line-empty" title="No Anys on this line!">    click.echo(f"Output: {output}")</span>
+<span class="line-empty" title="No Anys on this line!">    ctx.invoke(train, output=f"{output}_wsj_nocluster.pickle", corpus="wsj", clusters=False)</span>
+<span class="line-empty" title="No Anys on this line!">    ctx.invoke(train, output=f"{output}_wsj.pickle", corpus="wsj", clusters=True)</span>
 <span class="line-empty" title="No Anys on this line!">    ctx.invoke(</span>
 <span class="line-empty" title="No Anys on this line!">        train,</span>
-<span class="line-empty" title="No Anys on this line!">        output="%s_genia_nocluster.pickle" % output,</span>
+<span class="line-empty" title="No Anys on this line!">        output=f"{output}_genia_nocluster.pickle",</span>
 <span class="line-empty" title="No Anys on this line!">        corpus="genia",</span>
 <span class="line-empty" title="No Anys on this line!">        clusters=False,</span>
 <span class="line-empty" title="No Anys on this line!">    )</span>
-<span class="line-empty" title="No Anys on this line!">    ctx.invoke(train, output="%s_genia.pickle" % output, corpus="genia", clusters=True)</span>
+<span class="line-empty" title="No Anys on this line!">    ctx.invoke(train, output=f"{output}_genia.pickle", corpus="genia", clusters=True)</span>
 <span class="line-empty" title="No Anys on this line!">    ctx.invoke(</span>
 <span class="line-empty" title="No Anys on this line!">        train,</span>
-<span class="line-empty" title="No Anys on this line!">        output="%s_wsj_genia_nocluster.pickle" % output,</span>
+<span class="line-empty" title="No Anys on this line!">        output=f"{output}_wsj_genia_nocluster.pickle",</span>
 <span class="line-empty" title="No Anys on this line!">        corpus="wsj+genia",</span>
 <span class="line-empty" title="No Anys on this line!">        clusters=False,</span>
 <span class="line-empty" title="No Anys on this line!">    )</span>
-<span class="line-empty" title="No Anys on this line!">    ctx.invoke(train, output="%s_wsj_genia.pickle" % output, corpus="wsj+genia", clusters=True)</span>
+<span class="line-empty" title="No Anys on this line!">    ctx.invoke(train, output=f"{output}_wsj_genia.pickle", corpus="wsj+genia", clusters=True)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="Any Types on this line: 
@@ -404,44 +404,44 @@ Omitted Generics (x6)">@click.pass_context</span>
 <span class="line-any" title="No Anys on this line!">def evaluate_all(ctx, model):</span>
 <span class="line-empty" title="No Anys on this line!">    """Evaluate POS taggers on WSJ and GENIA."""</span>
 <span class="line-empty" title="No Anys on this line!">    click.echo("chemdataextractor.pos.evaluate_all")</span>
-<span class="line-empty" title="No Anys on this line!">    click.echo("Model: %s" % model)</span>
-<span class="line-empty" title="No Anys on this line!">    ctx.invoke(evaluate, model="%s_wsj_nocluster.pickle" % model, corpus="wsj", clusters=False)</span>
+<span class="line-empty" title="No Anys on this line!">    click.echo(f"Model: {model}")</span>
+<span class="line-empty" title="No Anys on this line!">    ctx.invoke(evaluate, model=f"{model}_wsj_nocluster.pickle", corpus="wsj", clusters=False)</span>
 <span class="line-empty" title="No Anys on this line!">    ctx.invoke(</span>
 <span class="line-empty" title="No Anys on this line!">        evaluate,</span>
-<span class="line-empty" title="No Anys on this line!">        model="%s_wsj_nocluster.pickle" % model,</span>
+<span class="line-empty" title="No Anys on this line!">        model=f"{model}_wsj_nocluster.pickle",</span>
 <span class="line-empty" title="No Anys on this line!">        corpus="genia",</span>
 <span class="line-empty" title="No Anys on this line!">        clusters=False,</span>
 <span class="line-empty" title="No Anys on this line!">    )</span>
-<span class="line-empty" title="No Anys on this line!">    ctx.invoke(evaluate, model="%s_wsj.pickle" % model, corpus="wsj", clusters=True)</span>
-<span class="line-empty" title="No Anys on this line!">    ctx.invoke(evaluate, model="%s_wsj.pickle" % model, corpus="genia", clusters=True)</span>
+<span class="line-empty" title="No Anys on this line!">    ctx.invoke(evaluate, model=f"{model}_wsj.pickle", corpus="wsj", clusters=True)</span>
+<span class="line-empty" title="No Anys on this line!">    ctx.invoke(evaluate, model=f"{model}_wsj.pickle", corpus="genia", clusters=True)</span>
 <span class="line-empty" title="No Anys on this line!">    ctx.invoke(</span>
 <span class="line-empty" title="No Anys on this line!">        evaluate,</span>
-<span class="line-empty" title="No Anys on this line!">        model="%s_genia_nocluster.pickle" % model,</span>
+<span class="line-empty" title="No Anys on this line!">        model=f"{model}_genia_nocluster.pickle",</span>
 <span class="line-empty" title="No Anys on this line!">        corpus="wsj",</span>
 <span class="line-empty" title="No Anys on this line!">        clusters=False,</span>
 <span class="line-empty" title="No Anys on this line!">    )</span>
 <span class="line-empty" title="No Anys on this line!">    ctx.invoke(</span>
 <span class="line-empty" title="No Anys on this line!">        evaluate,</span>
-<span class="line-empty" title="No Anys on this line!">        model="%s_genia_nocluster.pickle" % model,</span>
+<span class="line-empty" title="No Anys on this line!">        model=f"{model}_genia_nocluster.pickle",</span>
 <span class="line-empty" title="No Anys on this line!">        corpus="genia",</span>
 <span class="line-empty" title="No Anys on this line!">        clusters=False,</span>
 <span class="line-empty" title="No Anys on this line!">    )</span>
-<span class="line-empty" title="No Anys on this line!">    ctx.invoke(evaluate, model="%s_genia.pickle" % model, corpus="wsj", clusters=True)</span>
-<span class="line-empty" title="No Anys on this line!">    ctx.invoke(evaluate, model="%s_genia.pickle" % model, corpus="genia", clusters=True)</span>
+<span class="line-empty" title="No Anys on this line!">    ctx.invoke(evaluate, model=f"{model}_genia.pickle", corpus="wsj", clusters=True)</span>
+<span class="line-empty" title="No Anys on this line!">    ctx.invoke(evaluate, model=f"{model}_genia.pickle", corpus="genia", clusters=True)</span>
 <span class="line-empty" title="No Anys on this line!">    ctx.invoke(</span>
 <span class="line-empty" title="No Anys on this line!">        evaluate,</span>
-<span class="line-empty" title="No Anys on this line!">        model="%s_wsj_genia_nocluster.pickle" % model,</span>
+<span class="line-empty" title="No Anys on this line!">        model=f"{model}_wsj_genia_nocluster.pickle",</span>
 <span class="line-empty" title="No Anys on this line!">        corpus="wsj",</span>
 <span class="line-empty" title="No Anys on this line!">        clusters=False,</span>
 <span class="line-empty" title="No Anys on this line!">    )</span>
 <span class="line-empty" title="No Anys on this line!">    ctx.invoke(</span>
 <span class="line-empty" title="No Anys on this line!">        evaluate,</span>
-<span class="line-empty" title="No Anys on this line!">        model="%s_wsj_genia_nocluster.pickle" % model,</span>
+<span class="line-empty" title="No Anys on this line!">        model=f"{model}_wsj_genia_nocluster.pickle",</span>
 <span class="line-empty" title="No Anys on this line!">        corpus="genia",</span>
 <span class="line-empty" title="No Anys on this line!">        clusters=False,</span>
 <span class="line-empty" title="No Anys on this line!">    )</span>
-<span class="line-empty" title="No Anys on this line!">    ctx.invoke(evaluate, model="%s_wsj_genia.pickle" % model, corpus="wsj", clusters=True)</span>
-<span class="line-empty" title="No Anys on this line!">    ctx.invoke(evaluate, model="%s_wsj_genia.pickle" % model, corpus="genia", clusters=True)</span>
+<span class="line-empty" title="No Anys on this line!">    ctx.invoke(evaluate, model=f"{model}_wsj_genia.pickle", corpus="wsj", clusters=True)</span>
+<span class="line-empty" title="No Anys on this line!">    ctx.invoke(evaluate, model=f"{model}_wsj_genia.pickle", corpus="genia", clusters=True)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="Any Types on this line: 
@@ -460,9 +460,9 @@ Omitted Generics (x6)">@click.pass_context</span>
 <span class="line-any" title="No Anys on this line!">def train(ctx, output, corpus, clusters):</span>
 <span class="line-empty" title="No Anys on this line!">    """Train POS Tagger."""</span>
 <span class="line-empty" title="No Anys on this line!">    click.echo("chemdataextractor.pos.train")</span>
-<span class="line-empty" title="No Anys on this line!">    click.echo("Output: %s" % output)</span>
-<span class="line-empty" title="No Anys on this line!">    click.echo("Corpus: %s" % corpus)</span>
-<span class="line-empty" title="No Anys on this line!">    click.echo("Clusters: %s" % clusters)</span>
+<span class="line-empty" title="No Anys on this line!">    click.echo(f"Output: {output}")</span>
+<span class="line-empty" title="No Anys on this line!">    click.echo(f"Corpus: {corpus}")</span>
+<span class="line-empty" title="No Anys on this line!">    click.echo(f"Clusters: {clusters}")</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">    wsj_sents = []</span>
 <span class="line-empty" title="No Anys on this line!">    genia_sents = []</span>
@@ -558,7 +558,7 @@ Omitted Generics (x6)">@click.pass_context</span>
 <span class="line-empty" title="No Anys on this line!">        raise click.ClickException("Invalid corpus")</span>
 <span class="line-empty" title="No Anys on this line!">    tagger = ChemCrfPosTagger(model=model, clusters=clusters)</span>
 <span class="line-empty" title="No Anys on this line!">    accuracy = tagger.evaluate(sents)</span>
-<span class="line-empty" title="No Anys on this line!">    click.echo("%s on %s: %s" % (model, evaluation, accuracy))</span>
+<span class="line-empty" title="No Anys on this line!">    click.echo(f"{model} on {evaluation}: {accuracy}")</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="Any Types on this line: 
@@ -577,9 +577,9 @@ Omitted Generics (x7)">@click.pass_obj</span>
 <span class="line-any" title="No Anys on this line!">def train_perceptron(ctx, output, corpus, clusters):</span>
 <span class="line-empty" title="No Anys on this line!">    """Train Averaged Perceptron POS Tagger."""</span>
 <span class="line-empty" title="No Anys on this line!">    click.echo("chemdataextractor.pos.train")</span>
-<span class="line-empty" title="No Anys on this line!">    click.echo("Output: %s" % output)</span>
-<span class="line-empty" title="No Anys on this line!">    click.echo("Corpus: %s" % corpus)</span>
-<span class="line-empty" title="No Anys on this line!">    click.echo("Clusters: %s" % clusters)</span>
+<span class="line-empty" title="No Anys on this line!">    click.echo(f"Output: {output}")</span>
+<span class="line-empty" title="No Anys on this line!">    click.echo(f"Corpus: {corpus}")</span>
+<span class="line-empty" title="No Anys on this line!">    click.echo(f"Clusters: {clusters}")</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">    wsj_sents = []</span>
 <span class="line-empty" title="No Anys on this line!">    genia_sents = []</span>
@@ -673,7 +673,7 @@ Omitted Generics (x7)">@click.pass_obj</span>
 <span class="line-empty" title="No Anys on this line!">        raise click.ClickException("Invalid corpus")</span>
 <span class="line-empty" title="No Anys on this line!">    tagger = ChemApPosTagger(model=model)</span>
 <span class="line-empty" title="No Anys on this line!">    accuracy = tagger.evaluate(sents)</span>
-<span class="line-empty" title="No Anys on this line!">    click.echo("%s on %s: %s" % (model, evaluation, accuracy))</span>
+<span class="line-empty" title="No Anys on this line!">    click.echo(f"{model} on {evaluation}: {accuracy}")</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="Any Types on this line: 
@@ -695,7 +695,7 @@ Omitted Generics (x7)">@click.pass_obj</span>
 <span class="line-any" title="No Anys on this line!">def tag(ctx, input, output):</span>
 <span class="line-empty" title="No Anys on this line!">    """Output POS-tagged tokens."""</span>
 <span class="line-empty" title="No Anys on this line!">    log.info("chemdataextractor.pos.tag")</span>
-<span class="line-empty" title="No Anys on this line!">    log.info("Reading %s" % input.name)</span>
+<span class="line-empty" title="No Anys on this line!">    log.info(f"Reading {input.name}")</span>
 <span class="line-empty" title="No Anys on this line!">    doc = Document.from_file(input)</span>
 <span class="line-empty" title="No Anys on this line!">    for element in doc.elements:</span>
 <span class="line-empty" title="No Anys on this line!">        if isinstance(element, Text):</span>

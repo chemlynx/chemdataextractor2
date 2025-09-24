@@ -776,7 +776,6 @@
 <span id="L766" class="lineno"><a class="lineno" href="#L766">766</a></span>
 <span id="L767" class="lineno"><a class="lineno" href="#L767">767</a></span>
 <span id="L768" class="lineno"><a class="lineno" href="#L768">768</a></span>
-<span id="L769" class="lineno"><a class="lineno" href="#L769">769</a></span>
 </pre></td>
 <td class="table-code"><pre><span class="line-empty" title="No Anys on this line!">"""</span>
 <span class="line-empty" title="No Anys on this line!">Chemistry text handling tools.</span>
@@ -1503,8 +1502,7 @@
 <span class="line-empty" title="No Anys on this line!"># A regular expression that matches common solvents.</span>
 <span class="line-precise" title="Any Types on this line: 
 Omitted Generics (x4)">SOLVENT_RE = re.compile(</span>
-<span class="line-precise" title="No Anys on this line!">    r"(?:^|\b)(?:(?:%s|d\d?\d?|[\dn](?:,[\dn]){0,3}|[imnoptDLRS])-?)?(?:%s)(?:-d\d?\d?)?(?=$|\b)"</span>
-<span class="line-empty" title="No Anys on this line!">    % (</span>
+<span class="line-precise" title="No Anys on this line!">    r"(?:^|\b)(?:(?:{}|d\d?\d?|[\dn](?:,[\dn]){{0,3}}|[imnoptDLRS])-?)?(?:{})(?:-d\d?\d?)?(?=$|\b)".format(</span>
 <span class="line-precise" title="No Anys on this line!">        "|".join(re.escape(s) for s in PREFIXES),</span>
 <span class="line-precise" title="No Anys on this line!">        "|".join(re.escape(s).replace(r"\ ", r"[\s\-]?") for s in SOLVENTS),</span>
 <span class="line-empty" title="No Anys on this line!">    ),</span>
@@ -1523,9 +1521,9 @@ Omitted Generics (x4)">INCHI_RE = re.compile(</span>
 <span class="line-empty" title="No Anys on this line!">)</span>
 <span class="line-precise" title="Any Types on this line: 
 Omitted Generics (x4)">SMILES_RE = re.compile(</span>
-<span class="line-precise" title="No Anys on this line!">    r"^([BCNOPSFIbcnosp*]|Cl|Br|\[\d*(%(e)s|se|as|\*)(@+([THALSPBO]\d+)?)?(H\d?)?([\-+]+\d*)?(:\d+)?\])"</span>
-<span class="line-empty" title="No Anys on this line!">    r"([BCNOPSFIbcnosp*]|Cl|Br|\[\d*(%(e)s|se|as|\*)(@+([THALSPBO]\d+)?)?(H\d?)?([\-+]+\d*)?(:\d+)?\]|"</span>
-<span class="line-precise" title="No Anys on this line!">    r"[\-=#$:\\/\(\)%%\.+\d])*$" % {"e": "|".join(ELEMENT_SYMBOLS)}</span>
+<span class="line-precise" title="No Anys on this line!">    r"^([BCNOPSFIbcnosp*]|Cl|Br|\[\d*({e}|se|as|\*)(@+([THALSPBO]\d+)?)?(H\d?)?([\-+]+\d*)?(:\d+)?\])"</span>
+<span class="line-empty" title="No Anys on this line!">    r"([BCNOPSFIbcnosp*]|Cl|Br|\[\d*({e}|se|as|\*)(@+([THALSPBO]\d+)?)?(H\d?)?([\-+]+\d*)?(:\d+)?\]|"</span>
+<span class="line-precise" title="No Anys on this line!">    r"[\-=#$:\\/\(\)%\.+\d])*$".format(e="|".join(ELEMENT_SYMBOLS))</span>
 <span class="line-empty" title="No Anys on this line!">)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!"></span>

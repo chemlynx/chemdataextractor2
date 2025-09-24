@@ -148,9 +148,9 @@
 <span class="line-precise" title="No Anys on this line!">from .relationship import Relation</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!"># Type aliases for pattern learning</span>
-<span class="line-precise" title="No Anys on this line!">PatternElements = List[Any]  # Elements that make up a pattern</span>
-<span class="line-precise" title="No Anys on this line!">EntityList = List[Entity]  # List of entities in a pattern</span>
-<span class="line-precise" title="No Anys on this line!">RelationList = List[Relation]  # List of relations associated with a pattern</span>
+<span class="line-precise" title="No Anys on this line!">PatternElements = list[Any]  # Elements that make up a pattern</span>
+<span class="line-precise" title="No Anys on this line!">EntityList = list[Entity]  # List of entities in a pattern</span>
+<span class="line-precise" title="No Anys on this line!">RelationList = list[Relation]  # List of relations associated with a pattern</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">class Pattern:</span>
@@ -162,12 +162,12 @@
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">    def __init__(</span>
 <span class="line-empty" title="No Anys on this line!">        self,</span>
-<span class="line-precise" title="No Anys on this line!">        entities: Optional[EntityList] = None,</span>
-<span class="line-precise" title="No Anys on this line!">        elements: Optional[PatternElements] = None,</span>
-<span class="line-precise" title="No Anys on this line!">        label: Optional[str] = None,</span>
-<span class="line-precise" title="No Anys on this line!">        sentences: Optional[List[str]] = None,</span>
-<span class="line-precise" title="No Anys on this line!">        order: Optional[List[int]] = None,</span>
-<span class="line-precise" title="No Anys on this line!">        relations: Optional[RelationList] = None,</span>
+<span class="line-precise" title="No Anys on this line!">        entities: EntityList | None = None,</span>
+<span class="line-precise" title="No Anys on this line!">        elements: PatternElements | None = None,</span>
+<span class="line-precise" title="No Anys on this line!">        label: str | None = None,</span>
+<span class="line-precise" title="No Anys on this line!">        sentences: list[str] | None = None,</span>
+<span class="line-precise" title="No Anys on this line!">        order: list[int] | None = None,</span>
+<span class="line-precise" title="No Anys on this line!">        relations: RelationList | None = None,</span>
 <span class="line-precise" title="No Anys on this line!">        confidence: float = 0.0,</span>
 <span class="line-empty" title="No Anys on this line!">    ) -&gt; None:</span>
 <span class="line-empty" title="No Anys on this line!">        """Initialize a Pattern.</span>

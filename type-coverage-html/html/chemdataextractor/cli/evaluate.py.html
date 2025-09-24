@@ -462,7 +462,7 @@ Explicit (x1)">@click.argument("input", type=click.File("r"))</span>
 <span class="line-empty" title="No Anys on this line!">    records = [</span>
 <span class="line-empty" title="No Anys on this line!">        record for record in records if record.keys() != ["names"] and record.keys() != ["labels"]</span>
 <span class="line-empty" title="No Anys on this line!">    ]</span>
-<span class="line-empty" title="No Anys on this line!">    with open("%s-out.json" % os.path.splitext(input.name)[0], "w") as outf:</span>
+<span class="line-empty" title="No Anys on this line!">    with open(f"{os.path.splitext(input.name)[0]}-out.json", "w") as outf:</span>
 <span class="line-empty" title="No Anys on this line!">        json.dump(records, outf, indent=2)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!"></span>
@@ -812,7 +812,7 @@ Explicit (x11)">@evaluate.command()</span>
 <span class="line-empty" title="No Anys on this line!">        "data/cde-evaluation",</span>
 <span class="line-empty" title="No Anys on this line!">    )</span>
 <span class="line-empty" title="No Anys on this line!">    for eval_name, transform in EVALS:</span>
-<span class="line-empty" title="No Anys on this line!">        print("Evaluation: %s" % eval_name)</span>
+<span class="line-empty" title="No Anys on this line!">        print(f"Evaluation: {eval_name}")</span>
 <span class="line-empty" title="No Anys on this line!">        doc_count = 0</span>
 <span class="line-empty" title="No Anys on this line!">        tp, fp, fn = 0, 0, 0</span>
 <span class="line-empty" title="No Anys on this line!">        for filename in os.listdir(edir):</span>
@@ -821,22 +821,22 @@ Explicit (x11)">@evaluate.command()</span>
 <span class="line-empty" title="No Anys on this line!">            if filename.endswith("-out.json"):</span>
 <span class="line-empty" title="No Anys on this line!">                with open(filename) as outf:</span>
 <span class="line-empty" title="No Anys on this line!">                    out = json.load(outf)</span>
-<span class="line-empty" title="No Anys on this line!">                if not os.path.isfile("%s-gold.json" % filename[:-9]):</span>
+<span class="line-empty" title="No Anys on this line!">                if not os.path.isfile(f"{filename[:-9]}-gold.json"):</span>
 <span class="line-empty" title="No Anys on this line!">                    continue</span>
-<span class="line-empty" title="No Anys on this line!">                with open("%s-gold.json" % filename[:-9]) as goldf:</span>
+<span class="line-empty" title="No Anys on this line!">                with open(f"{filename[:-9]}-gold.json") as goldf:</span>
 <span class="line-empty" title="No Anys on this line!">                    gold = json.load(goldf)</span>
 <span class="line-empty" title="No Anys on this line!">                doctp, docfp, docfn = eval_document(gold, out, transform)</span>
 <span class="line-empty" title="No Anys on this line!">                doc_count += 1</span>
 <span class="line-empty" title="No Anys on this line!">                tp += doctp</span>
 <span class="line-empty" title="No Anys on this line!">                fp += docfp</span>
 <span class="line-empty" title="No Anys on this line!">                fn += docfn</span>
-<span class="line-empty" title="No Anys on this line!">        print("TP: %s\tFP:%s\tFN:%s" % (tp, fp, fn))</span>
+<span class="line-empty" title="No Anys on this line!">        print(f"TP: {tp}\tFP:{fp}\tFN:{fn}")</span>
 <span class="line-empty" title="No Anys on this line!">        # if tp + fp &gt; 0 and tp + fn &gt; 0:</span>
 <span class="line-empty" title="No Anys on this line!">        p = 100 * float(tp) / (tp + fp) if tp &gt; 0 or fp &gt; 0 else 0</span>
 <span class="line-empty" title="No Anys on this line!">        r = 100 * float(tp) / (tp + fn) if tp &gt; 0 or fn &gt; 0 else 0</span>
 <span class="line-empty" title="No Anys on this line!">        f = 2 * p * r / (p + r) if p &gt; 0 or r &gt; 0 else 0</span>
-<span class="line-empty" title="No Anys on this line!">        print("P: %0.2f%%\tR: %0.2f%%\tF: %0.2f%%" % (p, r, f))</span>
-<span class="line-empty" title="No Anys on this line!">        print("%s documents" % doc_count)</span>
+<span class="line-empty" title="No Anys on this line!">        print(f"P: {p:0.2f}%\tR: {r:0.2f}%\tF: {f:0.2f}%")</span>
+<span class="line-empty" title="No Anys on this line!">        print(f"{doc_count} documents")</span>
 <span class="line-empty" title="No Anys on this line!">        print("================================")</span>
 </pre></td>
 </tr></tbody>

@@ -298,7 +298,7 @@
 <span class="line-empty" title="No Anys on this line!">        # TODO: This is weird. Why don't we change to proper individual keyword arguments with class attribs as default</span>
 <span class="line-empty" title="No Anys on this line!">        for name, value in kwargs.items():</span>
 <span class="line-empty" title="No Anys on this line!">            if not hasattr(self, name):</span>
-<span class="line-empty" title="No Anys on this line!">                raise TypeError("Unknown parameter: %s=%r" % (name, value))</span>
+<span class="line-empty" title="No Anys on this line!">                raise TypeError(f"Unknown parameter: {name}={value!r}")</span>
 <span class="line-empty" title="No Anys on this line!">            setattr(self, name, value)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="No Anys on this line!">    def __call__(self, doc):</span>

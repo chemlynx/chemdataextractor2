@@ -283,7 +283,7 @@ Unannotated (x3)">        self.http = self.create_session()</span>
 <span class="line-any" title="No Anys on this line!">    def name(self):</span>
 <span class="line-empty" title="No Anys on this line!">        """A unique name for this scraper."""</span>
 <span class="line-empty" title="No Anys on this line!">        return (</span>
-<span class="line-empty" title="No Anys on this line!">            "".join("_%s" % c if c.isupper() else c for c in self.__class__.__name__)</span>
+<span class="line-empty" title="No Anys on this line!">            "".join(f"_{c}" if c.isupper() else c for c in self.__class__.__name__)</span>
 <span class="line-empty" title="No Anys on this line!">            .strip("_")</span>
 <span class="line-empty" title="No Anys on this line!">            .lower()</span>
 <span class="line-empty" title="No Anys on this line!">        )</span>
@@ -396,7 +396,7 @@ Unannotated (x2)">                fields[attr_name] = attr_value</span>
 <span class="line-empty" title="No Anys on this line!">        # attrs['_meta'] = {'root': None}</span>
 <span class="line-empty" title="No Anys on this line!">        # attrs['_meta'].update(attrs.pop('meta', {}))</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x6)">        cls = super(EntityMeta, mcs).__new__(mcs, name, bases, attrs)</span>
+Unannotated (x3)">        cls = super().__new__(mcs, name, bases, attrs)</span>
 <span class="line-any" title="Any Types on this line: 
 Error (x4)">        cls.fields = cls.fields.copy()</span>
 <span class="line-any" title="Any Types on this line: 
@@ -478,7 +478,7 @@ Unannotated (x2)">        self.raw = raw</span>
 <span class="line-empty" title="No Anys on this line!">        # Take first unless all is specified</span>
 <span class="line-empty" title="No Anys on this line!">        if not self.all:</span>
 <span class="line-empty" title="No Anys on this line!">            value = value[0] if value else None</span>
-<span class="line-empty" title="No Anys on this line!">        log.debug("Scraped %s: %s from %s" % (self.name, value, self.selection))</span>
+<span class="line-empty" title="No Anys on this line!">        log.debug(f"Scraped {self.name}: {value} from {self.selection}")</span>
 <span class="line-empty" title="No Anys on this line!">        return value</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="No Anys on this line!">    def scrape(self, selector, cleaner=None, processor=None):</span>

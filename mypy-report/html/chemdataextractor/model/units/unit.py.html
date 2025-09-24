@@ -560,7 +560,7 @@ Explicit (x1)">                instance._values[self.name] = None</span>
 Explicit (x1)">            instance._values[self.name] = None</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="Any Types on this line: 
-Explicit (x1)">    def process(self, value: Any) -&gt; Optional[Unit]:</span>
+Explicit (x1)">    def process(self, value: Any) -&gt; Unit | None:</span>
 <span class="line-empty" title="No Anys on this line!">        """Process and validate unit value.</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">        Args:</span>
@@ -574,7 +574,7 @@ Explicit (x1)">        if isinstance(value, Unit):</span>
 <span class="line-precise" title="No Anys on this line!">            return value</span>
 <span class="line-precise" title="No Anys on this line!">        return None</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-precise" title="No Anys on this line!">    def serialize(self, value: Optional[Unit], primitive: bool = False) -&gt; str:</span>
+<span class="line-precise" title="No Anys on this line!">    def serialize(self, value: Unit | None, primitive: bool = False) -&gt; str:</span>
 <span class="line-empty" title="No Anys on this line!">        """Serialize unit to string representation.</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">        Args:</span>
@@ -611,7 +611,7 @@ Explicit (x1)">        if isinstance(value, Unit):</span>
 <span class="line-empty" title="No Anys on this line!">    """</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-imprecise" title="Any Types on this line: 
-Explicit (x1)">    def __new__(mcs, name: str, bases: Tuple[type, ...], attrs: Dict[str, Any]) -&gt; type:</span>
+Explicit (x1)">    def __new__(mcs, name: str, bases: tuple[type, ...], attrs: dict[str, Any]) -&gt; type:</span>
 <span class="line-imprecise" title="Any Types on this line: 
 Omitted Generics (x2)
 Explicit (x5)">        cls = type.__new__(mcs, name, bases, attrs)</span>
@@ -752,7 +752,7 @@ Error (x1)">            cls.__init__ = new_initializer</span>
 <span class="line-empty" title="No Anys on this line!">        self,</span>
 <span class="line-empty" title="No Anys on this line!">        dimensions: Dimension,</span>
 <span class="line-precise" title="No Anys on this line!">        magnitude: float = 0.0,</span>
-<span class="line-precise" title="No Anys on this line!">        powers: Optional[Dict[Unit, float]] = None,</span>
+<span class="line-precise" title="No Anys on this line!">        powers: dict[Unit, float] | None = None,</span>
 <span class="line-empty" title="No Anys on this line!">    ) -&gt; None:</span>
 <span class="line-empty" title="No Anys on this line!">        """Create a unit object.</span>
 <span class="line-empty" title="No Anys on this line!"></span>
