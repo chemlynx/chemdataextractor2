@@ -12,9 +12,10 @@ from abc import ABCMeta
 from abc import abstractmethod
 from collections import defaultdict
 from typing import TYPE_CHECKING
+from typing import Any
 
 if TYPE_CHECKING:
-    pass
+    from lxml.html import HtmlElement
 
 from lxml import etree
 from lxml.etree import XMLParser
@@ -93,7 +94,7 @@ class LxmlReader(BaseReader, metaclass=ABCMeta):
     #: Inline elements
     inline_elements = INLINE_ELEMENTS
 
-    def _parse_element_r(self, el, specials, refs, id=None, element_cls=Paragraph):
+    def _parse_element_r(self, el: HtmlElement, specials: dict[str, Any], refs: dict[str, Any], id: str | None = None, element_cls: type[Text] = Paragraph) -> list[Text]:
         """Recursively parse HTML/XML element and its children into a list of Document elements."""
         elements = []
         if el.tag in {etree.Comment, etree.ProcessingInstruction}:
@@ -140,7 +141,7 @@ class LxmlReader(BaseReader, metaclass=ABCMeta):
                     elements.append(element_cls(str(child.tail), id=id))
         return elements
 
-    def _parse_element(self, el, specials=None, refs=None, element_cls=Paragraph):
+    def _parse_element(self, el: HtmlElement, specials: dict[str, Any] | None = None, refs: dict[str, Any] | None = None, element_cls: type[Text] = Paragraph) -> list[Text]:
         """"""
         if specials is None:
             specials = {}
@@ -157,7 +158,7 @@ class LxmlReader(BaseReader, metaclass=ABCMeta):
                 final_elements.append(element)
         return final_elements
 
-    def _parse_text(self, el, refs=None, specials=None, element_cls=Paragraph):
+    def _parse_text(self, el: HtmlElement, refs: dict[str, Any] | None = None, specials: dict[str, Any] | None = None, element_cls: type[Text] = Paragraph) -> list[Text]:
         """Like _parse_element but ensure a single element."""
         if specials is None:
             specials = {}
@@ -177,10 +178,10 @@ class LxmlReader(BaseReader, metaclass=ABCMeta):
                 )
         return [element]
 
-    def _parse_figure_links(self, el):
+    def _parse_figure_links(self, el: HtmlElement) -> list[str]:
         return self._css(self.figure_download_link_css, el)
 
-    def _parse_figure(self, el, refs, specials):
+    def _parse_figure(self, el: HtmlElement, refs: dict[str, Any], specials: dict[str, Any]) -> list[Figure]:
         caps = self._css(self.figure_caption_css, el)
 
         label_css = self._css(self.figure_label_css, el)
@@ -195,7 +196,7 @@ class LxmlReader(BaseReader, metaclass=ABCMeta):
         fig = Figure(caption, label=label, links=links)
         return [fig]
 
-    def _parse_table_rows(self, els, refs, specials):
+    def _parse_table_rows(self, els: list[HtmlElement], refs: dict[str, Any], specials: dict[str, Any]) -> list[list[Cell]]:
         hdict = {}
         for row, tr in enumerate(els):
             colnum = 0
@@ -203,7 +204,7 @@ class LxmlReader(BaseReader, metaclass=ABCMeta):
                 cell = self._parse_text(td, refs=refs, specials=specials, element_cls=Cell)
                 colspan = int(td.get("colspan", "1"))
                 rowspan = int(td.get("rowspan", "1"))
-                for i in range(colspan):
+                for _i in range(colspan):
                     for j in range(rowspan):
                         rownum = row + j
                         if rownum not in hdict:
@@ -222,13 +223,13 @@ class LxmlReader(BaseReader, metaclass=ABCMeta):
         rows = [r for r in rows if any(r)]
         return rows
 
-    def _parse_table_footnotes(self, fns, refs, specials):
+    def _parse_table_footnotes(self, fns: list[HtmlElement], refs: dict[str, Any], specials: dict[str, Any]) -> list[Footnote]:
         return [
             self._parse_text(fn, refs=refs, specials=specials, element_cls=Footnote)[0]
             for fn in fns
         ]
 
-    def _parse_reference(self, el):
+    def _parse_reference(self, el: HtmlElement) -> str:
         """Return reference ID from href or text content."""
         if "#" in el.get("href", ""):
             return [el.get("href").split("#", 1)[1]]
@@ -248,7 +249,7 @@ class LxmlReader(BaseReader, metaclass=ABCMeta):
     #     tab = Table(caption, headings=hrows, rows=rows, footnotes=footnotes, id=el.get('id', None))
     #     return [tab]
 
-    def _parse_table(self, el, refs, specials):
+    def _parse_table(self, el: HtmlElement, refs: dict[str, Any], specials: dict[str, Any]) -> list[Table]:
         caption_css = self._css(self.table_caption_css, el)
         caption = (
             self._parse_text(caption_css[0], refs=refs, specials=specials, element_cls=Caption)[0]
@@ -270,7 +271,7 @@ class LxmlReader(BaseReader, metaclass=ABCMeta):
 
         return [table]
 
-    def _parse_metadata(self, el, refs, specials):
+    def _parse_metadata(self, el: HtmlElement, refs: dict[str, Any], specials: dict[str, Any]) -> list[MetaData]:
         title = self._css(self.metadata_title_css, el)
         authors = self._css(self.metadata_author_css, el)
         publisher = self._css(self.metadata_publisher_css, el)
@@ -303,31 +304,29 @@ class LxmlReader(BaseReader, metaclass=ABCMeta):
         meta = MetaData(metadata)
         return [meta]
 
-    def _xpath(self, query, root):
+    def _xpath(self, query: str, root: HtmlElement) -> list[HtmlElement]:
         result = root.xpath(query, smart_strings=False)
         if type(result) is not list:
             result = [result]
         log.debug(f"Selecting XPath: {query}: {result}")
         return result
 
-    def _css(self, query, root):
+    def _css(self, query: str, root: HtmlElement) -> list[HtmlElement]:
         return self._xpath(CssXmlTranslator().css_to_xpath(query), root)
 
-    def _is_inline(self, element):
+    def _is_inline(self, element: HtmlElement) -> bool:
         """Return True if an element is inline."""
-        if (
+        return bool(
             element.tag not in {etree.Comment, etree.ProcessingInstruction}
             and element.tag.lower() in self.inline_elements
-        ):
-            return True
-        return False
+        )
 
     @abstractmethod
-    def _make_tree(self, fstring):
+    def _make_tree(self, fstring: str | bytes) -> HtmlElement:
         """Read a string into an lxml elementtree."""
         pass
 
-    def parse(self, fstring):
+    def parse(self, fstring: str | bytes) -> Document:
         root = self._make_tree(fstring)
         self.root = root
 
@@ -376,13 +375,11 @@ class LxmlReader(BaseReader, metaclass=ABCMeta):
 class XmlReader(LxmlReader):
     """Reader for generic XML documents."""
 
-    def detect(self, fstring, fname=None):
+    def detect(self, fstring: str | bytes, fname: str | None = None) -> bool:
         """"""
-        if fname and not fname.endswith(".xml"):
-            return False
-        return True
+        return not (fname and not fname.endswith(".xml"))
 
-    def _make_tree(self, fstring):
+    def _make_tree(self, fstring: str | bytes) -> HtmlElement:
         root = etree.fromstring(
             fstring, parser=XMLParser(recover=True, encoding=get_encoding(fstring))
         )
@@ -392,12 +389,10 @@ class XmlReader(LxmlReader):
 class HtmlReader(LxmlReader):
     """Reader for generic HTML documents."""
 
-    def detect(self, fstring, fname=None):
+    def detect(self, fstring: str | bytes, fname: str | None = None) -> bool:
         """"""
-        if fname and not (fname.endswith(".html") or fname.endswith(".htm")):
-            return False
-        return True
+        return not (fname and not (fname.endswith(".html") or fname.endswith(".htm")))
 
-    def _make_tree(self, fstring):
+    def _make_tree(self, fstring: str | bytes) -> HtmlElement:
         root = etree.fromstring(fstring, parser=HTMLParser(encoding=get_encoding(fstring)))
         return root

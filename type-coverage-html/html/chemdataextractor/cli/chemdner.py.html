@@ -150,22 +150,22 @@
 <span class="line-precise" title="No Anys on this line!">from ..doc.text import Title</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-precise" title="Any Types on this line:
+<span class="line-precise" title="Any Types on this line: 
 Omitted Generics (x4)
 Explicit (x3)">@click.group(name="chemdner")</span>
-<span class="line-precise" title="Any Types on this line:
+<span class="line-precise" title="Any Types on this line: 
 Omitted Generics (x6)">@click.pass_context</span>
 <span class="line-any" title="No Anys on this line!">def chemdner_cli(ctx):</span>
 <span class="line-empty" title="No Anys on this line!">    """CHEMDNER commands."""</span>
 <span class="line-empty" title="No Anys on this line!">    pass</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-precise" title="Any Types on this line:
+<span class="line-precise" title="Any Types on this line: 
 Explicit (x11)">@chemdner_cli.command()</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Omitted Generics (x4)
 Explicit (x1)">@click.argument("annotations", type=click.File("r", encoding="utf8"), required=True)</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Omitted Generics (x4)
 Explicit (x1)">@click.option(</span>
 <span class="line-precise" title="No Anys on this line!">    "--gout",</span>
@@ -174,7 +174,7 @@ Explicit (x1)">@click.option(</span>
 <span class="line-precise" title="No Anys on this line!">    help="Gold annotations output.",</span>
 <span class="line-precise" title="No Anys on this line!">    required=True,</span>
 <span class="line-empty" title="No Anys on this line!">)</span>
-<span class="line-precise" title="Any Types on this line:
+<span class="line-precise" title="Any Types on this line: 
 Omitted Generics (x7)">@click.pass_obj</span>
 <span class="line-any" title="No Anys on this line!">def prepare_gold(ctx, annotations, gout):</span>
 <span class="line-empty" title="No Anys on this line!">    """Prepare bc-evaluate gold file from annotations supplied by CHEMDNER."""</span>
@@ -184,15 +184,15 @@ Omitted Generics (x7)">@click.pass_obj</span>
 <span class="line-empty" title="No Anys on this line!">        gout.write(f"{pmid}\t{ta}:{start}:{end}\n")</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-precise" title="Any Types on this line:
+<span class="line-precise" title="Any Types on this line: 
 Explicit (x11)">@chemdner_cli.command()</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Omitted Generics (x4)
 Explicit (x1)">@click.argument("input", type=click.File("r", encoding="utf8"), required=True)</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Omitted Generics (x4)
 Explicit (x1)">@click.option("--annotations", "-a", type=click.File("r", encoding="utf8"), required=True)</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Omitted Generics (x4)
 Explicit (x1)">@click.option(</span>
 <span class="line-precise" title="No Anys on this line!">    "--tout",</span>
@@ -201,7 +201,7 @@ Explicit (x1)">@click.option(</span>
 <span class="line-precise" title="No Anys on this line!">    help="Token/POS/IOB file.",</span>
 <span class="line-precise" title="No Anys on this line!">    required=True,</span>
 <span class="line-empty" title="No Anys on this line!">)</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Omitted Generics (x4)
 Explicit (x1)">@click.option(</span>
 <span class="line-precise" title="No Anys on this line!">    "--lout",</span>
@@ -210,7 +210,7 @@ Explicit (x1)">@click.option(</span>
 <span class="line-precise" title="No Anys on this line!">    help="Token/IOB file.",</span>
 <span class="line-precise" title="No Anys on this line!">    required=True,</span>
 <span class="line-empty" title="No Anys on this line!">)</span>
-<span class="line-precise" title="Any Types on this line:
+<span class="line-precise" title="Any Types on this line: 
 Omitted Generics (x7)">@click.pass_obj</span>
 <span class="line-any" title="No Anys on this line!">def prepare_tokens(ctx, input, annotations, tout, lout):</span>
 <span class="line-empty" title="No Anys on this line!">    """Prepare tokenized and tagged corpus file from those supplied by CHEMDNER."""</span>
@@ -223,13 +223,13 @@ Omitted Generics (x7)">@click.pass_obj</span>
 <span class="line-empty" title="No Anys on this line!">    # Process the corpus</span>
 <span class="line-empty" title="No Anys on this line!">    for line in input:</span>
 <span class="line-empty" title="No Anys on this line!">        pmid, title, abstract = line.strip().split("\t")</span>
-<span class="line-empty" title="No Anys on this line!">        for t, section, anns in [</span>
+<span class="line-empty" title="No Anys on this line!">        for t, _section, anns in [</span>
 <span class="line-empty" title="No Anys on this line!">            (Title(title), "T", anndict.get((pmid, "T"), [])),</span>
 <span class="line-empty" title="No Anys on this line!">            (Paragraph(abstract), "A", anndict.get((pmid, "A"), [])),</span>
 <span class="line-empty" title="No Anys on this line!">        ]:</span>
 <span class="line-empty" title="No Anys on this line!">            # Write our tokens with POS and IOB tags</span>
 <span class="line-empty" title="No Anys on this line!">            tagged = _prep_tags(t, anns)</span>
-<span class="line-empty" title="No Anys on this line!">            for i, sentence in enumerate(tagged):</span>
+<span class="line-empty" title="No Anys on this line!">            for _i, sentence in enumerate(tagged):</span>
 <span class="line-empty" title="No Anys on this line!">                tout.write(</span>
 <span class="line-empty" title="No Anys on this line!">                    " ".join(["/".join([token, tag, label]) for token, tag, label in sentence])</span>
 <span class="line-empty" title="No Anys on this line!">                )</span>
@@ -243,7 +243,7 @@ Omitted Generics (x7)">@click.pass_obj</span>
 <span class="line-any" title="No Anys on this line!">def _prep_tags(t, annotations):</span>
 <span class="line-empty" title="No Anys on this line!">    """Apply IOB chemical entity tags and POS tags to text."""</span>
 <span class="line-empty" title="No Anys on this line!">    tags = [["O" for _ in sent.tokens] for sent in t.sentences]</span>
-<span class="line-empty" title="No Anys on this line!">    for start, end, text in annotations:</span>
+<span class="line-empty" title="No Anys on this line!">    for start, end, _text in annotations:</span>
 <span class="line-empty" title="No Anys on this line!">        done_first = False</span>
 <span class="line-empty" title="No Anys on this line!">        for i, sent in enumerate(t.sentences):</span>
 <span class="line-empty" title="No Anys on this line!">            for j, token in enumerate(sent.tokens):</span>
@@ -258,12 +258,12 @@ Omitted Generics (x7)">@click.pass_obj</span>
 <span class="line-empty" title="No Anys on this line!">    return tagged</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-precise" title="Any Types on this line:
+<span class="line-precise" title="Any Types on this line: 
 Explicit (x11)">@chemdner_cli.command()</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Omitted Generics (x4)
 Explicit (x1)">@click.option("--corpus", "-c", type=click.File("r", encoding="utf8"), required=True)</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Omitted Generics (x4)
 Explicit (x1)">@click.option(</span>
 <span class="line-precise" title="No Anys on this line!">    "--output",</span>
@@ -272,7 +272,7 @@ Explicit (x1)">@click.option(</span>
 <span class="line-precise" title="No Anys on this line!">    help="Output file.",</span>
 <span class="line-precise" title="No Anys on this line!">    default=click.get_text_stream("stdout"),</span>
 <span class="line-empty" title="No Anys on this line!">)</span>
-<span class="line-precise" title="Any Types on this line:
+<span class="line-precise" title="Any Types on this line: 
 Omitted Generics (x7)">@click.pass_obj</span>
 <span class="line-any" title="No Anys on this line!">def tag(ctx, corpus, output):</span>
 <span class="line-empty" title="No Anys on this line!">    """Tag chemical entities and write CHEMDNER annotations predictions file."""</span>

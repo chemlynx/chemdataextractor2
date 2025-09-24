@@ -1,10 +1,20 @@
 """
 Parser for sentences that provide contextual information, such as apparatus, solvent, and temperature.
 
+Provides parsing capabilities for scientific instrument and apparatus identification,
+including brands, models, and instrument types used in experimental procedures.
 """
+
+from __future__ import annotations
 
 import logging
 import re
+from collections.abc import Generator
+from typing import TYPE_CHECKING
+from typing import Any
+
+if TYPE_CHECKING:
+    from ..model.base import BaseModel
 
 from lxml import etree
 
@@ -84,9 +94,21 @@ apparatus_phrase = (
 
 
 class ApparatusParser(BaseSentenceParser):
+    """Parser for scientific apparatus and instrument identification."""
+
     root = apparatus_phrase
 
-    def interpret(self, result, start, end):
+    def interpret(self, result: Any, start: int, end: int) -> Generator[BaseModel, None, None]:
+        """Interpret parsed apparatus results.
+
+        Args:
+            result: Parsed result containing apparatus data
+            start: Starting position in text
+            end: Ending position in text
+
+        Yields:
+            BaseModel instances containing apparatus information
+        """
         log.debug(etree.tostring(result))
         apparatus = self.model(name=first(result.xpath("./text()")))
         log.debug(apparatus.serialize())

@@ -112,10 +112,7 @@ class Dimension(metaclass=_DimensionMeta):
                     return unit**power
         product_unit = None
         for unit, power in self._standard_units.items():
-            if not product_unit:
-                product_unit = unit**power
-            else:
-                product_unit = product_unit * (unit**power)
+            product_unit = unit**power if not product_unit else product_unit * unit**power
         return product_unit
 
     @standard_units.setter
@@ -184,11 +181,11 @@ class Dimension(metaclass=_DimensionMeta):
 
         if other._dimensions is not None:
             for key, value in other._dimensions.items():
-                if self._dimensions is not None and key in self._dimensions.keys():
-                    dimensions[key] += value
-                    if dimensions[key] == 0:
-                        dimensions.pop(key)
-                elif type(self) == type(key):
+                if (
+                    self._dimensions is not None
+                    and key in self._dimensions
+                    or type(self) == type(key)
+                ):
                     dimensions[key] += value
                     if dimensions[key] == 0:
                         dimensions.pop(key)
@@ -225,31 +222,31 @@ class Dimension(metaclass=_DimensionMeta):
         # preserve the units_dict.
         trial_units_dict = {}
         if self._dimensions:
-            for dimension in self._dimensions.keys():
+            for dimension in self._dimensions:
                 trial_units_dict.update(dimension.units_dict)
         if trial_units_dict != self.units_dict:
             new_model.units_dict = copy.copy(self.units_dict)
 
         trial_units_dict_other = {}
         if other._dimensions:
-            for dimension in other._dimensions.keys():
+            for dimension in other._dimensions:
                 trial_units_dict_other.update(dimension.units_dict)
         if trial_units_dict_other != other.units_dict:
             new_model.units_dict.update(other.units_dict)
 
-        for dimension in dimensions.keys():
+        for dimension in dimensions:
             new_model.units_dict.update(dimension.units_dict)
 
         if self._standard_units is not None and other._standard_units is not None:
             _standard_units = {}
             for unit, power in self._standard_units.items():
-                if unit not in _standard_units.keys():
+                if unit not in _standard_units:
                     _standard_units[unit] = power
                 else:
                     _standard_units[unit] += power
 
             for unit, power in other._standard_units.items():
-                if unit not in _standard_units.keys():
+                if unit not in _standard_units:
                     _standard_units[unit] = power
                 else:
                     _standard_units[unit] += power

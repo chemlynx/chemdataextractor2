@@ -12,12 +12,8 @@ import logging
 import re
 from abc import ABCMeta
 from abc import abstractmethod
-from typing import TYPE_CHECKING
 from collections.abc import Iterator
-from typing import List
-from typing import Optional
-from typing import Set
-from typing import Tuple
+from typing import TYPE_CHECKING
 
 from deprecation import deprecated
 from tokenizers import BertWordPieceTokenizer
@@ -776,7 +772,6 @@ class ChemWordTokenizer(WordTokenizer):
         "contra",
         "cortico",
         "cosa",
-        "counter",
         "cran",
         "crypto",
         "cyclo",
@@ -787,7 +782,6 @@ class ChemWordTokenizer(WordTokenizer):
         "di",
         "dis",
         "dl",
-        "eco",
         "electro",
         "endo",
         "ennea",
@@ -1466,17 +1460,14 @@ class ChemWordTokenizer(WordTokenizer):
 
     def _is_saccharide_arrow(self, before, after):
         """Return True if the arrow is in a chemical name."""
-        if (
+        return bool(
             before
             and after
             and before[-1].isdigit()
             and after[0].isdigit()
             and before.rstrip("0123456789").endswith("(")
             and after.lstrip("0123456789").startswith(")")
-        ):
-            return True
-        else:
-            return False
+        )
 
     def _subspan(self, s, span, nextspan, additional_regex):
         if additional_regex is None:
@@ -1906,7 +1897,7 @@ class BertWordTokenizer(ChemWordTokenizer):
         current_span = (0, 0)
         spans = []
         i = 0
-        zipped = [el for el in zip(offsets, given_tokens)]
+        zipped = list(zip(offsets, given_tokens, strict=False))
 
         while i < len(zipped):
             offset, token = zipped[i]
@@ -1919,13 +1910,7 @@ class BertWordTokenizer(ChemWordTokenizer):
                 and i < len(zipped) - 1
                 and zipped[i + 1][0][0] == offset[1]
                 and re.match(r"\d+$", s[zipped[i + 1][0][0] : zipped[i + 1][0][1]])
-            ):
-                i += 1
-                offset, token = zipped[i]
-                current_span = (current_span[0], offset[1])
-            # If symbol is in do_not_split and it's part of a word, i.e. it's not surrounded
-            # by whitespace, then don't split it
-            elif (
+            ) or (
                 s[offset[0] : offset[1]] in self.do_not_split
                 and offset[0] == current_span[1]
                 and i < len(zipped) - 1

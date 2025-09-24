@@ -11,8 +11,8 @@ import logging
 import re
 import unittest
 
-from chemdataextractor.parse.elements import Regex
 from chemdataextractor.parse.elements import ParseException
+from chemdataextractor.parse.elements import Regex
 
 logging.basicConfig(level=logging.DEBUG)
 log = logging.getLogger(__name__)

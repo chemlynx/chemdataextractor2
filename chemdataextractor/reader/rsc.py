@@ -1,15 +1,24 @@
 """
 Readers for documents from the RSC.
 
+Provides specialized HTML reader for Royal Society of Chemistry (RSC) publications
+with custom cleaning functions and table processing.
 """
 
+from __future__ import annotations
+
 import logging
+from typing import TYPE_CHECKING
+from typing import Any
 
 from ..doc.text import Footnote
 from ..scrape.clean import Cleaner
 from ..scrape.clean import clean
 from ..scrape.pub.rsc import replace_rsc_img_chars
 from .markup import HtmlReader
+
+if TYPE_CHECKING:
+    from lxml.html import HtmlElement
 
 log = logging.getLogger(__name__)
 
@@ -20,8 +29,15 @@ strip_rsc_html = Cleaner(
 )
 
 
-def rsc_html_whitespace(document):
-    """Remove whitespace in xml.text or xml.tails for all elements, if it is only whitespace"""
+def rsc_html_whitespace(document: HtmlElement) -> HtmlElement:
+    """Remove whitespace in xml.text or xml.tails for all elements, if it is only whitespace.
+
+    Args:
+        document: HTML document element to clean
+
+    Returns:
+        Cleaned HTML document element
+    """
     # selects all tags and checks if the text or tail are spaces
     for el in document.xpath("//*"):
         if el.tag == "b":
@@ -35,11 +51,14 @@ def rsc_html_whitespace(document):
     return document
 
 
-def join_rsc_table_captions(document):
-    """Add wrapper tag around Tables and their respective captions
+def join_rsc_table_captions(document: HtmlElement) -> HtmlElement:
+    """Add wrapper tag around Tables and their respective captions.
 
-    Arguments:
-        document {[type]} -- [description]
+    Args:
+        document: HTML document element to process
+
+    Returns:
+        Processed HTML document element
     """
     for el in document.xpath('//div[@class="table_caption"]'):
         next_el = el.getnext()
@@ -77,8 +96,17 @@ class RscHtmlReader(HtmlReader):
     figure_download_link_css = "img::attr(src)"
     ignore_css = '.table_caption + table, .left_head, sup span.sup_ref, small sup a, a[href^="#fn"], .PMedLink'
 
-    def _parse_table_footnotes(self, fns, refs, specials):
-        """Override to account for awkward RSC table footnotes."""
+    def _parse_table_footnotes(self, fns: list[HtmlElement], refs: dict[str, Any], specials: dict[str, Any]) -> list[Footnote]:
+        """Override to account for awkward RSC table footnotes.
+
+        Args:
+            fns: List of footnote elements
+            refs: Reference mapping dictionary
+            specials: Special elements mapping dictionary
+
+        Returns:
+            List of parsed Footnote objects
+        """
         footnotes = []
         for fn in fns:
             footnote = self._parse_text(fn, refs=refs, specials=specials, element_cls=Footnote)[0]
@@ -86,13 +114,19 @@ class RscHtmlReader(HtmlReader):
             footnotes.append(footnote)
         return footnotes
 
-    def detect(self, fstring, fname=None):
-        """"""
+    def detect(self, fstring: str | bytes, fname: str | None = None) -> bool:
+        """Detect RSC HTML documents.
+
+        Args:
+            fstring: Input data to check
+            fname: Optional filename for format hints
+
+        Returns:
+            True if this appears to be an RSC HTML document
+        """
         if fname and not (fname.endswith(".html") or fname.endswith(".htm")):
             return False
-        if (
+        return bool(
             b'meta name="citation_doi" content="10.1039' in fstring
             or b'meta content="Royal Society of Chemistry"' in fstring
-        ):
-            return True
-        return False
+        )

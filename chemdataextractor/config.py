@@ -4,14 +4,16 @@ Config file reader/writer.
 """
 
 import os
+from collections.abc import Iterator
 from collections.abc import MutableMapping
+from typing import Any
 
 import appdirs
 import yaml
 from yaml import SafeLoader
 
 
-def construct_yaml_str(self, node):
+def construct_yaml_str(self: SafeLoader, node: yaml.Node) -> str:
     """Override the default string handling function to always return unicode objects."""
     return self.construct_scalar(node)
 
@@ -19,7 +21,7 @@ def construct_yaml_str(self, node):
 SafeLoader.add_constructor("tag:yaml.org,2002:str", construct_yaml_str)
 
 
-class Config(MutableMapping):
+class Config(MutableMapping[str, Any]):
     """Read and write to config file.
 
     A config object is essentially a string key-value store that can be treated like a dictionary::
@@ -44,13 +46,13 @@ class Config(MutableMapping):
 
     """
 
-    def __init__(self, path=None):
+    def __init__(self, path: str | None = None) -> None:
         """
 
         :param string path: (Optional) Path to config file location.
         """
-        self._path = path
-        self._data = {}
+        self._path: str | None = path
+        self._data: dict[str, Any] = {}
 
         # Use CHEMDATAEXTRACTOR_CONFIG environment variable if set
         if not self._path:
@@ -63,16 +65,16 @@ class Config(MutableMapping):
             )
         if os.path.isfile(self.path):
             with open(self.path, encoding="utf8") as f:
-                self._data = yaml.safe_load(f)
-                if self._data is None:
-                    self._data = {}
+                self._data = yaml.safe_load(f) or {}
 
     @property
-    def path(self):
+    def path(self) -> str:
         """The path to the config file."""
+        if self._path is None:
+            raise ValueError("Config path not set")
         return self._path
 
-    def _flush(self):
+    def _flush(self) -> None:
         """Save the contents of data to the file on disk. You should not need to call this manually."""
         d = os.path.dirname(self.path)
         if not os.path.isdir(d):
@@ -80,30 +82,30 @@ class Config(MutableMapping):
         with open(self.path, "w", encoding="utf8") as f:
             yaml.safe_dump(self._data, f, default_flow_style=False, encoding=None)
 
-    def __contains__(self, k):
+    def __contains__(self, k: object) -> bool:
         return k in self._data
 
-    def __getitem__(self, k):
+    def __getitem__(self, k: str) -> Any:
         return self._data[k]
 
-    def __setitem__(self, k, v):
+    def __setitem__(self, k: str, v: Any) -> None:
         self._data[k] = v
         self._flush()
 
-    def __delitem__(self, k):
+    def __delitem__(self, k: str) -> None:
         del self._data[k]
         self._flush()
 
-    def __iter__(self):
+    def __iter__(self) -> Iterator[str]:
         return iter(self._data)
 
-    def __len__(self):
+    def __len__(self) -> int:
         return len(self._data)
 
-    def __repr__(self):
+    def __repr__(self) -> str:
         return f"<Config: {self.path}>"
 
-    def clear(self):
+    def clear(self) -> None:
         """Clear all values from config."""
         self._data = {}
         self._flush()

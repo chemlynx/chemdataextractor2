@@ -1,10 +1,20 @@
 """
-Melting Point parser using the QuantityParser framework
+Melting Point parser using the QuantityParser framework.
 
+Provides parsing capabilities for melting point measurements,
+including temperature values, units, and compound associations.
 """
+
+from __future__ import annotations
 
 import logging
 import re
+from collections.abc import Generator
+from typing import TYPE_CHECKING
+from typing import Any
+
+if TYPE_CHECKING:
+    from ..model.base import BaseModel
 
 from lxml import etree
 
@@ -93,12 +103,24 @@ mp_phrase = cem_mp_phrase | to_give_mp_phrase | obtained_mp_phrase
 class MpParser(BaseSentenceParser):
     """
     MpParser rewritten to extract values and errors.
+
+    Uses contextual merging to handle compound associations automatically.
     """
 
     root = mp_phrase
     trigger_phrase = prefix
 
-    def interpret(self, result, start, end):
+    def interpret(self, result: Any, start: int, end: int) -> Generator[BaseModel, None, None]:
+        """Interpret parsed melting point results.
+
+        Args:
+            result: Parsed result containing melting point data
+            start: Starting position in text
+            end: Ending position in text
+
+        Yields:
+            BaseModel instances containing melting point data
+        """
         log.debug(etree.tostring(result))
         try:
             raw_value = first(result.xpath("./mp/raw_value/text()"))

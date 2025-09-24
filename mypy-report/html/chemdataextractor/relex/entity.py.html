@@ -104,12 +104,6 @@
 <span id="L94" class="lineno"><a class="lineno" href="#L94">94</a></span>
 <span id="L95" class="lineno"><a class="lineno" href="#L95">95</a></span>
 <span id="L96" class="lineno"><a class="lineno" href="#L96">96</a></span>
-<span id="L97" class="lineno"><a class="lineno" href="#L97">97</a></span>
-<span id="L98" class="lineno"><a class="lineno" href="#L98">98</a></span>
-<span id="L99" class="lineno"><a class="lineno" href="#L99">99</a></span>
-<span id="L100" class="lineno"><a class="lineno" href="#L100">100</a></span>
-<span id="L101" class="lineno"><a class="lineno" href="#L101">101</a></span>
-<span id="L102" class="lineno"><a class="lineno" href="#L102">102</a></span>
 </pre></td>
 <td class="table-code"><pre><span class="line-empty" title="No Anys on this line!">"""</span>
 <span class="line-empty" title="No Anys on this line!">Entity objects for relationship extraction.</span>
@@ -122,9 +116,6 @@
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">import copy</span>
 <span class="line-precise" title="No Anys on this line!">from typing import TYPE_CHECKING</span>
-<span class="line-precise" title="No Anys on this line!">from typing import List</span>
-<span class="line-precise" title="No Anys on this line!">from typing import Tuple</span>
-<span class="line-precise" title="No Anys on this line!">from typing import Union</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="No Anys on this line!">import six</span>
 <span class="line-empty" title="No Anys on this line!"></span>
@@ -135,9 +126,9 @@
 <span class="line-precise" title="No Anys on this line!">    from ..parse.base import BaseParserElement</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!"># Type aliases for entities</span>
-<span class="line-precise" title="Any Types on this line:
+<span class="line-precise" title="Any Types on this line: 
 Omitted Generics (x6)">type EntityTag = str | list[str]  # Tag(s) for entity classification</span>
-<span class="line-precise" title="Any Types on this line:
+<span class="line-precise" title="Any Types on this line: 
 Omitted Generics (x6)">type TextSpan = tuple[int, int]  # Start and end positions in text</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!"></span>
@@ -148,7 +139,7 @@ Omitted Generics (x6)">type TextSpan = tuple[int, int]  # Start and end position
 <span class="line-empty" title="No Anys on this line!">    in relationships extracted from text.</span>
 <span class="line-empty" title="No Anys on this line!">    """</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unimported (x1)">    def __init__(</span>
 <span class="line-empty" title="No Anys on this line!">        self, text: str, tag: EntityTag, parse_expression: BaseParserElement, start: int, end: int</span>
 <span class="line-empty" title="No Anys on this line!">    ) -&gt; None:</span>
@@ -161,22 +152,22 @@ Unimported (x1)">    def __init__(</span>
 <span class="line-empty" title="No Anys on this line!">            start: Starting token index of the entity</span>
 <span class="line-empty" title="No Anys on this line!">            end: Ending token index of the entity</span>
 <span class="line-empty" title="No Anys on this line!">        """</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unimported (x4)">        self.text = six.text_type(text)</span>
 <span class="line-precise" title="No Anys on this line!">        self.tag = tag</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unimported (x5)">        self.parse_expression = copy.copy(parse_expression)</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unimported (x3)">        self.parse_expression.set_name(None)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unimported (x6)">        if self.parse_expression.name is None or self.parse_expression.name == "compound":</span>
-<span class="line-precise" title="Any Types on this line:
+<span class="line-precise" title="Any Types on this line: 
 Omitted Generics (x2)">            if isinstance(self.tag, tuple):</span>
 <span class="line-unanalyzed" title="No Anys on this line!">                for sub_tag in self.tag:</span>
 <span class="line-unanalyzed" title="No Anys on this line!">                    self.parse_expression = Group(self.parse_expression)(sub_tag)</span>
 <span class="line-empty" title="No Anys on this line!">            else:</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x4)
 Unimported (x2)">                self.parse_expression = Group(self.parse_expression)(self.tag).add_action(join)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
@@ -184,10 +175,7 @@ Unimported (x2)">                self.parse_expression = Group(self.parse_expres
 <span class="line-precise" title="No Anys on this line!">        self.start = start</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="No Anys on this line!">    def __eq__(self, other):</span>
-<span class="line-empty" title="No Anys on this line!">        if self.text == other.text and self.end == other.end and self.start == other.start:</span>
-<span class="line-empty" title="No Anys on this line!">            return True</span>
-<span class="line-empty" title="No Anys on this line!">        else:</span>
-<span class="line-empty" title="No Anys on this line!">            return False</span>
+<span class="line-empty" title="No Anys on this line!">        return bool(self.text == other.text and self.end == other.end and self.start == other.start)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="No Anys on this line!">    def __repr__(self):</span>
 <span class="line-empty" title="No Anys on this line!">        if isinstance(self.tag, str):</span>
@@ -199,7 +187,7 @@ Unimported (x2)">                self.parse_expression = Group(self.parse_expres
 <span class="line-empty" title="No Anys on this line!">                "("</span>
 <span class="line-empty" title="No Anys on this line!">                + self.text</span>
 <span class="line-empty" title="No Anys on this line!">                + ","</span>
-<span class="line-empty" title="No Anys on this line!">                + "_".join([i for i in self.tag])</span>
+<span class="line-empty" title="No Anys on this line!">                + "_".join(list(self.tag))</span>
 <span class="line-empty" title="No Anys on this line!">                + ","</span>
 <span class="line-empty" title="No Anys on this line!">                + str(self.start)</span>
 <span class="line-empty" title="No Anys on this line!">                + ","</span>
@@ -213,7 +201,7 @@ Unimported (x2)">                self.parse_expression = Group(self.parse_expres
 <span class="line-any" title="No Anys on this line!">    def serialize(self):</span>
 <span class="line-empty" title="No Anys on this line!">        output = current = {}</span>
 <span class="line-empty" title="No Anys on this line!">        if "__" in self.tag:</span>
-<span class="line-empty" title="No Anys on this line!">            tag = [i for i in self.tag.split("__")]</span>
+<span class="line-empty" title="No Anys on this line!">            tag = list(self.tag.split("__"))</span>
 <span class="line-empty" title="No Anys on this line!">            for i, t in enumerate(tag):</span>
 <span class="line-empty" title="No Anys on this line!">                if i == len(tag) - 1:</span>
 <span class="line-empty" title="No Anys on this line!">                    current[t] = self.text</span>

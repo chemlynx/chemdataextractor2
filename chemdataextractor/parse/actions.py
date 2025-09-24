@@ -10,7 +10,6 @@ from __future__ import annotations
 import logging
 import re
 from typing import Any
-from typing import List
 
 from lxml.builder import E
 from lxml.etree import strip_tags
@@ -60,7 +59,7 @@ def join(tokens: TokenList, start: int, result: ParseResult) -> ParseResult:
         return [E(result[0].tag, " ".join(texts))]
 
 
-def merge(tokens, start, result):
+def merge(tokens: TokenList, start: int, result: ParseResult) -> ParseResult:
     """Join tokens into a single string with no spaces."""
     texts = []
     if len(result) > 0:
@@ -71,7 +70,7 @@ def merge(tokens, start, result):
         return [E(result[0].tag, "".join(texts))]
 
 
-def strip_stop(tokens, start, result):
+def strip_stop(tokens: TokenList, start: int, result: ParseResult) -> ParseResult:
     """Remove trailing full stop from tokens."""
     for e in result:
         for child in e.iter():
@@ -80,7 +79,7 @@ def strip_stop(tokens, start, result):
     return result
 
 
-def fix_whitespace(tokens, start, result):
+def fix_whitespace(tokens: TokenList, start: int, result: ParseResult) -> ParseResult:
     """Fix whitespace around hyphens and commas. Can be used to remove whitespace tokenization artefacts."""
     for e in result:
         for child in e.iter():

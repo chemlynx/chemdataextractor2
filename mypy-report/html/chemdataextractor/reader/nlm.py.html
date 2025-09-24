@@ -102,8 +102,6 @@
 <span id="L92" class="lineno"><a class="lineno" href="#L92">92</a></span>
 <span id="L93" class="lineno"><a class="lineno" href="#L93">93</a></span>
 <span id="L94" class="lineno"><a class="lineno" href="#L94">94</a></span>
-<span id="L95" class="lineno"><a class="lineno" href="#L95">95</a></span>
-<span id="L96" class="lineno"><a class="lineno" href="#L96">96</a></span>
 </pre></td>
 <td class="table-code"><pre><span class="line-empty" title="No Anys on this line!">"""</span>
 <span class="line-empty" title="No Anys on this line!">Readers for NLM Journal Archiving and Interchange DTD XML files. (i.e. from PubMed Central)</span>
@@ -203,9 +201,7 @@ Unannotated (x1)">        if b'xmlns="http://jats.nlm.nih.gov/ns/archiving' in f
 Unannotated (x1)">        if b"JATS-archivearticle1.dtd" in fstring:</span>
 <span class="line-any" title="No Anys on this line!">            return True</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x1)">        if b"-//NLM//DTD JATS" in fstring:</span>
-<span class="line-any" title="No Anys on this line!">            return True</span>
-<span class="line-any" title="No Anys on this line!">        return False</span>
+Unannotated (x1)">        return b"-//NLM//DTD JATS" in fstring</span>
 </pre></td>
 </tr></tbody>
 </table>

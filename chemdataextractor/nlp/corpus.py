@@ -1,9 +1,14 @@
 """
 Tools for reading and writing text corpora.
 
+Provides lazy loading corpus readers and utilities for processing
+text corpora with NLTK-compatible interfaces.
 """
 
+from __future__ import annotations
+
 import gc
+from typing import Any
 
 from nltk.corpus import BracketParseCorpusReader
 from nltk.corpus import ChunkedCorpusReader
@@ -17,7 +22,7 @@ from nltk.tokenize import RegexpTokenizer
 class LazyCorpusLoader:
     """Derived from NLTK LazyCorpusLoader."""
 
-    def __init__(self, name, reader_cls, *args, **kwargs):
+    def __init__(self, name: str, reader_cls: type, *args: Any, **kwargs: Any) -> None:
         from nltk.corpus.reader.api import CorpusReader
 
         assert issubclass(reader_cls, CorpusReader)
@@ -26,7 +31,7 @@ class LazyCorpusLoader:
         self.__args = args
         self.__kwargs = kwargs
 
-    def __load(self):
+    def __load(self) -> None:
         # Find the corpus root directory.
         corpus = self.__reader_cls(*self.__args, **self.__kwargs)
         args, kwargs = self.__args, self.__kwargs
@@ -34,7 +39,7 @@ class LazyCorpusLoader:
         self.__dict__ = corpus.__dict__
         self.__class__ = corpus.__class__
 
-        def _unload(self):
+        def _unload(self) -> None:
             lazy_reader = LazyCorpusLoader(name, reader_cls, *args, **kwargs)
             self.__dict__ = lazy_reader.__dict__
             self.__class__ = lazy_reader.__class__
@@ -42,27 +47,27 @@ class LazyCorpusLoader:
 
         self._unload = _make_bound_method(_unload, self)
 
-    def __getattr__(self, attr):
+    def __getattr__(self, attr: str) -> Any:
         if attr == "__bases__":
             raise AttributeError("LazyCorpusLoader object has no attribute '__bases__'")
         self.__load()
         return getattr(self, attr)
 
-    def __repr__(self):
+    def __repr__(self) -> str:
         return "<{} in {!r} (not loaded yet)>".format(
             self.__reader_cls.__name__,
             ".../corpora/" + self.__name,
         )
 
-    def _unload(self):
+    def _unload(self) -> None:
         pass
 
 
-def _make_bound_method(func, self):
+def _make_bound_method(func: Any, self: Any) -> Any:
     """Magic for creating bound methods (used for _unload)."""
 
     class Foo:
-        def meth(self):
+        def meth(self: Any) -> Any:
             pass
 
     f = Foo()
@@ -73,9 +78,9 @@ def _make_bound_method(func, self):
         return bound_method(func, self)
 
 
-def _read_chemdner_line_block(stream):
+def _read_chemdner_line_block(stream: Any) -> list[str]:
     toks = []
-    for i in range(20):
+    for _i in range(20):
         line = stream.readline()
         if not line:
             return toks

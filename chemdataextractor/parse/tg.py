@@ -1,9 +1,19 @@
 """
 Glass transition temperature parser.
 
+Provides parsing capabilities for glass transition temperature measurements,
+including temperature values, units, and compound associations.
 """
 
+from __future__ import annotations
+
 import logging
+from collections.abc import Generator
+from typing import TYPE_CHECKING
+from typing import Any
+
+if TYPE_CHECKING:
+    from ..model.base import BaseModel
 
 from ..utils import first
 from .actions import merge
@@ -83,11 +93,21 @@ tg_phrase = cem_tg_phrase | obtained_tg_phrase
 
 
 class TgParser(BaseParser):
-    """"""
+    """Parser for glass transition temperature measurements."""
 
     root = tg_phrase
 
-    def interpret(self, result, start, end):
+    def interpret(self, result: Any, start: int, end: int) -> Generator[BaseModel, None, None]:
+        """Interpret parsed glass transition temperature results.
+
+        Args:
+            result: Parsed result containing glass transition data
+            start: Starting position in text
+            end: Ending position in text
+
+        Yields:
+            BaseModel instances containing glass transition temperature data
+        """
         compound = self.model.fields["compound"].model_class()
         glass_transition = self.model(
             value=first(result.xpath("./tg/value/text()")),

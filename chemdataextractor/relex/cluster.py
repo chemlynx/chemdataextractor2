@@ -9,8 +9,6 @@ from __future__ import annotations
 
 from collections import OrderedDict
 from typing import Any
-from typing import List
-from typing import Optional
 
 import numpy as np
 from scipy import spatial
@@ -77,8 +75,8 @@ class Cluster:
 
         """
         # Go through the prefix, middle and suffix elements
-        for element in phrase.elements.keys():  # Prefix, middles, suffix
-            if element not in self.dictionaries.keys():
+        for element in phrase.elements:  # Prefix, middles, suffix
+            if element not in self.dictionaries:
                 self.dictionaries[element] = {
                     "token dict": OrderedDict(),
                     "unique words": [],  # Which words appear once
@@ -101,7 +99,7 @@ class Cluster:
 
         """
         for token in tokens:
-            if token not in dictionary["token dict"].keys():
+            if token not in dictionary["token dict"]:
                 dictionary["total words"] += 1
                 dictionary["token dict"][token] = [1.0, 0]  # [frequeny, weight]
             else:
@@ -111,8 +109,8 @@ class Cluster:
 
     def update_weights(self):
         """Update the weights on each token in the phrases"""
-        for element in self.dictionaries.keys():
-            for token in self.dictionaries[element]["token dict"].keys():
+        for element in self.dictionaries:
+            for token in self.dictionaries[element]["token dict"]:
                 freq = self.dictionaries[element]["token dict"][token][0]
                 weight = freq / self.dictionaries[element]["total words"]
                 self.dictionaries[element]["token dict"][token] = [freq, weight]
@@ -133,11 +131,11 @@ class Cluster:
 
         # Create a dict of vectors for all phrases in the cluster
         for phrase in self.phrases:
-            for element in phrase.elements.keys():  # Prefix, ,iddles, suffix
-                if element not in vectors.keys():
+            for element in phrase.elements:  # Prefix, ,iddles, suffix
+                if element not in vectors:
                     vectors[element] = []
                 phrase_element_vector = []
-                for token in self.dictionaries[element]["token dict"].keys():
+                for token in self.dictionaries[element]["token dict"]:
                     if token in phrase.elements[element]["tokens"]:
                         phrase_element_vector.append(
                             self.dictionaries[element]["token dict"][token][1]
@@ -150,15 +148,12 @@ class Cluster:
         # print("Vectors", vectors)
 
         # Find the centroid vector for prefix, middles, suffix
-        for element in vectors.keys():
+        for element in vectors:
             element_array = np.array(vectors[element])
             # print("Element", element)
             # print("Element Array", element_array)
             # compute mode of vectors
-            if element_array.any():
-                element_mode = mode_rows(element_array)
-            else:
-                element_mode = np.array([])
+            element_mode = mode_rows(element_array) if element_array.any() else np.array([])
             # print("Mode", element_mode)
             medoid_idx = spatial.KDTree(element_array).query(element_mode)[1]
             # print("Idx", medoid_idx)
@@ -231,7 +226,7 @@ class Cluster:
                 # print("Relation", pattern_relation)
                 found_entities = []
                 for pattern_entity in pattern_relation.entities:
-                    if pattern_entity.tag not in entity_type_indexes.keys():
+                    if pattern_entity.tag not in entity_type_indexes:
                         entity_type_indexes[pattern_entity.tag] = [pattern_entity]
                     else:
                         if pattern_entity not in entity_type_indexes[pattern_entity.tag]:

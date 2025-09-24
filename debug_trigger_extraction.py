@@ -5,9 +5,10 @@ Debug Trigger Phrase Extraction
 Investigate why the optimized system isn't matching triggers properly.
 """
 
+from chemdataextractor.doc import Document
 from chemdataextractor.parse.mp_new import MpParser
 from chemdataextractor.parse.optimized_triggers import TriggerPhraseIndex
-from chemdataextractor.doc import Document
+
 
 def debug_trigger_extraction():
     print("🔍 Debugging Trigger Phrase Extraction")
@@ -28,47 +29,49 @@ def debug_trigger_extraction():
     # Deep inspection of trigger phrase structure
     if parser.trigger_phrase:
         print(f"Has exprs: {hasattr(parser.trigger_phrase, 'exprs')}")
-        if hasattr(parser.trigger_phrase, 'exprs'):
+        if hasattr(parser.trigger_phrase, "exprs"):
             print(f"Number of expressions: {len(parser.trigger_phrase.exprs)}")
             for i, expr in enumerate(parser.trigger_phrase.exprs):
-                print(f"  Expression {i+1}: {expr} (type: {type(expr)})")
-                if hasattr(expr, 'name'):
+                print(f"  Expression {i + 1}: {expr} (type: {type(expr)})")
+                if hasattr(expr, "name"):
                     print(f"    - name: {expr.name}")
-                if hasattr(expr, 'pattern'):
+                if hasattr(expr, "pattern"):
                     print(f"    - pattern: {expr.pattern}")
-                if hasattr(expr, 'match'):
+                if hasattr(expr, "match"):
                     print(f"    - match: {expr.match}")
-                if hasattr(expr, 'exprs'):
+                if hasattr(expr, "exprs"):
                     print(f"    - has sub-expressions: {len(expr.exprs)}")
                     # Dive one level deeper
                     for j, subexpr in enumerate(expr.exprs[:3]):  # Show first 3
-                        print(f"      Sub-expr {j+1}: {subexpr} (type: {type(subexpr)})")
-                        if hasattr(subexpr, 'match'):
+                        print(f"      Sub-expr {j + 1}: {subexpr} (type: {type(subexpr)})")
+                        if hasattr(subexpr, "match"):
                             print(f"        - match: {subexpr.match}")
-                        if hasattr(subexpr, 'pattern'):
+                        if hasattr(subexpr, "pattern"):
                             print(f"        - pattern: {subexpr.pattern}")
-                if hasattr(expr, 'expr'):
+                if hasattr(expr, "expr"):
                     print(f"    - has inner expr: {expr.expr} (type: {type(expr.expr)})")
-                    if hasattr(expr.expr, 'match'):
+                    if hasattr(expr.expr, "match"):
                         print(f"      - inner match: {expr.expr.match}")
-                    if hasattr(expr.expr, 'exprs'):
+                    if hasattr(expr.expr, "exprs"):
                         print(f"      - inner sub-expressions: {len(expr.expr.exprs)}")
                         for k, innerexpr in enumerate(expr.expr.exprs[:3]):
-                            print(f"        Inner-expr {k+1}: {innerexpr} (type: {type(innerexpr)})")
-                            if hasattr(innerexpr, 'match'):
+                            print(
+                                f"        Inner-expr {k + 1}: {innerexpr} (type: {type(innerexpr)})"
+                            )
+                            if hasattr(innerexpr, "match"):
                                 print(f"          - match: {innerexpr.match}")
 
         # Test original trigger matching
         original_results = list(parser.trigger_phrase.scan(sentence.tokens))
         print(f"Original scan results: {len(original_results)} matches")
         for i, result in enumerate(original_results[:3]):  # Show first 3
-            print(f"  Match {i+1}: {result}")
+            print(f"  Match {i + 1}: {result}")
 
     # Test trigger phrase extraction
-    print(f"\n📊 Testing TriggerPhraseIndex extraction...")
+    print("\n📊 Testing TriggerPhraseIndex extraction...")
     index = TriggerPhraseIndex()
 
-    if hasattr(parser, 'trigger_phrase') and parser.trigger_phrase:
+    if hasattr(parser, "trigger_phrase") and parser.trigger_phrase:
         phrases = index._extract_trigger_phrases(parser.trigger_phrase)
         print(f"Extracted phrases: {phrases}")
 

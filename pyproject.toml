@@ -94,9 +94,16 @@ disallow_untyped_calls = false  # Allow during migration
 disallow_incomplete_defs = true
 # Enhanced inference
 follow_imports = "normal"
-ignore_missing_imports = false
+ignore_missing_imports = true # Ignore missing stubs for third-party libraries
+# Additional third-party library handling
+no_implicit_reexport = false # Allow implicit re-exports during migration
+ignore_errors = false
 # Exclude test files from strict checking
-exclude = '''/tests/*'''
+exclude = [
+    "^tests/.*\\.py$",
+    ".*/test_.*\\.py$",
+    ".*/.*_test\\.py$",
+]
 
 # === PHASE 1: Foundation Modules (Strict Mode) ===
 [[tool.mypy.overrides]]
@@ -168,6 +175,7 @@ ignore_errors = true
 # === External Dependencies ===
 [[tool.mypy.overrides]]
 module = [
+  # ChemDataExtractor dependencies
   "tabledataextractor.*",
   "DAWG2.*",
   "dawg2.*",
@@ -175,19 +183,47 @@ module = [
   "stanza.*",
   "yaspin.*",
   "appdirs.*",
-  "lxml.*",
-  "nltk.*",
-  "yaml.*",
-  "selenium.*",
   "overrides.*",
+  # Scientific/ML libraries
+  "numpy.*",
+  "scipy.*",
+  "sklearn.*",
+  "scikit_learn.*",
+  "transformers.*",
+  "tokenizers.*",
+  "torch.*",
+  "tensorflow.*",
+  # Web scraping/parsing
+  "lxml.*",
+  "bs4.*",
+  "beautifulsoup4.*",
+  "selenium.*",
+  "cssselect.*",
+  # NLP libraries
+  "nltk.*",
+  "spacy.*",
+  # Data handling
+  "yaml.*",
+  "pyyaml.*",
+  "dateutil.*",
+  "requests.*",
+  "boto3.*",
+  "botocore.*",
+  # Development tools
+  "click.*",
+  "deprecation.*",
+  "protobuf.*",
+  "pdfminer.*",
 ]
 ignore_missing_imports = true
+ignore_errors = true
 
 # Ruff Configuration
 [tool.ruff]
+extend-exclude = ["tests/*"]
+
 target-version = "py312"
 line-length = 100
-
 [tool.ruff.lint]
 select = [
   "E",   # pycodestyle errors

@@ -66,13 +66,13 @@ def prepare_tokens(ctx, input, annotations, tout, lout):
     # Process the corpus
     for line in input:
         pmid, title, abstract = line.strip().split("\t")
-        for t, section, anns in [
+        for t, _section, anns in [
             (Title(title), "T", anndict.get((pmid, "T"), [])),
             (Paragraph(abstract), "A", anndict.get((pmid, "A"), [])),
         ]:
             # Write our tokens with POS and IOB tags
             tagged = _prep_tags(t, anns)
-            for i, sentence in enumerate(tagged):
+            for _i, sentence in enumerate(tagged):
                 tout.write(
                     " ".join(["/".join([token, tag, label]) for token, tag, label in sentence])
                 )
@@ -86,7 +86,7 @@ def prepare_tokens(ctx, input, annotations, tout, lout):
 def _prep_tags(t, annotations):
     """Apply IOB chemical entity tags and POS tags to text."""
     tags = [["O" for _ in sent.tokens] for sent in t.sentences]
-    for start, end, text in annotations:
+    for start, end, _text in annotations:
         done_first = False
         for i, sent in enumerate(t.sentences):
             for j, token in enumerate(sent.tokens):

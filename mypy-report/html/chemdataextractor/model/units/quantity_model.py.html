@@ -426,10 +426,6 @@
 <span id="L416" class="lineno"><a class="lineno" href="#L416">416</a></span>
 <span id="L417" class="lineno"><a class="lineno" href="#L417">417</a></span>
 <span id="L418" class="lineno"><a class="lineno" href="#L418">418</a></span>
-<span id="L419" class="lineno"><a class="lineno" href="#L419">419</a></span>
-<span id="L420" class="lineno"><a class="lineno" href="#L420">420</a></span>
-<span id="L421" class="lineno"><a class="lineno" href="#L421">421</a></span>
-<span id="L422" class="lineno"><a class="lineno" href="#L422">422</a></span>
 </pre></td>
 <td class="table-code"><pre><span class="line-empty" title="No Anys on this line!">"""</span>
 <span class="line-empty" title="No Anys on this line!">Base types for making quantity models.</span>
@@ -444,8 +440,6 @@
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">from typing import TYPE_CHECKING</span>
 <span class="line-precise" title="No Anys on this line!">from typing import Any</span>
-<span class="line-precise" title="No Anys on this line!">from typing import Dict</span>
-<span class="line-precise" title="No Anys on this line!">from typing import Tuple</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">from ...parse.auto import AutoTableParser</span>
 <span class="line-precise" title="No Anys on this line!">from ...parse.auto import construct_unit_element</span>
@@ -483,20 +477,20 @@
 <span class="line-empty" title="No Anys on this line!">    fields based on the model's dimensions.</span>
 <span class="line-empty" title="No Anys on this line!">    """</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-imprecise" title="Any Types on this line:
+<span class="line-imprecise" title="Any Types on this line: 
 Explicit (x1)">    def __new__(mcs, name: str, bases: tuple[type, ...], attrs: dict[str, Any]) -&gt; type:</span>
-<span class="line-imprecise" title="Any Types on this line:
+<span class="line-imprecise" title="Any Types on this line: 
 Explicit (x1)">        cls = super().__new__(mcs, name, bases, attrs)</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Explicit (x1)
 Error (x1)">        unit_element = construct_unit_element(cls.dimensions)</span>
 <span class="line-precise" title="No Anys on this line!">        if unit_element:</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x1)
 Unimported (x1)
 Omitted Generics (x2)">            cls.fields["raw_units"].parse_expression = unit_element(None)</span>
-<span class="line-any" title="Any Types on this line:
-Unannotated (x5)
+<span class="line-any" title="Any Types on this line: 
+Unannotated (x1)
 Unimported (x1)
 Omitted Generics (x2)">        cls.fields["raw_value"].parse_expression = value_element()(None)</span>
 <span class="line-precise" title="No Anys on this line!">        return cls</span>
@@ -527,34 +521,34 @@ Omitted Generics (x2)">        cls.fields["raw_value"].parse_expression = value_
 <span class="line-empty" title="No Anys on this line!">        specifier: str - Quantity specifier text</span>
 <span class="line-empty" title="No Anys on this line!">    """</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-precise" title="Any Types on this line:
+<span class="line-precise" title="Any Types on this line: 
 Unimported (x1)">    raw_value = StringType(required=True, contextual=True)</span>
-<span class="line-precise" title="Any Types on this line:
+<span class="line-precise" title="Any Types on this line: 
 Unimported (x1)">    raw_units = StringType(required=True, contextual=True)</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Explicit (x2)">    value = InferredProperty(</span>
-<span class="line-precise" title="Any Types on this line:
+<span class="line-precise" title="Any Types on this line: 
 Explicit (x1)
 Unimported (x1)">        ListType(FloatType(), sorted_=True),</span>
 <span class="line-precise" title="No Anys on this line!">        origin_field="raw_value",</span>
-<span class="line-precise" title="Any Types on this line:
-Unannotated (x3)">        inferrer=infer_value,</span>
+<span class="line-precise" title="Any Types on this line: 
+Explicit (x1)">        inferrer=infer_value,</span>
 <span class="line-precise" title="No Anys on this line!">        contextual=True,</span>
 <span class="line-empty" title="No Anys on this line!">    )</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Explicit (x2)">    units = InferredProperty(</span>
-<span class="line-precise" title="Any Types on this line:
+<span class="line-precise" title="Any Types on this line: 
 Unimported (x1)
-Unannotated (x3)">        UnitType(), origin_field="raw_units", inferrer=infer_unit, contextual=True</span>
+Explicit (x2)">        UnitType(), origin_field="raw_units", inferrer=infer_unit, contextual=True</span>
 <span class="line-empty" title="No Anys on this line!">    )</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Explicit (x2)">    error = InferredProperty(</span>
-<span class="line-precise" title="Any Types on this line:
+<span class="line-precise" title="Any Types on this line: 
 Unimported (x1)
-Unannotated (x3)">        FloatType(), origin_field="raw_value", inferrer=infer_error, contextual=True</span>
+Explicit (x1)">        FloatType(), origin_field="raw_value", inferrer=infer_error, contextual=True</span>
 <span class="line-empty" title="No Anys on this line!">    )</span>
 <span class="line-precise" title="No Anys on this line!">    dimensions: Dimension = None  # type: ignore[assignment]</span>
-<span class="line-precise" title="Any Types on this line:
+<span class="line-precise" title="Any Types on this line: 
 Unimported (x1)">    specifier = StringType()</span>
 <span class="line-precise" title="No Anys on this line!">    parsers = [</span>
 <span class="line-precise" title="No Anys on this line!">        MultiQuantityModelTemplateParser(),</span>
@@ -604,25 +598,25 @@ Unimported (x1)">    specifier = StringType()</span>
 <span class="line-empty" title="No Anys on this line!">        """</span>
 <span class="line-precise" title="No Anys on this line!">        from .dimension import Dimensionless</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-precise" title="Any Types on this line:
+<span class="line-precise" title="Any Types on this line: 
 Explicit (x1)">        new_model = QuantityModel()</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">        new_model.dimensions = self.dimensions**other</span>
 <span class="line-precise" title="No Anys on this line!">        if self.value is not None:</span>
 <span class="line-precise" title="No Anys on this line!">            new_val = []</span>
-<span class="line-imprecise" title="Any Types on this line:
+<span class="line-imprecise" title="Any Types on this line: 
 Error (x1)">            for val in self.value:</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Explicit (x3)
 Error (x1)">                new_val.append(val**other)</span>
-<span class="line-imprecise" title="Any Types on this line:
+<span class="line-imprecise" title="Any Types on this line: 
 Explicit (x1)">            new_model.value = new_val</span>
 <span class="line-precise" title="No Anys on this line!">        if self.units is not None:</span>
-<span class="line-imprecise" title="Any Types on this line:
+<span class="line-imprecise" title="Any Types on this line: 
 Error (x1)">            new_model.units = self.units**other</span>
 <span class="line-empty" title="No Anys on this line!">        # Handle case that we have a dimensionless quantity, so we don't get dimensionless units squared.</span>
 <span class="line-precise" title="No Anys on this line!">        if isinstance(new_model.dimensions, Dimensionless):</span>
-<span class="line-precise" title="Any Types on this line:
+<span class="line-precise" title="Any Types on this line: 
 Explicit (x1)">            dimensionless_model = DimensionlessModel()</span>
 <span class="line-precise" title="No Anys on this line!">            dimensionless_model.value = new_model.value</span>
 <span class="line-precise" title="No Anys on this line!">            dimensionless_model.units = new_model.units</span>
@@ -641,51 +635,51 @@ Explicit (x1)">            dimensionless_model = DimensionlessModel()</span>
 <span class="line-empty" title="No Anys on this line!">        """</span>
 <span class="line-precise" title="No Anys on this line!">        from .dimension import Dimensionless</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-precise" title="Any Types on this line:
+<span class="line-precise" title="Any Types on this line: 
 Explicit (x1)">        new_model = QuantityModel()</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">        new_model.dimensions = self.dimensions * other.dimensions</span>
 <span class="line-precise" title="No Anys on this line!">        if self.value is not None and other.value is not None:</span>
 <span class="line-precise" title="No Anys on this line!">            if len(self.value) == 2 and len(other.value) == 2:</span>
 <span class="line-empty" title="No Anys on this line!">                # The following always encompasses the whole range because</span>
 <span class="line-empty" title="No Anys on this line!">                # value has sorted_=True, so it should sort any values.</span>
-<span class="line-imprecise" title="Any Types on this line:
+<span class="line-imprecise" title="Any Types on this line: 
 Error (x1)">                new_val = [</span>
-<span class="line-imprecise" title="Any Types on this line:
+<span class="line-imprecise" title="Any Types on this line: 
 Error (x3)">                    self.value[0] * other.value[0],</span>
-<span class="line-imprecise" title="Any Types on this line:
+<span class="line-imprecise" title="Any Types on this line: 
 Error (x3)">                    self.value[1] * other.value[1],</span>
 <span class="line-empty" title="No Anys on this line!">                ]</span>
-<span class="line-imprecise" title="Any Types on this line:
+<span class="line-imprecise" title="Any Types on this line: 
 Error (x1)">                new_model.value = new_val</span>
 <span class="line-precise" title="No Anys on this line!">            elif len(self.value) == 2:</span>
-<span class="line-imprecise" title="Any Types on this line:
+<span class="line-imprecise" title="Any Types on this line: 
 Error (x1)">                new_val = [</span>
-<span class="line-imprecise" title="Any Types on this line:
+<span class="line-imprecise" title="Any Types on this line: 
 Error (x3)">                    self.value[0] * other.value[0],</span>
-<span class="line-imprecise" title="Any Types on this line:
+<span class="line-imprecise" title="Any Types on this line: 
 Error (x3)">                    self.value[1] * other.value[0],</span>
 <span class="line-empty" title="No Anys on this line!">                ]</span>
-<span class="line-imprecise" title="Any Types on this line:
+<span class="line-imprecise" title="Any Types on this line: 
 Error (x1)">                new_model.value = new_val</span>
 <span class="line-precise" title="No Anys on this line!">            elif len(self.value) == 2 and len(other.value) == 2:</span>
-<span class="line-imprecise" title="Any Types on this line:
+<span class="line-imprecise" title="Any Types on this line: 
 Error (x1)">                new_val = [</span>
-<span class="line-imprecise" title="Any Types on this line:
+<span class="line-imprecise" title="Any Types on this line: 
 Error (x3)">                    self.value[0] * other.value[0],</span>
-<span class="line-imprecise" title="Any Types on this line:
+<span class="line-imprecise" title="Any Types on this line: 
 Error (x3)">                    self.value[0] * other.value[1],</span>
 <span class="line-empty" title="No Anys on this line!">                ]</span>
-<span class="line-imprecise" title="Any Types on this line:
+<span class="line-imprecise" title="Any Types on this line: 
 Error (x1)">                new_model.value = new_val</span>
 <span class="line-empty" title="No Anys on this line!">            else:</span>
-<span class="line-imprecise" title="Any Types on this line:
+<span class="line-imprecise" title="Any Types on this line: 
 Error (x3)">                new_model.value = [self.value[0] * other.value[0]]</span>
 <span class="line-precise" title="No Anys on this line!">        if self.units is not None and other.units is not None:</span>
-<span class="line-imprecise" title="Any Types on this line:
+<span class="line-imprecise" title="Any Types on this line: 
 Error (x1)">            new_model.units = self.units * other.units</span>
 <span class="line-precise" title="No Anys on this line!">        if isinstance(new_model.dimensions, Dimensionless):</span>
-<span class="line-precise" title="Any Types on this line:
+<span class="line-precise" title="Any Types on this line: 
 Explicit (x1)">            dimensionless_model = DimensionlessModel()</span>
 <span class="line-precise" title="No Anys on this line!">            dimensionless_model.value = new_model.value</span>
 <span class="line-precise" title="No Anys on this line!">            dimensionless_model.units = new_model.units</span>
@@ -693,7 +687,7 @@ Explicit (x1)">            dimensionless_model = DimensionlessModel()</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">        return new_model</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-imprecise" title="Any Types on this line:
+<span class="line-imprecise" title="Any Types on this line: 
 Omitted Generics (x2)">    def convert_to(self, target_unit: Unit) -&gt; Self:</span>
 <span class="line-empty" title="No Anys on this line!">        """Convert from current units to the given units.</span>
 <span class="line-empty" title="No Anys on this line!"></span>
@@ -712,30 +706,30 @@ Omitted Generics (x2)">    def convert_to(self, target_unit: Unit) -&gt; Self:</
 <span class="line-empty" title="No Anys on this line!">            AttributeError: If current unit is not set</span>
 <span class="line-empty" title="No Anys on this line!">            ValueError: If conversion fails due to incompatible dimensions</span>
 <span class="line-empty" title="No Anys on this line!">        """</span>
-<span class="line-imprecise" title="Any Types on this line:
+<span class="line-imprecise" title="Any Types on this line: 
 Omitted Generics (x1)">        if self.units:</span>
 <span class="line-empty" title="No Anys on this line!">            try:</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x5)
 Omitted Generics (x2)">                converted_values = self.convert_value(self.units, target_unit)</span>
-<span class="line-imprecise" title="Any Types on this line:
+<span class="line-imprecise" title="Any Types on this line: 
 Omitted Generics (x1)">                if self.error:</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x5)
 Omitted Generics (x2)">                    converted_error = self.convert_error(self.units, target_unit)</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x1)
 Omitted Generics (x1)">                    self.error = converted_error</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x1)
 Omitted Generics (x1)">                self.value = converted_values</span>
-<span class="line-imprecise" title="Any Types on this line:
+<span class="line-imprecise" title="Any Types on this line: 
 Omitted Generics (x1)">                self.units = target_unit</span>
 <span class="line-precise" title="No Anys on this line!">            except ZeroDivisionError:</span>
 <span class="line-precise" title="No Anys on this line!">                raise ValueError("Model not converted due to zero division error")</span>
 <span class="line-empty" title="No Anys on this line!">        else:</span>
 <span class="line-precise" title="No Anys on this line!">            raise AttributeError("Current units not set")</span>
-<span class="line-imprecise" title="Any Types on this line:
+<span class="line-imprecise" title="Any Types on this line: 
 Omitted Generics (x1)">        return self</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="No Anys on this line!">    def convert_to_standard(self):</span>
@@ -750,18 +744,18 @@ Omitted Generics (x1)">        return self</span>
 <span class="line-empty" title="No Anys on this line!">        :returns: The quantity in the given units.</span>
 <span class="line-empty" title="No Anys on this line!">        :rtype: QuantityModel</span>
 <span class="line-empty" title="No Anys on this line!">        """</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x2)">        standard_units = self.dimensions.standard_units</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">        if self.units and standard_units is not None:</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">            self.convert_to(standard_units)</span>
 <span class="line-empty" title="No Anys on this line!">        else:</span>
 <span class="line-precise" title="No Anys on this line!">            if not self.units:</span>
 <span class="line-any" title="No Anys on this line!">                raise AttributeError("Current units not set")</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">            elif not self.dimensions.standard_units:</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Error (x1)">                raise AttributeError("Standard units for dimension", self.dimension, "not set")</span>
 <span class="line-precise" title="No Anys on this line!">        return self</span>
 <span class="line-empty" title="No Anys on this line!"></span>
@@ -776,29 +770,29 @@ Error (x1)">                raise AttributeError("Standard units for dimension",
 <span class="line-empty" title="No Anys on this line!">        :rtype: float</span>
 <span class="line-empty" title="No Anys on this line!">        """</span>
 <span class="line-any" title="No Anys on this line!">        if self.value is not None:</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x5)">            if to_unit.dimensions == from_unit.dimensions:</span>
 <span class="line-any" title="No Anys on this line!">                if len(self.value) == 2:</span>
-<span class="line-imprecise" title="Any Types on this line:
+<span class="line-imprecise" title="Any Types on this line: 
 Unannotated (x1)">                    standard_vals = [</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x3)
 Error (x1)">                        from_unit.convert_value_to_standard(self.value[0]),</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x3)
 Error (x1)">                        from_unit.convert_value_to_standard(self.value[1]),</span>
 <span class="line-empty" title="No Anys on this line!">                    ]</span>
 <span class="line-empty" title="No Anys on this line!">                    return [</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x5)">                        to_unit.convert_value_from_standard(standard_vals[0]),</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x5)">                        to_unit.convert_value_from_standard(standard_vals[1]),</span>
 <span class="line-empty" title="No Anys on this line!">                    ]</span>
 <span class="line-empty" title="No Anys on this line!">                else:</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x4)
 Error (x1)">                    standard_val = from_unit.convert_value_to_standard(self.value[0])</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x4)">                    return [to_unit.convert_value_from_standard(standard_val)]</span>
 <span class="line-empty" title="No Anys on this line!">            else:</span>
 <span class="line-any" title="No Anys on this line!">                raise ValueError("Unit to convert to must have same dimensions as current unit")</span>
@@ -818,11 +812,11 @@ Unannotated (x4)">                    return [to_unit.convert_value_from_standar
 <span class="line-empty" title="No Anys on this line!">        """</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="No Anys on this line!">        if self.error is not None:</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x5)">            if to_unit.dimensions == from_unit.dimensions:</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x4)">                standard_error = from_unit.convert_error_to_standard(self.error)</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x4)">                return to_unit.convert_error_from_standard(standard_error)</span>
 <span class="line-empty" title="No Anys on this line!">            else:</span>
 <span class="line-any" title="No Anys on this line!">                raise ValueError("Unit to convert to must have same dimensions as current unit")</span>
@@ -838,122 +832,123 @@ Unannotated (x4)">                return to_unit.convert_error_from_standard(sta
 <span class="line-empty" title="No Anys on this line!">        :returns: Whether the two quantities are equal</span>
 <span class="line-empty" title="No Anys on this line!">        :rtype: bool</span>
 <span class="line-empty" title="No Anys on this line!">        """</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x2)">        if self.value is None or other.value is None:</span>
 <span class="line-any" title="No Anys on this line!">            raise AttributeError("Value for model not set")</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x2)">        if self.units is None or other.units is None:</span>
 <span class="line-any" title="No Anys on this line!">            raise AttributeError("Units not set")</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x7)">        converted_value = self.convert_value(self.units, other.units)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x3)">        min_converted_value = converted_value[0]</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x3)">        max_converted_value = converted_value[0]</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">        if len(converted_value) == 2:</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x3)">            max_converted_value = converted_value[1]</span>
 <span class="line-any" title="No Anys on this line!">        if self.error is not None:</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x7)">            converted_error = self.convert_error(self.units, other.units)</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x4)">            min_converted_value = min_converted_value - converted_error</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x4)">            max_converted_value = max_converted_value + converted_error</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x4)">        min_other_value = other.value[0]</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x4)">        max_other_value = other.value[0]</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x2)">        if len(other.value) == 2:</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x4)">            max_other_value = other.value[1]</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x2)">        if other.error is not None:</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x5)">            min_other_value = min_other_value - other.error</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x5)">            max_other_value = max_other_value + other.error</span>
-<span class="line-any" title="Any Types on this line:
-Unannotated (x7)">        if min_converted_value &lt;= max_other_value or max_converted_value &gt;= min_other_value:</span>
-<span class="line-any" title="No Anys on this line!">            return True</span>
-<span class="line-any" title="No Anys on this line!">        return False</span>
+<span class="line-any" title="Any Types on this line: 
+Unannotated (x7)">        return bool(min_converted_value &lt;= max_other_value or max_converted_value &gt;= min_other_value)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="No Anys on this line!">    def is_superset(self, other):</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Explicit (x4)
 Unannotated (x1)">        if type(self) != type(other):</span>
 <span class="line-any" title="No Anys on this line!">            return False</span>
-<span class="line-imprecise" title="Any Types on this line:
+<span class="line-imprecise" title="Any Types on this line: 
 Omitted Generics (x4)">        for field_name, field in self.fields.items():</span>
 <span class="line-empty" title="No Anys on this line!">            # Method works recursively so it works with nested models</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Omitted Generics (x1)">            if hasattr(field, "model_class"):</span>
-<span class="line-any" title="Any Types on this line:
-Unannotated (x1)">                if self[field_name] is None:</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
+Explicit (x1)">                if self[field_name] is None:</span>
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x2)">                    if other[field_name] is not None:</span>
 <span class="line-any" title="No Anys on this line!">                        return False</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x2)">                elif other[field_name] is None:</span>
 <span class="line-any" title="No Anys on this line!">                    pass</span>
-<span class="line-any" title="Any Types on this line:
-Unannotated (x5)">                elif not self[field_name].is_superset(other[field_name]):</span>
+<span class="line-any" title="Any Types on this line: 
+Explicit (x3)
+Unannotated (x2)">                elif not self[field_name].is_superset(other[field_name]):</span>
 <span class="line-any" title="No Anys on this line!">                    return False</span>
 <span class="line-empty" title="No Anys on this line!">            else:</span>
 <span class="line-empty" title="No Anys on this line!">                if (</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x2)">                    field_name == "raw_value"</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x3)">                    and other[field_name] == "NoValue"</span>
-<span class="line-any" title="Any Types on this line:
-Unannotated (x1)">                    and self[field_name] is not None</span>
+<span class="line-any" title="Any Types on this line: 
+Explicit (x1)">                    and self[field_name] is not None</span>
 <span class="line-empty" title="No Anys on this line!">                ):</span>
 <span class="line-any" title="No Anys on this line!">                    pass</span>
-<span class="line-any" title="Any Types on this line:
-Unannotated (x7)">                elif other[field_name] is not None and self[field_name] != other[field_name]:</span>
+<span class="line-any" title="Any Types on this line: 
+Explicit (x3)
+Unannotated (x4)">                elif other[field_name] is not None and self[field_name] != other[field_name]:</span>
 <span class="line-any" title="No Anys on this line!">                    return False</span>
 <span class="line-any" title="No Anys on this line!">        return True</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="No Anys on this line!">    def _compatible(self, other):</span>
 <span class="line-any" title="No Anys on this line!">        match = False</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Explicit (x4)
 Unannotated (x1)">        if type(other) == type(self):</span>
 <span class="line-empty" title="No Anys on this line!">            # Check if the other seems to be describing the same thing as self.</span>
 <span class="line-any" title="No Anys on this line!">            match = True</span>
-<span class="line-imprecise" title="Any Types on this line:
-Omitted Generics (x4)">            for field_name, field in self.fields.items():</span>
+<span class="line-imprecise" title="Any Types on this line: 
+Omitted Generics (x4)">            for field_name, _field in self.fields.items():</span>
 <span class="line-empty" title="No Anys on this line!">                if (</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x2)">                    field_name == "raw_value"</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x3)">                    and other[field_name] == "NoValue"</span>
-<span class="line-any" title="Any Types on this line:
-Unannotated (x1)">                    and self[field_name] is not None</span>
+<span class="line-any" title="Any Types on this line: 
+Explicit (x1)">                    and self[field_name] is not None</span>
 <span class="line-empty" title="No Anys on this line!">                ):</span>
 <span class="line-any" title="No Anys on this line!">                    pass</span>
 <span class="line-empty" title="No Anys on this line!">                elif (</span>
-<span class="line-any" title="Any Types on this line:
-Unannotated (x3)">                    self[field_name] is not None</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
+Explicit (x3)">                    self[field_name] is not None</span>
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x2)">                    and other[field_name] is not None</span>
-<span class="line-any" title="Any Types on this line:
-Unannotated (x4)">                    and self[field_name] != other[field_name]</span>
+<span class="line-any" title="Any Types on this line: 
+Explicit (x2)
+Unannotated (x2)">                    and self[field_name] != other[field_name]</span>
 <span class="line-empty" title="No Anys on this line!">                ):</span>
 <span class="line-any" title="No Anys on this line!">                    match = False</span>
 <span class="line-any" title="No Anys on this line!">                    break</span>
 <span class="line-precise" title="No Anys on this line!">        return match</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="No Anys on this line!">    def __str__(self):</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x6)">        string = "Quantity with " + self.dimensions.__str__() + ", " + self.units.__str__()</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">        string += " and a value of " + str(self.value)</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">        return string</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!"></span>
@@ -964,7 +959,7 @@ Unannotated (x1)">        return string</span>
 <span class="line-empty" title="No Anys on this line!">    such as ratios, percentages, or pure numbers.</span>
 <span class="line-empty" title="No Anys on this line!">    """</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-precise" title="Any Types on this line:
+<span class="line-precise" title="Any Types on this line: 
 Unimported (x1)">    raw_units = StringType(required=False, contextual=False)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!"></span>
@@ -972,11 +967,11 @@ Unimported (x1)">    raw_units = StringType(required=False, contextual=False)</s
 <span class="line-any" title="No Anys on this line!">def _init_dimensionless_model():</span>
 <span class="line-precise" title="No Anys on this line!">    from .dimension import Dimensionless</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-precise" title="Any Types on this line:
+<span class="line-precise" title="Any Types on this line: 
 Explicit (x1)">    DimensionlessModel.dimensions = Dimensionless()</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x2)">_init_dimensionless_model()</span>
 </pre></td>
 </tr></tbody>

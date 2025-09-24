@@ -9,10 +9,8 @@ from __future__ import annotations
 
 import logging
 from abc import abstractmethod
-from abc import abstractproperty
 from typing import TYPE_CHECKING
 from typing import Any
-from typing import Optional
 
 from .quantity import extract_error
 from .quantity import extract_units
@@ -57,7 +55,8 @@ class BaseParser:
     that takes little time to process.
     """
 
-    @abstractproperty
+    @property
+    @abstractmethod
     def root(self) -> Any:
         """The root parsing element for this parser.
 
@@ -165,22 +164,18 @@ class BaseSentenceParser(BaseParser):
         should_read = True
         for sentence in heading.sentences:
             if self.allow_section_phrase is not None:
-                allow_phrase_results = [
-                    result for result in self.allow_section_phrase.scan(sentence.tokens)
-                ]
+                allow_phrase_results = list(self.allow_section_phrase.scan(sentence.tokens))
                 if allow_phrase_results:
                     should_read = True
                     break
 
             if self.skip_section_phrase is not None:
-                skip_phrase_results = [
-                    result for result in self.skip_section_phrase.scan(sentence.tokens)
-                ]
+                skip_phrase_results = list(self.skip_section_phrase.scan(sentence.tokens))
                 if skip_phrase_results:
                     should_read = False
         return should_read
 
-    def parse_sentence(self, sentence: BaseElement):
+    def parse_sentence(self, sentence: BaseElement) -> Any:
         """Parse a sentence for chemical data.
 
         This function is primarily called by the
@@ -193,9 +188,7 @@ class BaseSentenceParser(BaseParser):
             BaseModel - Extracted model instances from the sentence
         """
         if self.trigger_phrase is not None:
-            trigger_phrase_results = [
-                result for result in self.trigger_phrase.scan(sentence.tokens)
-            ]
+            trigger_phrase_results = list(self.trigger_phrase.scan(sentence.tokens))
         if self.trigger_phrase is None or trigger_phrase_results:
             for result in self.root.scan(sentence.tokens):
                 yield from self.interpret(*result)
@@ -208,7 +201,7 @@ class BaseTableParser(BaseParser):
     To implement a parser for a new property, implement the interpret function.
     """
 
-    def parse_cell(self, cell: BaseElement):
+    def parse_cell(self, cell: BaseElement) -> Any:
         """Parse a table cell for chemical data.
 
         This function is primarily called by the
@@ -221,7 +214,7 @@ class BaseTableParser(BaseParser):
             BaseModel - Extracted model instances from the cell
         """
         if self.trigger_phrase is not None:
-            trigger_phrase_results = [result for result in self.trigger_phrase.scan(cell.tokens)]
+            trigger_phrase_results = list(self.trigger_phrase.scan(cell.tokens))
         if (self.trigger_phrase is None or trigger_phrase_results) and self.root is not None:
             for result in self.root.scan(cell.tokens):
                 try:

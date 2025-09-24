@@ -232,7 +232,7 @@ Unannotated (x10)">        labels[dependencies.root[0] - 1] = Dependency(None, "
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x3)
 Explicit (x9)
-Omitted Generics (x30)">        return zip(tokens, labels)</span>
+Omitted Generics (x30)">        return zip(tokens, labels, strict=False)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="No Anys on this line!">    def batch_tag(self, sents):</span>
 <span class="line-any" title="Any Types on this line: 
@@ -246,7 +246,7 @@ Unannotated (x1)">        all_labels = []</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x6)
 Explicit (x9)
-Omitted Generics (x30)">        for sent, tokens in zip(annotated.sentence, sents):</span>
+Omitted Generics (x30)">        for sent, tokens in zip(annotated.sentence, sents, strict=False):</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x3)">            dependencies = sent.basicDependencies</span>
 <span class="line-empty" title="No Anys on this line!"></span>
@@ -277,7 +277,7 @@ Unannotated (x10)">            labels[dependencies.root[0] - 1] = Dependency(Non
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x6)
 Explicit (x9)
-Omitted Generics (x30)">            all_labels.append(zip(tokens, labels))</span>
+Omitted Generics (x30)">            all_labels.append(zip(tokens, labels, strict=False))</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">        return all_labels</span>

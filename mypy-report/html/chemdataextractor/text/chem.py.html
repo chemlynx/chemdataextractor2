@@ -1500,7 +1500,7 @@
 <span class="line-precise" title="No Anys on this line!">PREFIXES = {"iso", "tert", "sec", "ortho", "meta", "para", "meso"}</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!"># A regular expression that matches common solvents.</span>
-<span class="line-precise" title="Any Types on this line:
+<span class="line-precise" title="Any Types on this line: 
 Omitted Generics (x4)">SOLVENT_RE = re.compile(</span>
 <span class="line-precise" title="No Anys on this line!">    r"(?:^|\b)(?:(?:{}|d\d?\d?|[\dn](?:,[\dn]){{0,3}}|[imnoptDLRS])-?)?(?:{})(?:-d\d?\d?)?(?=$|\b)".format(</span>
 <span class="line-precise" title="No Anys on this line!">        "|".join(re.escape(s) for s in PREFIXES),</span>
@@ -1510,16 +1510,16 @@ Omitted Generics (x4)">SOLVENT_RE = re.compile(</span>
 <span class="line-empty" title="No Anys on this line!">)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!"># Regular expressions for validating chemical identifiers</span>
-<span class="line-precise" title="Any Types on this line:
+<span class="line-precise" title="Any Types on this line: 
 Omitted Generics (x4)">CAS_RE = re.compile(r"^\d{1,7}-\d\d-\d$")  # TODO: Should be  (([1-9]\d{2,5})|([5-9]\d))-\d\d-\d</span>
-<span class="line-precise" title="Any Types on this line:
+<span class="line-precise" title="Any Types on this line: 
 Omitted Generics (x4)">INCHIKEY_RE = re.compile(r"^[A-Z]{14}-[A-Z]{10}-[A-Z\d]$")</span>
-<span class="line-precise" title="Any Types on this line:
+<span class="line-precise" title="Any Types on this line: 
 Omitted Generics (x4)">INCHI_RE = re.compile(</span>
 <span class="line-precise" title="No Anys on this line!">    r"^(InChI=)?1S?\/(p\+1|\d*[a-ik-z][a-ik-z\d\.]*(\/c[\d\-*(),;]+)?(\/h[\d\-*h(),;]+)?)(\/[bmpqst][\d\-\.+*,;?m]*|\/i[hdt\d\-+*,;]*(\/h[hdt\d]+)?|\/r[a-ik-z\d]+(\/c[\d\-*(),;]+)?(\/h[\d\-*h(),;]+)?|\/f[a-ik-z\d\.]*(\/h[\d\-*h(),;]+)?)*$",</span>
 <span class="line-precise" title="No Anys on this line!">    re.I,</span>
 <span class="line-empty" title="No Anys on this line!">)</span>
-<span class="line-precise" title="Any Types on this line:
+<span class="line-precise" title="Any Types on this line: 
 Omitted Generics (x4)">SMILES_RE = re.compile(</span>
 <span class="line-precise" title="No Anys on this line!">    r"^([BCNOPSFIbcnosp*]|Cl|Br|\[\d*({e}|se|as|\*)(@+([THALSPBO]\d+)?)?(H\d?)?([\-+]+\d*)?(:\d+)?\])"</span>
 <span class="line-empty" title="No Anys on this line!">    r"([BCNOPSFIbcnosp*]|Cl|Br|\[\d*({e}|se|as|\*)(@+([THALSPBO]\d+)?)?(H\d?)?([\-+]+\d*)?(:\d+)?\]|"</span>
@@ -1529,19 +1529,19 @@ Omitted Generics (x4)">SMILES_RE = re.compile(</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="No Anys on this line!">def extract_inchis(s):</span>
 <span class="line-empty" title="No Anys on this line!">    """Return a list of InChI identifiers extracted from the string."""</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x6)">    return [t for t in s.split() if INCHI_RE.match(t)]</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="No Anys on this line!">def extract_inchikeys(s):</span>
 <span class="line-empty" title="No Anys on this line!">    """Return a list of InChIKey identifiers extracted from the string."""</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x6)">    return [t for t in s.split() if INCHIKEY_RE.match(t)]</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="No Anys on this line!">def extract_cas(s):</span>
 <span class="line-empty" title="No Anys on this line!">    """Return a list of CAS identifiers extracted from the string."""</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x6)">    return [t for t in s.split() if CAS_RE.match(t)]</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!"></span>
@@ -1549,13 +1549,13 @@ Unannotated (x6)">    return [t for t in s.split() if CAS_RE.match(t)]</span>
 <span class="line-empty" title="No Anys on this line!">    """Return a list of SMILES identifiers extracted from the string."""</span>
 <span class="line-empty" title="No Anys on this line!">    # TODO: This still gets a lot of false positives.</span>
 <span class="line-precise" title="No Anys on this line!">    smiles = []</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x4)">    for t in s.split():</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x15)">        if len(t) &gt; 2 and SMILES_RE.match(t) and not t.endswith(".") and bracket_level(t) == 0:</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x3)">            smiles.append(t)</span>
-<span class="line-imprecise" title="Any Types on this line:
+<span class="line-imprecise" title="Any Types on this line: 
 Unannotated (x1)">    return smiles</span>
 </pre></td>
 </tr></tbody>

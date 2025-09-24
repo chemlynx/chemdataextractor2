@@ -17,7 +17,10 @@ providing performance improvements through pre-compiled regex patterns.
 
 import logging
 import unittest
-from chemdataextractor.parse.quantity import extract_error, _find_value_strings, _split
+
+from chemdataextractor.parse.quantity import _find_value_strings
+from chemdataextractor.parse.quantity import _split
+from chemdataextractor.parse.quantity import extract_error
 from chemdataextractor.text.normalize import ChemNormalizer
 
 logging.basicConfig(level=logging.DEBUG)

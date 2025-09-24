@@ -1349,8 +1349,6 @@
 <span id="L1339" class="lineno"><a class="lineno" href="#L1339">1339</a></span>
 <span id="L1340" class="lineno"><a class="lineno" href="#L1340">1340</a></span>
 <span id="L1341" class="lineno"><a class="lineno" href="#L1341">1341</a></span>
-<span id="L1342" class="lineno"><a class="lineno" href="#L1342">1342</a></span>
-<span id="L1343" class="lineno"><a class="lineno" href="#L1343">1343</a></span>
 </pre></td>
 <td class="table-code"><pre><span class="line-empty" title="No Anys on this line!">"""</span>
 <span class="line-empty" title="No Anys on this line!">A factory class for making Chemical entity mention parser elements to make overriding easier.</span>
@@ -1405,9 +1403,7 @@
 <span class="line-empty" title="No Anys on this line!">    """</span>
 <span class="line-empty" title="No Anys on this line!">    # print(etree.tostring(result[0]), result[0].text, '🙃' in result[0].text)</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x3)">    if "🙃" in result[0].text:</span>
-<span class="line-any" title="No Anys on this line!">        return False</span>
-<span class="line-any" title="No Anys on this line!">    return True</span>
+Unannotated (x3)">    return "🙃" not in result[0].text</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">class _CemFactory:</span>

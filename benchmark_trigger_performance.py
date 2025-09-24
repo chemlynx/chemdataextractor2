@@ -9,13 +9,12 @@ baseline metrics before optimization implementation.
 from __future__ import annotations
 
 import json
-import time
 import statistics
+import time
 from typing import Any
 
 from chemdataextractor.doc import Document
 from chemdataextractor.parse.mp_new import MpParser
-from chemdataextractor.parse.base import BaseParser
 
 
 def create_test_documents() -> list[Document]:
@@ -31,7 +30,7 @@ def create_test_documents() -> list[Document]:
         "Melting points were determined using a Kofler hot stage microscope: 165-167°C.",
         "The substance decomposes before melting, with thermal degradation starting at 200°C.",
         "DSC analysis revealed an endothermic peak at 220°C corresponding to the melting point.",
-        "The crude product melted at 140-145°C after recrystallization from ethanol."
+        "The crude product melted at 140-145°C after recrystallization from ethanol.",
     ]
 
     documents = []
@@ -95,7 +94,8 @@ def benchmark_current_trigger_system() -> dict[str, Any]:
         "median_trigger_time_ms": statistics.median(trigger_times) * 1000,
         "trigger_time_stddev_ms": statistics.stdev(trigger_times) * 1000,
         "triggers_per_second": total_trigger_checks / total_time,
-        "memory_allocations_estimated": total_trigger_checks * 2  # List comprehension + scan results
+        "memory_allocations_estimated": total_trigger_checks
+        * 2,  # List comprehension + scan results
     }
 
     return results
@@ -118,7 +118,9 @@ def simulate_optimized_system() -> dict[str, Any]:
 
     # Calculate simulated timings
     base_time = total_lookups * (index_lookup_time / 1000)  # Convert to seconds
-    optimized_time = base_time / (batch_processing_speedup * string_matching_speedup * memory_pool_speedup)
+    optimized_time = base_time / (
+        batch_processing_speedup * string_matching_speedup * memory_pool_speedup
+    )
 
     results = {
         "documents_processed": len(documents),
@@ -127,7 +129,7 @@ def simulate_optimized_system() -> dict[str, Any]:
         "estimated_time_seconds": optimized_time,
         "estimated_lookups_per_second": total_lookups / optimized_time,
         "memory_allocations_reduced": True,  # Pool-based allocation
-        "expected_speedup_factor": 2.4  # Target speedup
+        "expected_speedup_factor": 2.4,  # Target speedup
     }
 
     return results
@@ -144,12 +146,14 @@ def analyze_trigger_phrase_usage() -> dict[str, Any]:
     try:
         # Import known parsers
         from chemdataextractor.parse.mp_new import MpParser
+
         parsers_with_triggers.append(("MpParser", MpParser()))
     except ImportError:
         pass
 
     try:
         from chemdataextractor.parse.tg import TgParser
+
         parsers_with_triggers.append(("TgParser", TgParser()))
     except ImportError:
         pass
@@ -160,22 +164,22 @@ def analyze_trigger_phrase_usage() -> dict[str, Any]:
         "complexity_analysis": {
             "simple_string_triggers": 0,
             "regex_triggers": 0,
-            "complex_element_triggers": 0
-        }
+            "complex_element_triggers": 0,
+        },
     }
 
     for parser_name, parser in parsers_with_triggers:
-        if hasattr(parser, 'trigger_phrase') and parser.trigger_phrase:
+        if hasattr(parser, "trigger_phrase") and parser.trigger_phrase:
             trigger_info = {
                 "parser": parser_name,
                 "has_trigger": True,
-                "trigger_type": str(type(parser.trigger_phrase))
+                "trigger_type": str(type(parser.trigger_phrase)),
             }
             analysis["trigger_types"].append(trigger_info)
 
             # Classify trigger complexity
             trigger_str = str(parser.trigger_phrase)
-            if any(char in trigger_str for char in ['*', '+', '?', '[', ']', '(', ')']):
+            if any(char in trigger_str for char in ["*", "+", "?", "[", "]", "(", ")"]):
                 analysis["complexity_analysis"]["regex_triggers"] += 1
             elif len(trigger_str.split()) == 1:
                 analysis["complexity_analysis"]["simple_string_triggers"] += 1
@@ -202,7 +206,10 @@ def main() -> None:
 
     # Calculate improvement potential
     if current_results["triggers_per_second"] > 0:
-        speedup_potential = optimized_results["estimated_lookups_per_second"] / current_results["triggers_per_second"]
+        speedup_potential = (
+            optimized_results["estimated_lookups_per_second"]
+            / current_results["triggers_per_second"]
+        )
     else:
         speedup_potential = 2.4  # Target speedup
 
@@ -218,13 +225,17 @@ def main() -> None:
     print(f"   • Estimated time: {optimized_results['estimated_time_seconds']:.3f}s")
     print(f"   • Estimated lookups/sec: {optimized_results['estimated_lookups_per_second']:.0f}")
     print(f"   • Expected speedup: {speedup_potential:.1f}x")
-    print(f"   • Memory optimization: Pool-based allocation")
+    print("   • Memory optimization: Pool-based allocation")
 
-    print(f"\n📊 Trigger Usage Analysis:")
+    print("\n📊 Trigger Usage Analysis:")
     print(f"   • Parsers with triggers: {usage_analysis['parsers_with_triggers']}")
-    print(f"   • Simple triggers: {usage_analysis['complexity_analysis']['simple_string_triggers']}")
+    print(
+        f"   • Simple triggers: {usage_analysis['complexity_analysis']['simple_string_triggers']}"
+    )
     print(f"   • Regex triggers: {usage_analysis['complexity_analysis']['regex_triggers']}")
-    print(f"   • Complex triggers: {usage_analysis['complexity_analysis']['complex_element_triggers']}")
+    print(
+        f"   • Complex triggers: {usage_analysis['complexity_analysis']['complex_element_triggers']}"
+    )
 
     # Save detailed results
     benchmark_data = {
@@ -232,16 +243,16 @@ def main() -> None:
         "current_system": current_results,
         "optimized_projection": optimized_results,
         "usage_analysis": usage_analysis,
-        "speedup_potential": speedup_potential
+        "speedup_potential": speedup_potential,
     }
 
     with open("trigger_benchmark_baseline.json", "w") as f:
         json.dump(benchmark_data, f, indent=2)
 
-    print(f"\n✅ Baseline benchmark complete!")
+    print("\n✅ Baseline benchmark complete!")
     print(f"   Target speedup: {optimized_results['expected_speedup_factor']:.1f}x")
     print(f"   Estimated achievable: {speedup_potential:.1f}x")
-    print(f"   Results saved to: trigger_benchmark_baseline.json")
+    print("   Results saved to: trigger_benchmark_baseline.json")
 
 
 if __name__ == "__main__":

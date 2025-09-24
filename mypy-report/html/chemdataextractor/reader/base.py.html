@@ -97,8 +97,6 @@
 <span id="L87" class="lineno"><a class="lineno" href="#L87">87</a></span>
 <span id="L88" class="lineno"><a class="lineno" href="#L88">88</a></span>
 <span id="L89" class="lineno"><a class="lineno" href="#L89">89</a></span>
-<span id="L90" class="lineno"><a class="lineno" href="#L90">90</a></span>
-<span id="L91" class="lineno"><a class="lineno" href="#L91">91</a></span>
 </pre></td>
 <td class="table-code"><pre><span class="line-empty" title="No Anys on this line!">"""</span>
 <span class="line-empty" title="No Anys on this line!">Abstract base classes for document readers.</span>
@@ -114,9 +112,7 @@
 <span class="line-precise" title="No Anys on this line!">from typing import TYPE_CHECKING</span>
 <span class="line-precise" title="No Anys on this line!">from typing import Any</span>
 <span class="line-precise" title="No Anys on this line!">from typing import BinaryIO</span>
-<span class="line-precise" title="No Anys on this line!">from typing import Optional</span>
 <span class="line-precise" title="No Anys on this line!">from typing import TextIO</span>
-<span class="line-precise" title="No Anys on this line!">from typing import Union</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">if TYPE_CHECKING:</span>
 <span class="line-precise" title="No Anys on this line!">    from ..doc.document import Document</span>
@@ -137,7 +133,7 @@
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">    def __init__(self) -&gt; None:</span>
 <span class="line-empty" title="No Anys on this line!">        """Initialize the reader."""</span>
-<span class="line-imprecise" title="Any Types on this line:
+<span class="line-imprecise" title="Any Types on this line: 
 Explicit (x1)">        self.root: Any | None = None</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">    def detect(self, fstring: str | bytes, fname: str | None = None) -&gt; bool:</span>

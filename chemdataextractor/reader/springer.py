@@ -34,16 +34,22 @@ class SpringerMaterialsHtmlReader(HtmlReader):
     table_cell_css = "th, td"
     ignore_css = 'sub, sup, em[class^="EmphasisTypeItalic "], li[class="article-metrics__item"], div[class="CitationContent"]'
 
-    def detect(self, fstring, fname=None):
-        """"""
+    def detect(self, fstring: str | bytes, fname: str | None = None) -> bool:
+        """Detect SpringerMaterials HTML documents.
+
+        Args:
+            fstring: Input data to check
+            fname: Optional filename for format hints
+
+        Returns:
+            True if this appears to be a SpringerMaterials HTML document
+        """
         if fname and not (fname.endswith(".html") or fname.endswith(".htm")):
             return False
-        if (
+        return bool(
             b'<a class="footer-copyright_link" href="http://www.springernature.com"' in fstring
             or b'<meta content="SpringerLink"' in fstring
-        ):
-            return True
-        return False
+        )
 
     def _make_tree(self, fstring):
         root = etree.fromstring(
@@ -120,8 +126,16 @@ class SpringerHtmlReader(HtmlReader):
                   div[class="EquationNumber"], footer'
     )
 
-    def detect(self, fstring, fname=None):
-        """"""
+    def detect(self, fstring: str | bytes, fname: str | None = None) -> bool:
+        """Detect Springer HTML documents.
+
+        Args:
+            fstring: Input data to check
+            fname: Optional filename for format hints
+
+        Returns:
+            True if this appears to be a Springer HTML document
+        """
         if fname and not (fname.endswith(".html") or fname.endswith(".htm")):
             return False
         if (

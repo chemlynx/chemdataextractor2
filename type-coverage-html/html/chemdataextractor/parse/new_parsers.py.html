@@ -359,9 +359,11 @@ Error (x1)">        log.debug(etree.tostring(result))</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x6)">            compound = self.model.fields["compound"].model_class()</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x7)">            raw_value = first(result.xpath("./mp/value/text()"))</span>
+Unannotated (x5)
+Omitted Generics (x2)">            raw_value = first(result.xpath("./mp/value/text()"))</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x7)">            raw_units = first(result.xpath("./mp/units/text()"))</span>
+Unannotated (x5)
+Omitted Generics (x2)">            raw_units = first(result.xpath("./mp/units/text()"))</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x3)">            melting_point = self.model(</span>
 <span class="line-any" title="Any Types on this line: 
@@ -376,7 +378,8 @@ Unannotated (x3)">                error=self.extract_error(raw_value),</span>
 Unannotated (x3)">                units=self.extract_units(raw_units, strict=True),</span>
 <span class="line-empty" title="No Anys on this line!">            )</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x7)">            cem_el = first(result.xpath("./compound"))</span>
+Unannotated (x5)
+Omitted Generics (x2)">            cem_el = first(result.xpath("./compound"))</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">            if cem_el is not None:</span>
 <span class="line-any" title="Any Types on this line: 

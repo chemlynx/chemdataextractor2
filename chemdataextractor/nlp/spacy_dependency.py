@@ -1,3 +1,11 @@
+"""
+spaCy-based dependency parsing.
+
+Provides dependency parsing using spaCy for syntactic relationship extraction.
+"""
+
+from __future__ import annotations
+
 import spacy
 
 from .dependency import Dependency
@@ -19,7 +27,7 @@ class _SpacyDependencyTagger(BaseTagger):
     def batch_tag(self, sents):
         tokens_list = [[token.text for token in tokens] for tokens in sents]
         all_labels = []
-        for tokens, processed in zip(sents, self.nlp.pipe(tokens_list)):
+        for tokens, processed in zip(sents, self.nlp.pipe(tokens_list), strict=False):
             labels = []
             for spacy_token in processed:
                 relation = spacy_token.dep_
@@ -27,7 +35,7 @@ class _SpacyDependencyTagger(BaseTagger):
                     labels.append(Dependency(None, "root"))
                 else:
                     labels.append(Dependency(tokens[spacy_token.head.i], relation))
-            all_labels.append(zip(tokens, labels))
+            all_labels.append(zip(tokens, labels, strict=False))
         return all_labels
 
 

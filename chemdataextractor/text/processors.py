@@ -12,15 +12,12 @@ import re
 import urllib.parse
 from abc import ABCMeta
 from abc import abstractmethod
-from typing import Optional
 
+from ..parse.regex_patterns import convert_scientific_notation
+from ..parse.regex_patterns import remove_bracketed_numbers
+from ..parse.regex_patterns import remove_uncertainty
 from . import APOSTROPHES
 from . import EMAIL_RE
-from ..parse.regex_patterns import (
-    remove_bracketed_numbers,
-    remove_uncertainty,
-    convert_scientific_notation,
-)
 
 log = logging.getLogger(__name__)
 
@@ -47,10 +44,10 @@ class BaseProcessor(metaclass=ABCMeta):
 class Chain:
     """Apply a series of processors in turn. Stops if a processors returns None."""
 
-    def __init__(self, *callables):
+    def __init__(self, *callables: BaseProcessor) -> None:
         self.callables = callables
 
-    def __call__(self, value):
+    def __call__(self, value: str | None) -> str | None:
         for func in self.callables:
             if value is None:
                 break
@@ -61,10 +58,10 @@ class Chain:
 class Discard:
     """Return None if value matches a string."""
 
-    def __init__(self, *match):
+    def __init__(self, *match: str) -> None:
         self.match = match
 
-    def __call__(self, value):
+    def __call__(self, value: str | None) -> str | None:
         if value in self.match:
             return None
         return value
@@ -73,30 +70,30 @@ class Discard:
 class LAdd:
     """Add a substring to the start of a value."""
 
-    def __init__(self, substring):
+    def __init__(self, substring: str) -> None:
         self.substring = substring
 
-    def __call__(self, value):
+    def __call__(self, value: str | None) -> str | None:
         return f"{self.substring}{value}"
 
 
 class RAdd:
     """Add a substring to the end of a value."""
 
-    def __init__(self, substring):
+    def __init__(self, substring: str) -> None:
         self.substring = substring
 
-    def __call__(self, value):
+    def __call__(self, value: str | None) -> str | None:
         return f"{value}{self.substring}"
 
 
 class LStrip:
     """Remove a substring from the start of a value."""
 
-    def __init__(self, *substrings):
+    def __init__(self, *substrings: str) -> None:
         self.substrings = substrings
 
-    def __call__(self, value):
+    def __call__(self, value: str | None) -> str | None:
         for substring in self.substrings:
             if value.startswith(substring):
                 return value[len(substring) :]
@@ -106,17 +103,17 @@ class LStrip:
 class RStrip:
     """Remove a substring from the end of a value."""
 
-    def __init__(self, *substrings):
+    def __init__(self, *substrings: str) -> None:
         self.substrings = substrings
 
-    def __call__(self, value):
+    def __call__(self, value: str | None) -> str | None:
         for substring in self.substrings:
             if value.endswith(substring):
                 return value[: -len(substring)]
         return value
 
 
-def floats(s):
+def floats(s: str) -> float:
     """Convert string to float. Handles more string formats that the standard python conversion."""
     try:
         return float(s)
@@ -131,7 +128,7 @@ def floats(s):
         return float(s)
 
 
-def strip_querystring(url):
+def strip_querystring(url: str) -> str:
     """Remove the querystring from the end of a URL."""
     p = urllib.parse.urlparse(url)
     return p.scheme + "://" + p.netloc + p.path
@@ -143,10 +140,11 @@ class Substitutor:
     Useful to clean up text where placeholders are used in place of actual unicode characters.
     """
 
-    def __init__(self, substitutions):
-        """
+    def __init__(self, substitutions: list[tuple[str | re.Pattern[str], str]]) -> None:
+        """Initialize with substitution patterns.
 
-        :param substitutions: List of (regex, string) tuples that define the substitution.
+        Args:
+            substitutions: List of (regex, string) tuples that define the substitution.
         """
         self.substitutions = []
         for pattern, replacement in substitutions:
@@ -154,17 +152,21 @@ class Substitutor:
                 pattern = re.compile(pattern, re.I | re.U)
             self.substitutions.append((pattern, replacement))
 
-    def __call__(self, t):
+    def __call__(self, t: str) -> str:
         """Run substitutions on given text and return it.
 
-        :param string t: The text to run substitutions on.
+        Args:
+            t: The text to run substitutions on.
+
+        Returns:
+            The text with substitutions applied.
         """
         for pattern, replacement in self.substitutions:
             t = pattern.sub(replacement, t)
         return t
 
 
-def extract_emails(text):
+def extract_emails(text: str) -> list[str]:
     """Return a list of email addresses extracted from the string."""
     text = text.replace("\u2024", ".")
     emails = []
@@ -173,7 +175,7 @@ def extract_emails(text):
     return emails
 
 
-def unapostrophe(text):
+def unapostrophe(text: str) -> str:
     """Strip apostrophe and 's' from the end of a string."""
     text = re.sub(r"[{}]s?$".format("".join(APOSTROPHES)), "", text)
     return text

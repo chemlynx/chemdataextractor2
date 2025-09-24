@@ -95,7 +95,7 @@
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x5)
 Explicit (x9)
-Omitted Generics (x30)">        return zip(tokens, range(len(tokens)))</span>
+Omitted Generics (x30)">        return zip(tokens, range(len(tokens)), strict=False)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">class _DependencyTagger(BaseTagger):</span>
@@ -142,7 +142,7 @@ Unannotated (x14)">                labels.append(Dependency(tokens[word.head - 1
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x3)
 Explicit (x9)
-Omitted Generics (x30)">        return zip(tokens, labels)</span>
+Omitted Generics (x30)">        return zip(tokens, labels, strict=False)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="No Anys on this line!">    def batch_tag(self, sents):</span>
 <span class="line-any" title="Any Types on this line: 
@@ -154,7 +154,7 @@ Unannotated (x1)">        labels = []</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x6)
 Explicit (x9)
-Omitted Generics (x30)">        for tokens, sent in zip(sents, doc.sentences):</span>
+Omitted Generics (x30)">        for tokens, sent in zip(sents, doc.sentences, strict=False):</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">            sent_labels = []</span>
 <span class="line-any" title="Any Types on this line: 
@@ -171,7 +171,7 @@ Unannotated (x14)">                    sent_labels.append(Dependency(tokens[word
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x6)
 Explicit (x9)
-Omitted Generics (x30)">            labels.append(zip(tokens, sent_labels))</span>
+Omitted Generics (x30)">            labels.append(zip(tokens, sent_labels, strict=False))</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">        return labels</span>
 <span class="line-empty" title="No Anys on this line!"></span>

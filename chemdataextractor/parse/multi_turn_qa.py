@@ -123,11 +123,8 @@ class Question(NoMatch):
         if self.actions:
             for action in self.actions:
                 answer = action(answer)
-        if self.condition is not None:
-            if not self.condition(answer):
-                raise ValueError(
-                    f"{answer} does not satisfy conditions for question {self.question}"
-                )
+        if self.condition is not None and not self.condition(answer):
+            raise ValueError(f"{answer} does not satisfy conditions for question {self.question}")
         return answer
 
 
@@ -192,7 +189,7 @@ class _BatchQuestion:
 
         batch_questions = []
         for sentence, sentence_records, asked_questions_for_sentence in zip(
-            sentences, records, asked_questions
+            sentences, records, asked_questions, strict=False
         ):
             eligible_questions_for_sentence = cls._eligible_questions(
                 question_fields,
@@ -448,7 +445,9 @@ class MultiTurnQAParser(AutoSentenceParser):
                     new_records_list[index].append(batch_question.record)
             # Another loop iterating through current records and checking if that is in
             # the new records list, if not, appending it to the list
-            for old_sentence_records, new_sentence_records in zip(records, new_records_list):
+            for old_sentence_records, new_sentence_records in zip(
+                records, new_records_list, strict=False
+            ):
                 for record in old_sentence_records:
                     if record not in new_sentence_records:
                         new_sentence_records.append(record)
@@ -456,16 +455,15 @@ class MultiTurnQAParser(AutoSentenceParser):
 
         records_dict = {
             id(sentence): sentence_records
-            for sentence, sentence_records in zip(filtered_sentences, records)
+            for sentence, sentence_records in zip(filtered_sentences, records, strict=False)
         }
         return records_dict
 
     def _is_valid_sentence(self, sentence):
-        if len(
-            [result for result in self.model.specifier.parse_expression.scan(sentence.tokens)]
-        ) and len([result for result in self.numerical_value_expression.scan(sentence.tokens)]):
-            return True
-        return False
+        return bool(
+            len(list(self.model.specifier.parse_expression.scan(sentence.tokens)))
+            and len(list(self.numerical_value_expression.scan(sentence.tokens)))
+        )
 
     def _do_manual_parsing(self, sentence):
         self.chem_name = NoMatch()

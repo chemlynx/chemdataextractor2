@@ -9,8 +9,9 @@ Test the text chem package.
 import logging
 import unittest
 
-from chemdataextractor.text.chem import SOLVENT_RE, INCHI_RE, SMILES_RE
-
+from chemdataextractor.text.chem import INCHI_RE
+from chemdataextractor.text.chem import SMILES_RE
+from chemdataextractor.text.chem import SOLVENT_RE
 
 logging.basicConfig(level=logging.DEBUG)
 log = logging.getLogger(__name__)
@@ -119,7 +120,7 @@ class TestRegex(unittest.TestCase):
         )
         self.assertTrue(SMILES_RE.match("C1=CC=C(C=C1)C2=CC=C(C=C2)C3=NN=C(O3)C4=CC=CC=C4"))
         self.assertTrue(SMILES_RE.match("CC(=O)OO"))
-        self.assertTrue(SMILES_RE.match("CCCCCCCC/C=C\CCCCCCCCN"))
+        self.assertTrue(SMILES_RE.match(r"CCCCCCCC/C=C\CCCCCCCCN"))
         self.assertTrue(SMILES_RE.match("C[N+](C)(C)CCCCCC[N+](C)(C)C.[Br-]"))
         self.assertTrue(SMILES_RE.match("C([C@H](C(=O)O)N)F"))
         self.assertTrue(SMILES_RE.match("[Ru]"))
@@ -134,7 +135,7 @@ class TestRegex(unittest.TestCase):
         self.assertTrue(SMILES_RE.match("CC(C)[C@@H](C(=O)O)N"))
         self.assertTrue(SMILES_RE.match("CC(C)C(C#C)O"))
         self.assertTrue(SMILES_RE.match("CCCC#N"))
-        self.assertTrue(SMILES_RE.match("C(/C=C\O)Cl"))
+        self.assertTrue(SMILES_RE.match(r"C(/C=C\O)Cl"))
 
 
 if __name__ == "__main__":

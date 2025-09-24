@@ -95,11 +95,11 @@ def get_ids(cs):
 def get_spectra_type(cs):
     records = []
     for c in cs:
-        for nmr in c.get("nmr_spectra", []):
+        for _nmr in c.get("nmr_spectra", []):
             records.append("nmr")
-        for uvvis in c.get("uvvis_spectra", []):
+        for _uvvis in c.get("uvvis_spectra", []):
             records.append("uvvis")
-        for ir in c.get("ir_spectra", []):
+        for _ir in c.get("ir_spectra", []):
             records.append("ir")
     return records
 
@@ -107,11 +107,11 @@ def get_spectra_type(cs):
 def get_spectra_subject(cs):
     records = []
     for c in cs:
-        for nmr in c.get("nmr_spectra", []):
+        for _nmr in c.get("nmr_spectra", []):
             records.append({k: c[k] for k in c if k in {"names", "labels"}})
-        for uvvis in c.get("uvvis_spectra", []):
+        for _uvvis in c.get("uvvis_spectra", []):
             records.append({k: c[k] for k in c if k in {"names", "labels"}})
-        for ir in c.get("ir_spectra", []):
+        for _ir in c.get("ir_spectra", []):
             records.append({k: c[k] for k in c if k in {"names", "labels"}})
     return records
 
@@ -245,13 +245,13 @@ def get_property_units(cs):
 def get_property_subject(cs):
     records = []
     for c in cs:
-        for qy in c.get("quantum_yields", []):
+        for _qy in c.get("quantum_yields", []):
             records.append({k: c[k] for k in c if k in {"names", "labels"}})
-        for mp in c.get("melting_points", []):
+        for _mp in c.get("melting_points", []):
             records.append({k: c[k] for k in c if k in {"names", "labels"}})
-        for fl in c.get("fluorescence_lifetimes", []):
+        for _fl in c.get("fluorescence_lifetimes", []):
             records.append({k: c[k] for k in c if k in {"names", "labels"}})
-        for op in c.get("electrochemical_potentials", []):
+        for _op in c.get("electrochemical_potentials", []):
             records.append({k: c[k] for k in c if k in {"names", "labels"}})
     return records
 

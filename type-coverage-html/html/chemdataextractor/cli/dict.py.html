@@ -400,9 +400,6 @@
 <span id="L390" class="lineno"><a class="lineno" href="#L390">390</a></span>
 <span id="L391" class="lineno"><a class="lineno" href="#L391">391</a></span>
 <span id="L392" class="lineno"><a class="lineno" href="#L392">392</a></span>
-<span id="L393" class="lineno"><a class="lineno" href="#L393">393</a></span>
-<span id="L394" class="lineno"><a class="lineno" href="#L394">394</a></span>
-<span id="L395" class="lineno"><a class="lineno" href="#L395">395</a></span>
 </pre></td>
 <td class="table-code"><pre><span class="line-empty" title="No Anys on this line!">"""</span>
 <span class="line-empty" title="No Anys on this line!">Commands for building a dictionary-based chemical named entity recognizer.</span>
@@ -423,27 +420,27 @@
 <span class="line-precise" title="No Anys on this line!">from ..nlp.tag import DictionaryTagger</span>
 <span class="line-precise" title="No Anys on this line!">from ..nlp.tokenize import ChemWordTokenizer</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-precise" title="Any Types on this line:
+<span class="line-precise" title="Any Types on this line: 
 Omitted Generics (x4)">NG_RE = re.compile(</span>
 <span class="line-precise" title="No Anys on this line!">    r"([\[\(](\d\d?CI|USAN|r?INN|BAN|JAN|USP)(\d\d?CI|USAN|r?INN|BAN|JAN|USP|[:\-,]|spanish|latin)*[\)\]])+$",</span>
 <span class="line-precise" title="No Anys on this line!">    re.I | re.U,</span>
 <span class="line-empty" title="No Anys on this line!">)</span>
-<span class="line-precise" title="Any Types on this line:
+<span class="line-precise" title="Any Types on this line: 
 Omitted Generics (x4)">START_RE = re.compile(</span>
 <span class="line-precise" title="No Anys on this line!">    "^(anhydrous|elemental|amorphous|conjugated|colloidal|activated) ", re.I | re.U</span>
 <span class="line-empty" title="No Anys on this line!">)</span>
-<span class="line-precise" title="Any Types on this line:
+<span class="line-precise" title="Any Types on this line: 
 Omitted Generics (x4)">END_RE = re.compile(</span>
 <span class="line-precise" title="No Anys on this line!">    r"[\[\(]((crude )?product|substance|solution|anhydrous|derivative|analog|salt|modified|discontinued|injectable|anesthetic|pharmaceutical|natural|nonionic|european|ester|dye|tablets?|mineral|VAN|hydrolyzed)[\)\]]$",</span>
 <span class="line-precise" title="No Anys on this line!">    re.I | re.U,</span>
 <span class="line-empty" title="No Anys on this line!">)</span>
-<span class="line-precise" title="Any Types on this line:
+<span class="line-precise" title="Any Types on this line: 
 Omitted Generics (x4)">RATIO_RE = re.compile(r"[\[\(]((\d\d?)(:(\d\d?|\?|\d\.\d))+)[\)\]]$", re.I | re.U)</span>
-<span class="line-precise" title="Any Types on this line:
+<span class="line-precise" title="Any Types on this line: 
 Omitted Generics (x4)">NUM_END_RE = re.compile(r" (\d+)$", re.U)</span>
-<span class="line-precise" title="Any Types on this line:
+<span class="line-precise" title="Any Types on this line: 
 Omitted Generics (x4)">ALPHANUM_END_RE = re.compile(r" ([A-Za-z]\d*)$", re.U)</span>
-<span class="line-precise" title="Any Types on this line:
+<span class="line-precise" title="Any Types on this line: 
 Omitted Generics (x4)">BRACKET_RE = re.compile(r"^\(([^\(\)]+)\)$", re.I | re.U)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">GREEK_WORDS = {</span>
@@ -520,25 +517,25 @@ Omitted Generics (x4)">BRACKET_RE = re.compile(r"^\(([^\(\)]+)\)$", re.I | re.U)
 <span class="line-precise" title="No Anys on this line!">    "omega": "ω",  # \u03c9</span>
 <span class="line-empty" title="No Anys on this line!">}</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-precise" title="Any Types on this line:
+<span class="line-precise" title="Any Types on this line: 
 Omitted Generics (x4)">DOT_GREEK_RE = re.compile(</span>
-<span class="line-precise" title="No Anys on this line!">    r"\.({})\.".format("|".join(re.escape(s) for s in GREEK_WORDS.keys())), re.U</span>
+<span class="line-precise" title="No Anys on this line!">    r"\.({})\.".format("|".join(re.escape(s) for s in GREEK_WORDS)), re.U</span>
 <span class="line-empty" title="No Anys on this line!">)</span>
-<span class="line-precise" title="Any Types on this line:
+<span class="line-precise" title="Any Types on this line: 
 Omitted Generics (x4)">GREEK_RE = re.compile(</span>
-<span class="line-precise" title="No Anys on this line!">    r"([\daA\W]|^)({})([\d\W]|$)".format("|".join(re.escape(s) for s in GREEK_WORDS.keys())),</span>
+<span class="line-precise" title="No Anys on this line!">    r"([\daA\W]|^)({})([\d\W]|$)".format("|".join(re.escape(s) for s in GREEK_WORDS)),</span>
 <span class="line-precise" title="No Anys on this line!">    re.U,</span>
 <span class="line-empty" title="No Anys on this line!">)</span>
-<span class="line-precise" title="Any Types on this line:
+<span class="line-precise" title="Any Types on this line: 
 Omitted Generics (x4)">UNAMBIGUOUS_GREEK_RE = re.compile(</span>
-<span class="line-precise" title="No Anys on this line!">    "({})".format("|".join(re.escape(s) for s in UNAMBIGUOUS_GREEK_WORDS.keys())), re.U</span>
+<span class="line-precise" title="No Anys on this line!">    "({})".format("|".join(re.escape(s) for s in UNAMBIGUOUS_GREEK_WORDS)), re.U</span>
 <span class="line-empty" title="No Anys on this line!">)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-precise" title="Any Types on this line:
+<span class="line-precise" title="Any Types on this line: 
 Omitted Generics (x4)
 Explicit (x3)">@click.group(name="dict")</span>
-<span class="line-precise" title="Any Types on this line:
+<span class="line-precise" title="Any Types on this line: 
 Omitted Generics (x6)">@click.pass_context</span>
 <span class="line-any" title="No Anys on this line!">def dict_cli(ctx):</span>
 <span class="line-empty" title="No Anys on this line!">    """Chemical dictionary commands."""</span>
@@ -571,10 +568,7 @@ Omitted Generics (x6)">@click.pass_context</span>
 <span class="line-empty" title="No Anys on this line!">    elif len(comps) &gt; 2:</span>
 <span class="line-empty" title="No Anys on this line!">        name = comps[0]</span>
 <span class="line-empty" title="No Anys on this line!">        for i in range(1, len(comps)):</span>
-<span class="line-empty" title="No Anys on this line!">            if comps[i].endswith("-"):</span>
-<span class="line-empty" title="No Anys on this line!">                name = f"{comps[i]}{name}"</span>
-<span class="line-empty" title="No Anys on this line!">            else:</span>
-<span class="line-empty" title="No Anys on this line!">                name = f"{name} {comps[i]}"</span>
+<span class="line-empty" title="No Anys on this line!">            name = f"{comps[i]}{name}" if comps[i].endswith("-") else f"{name} {comps[i]}"</span>
 <span class="line-empty" title="No Anys on this line!">    return name</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!"></span>
@@ -703,12 +697,12 @@ Omitted Generics (x6)">@click.pass_context</span>
 <span class="line-empty" title="No Anys on this line!">    return tokenized_names</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-precise" title="Any Types on this line:
+<span class="line-precise" title="Any Types on this line: 
 Explicit (x11)">@dict_cli.command()</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Omitted Generics (x4)
 Explicit (x1)">@click.argument("jochem", type=click.File("r", encoding="utf8"))</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Omitted Generics (x4)
 Explicit (x1)">@click.option(</span>
 <span class="line-precise" title="No Anys on this line!">    "--output",</span>
@@ -717,7 +711,7 @@ Explicit (x1)">@click.option(</span>
 <span class="line-precise" title="No Anys on this line!">    help="Dictionary file.",</span>
 <span class="line-precise" title="No Anys on this line!">    default=click.get_text_stream("stdout"),</span>
 <span class="line-empty" title="No Anys on this line!">)</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Omitted Generics (x4)
 Explicit (x1)">@click.option(</span>
 <span class="line-precise" title="No Anys on this line!">    "--csoutput",</span>
@@ -726,7 +720,7 @@ Explicit (x1)">@click.option(</span>
 <span class="line-precise" title="No Anys on this line!">    help="Case-sensitive dictionary file.",</span>
 <span class="line-precise" title="No Anys on this line!">    default=click.get_text_stream("stdout"),</span>
 <span class="line-empty" title="No Anys on this line!">)</span>
-<span class="line-precise" title="Any Types on this line:
+<span class="line-precise" title="Any Types on this line: 
 Omitted Generics (x7)">@click.pass_obj</span>
 <span class="line-any" title="No Anys on this line!">def prepare_jochem(ctx, jochem, output, csoutput):</span>
 <span class="line-empty" title="No Anys on this line!">    """Process and filter jochem file to produce list of names for dictionary."""</span>
@@ -744,12 +738,12 @@ Omitted Generics (x7)">@click.pass_obj</span>
 <span class="line-empty" title="No Anys on this line!">                    csoutput.write("\n")</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-precise" title="Any Types on this line:
+<span class="line-precise" title="Any Types on this line: 
 Explicit (x11)">@dict_cli.command()</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Omitted Generics (x4)
 Explicit (x1)">@click.argument("include", type=click.File("r", encoding="utf8"))</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Omitted Generics (x4)
 Explicit (x1)">@click.option(</span>
 <span class="line-precise" title="No Anys on this line!">    "--output",</span>
@@ -758,7 +752,7 @@ Explicit (x1)">@click.option(</span>
 <span class="line-precise" title="No Anys on this line!">    help="Output file.",</span>
 <span class="line-precise" title="No Anys on this line!">    default=click.get_text_stream("stdout"),</span>
 <span class="line-empty" title="No Anys on this line!">)</span>
-<span class="line-precise" title="Any Types on this line:
+<span class="line-precise" title="Any Types on this line: 
 Omitted Generics (x7)">@click.pass_obj</span>
 <span class="line-any" title="No Anys on this line!">def prepare_include(ctx, include, output):</span>
 <span class="line-empty" title="No Anys on this line!">    """Process and filter include file to produce list of names for dictionary."""</span>
@@ -770,18 +764,18 @@ Omitted Generics (x7)">@click.pass_obj</span>
 <span class="line-empty" title="No Anys on this line!">            output.write("\n")</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-precise" title="Any Types on this line:
+<span class="line-precise" title="Any Types on this line: 
 Explicit (x11)">@dict_cli.command()</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Omitted Generics (x4)
 Explicit (x1)">@click.argument("inputs", type=click.File("r", encoding="utf8"), nargs=-1)</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Omitted Generics (x4)
 Explicit (x1)">@click.option("--output", help="Output model file.", required=True)</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Omitted Generics (x4)
 Explicit (x1)">@click.option("--cs/--no-cs", help="Whether case-sensitive.", default=False)</span>
-<span class="line-precise" title="Any Types on this line:
+<span class="line-precise" title="Any Types on this line: 
 Omitted Generics (x7)">@click.pass_obj</span>
 <span class="line-any" title="No Anys on this line!">def build(ctx, inputs, output, cs):</span>
 <span class="line-empty" title="No Anys on this line!">    """Build chemical name dictionary."""</span>
@@ -796,18 +790,18 @@ Omitted Generics (x7)">@click.pass_obj</span>
 <span class="line-empty" title="No Anys on this line!">    dt.save(output)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-precise" title="Any Types on this line:
+<span class="line-precise" title="Any Types on this line: 
 Explicit (x11)">@dict_cli.command()</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Omitted Generics (x4)
 Explicit (x1)">@click.argument("model", required=True)</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Omitted Generics (x4)
 Explicit (x1)">@click.option("--cs/--no-cs", default=False)</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Omitted Generics (x4)
 Explicit (x1)">@click.option("--corpus", "-c", type=click.File("r", encoding="utf8"), required=True)</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Omitted Generics (x4)
 Explicit (x1)">@click.option(</span>
 <span class="line-precise" title="No Anys on this line!">    "--output",</span>
@@ -816,7 +810,7 @@ Explicit (x1)">@click.option(</span>
 <span class="line-precise" title="No Anys on this line!">    help="Output file.",</span>
 <span class="line-precise" title="No Anys on this line!">    default=click.get_text_stream("stdout"),</span>
 <span class="line-empty" title="No Anys on this line!">)</span>
-<span class="line-precise" title="Any Types on this line:
+<span class="line-precise" title="Any Types on this line: 
 Omitted Generics (x7)">@click.pass_obj</span>
 <span class="line-any" title="No Anys on this line!">def tag(ctx, model, cs, corpus, output):</span>
 <span class="line-empty" title="No Anys on this line!">    """Tag chemical entities and write CHEMDNER annotations predictions file."""</span>

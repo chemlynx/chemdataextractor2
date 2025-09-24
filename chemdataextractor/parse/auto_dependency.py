@@ -42,9 +42,7 @@ class _LabelledRange:
         return hash((str(self.data), self.range))
 
     def __eq__(self, other):
-        if self.data == other.data and self.range == other.range:
-            return True
-        return False
+        return bool(self.data == other.data and self.range == other.range)
 
     def __str__(self):
         return f"_LabelledRange(data: {self.data}, range:{self.range}"
@@ -101,14 +99,12 @@ class AutoDependencyParser(AutoSentenceParser):
     def parse_sentence(self, sentence):
         # Skip parsing sentence if it fits skip_phrase
         if self.skip_phrase is not None:
-            skip_phrase_results = [result for result in self.skip_phrase.scan(sentence.tokens)]
+            skip_phrase_results = list(self.skip_phrase.scan(sentence.tokens))
             if skip_phrase_results:
                 return []
         # Skip parsing sentence unless it fits trigger_phrase
         if self.trigger_phrase is not None:
-            trigger_phrase_results = [
-                result for result in self.trigger_phrase.scan(sentence.tokens)
-            ]
+            trigger_phrase_results = list(self.trigger_phrase.scan(sentence.tokens))
             if not trigger_phrase_results:
                 return []
         # Check for a few scenarios and do a different parsing path depending on what sort of model we have
@@ -160,7 +156,7 @@ class AutoDependencyParser(AutoSentenceParser):
                 record.set_confidence(self.primary_keypath, 1.0)
 
                 for keypath, results_map in other_values_map.items():
-                    if primary in results_map.keys() and results_map[primary] is not None:
+                    if primary in results_map and results_map[primary] is not None:
                         data = results_map[primary][0].data
                         if isinstance(data, list):
                             record[keypath] = data[0].text
@@ -168,7 +164,7 @@ class AutoDependencyParser(AutoSentenceParser):
                             record[keypath] = data.text
                         record.set_confidence(keypath, results_map[primary][1])
 
-                if primary in values_map.keys() and values_map[primary] is not None:
+                if primary in values_map and values_map[primary] is not None:
                     value = values_map[primary][0]
                     for element in value.data:
                         if element.tag == "raw_value":
@@ -225,7 +221,7 @@ class AutoDependencyParser(AutoSentenceParser):
 
                 record.set_confidence("specifier", 1.0)
 
-                if specifier in chem_values_map.keys() and chem_values_map[specifier] is not None:
+                if specifier in chem_values_map and chem_values_map[specifier] is not None:
                     test_result = E("wrapped_result", chem_values_map[specifier][0].data)
                     parsed_result = self._get_data(
                         "compound", self.model.fields["compound"], test_result
@@ -236,7 +232,7 @@ class AutoDependencyParser(AutoSentenceParser):
                     record.set_confidence("compound", chem_values_map[specifier][1])
 
                 for keypath, results_map in other_values_map.items():
-                    if specifier in results_map.keys() and results_map[specifier] is not None:
+                    if specifier in results_map and results_map[specifier] is not None:
                         data = results_map[specifier][0].data
                         if isinstance(data, list):
                             record[keypath] = data[0].text
@@ -292,7 +288,7 @@ class AutoDependencyParser(AutoSentenceParser):
                 record.set_confidence("raw_value", 1.0)
                 record.set_confidence("raw_units", 1.0)
 
-                if value in chem_values_map.keys() and chem_values_map[value] is not None:
+                if value in chem_values_map and chem_values_map[value] is not None:
                     test_result = E("wrapped_result", chem_values_map[value][0].data)
                     parsed_result = self._get_data(
                         "compound", self.model.fields["compound"], test_result
@@ -303,7 +299,7 @@ class AutoDependencyParser(AutoSentenceParser):
                     record.set_confidence("compound", chem_values_map[value][1])
 
                 for keypath, results_map in other_values_map.items():
-                    if value in results_map.keys() and results_map[value] is not None:
+                    if value in results_map and results_map[value] is not None:
                         data = results_map[value][0].data
                         if isinstance(data, list):
                             record[keypath] = data[0].text
@@ -337,9 +333,12 @@ class AutoDependencyParser(AutoSentenceParser):
         )
         chem_phrase_results = []
         for result in unfiltered_chem_phrase_results:
-            if isinstance(result.data, list) and result.data[0].tag == "compound":
-                chem_phrase_results.append(result)
-            elif not isinstance(result.data, list) and result.data.tag == "compound":
+            if (
+                isinstance(result.data, list)
+                and result.data[0].tag == "compound"
+                or not isinstance(result.data, list)
+                and result.data.tag == "compound"
+            ):
                 chem_phrase_results.append(result)
         return chem_phrase_results
 
@@ -415,7 +414,7 @@ def _find_intersect_element(route_1, route_2, blocked_elements=None):
     if len(route_1) > len(route_2):
         route_1, route_2 = route_2, route_1
     route_2 = route_2[len(route_2) - len(route_1) :]
-    for el1, el2 in zip(reversed(route_1), reversed(route_2)):
+    for el1, el2 in zip(reversed(route_1), reversed(route_2), strict=False):
         if el1 == el2:
             intersect_element = el1
     if blocked_elements is not None:
@@ -444,7 +443,7 @@ def _find_associated(parents, children, remove_children, sentence):
         return {}
 
     elif len(children) == 0:
-        return {parent: None for parent in parents}
+        return dict.fromkeys(parents)
 
     elif len(parents) == 1 and len(children) == 1:
         # Make assumption that each subsentence has more or less the same number of children

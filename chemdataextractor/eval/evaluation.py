@@ -27,9 +27,7 @@ import os
 import pickle
 import sys
 import webbrowser
-from importlib.resources import files
 from pprint import pprint
-
 
 from .. import Document
 
@@ -53,7 +51,7 @@ sys.stdout = Logger()
 
 def documents(folder):
     """Yields CDE documents for a given folder"""
-    for i, filename in enumerate(sorted(os.listdir(folder))):
+    for _i, filename in enumerate(sorted(os.listdir(folder))):
         if filename[0] != ".":
             file_path = os.path.join(folder, filename)
             fb = open(file_path, "rb")
@@ -293,10 +291,9 @@ class Evaluate:
 
     @property
     def limits_reached(self):
-        if self.n_paper + 1 >= self.n_papers_limit and self.n_records >= self.n_records_limit:
-            return True
-        else:
-            return False
+        return bool(
+            self.n_paper + 1 >= self.n_papers_limit and self.n_records >= self.n_records_limit
+        )
 
     def print_results(self, destination=sys.stdout):
         """Prints the results of evaluation"""

@@ -340,14 +340,17 @@ Unannotated (x6)">        compound_class = self.model.fields["compound"].model_c
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x3)">        melting_point = self.model(</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x6)">            value=first(result.xpath("./mp/value/text()")),</span>
+Unannotated (x4)
+Omitted Generics (x2)">            value=first(result.xpath("./mp/value/text()")),</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x6)">            units=first(result.xpath("./mp/units/text()")),</span>
+Unannotated (x4)
+Omitted Generics (x2)">            units=first(result.xpath("./mp/units/text()")),</span>
 <span class="line-empty" title="No Anys on this line!">        )</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x4)">        melting_point.compound = compound_class()</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x7)">        cem_el = first(result.xpath("./cem"))</span>
+Unannotated (x5)
+Omitted Generics (x2)">        cem_el = first(result.xpath("./cem"))</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">        if cem_el is not None:</span>
 <span class="line-any" title="Any Types on this line: 

@@ -6,7 +6,6 @@ Abstract base classes that define the interface for Scrapers, Fields, Crawlers, 
 import logging
 from abc import ABCMeta
 from abc import abstractmethod
-from abc import abstractproperty
 
 import requests
 
@@ -39,7 +38,8 @@ class BaseScraper(metaclass=ABCMeta):
             .lower()
         )
 
-    @abstractproperty
+    @property
+    @abstractmethod
     def entity(self):
         """The Entity to scrape."""
         pass

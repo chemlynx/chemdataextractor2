@@ -4,13 +4,24 @@ chemdataextractor.reader.springerjats
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Springer XML reader for the JATS format
 
+Provides specialized XML reader for Springer JATS format documents
+with comprehensive metadata parsing and element extraction.
+
 author: Shu Huang <sh2009@cam.ac.uk>
 """
+
+from __future__ import annotations
+
+from typing import TYPE_CHECKING
+from typing import Any
 
 from ..doc.meta import MetaData
 from ..scrape.clean import Cleaner
 from ..scrape.clean import clean
 from .markup import XmlReader
+
+if TYPE_CHECKING:
+    from lxml.html import HtmlElement
 
 # XML stripper that removes the tags around numbers in chemical formulas
 strip_spr_xml = Cleaner(
@@ -50,15 +61,31 @@ class SpringerJatsReader(XmlReader):
 
     ignore_css = "tex-math, label, table"
 
-    def detect(self, fstring, fname=None):
-        """Springer document detection based on string found in xml"""
+    def detect(self, fstring: str | bytes, fname: str | None = None) -> bool:
+        """Springer document detection based on string found in xml.
+
+        Args:
+            fstring: Input data to check
+            fname: Optional filename for format hints
+
+        Returns:
+            True if this appears to be a Springer JATS XML document
+        """
         if fname and not fname.endswith(".xml"):
             return False
-        if b'dtd-version="1.2"' in fstring:
-            return True
-        return False
+        return b'dtd-version="1.2"' in fstring
 
-    def _parse_metadata(self, el, refs, specials):
+    def _parse_metadata(self, el: HtmlElement, refs: dict[str, Any], specials: dict[str, Any]) -> list[MetaData]:
+        """Parse metadata from Springer JATS document.
+
+        Args:
+            el: Root element containing metadata
+            refs: Reference mapping dictionary
+            specials: Special elements mapping dictionary
+
+        Returns:
+            List containing single MetaData object
+        """
         title = self._css(self.metadata_title_css, el)
         authors = self._css(self.metadata_author_css, el)
         publisher = self._css(self.metadata_publisher_css, el)

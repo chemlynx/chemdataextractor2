@@ -257,8 +257,6 @@
 <span id="L247" class="lineno"><a class="lineno" href="#L247">247</a></span>
 <span id="L248" class="lineno"><a class="lineno" href="#L248">248</a></span>
 <span id="L249" class="lineno"><a class="lineno" href="#L249">249</a></span>
-<span id="L250" class="lineno"><a class="lineno" href="#L250">250</a></span>
-<span id="L251" class="lineno"><a class="lineno" href="#L251">251</a></span>
 </pre></td>
 <td class="table-code"><pre><span class="line-empty" title="No Anys on this line!">"""</span>
 <span class="line-empty" title="No Anys on this line!">Elsevier XML reader</span>
@@ -489,9 +487,7 @@ Unimported (x4)">    etree.FunctionNamespace("http://www.w3.org/2001/XMLSchema-i
 Unannotated (x5)">        if fname and not fname.endswith(".xml"):</span>
 <span class="line-any" title="No Anys on this line!">            return False</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x1)">        if b'xmlns="http://www.elsevier.com/xml/svapi/article/dtd"' in fstring:</span>
-<span class="line-any" title="No Anys on this line!">            return True</span>
-<span class="line-any" title="No Anys on this line!">        return False</span>
+Unannotated (x1)">        return b'xmlns="http://www.elsevier.com/xml/svapi/article/dtd"' in fstring</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="No Anys on this line!">    def _parse_metadata(self, el, refs, specials):</span>
 <span class="line-any" title="Any Types on this line: 
@@ -580,7 +576,7 @@ Unannotated (x5)">                colspan = (nameend - namest) + 1</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x6)">                rowspan = int(td.get("morerows", "0")) + 1</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x3)">                for i in range(colspan):</span>
+Unannotated (x3)">                for _i in range(colspan):</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x3)">                    for j in range(rowspan):</span>
 <span class="line-any" title="Any Types on this line: 

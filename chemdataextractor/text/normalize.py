@@ -1,13 +1,17 @@
 """
 Tools for normalizing text.
 
+Provides comprehensive text normalization utilities for chemical and scientific text,
+including Unicode normalization, character standardization, and chemistry-aware cleaning.
 """
 
-import re
+from __future__ import annotations
+
 import unicodedata
 from abc import ABCMeta
 from abc import abstractmethod
 
+from ..parse.regex_patterns import normalize_chemical_spelling
 from . import ACCENTS
 from . import APOSTROPHES
 from . import CONTROLS
@@ -19,7 +23,6 @@ from . import SINGLE_QUOTES
 from . import SLASHES
 from . import TILDES
 from .processors import BaseProcessor
-from ..parse.regex_patterns import normalize_chemical_spelling
 
 
 class BaseNormalizer(BaseProcessor, metaclass=ABCMeta):
@@ -29,17 +32,26 @@ class BaseNormalizer(BaseProcessor, metaclass=ABCMeta):
     """
 
     @abstractmethod
-    def normalize(self, text):
+    def normalize(self, text: str) -> str:
         """Normalize the text.
 
-        :param string text: The text to normalize.
-        :returns: Normalized text.
-        :rtype: string
+        Args:
+            text: The text to normalize.
+
+        Returns:
+            Normalized text.
         """
         return text
 
-    def __call__(self, text):
-        """Calling a normalizer instance like a function just calls the normalize method."""
+    def __call__(self, text: str) -> str:
+        """Calling a normalizer instance like a function just calls the normalize method.
+
+        Args:
+            text: The text to normalize
+
+        Returns:
+            Normalized text
+        """
         return self.normalize(text)
 
 
@@ -55,25 +67,26 @@ class Normalizer(BaseNormalizer):
 
     def __init__(
         self,
-        form="NFKC",
-        strip=True,
-        collapse=True,
-        hyphens=False,
-        quotes=False,
-        ellipsis=False,
-        slashes=False,
-        tildes=False,
-    ):
-        """
+        form: str = "NFKC",
+        strip: bool = True,
+        collapse: bool = True,
+        hyphens: bool = False,
+        quotes: bool = False,
+        ellipsis: bool = False,
+        slashes: bool = False,
+        tildes: bool = False,
+    ) -> None:
+        """Initialize normalizer with options.
 
-        :param string form: Normal form for unicode normalization.
-        :param bool strip: Whether to strip whitespace from start and end.
-        :param bool collapse: Whether to collapse all whitespace (tabs, newlines) down to single spaces.
-        :param bool hyphens: Whether to normalize all hyphens, minuses and dashes to the ASCII hyphen-minus character.
-        :param bool quotes: Whether to normalize all apostrophes, quotes and primes to the ASCII quote character.
-        :param bool ellipsis: Whether to normalize ellipses to three full stops.
-        :param bool slashes: Whether to normalize slash characters to the ASCII slash character.
-        :param bool tildes: Whether to normalize tilde characters to the ASCII tilde character.
+        Args:
+            form: Normal form for unicode normalization.
+            strip: Whether to strip whitespace from start and end.
+            collapse: Whether to collapse all whitespace (tabs, newlines) down to single spaces.
+            hyphens: Whether to normalize all hyphens, minuses and dashes to the ASCII hyphen-minus character.
+            quotes: Whether to normalize all apostrophes, quotes and primes to the ASCII quote character.
+            ellipsis: Whether to normalize ellipses to three full stops.
+            slashes: Whether to normalize slash characters to the ASCII slash character.
+            tildes: Whether to normalize tilde characters to the ASCII tilde character.
         """
         self.form = form
         self.strip = strip
@@ -84,7 +97,7 @@ class Normalizer(BaseNormalizer):
         self.slashes = slashes
         self.tildes = tildes
 
-    def normalize(self, text):
+    def normalize(self, text: str) -> str:
         """Run the Normalizer on a string.
 
         :param text: The string to normalize.
@@ -164,14 +177,14 @@ class ExcessNormalizer(Normalizer):
 
     def __init__(
         self,
-        form="NFKC",
-        strip=True,
-        collapse=True,
-        hyphens=True,
-        quotes=True,
-        ellipsis=True,
-        tildes=True,
-    ):
+        form: str = "NFKC",
+        strip: bool = True,
+        collapse: bool = True,
+        hyphens: bool = True,
+        quotes: bool = True,
+        ellipsis: bool = True,
+        tildes: bool = True,
+    ) -> None:
         """"""
         super().__init__(
             form,
@@ -183,7 +196,7 @@ class ExcessNormalizer(Normalizer):
             tildes=tildes,
         )
 
-    def normalize(self, text):
+    def normalize(self, text: str) -> str:
         # Lowercase and normalize unicode
         text = super().normalize(text.lower())
         # Remove all whitespace
@@ -209,15 +222,15 @@ class ChemNormalizer(Normalizer):
 
     def __init__(
         self,
-        form="NFKC",
-        strip=True,
-        collapse=True,
-        hyphens=True,
-        quotes=True,
-        ellipsis=True,
-        tildes=True,
-        chem_spell=True,
-    ):
+        form: str = "NFKC",
+        strip: bool = True,
+        collapse: bool = True,
+        hyphens: bool = True,
+        quotes: bool = True,
+        ellipsis: bool = True,
+        tildes: bool = True,
+        chem_spell: bool = True,
+    ) -> None:
         """"""
         super().__init__(
             form,
@@ -230,7 +243,7 @@ class ChemNormalizer(Normalizer):
         )
         self.chem_spell = chem_spell
 
-    def normalize(self, text):
+    def normalize(self, text: str) -> str:
         """Normalize unicode, hyphens, whitespace, and some chemistry terms and formatting."""
         text = super().normalize(text)
         # Normalize element spelling

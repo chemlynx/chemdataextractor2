@@ -3,12 +3,17 @@ Elsevier XML reader
 
 .. codeauthor:: Callum Court <cc889@cam.ac.uk>
 
+Provides specialized XML reader for Elsevier ScienceDirect publications
+with comprehensive metadata parsing and custom XML namespace handling.
 
 Readers for Elsevier XML files.
-
 """
 
+from __future__ import annotations
+
 import re
+from typing import TYPE_CHECKING
+from typing import Any
 
 from lxml import etree
 
@@ -18,8 +23,11 @@ from ..scrape.clean import Cleaner
 from ..scrape.clean import clean
 from .markup import XmlReader
 
+if TYPE_CHECKING:
+    from lxml.html import HtmlElement
 
-def remove_if_reference(el):
+
+def remove_if_reference(el: HtmlElement) -> HtmlElement | None:
     text = el.text
     check_regex = re.compile(r"\[\d")
     if check_regex.match(text) or text.isnumeric():
@@ -37,8 +45,15 @@ strip_els_xml = Cleaner(
 )
 
 
-def fix_elsevier_xml_whitespace(document):
-    """Fix tricky xml tags"""
+def fix_elsevier_xml_whitespace(document: HtmlElement) -> HtmlElement:
+    """Fix tricky xml tags.
+
+    Args:
+        document: XML document element to fix
+
+    Returns:
+        Fixed XML document element
+    """
     # space hsp  and refs correctly
     for el in document.xpath(".//ce:hsp"):
         parent = el.getparent()
@@ -80,8 +95,15 @@ def fix_elsevier_xml_whitespace(document):
     return document
 
 
-def els_xml_whitespace(document):
-    """Remove whitespace in xml.text or xml.tails for all elements, if it is only whitespace"""
+def els_xml_whitespace(document: HtmlElement) -> HtmlElement:
+    """Remove whitespace in xml.text or xml.tails for all elements, if it is only whitespace.
+
+    Args:
+        document: XML document element to clean
+
+    Returns:
+        Cleaned XML document element
+    """
     # selects all tags and checks if the text or tail are spaces
     for el in document.xpath("//*"):
         if str(el.text).isspace():
@@ -164,15 +186,21 @@ class ElsevierXmlReader(XmlReader):
 
     url_prefix = "https://sciencedirect.com/science/article/pii/"
 
-    def detect(self, fstring, fname=None):
-        """Elsevier document detection based on string found in xml"""
+    def detect(self, fstring: str | bytes, fname: str | None = None) -> bool:
+        """Elsevier document detection based on string found in xml.
+
+        Args:
+            fstring: Input data to check
+            fname: Optional filename for format hints
+
+        Returns:
+            True if this appears to be an Elsevier XML document
+        """
         if fname and not fname.endswith(".xml"):
             return False
-        if b'xmlns="http://www.elsevier.com/xml/svapi/article/dtd"' in fstring:
-            return True
-        return False
+        return b'xmlns="http://www.elsevier.com/xml/svapi/article/dtd"' in fstring
 
-    def _parse_metadata(self, el, refs, specials):
+    def _parse_metadata(self, el: HtmlElement, refs: dict[str, Any], specials: dict[str, Any]) -> list[MetaData]:
         title = self._css(self.metadata_title_css, el)
         authors = self._css(self.metadata_author_css, el)
         publisher = self._css(self.metadata_publisher_css, el)
@@ -208,8 +236,18 @@ class ElsevierXmlReader(XmlReader):
         meta = MetaData(metadata)
         return [meta]
 
-    def _parse_table_rows(self, els, refs, specials):
-        hdict = {}
+    def _parse_table_rows(self, els: list[HtmlElement], refs: dict[str, Any], specials: dict[str, Any]) -> list[list[Cell]]:
+        """Parse Elsevier table rows with CALS table model support.
+
+        Args:
+            els: List of table row elements
+            refs: Reference mapping dictionary
+            specials: Special elements mapping dictionary
+
+        Returns:
+            List of table rows, each containing Cell objects
+        """
+        hdict: dict[int, dict[int, Cell]] = {}
         for row, tr in enumerate(els):
             colnum = 0
             for td in self._css(self.table_cell_css, tr):
@@ -218,7 +256,7 @@ class ElsevierXmlReader(XmlReader):
                 nameend = int([i for i in td.get("nameend", "1").split("col") if i][0])
                 colspan = (nameend - namest) + 1
                 rowspan = int(td.get("morerows", "0")) + 1
-                for i in range(colspan):
+                for _i in range(colspan):
                     for j in range(rowspan):
                         rownum = row + j
                         if rownum not in hdict:
@@ -237,8 +275,15 @@ class ElsevierXmlReader(XmlReader):
         rows = [r for r in rows if any(r)]
         return rows
 
-    def _parse_figure_links(self, el):
-        """Parse awkward elsevier figure links"""
+    def _parse_figure_links(self, el: HtmlElement) -> list[str]:
+        """Parse awkward elsevier figure links.
+
+        Args:
+            el: Figure element to parse links from
+
+        Returns:
+            List of figure link URLs
+        """
         figure_link_css = self._css("ce|link", el)
         figure_link_locator = figure_link_css[0].get("locator", "") if figure_link_css else None
         links = []

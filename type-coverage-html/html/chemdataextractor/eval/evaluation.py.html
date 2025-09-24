@@ -418,11 +418,6 @@
 <span id="L408" class="lineno"><a class="lineno" href="#L408">408</a></span>
 <span id="L409" class="lineno"><a class="lineno" href="#L409">409</a></span>
 <span id="L410" class="lineno"><a class="lineno" href="#L410">410</a></span>
-<span id="L411" class="lineno"><a class="lineno" href="#L411">411</a></span>
-<span id="L412" class="lineno"><a class="lineno" href="#L412">412</a></span>
-<span id="L413" class="lineno"><a class="lineno" href="#L413">413</a></span>
-<span id="L414" class="lineno"><a class="lineno" href="#L414">414</a></span>
-<span id="L415" class="lineno"><a class="lineno" href="#L415">415</a></span>
 </pre></td>
 <td class="table-code"><pre><span class="line-empty" title="No Anys on this line!">"""</span>
 <span class="line-empty" title="No Anys on this line!">Scripts for evaluation.</span>
@@ -453,9 +448,7 @@
 <span class="line-precise" title="No Anys on this line!">import pickle</span>
 <span class="line-precise" title="No Anys on this line!">import sys</span>
 <span class="line-precise" title="No Anys on this line!">import webbrowser</span>
-<span class="line-precise" title="No Anys on this line!">from importlib.resources import files</span>
 <span class="line-precise" title="No Anys on this line!">from pprint import pprint</span>
-<span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">from .. import Document</span>
 <span class="line-empty" title="No Anys on this line!"></span>
@@ -463,14 +456,14 @@
 <span class="line-precise" title="No Anys on this line!">class Logger:</span>
 <span class="line-any" title="No Anys on this line!">    def __init__(self):</span>
 <span class="line-precise" title="No Anys on this line!">        self.terminal = sys.stdout</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unimported (x7)
 Explicit (x1)">        self.log = open("evaluation-log.txt", "a", encoding="utf-8")</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="No Anys on this line!">    def write(self, message):</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">        self.terminal.write(message)</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">        self.log.write(message)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="No Anys on this line!">    def flush(self):</span>
@@ -483,16 +476,16 @@ Unannotated (x1)">        self.log.write(message)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="No Anys on this line!">def documents(folder):</span>
 <span class="line-empty" title="No Anys on this line!">    """Yields CDE documents for a given folder"""</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Omitted Generics (x5)
-Unannotated (x1)">    for i, filename in enumerate(sorted(os.listdir(folder))):</span>
+Unannotated (x1)">    for _i, filename in enumerate(sorted(os.listdir(folder))):</span>
 <span class="line-any" title="No Anys on this line!">        if filename[0] != ".":</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">            file_path = os.path.join(folder, filename)</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unimported (x7)
 Explicit (x1)">            fb = open(file_path, "rb")</span>
-<span class="line-precise" title="Any Types on this line:
+<span class="line-precise" title="Any Types on this line: 
 Explicit (x1)">            doc = Document.from_file(fb)</span>
 <span class="line-precise" title="No Anys on this line!">            fb.close()</span>
 <span class="line-precise" title="No Anys on this line!">            yield doc, file_path</span>
@@ -500,21 +493,21 @@ Explicit (x1)">            doc = Document.from_file(fb)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="No Anys on this line!">def records(cde_doc, models):</span>
 <span class="line-empty" title="No Anys on this line!">    """Yields CDE records for a given CDE document and CDE model"""</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x2)">    cde_doc.models = []</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x2)">    for m in models:</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x5)">        cde_doc.models.append(m)</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x3)">    recs = cde_doc.records</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">    if recs:</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x2)">        for record in recs:</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x2)">            if isinstance(record, tuple(models)):</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">                yield record</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!"></span>
@@ -530,19 +523,19 @@ Unannotated (x1)">                yield record</span>
 <span class="line-any" title="No Anys on this line!">        show_website=True,</span>
 <span class="line-any" title="No Anys on this line!">        _automated=False,</span>
 <span class="line-empty" title="No Anys on this line!">    ):</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x2)">        self._automated = _automated</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x2)">        self.show_website = show_website</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x2)">        self.folder = folder</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x2)">        self.models = models</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x2)">        self.n_papers_limit = n_papers_limit</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x2)">        self.n_records_limit = n_records_limit</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">        self.n_papers = len(os.listdir(folder))</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">        # number of paper that was last evaluated</span>
@@ -586,51 +579,51 @@ Unannotated (x1)">        self.n_papers = len(os.listdir(folder))</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="No Anys on this line!">    def eval(self):</span>
 <span class="line-empty" title="No Anys on this line!">        """Evaluates the corpus"""</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unimported (x7)
 Explicit (x1)">        f = open("results.txt", "w", encoding="utf-8")</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x8)">        for n_paper, doc in enumerate(documents(self.folder)):</span>
 <span class="line-empty" title="No Anys on this line!">            # if loaded from pickle, eval will start where left of</span>
 <span class="line-any" title="No Anys on this line!">            if n_paper &lt;= self.n_paper and self.n_paper &gt;= 0:</span>
 <span class="line-any" title="No Anys on this line!">                continue</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="No Anys on this line!">            print(f"Paper {n_paper}/{self.n_papers}")</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x4)">            print(f"DOI:       {doc[0].metadata.doi}")</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x4)">            print(f"Journal:   {doc[0].metadata.journal}")</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x4)">            print(f"Publisher: {doc[0].metadata.publisher}")</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x4)">            print(f"PDF Url:   {doc[0].metadata.pdf_url}")</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x4)">            print(f"HTML Url:  {doc[0].metadata.html_url}")</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="No Anys on this line!">            doc_opened = False</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x8)">            for record in records(doc[0], self.models):</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x2)">                if record.is_unidentified:</span>
 <span class="line-any" title="No Anys on this line!">                    self.n_unidentified += 1</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x2)">                if not record.is_unidentified:</span>
 <span class="line-any" title="No Anys on this line!">                    self.n_records += 1</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="No Anys on this line!">                    print(f"Record {self.n_records}: \n")</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x3)">                    pprint(record.serialize())</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x2)">                    print(f"    Method:  {record.record_method}")</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x2)">                    print(f"    Updated: {record.updated}")</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x2)">                    if not doc_opened and self.show_website:</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x4)">                        webbrowser.open(doc[0].metadata.html_url)</span>
 <span class="line-any" title="No Anys on this line!">                        doc_opened = True</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">                    if self._automated:</span>
 <span class="line-any" title="No Anys on this line!">                        input_cw = 0</span>
 <span class="line-empty" title="No Anys on this line!">                    else:</span>
@@ -649,24 +642,24 @@ Unannotated (x1)">                    if self._automated:</span>
 <span class="line-any" title="No Anys on this line!">                    if input_cw == 0:</span>
 <span class="line-any" title="No Anys on this line!">                        self.nc += 1</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x3)">                        if record.record_method == "AutoSentenceParser":</span>
 <span class="line-any" title="No Anys on this line!">                            self.nc_autosentence += 1</span>
 <span class="line-empty" title="No Anys on this line!">                        elif (</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x4)">                            record.record_method == "QuantityModelTemplateParser"</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x3)">                            or record.record_method == "MultiQuantityModelTemplateParser"</span>
 <span class="line-empty" title="No Anys on this line!">                        ):</span>
 <span class="line-any" title="No Anys on this line!">                            self.nc_template += 1</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x3)">                        elif record.record_method == "Snowball":</span>
 <span class="line-any" title="No Anys on this line!">                            self.nc_snowball += 1</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x3)">                        elif record.record_method == "AutoTableParser":</span>
 <span class="line-any" title="No Anys on this line!">                            self.nc_table += 1</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x2)">                        if record.updated:</span>
 <span class="line-any" title="No Anys on this line!">                            self.nc_definition += 1</span>
 <span class="line-empty" title="No Anys on this line!">                            # print(doc[0].definitions)</span>
@@ -674,24 +667,24 @@ Unannotated (x2)">                        if record.updated:</span>
 <span class="line-any" title="No Anys on this line!">                    if input_cw == 1:</span>
 <span class="line-any" title="No Anys on this line!">                        self.ncd += 1</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x3)">                        if record.record_method == "AutoSentenceParser":</span>
 <span class="line-any" title="No Anys on this line!">                            self.ncd_autosentence += 1</span>
 <span class="line-empty" title="No Anys on this line!">                        elif (</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x4)">                            record.record_method == "QuantityModelTemplateParser"</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x3)">                            or record.record_method == "MultiQuantityModelTemplateParser"</span>
 <span class="line-empty" title="No Anys on this line!">                        ):</span>
 <span class="line-any" title="No Anys on this line!">                            self.ncd_template += 1</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x3)">                        elif record.record_method == "Snowball":</span>
 <span class="line-any" title="No Anys on this line!">                            self.ncd_snowball += 1</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x3)">                        elif record.record_method == "AutoTableParser":</span>
 <span class="line-any" title="No Anys on this line!">                            self.ncd_table += 1</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x2)">                        if record.updated:</span>
 <span class="line-any" title="No Anys on this line!">                            self.ncd_definition += 1</span>
 <span class="line-empty" title="No Anys on this line!"></span>
@@ -728,13 +721,13 @@ Unannotated (x2)">                        if record.updated:</span>
 <span class="line-any" title="No Anys on this line!">                            self.nw_other += 1</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="No Anys on this line!">                        if input_w == 5:</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x4)">                            for table in doc[0].tables:</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x2)">                                print(table.tde_table)</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x4)">                                table.tde_table.print()</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x3)">                                print(table.tde_table.history)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="No Anys on this line!">                            input_w_table = input("    TDE (1) or CDE (2)?")</span>
@@ -752,7 +745,7 @@ Unannotated (x3)">                                print(table.tde_table.history)
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="No Anys on this line!">                        if input_w == 8:</span>
 <span class="line-any" title="No Anys on this line!">                            input_w_other = input("    Describe: ")</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x2)">                            self.w_other.append(input_w_other)</span>
 <span class="line-any" title="No Anys on this line!">                            print(f"             {input_w_other}")</span>
 <span class="line-empty" title="No Anys on this line!"></span>
@@ -763,15 +756,15 @@ Unannotated (x2)">                            self.w_other.append(input_w_other)
 <span class="line-any" title="No Anys on this line!">                    break</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">            self.n_paper = n_paper</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unimported (x7)
 Explicit (x1)">            pickling_file = open("evaluation.pickle", "wb")</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Explicit (x1)">            pickle.dump(self, pickling_file)</span>
 <span class="line-precise" title="No Anys on this line!">            pickling_file.close()</span>
 <span class="line-any" title="No Anys on this line!">            f.seek(0)</span>
 <span class="line-precise" title="No Anys on this line!">            f.truncate()</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x3)">            self.print_results(destination=f)</span>
 <span class="line-precise" title="No Anys on this line!">            f.flush()</span>
 <span class="line-empty" title="No Anys on this line!"></span>
@@ -782,123 +775,120 @@ Unannotated (x3)">            self.print_results(destination=f)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">    @property</span>
 <span class="line-any" title="No Anys on this line!">    def limits_reached(self):</span>
-<span class="line-any" title="Any Types on this line:
-Unannotated (x5)">        if self.n_paper + 1 &gt;= self.n_papers_limit and self.n_records &gt;= self.n_records_limit:</span>
-<span class="line-any" title="No Anys on this line!">            return True</span>
-<span class="line-empty" title="No Anys on this line!">        else:</span>
-<span class="line-any" title="No Anys on this line!">            return False</span>
+<span class="line-any" title="Any Types on this line: 
+Unannotated (x5)">        return bool(self.n_paper + 1 &gt;= self.n_papers_limit and self.n_records &gt;= self.n_records_limit)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="No Anys on this line!">    def print_results(self, destination=sys.stdout):</span>
 <span class="line-empty" title="No Anys on this line!">        """Prints the results of evaluation"""</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">        print("===================================================", file=destination)</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">        print("                  RESULTS                          ", file=destination)</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">        print("===================================================", file=destination)</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">        print("", file=destination)</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">        print(f"Number of papers tested: {self.n_paper + 1}", file=destination)</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">        print(f"Unidentified records: {self.n_unidentified}", file=destination)</span>
 <span class="line-precise" title="No Anys on this line!">        print(</span>
 <span class="line-any" title="No Anys on this line!">            f"Total records (correct+wrong+skipped): {self.n_records}",</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">            file=destination,</span>
 <span class="line-empty" title="No Anys on this line!">        )</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">        print("", file=destination)</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">        print(f"Correct records: {self.nc}", file=destination)</span>
 <span class="line-precise" title="No Anys on this line!">        print(</span>
 <span class="line-any" title="No Anys on this line!">            f"    Correct AutoSentence: {self.nc_autosentence}",</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">            file=destination,</span>
 <span class="line-empty" title="No Anys on this line!">        )</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">        print(f"    Correct Template:     {self.nc_template}", file=destination)</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">        print(f"    Correct Snowball:     {self.nc_snowball}", file=destination)</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">        print(f"    Correct AutoTable:    {self.nc_table}", file=destination)</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">        print(f"    Correct Definition:   {self.nc_definition}", file=destination)</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">        print("", file=destination)</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">        print(f"Correct and duplicate records: {self.ncd}", file=destination)</span>
 <span class="line-precise" title="No Anys on this line!">        print(</span>
 <span class="line-any" title="No Anys on this line!">            f"    Duplicate AutoSentence: {self.ncd_autosentence}",</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">            file=destination,</span>
 <span class="line-empty" title="No Anys on this line!">        )</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">        print(f"    Duplicate Template:     {self.ncd_template}", file=destination)</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">        print(f"    Duplicate Snowball:     {self.ncd_snowball}", file=destination)</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">        print(f"    Duplicate AutoTable:    {self.ncd_table}", file=destination)</span>
 <span class="line-precise" title="No Anys on this line!">        print(</span>
 <span class="line-any" title="No Anys on this line!">            f"    Duplicate Definition:   {self.ncd_definition}",</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">            file=destination,</span>
 <span class="line-empty" title="No Anys on this line!">        )</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">        print("", file=destination)</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">        print(f"Wrong records: {self.nw}", file=destination)</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">        print(f"    Wrong CER:          {self.nw_cer}", file=destination)</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">        print(f"    Wrong AutoSentence: {self.nw_autosentence}", file=destination)</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">        print(f"    Wrong Template:     {self.nw_template}", file=destination)</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">        print(f"    Wrong Snowball:     {self.nw_snowball}", file=destination)</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">        print(f"    Wrong AutoTable:    {self.nw_table}", file=destination)</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">        print(f"        TDE:            {self.nw_table_tde}", file=destination)</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">        print(f"        CDE:            {self.nw_table_cde}", file=destination)</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">        print(f"    Wrong Definition:   {self.nw_definition}", file=destination)</span>
 <span class="line-precise" title="No Anys on this line!">        print(</span>
 <span class="line-any" title="No Anys on this line!">            f"    W. Interdependency: {self.nw_interdependency}",</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">            file=destination,</span>
 <span class="line-empty" title="No Anys on this line!">        )</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">        print(f"    Other:              {self.nw_other}", file=destination)</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x2)">        for item in self.w_other:</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x2)">            print(f"        {item}", file=destination)</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">        print("", file=destination)</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">        print(" PRECISION ", file=destination)</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">        print("===========", file=destination)</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">        print("", file=destination)</span>
 <span class="line-any" title="No Anys on this line!">        if (self.nc + self.nw) != 0:</span>
 <span class="line-precise" title="No Anys on this line!">            print(</span>
 <span class="line-any" title="No Anys on this line!">                f"Total precision                      = {self.nc / (self.nc + self.nw):4.2f}, {self.nc}/{self.nc + self.nw}",</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">                file=destination,</span>
 <span class="line-empty" title="No Anys on this line!">            )</span>
 <span class="line-any" title="No Anys on this line!">        if (self.nc + self.nw - self.nw_autosentence) != 0:</span>
 <span class="line-precise" title="No Anys on this line!">            print(</span>
 <span class="line-any" title="No Anys on this line!">                f"Precision without AutoSentenceParser = {(self.nc - self.nc_autosentence) / (self.nc + self.nw - self.nw_autosentence):4.2f}, {self.nc - self.nc_autosentence}/{self.nc + self.nw - self.nw_autosentence}   ---&gt; Approximation",</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">                file=destination,</span>
 <span class="line-empty" title="No Anys on this line!">            )</span>
 <span class="line-any" title="No Anys on this line!">        if (self.nc + self.nw - self.nw_cer) != 0:</span>
 <span class="line-precise" title="No Anys on this line!">            print(</span>
 <span class="line-any" title="No Anys on this line!">                f"Precision without CER Errors         = {self.nc / (self.nc + self.nw - self.nw_cer):4.2f}, {self.nc}/{self.nc + self.nw - self.nw_cer}",</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">                file=destination,</span>
 <span class="line-empty" title="No Anys on this line!">            )</span>
 <span class="line-any" title="No Anys on this line!">        if (self.nc + self.nw - self.nw_autosentence - self.nw_cer) != 0:</span>
@@ -909,48 +899,48 @@ Unannotated (x1)">                file=destination,</span>
 <span class="line-precise" title="No Anys on this line!">                    (self.nc - self.nc_autosentence),</span>
 <span class="line-precise" title="No Anys on this line!">                    (self.nc + self.nw - self.nw_autosentence - self.nw_cer),</span>
 <span class="line-empty" title="No Anys on this line!">                ),</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">                file=destination,</span>
 <span class="line-empty" title="No Anys on this line!">            )</span>
 <span class="line-any" title="No Anys on this line!">        if (self.nc_table + self.nw_table) != 0:</span>
 <span class="line-precise" title="No Anys on this line!">            print(</span>
 <span class="line-any" title="No Anys on this line!">                f"Table Precision                      = {self.nc_table / (self.nc_table + self.nw_table):4.2f}, {self.nc_table}/{self.nc_table + self.nw_table}",</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">                file=destination,</span>
 <span class="line-empty" title="No Anys on this line!">            )</span>
 <span class="line-any" title="No Anys on this line!">        if self.nw_table != 0:</span>
 <span class="line-precise" title="No Anys on this line!">            print(</span>
 <span class="line-any" title="No Anys on this line!">                f"   TDE Errors within Table Errors    = {self.nw_table_tde / self.nw_table:4.2f}, {self.nw_table_tde}/{self.nw_table}",</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">                file=destination,</span>
 <span class="line-empty" title="No Anys on this line!">            )</span>
 <span class="line-precise" title="No Anys on this line!">            print(</span>
 <span class="line-any" title="No Anys on this line!">                f"   CDE Errors within Table Errors    = {self.nw_table_cde / self.nw_table:4.2f}, {self.nw_table_cde}/{self.nw_table}",</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">                file=destination,</span>
 <span class="line-empty" title="No Anys on this line!">            )</span>
 <span class="line-any" title="No Anys on this line!">        if (self.nc_template + self.nw_template) != 0:</span>
 <span class="line-precise" title="No Anys on this line!">            print(</span>
 <span class="line-any" title="No Anys on this line!">                f"Template Precision                   = {self.nc_template / (self.nc_template + self.nw_template):4.2f}, {self.nc_template}/{self.nc_template + self.nw_template}",</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">                file=destination,</span>
 <span class="line-empty" title="No Anys on this line!">            )</span>
 <span class="line-any" title="No Anys on this line!">        if (self.nc_snowball + self.nw_snowball) != 0:</span>
 <span class="line-precise" title="No Anys on this line!">            print(</span>
 <span class="line-any" title="No Anys on this line!">                f"Snowball Precision                   = {self.nc_snowball / (self.nc_snowball + self.nw_snowball):4.2f}, {self.nc_snowball}/{self.nc_snowball + self.nw_snowball}",</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">                file=destination,</span>
 <span class="line-empty" title="No Anys on this line!">            )</span>
 <span class="line-any" title="No Anys on this line!">        if (self.nc_definition + self.nw_definition) != 0:</span>
 <span class="line-precise" title="No Anys on this line!">            print(</span>
 <span class="line-any" title="No Anys on this line!">                f"Definitions update Precision         = {self.nc_definition / (self.nc_definition + self.nw_definition):4.2f}, {self.nc_definition}/{self.nc_definition + self.nw_definition}",</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">                file=destination,</span>
 <span class="line-empty" title="No Anys on this line!">            )</span>
 <span class="line-any" title="No Anys on this line!">        if self.nw != 0:</span>
 <span class="line-precise" title="No Anys on this line!">            print(</span>
 <span class="line-any" title="No Anys on this line!">                f"Percentage of 'other' errors         = {self.nw_other / self.nw:4.2f}, {self.nw_other}/{self.nw}",</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">                file=destination,</span>
 <span class="line-empty" title="No Anys on this line!">            )</span>
 </pre></td>

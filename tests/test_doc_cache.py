@@ -34,10 +34,10 @@ class TestDocument(unittest.TestCase):
         cached_document.models = [Compound]
         cached_document = cacher.hydrate_document(cached_document, "test_cache")
 
-        for sentence1, sentence2 in zip(doc.sentences, cached_document.sentences):
+        for sentence1, sentence2 in zip(doc.sentences, cached_document.sentences, strict=False):
             tokens1 = sentence1.tokens
             tokens2 = sentence2.tokens
-            for token1, token2 in zip(tokens1, tokens2):
+            for token1, token2 in zip(tokens1, tokens2, strict=False):
                 self.assertEqual(token1.text, token2.text)
                 self.assertEqual(token1.start, token2.start)
                 self.assertEqual(token1.end, token2.end)

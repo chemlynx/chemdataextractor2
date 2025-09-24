@@ -101,11 +101,6 @@
 <span id="L91" class="lineno"><a class="lineno" href="#L91">91</a></span>
 <span id="L92" class="lineno"><a class="lineno" href="#L92">92</a></span>
 <span id="L93" class="lineno"><a class="lineno" href="#L93">93</a></span>
-<span id="L94" class="lineno"><a class="lineno" href="#L94">94</a></span>
-<span id="L95" class="lineno"><a class="lineno" href="#L95">95</a></span>
-<span id="L96" class="lineno"><a class="lineno" href="#L96">96</a></span>
-<span id="L97" class="lineno"><a class="lineno" href="#L97">97</a></span>
-<span id="L98" class="lineno"><a class="lineno" href="#L98">98</a></span>
 </pre></td>
 <td class="table-code"><pre><span class="line-empty" title="No Anys on this line!">"""</span>
 <span class="line-empty" title="No Anys on this line!">Readers for documents from the RSC.</span>
@@ -226,14 +221,8 @@ Unannotated (x1)">        return footnotes</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x9)">        if fname and not (fname.endswith(".html") or fname.endswith(".htm")):</span>
 <span class="line-any" title="No Anys on this line!">            return False</span>
-<span class="line-empty" title="No Anys on this line!">        if (</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            b'meta name="citation_doi" content="10.1039' in fstring</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x1)">            or b'meta content="Royal Society of Chemistry"' in fstring</span>
-<span class="line-empty" title="No Anys on this line!">        ):</span>
-<span class="line-any" title="No Anys on this line!">            return True</span>
-<span class="line-any" title="No Anys on this line!">        return False</span>
+Unannotated (x4)">        return bool(b'meta name="citation_doi" content="10.1039' in fstring or b'meta content="Royal Society of Chemistry"' in fstring)</span>
 </pre></td>
 </tr></tbody>
 </table>

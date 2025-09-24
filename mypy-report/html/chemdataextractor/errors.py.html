@@ -429,7 +429,7 @@
 <span class="line-empty" title="No Anys on this line!">        original_error: Original exception if this is a wrapped error</span>
 <span class="line-empty" title="No Anys on this line!">    """</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-imprecise" title="Any Types on this line:
+<span class="line-imprecise" title="Any Types on this line: 
 Explicit (x1)">    def __init__(</span>
 <span class="line-empty" title="No Anys on this line!">        self,</span>
 <span class="line-empty" title="No Anys on this line!">        message: str,</span>
@@ -442,7 +442,7 @@ Explicit (x1)">    def __init__(</span>
 <span class="line-empty" title="No Anys on this line!">    ) -&gt; None:</span>
 <span class="line-precise" title="No Anys on this line!">        super().__init__(message)</span>
 <span class="line-precise" title="No Anys on this line!">        self.message = message</span>
-<span class="line-imprecise" title="Any Types on this line:
+<span class="line-imprecise" title="Any Types on this line: 
 Explicit (x3)">        self.context = context or {}</span>
 <span class="line-precise" title="No Anys on this line!">        self.suggestions = suggestions or []</span>
 <span class="line-precise" title="No Anys on this line!">        self.error_code = error_code</span>
@@ -459,12 +459,12 @@ Explicit (x3)">        self.context = context or {}</span>
 <span class="line-precise" title="No Anys on this line!">        if self.source_location:</span>
 <span class="line-precise" title="No Anys on this line!">            lines.append(f"Location: {self.source_location}")</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-imprecise" title="Any Types on this line:
+<span class="line-imprecise" title="Any Types on this line: 
 Explicit (x1)">        if self.context:</span>
 <span class="line-precise" title="No Anys on this line!">            lines.append("Context:")</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Explicit (x4)">            for key, value in self.context.items():</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Explicit (x1)">                lines.append(f"  {key}: {value}")</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">        if self.suggestions:</span>
@@ -477,7 +477,7 @@ Explicit (x1)">                lines.append(f"  {key}: {value}")</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">        return "\n".join(lines)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Explicit (x1)">    def add_context(self, key: str, value: Any) -&gt; ChemDataExtractorError:</span>
 <span class="line-empty" title="No Anys on this line!">        """Add context information to the error.</span>
 <span class="line-empty" title="No Anys on this line!"></span>
@@ -488,7 +488,7 @@ Explicit (x1)">    def add_context(self, key: str, value: Any) -&gt; ChemDataExt
 <span class="line-empty" title="No Anys on this line!">        Returns:</span>
 <span class="line-empty" title="No Anys on this line!">            Self for method chaining</span>
 <span class="line-empty" title="No Anys on this line!">        """</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Explicit (x2)">        self.context[key] = value</span>
 <span class="line-precise" title="No Anys on this line!">        return self</span>
 <span class="line-empty" title="No Anys on this line!"></span>
@@ -627,9 +627,9 @@ Explicit (x2)">        self.context[key] = value</span>
 <span class="line-empty" title="No Anys on this line!">    Originally implemented by AllenNLP, now enhanced with context.</span>
 <span class="line-empty" title="No Anys on this line!">    """</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-imprecise" title="Any Types on this line:
+<span class="line-imprecise" title="Any Types on this line: 
 Explicit (x1)">    def __reduce__(self) -&gt; str | tuple[Any, ...]:</span>
-<span class="line-precise" title="Any Types on this line:
+<span class="line-precise" title="Any Types on this line: 
 Explicit (x2)">        return type(self), (self.message,)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!"></span>
@@ -671,10 +671,10 @@ Explicit (x2)">        return type(self), (self.message,)</span>
 <span class="line-empty" title="No Anys on this line!"># === Utility Functions ===</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Explicit (x1)">def wrap_exception(</span>
 <span class="line-empty" title="No Anys on this line!">    original_error: Exception,</span>
-<span class="line-precise" title="Any Types on this line:
+<span class="line-precise" title="Any Types on this line: 
 Explicit (x1)">    error_class: type[ChemDataExtractorError] = ChemDataExtractorError,</span>
 <span class="line-precise" title="No Anys on this line!">    message: str | None = None,</span>
 <span class="line-empty" title="No Anys on this line!">    **kwargs: Any,</span>
@@ -698,11 +698,11 @@ Explicit (x1)">    error_class: type[ChemDataExtractorError] = ChemDataExtractor
 <span class="line-empty" title="No Anys on this line!">        ...                         context={"operation": "data_validation"})</span>
 <span class="line-empty" title="No Anys on this line!">    """</span>
 <span class="line-precise" title="No Anys on this line!">    error_message = message or str(original_error)</span>
-<span class="line-imprecise" title="Any Types on this line:
+<span class="line-imprecise" title="Any Types on this line: 
 Explicit (x2)">    return error_class(error_message, original_error=original_error, **kwargs)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Explicit (x3)">def validate_not_none(value: Any, name: str, *, context: dict[str, Any] | None = None) -&gt; Any:</span>
 <span class="line-empty" title="No Anys on this line!">    """Validate that a value is not None.</span>
 <span class="line-empty" title="No Anys on this line!"></span>
@@ -720,21 +720,21 @@ Explicit (x3)">def validate_not_none(value: Any, name: str, *, context: dict[str
 <span class="line-empty" title="No Anys on this line!">    Example:</span>
 <span class="line-empty" title="No Anys on this line!">        &gt;&gt;&gt; user_input = validate_not_none(user_input, "user_input")</span>
 <span class="line-empty" title="No Anys on this line!">    """</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Explicit (x1)">    if value is None:</span>
-<span class="line-imprecise" title="Any Types on this line:
+<span class="line-imprecise" title="Any Types on this line: 
 Explicit (x1)">        raise ValidationError(</span>
 <span class="line-precise" title="No Anys on this line!">            f"{name} cannot be None",</span>
-<span class="line-imprecise" title="Any Types on this line:
+<span class="line-imprecise" title="Any Types on this line: 
 Explicit (x2)">            context=context or {},</span>
 <span class="line-precise" title="No Anys on this line!">            suggestions=[f"Provide a valid {name} value"],</span>
 <span class="line-precise" title="No Anys on this line!">            error_code="VALIDATION_NONE",</span>
 <span class="line-empty" title="No Anys on this line!">        )</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Explicit (x1)">    return value</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Explicit (x3)">def validate_type(</span>
 <span class="line-precise" title="No Anys on this line!">    value: Any, expected_type: type, name: str, *, context: dict[str, Any] | None = None</span>
 <span class="line-empty" title="No Anys on this line!">) -&gt; Any:</span>
@@ -755,19 +755,19 @@ Explicit (x3)">def validate_type(</span>
 <span class="line-empty" title="No Anys on this line!">    Example:</span>
 <span class="line-empty" title="No Anys on this line!">        &gt;&gt;&gt; temperature = validate_type(temp_value, float, "temperature")</span>
 <span class="line-empty" title="No Anys on this line!">    """</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Explicit (x1)">    if not isinstance(value, expected_type):</span>
-<span class="line-imprecise" title="Any Types on this line:
+<span class="line-imprecise" title="Any Types on this line: 
 Explicit (x1)">        raise TypeValidationError(</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Explicit (x3)">            f"{name} must be of type {expected_type.__name__}, got {type(value).__name__}",</span>
 <span class="line-empty" title="No Anys on this line!">            context={</span>
 <span class="line-precise" title="No Anys on this line!">                "expected_type": expected_type.__name__,</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Explicit (x3)">                "actual_type": type(value).__name__,</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Explicit (x1)">                "value": str(value),</span>
-<span class="line-imprecise" title="Any Types on this line:
+<span class="line-imprecise" title="Any Types on this line: 
 Explicit (x2)">                **(context or {}),</span>
 <span class="line-empty" title="No Anys on this line!">            },</span>
 <span class="line-precise" title="No Anys on this line!">            suggestions=[f"Convert {name} to {expected_type.__name__}"],</span>
@@ -776,7 +776,7 @@ Explicit (x2)">                **(context or {}),</span>
 <span class="line-precise" title="No Anys on this line!">    return value</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-imprecise" title="Any Types on this line:
+<span class="line-imprecise" title="Any Types on this line: 
 Explicit (x1)">def validate_range(</span>
 <span class="line-empty" title="No Anys on this line!">    value: int | float,</span>
 <span class="line-precise" title="No Anys on this line!">    min_val: int | float | None = None,</span>
@@ -804,20 +804,20 @@ Explicit (x1)">def validate_range(</span>
 <span class="line-empty" title="No Anys on this line!">        &gt;&gt;&gt; temperature = validate_range(temp, 0, 1000, "temperature")</span>
 <span class="line-empty" title="No Anys on this line!">    """</span>
 <span class="line-precise" title="No Anys on this line!">    if min_val is not None and value &lt; min_val:</span>
-<span class="line-imprecise" title="Any Types on this line:
+<span class="line-imprecise" title="Any Types on this line: 
 Explicit (x1)">        raise RangeValidationError(</span>
 <span class="line-precise" title="No Anys on this line!">            f"{name} {value} is below minimum value {min_val}",</span>
-<span class="line-imprecise" title="Any Types on this line:
+<span class="line-imprecise" title="Any Types on this line: 
 Explicit (x2)">            context={"value": value, "min_value": min_val, "max_value": max_val, **(context or {})},</span>
 <span class="line-precise" title="No Anys on this line!">            suggestions=[f"Use a {name} value &gt;= {min_val}"],</span>
 <span class="line-precise" title="No Anys on this line!">            error_code="VALIDATION_RANGE_MIN",</span>
 <span class="line-empty" title="No Anys on this line!">        )</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">    if max_val is not None and value &gt; max_val:</span>
-<span class="line-imprecise" title="Any Types on this line:
+<span class="line-imprecise" title="Any Types on this line: 
 Explicit (x1)">        raise RangeValidationError(</span>
 <span class="line-precise" title="No Anys on this line!">            f"{name} {value} is above maximum value {max_val}",</span>
-<span class="line-imprecise" title="Any Types on this line:
+<span class="line-imprecise" title="Any Types on this line: 
 Explicit (x2)">            context={"value": value, "min_value": min_val, "max_value": max_val, **(context or {})},</span>
 <span class="line-precise" title="No Anys on this line!">            suggestions=[f"Use a {name} value &lt;= {max_val}"],</span>
 <span class="line-precise" title="No Anys on this line!">            error_code="VALIDATION_RANGE_MAX",</span>

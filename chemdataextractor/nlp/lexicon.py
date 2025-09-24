@@ -1,7 +1,12 @@
 """
 Cache features of previously seen words.
 
+Provides lexicon classes for caching and analyzing word features,
+including morphological, orthographic, and cluster-based features
+for natural language processing tasks.
 """
+
+from __future__ import annotations
 
 import logging
 
@@ -19,7 +24,7 @@ log = logging.getLogger(__name__)
 
 
 class Lexeme:
-    """"""
+    """Represents a word with cached morphological and orthographic features."""
 
     __slots__ = (
         "text",
@@ -47,28 +52,28 @@ class Lexeme:
 
     def __init__(
         self,
-        text,
-        normalized,
-        lower,
-        first,
-        suffix,
-        shape,
-        length,
-        upper_count,
-        lower_count,
-        digit_count,
-        is_alpha,
-        is_ascii,
-        is_digit,
-        is_lower,
-        is_upper,
-        is_title,
-        is_punct,
-        is_hyphenated,
-        like_url,
-        like_number,
-        cluster,
-    ):
+        text: str,
+        normalized: str,
+        lower: str,
+        first: str,
+        suffix: str,
+        shape: str,
+        length: int,
+        upper_count: int,
+        lower_count: int,
+        digit_count: int,
+        is_alpha: bool,
+        is_ascii: bool,
+        is_digit: bool,
+        is_lower: bool,
+        is_upper: bool,
+        is_title: bool,
+        is_punct: bool,
+        is_hyphenated: bool,
+        like_url: bool,
+        like_number: bool,
+        cluster: str | None,
+    ) -> None:
         #: Original Lexeme text.
         self.text = text
         #: The Brown Word Cluster for this Lexeme.
@@ -114,28 +119,29 @@ class Lexeme:
 
 
 class Lexicon(metaclass=Singleton):
-    """"""
+    """Lexicon for caching word features and Brown word clusters."""
 
     #: The Normalizer for this Lexicon.
     normalizer = Normalizer()
 
     #: Path to the Brown clusters model file for this Lexicon.
-    clusters_path = None
+    clusters_path: str | None = None
 
-    def __init__(self):
-        """"""
-        self.lexemes = {}
-        self.clusters = {}
+    def __init__(self) -> None:
+        """Initialize lexicon with empty caches."""
+        self.lexemes: dict[str, Lexeme] = {}
+        self.clusters: dict[str, str] = {}
         self._loaded_clusters = False
 
-    def __len__(self):
+    def __len__(self) -> int:
         """The current number of lexemes stored."""
         return len(self.lexemes)
 
-    def add(self, text):
+    def add(self, text: str) -> None:
         """Add text to the lexicon.
 
-        :param string text: The text to add.
+        Args:
+            text: The text to add.
         """
         # logging.debug('Adding to lexicon: %s' % text)
         if text not in self.lexemes:
@@ -164,98 +170,100 @@ class Lexicon(metaclass=Singleton):
                 cluster=self.cluster(normalized),
             )
 
-    def __getitem__(self, text):
+    def __getitem__(self, text: str) -> Lexeme:
         """Return the requested lexeme from the Lexicon.
 
-        :param string text: Text of the lexeme to retrieve.
-        :rtype: Lexeme
-        :returns: The requested Lexeme.
+        Args:
+            text: Text of the lexeme to retrieve.
+
+        Returns:
+            The requested Lexeme.
         """
         self.add(text)
         return self.lexemes[text]
 
-    def cluster(self, text):
-        """"""
+    def cluster(self, text: str) -> str | None:
+        """Get Brown word cluster for text."""
         if not self._loaded_clusters and self.clusters_path:
             self.clusters = load_model(self.clusters_path)
             self._loaded_clusters = True
         return self.clusters.get(text, None)
 
-    def normalized(self, text):
-        """"""
+    def normalized(self, text: str) -> str:
+        """Get normalized text."""
         return self.normalizer(text)
 
-    def lower(self, text):
-        """"""
+    def lower(self, text: str) -> str:
+        """Get lowercase text."""
         return text.lower()
 
-    def first(self, text):
-        """"""
+    def first(self, text: str) -> str:
+        """Get first character."""
         return text[:1]
 
-    def suffix(self, text):
-        """"""
+    def suffix(self, text: str) -> str:
+        """Get three-character suffix."""
         return text[-3:]
 
-    def shape(self, text):
-        """"""
+    def shape(self, text: str) -> str:
+        """Get word shape."""
         return word_shape(text)
 
-    def length(self, text):
-        """"""
+    def length(self, text: str) -> int:
+        """Get text length."""
         return len(text)
 
-    def digit_count(self, text):
-        """"""
+    def digit_count(self, text: str) -> int:
+        """Count digit characters."""
         return sum(c.isdigit() for c in text)
 
-    def upper_count(self, text):
-        """"""
+    def upper_count(self, text: str) -> int:
+        """Count uppercase characters."""
         return sum(c.isupper() for c in text)
 
-    def lower_count(self, text):
-        """"""
+    def lower_count(self, text: str) -> int:
+        """Count lowercase characters."""
         return sum(c.islower() for c in text)
 
-    def is_alpha(self, text):
-        """"""
+    def is_alpha(self, text: str) -> bool:
+        """Check if text is entirely alphabetical."""
         return text.isalpha()
 
-    def is_ascii(self, text):
-        """"""
+    def is_ascii(self, text: str) -> bool:
+        """Check if text is entirely ASCII."""
         return is_ascii(text)
 
-    def is_digit(self, text):
-        """"""
+    def is_digit(self, text: str) -> bool:
+        """Check if text is entirely digits."""
         return text.isdigit()
 
-    def is_lower(self, text):
-        """"""
+    def is_lower(self, text: str) -> bool:
+        """Check if text is entirely lowercase."""
         return text.islower()
 
-    def is_upper(self, text):
-        """"""
+    def is_upper(self, text: str) -> bool:
+        """Check if text is entirely uppercase."""
         return text.isupper()
 
-    def is_title(self, text):
-        """"""
+    def is_title(self, text: str) -> bool:
+        """Check if text is title cased."""
         return text.istitle()
 
-    def is_punct(self, text):
-        """"""
+    def is_punct(self, text: str) -> bool:
+        """Check if text is entirely punctuation."""
         return is_punct(text)
 
-    def is_hyphenated(self, text):
-        """"""
+    def is_hyphenated(self, text: str) -> bool:
+        """Check if text is hyphenated."""
         # TODO: What about '--'?
         return "-" in text and text != "-"
 
-    def like_url(self, text):
-        """"""
+    def like_url(self, text: str) -> bool:
+        """Check if text looks like a URL."""
         return like_url(text)
 
-    def like_number(self, text):
-        """"""
+    def like_number(self, text: str) -> bool:
+        """Check if text looks like a number."""
         return like_number(text)
 
 

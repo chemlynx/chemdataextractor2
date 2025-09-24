@@ -12,7 +12,7 @@ import copy
 import json
 import logging
 from abc import ABCMeta
-from abc import abstractproperty
+from abc import abstractmethod
 from typing import TYPE_CHECKING
 from typing import Any
 from typing import BinaryIO
@@ -99,7 +99,8 @@ class BaseDocument(collections.abc.Sequence, metaclass=ABCMeta):
         """
         return len(self.elements)
 
-    @abstractproperty
+    @property
+    @abstractmethod
     def elements(self) -> list[BaseElement]:
         """Return a list of document elements.
 
@@ -108,7 +109,8 @@ class BaseDocument(collections.abc.Sequence, metaclass=ABCMeta):
         """
         return []
 
-    @abstractproperty
+    @property
+    @abstractmethod
     def records(self):
         """Chemical records that have been parsed from this Document.
 
@@ -487,13 +489,12 @@ class Document(BaseDocument):
             prev_records = el_records
             el_records = el.records
             # Save the title compound
-            if isinstance(el, Title):
-                if (
-                    len(el_records) == 1
-                    and isinstance(el_records[0], Compound)
-                    and el_records[0].is_id_only
-                ):
-                    title_record = el_records[0]  # TODO: why the first only?
+            if isinstance(el, Title) and (
+                len(el_records) == 1
+                and isinstance(el_records[0], Compound)
+                and el_records[0].is_id_only
+            ):
+                title_record = el_records[0]  # TODO: why the first only?
 
             # Reset head_def_record unless consecutive heading with no records
             if isinstance(el, Heading) and head_def_record is not None:
@@ -553,7 +554,7 @@ class Document(BaseDocument):
                         head_def_record_i = i
                         # If 2 consecutive headings with compound ID, merge in from previous
                         if i > 0 and isinstance(self.elements[i - 1], Heading):
-                            prev = self.elements[i - 1]
+                            self.elements[i - 1]
                             if (
                                 len(el_records) == 1
                                 and record.is_id_only
@@ -978,13 +979,16 @@ class Document(BaseDocument):
         for element in elements:
             if element.elements is not None:
                 elements.extend(element.elements)
-            if hasattr(element, "tokens") and tagger in element.taggers:
-                if (
+            if (
+                hasattr(element, "tokens")
+                and tagger in element.taggers
+                and (
                     len(element.tokens)
                     and isinstance(element.tokens[0], RichToken)
                     and tag_type not in element.tokens[0]._tags
-                ):
-                    all_tokens.append(element.tokens)
+                )
+            ):
+                all_tokens.append(element.tokens)
 
         if hasattr(tagger, "batch_tag_for_type"):
             tag_results = tagger.batch_tag_for_type(all_tokens, tag_type)

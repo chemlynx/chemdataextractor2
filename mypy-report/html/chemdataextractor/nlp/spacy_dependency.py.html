@@ -74,7 +74,7 @@ Unannotated (x1)">        all_labels = []</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x8)
 Explicit (x9)
-Omitted Generics (x30)">        for tokens, processed in zip(sents, self.nlp.pipe(tokens_list)):</span>
+Omitted Generics (x30)">        for tokens, processed in zip(sents, self.nlp.pipe(tokens_list), strict=False):</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">            labels = []</span>
 <span class="line-any" title="Any Types on this line: 
@@ -91,7 +91,7 @@ Unannotated (x14)">                    labels.append(Dependency(tokens[spacy_tok
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x6)
 Explicit (x9)
-Omitted Generics (x30)">            all_labels.append(zip(tokens, labels))</span>
+Omitted Generics (x30)">            all_labels.append(zip(tokens, labels, strict=False))</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">        return all_labels</span>
 <span class="line-empty" title="No Anys on this line!"></span>

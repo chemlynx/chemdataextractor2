@@ -11,10 +11,13 @@ from scientific text, including chemical names, formulas, and identifiers.
 from __future__ import annotations
 
 import logging
+from collections.abc import Generator
 from typing import TYPE_CHECKING
+from typing import Any
 
 if TYPE_CHECKING:
-    pass
+    from ..model.base import BaseModel
+    from .elements import BaseParserElement
 
 from .actions import join
 from .base import BaseSentenceParser
@@ -192,7 +195,7 @@ labels_only = default_cem_factory.labels_only
 roles_only = default_cem_factory.roles_only
 
 
-def standardize_role(role):
+def standardize_role(role: str) -> str:
     """Convert role text into standardized form."""
     role = role.lower()
     if any(
@@ -210,7 +213,7 @@ class CompoundParser(BaseSentenceParser):
     _root_phrase = None
 
     @property
-    def root(self):
+    def root(self) -> BaseParserElement:
         label = self.model.labels.parse_expression("labels")
         label_name_cem = (label + optdelim + chemical_name)("compound")
 
@@ -253,7 +256,7 @@ class CompoundParser(BaseSentenceParser):
             | name_with_optional_bracketed_label
         )("cem_phrase")
 
-    def interpret(self, result, start, end):
+    def interpret(self, result: Any, start: int, end: int) -> Generator[BaseModel, None, None]:
         # TODO: Parse label_type into label model object
         # print(etree.tostring(result))
         for cem_el in result.xpath("./compound"):
@@ -273,7 +276,7 @@ class ChemicalLabelParser(BaseSentenceParser):
     _root_phrase = None
 
     @property
-    def root(self):
+    def root(self) -> BaseParserElement:
         label = self.model.labels.parse_expression("labels")
         if self._label is label:
             return self._root_phrase
@@ -281,7 +284,7 @@ class ChemicalLabelParser(BaseSentenceParser):
         self._label = label
         return self._root_phrase
 
-    def interpret(self, result, start, end):
+    def interpret(self, result: Any, start: int, end: int) -> Generator[BaseModel, None, None]:
         # print(etree.tostring(result))
         roles = [standardize_role(r) for r in result.xpath("./roles/text()")]
         for label in result.xpath("./labels/text()"):
@@ -294,7 +297,7 @@ class CompoundHeadingParser(BaseSentenceParser):
     root = compound_heading_phrase
     parse_full_sentence = True
 
-    def interpret(self, result, start, end):
+    def interpret(self, result: Any, start: int, end: int) -> Generator[BaseModel, None, None]:
         roles = [standardize_role(r) for r in result.xpath("./roles/text()")]
         labels = result.xpath("./labels/text()")
         if len(labels) > 1:
@@ -313,7 +316,7 @@ class CompoundTableParser(BaseTableParser):
     root = OneOrMore(entities + Optional(SkipTo(entities)))("root_phrase")
 
     @property
-    def root(self):
+    def root(self) -> BaseParserElement:
         # is always found, our models currently rely on the compound
         chem_name = cem | chemical_label | lenient_chemical_label
         compound_model = self.model
@@ -325,18 +328,21 @@ class CompoundTableParser(BaseTableParser):
 
         # the optional, user-defined, entities of the model are added, they are tagged with the name of the field
         for field in self.model.fields:
-            if field not in [
-                "raw_value",
-                "raw_units",
-                "value",
-                "units",
-                "error",
-                "specifier",
-            ]:
-                if self.model.__getattribute__(self.model, field).parse_expression is not None:
-                    entities.append(
-                        self.model.__getattribute__(self.model, field).parse_expression(field)
-                    )
+            if (
+                field
+                not in [
+                    "raw_value",
+                    "raw_units",
+                    "value",
+                    "units",
+                    "error",
+                    "specifier",
+                ]
+                and self.model.__getattribute__(self.model, field).parse_expression is not None
+            ):
+                entities.append(
+                    self.model.__getattribute__(self.model, field).parse_expression(field)
+                )
 
         # the chem_name has to be parsed last in order to avoid a conflict with other elements of the model
         entities.append(chem_name)
@@ -353,7 +359,7 @@ class CompoundTableParser(BaseTableParser):
         self._specifier = self.model.specifier
         return root_phrase
 
-    def interpret(self, result, start, end):
+    def interpret(self, result: Any, start: int, end: int) -> Generator[BaseModel, None, None]:
         # TODO: Parse label_type into label model object
         if result.xpath("./specifier/text()") and (
             result.xpath("./names/names/text()") or result.xpath("./labels/text()")

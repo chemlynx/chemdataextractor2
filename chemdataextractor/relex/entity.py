@@ -9,9 +9,6 @@ from __future__ import annotations
 
 import copy
 from typing import TYPE_CHECKING
-from typing import List
-from typing import Tuple
-from typing import Union
 
 import six
 
@@ -61,10 +58,7 @@ class Entity:
         self.start = start
 
     def __eq__(self, other):
-        if self.text == other.text and self.end == other.end and self.start == other.start:
-            return True
-        else:
-            return False
+        return bool(self.text == other.text and self.end == other.end and self.start == other.start)
 
     def __repr__(self):
         if isinstance(self.tag, str):
@@ -76,7 +70,7 @@ class Entity:
                 "("
                 + self.text
                 + ","
-                + "_".join([i for i in self.tag])
+                + "_".join(list(self.tag))
                 + ","
                 + str(self.start)
                 + ","
@@ -90,7 +84,7 @@ class Entity:
     def serialize(self):
         output = current = {}
         if "__" in self.tag:
-            tag = [i for i in self.tag.split("__")]
+            tag = list(self.tag.split("__"))
             for i, t in enumerate(tag):
                 if i == len(tag) - 1:
                     current[t] = self.text

@@ -243,13 +243,9 @@
 <span id="L233" class="lineno"><a class="lineno" href="#L233">233</a></span>
 <span id="L234" class="lineno"><a class="lineno" href="#L234">234</a></span>
 <span id="L235" class="lineno"><a class="lineno" href="#L235">235</a></span>
-<span id="L236" class="lineno"><a class="lineno" href="#L236">236</a></span>
-<span id="L237" class="lineno"><a class="lineno" href="#L237">237</a></span>
 </pre></td>
 <td class="table-code"><pre><span class="line-precise" title="No Anys on this line!">import logging</span>
 <span class="line-precise" title="No Anys on this line!">import math</span>
-<span class="line-precise" title="No Anys on this line!">from typing import List</span>
-<span class="line-precise" title="No Anys on this line!">from typing import Optional</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">import torch</span>
 <span class="line-empty" title="No Anys on this line!"></span>
@@ -274,7 +270,7 @@
 <span class="line-empty" title="No Anys on this line!">    is meant to avoid copy data from CPU to GPU.</span>
 <span class="line-empty" title="No Anys on this line!">    """</span>
 <span class="line-precise" title="No Anys on this line!">    if device &gt; -1:</span>
-<span class="line-precise" title="Any Types on this line:
+<span class="line-precise" title="Any Types on this line: 
 Explicit (x1)">        return torch.LongTensor(size).fill_(1).cumsum(0).to(device) - 1</span>
 <span class="line-empty" title="No Anys on this line!">    else:</span>
 <span class="line-precise" title="No Anys on this line!">        return torch.arange(0, size, dtype=torch.long)</span>
@@ -306,12 +302,12 @@ Explicit (x1)">        return torch.LongTensor(size).fill_(1).cumsum(0).to(devic
 <span class="line-precise" title="No Anys on this line!">    if len(original_size) &lt;= 2:</span>
 <span class="line-precise" title="No Anys on this line!">        return tensor</span>
 <span class="line-empty" title="No Anys on this line!">    else:</span>
-<span class="line-precise" title="Any Types on this line:
+<span class="line-precise" title="Any Types on this line: 
 Omitted Generics (x3)">        view_args = list(original_size) + [tensor.size(-1)]</span>
 <span class="line-precise" title="No Anys on this line!">        return tensor.view(*view_args)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">def viterbi_decode(</span>
 <span class="line-empty" title="No Anys on this line!">    tag_sequence: torch.Tensor,</span>
 <span class="line-empty" title="No Anys on this line!">    transition_matrix: torch.Tensor,</span>
@@ -370,7 +366,7 @@ Unannotated (x1)">def viterbi_decode(</span>
 <span class="line-empty" title="No Anys on this line!">    else:</span>
 <span class="line-precise" title="No Anys on this line!">        raise ValueError(f"top_k must be either None or an integer &gt;=1. Instead received {top_k}")</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-precise" title="Any Types on this line:
+<span class="line-precise" title="Any Types on this line: 
 Omitted Generics (x3)">    sequence_length, num_tags = list(tag_sequence.size())</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">    has_start_end_restrictions = (</span>
@@ -390,11 +386,11 @@ Omitted Generics (x3)">    sequence_length, num_tags = list(tag_sequence.size())
 <span class="line-empty" title="No Anys on this line!">        # Start and end transitions are fully defined, but cannot transition between each other.</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">        allowed_start_transitions = torch.cat(</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Explicit (x1)">            [allowed_start_transitions, torch.tensor([-math.inf, -math.inf])]</span>
 <span class="line-empty" title="No Anys on this line!">        )</span>
 <span class="line-precise" title="No Anys on this line!">        allowed_end_transitions = torch.cat(</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Explicit (x1)">            [allowed_end_transitions, torch.tensor([-math.inf, -math.inf])]</span>
 <span class="line-empty" title="No Anys on this line!">        )</span>
 <span class="line-empty" title="No Anys on this line!"></span>
@@ -411,7 +407,7 @@ Explicit (x1)">            [allowed_end_transitions, torch.tensor([-math.inf, -m
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">    if tag_observations:</span>
 <span class="line-precise" title="No Anys on this line!">        if len(tag_observations) != sequence_length:</span>
-<span class="line-precise" title="Any Types on this line:
+<span class="line-precise" title="Any Types on this line: 
 Explicit (x1)">            raise ConfigurationError(</span>
 <span class="line-precise" title="No Anys on this line!">                "Observations were provided, but they were not the same length "</span>
 <span class="line-precise" title="No Anys on this line!">                f"as the sequence. Found sequence of length: {sequence_length} and evidence: {tag_observations}"</span>
@@ -444,7 +440,7 @@ Explicit (x1)">            raise ConfigurationError(</span>
 <span class="line-precise" title="No Anys on this line!">        summed_potentials = summed_potentials.view(-1, num_tags)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">        # Best pairwise potential path score from the previous timestep.</span>
-<span class="line-precise" title="Any Types on this line:
+<span class="line-precise" title="Any Types on this line: 
 Omitted Generics (x23)">        max_k = min(summed_potentials.size()[0], top_k)</span>
 <span class="line-precise" title="No Anys on this line!">        scores, paths = torch.topk(summed_potentials, k=max_k, dim=0)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
@@ -470,13 +466,13 @@ Omitted Generics (x23)">        max_k = min(summed_potentials.size()[0], top_k)<
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">    # Construct the most likely sequence backwards.</span>
 <span class="line-precise" title="No Anys on this line!">    path_scores_v = path_scores[-1].view(-1)</span>
-<span class="line-precise" title="Any Types on this line:
+<span class="line-precise" title="Any Types on this line: 
 Omitted Generics (x23)">    max_k = min(path_scores_v.size()[0], top_k)</span>
 <span class="line-precise" title="No Anys on this line!">    viterbi_scores, best_paths = torch.topk(path_scores_v, k=max_k, dim=0)</span>
 <span class="line-precise" title="No Anys on this line!">    viterbi_paths = []</span>
 <span class="line-precise" title="No Anys on this line!">    for i in range(max_k):</span>
 <span class="line-precise" title="No Anys on this line!">        viterbi_path = [best_paths[i]]</span>
-<span class="line-precise" title="Any Types on this line:
+<span class="line-precise" title="Any Types on this line: 
 Omitted Generics (x4)">        for backward_timestep in reversed(path_indices):</span>
 <span class="line-precise" title="No Anys on this line!">            viterbi_path.append(int(backward_timestep.view(-1)[viterbi_path[-1]]))</span>
 <span class="line-empty" title="No Anys on this line!">        # Reverse the backward path.</span>

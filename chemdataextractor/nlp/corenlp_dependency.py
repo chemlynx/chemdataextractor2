@@ -1,3 +1,12 @@
+"""
+CoreNLP-based dependency parsing.
+
+Provides dependency parsing using Stanford CoreNLP server for syntactic
+relationship extraction with comprehensive linguistic analysis.
+"""
+
+from __future__ import annotations
+
 import atexit
 import os
 import socketserver
@@ -74,7 +83,7 @@ class _CoreNLPDependencyTagger(BaseTagger):
             labels[target_loc] = Dependency(tokens[source_loc], relation)
         labels[dependencies.root[0] - 1] = Dependency(None, "root")
 
-        return zip(tokens, labels)
+        return zip(tokens, labels, strict=False)
 
     def batch_tag(self, sents):
         all_text = "\n".join([" ".join([token.text for token in sent]) for sent in sents])
@@ -82,7 +91,7 @@ class _CoreNLPDependencyTagger(BaseTagger):
 
         all_labels = []
 
-        for sent, tokens in zip(annotated.sentence, sents):
+        for sent, tokens in zip(annotated.sentence, sents, strict=False):
             dependencies = sent.basicDependencies
 
             if len(dependencies.node) != len(tokens):
@@ -99,7 +108,7 @@ class _CoreNLPDependencyTagger(BaseTagger):
                 labels[target_loc] = Dependency(tokens[source_loc], relation)
             labels[dependencies.root[0] - 1] = Dependency(None, "root")
 
-            all_labels.append(zip(tokens, labels))
+            all_labels.append(zip(tokens, labels, strict=False))
 
         return all_labels
 

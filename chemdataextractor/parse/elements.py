@@ -10,17 +10,18 @@ of all chemical data extraction parsers.
 from __future__ import annotations
 
 import collections
+import contextlib
 import copy
 import logging
 import re
 import sys
 import types
+from collections.abc import Callable
+from collections.abc import Generator
 from copy import deepcopy
 from functools import lru_cache
 from typing import TYPE_CHECKING
 from typing import Any
-from collections.abc import Callable
-from typing import List
 from typing import Optional
 
 from lxml.builder import E
@@ -112,7 +113,7 @@ class ParseException(Exception):
         Returns:
             Formatted error message with position information
         """
-        return "%s (at token %d)" % (self.msg, self.i)
+        return f"{self.msg} (at token {self.i})"
 
 
 XML_SAFE_TAGS = {
@@ -130,7 +131,7 @@ XML_SAFE_TAGS = {
 }
 
 
-def safe_name(name):
+def safe_name(name: str) -> str:
     """Make name safe for use in XML output."""
     return XML_SAFE_TAGS.get(name, name)
 
@@ -218,7 +219,7 @@ class BaseParserElement:
         new.name = name
         return new
 
-    def scan(self, tokens, max_matches=sys.maxsize, overlap=False):
+    def scan(self, tokens: list[tuple[str, str]], max_matches: int = sys.maxsize, overlap: bool = False) -> Generator[tuple[Any, int, int], None, None]:
         """
         Scans for matches in given tokens.
 
@@ -252,7 +253,7 @@ class BaseParserElement:
                 else:
                     i += 1
 
-    def parse(self, tokens, i, actions=True):
+    def parse(self, tokens: list[tuple[str, str]], i: int, actions: bool = True) -> tuple[list[Any], int]:
         """
         Parse given tokens and return results
 
@@ -272,12 +273,11 @@ class BaseParserElement:
                 action_result = action(tokens, i, result)
                 if action_result is not None:
                     result = action_result
-        if self.condition is not None:
-            if not self.condition(result):
-                raise ParseException(tokens, found_index, "Did not satisfy condition", self)
+        if self.condition is not None and not self.condition(result):
+            raise ParseException(tokens, found_index, "Did not satisfy condition", self)
         return result, found_index
 
-    def try_parse(self, tokens, i):
+    def try_parse(self, tokens: list[tuple[str, str]], i: int) -> int:
         return self.parse(tokens, i, actions=False)[1]
 
     def _parse_tokens(self, tokens, i, actions=True):
@@ -293,7 +293,7 @@ class BaseParserElement:
         # TODO: abstractmethod?
         return None, i
 
-    def streamline(self):
+    def streamline(self) -> BaseParserElement:
         """
         Streamlines internal representations. e.g., if we have something like And(And(And(And(a), b), c), d), streamline this to And(a, b, c, d)
         """
@@ -371,7 +371,7 @@ class BaseParserElement:
         """
         return self.set_name(name)
 
-    def hide(self):
+    def hide(self) -> BaseParserElement:
         return Hide(self)
 
 
@@ -463,7 +463,9 @@ class Regex(BaseParserElement):
 
     # Solves issues with deepcopying of records, jm2111
     # only the pattern is copied and the object is created from scratch
-    def __deepcopy__(self, memodict={}):
+    def __deepcopy__(self, memodict=None):
+        if memodict is None:
+            memodict = {}
         return type(self)(deepcopy(self.pattern, memodict))
 
 
@@ -513,16 +515,16 @@ class ParseExpression(BaseParserElement):
     def __getitem__(self, i):
         return self.exprs[i]
 
-    def append(self, other):
+    def append(self, other: BaseParserElement) -> ParseExpression:
         self.exprs.append(other)
         return self
 
-    def copy(self):
+    def copy(self) -> ParseExpression:
         ret = super().copy()
         ret.exprs = [e.copy() for e in self.exprs]
         return ret
 
-    def streamline(self):
+    def streamline(self) -> ParseExpression:
         if not self.streamlined:
             super().streamline()
             for e in self.exprs:
@@ -712,12 +714,11 @@ class ParseElementEnhance(BaseParserElement):
         else:
             raise ParseException("", i, "Error", self)
 
-    def streamline(self):
+    def streamline(self) -> ParseElementEnhance:
         if not self.streamlined:
             super().streamline()
-            if self.expr is not None:
-                if not self.expr.streamlined:
-                    self.expr.streamline()
+            if self.expr is not None and not self.expr.streamlined:
+                self.expr.streamline()
         return self
 
 
@@ -803,10 +804,8 @@ class Optional(ParseElementEnhance):
 
     def _parse_tokens(self, tokens, i, actions=True):
         results = []
-        try:
+        with contextlib.suppress(ParseException, IndexError):
             results, i = self.expr.parse(tokens, i, actions)
-        except (ParseException, IndexError):
-            pass
         return ([E(self.name, *results)] if self.name else results), i
 
 
@@ -867,7 +866,7 @@ class Hide(ParseElementEnhance):
         results, i = super()._parse_tokens(tokens, i)
         return [], i
 
-    def hide(self):
+    def hide(self) -> Hide:
         return self
 
 

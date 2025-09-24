@@ -232,13 +232,6 @@
 <span id="L222" class="lineno"><a class="lineno" href="#L222">222</a></span>
 <span id="L223" class="lineno"><a class="lineno" href="#L223">223</a></span>
 <span id="L224" class="lineno"><a class="lineno" href="#L224">224</a></span>
-<span id="L225" class="lineno"><a class="lineno" href="#L225">225</a></span>
-<span id="L226" class="lineno"><a class="lineno" href="#L226">226</a></span>
-<span id="L227" class="lineno"><a class="lineno" href="#L227">227</a></span>
-<span id="L228" class="lineno"><a class="lineno" href="#L228">228</a></span>
-<span id="L229" class="lineno"><a class="lineno" href="#L229">229</a></span>
-<span id="L230" class="lineno"><a class="lineno" href="#L230">230</a></span>
-<span id="L231" class="lineno"><a class="lineno" href="#L231">231</a></span>
 </pre></td>
 <td class="table-code"><pre><span class="line-empty" title="No Anys on this line!">"""</span>
 <span class="line-empty" title="No Anys on this line!">Base classes for parsing sentences and tables.</span>
@@ -254,7 +247,6 @@
 <span class="line-precise" title="No Anys on this line!">from abc import abstractproperty</span>
 <span class="line-precise" title="No Anys on this line!">from typing import TYPE_CHECKING</span>
 <span class="line-precise" title="No Anys on this line!">from typing import Any</span>
-<span class="line-precise" title="No Anys on this line!">from typing import Optional</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">from .quantity import extract_error</span>
 <span class="line-precise" title="No Anys on this line!">from .quantity import extract_units</span>
@@ -282,11 +274,11 @@
 <span class="line-empty" title="No Anys on this line!">    """</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">    model: type[BaseModel] | None = None</span>
-<span class="line-imprecise" title="Any Types on this line:
+<span class="line-imprecise" title="Any Types on this line: 
 Explicit (x1)">    trigger_phrase: Any | None = None  # BaseParserElement</span>
-<span class="line-imprecise" title="Any Types on this line:
+<span class="line-imprecise" title="Any Types on this line: 
 Explicit (x1)">    skip_section_phrase: Any | None = None  # BaseParserElement</span>
-<span class="line-imprecise" title="Any Types on this line:
+<span class="line-imprecise" title="Any Types on this line: 
 Explicit (x1)">    allow_section_phrase: Any | None = None  # BaseParserElement</span>
 <span class="line-empty" title="No Anys on this line!">    """</span>
 <span class="line-empty" title="No Anys on this line!">    Optional :class:`~chemdataextractor.parse.elements.BaseParserElement` instance.</span>
@@ -303,7 +295,7 @@ Explicit (x1)">    allow_section_phrase: Any | None = None  # BaseParserElement<
 <span class="line-empty" title="No Anys on this line!">    """</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">    @abstractproperty</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Explicit (x1)">    def root(self) -&gt; Any:</span>
 <span class="line-empty" title="No Anys on this line!">        """The root parsing element for this parser.</span>
 <span class="line-empty" title="No Anys on this line!"></span>
@@ -313,7 +305,7 @@ Explicit (x1)">    def root(self) -&gt; Any:</span>
 <span class="line-precise" title="No Anys on this line!">        pass</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">    @abstractmethod</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Explicit (x1)">    def interpret(self, result: Any, start: int, end: int) -&gt; list[BaseModel]:</span>
 <span class="line-empty" title="No Anys on this line!">        """Interpret a parse result into model instances.</span>
 <span class="line-empty" title="No Anys on this line!"></span>
@@ -363,7 +355,7 @@ Explicit (x1)">    def interpret(self, result: Any, start: int, end: int) -&gt; 
 <span class="line-empty" title="No Anys on this line!">        """</span>
 <span class="line-precise" title="No Anys on this line!">        return extract_value(string)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-imprecise" title="Any Types on this line:
+<span class="line-imprecise" title="Any Types on this line: 
 Explicit (x1)">    def extract_units(self, string: str, strict: bool = False) -&gt; Any | None:</span>
 <span class="line-empty" title="No Anys on this line!">        """Extract units from a string.</span>
 <span class="line-empty" title="No Anys on this line!"></span>
@@ -389,8 +381,8 @@ Explicit (x1)">    def extract_units(self, string: str, strict: bool = False) -&
 <span class="line-empty" title="No Anys on this line!">        Raises:</span>
 <span class="line-empty" title="No Anys on this line!">            TypeError: If strict=True and dimensions don't match</span>
 <span class="line-empty" title="No Anys on this line!">        """</span>
-<span class="line-any" title="Any Types on this line:
-Unannotated (x2)
+<span class="line-any" title="Any Types on this line: 
+Explicit (x4)
 Error (x1)">        return extract_units(string, self.model.dimensions, strict)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!"></span>
@@ -413,36 +405,32 @@ Error (x1)">        return extract_units(string, self.model.dimensions, strict)<
 <span class="line-empty" title="No Anys on this line!">            bool - True if section should be processed</span>
 <span class="line-empty" title="No Anys on this line!">        """</span>
 <span class="line-precise" title="No Anys on this line!">        should_read = True</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Error (x2)">        for sentence in heading.sentences:</span>
-<span class="line-imprecise" title="Any Types on this line:
+<span class="line-imprecise" title="Any Types on this line: 
 Explicit (x1)">            if self.allow_section_phrase is not None:</span>
-<span class="line-imprecise" title="Any Types on this line:
-Explicit (x1)">                allow_phrase_results = [</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Explicit (x5)
-Error (x2)">                    result for result in self.allow_section_phrase.scan(sentence.tokens)</span>
-<span class="line-empty" title="No Anys on this line!">                ]</span>
-<span class="line-imprecise" title="Any Types on this line:
+Omitted Generics (x3)
+Error (x2)">                allow_phrase_results = list(self.allow_section_phrase.scan(sentence.tokens))</span>
+<span class="line-imprecise" title="Any Types on this line: 
 Explicit (x1)">                if allow_phrase_results:</span>
 <span class="line-precise" title="No Anys on this line!">                    should_read = True</span>
 <span class="line-precise" title="No Anys on this line!">                    break</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-imprecise" title="Any Types on this line:
+<span class="line-imprecise" title="Any Types on this line: 
 Explicit (x1)">            if self.skip_section_phrase is not None:</span>
-<span class="line-imprecise" title="Any Types on this line:
-Explicit (x1)">                skip_phrase_results = [</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Explicit (x5)
-Error (x2)">                    result for result in self.skip_section_phrase.scan(sentence.tokens)</span>
-<span class="line-empty" title="No Anys on this line!">                ]</span>
-<span class="line-imprecise" title="Any Types on this line:
+Omitted Generics (x3)
+Error (x2)">                skip_phrase_results = list(self.skip_section_phrase.scan(sentence.tokens))</span>
+<span class="line-imprecise" title="Any Types on this line: 
 Explicit (x1)">                if skip_phrase_results:</span>
 <span class="line-precise" title="No Anys on this line!">                    should_read = False</span>
 <span class="line-precise" title="No Anys on this line!">        return should_read</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-any" title="Any Types on this line:
-Unannotated (x1)">    def parse_sentence(self, sentence: BaseElement):</span>
+<span class="line-any" title="Any Types on this line: 
+Explicit (x1)">    def parse_sentence(self, sentence: BaseElement) -&gt; Any:</span>
 <span class="line-empty" title="No Anys on this line!">        """Parse a sentence for chemical data.</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">        This function is primarily called by the</span>
@@ -454,20 +442,18 @@ Unannotated (x1)">    def parse_sentence(self, sentence: BaseElement):</span>
 <span class="line-empty" title="No Anys on this line!">        Yields:</span>
 <span class="line-empty" title="No Anys on this line!">            BaseModel - Extracted model instances from the sentence</span>
 <span class="line-empty" title="No Anys on this line!">        """</span>
-<span class="line-imprecise" title="Any Types on this line:
+<span class="line-imprecise" title="Any Types on this line: 
 Explicit (x1)">        if self.trigger_phrase is not None:</span>
-<span class="line-imprecise" title="Any Types on this line:
-Explicit (x1)">            trigger_phrase_results = [</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Explicit (x5)
-Error (x1)">                result for result in self.trigger_phrase.scan(sentence.tokens)</span>
-<span class="line-empty" title="No Anys on this line!">            ]</span>
-<span class="line-imprecise" title="Any Types on this line:
+Omitted Generics (x3)
+Error (x1)">            trigger_phrase_results = list(self.trigger_phrase.scan(sentence.tokens))</span>
+<span class="line-imprecise" title="Any Types on this line: 
 Explicit (x3)">        if self.trigger_phrase is None or trigger_phrase_results:</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Explicit (x4)
 Error (x1)">            for result in self.root.scan(sentence.tokens):</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Explicit (x2)">                yield from self.interpret(*result)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!"></span>
@@ -478,8 +464,8 @@ Explicit (x2)">                yield from self.interpret(*result)</span>
 <span class="line-empty" title="No Anys on this line!">    To implement a parser for a new property, implement the interpret function.</span>
 <span class="line-empty" title="No Anys on this line!">    """</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-any" title="Any Types on this line:
-Unannotated (x1)">    def parse_cell(self, cell: BaseElement):</span>
+<span class="line-any" title="Any Types on this line: 
+Explicit (x1)">    def parse_cell(self, cell: BaseElement) -&gt; Any:</span>
 <span class="line-empty" title="No Anys on this line!">        """Parse a table cell for chemical data.</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">        This function is primarily called by the</span>
@@ -491,18 +477,19 @@ Unannotated (x1)">    def parse_cell(self, cell: BaseElement):</span>
 <span class="line-empty" title="No Anys on this line!">        Yields:</span>
 <span class="line-empty" title="No Anys on this line!">            BaseModel - Extracted model instances from the cell</span>
 <span class="line-empty" title="No Anys on this line!">        """</span>
-<span class="line-imprecise" title="Any Types on this line:
+<span class="line-imprecise" title="Any Types on this line: 
 Explicit (x1)">        if self.trigger_phrase is not None:</span>
-<span class="line-any" title="Any Types on this line:
-Explicit (x6)
-Error (x1)">            trigger_phrase_results = [result for result in self.trigger_phrase.scan(cell.tokens)]</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
+Explicit (x5)
+Omitted Generics (x3)
+Error (x1)">            trigger_phrase_results = list(self.trigger_phrase.scan(cell.tokens))</span>
+<span class="line-any" title="Any Types on this line: 
 Explicit (x5)">        if (self.trigger_phrase is None or trigger_phrase_results) and self.root is not None:</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Explicit (x4)
 Error (x1)">            for result in self.root.scan(cell.tokens):</span>
 <span class="line-empty" title="No Anys on this line!">                try:</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Explicit (x2)">                    yield from self.interpret(*result)</span>
 <span class="line-precise" title="No Anys on this line!">                except (AttributeError, TypeError) as e:</span>
 <span class="line-precise" title="No Anys on this line!">                    print(e)</span>

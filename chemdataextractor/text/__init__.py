@@ -1,7 +1,11 @@
 """
 Tools for processing text.
 
+Provides comprehensive text processing utilities for chemical and scientific text,
+including normalization, encoding detection, character analysis, and pattern matching.
 """
+
+from __future__ import annotations
 
 import re
 import unicodedata
@@ -253,9 +257,7 @@ SMALL = {
     "the",
     "to",
     "v",
-    "v",
     "via",
-    "vs",
     "vs",
 }
 
@@ -269,7 +271,6 @@ NAME_SMALL = {
     "de",
     "del",
     "der",
-    "de",
     "di",
     "dí",
     "ibn",
@@ -394,12 +395,16 @@ ISSN_RE = re.compile(r"^\d{4}-\d{3}[\dX]$", re.U)
 CONTROL_RE = re.compile("[^\u0020-\ud7ff\u0009\u000a\u000d\ue000-\ufffd\u10000-\u10ffFF]+")
 
 
-def get_encoding(input_string, guesses=None, is_html=False):
+def get_encoding(input_string: bytes | str, guesses: list[str] | None = None, is_html: bool = False) -> str | None:
     """Return the encoding of a byte string. Uses bs4 UnicodeDammit.
 
-    :param string input_string: Encoded byte string.
-    :param list[string] guesses: (Optional) List of encoding guesses to prioritize. Default is ['utf-8']
-    :param bool is_html: Whether the input is HTML.
+    Args:
+        input_string: Encoded byte string.
+        guesses: (Optional) List of encoding guesses to prioritize. Default is ['utf-8']
+        is_html: Whether the input is HTML.
+
+    Returns:
+        The detected encoding, or None if not detected.
     """
     converted = UnicodeDammit(
         input_string,
@@ -409,9 +414,8 @@ def get_encoding(input_string, guesses=None, is_html=False):
     return converted.original_encoding
 
 
-def levenshtein(s1, s2, allow_substring=False):
-    """
-    Return the Levenshtein distance between two strings.
+def levenshtein(s1: str, s2: str, allow_substring: bool = False) -> int:
+    """Return the Levenshtein distance between two strings.
 
     The Levenshtein distance (a.k.a "edit difference") is the number of characters that need to be substituted,
     inserted or deleted to transform s1 into s2.
@@ -419,8 +423,13 @@ def levenshtein(s1, s2, allow_substring=False):
     Setting the `allow_substring` parameter to True allows s1 to be a
     substring of s2, so that, for example, "hello" and "hello there" would have a distance of zero.
 
-    :param string s1: The first string
-    :param string s2: The second string
+    Args:
+        s1: The first string
+        s2: The second string
+        allow_substring: Whether to allow substring matching
+
+    Returns:
+        The Levenshtein distance between the strings
     :param bool allow_substring: Whether to allow s1 to be a substring of s2
     :returns: Levenshtein distance.
     :type: int
@@ -442,8 +451,21 @@ def levenshtein(s1, s2, allow_substring=False):
     return min(lev[len1]) if allow_substring else lev[len1][len2]
 
 
-def bracket_level(text, open={"(", "[", "{"}, close={")", "]", "}"}):
-    """Return 0 if string contains balanced brackets or no brackets."""
+def bracket_level(text: str, open: set[str] | None = None, close: set[str] | None = None) -> int:
+    """Return 0 if string contains balanced brackets or no brackets.
+
+    Args:
+        text: The text to check
+        open: Set of opening bracket characters
+        close: Set of closing bracket characters
+
+    Returns:
+        The bracket nesting level (0 for balanced)
+    """
+    if close is None:
+        close = {")", "]", "}"}
+    if open is None:
+        open = {"(", "[", "{"}
     level = 0
     for c in text:
         if c in open:
@@ -453,40 +475,46 @@ def bracket_level(text, open={"(", "[", "{"}, close={")", "]", "}"}):
     return level
 
 
-def is_punct(text):
-    for char in text:
-        if not unicodedata.category(char).startswith("P"):
-            return False
-    else:
-        return True
+def is_punct(text: str) -> bool:
+    """Check if text consists entirely of punctuation characters."""
+    return all(unicodedata.category(char).startswith("P") for char in text)
 
 
-def is_ascii(text):
-    for char in text:
-        if ord(char) >= 128:
-            return False
-    else:
-        return True
+def is_ascii(text: str) -> bool:
+    """Check if text consists entirely of ASCII characters."""
+    return all(ord(char) < 128 for char in text)
 
 
-def like_url(text):
+def like_url(text: str) -> bool:
+    """Check if text looks like a URL.
+
+    Args:
+        text: The text to check
+
+    Returns:
+        True if text looks like a URL
+    """
     if len(text) < 1:
         return False
-    if text.startswith("http://"):
-        return True
-    elif text.startswith("www.") and len(text) >= 5:
+    if text.startswith("http://") or text.startswith("www.") and len(text) >= 5:
         return True
     if len(text) < 2 or text[0] == "." or text[-1] == "." or "." not in text:
         return False
     tld = text.rsplit(".", 1)[1].split(":", 1)[0]
     if tld.endswith("/"):
         return True
-    if tld.isalpha() and tld in TLDS:
-        return True
-    return False
+    return bool(tld.isalpha() and tld in TLDS)
 
 
-def like_number(text):
+def like_number(text: str) -> bool:
+    """Check if text looks like a number.
+
+    Args:
+        text: The text to check
+
+    Returns:
+        True if text looks like a number
+    """
     text = text.replace(",", "").replace(".", "")
     if text.isdigit():
         return True
@@ -494,12 +522,25 @@ def like_number(text):
         num, denom = text.split("/")
         if like_number(num) and like_number(denom):
             return True
-    if text in NUMBERS:
-        return True
-    return False
+    return text in NUMBERS
 
 
-def word_shape(text):
+def word_shape(text: str) -> str:
+    """Return a string representing the shape of the input text.
+
+    Characters are replaced with:
+    - 'd' for digits
+    - 'g' for Greek letters
+    - 'X' for uppercase letters
+    - 'x' for lowercase letters
+    - Other symbols preserved
+
+    Args:
+        text: The input text
+
+    Returns:
+        The shape representation of the text
+    """
     prev_m = ""
     seq = 0
     shape = []

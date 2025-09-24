@@ -285,8 +285,6 @@
 <span id="L275" class="lineno"><a class="lineno" href="#L275">275</a></span>
 <span id="L276" class="lineno"><a class="lineno" href="#L276">276</a></span>
 <span id="L277" class="lineno"><a class="lineno" href="#L277">277</a></span>
-<span id="L278" class="lineno"><a class="lineno" href="#L278">278</a></span>
-<span id="L279" class="lineno"><a class="lineno" href="#L279">279</a></span>
 </pre></td>
 <td class="table-code"><pre><span class="line-precise" title="No Anys on this line!">from __future__ import annotations</span>
 <span class="line-empty" title="No Anys on this line!"></span>
@@ -299,12 +297,12 @@
 <span class="line-precise" title="No Anys on this line!">    pass</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!"># Type aliases for contextual distance calculations</span>
-<span class="line-precise" title="Any Types on this line:
+<span class="line-precise" title="Any Types on this line: 
 Omitted Generics (x36)">type RangeCount = dict["ContextualRange", float]  # Maps range types to counts</span>
 <span class="line-precise" title="No Anys on this line!">type NumericValue = int | float  # Numeric values for range calculations</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-precise" title="Any Types on this line:
+<span class="line-precise" title="Any Types on this line: 
 Omitted Generics (x2)">@total_ordering</span>
 <span class="line-precise" title="No Anys on this line!">class ContextualRange:</span>
 <span class="line-empty" title="No Anys on this line!">    """Base class for representing contextual distances in document processing.</span>
@@ -417,7 +415,7 @@ Omitted Generics (x2)">@total_ordering</span>
 <span class="line-precise" title="No Anys on this line!">            return ContextualRange._create_with_ranges(new_ranges)</span>
 <span class="line-empty" title="No Anys on this line!">        else:</span>
 <span class="line-precise" title="No Anys on this line!">            raise TypeError(</span>
-<span class="line-precise" title="Any Types on this line:
+<span class="line-precise" title="Any Types on this line: 
 Explicit (x2)">                f"Cannot multiply a ContextualRange with a {type(other)}, only numbers are supported."</span>
 <span class="line-empty" title="No Anys on this line!">            )</span>
 <span class="line-empty" title="No Anys on this line!"></span>
@@ -452,7 +450,7 @@ Explicit (x2)">                f"Cannot multiply a ContextualRange with a {type(
 <span class="line-empty" title="No Anys on this line!">            )</span>
 <span class="line-precise" title="No Anys on this line!">        return self.__mul__(1.0 / other)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Explicit (x1)">    def __rtruediv__(self, other: Any) -&gt; None:</span>
 <span class="line-empty" title="No Anys on this line!">        """Right division - not supported for contextual ranges.</span>
 <span class="line-empty" title="No Anys on this line!"></span>
@@ -473,7 +471,7 @@ Explicit (x1)">    def __rtruediv__(self, other: Any) -&gt; None:</span>
 <span class="line-precise" title="No Anys on this line!">        string = str(self.__class__.__name__)</span>
 <span class="line-precise" title="No Anys on this line!">        return string.__hash__()</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Explicit (x1)">    def __eq__(self, other: Any) -&gt; bool:</span>
 <span class="line-empty" title="No Anys on this line!">        """Check equality between contextual ranges.</span>
 <span class="line-empty" title="No Anys on this line!"></span>
@@ -483,7 +481,7 @@ Explicit (x1)">    def __eq__(self, other: Any) -&gt; bool:</span>
 <span class="line-empty" title="No Anys on this line!">        Returns:</span>
 <span class="line-empty" title="No Anys on this line!">            True if ranges are equal, False otherwise</span>
 <span class="line-empty" title="No Anys on this line!">        """</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Explicit (x1)">        if not isinstance(other, ContextualRange):</span>
 <span class="line-precise" title="No Anys on this line!">            return False</span>
 <span class="line-precise" title="No Anys on this line!">        if self._constituent_ranges:</span>
@@ -497,7 +495,7 @@ Explicit (x1)">        if not isinstance(other, ContextualRange):</span>
 <span class="line-precise" title="No Anys on this line!">                    return False</span>
 <span class="line-precise" title="No Anys on this line!">            return True</span>
 <span class="line-empty" title="No Anys on this line!">        else:</span>
-<span class="line-precise" title="Any Types on this line:
+<span class="line-precise" title="Any Types on this line: 
 Explicit (x4)">            return type(self) == type(other)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">    def __lt__(self, other: ContextualRange) -&gt; bool:</span>
@@ -519,12 +517,12 @@ Explicit (x4)">            return type(self) == type(other)</span>
 <span class="line-empty" title="No Anys on this line!">        ]</span>
 <span class="line-precise" title="No Anys on this line!">        for range_type in ranges_by_magnitude:</span>
 <span class="line-precise" title="No Anys on this line!">            self_range_count = (</span>
-<span class="line-precise" title="No Anys on this line!">                self.constituent_ranges[range_type] if range_type in self.constituent_ranges else 0</span>
+<span class="line-precise" title="Any Types on this line: 
+Omitted Generics (x2)">                self.constituent_ranges.get(range_type, 0)</span>
 <span class="line-empty" title="No Anys on this line!">            )</span>
 <span class="line-precise" title="No Anys on this line!">            other_range_count = (</span>
-<span class="line-precise" title="No Anys on this line!">                other.constituent_ranges[range_type]</span>
-<span class="line-precise" title="No Anys on this line!">                if range_type in other.constituent_ranges</span>
-<span class="line-precise" title="No Anys on this line!">                else 0</span>
+<span class="line-precise" title="Any Types on this line: 
+Omitted Generics (x2)">                other.constituent_ranges.get(range_type, 0)</span>
 <span class="line-empty" title="No Anys on this line!">            )</span>
 <span class="line-precise" title="No Anys on this line!">            if self_range_count &lt; other_range_count:</span>
 <span class="line-precise" title="No Anys on this line!">                return True</span>

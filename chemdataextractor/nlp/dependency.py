@@ -1,3 +1,12 @@
+"""
+Dependency parsing for syntactic analysis.
+
+Provides dependency parsing capabilities using Stanza for syntactic
+relationship extraction in sentences.
+"""
+
+from __future__ import annotations
+
 from collections import namedtuple
 
 import stanza
@@ -16,7 +25,7 @@ class IndexTagger(BaseTagger):
     tag_type = "index"
 
     def tag(self, tokens):
-        return zip(tokens, range(len(tokens)))
+        return zip(tokens, range(len(tokens)), strict=False)
 
 
 class _DependencyTagger(BaseTagger):
@@ -43,13 +52,13 @@ class _DependencyTagger(BaseTagger):
                 labels.append(Dependency(None, relation))
             else:
                 labels.append(Dependency(tokens[word.head - 1], relation))
-        return zip(tokens, labels)
+        return zip(tokens, labels, strict=False)
 
     def batch_tag(self, sents):
         stanza_toks = [self._tokens_to_stanza_tokens(sent) for sent in sents]
         doc = self._nlp(stanza_toks)
         labels = []
-        for tokens, sent in zip(sents, doc.sentences):
+        for tokens, sent in zip(sents, doc.sentences, strict=False):
             sent_labels = []
             for word in sent.words:
                 relation = word.deprel
@@ -57,7 +66,7 @@ class _DependencyTagger(BaseTagger):
                     sent_labels.append(Dependency(None, relation))
                 else:
                     sent_labels.append(Dependency(tokens[word.head - 1], relation))
-            labels.append(zip(tokens, sent_labels))
+            labels.append(zip(tokens, sent_labels, strict=False))
         return labels
 
 

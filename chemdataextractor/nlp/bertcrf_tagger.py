@@ -1,27 +1,29 @@
-"""_summary_
-This module contains the implementation of a BERT-CRF tagger for named entity recognition (NER) using the ChemDataExtractor library.
-It includes the configuration class `BertCrfConfig`, the tagger class `BertCrfTagger`, and the model class `BertCrfModel`.
-The tagger class is responsible for processing and tagging sentences, while the model class defines the BERT-CRF architecture.
+"""BERT-CRF Named Entity Recognition Tagger.
+
+This module contains the implementation of a BERT-CRF tagger for named entity recognition (NER)
+using the ChemDataExtractor library. It includes the configuration class `BertCrfConfig`,
+the tagger class `BertCrfTagger`, and the model class `BertCrfModel`.
+
+The tagger class is responsible for processing and tagging sentences, while the model class
+defines the BERT-CRF architecture.
+
 Classes:
     BertCrfConfig: Configuration class for the BERT-CRF model.
     BertCrfTagger: Tagger class for named entity recognition using BERT-CRF.
     BertCrfModel: Model class defining the BERT-CRF architecture.
-Functions:
-    main: Main function to load the model, tokenize a sample sentence, and perform NER tagging.
+
 Usage:
-    To use this module, instantiate the `BertCrfTagger` class and call its `tag` or `batch_tag` methods with the input sentences.
-    The `main` function provides an example of how to load the model and perform NER tagging on a sample sentence.
+    To use this module, instantiate the `BertCrfTagger` class and call its `tag` or `batch_tag`
+    methods with the input sentences.
 """
+
+from __future__ import annotations
 
 import copy
 import datetime
 import logging
 import math
 import re
-from typing import Dict
-from typing import List
-from typing import Optional
-from typing import Tuple
 
 import numpy as np
 import torch
@@ -281,7 +283,7 @@ class BertCrfTagger(BaseTagger):
             prediction_end_time = datetime.datetime.now()
             log.debug("".join(["Batch time:", str(prediction_end_time - prediction_start_time)]))
         id_predictions_map = {}
-        for allensentence, prediction in zip(all_bertcrftokens, predictions):
+        for allensentence, prediction in zip(all_bertcrftokens, predictions, strict=False):
             id_predictions_map[id(allensentence)] = prediction["tags"]
 
         # Assign tags to each sentence
@@ -404,7 +406,7 @@ class BertCrfTagger(BaseTagger):
                 raise TypeError(
                     f"The length of the sentence {len(sent)} and the length of the consolidated tags {len(consolidated_tags)} are different for the tagger for {self.tag_type}."
                 )
-            tags.append(zip(sent, [self.process(tag) for tag in consolidated_tags]))
+            tags.append(zip(sent, [self.process(tag) for tag in consolidated_tags], strict=False))
         return tags
 
 
@@ -447,7 +449,7 @@ class BertCrfModel(PreTrainedModel):
         self.dropout = nn.Dropout(config.dropout)
 
     def _index_to_label(self):
-        return {index: label for index, label in self.index_and_label}
+        return dict(self.index_and_label)
 
     def _label_to_index(self):
         return {label: index for index, label in self.index_and_label}
@@ -527,7 +529,9 @@ class BertCrfModel(PreTrainedModel):
                     #     output = output.unsqueeze(0)
 
                     output = output.detach().cpu().numpy()
-                for instance_output, batch_element in zip(instance_separated_output, output):
+                for instance_output, batch_element in zip(
+                    instance_separated_output, output, strict=False
+                ):
                     instance_output[name] = batch_element
             return instance_separated_output
 

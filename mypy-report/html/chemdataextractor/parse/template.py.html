@@ -936,7 +936,7 @@ Unannotated (x4)">        return self.model.specifier.parse_expression("specifie
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x5)">        if hasattr(self.model, "dimensions") and not self.model.dimensions:</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x4)">            return value_element()</span>
+Unannotated (x1)">            return value_element()</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x5)">        elif hasattr(self.model, "category") and self.model.category:</span>
 <span class="line-any" title="Any Types on this line: 
@@ -952,7 +952,7 @@ Unannotated (x2)">                match_dimensions_of(self.model)</span>
 <span class="line-any" title="No Anys on this line!">            )("raw_units")</span>
 <span class="line-empty" title="No Anys on this line!">        )</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x5)">        return value_element(unit_element)</span>
+Unannotated (x2)">        return value_element(unit_element)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">    @property</span>
 <span class="line-any" title="No Anys on this line!">    def cem_phrase(self):</span>
@@ -1413,13 +1413,13 @@ Unannotated (x2)">                match_dimensions_of(self.model)</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x5)">        if hasattr(self.model, "dimensions") and not self.model.dimensions:</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x4)">            return value_element()</span>
+Unannotated (x1)">            return value_element()</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x5)">        elif hasattr(self.model, "category") and self.model.category:</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x4)">            return self.model.category.parse_expression("category")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x5)">        value = value_element()</span>
+Unannotated (x2)">        value = value_element()</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x6)">        return Group(value + Optional(self.unit))</span>
 <span class="line-empty" title="No Anys on this line!"></span>
@@ -1429,13 +1429,13 @@ Unannotated (x6)">        return Group(value + Optional(self.unit))</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x5)">        if hasattr(self.model, "dimensions") and not self.model.dimensions:</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x4)">            return value_element()</span>
+Unannotated (x1)">            return value_element()</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x5)">        elif hasattr(self.model, "category") and self.model.category:</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x4)">            return self.model.category.parse_expression("category")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x5)">        return value_element(self.unit)</span>
+Unannotated (x2)">        return value_element(self.unit)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">    @property</span>
 <span class="line-any" title="No Anys on this line!">    def list_of_values(self):</span>
@@ -1775,14 +1775,16 @@ Unannotated (x1)">        if result is None:</span>
 <span class="line-empty" title="No Anys on this line!">            return</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x7)">        cem_el = first(result.xpath("./compound"))</span>
+Unannotated (x5)
+Omitted Generics (x2)">        cem_el = first(result.xpath("./compound"))</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">        if cem_el is None:</span>
 <span class="line-any" title="No Anys on this line!">            yield None</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x7)">        property_list = first(result.xpath("./property_list"))</span>
+Unannotated (x5)
+Omitted Generics (x2)">        property_list = first(result.xpath("./property_list"))</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">        if property_list is None:</span>
 <span class="line-any" title="No Anys on this line!">            yield None</span>
@@ -1804,11 +1806,14 @@ Unannotated (x4)">        for pt in properties[::-1]:  # Reverse order to make s
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">            requirements = True</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x7)">            specifier = first(pt.xpath("./specifier/text()"))</span>
+Unannotated (x5)
+Omitted Generics (x2)">            specifier = first(pt.xpath("./specifier/text()"))</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x7)">            raw_value = first(pt.xpath("./raw_value/text()"))</span>
+Unannotated (x5)
+Omitted Generics (x2)">            raw_value = first(pt.xpath("./raw_value/text()"))</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x7)">            raw_units = first(pt.xpath("./raw_units/text()"))</span>
+Unannotated (x5)
+Omitted Generics (x2)">            raw_units = first(pt.xpath("./raw_units/text()"))</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">            if not raw_units:</span>
 <span class="line-any" title="Any Types on this line: 
@@ -1866,19 +1871,22 @@ Unannotated (x1)">                yield model_instance</span>
 Unannotated (x1)">        if result is None:</span>
 <span class="line-empty" title="No Anys on this line!">            return</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x7)">        cem_el = first(result.xpath("./compound"))</span>
+Unannotated (x5)
+Omitted Generics (x2)">        cem_el = first(result.xpath("./compound"))</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">        if cem_el is None:</span>
 <span class="line-any" title="No Anys on this line!">            yield None</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x7)">        specifier = first(result.xpath("./specifier/text()"))</span>
+Unannotated (x5)
+Omitted Generics (x2)">        specifier = first(result.xpath("./specifier/text()"))</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">        if specifier is None:</span>
 <span class="line-any" title="No Anys on this line!">            yield None</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x7)">        value_list = first(result.xpath("./value_list"))</span>
+Unannotated (x5)
+Omitted Generics (x2)">        value_list = first(result.xpath("./value_list"))</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">        if value_list is None:</span>
@@ -1903,12 +1911,14 @@ Unannotated (x1)">        last_unit = None</span>
 Unannotated (x6)
 Omitted Generics (x2)">        for i, v in enumerate(raw_values_list[::-1]):  # Reverse order to make sure we get a unit</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x7)">            raw_value = first(v.xpath("./text()"))</span>
+Unannotated (x5)
+Omitted Generics (x2)">            raw_value = first(v.xpath("./text()"))</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">            requirements = True</span>
 <span class="line-empty" title="No Anys on this line!">            try:</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x11)">                raw_units = first(raw_units_list[::-1][i].xpath("./text()"))</span>
+Unannotated (x9)
+Omitted Generics (x2)">                raw_units = first(raw_units_list[::-1][i].xpath("./text()"))</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x2)">                last_unit = raw_units</span>
 <span class="line-precise" title="No Anys on this line!">            except IndexError:</span>
@@ -1970,21 +1980,24 @@ Unannotated (x1)">        if result is None:</span>
 <span class="line-empty" title="No Anys on this line!">            return</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x7)">        cem_list = first(result.xpath("./cem_list"))</span>
+Unannotated (x5)
+Omitted Generics (x2)">        cem_list = first(result.xpath("./cem_list"))</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">        if cem_list is None:</span>
 <span class="line-any" title="No Anys on this line!">            yield None</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x7)">        specifier = first(result.xpath("./specifier/text()"))</span>
+Unannotated (x5)
+Omitted Generics (x2)">        specifier = first(result.xpath("./specifier/text()"))</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">        if specifier is None:</span>
 <span class="line-any" title="No Anys on this line!">            yield None</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x7)">        value_list = first(result.xpath("./value_list"))</span>
+Unannotated (x5)
+Omitted Generics (x2)">        value_list = first(result.xpath("./value_list"))</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">        if value_list is None:</span>
@@ -2001,12 +2014,14 @@ Unannotated (x1)">        last_unit = None</span>
 Unannotated (x6)
 Omitted Generics (x2)">        for i, v in enumerate(raw_values_list[::-1]):  # Reverse order to make sure we get a unit</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x7)">            raw_value = first(v.xpath("./text()"))</span>
+Unannotated (x5)
+Omitted Generics (x2)">            raw_value = first(v.xpath("./text()"))</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">            requirements = True</span>
 <span class="line-empty" title="No Anys on this line!">            try:</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x11)">                raw_units = first(raw_units_list[::-1][i].xpath("./text()"))</span>
+Unannotated (x9)
+Omitted Generics (x2)">                raw_units = first(raw_units_list[::-1][i].xpath("./text()"))</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x2)">                last_unit = raw_units</span>
 <span class="line-precise" title="No Anys on this line!">            except IndexError:</span>
@@ -2085,18 +2100,22 @@ Unannotated (x1)">        if result is None:</span>
 Unannotated (x1)">        requirements = True</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x7)">        cem_list = first(result.xpath("./cem_list"))</span>
+Unannotated (x5)
+Omitted Generics (x2)">        cem_list = first(result.xpath("./cem_list"))</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">        if cem_list is None:</span>
 <span class="line-any" title="No Anys on this line!">            yield None</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x7)">        specifier = first(result.xpath("./property/specifier/text()"))</span>
+Unannotated (x5)
+Omitted Generics (x2)">        specifier = first(result.xpath("./property/specifier/text()"))</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x7)">        raw_value = first(result.xpath("./property/raw_value/text()"))</span>
+Unannotated (x5)
+Omitted Generics (x2)">        raw_value = first(result.xpath("./property/raw_value/text()"))</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x7)">        raw_units = first(result.xpath("./property/raw_units/text()"))</span>
+Unannotated (x5)
+Omitted Generics (x2)">        raw_units = first(result.xpath("./property/raw_units/text()"))</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">        if specifier is None:</span>
@@ -2175,7 +2194,8 @@ Unannotated (x1)">        if cem_list is None:</span>
 <span class="line-any" title="No Anys on this line!">            yield None</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x7)">        specifier = first(result.xpath("./specifier/text()"))</span>
+Unannotated (x5)
+Omitted Generics (x2)">        specifier = first(result.xpath("./specifier/text()"))</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">        if specifier is None:</span>
@@ -2195,12 +2215,14 @@ Unannotated (x1)">        last_unit = None</span>
 Unannotated (x6)
 Omitted Generics (x2)">        for i, v in enumerate(raw_values_list[::-1]):  # Reverse order to make sure we get a unit</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x7)">            raw_value = first(v.xpath("./text()"))</span>
+Unannotated (x5)
+Omitted Generics (x2)">            raw_value = first(v.xpath("./text()"))</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">            requirements = True</span>
 <span class="line-empty" title="No Anys on this line!">            try:</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x11)">                raw_units = first(raw_units_list[::-1][i].xpath("./text()"))</span>
+Unannotated (x9)
+Omitted Generics (x2)">                raw_units = first(raw_units_list[::-1][i].xpath("./text()"))</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x2)">                last_unit = raw_units</span>
 <span class="line-precise" title="No Anys on this line!">            except IndexError:</span>

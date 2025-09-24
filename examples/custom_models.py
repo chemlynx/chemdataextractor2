@@ -16,7 +16,6 @@ Requirements:
 
 import logging
 from typing import Any
-from typing import Dict
 
 from chemdataextractor.doc import Document
 from chemdataextractor.model import BaseModel

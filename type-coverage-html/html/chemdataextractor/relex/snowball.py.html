@@ -778,10 +778,6 @@
 <span id="L768" class="lineno"><a class="lineno" href="#L768">768</a></span>
 <span id="L769" class="lineno"><a class="lineno" href="#L769">769</a></span>
 <span id="L770" class="lineno"><a class="lineno" href="#L770">770</a></span>
-<span id="L771" class="lineno"><a class="lineno" href="#L771">771</a></span>
-<span id="L772" class="lineno"><a class="lineno" href="#L772">772</a></span>
-<span id="L773" class="lineno"><a class="lineno" href="#L773">773</a></span>
-<span id="L774" class="lineno"><a class="lineno" href="#L774">774</a></span>
 </pre></td>
 <td class="table-code"><pre><span class="line-empty" title="No Anys on this line!">"""</span>
 <span class="line-empty" title="No Anys on this line!">The Snowball Relationship Extraction algorithm.</span>
@@ -796,14 +792,11 @@
 <span class="line-precise" title="No Anys on this line!">import logging</span>
 <span class="line-precise" title="No Anys on this line!">import os</span>
 <span class="line-precise" title="No Anys on this line!">import pickle</span>
-<span class="line-precise" title="No Anys on this line!">from importlib.resources import files</span>
 <span class="line-precise" title="No Anys on this line!">from itertools import combinations</span>
 <span class="line-precise" title="No Anys on this line!">from itertools import product</span>
 <span class="line-precise" title="No Anys on this line!">from os.path import basename</span>
 <span class="line-precise" title="No Anys on this line!">from typing import TYPE_CHECKING</span>
 <span class="line-precise" title="No Anys on this line!">from typing import Any</span>
-<span class="line-precise" title="No Anys on this line!">from typing import List</span>
-<span class="line-precise" title="No Anys on this line!">from typing import Tuple</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">import numpy as np</span>
 <span class="line-any" title="No Anys on this line!">import six</span>
@@ -876,60 +869,60 @@
 <span class="line-any" title="No Anys on this line!">        max_candidate_combinations=400,</span>
 <span class="line-any" title="No Anys on this line!">        save_dir="chemdataextractor/relex/data/",</span>
 <span class="line-empty" title="No Anys on this line!">    ):</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">        self.model = model</span>
 <span class="line-precise" title="No Anys on this line!">        self.relations = []</span>
 <span class="line-precise" title="No Anys on this line!">        self.phrases = []</span>
 <span class="line-precise" title="No Anys on this line!">        self.clusters = []</span>
 <span class="line-any" title="No Anys on this line!">        self.cluster_counter = 0</span>
 <span class="line-precise" title="No Anys on this line!">        self.sentences = []</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x2)">        self.max_candidate_combinations = max_candidate_combinations</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x2)">        self.save_dir = save_dir</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x3)">        self.save_file_name = model.__name__</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">        # params</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x2)">        if not 0 &lt;= tc &lt;= 1.0:</span>
 <span class="line-any" title="No Anys on this line!">            raise ValueError("Tc must be between 0 and 1")</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x2)">        if not 0 &lt;= tsim &lt;= 1.0:</span>
 <span class="line-any" title="No Anys on this line!">            raise ValueError("Tsim must be between 0 and 1")</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x2)">        if not 0 &lt;= learning_rate &lt;= 1.0:</span>
 <span class="line-any" title="No Anys on this line!">            raise ValueError("Learning rate must be between 0 and 1")</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x2)">        if not 0 &lt;= prefix_weight &lt;= 1.0:</span>
 <span class="line-any" title="No Anys on this line!">            raise ValueError("Prefix weight must be between 0 and 1")</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x2)">        if not 0 &lt;= middle_weight &lt;= 1.0:</span>
 <span class="line-any" title="No Anys on this line!">            raise ValueError("middle_weight must be between 0 and 1")</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x2)">        if not 0 &lt;= suffix_weight &lt;= 1.0:</span>
 <span class="line-any" title="No Anys on this line!">            raise ValueError("suffix weight must be between 0 and 1")</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x2)">        self.minimum_relation_confidence = tc</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x2)">        self.minimum_cluster_similarity_score = tsim</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x2)">        self.prefix_weight = prefix_weight</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x2)">        self.middle_weight = middle_weight</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x2)">        self.suffix_weight = suffix_weight</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x2)">        self.prefix_length = prefix_length</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x2)">        self.suffix_length = suffix_length</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x2)">        self.learning_rate = learning_rate</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">    @classmethod</span>
@@ -1002,11 +995,11 @@ Unannotated (x2)">        self.learning_rate = learning_rate</span>
 <span class="line-empty" title="No Anys on this line!">        return</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="No Anys on this line!">    def set_learning_rate(self, alpha):</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x2)">        self.learning_rate = alpha</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x2)">        for cluster in self.clusters:</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x3)">            cluster.learning_rate = alpha</span>
 <span class="line-empty" title="No Anys on this line!">        return</span>
 <span class="line-empty" title="No Anys on this line!"></span>
@@ -1077,45 +1070,45 @@ Unannotated (x3)">            cluster.learning_rate = alpha</span>
 <span class="line-empty" title="No Anys on this line!">            s {[type]} -- [description]</span>
 <span class="line-empty" title="No Anys on this line!">        """</span>
 <span class="line-precise" title="No Anys on this line!">        candidate_dict = {}</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x6)">        candidate_relationships = self.candidates(s.tokens)</span>
 <span class="line-any" title="No Anys on this line!">        candidate_found = False</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">        if len(candidate_relationships) &gt; 0:</span>
 <span class="line-any" title="No Anys on this line!">            candidate_found = True</span>
 <span class="line-any" title="No Anys on this line!">            print("\n\n")</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">            print(s)</span>
 <span class="line-any" title="No Anys on this line!">            print("\n")</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x5)">            for i, candidate in enumerate(candidate_relationships):</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x2)">                candidate_dict[str(i)] = candidate</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">                print("Candidate " + str(i) + " " + str(candidate) + "\n")</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unimported (x7)">            res = six.moves.input("...: ").replace(" ", "")</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unimported (x1)">            if res:</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unimported (x4)">                chosen_candidate_idx = res.split(",")</span>
 <span class="line-precise" title="No Anys on this line!">                chosen_candidates = []</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unimported (x2)">                for cci in chosen_candidate_idx:</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unimported (x1)
-Unannotated (x3)">                    if cci in candidate_dict.keys():</span>
-<span class="line-any" title="Any Types on this line:
+Unannotated (x1)">                    if cci in candidate_dict:</span>
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x3)
 Unimported (x1)">                        cc = candidate_dict[cci]</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x2)">                        cc.confidence = 1.0</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x3)">                        chosen_candidates.append(cc)</span>
-<span class="line-imprecise" title="Any Types on this line:
+<span class="line-imprecise" title="Any Types on this line: 
 Unannotated (x1)">                if chosen_candidates:</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x7)">                    self.update(s.raw_tokens, chosen_candidates)</span>
 <span class="line-precise" title="No Anys on this line!">        return candidate_found</span>
 <span class="line-empty" title="No Anys on this line!"></span>
@@ -1138,7 +1131,7 @@ Unannotated (x7)">                    self.update(s.raw_tokens, chosen_candidate
 <span class="line-empty" title="No Anys on this line!">            else:</span>
 <span class="line-empty" title="No Anys on this line!">                if (</span>
 <span class="line-empty" title="No Anys on this line!">                    model.fields[field].required</span>
-<span class="line-empty" title="No Anys on this line!">                    and model_name + "__" + field not in entities_dict.keys()</span>
+<span class="line-empty" title="No Anys on this line!">                    and model_name + "__" + field not in entities_dict</span>
 <span class="line-empty" title="No Anys on this line!">                ):</span>
 <span class="line-empty" title="No Anys on this line!">                    # print("Model %s missing field %s" % (model_name, field))</span>
 <span class="line-empty" title="No Anys on this line!">                    return False</span>
@@ -1155,13 +1148,13 @@ Unannotated (x7)">                    self.update(s.raw_tokens, chosen_candidate
 <span class="line-empty" title="No Anys on this line!">            else:</span>
 <span class="line-empty" title="No Anys on this line!">                if (</span>
 <span class="line-empty" title="No Anys on this line!">                    model.fields[field].required</span>
-<span class="line-empty" title="No Anys on this line!">                    and model_name + "__" + field not in entities_dict.keys()</span>
+<span class="line-empty" title="No Anys on this line!">                    and model_name + "__" + field not in entities_dict</span>
 <span class="line-empty" title="No Anys on this line!">                ):</span>
 <span class="line-empty" title="No Anys on this line!">                    # If the field is required by the model, but its not in the entities dict</span>
 <span class="line-empty" title="No Anys on this line!">                    # print("Entities dict %s missing field %s" % (model_name, field))</span>
 <span class="line-empty" title="No Anys on this line!">                    # Delete all fields of this model from entities_dict</span>
 <span class="line-empty" title="No Anys on this line!">                    key = model_name + "__"</span>
-<span class="line-empty" title="No Anys on this line!">                    dict_keys = [i for i in entities_dict.keys()]</span>
+<span class="line-empty" title="No Anys on this line!">                    dict_keys = list(entities_dict.keys())</span>
 <span class="line-empty" title="No Anys on this line!">                    for entity_key in dict_keys:</span>
 <span class="line-empty" title="No Anys on this line!">                        if entity_key.startswith(key):</span>
 <span class="line-empty" title="No Anys on this line!">                            entities_dict.pop(entity_key, None)</span>
@@ -1184,137 +1177,141 @@ Unannotated (x7)">                    self.update(s.raw_tokens, chosen_candidate
 <span class="line-precise" title="No Anys on this line!">        detected = []</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">        #: Uses the default autosentenceparser to retrieve candidates</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x3)">        sentence_parser = AutoSentenceParser(lenient=True)</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x6)
 Omitted Generics (x6)">        all_models = list(set(self.model.flatten()))</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x2)">        for model in all_models:</span>
 <span class="line-empty" title="No Anys on this line!">            # Skip the compound model</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x3)">            if model.__name__ == "Compound":</span>
 <span class="line-any" title="No Anys on this line!">                continue</span>
 <span class="line-empty" title="No Anys on this line!">            # print(model.__name__)</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">            sentence_parser.model = model</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x5)">            for result in sentence_parser.root.scan(tokens):</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">                if result:</span>
 <span class="line-empty" title="No Anys on this line!">                    # print(etree.tostring(result[0]))</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x8)">                    for entity in self.retrieve_entities(model, result[0]):</span>
 <span class="line-empty" title="No Anys on this line!">                        # print(entity)</span>
 <span class="line-empty" title="No Anys on this line!">                        # print("\n")</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x3)">                        detected.append(entity)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-imprecise" title="Any Types on this line:
+<span class="line-imprecise" title="Any Types on this line: 
 Unannotated (x1)">        if not detected:</span>
 <span class="line-empty" title="No Anys on this line!">            return []</span>
-<span class="line-imprecise" title="Any Types on this line:
+<span class="line-imprecise" title="Any Types on this line: 
 Unannotated (x4)
 Omitted Generics (x6)">        detected = list(set(detected))  # Remove duplicate entries (handled by indexing)</span>
 <span class="line-empty" title="No Anys on this line!">        # print(detected)</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x5)">        toks = [tok[0] for tok in tokens]</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x4)">        for text, tag, parse_expression in detected:</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x3)">            text_length = len(text.split(" "))</span>
-<span class="line-any" title="Any Types on this line:
-Unannotated (x17)">            pattern = [s[0] for s in Sentence(text).tokens]</span>
-<span class="line-imprecise" title="Any Types on this line:
-Unannotated (x1)">            text_length = len(pattern)</span>
-<span class="line-any" title="Any Types on this line:
-Unannotated (x9)">            start_indices = [s for s in KnuthMorrisPratt(toks, pattern)]</span>
+<span class="line-any" title="Any Types on this line: 
+Explicit (x5)
+Unannotated (x12)">            pattern = [s[0] for s in Sentence(text).tokens]</span>
+<span class="line-imprecise" title="Any Types on this line: 
+Explicit (x1)">            text_length = len(pattern)</span>
+<span class="line-any" title="Any Types on this line: 
+Unannotated (x7)
+Omitted Generics (x3)
+Explicit (x1)">            start_indices = list(KnuthMorrisPratt(toks, pattern))</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x1)
 Omitted Generics (x2)">            if isinstance(tag, tuple):</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">                tag = "__".join(tag)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">            # Add to dictionary  if it doesn't exist</span>
-<span class="line-any" title="Any Types on this line:
-Unannotated (x7)">            if tag not in entities_dict.keys():</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
+Unannotated (x3)">            if tag not in entities_dict:</span>
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x3)">                entities_dict[tag] = []</span>
 <span class="line-precise" title="No Anys on this line!">            entities = [</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unimported (x1)
 Unannotated (x6)">                Entity(text, tag, parse_expression, index, index + text_length)</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x2)">                for index in start_indices</span>
 <span class="line-empty" title="No Anys on this line!">            ]</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">            # Add entities to dictionary if new</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">            for entity in entities:</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x4)">                if entity not in entities_dict[tag]:</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x6)">                    entities_dict[tag].append(entity)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-any" title="Any Types on this line:
-Unannotated (x7)">        for k in entities_dict.keys():</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
+Unannotated (x3)">        for k in entities_dict:</span>
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x4)">            entities = entities_dict[k]</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x4)">            if len(entities_dict[k]) &gt; 1:</span>
 <span class="line-precise" title="No Anys on this line!">                to_pop = []</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">                for i in range(len(entities)):</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">                    for j in range(i + 1, len(entities)):</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x7)">                        if entities[i].start == entities[j].start:</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Explicit (x3)
 Omitted Generics (x2)
 Unannotated (x6)">                            to_pop.append([i, j][np.argmin([entities[i].end, entities[j].end])])</span>
 <span class="line-precise" title="No Anys on this line!">                for p in to_pop:</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x6)">                    entities_dict[k].pop(p)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">        # Filter out incomplete models</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x4)">        entities_dict = self.filter_incomplete(self.model, entities_dict)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">        # jm2111, Fixed check for required fields</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x5)">        if not self.required_fulfilled(self.model, entities_dict):</span>
 <span class="line-empty" title="No Anys on this line!">            return []</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">        # print("\n", entities_dict, "\n")</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">        # Construct all valid combinations of entities</span>
-<span class="line-any" title="Any Types on this line:
-Unannotated (x6)">        all_entities = [e for e in entities_dict.values()]</span>
+<span class="line-any" title="Any Types on this line: 
+Unannotated (x5)
+Omitted Generics (x3)">        all_entities = list(entities_dict.values())</span>
 <span class="line-empty" title="No Anys on this line!">        # Intra-Candidate sorting (within each candidate)</span>
-<span class="line-imprecise" title="Any Types on this line:
+<span class="line-imprecise" title="Any Types on this line: 
 Unannotated (x1)">        for i in range(len(all_entities)):</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x6)
 Omitted Generics (x5)">            all_entities[i] = sorted(all_entities[i], key=lambda t: t.start)</span>
-<span class="line-imprecise" title="Any Types on this line:
+<span class="line-imprecise" title="Any Types on this line: 
 Unannotated (x4)
 Omitted Generics (x115)">        candidates = list(product(*all_entities))</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-imprecise" title="Any Types on this line:
+<span class="line-imprecise" title="Any Types on this line: 
 Unannotated (x2)">        for candidate in candidates:</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x5)
 Omitted Generics (x5)">            lst = sorted(candidate, key=lambda t: t.start)</span>
-<span class="line-imprecise" title="Any Types on this line:
+<span class="line-imprecise" title="Any Types on this line: 
 Unannotated (x5)">            candidate = tuple(lst)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">            # Remove candidates that are not valid (if a token has two different tags at the same location)</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x3)">            r = Relation(candidate, confidence=0)</span>
 <span class="line-empty" title="No Anys on this line!">            # print(r)</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x2)">            if r.is_valid():</span>
 <span class="line-empty" title="No Anys on this line!">                # print(candidate, "is valid", "\n")</span>
 <span class="line-precise" title="No Anys on this line!">                candidate_relationships.append(r)</span>
@@ -1343,7 +1340,7 @@ Unannotated (x2)">            if r.is_valid():</span>
 <span class="line-empty" title="No Anys on this line!">                            field.parse_expression,</span>
 <span class="line-empty" title="No Anys on this line!">                        )</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-any" title="No Anys on this line!">    def update(self, sentence_tokens, relations=[]):</span>
+<span class="line-any" title="No Anys on this line!">    def update(self, sentence_tokens, relations=None):</span>
 <span class="line-empty" title="No Anys on this line!">        """Update the learned extraction pattern clusters based on the incoming sentence and relation</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">        Arguments:</span>
@@ -1351,6 +1348,8 @@ Unannotated (x2)">            if r.is_valid():</span>
 <span class="line-empty" title="No Anys on this line!">            relation {list} -- The Relation objects that are in the sentence</span>
 <span class="line-empty" title="No Anys on this line!">        """</span>
 <span class="line-empty" title="No Anys on this line!">        #: Create a new phrase from the sentence and corresponding relations</span>
+<span class="line-empty" title="No Anys on this line!">        if relations is None:</span>
+<span class="line-empty" title="No Anys on this line!">            relations = []</span>
 <span class="line-empty" title="No Anys on this line!">        new_phrase = Phrase(sentence_tokens, relations, self.prefix_length, self.suffix_length)</span>
 <span class="line-empty" title="No Anys on this line!">        # print("New Phrase", new_phrase)</span>
 <span class="line-empty" title="No Anys on this line!">        self.cluster(new_phrase)</span>
@@ -1424,54 +1423,55 @@ Unannotated (x2)">            if r.is_valid():</span>
 <span class="line-empty" title="No Anys on this line!">        Returns:</span>
 <span class="line-empty" title="No Anys on this line!">            The matching records</span>
 <span class="line-empty" title="No Anys on this line!">        """</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x3)">        tokens = sentence.tokens</span>
 <span class="line-empty" title="No Anys on this line!">        # print("\n\nParsing sentece", ' '.join([t[0] for t in tokens]))</span>
 <span class="line-empty" title="No Anys on this line!">        # Use the default tagger to find candidate relationships</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x5)">        candidate_relations = self.candidates(tokens)</span>
 <span class="line-empty" title="No Anys on this line!">        # print("Candidates", candidate_relations)</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">        num_candidates = len(candidate_relations)</span>
 <span class="line-precise" title="No Anys on this line!">        all_combs = []</span>
-<span class="line-precise" title="Any Types on this line:
+<span class="line-precise" title="Any Types on this line: 
 Omitted Generics (x3)">        unique_names = set()</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x2)">        for i in candidate_relations:</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x3)">            for j in i.entities:</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x3)">                if j.tag == "compound__names":</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x4)">                    unique_names.add(j.text)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-imprecise" title="Any Types on this line:
+<span class="line-imprecise" title="Any Types on this line: 
 Unannotated (x1)">        number_of_unique_name = len(unique_names)</span>
 <span class="line-precise" title="No Anys on this line!">        product = num_candidates * number_of_unique_name</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x2)">        if product &lt;= self.max_candidate_combinations:</span>
-<span class="line-imprecise" title="Any Types on this line:
+<span class="line-imprecise" title="Any Types on this line: 
 Unannotated (x1)">            all_combs = [</span>
-<span class="line-imprecise" title="Any Types on this line:
+<span class="line-imprecise" title="Any Types on this line: 
 Unannotated (x1)">                i</span>
 <span class="line-any" title="No Anys on this line!">                for r in range(1, number_of_unique_name + 1)</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x3)
 Omitted Generics (x20)">                for i in combinations(candidate_relations, r)</span>
 <span class="line-empty" title="No Anys on this line!">            ]</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">        # Create a candidate phrase for each possible combination</span>
 <span class="line-precise" title="No Anys on this line!">        all_candidate_phrases = []</span>
-<span class="line-imprecise" title="Any Types on this line:
+<span class="line-imprecise" title="Any Types on this line: 
 Unannotated (x2)">        for combination in all_combs:</span>
-<span class="line-any" title="Any Types on this line:
-Unannotated (x4)">            rels = [r for r in combination]</span>
-<span class="line-imprecise" title="Any Types on this line:
+<span class="line-imprecise" title="Any Types on this line: 
+Unannotated (x3)
+Omitted Generics (x3)">            rels = list(combination)</span>
+<span class="line-imprecise" title="Any Types on this line: 
 Unannotated (x5)">            new_rels = copy.copy(rels)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x4)">            candidate_phrase = Phrase(</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x7)">                [t[0] for t in tokens], new_rels, self.prefix_length, self.suffix_length</span>
 <span class="line-empty" title="No Anys on this line!">            )</span>
 <span class="line-precise" title="No Anys on this line!">            all_candidate_phrases.append(candidate_phrase)</span>
@@ -1488,34 +1488,34 @@ Unannotated (x7)">                [t[0] for t in tokens], new_rels, self.prefix_
 <span class="line-any" title="No Anys on this line!">            best_match_score = 0</span>
 <span class="line-any" title="No Anys on this line!">            best_match_cluster = None</span>
 <span class="line-any" title="No Anys on this line!">            confidence_term = 1</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x2)">            for cluster in self.clusters:</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x4)">                if candidate_phrase.order != cluster.order:</span>
 <span class="line-any" title="No Anys on this line!">                    continue</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x8)">                match_score = match(</span>
 <span class="line-precise" title="No Anys on this line!">                    candidate_phrase,</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">                    cluster,</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">                    self.prefix_weight,</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">                    self.middle_weight,</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">                    self.suffix_weight,</span>
 <span class="line-empty" title="No Anys on this line!">                )</span>
 <span class="line-empty" title="No Anys on this line!">                # print("Match score %f" % match_score)</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x3)">                if match_score &gt;= self.minimum_cluster_similarity_score:</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x6)">                    confidence_term *= 1.0 - (match_score * cluster.pattern.confidence)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x2)">                if match_score &gt; best_match_score:</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x2)">                    best_match_cluster = cluster</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">                    best_match_score = match_score</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">            # Confidence in the relationships we found</span>
@@ -1525,30 +1525,30 @@ Unannotated (x1)">                    best_match_score = match_score</span>
 <span class="line-precise" title="No Anys on this line!">            if phrase_confidence_score &gt; best_candidate_phrase_score:</span>
 <span class="line-precise" title="No Anys on this line!">                best_candidate_phrase = candidate_phrase</span>
 <span class="line-precise" title="No Anys on this line!">                best_candidate_phrase_score = phrase_confidence_score</span>
-<span class="line-imprecise" title="Any Types on this line:
+<span class="line-imprecise" title="Any Types on this line: 
 Unannotated (x2)">                best_candidate_cluster = best_match_cluster</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">        if (</span>
-<span class="line-imprecise" title="Any Types on this line:
+<span class="line-imprecise" title="Any Types on this line: 
 Unannotated (x1)">            best_candidate_phrase</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x2)">            and best_candidate_phrase_score &gt;= self.minimum_relation_confidence</span>
 <span class="line-empty" title="No Anys on this line!">        ):</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x2)">            for candidate_relation in best_candidate_phrase.relations:</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x2)">                candidate_relation.confidence = best_candidate_phrase_score</span>
 <span class="line-empty" title="No Anys on this line!">            # update the knowlegde base</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x3)">            best_candidate_cluster.add_phrase(best_candidate_phrase)</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x2)">            self.save()</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">            # print(best_candidate_phrase.relations)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x2)">            for relation in best_candidate_phrase.relations:</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x4)">                yield from self.interpret(relation)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="No Anys on this line!">    def _get_data(self, field_name, field, relation_data):</span>
@@ -1577,7 +1577,7 @@ Unannotated (x4)">                yield from self.interpret(relation)</span>
 <span class="line-empty" title="No Anys on this line!">            field = field.field</span>
 <span class="line-empty" title="No Anys on this line!">            field_data = self._get_data(field_name, field, relation_data)</span>
 <span class="line-empty" title="No Anys on this line!">            if field_data is not None:</span>
-<span class="line-empty" title="No Anys on this line!">                if field_name not in field_data.keys() or field_data[field_name] is None:</span>
+<span class="line-empty" title="No Anys on this line!">                if field_name not in field_data or field_data[field_name] is None:</span>
 <span class="line-empty" title="No Anys on this line!">                    return None</span>
 <span class="line-empty" title="No Anys on this line!">                field_data = [field_data[field_name]]</span>
 <span class="line-empty" title="No Anys on this line!">            elif field_data is None and field.required and not field.contextual:</span>
@@ -1602,102 +1602,99 @@ Unannotated (x4)">                yield from self.interpret(relation)</span>
 <span class="line-empty" title="No Anys on this line!">        """</span>
 <span class="line-empty" title="No Anys on this line!">        # print("\n\n", "Interpreting")</span>
 <span class="line-empty" title="No Anys on this line!">        # Set the confidence field if not already set</span>
-<span class="line-any" title="Any Types on this line:
-Omitted Generics (x3)
-Error (x2)">        if "confidence" not in self.model.fields.keys():</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
+Omitted Generics (x1)
+Error (x1)">        if "confidence" not in self.model.fields:</span>
+<span class="line-any" title="Any Types on this line: 
 Unimported (x1)
 Explicit (x1)">            self.model.confidence = FloatType()</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">        # Get the serialized relation data</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x4)">        relation_data = relation.serialize()</span>
 <span class="line-empty" title="No Anys on this line!">        # print(relation_data)</span>
 <span class="line-empty" title="No Anys on this line!">        # Do conversions etc</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x5)
 Omitted Generics (x3)">        models = list(self.model.flatten())</span>
 <span class="line-precise" title="No Anys on this line!">        model_instances = []</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x2)">        for model in models:</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x5)">            model_name = model.__name__.lower()</span>
-<span class="line-any" title="Any Types on this line:
-Unannotated (x2)
-Error (x2)">            if model_name == self.model.__name__.lower():</span>
-<span class="line-any" title="No Anys on this line!">                is_root_instance = True</span>
-<span class="line-empty" title="No Anys on this line!">            else:</span>
-<span class="line-any" title="No Anys on this line!">                is_root_instance = False</span>
+<span class="line-any" title="Any Types on this line: 
+Unannotated (x3)
+Error (x2)">            is_root_instance = model_name == self.model.__name__.lower()</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">            model_data = {}</span>
-<span class="line-any" title="Any Types on this line:
-Unannotated (x4)">            if model_name not in relation_data.keys():</span>
+<span class="line-any" title="Any Types on this line: 
+Unannotated (x2)">            if model_name not in relation_data:</span>
 <span class="line-any" title="No Anys on this line!">                continue</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-any" title="Any Types on this line:
-Unannotated (x5)">            if "specifier" in relation_data[model_name].keys():</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
+Unannotated (x3)">            if "specifier" in relation_data[model_name]:</span>
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x5)">                model_data["specifier"] = relation_data[model_name]["specifier"]</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x3)">            model_data["confidence"] = relation_data["confidence"]</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x3)">            if hasattr(model, "dimensions") and not model.dimensions:</span>
 <span class="line-empty" title="No Anys on this line!">                # the specific entities of a DimensionlessModel are retrieved explicitly and packed into a dictionary</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x5)">                raw_value = relation_data[model_name]["raw_value"]</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">                value = self.extract_value(raw_value)</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">                error = self.extract_error(raw_value)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x9)">                model_data.update({"raw_value": raw_value, "value": value, "error": error})</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x4)">            elif hasattr(model, "dimensions") and model.dimensions:</span>
 <span class="line-empty" title="No Anys on this line!">                # the specific entities of a QuantityModel are retrieved explicitly and packed into a dictionary</span>
 <span class="line-empty" title="No Anys on this line!">                # print(etree.tostring(result))</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x5)">                raw_value = relation_data[model_name]["raw_value"]</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x5)">                raw_units = relation_data[model_name]["raw_units"]</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">                value = self.extract_value(raw_value)</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">                error = self.extract_error(raw_value)</span>
 <span class="line-any" title="No Anys on this line!">                units = None</span>
 <span class="line-empty" title="No Anys on this line!">                try:</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Explicit (x3)
 Unannotated (x1)">                    units = self.extract_units(raw_units, strict=True)</span>
 <span class="line-precise" title="No Anys on this line!">                except TypeError as e:</span>
 <span class="line-precise" title="No Anys on this line!">                    log.debug(e)</span>
-<span class="line-imprecise" title="Any Types on this line:
+<span class="line-imprecise" title="Any Types on this line: 
 Unannotated (x8)">                model_data.update(</span>
 <span class="line-empty" title="No Anys on this line!">                    {</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">                        "raw_value": raw_value,</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">                        "raw_units": raw_units,</span>
 <span class="line-any" title="No Anys on this line!">                        "value": value,</span>
 <span class="line-any" title="No Anys on this line!">                        "error": error,</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Explicit (x1)">                        "units": units,</span>
 <span class="line-empty" title="No Anys on this line!">                    }</span>
 <span class="line-empty" title="No Anys on this line!">                )</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x4)">            elif hasattr(model, "category") and model.category:</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x5)">                raw_value = relation_data[model_name]["raw_value"]</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x9)">                model_data.update({"raw_value": raw_value})</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unimported (x5)
 Unannotated (x2)">            for field_name, field in six.iteritems(model.fields):</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unimported (x1)">                if field_name not in [</span>
 <span class="line-any" title="No Anys on this line!">                    "raw_value",</span>
 <span class="line-any" title="No Anys on this line!">                    "raw_units",</span>
@@ -1708,36 +1705,36 @@ Unimported (x1)">                if field_name not in [</span>
 <span class="line-any" title="No Anys on this line!">                    "confidence",</span>
 <span class="line-empty" title="No Anys on this line!">                ]:</span>
 <span class="line-empty" title="No Anys on this line!">                    try:</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x7)
 Unimported (x2)">                        data = self._get_data(field_name, field, relation_data)</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">                        if data is not None:</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x9)">                            model_data.update(data)</span>
 <span class="line-empty" title="No Anys on this line!">                    # if field is required, but empty, the requirements have not been met</span>
 <span class="line-precise" title="No Anys on this line!">                    except (TypeError, KeyError) as e:</span>
 <span class="line-precise" title="No Anys on this line!">                        log.debug(self.model)</span>
 <span class="line-precise" title="No Anys on this line!">                        log.debug(e)</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x4)">            model_instance = model(**model_data)</span>
-<span class="line-any" title="Any Types on this line:
-Unannotated (x3)">            model_instances.append((model_instance, is_root_instance))</span>
+<span class="line-any" title="Any Types on this line: 
+Unannotated (x6)">            model_instances.append((model_instance, is_root_instance))</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-any" title="Any Types on this line:
-Unannotated (x7)">        root_model_instance = [i[0] for i in model_instances if i[1]][0]</span>
-<span class="line-imprecise" title="Any Types on this line:
-Unannotated (x2)">        for m in model_instances:</span>
-<span class="line-any" title="Any Types on this line:
-Unannotated (x1)">            if m[1]:</span>
+<span class="line-any" title="Any Types on this line: 
+Unannotated (x12)">        root_model_instance = [i[0] for i in model_instances if i[1]][0]</span>
+<span class="line-imprecise" title="Any Types on this line: 
+Unannotated (x4)">        for m in model_instances:</span>
+<span class="line-any" title="Any Types on this line: 
+Unannotated (x3)">            if m[1]:</span>
 <span class="line-any" title="No Anys on this line!">                continue</span>
-<span class="line-any" title="Any Types on this line:
-Unannotated (x5)">            root_model_instance.merge_all(m[0])</span>
+<span class="line-any" title="Any Types on this line: 
+Unannotated (x6)">            root_model_instance.merge_all(m[0])</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">        # records the parser that was used to generate this record, can be used for evaluation</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x2)">        root_model_instance.record_method = self.__class__.__name__</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">        yield root_model_instance</span>
 </pre></td>
 </tr></tbody>

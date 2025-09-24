@@ -12,8 +12,6 @@ Modified by jz449
 from __future__ import annotations
 
 from typing import Any
-from typing import List
-from typing import Optional
 
 from ..parse.elements import And
 from ..parse.elements import I
@@ -70,13 +68,13 @@ class Pattern:
         output_string = ""
         output_string += " ".join(self.elements["prefix"]["tokens"]) + " "
         if isinstance(self.entities[0].tag, tuple):
-            output_string += "(" + ", ".join([i for i in self.entities[0].tag]) + ") "
+            output_string += "(" + ", ".join(list(self.entities[0].tag)) + ") "
         else:
             output_string += "(" + self.entities[0].tag + ") "
         for i in range(0, self.number_of_entities - 1):
             output_string += " ".join(self.elements["middle_" + str(i + 1)]["tokens"]) + " "
             if isinstance(self.entities[i + 1].tag, tuple):
-                output_string += "(" + ", ".join([i for i in self.entities[i + 1].tag]) + ") "
+                output_string += "(" + ", ".join(list(self.entities[i + 1].tag)) + ") "
             else:
                 output_string += "(" + self.entities[i + 1].tag + ") "
         output_string = output_string

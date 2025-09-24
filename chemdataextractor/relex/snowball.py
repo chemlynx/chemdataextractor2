@@ -11,14 +11,11 @@ import copy
 import logging
 import os
 import pickle
-from importlib.resources import files
 from itertools import combinations
 from itertools import product
 from os.path import basename
 from typing import TYPE_CHECKING
 from typing import Any
-from typing import List
-from typing import Tuple
 
 import numpy as np
 import six
@@ -287,7 +284,7 @@ class Snowball(BaseSentenceParser):
                 chosen_candidate_idx = res.split(",")
                 chosen_candidates = []
                 for cci in chosen_candidate_idx:
-                    if cci in candidate_dict.keys():
+                    if cci in candidate_dict:
                         cc = candidate_dict[cci]
                         cc.confidence = 1.0
                         chosen_candidates.append(cc)
@@ -312,10 +309,7 @@ class Snowball(BaseSentenceParser):
                 ):
                     return False
             else:
-                if (
-                    model.fields[field].required
-                    and model_name + "__" + field not in entities_dict.keys()
-                ):
+                if model.fields[field].required and model_name + "__" + field not in entities_dict:
                     # print("Model %s missing field %s" % (model_name, field))
                     return False
         return True
@@ -329,15 +323,12 @@ class Snowball(BaseSentenceParser):
                     model.fields[field].model_class, entities_dict
                 )
             else:
-                if (
-                    model.fields[field].required
-                    and model_name + "__" + field not in entities_dict.keys()
-                ):
+                if model.fields[field].required and model_name + "__" + field not in entities_dict:
                     # If the field is required by the model, but its not in the entities dict
                     # print("Entities dict %s missing field %s" % (model_name, field))
                     # Delete all fields of this model from entities_dict
                     key = model_name + "__"
-                    dict_keys = [i for i in entities_dict.keys()]
+                    dict_keys = list(entities_dict.keys())
                     for entity_key in dict_keys:
                         if entity_key.startswith(key):
                             entities_dict.pop(entity_key, None)
@@ -385,13 +376,13 @@ class Snowball(BaseSentenceParser):
             text_length = len(text.split(" "))
             pattern = [s[0] for s in Sentence(text).tokens]
             text_length = len(pattern)
-            start_indices = [s for s in KnuthMorrisPratt(toks, pattern)]
+            start_indices = list(KnuthMorrisPratt(toks, pattern))
 
             if isinstance(tag, tuple):
                 tag = "__".join(tag)
 
             # Add to dictionary  if it doesn't exist
-            if tag not in entities_dict.keys():
+            if tag not in entities_dict:
                 entities_dict[tag] = []
             entities = [
                 Entity(text, tag, parse_expression, index, index + text_length)
@@ -403,7 +394,7 @@ class Snowball(BaseSentenceParser):
                 if entity not in entities_dict[tag]:
                     entities_dict[tag].append(entity)
 
-        for k in entities_dict.keys():
+        for k in entities_dict:
             entities = entities_dict[k]
             if len(entities_dict[k]) > 1:
                 to_pop = []
@@ -424,7 +415,7 @@ class Snowball(BaseSentenceParser):
         # print("\n", entities_dict, "\n")
 
         # Construct all valid combinations of entities
-        all_entities = [e for e in entities_dict.values()]
+        all_entities = list(entities_dict.values())
         # Intra-Candidate sorting (within each candidate)
         for i in range(len(all_entities)):
             all_entities[i] = sorted(all_entities[i], key=lambda t: t.start)
@@ -465,7 +456,7 @@ class Snowball(BaseSentenceParser):
                             field.parse_expression,
                         )
 
-    def update(self, sentence_tokens, relations=[]):
+    def update(self, sentence_tokens, relations=None):
         """Update the learned extraction pattern clusters based on the incoming sentence and relation
 
         Arguments:
@@ -473,6 +464,8 @@ class Snowball(BaseSentenceParser):
             relation {list} -- The Relation objects that are in the sentence
         """
         #: Create a new phrase from the sentence and corresponding relations
+        if relations is None:
+            relations = []
         new_phrase = Phrase(sentence_tokens, relations, self.prefix_length, self.suffix_length)
         # print("New Phrase", new_phrase)
         self.cluster(new_phrase)
@@ -571,7 +564,7 @@ class Snowball(BaseSentenceParser):
         # Create a candidate phrase for each possible combination
         all_candidate_phrases = []
         for combination in all_combs:
-            rels = [r for r in combination]
+            rels = list(combination)
             new_rels = copy.copy(rels)
 
             candidate_phrase = Phrase(
@@ -659,7 +652,7 @@ class Snowball(BaseSentenceParser):
             field = field.field
             field_data = self._get_data(field_name, field, relation_data)
             if field_data is not None:
-                if field_name not in field_data.keys() or field_data[field_name] is None:
+                if field_name not in field_data or field_data[field_name] is None:
                     return None
                 field_data = [field_data[field_name]]
             elif field_data is None and field.required and not field.contextual:
@@ -684,7 +677,7 @@ class Snowball(BaseSentenceParser):
         """
         # print("\n\n", "Interpreting")
         # Set the confidence field if not already set
-        if "confidence" not in self.model.fields.keys():
+        if "confidence" not in self.model.fields:
             self.model.confidence = FloatType()
 
         # Get the serialized relation data
@@ -696,16 +689,13 @@ class Snowball(BaseSentenceParser):
 
         for model in models:
             model_name = model.__name__.lower()
-            if model_name == self.model.__name__.lower():
-                is_root_instance = True
-            else:
-                is_root_instance = False
+            is_root_instance = model_name == self.model.__name__.lower()
 
             model_data = {}
-            if model_name not in relation_data.keys():
+            if model_name not in relation_data:
                 continue
 
-            if "specifier" in relation_data[model_name].keys():
+            if "specifier" in relation_data[model_name]:
                 model_data["specifier"] = relation_data[model_name]["specifier"]
             model_data["confidence"] = relation_data["confidence"]
 

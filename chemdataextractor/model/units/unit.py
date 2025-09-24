@@ -9,9 +9,7 @@ from __future__ import annotations
 import copy
 from typing import TYPE_CHECKING
 from typing import Any
-from typing import Dict
 from typing import Optional
-from typing import Tuple
 
 from ..base import BaseType
 
@@ -80,9 +78,7 @@ class UnitType(BaseType[Optional["Unit"]]):
         Returns:
             bool - True if value is not a valid Unit
         """
-        if isinstance(value, Unit):
-            return False
-        return True
+        return not isinstance(value, Unit)
 
 
 class MetaUnit(type):
@@ -318,7 +314,7 @@ class Unit(metaclass=MetaUnit):
 
         powers = {}
         if self.powers:
-            for key, value in self.powers.items():
+            for key, _value in self.powers.items():
                 powers[key] = self.powers[key] * other
         else:
             new_key = copy.deepcopy(self)
@@ -361,7 +357,7 @@ class Unit(metaclass=MetaUnit):
             for key, value in other.powers.items():
                 normalised_key = copy.deepcopy(key)
                 normalised_key.magnitude = 0.0
-                if normalised_key in normalised_values.keys():
+                if normalised_key in normalised_values:
                     powers[key] += value
                     if powers[key] == 0:
                         powers.pop(key)

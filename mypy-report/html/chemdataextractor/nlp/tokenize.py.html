@@ -1979,28 +1979,6 @@
 <span id="L1969" class="lineno"><a class="lineno" href="#L1969">1969</a></span>
 <span id="L1970" class="lineno"><a class="lineno" href="#L1970">1970</a></span>
 <span id="L1971" class="lineno"><a class="lineno" href="#L1971">1971</a></span>
-<span id="L1972" class="lineno"><a class="lineno" href="#L1972">1972</a></span>
-<span id="L1973" class="lineno"><a class="lineno" href="#L1973">1973</a></span>
-<span id="L1974" class="lineno"><a class="lineno" href="#L1974">1974</a></span>
-<span id="L1975" class="lineno"><a class="lineno" href="#L1975">1975</a></span>
-<span id="L1976" class="lineno"><a class="lineno" href="#L1976">1976</a></span>
-<span id="L1977" class="lineno"><a class="lineno" href="#L1977">1977</a></span>
-<span id="L1978" class="lineno"><a class="lineno" href="#L1978">1978</a></span>
-<span id="L1979" class="lineno"><a class="lineno" href="#L1979">1979</a></span>
-<span id="L1980" class="lineno"><a class="lineno" href="#L1980">1980</a></span>
-<span id="L1981" class="lineno"><a class="lineno" href="#L1981">1981</a></span>
-<span id="L1982" class="lineno"><a class="lineno" href="#L1982">1982</a></span>
-<span id="L1983" class="lineno"><a class="lineno" href="#L1983">1983</a></span>
-<span id="L1984" class="lineno"><a class="lineno" href="#L1984">1984</a></span>
-<span id="L1985" class="lineno"><a class="lineno" href="#L1985">1985</a></span>
-<span id="L1986" class="lineno"><a class="lineno" href="#L1986">1986</a></span>
-<span id="L1987" class="lineno"><a class="lineno" href="#L1987">1987</a></span>
-<span id="L1988" class="lineno"><a class="lineno" href="#L1988">1988</a></span>
-<span id="L1989" class="lineno"><a class="lineno" href="#L1989">1989</a></span>
-<span id="L1990" class="lineno"><a class="lineno" href="#L1990">1990</a></span>
-<span id="L1991" class="lineno"><a class="lineno" href="#L1991">1991</a></span>
-<span id="L1992" class="lineno"><a class="lineno" href="#L1992">1992</a></span>
-<span id="L1993" class="lineno"><a class="lineno" href="#L1993">1993</a></span>
 </pre></td>
 <td class="table-code"><pre><span class="line-empty" title="No Anys on this line!">"""</span>
 <span class="line-empty" title="No Anys on this line!">Word and sentence tokenizers.</span>
@@ -2016,12 +1994,8 @@
 <span class="line-precise" title="No Anys on this line!">import re</span>
 <span class="line-precise" title="No Anys on this line!">from abc import ABCMeta</span>
 <span class="line-precise" title="No Anys on this line!">from abc import abstractmethod</span>
-<span class="line-precise" title="No Anys on this line!">from typing import TYPE_CHECKING</span>
 <span class="line-precise" title="No Anys on this line!">from collections.abc import Iterator</span>
-<span class="line-precise" title="No Anys on this line!">from typing import List</span>
-<span class="line-precise" title="No Anys on this line!">from typing import Optional</span>
-<span class="line-precise" title="No Anys on this line!">from typing import Set</span>
-<span class="line-precise" title="No Anys on this line!">from typing import Tuple</span>
+<span class="line-precise" title="No Anys on this line!">from typing import TYPE_CHECKING</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="No Anys on this line!">from deprecation import deprecated</span>
 <span class="line-any" title="No Anys on this line!">from tokenizers import BertWordPieceTokenizer</span>
@@ -2051,7 +2025,7 @@
 <span class="line-empty" title="No Anys on this line!">    which is crucial for maintaining alignment with the original document structure.</span>
 <span class="line-empty" title="No Anys on this line!">    """</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unimported (x2)">    @deprecated(</span>
 <span class="line-precise" title="No Anys on this line!">        deprecated_in="2.0",</span>
 <span class="line-precise" title="No Anys on this line!">        details="Deprecated in favour of looking at the tokens from the Sentence object.",</span>
@@ -2136,9 +2110,9 @@ Unimported (x2)">    @deprecated(</span>
 <span class="line-empty" title="No Anys on this line!">        Returns:</span>
 <span class="line-empty" title="No Anys on this line!">            list[Sentence] - List of sentence objects</span>
 <span class="line-empty" title="No Anys on this line!">        """</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Error (x1)">        spans = self.span_tokenize(text.text)</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Error (x2)">        return text._sentences_from_spans(spans)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">    def span_tokenize(self, s: str) -&gt; list[TokenSpan]:</span>
@@ -2151,11 +2125,11 @@ Error (x2)">        return text._sentences_from_spans(spans)</span>
 <span class="line-empty" title="No Anys on this line!">            list[tuple[int, int]] - List of (start, end) sentence positions</span>
 <span class="line-empty" title="No Anys on this line!">        """</span>
 <span class="line-precise" title="No Anys on this line!">        if self._tokenizer is None:</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x3)">            self._tokenizer = load_model(self.model)</span>
 <span class="line-empty" title="No Anys on this line!">        # for debug in tokenizer.debug_decisions(s):</span>
 <span class="line-empty" title="No Anys on this line!">        #     log.debug(format_debug_decision(debug))</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Error (x2)
 Unannotated (x1)">        return self._tokenizer.span_tokenize(s)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
@@ -2420,155 +2394,155 @@ Unannotated (x1)">        return self._tokenizer.span_tokenize(s)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="No Anys on this line!">    def _split_span(self, span, index, length=0):</span>
 <span class="line-empty" title="No Anys on this line!">        """Split a span into two or three separate spans at certain indices."""</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x11)">        offset = span[1] + index if index &lt; 0 else span[0] + index</span>
 <span class="line-empty" title="No Anys on this line!">        # log.debug([(span[0], offset), (offset, offset + length), (offset + length, span[1])])</span>
 <span class="line-empty" title="No Anys on this line!">        return [</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x3)">            (span[0], offset),</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x4)">            (offset, offset + length),</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x5)">            (offset + length, span[1]),</span>
 <span class="line-empty" title="No Anys on this line!">        ]</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="No Anys on this line!">    def _subspan(self, s, span, nextspan, additional_regex):</span>
 <span class="line-empty" title="No Anys on this line!">        """Recursively subdivide spans based on a series of rules."""</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x7)">        text = s[span[0] : span[1]]</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x4)">        lowertext = text.lower()</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">        # Skip if only a single character or a split sequence</span>
 <span class="line-empty" title="No Anys on this line!">        if (</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x10)">            span[1] - span[0] &lt; 2</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x2)">            or text in self.SPLIT</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x2)">            or text in self.SPLIT_END_WORD</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x2)">            or text in self.SPLIT_START_WORD</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x2)">            or lowertext in self.NO_SPLIT</span>
 <span class="line-empty" title="No Anys on this line!">        ):</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">            return [span]</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">        # Skip if it looks like URL</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x11)">        if text.startswith("http://") or text.startswith("ftp://") or text.startswith("www."):</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">            return [span]</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">        # Split full stop at end of final token (allow certain characters to follow) unless ellipsis</span>
 <span class="line-empty" title="No Anys on this line!">        if (</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x4)">            self.split_last_stop</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">            and nextspan is None</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x2)">            and text not in self.NO_SPLIT_STOP</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x4)">            and text[-3:] != "..."</span>
 <span class="line-empty" title="No Anys on this line!">        ):</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x4)">            if text[-1] == ".":</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x4)">                return self._split_span(span, -1)</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x4)">            ind = text.rfind(".")</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x11)">            if ind &gt; -1 and all(t in "'‘’\"“”)]}" for t in text[ind + 1 :]):</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x4)">                return self._split_span(span, ind, 1)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">        # Split off certain sequences at the end of a word</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x2)">        for spl in self.SPLIT_END_WORD:</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x19)">            if text.endswith(spl) and len(text) &gt; len(spl) and text[-len(spl) - 1].isalpha():</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x6)">                return self._split_span(span, -len(spl), 0)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">        # Split off certain sequences at the start of a word</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x2)">        for spl in self.SPLIT_START_WORD:</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x19)">            if text.startswith(spl) and len(text) &gt; len(spl) and text[-len(spl) - 1].isalpha():</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x5)">                return self._split_span(span, len(spl), 0)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">        # Split around certain sequences</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x2)">        for spl in self.SPLIT:</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x5)">            ind = text.find(spl)</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x3)">            if ind &gt; -1:</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x6)">                return self._split_span(span, ind, len(spl))</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">        # Split around certain sequences unless followed by a digit</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x2)">        for spl in self.SPLIT_NO_DIGIT:</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x5)">            ind = text.rfind(spl)</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x20)">            if ind &gt; -1 and (len(text) &lt;= ind + len(spl) or not text[ind + len(spl)].isdigit()):</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x6)">                return self._split_span(span, ind, len(spl))</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">        # Characters to split around, but with exceptions</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x4)
 Omitted Generics (x2)">        for i, char in enumerate(text):</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x2)">            if char == "-":</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x4)">                before = lowertext[:i]</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x5)">                after = lowertext[i + 1 :]</span>
 <span class="line-empty" title="No Anys on this line!">                # By default we split on hyphens</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">                split = True</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x5)">                if before in self.NO_SPLIT_PREFIX or after in self.NO_SPLIT_SUFFIX:</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">                    split = False  # Don't split if prefix or suffix in list</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x9)">                elif not before.strip(self.NO_SPLIT_CHARS) or not after.strip(self.NO_SPLIT_CHARS):</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">                    split = False  # Don't split if prefix or suffix entirely consist of certain characters</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">                if split:</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x4)">                    return self._split_span(span, i, 1)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">        # Split contraction words</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x2)">        for contraction in self.CONTRACTIONS:</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x4)">            if lowertext == contraction[0]:</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x5)">                return self._split_span(span, contraction[1])</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x7)">        additional_regex_handled = self.handle_additional_regex(s, span, nextspan, additional_regex)</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">        if additional_regex_handled is not None:</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">            return additional_regex_handled</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">        return [span]</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="No Anys on this line!">    def get_word_tokens(self, sentence, additional_regex=None):</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">        if not additional_regex:</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x4)">            additional_regex = self.get_additional_regex(sentence)</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x8)">        return sentence._tokens_for_spans(self.span_tokenize(sentence.text, additional_regex))</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="No Anys on this line!">    def get_additional_regex(self, sentence):</span>
@@ -2587,27 +2561,27 @@ Unannotated (x8)">        return sentence._tokens_for_spans(self.span_tokenize(s
 <span class="line-any" title="No Anys on this line!">        return None</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="No Anys on this line!">    def handle_additional_regex(self, s, span, nextspan, additional_regex):</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x7)">        text = s[span[0] : span[1]]</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">        if additional_regex:</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x2)">            for regex in additional_regex:</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x5)">                split_text = regex.search(text)</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">                if split_text:</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x4)">                    groups = split_text.groupdict()</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x5)">                    for group_name, group in groups.items():</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">                        if group is not None:</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x3)">                            group_length = len(group)</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x4)">                            if "split" in group_name and group_length != 0:</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x4)">                                return self._split_span(span, group_length, 0)</span>
 <span class="line-any" title="No Anys on this line!">        return None</span>
 <span class="line-empty" title="No Anys on this line!"></span>
@@ -2615,31 +2589,31 @@ Unannotated (x4)">                                return self._split_span(span, 
 <span class="line-empty" title="No Anys on this line!">        """"""</span>
 <span class="line-empty" title="No Anys on this line!">        # First get spans by splitting on all whitespace</span>
 <span class="line-empty" title="No Anys on this line!">        # Includes: \u0020 \u00A0 \u1680 \u180E \u2000 \u2001 \u2002 \u2003 \u2004 \u2005 \u2006 \u2007 \u2008 \u2009 \u200A \u202F \u205F \u3000</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x10)">        spans = [(left, right) for left, right in regex_span_tokenize(s, r"\s+") if left != right]</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">        i = 0</span>
 <span class="line-empty" title="No Anys on this line!">        # Recursively split spans according to rules</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x4)">        while i &lt; len(spans):</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x3)">            subspans = self._subspan(</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">                s,</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x3)">                spans[i],</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x9)">                spans[i + 1] if i + 1 &lt; len(spans) else None,</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">                additional_regex,</span>
 <span class="line-empty" title="No Anys on this line!">            )</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x13)">            spans[i : i + 1] = [subspan for subspan in subspans if subspan[1] - subspan[0] &gt; 0]</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x3)">            if len(subspans) == 1:</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">                i += 1</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">        return spans</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!"></span>
@@ -2781,18 +2755,18 @@ Unannotated (x1)">        return spans</span>
 <span class="line-empty" title="No Anys on this line!">    #: Don't split around slash when both preceded and followed by these characters</span>
 <span class="line-precise" title="No Anys on this line!">    NO_SPLIT_SLASH = ["+", "-", "−"]</span>
 <span class="line-empty" title="No Anys on this line!">    #: Regular expression that matches a numeric quantity with units</span>
-<span class="line-precise" title="Any Types on this line:
+<span class="line-precise" title="Any Types on this line: 
 Omitted Generics (x4)">    QUANTITY_RE = re.compile(</span>
 <span class="line-precise" title="No Anys on this line!">        r"^((?P&lt;split&gt;\d\d\d)g|(?P&lt;_split1&gt;[-−]?\d+\.\d+|10[-−]\d+)(g|s|m|N|V)([-−]?[1-4])?|(?P&lt;_split2&gt;\d*[-−]?\d+\.?\d*)([pnµμm]A|[µμmk]g|[kM]J|m[lL]|[nµμm]?M|[nµμmc]m|kN|[mk]V|[mkMG]?W|[mnpμµ]s|Hz|[Mm][Oo][Ll](e|ar)?s?|k?Pa|ppm|min)([-−]?[1-4])?)$"</span>
 <span class="line-empty" title="No Anys on this line!">    )</span>
 <span class="line-empty" title="No Anys on this line!">    #: Don't split on hyphen if the prefix matches this regular expression</span>
-<span class="line-precise" title="Any Types on this line:
+<span class="line-precise" title="Any Types on this line: 
 Omitted Generics (x4)">    NO_SPLIT_PREFIX_ENDING = re.compile(</span>
 <span class="line-precise" title="No Anys on this line!">        "(^\\(.*\\)|^[\\d,'\"“”„‟‘’‚‛`´′″‴‵‶‷⁗Α-Ωα-ω]+|ano|ato|azo|boc|bromo|cbz|chloro|eno|fluoro|fmoc|ido|ino|io|iodo|mercapto|nitro|ono|oso|oxalo|oxo|oxy|phospho|telluro|tms|yl|ylen|ylene|yliden|ylidene|ylidyn|ylidyne)$",</span>
 <span class="line-precise" title="No Anys on this line!">        re.U,</span>
 <span class="line-empty" title="No Anys on this line!">    )</span>
 <span class="line-empty" title="No Anys on this line!">    #: Don't split on hyphen if prefix or suffix match this regular expression</span>
-<span class="line-precise" title="Any Types on this line:
+<span class="line-precise" title="Any Types on this line: 
 Omitted Generics (x4)">    NO_SPLIT_CHEM = re.compile(</span>
 <span class="line-precise" title="No Anys on this line!">        r"([\-α-ω]|\d+,\d+|\d+[A-Z]|^d\d\d?$|acetic|acetyl|acid|acyl|anol|azo|benz|bromo|carb|cbz|chlor|cyclo|ethan|ethyl|fluoro|fmoc|gluc|hydro|idyl|indol|iene|ione|iodo|mercapto|n,n|nitro|noic|o,o|oxalo|oxo|oxy|oyl|onyl|phen|phth|phospho|pyrid|telluro|tetra|tms|ylen|yli|zole|alpha|beta|gamma|delta|epsilon|theta|kappa|lambda|sigma|omega)",</span>
 <span class="line-precise" title="No Anys on this line!">        re.U | re.I,</span>
@@ -2871,7 +2845,6 @@ Omitted Generics (x4)">    NO_SPLIT_CHEM = re.compile(</span>
 <span class="line-precise" title="No Anys on this line!">        "contra",</span>
 <span class="line-precise" title="No Anys on this line!">        "cortico",</span>
 <span class="line-precise" title="No Anys on this line!">        "cosa",</span>
-<span class="line-precise" title="No Anys on this line!">        "counter",</span>
 <span class="line-precise" title="No Anys on this line!">        "cran",</span>
 <span class="line-precise" title="No Anys on this line!">        "crypto",</span>
 <span class="line-precise" title="No Anys on this line!">        "cyclo",</span>
@@ -2882,7 +2855,6 @@ Omitted Generics (x4)">    NO_SPLIT_CHEM = re.compile(</span>
 <span class="line-precise" title="No Anys on this line!">        "di",</span>
 <span class="line-precise" title="No Anys on this line!">        "dis",</span>
 <span class="line-precise" title="No Anys on this line!">        "dl",</span>
-<span class="line-precise" title="No Anys on this line!">        "eco",</span>
 <span class="line-precise" title="No Anys on this line!">        "electro",</span>
 <span class="line-precise" title="No Anys on this line!">        "endo",</span>
 <span class="line-precise" title="No Anys on this line!">        "ennea",</span>
@@ -3522,62 +3494,62 @@ Omitted Generics (x4)">    NO_SPLIT_CHEM = re.compile(</span>
 <span class="line-precise" title="No Anys on this line!">    NO_SPLIT = {"°c"}</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="No Anys on this line!">    def get_additional_regex(self, sentence):</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x2)">        additional_regex = [self.QUANTITY_RE]</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x3)">        quantity_re = sentence.quantity_re</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">        if quantity_re:</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x4)">            additional_regex.append(quantity_re)</span>
 <span class="line-empty" title="No Anys on this line!">            # print('quantity re added')</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">        return additional_regex</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="No Anys on this line!">    def _closing_bracket_index(self, text, bpair=("(", ")")):</span>
 <span class="line-empty" title="No Anys on this line!">        """Return the index of the closing bracket that matches the opening bracket at the start of the text."""</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">        level = 1</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x5)
 Omitted Generics (x2)">        for i, char in enumerate(text[1:]):</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x4)">            if char == bpair[0]:</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">                level += 1</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x4)">            elif char == bpair[1]:</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">                level -= 1</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x2)">            if level == 0:</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x2)">                return i + 1</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="No Anys on this line!">    def _opening_bracket_index(self, text, bpair=("(", ")")):</span>
 <span class="line-empty" title="No Anys on this line!">        """Return the index of the opening bracket that matches the closing bracket at the end of the text."""</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">        level = 1</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x7)
 Omitted Generics (x6)">        for i, char in enumerate(reversed(text[:-1])):</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x4)">            if char == bpair[1]:</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">                level += 1</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x4)">            elif char == bpair[0]:</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">                level -= 1</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x2)">            if level == 0:</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x5)">                return len(text) - i - 2</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="No Anys on this line!">    def _is_number(self, text):</span>
 <span class="line-empty" title="No Anys on this line!">        """Return True if the text is a number."""</span>
 <span class="line-empty" title="No Anys on this line!">        try:</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x2)">            float(text)</span>
 <span class="line-any" title="No Anys on this line!">            return True</span>
 <span class="line-precise" title="No Anys on this line!">        except ValueError:</span>
@@ -3585,112 +3557,97 @@ Unannotated (x2)">            float(text)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="No Anys on this line!">    def _is_saccharide_arrow(self, before, after):</span>
 <span class="line-empty" title="No Anys on this line!">        """Return True if the arrow is in a chemical name."""</span>
-<span class="line-empty" title="No Anys on this line!">        if (</span>
-<span class="line-any" title="Any Types on this line:
-Unannotated (x6)">            before</span>
-<span class="line-any" title="Any Types on this line:
-Unannotated (x1)">            and after</span>
-<span class="line-any" title="Any Types on this line:
-Unannotated (x5)">            and before[-1].isdigit()</span>
-<span class="line-any" title="Any Types on this line:
-Unannotated (x4)">            and after[0].isdigit()</span>
-<span class="line-any" title="Any Types on this line:
-Unannotated (x5)">            and before.rstrip("0123456789").endswith("(")</span>
-<span class="line-any" title="Any Types on this line:
-Unannotated (x5)">            and after.lstrip("0123456789").startswith(")")</span>
-<span class="line-empty" title="No Anys on this line!">        ):</span>
-<span class="line-any" title="No Anys on this line!">            return True</span>
-<span class="line-empty" title="No Anys on this line!">        else:</span>
-<span class="line-any" title="No Anys on this line!">            return False</span>
+<span class="line-any" title="Any Types on this line: 
+Unannotated (x27)">        return bool(before and after and before[-1].isdigit() and after[0].isdigit() and before.rstrip("0123456789").endswith("(") and after.lstrip("0123456789").startswith(")"))</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="No Anys on this line!">    def _subspan(self, s, span, nextspan, additional_regex):</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">        if additional_regex is None:</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x2)">            additional_regex = [self.QUANTITY_RE]</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">        """Recursively subdivide spans based on a series of rules."""</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x7)">        text = s[span[0] : span[1]]</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x4)">        lowertext = text.lower()</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">        # Skip if only a single character or a split sequence</span>
 <span class="line-empty" title="No Anys on this line!">        if (</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x10)">            span[1] - span[0] &lt; 2</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x2)">            or text in self.SPLIT</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x2)">            or text in self.SPLIT_END_WORD</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x2)">            or text in self.SPLIT_START_WORD</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x2)">            or lowertext in self.NO_SPLIT</span>
 <span class="line-empty" title="No Anys on this line!">        ):</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">            return [span]</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">        # Skip if it looks like URL</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x11)">        if text.startswith("http://") or text.startswith("ftp://") or text.startswith("www."):</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">            return [span]</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">        # Split full stop at end of final token (allow certain characters to follow) unless ellipsis</span>
 <span class="line-empty" title="No Anys on this line!">        if (</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x4)">            self.split_last_stop</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">            and nextspan is None</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x2)">            and text not in self.NO_SPLIT_STOP</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x4)">            and text[-3:] != "..."</span>
 <span class="line-empty" title="No Anys on this line!">        ):</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x4)">            if text[-1] == ".":</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x4)">                return self._split_span(span, -1)</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x4)">            ind = text.rfind(".")</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x11)">            if ind &gt; -1 and all(t in "'‘’\"“”)]}" for t in text[ind + 1 :]):</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x4)">                return self._split_span(span, ind, 1)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">        # Split off certain sequences at the end of a token</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x2)">        for spl in self.SPLIT_END:</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x10)">            if text.endswith(spl) and len(text) &gt; len(spl):</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x6)">                return self._split_span(span, -len(spl), 0)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">        # Split off certain sequences at the end of a word</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x2)">        for spl in self.SPLIT_END_WORD:</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x19)">            if text.endswith(spl) and len(text) &gt; len(spl) and text[-len(spl) - 1].isalpha():</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x6)">                return self._split_span(span, -len(spl), 0)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">        # Split off certain sequences at the end of a word</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x2)">        for spl in self.SPLIT_START_WORD:</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x19)">            if text.startswith(spl) and len(text) &gt; len(spl) and text[-len(spl) - 1].isalpha():</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x5)">                return self._split_span(span, len(spl), 0)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">        # Split around certain sequences</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x2)">        for spl in self.SPLIT:</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x5)">            ind = text.find(spl)</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x3)">            if ind &gt; -1:</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x6)">                return self._split_span(span, ind, len(spl))</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">        # Split around certain sequences unless followed by a digit</span>
@@ -3701,258 +3658,258 @@ Unannotated (x6)">                return self._split_span(span, ind, len(spl))</
 <span class="line-empty" title="No Anys on this line!">        #         return self._split_span(span, ind, len(spl))</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">        # Split off certain sequences at the end of a token unless preceded by a digit</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x2)">        for spl in self.SPLIT_END_NO_DIGIT:</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x19)">            if text.endswith(spl) and len(text) &gt; len(spl) and not text[-len(spl) - 1].isdigit():</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x6)">                return self._split_span(span, -len(spl), 0)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">        # Regular Bracket at both start and end, break off both provided they correspond</span>
 <span class="line-empty" title="No Anys on this line!">        if (</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x5)">            text.startswith("(")</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x3)">            and text.endswith(")")</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x7)">            and self._closing_bracket_index(text) == len(text) - 1</span>
 <span class="line-empty" title="No Anys on this line!">        ):</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x6)">            return self._split_span(span, 1, len(text) - 2)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">        # Split things like IR(KBr)</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x7)">        if text.startswith("IR(") and text.endswith(")"):</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x3)">            return self._split_span(span, 2, 1)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">        # Split things like \d+\.\d+([a-z]+) e.g. UV-vis/IR peaks with bracketed strength/shape</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x3)">        m = re.match(r"^(\d+\.\d+|\d{3,})(\([a-z]+\))$", text, re.I)</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">        if m:</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x6)">            return self._split_span(span, m.start(2), 1)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">        # Split brackets off start and end if the corresponding bracket isn't within token</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">        for bpair in [("(", ")"), ("{", "}"), ("[", "]")]:</span>
 <span class="line-empty" title="No Anys on this line!">            # level = bracket_level(text, open=[bpair[0]], close=[bpair[1]])</span>
 <span class="line-empty" title="No Anys on this line!">            # Bracket at start, bracketlevel &gt; 0, break it off</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x10)">            if text.startswith(bpair[0]) and self._closing_bracket_index(text, bpair=bpair) is None:</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x3)">                return self._split_span(span, 1, 0)</span>
 <span class="line-empty" title="No Anys on this line!">            # Bracket at end, bracketlevel &lt; 0, break it off</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x10)">            if text.endswith(bpair[1]) and self._opening_bracket_index(text, bpair=bpair) is None:</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x4)">                return self._split_span(span, -1, 0)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">        # TODO: Consider splitting around comma in limited circumstances. Mainly to fix whitespace errors.</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">        # Characters to split around, but with exceptions</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x4)
 Omitted Generics (x2)">        for i, char in enumerate(text):</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x4)">            before = text[:i]</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x5)">            after = text[i + 1 :]</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">            if char in {":", ";"}:</span>
 <span class="line-empty" title="No Anys on this line!">                # Split around colon unless it looks like we're in a chemical name</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">                if not (</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x5)">                    before</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">                    and after</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x4)">                    and after[0].isdigit()</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x7)">                    and before.rstrip("′'")[-1:].isdigit()</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">                    and "-" in after</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x9)">                ) and not (self.NO_SPLIT_CHEM.search(before) and self.NO_SPLIT_CHEM.search(after)):</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x4)">                    return self._split_span(span, i, 1)</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">            elif char in {"x", "+", "−"}:</span>
 <span class="line-empty" title="No Anys on this line!">                # Split around x, +, − (\u2212 minus) between two numbers or at start followed by numbers</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x10)">                if (i == 0 or self._is_number(before)) and self._is_number(after):</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x4)">                    return self._split_span(span, i, 1)</span>
 <span class="line-empty" title="No Anys on this line!">                # Also plit around − (\u2212 minus) between two letters</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x17)">                if char == "−" and before and before[-1].isalpha() and after and after[0].isalpha():</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x4)">                    return self._split_span(span, i, 1)</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x2)">            elif char == "±":</span>
 <span class="line-empty" title="No Anys on this line!">                # Split around ± unless surrounded by brackets</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x12)">                if not (before and after and before[-1] == "(" and after[0] == ")"):</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x4)">                    return self._split_span(span, i, 1)</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x2)">            elif char == "/":</span>
 <span class="line-empty" title="No Anys on this line!">                # Split around / unless '+/-' or '-/-' etc.</span>
 <span class="line-precise" title="No Anys on this line!">                if not (</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x4)">                    before</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">                    and after</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x4)">                    and before[-1] in self.NO_SPLIT_SLASH</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x3)">                    and after[0] in self.NO_SPLIT_SLASH</span>
 <span class="line-empty" title="No Anys on this line!">                ):</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x4)">                    return self._split_span(span, i, 1)</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x2)">            elif char == "&gt;":</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x6)">                if not (before and before[-1] == "-"):</span>
 <span class="line-empty" title="No Anys on this line!">                    # Split if preceding is not -</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x4)">                    return self._split_span(span, i, 1)</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x6)">                if before and before[-1] == "-":</span>
 <span class="line-empty" title="No Anys on this line!">                    # If preceding is -, split around -&gt; unless in chemical name</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x9)">                    if text != "-&gt;" and not self._is_saccharide_arrow(before[:-1], after):</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x5)">                        return self._split_span(span, i - 1, 2)</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x7)">            elif char == "→" and not self._is_saccharide_arrow(before, after):</span>
 <span class="line-empty" title="No Anys on this line!">                # TODO: 'is' should be '=='... this never splits!?</span>
 <span class="line-empty" title="No Anys on this line!">                # Split around → unless in chemical name</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x4)">                return self._split_span(span, i, 1)</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x10)">            elif char == "(" and self._is_number(before) and "(" not in after and ")" not in after:</span>
 <span class="line-empty" title="No Anys on this line!">                # Split around open bracket after a number</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x4)">                return self._split_span(span, i, 1)</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x2)">            elif char == "-":</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x4)">                lowerbefore = lowertext[:i]</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x5)">                lowerafter = lowertext[i + 1 :]</span>
 <span class="line-empty" title="No Anys on this line!">                # Always split on -of-the- -to- -in- -by- -of- -or- -and- -per- -the-</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x3)">                if lowerafter[:7] == "of-the-":</span>
 <span class="line-empty" title="No Anys on this line!">                    return [</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x6)">                        (span[0], span[0] + i),</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x9)">                        (span[0] + i, span[0] + i + 1),</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x10)">                        (span[0] + i + 1, span[0] + i + 3),</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x10)">                        (span[0] + i + 3, span[0] + i + 4),</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x10)">                        (span[0] + i + 4, span[0] + i + 7),</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x10)">                        (span[0] + i + 7, span[0] + i + 8),</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x7)">                        (span[0] + i + 8, span[1]),</span>
 <span class="line-empty" title="No Anys on this line!">                    ]</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x2)">                if lowerafter[:5] in {"on-a-", "of-a-"}:</span>
 <span class="line-empty" title="No Anys on this line!">                    return [</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x6)">                        (span[0], span[0] + i),</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x9)">                        (span[0] + i, span[0] + i + 1),</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x10)">                        (span[0] + i + 1, span[0] + i + 3),</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x10)">                        (span[0] + i + 3, span[0] + i + 4),</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x10)">                        (span[0] + i + 4, span[0] + i + 5),</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x10)">                        (span[0] + i + 5, span[0] + i + 6),</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x7)">                        (span[0] + i + 6, span[1]),</span>
 <span class="line-empty" title="No Anys on this line!">                    ]</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x2)">                if lowerafter[:3] in {"to-", "in-", "by-", "of-", "or-", "on-"}:</span>
 <span class="line-empty" title="No Anys on this line!">                    return [</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x6)">                        (span[0], span[0] + i),</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x9)">                        (span[0] + i, span[0] + i + 1),</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x10)">                        (span[0] + i + 1, span[0] + i + 3),</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x10)">                        (span[0] + i + 3, span[0] + i + 4),</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x7)">                        (span[0] + i + 4, span[1]),</span>
 <span class="line-empty" title="No Anys on this line!">                    ]</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x2)">                if lowerafter[:4] in {"and-", "per-", "the-"}:</span>
 <span class="line-empty" title="No Anys on this line!">                    return [</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x6)">                        (span[0], span[0] + i),</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x9)">                        (span[0] + i, span[0] + i + 1),</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x10)">                        (span[0] + i + 1, span[0] + i + 4),</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x10)">                        (span[0] + i + 4, span[0] + i + 5),</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x7)">                        (span[0] + i + 5, span[1]),</span>
 <span class="line-empty" title="No Anys on this line!">                    ]</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">                # By default we split on hyphens</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">                split = True</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x2)">                if lowerafter == "nmr":</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">                    split = True  # Always split NMR off end</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x8)">                elif bracket_level(text) == 0 and (</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x15)">                    bracket_level(after) != 0 or bracket_level(before) != 0</span>
 <span class="line-empty" title="No Anys on this line!">                ):</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">                    split = False  # Don't split if within brackets</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x5)">                elif after and after[0] == "&gt;":</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">                    split = False  # Don't split if followed by &gt;</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x5)">                elif lowerbefore in self.NO_SPLIT_PREFIX or lowerafter in self.NO_SPLIT_SUFFIX:</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">                    split = False  # Don't split if prefix or suffix in list</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x4)">                elif self.NO_SPLIT_PREFIX_ENDING.search(lowerbefore):</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">                    split = False  # Don't split if prefix ends with pattern</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x2)">                elif lowerafter in self.SPLIT_SUFFIX:</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">                    split = True  # Do split if suffix in list</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x7)">                elif len(before) &lt;= 1 or len(after) &lt;= 2:</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">                    split = False  # Don't split if not at least 2 char before and 3 after</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x8)">                elif self.NO_SPLIT_CHEM.search(lowerbefore) or self.NO_SPLIT_CHEM.search(</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">                    lowerafter</span>
 <span class="line-empty" title="No Anys on this line!">                ):</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">                    split = False  # Don't split if prefix or suffix match chem regex</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">                if split:</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x4)">                    return self._split_span(span, i, 1)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">                # TODO: Errors:</span>
@@ -3980,36 +3937,36 @@ Unannotated (x4)">                    return self._split_span(span, i, 1)</span>
 <span class="line-empty" title="No Anys on this line!">        #     return self._split_span(span, len(quantity.group(6) or quantity.group(3) or quantity.group(2)), 0)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">        # Split pH off the start of a numeric value</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x8)">        if text.startswith("pH") and self._is_number(text[2:]):</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x3)">            return self._split_span(span, 2, 0)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">        # Split contraction words</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x2)">        for contraction in self.CONTRACTIONS:</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x4)">            if lowertext == contraction[0]:</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x5)">                return self._split_span(span, contraction[1])</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x7)">        additional_regex_handled = self.handle_additional_regex(s, span, nextspan, additional_regex)</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">        if additional_regex_handled is not None:</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">            return additional_regex_handled</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">        if nextspan:</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x7)">            nexttext = s[nextspan[0] : nextspan[1]]</span>
 <span class="line-empty" title="No Anys on this line!">            # Split NMR isotope whitespace errors (joined with previous sentence full stop)</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x2)">            if nexttext == "NMR":</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x4)">                ind = text.rfind(".")</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x8)">                if ind &gt; -1 and text[ind + 1 :] in {</span>
 <span class="line-any" title="No Anys on this line!">                    "1H",</span>
 <span class="line-any" title="No Anys on this line!">                    "13C",</span>
@@ -4024,10 +3981,10 @@ Unannotated (x8)">                if ind &gt; -1 and text[ind + 1 :] in {</span>
 <span class="line-any" title="No Anys on this line!">                    "33S",</span>
 <span class="line-any" title="No Anys on this line!">                    "13C{1H}",</span>
 <span class="line-empty" title="No Anys on this line!">                }:</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x4)">                    return self._split_span(span, ind, 1)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">        return [span]</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!"></span>
@@ -4149,25 +4106,25 @@ Unannotated (x1)">        return [span]</span>
 <span class="line-empty" title="No Anys on this line!">        """Recursively subdivide spans based on a series of rules."""</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">        # Split on boundaries between greek and non-greek</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x7)">        text = s[span[0] : span[1]]</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x4)
 Omitted Generics (x2)">        for i, char in enumerate(text):</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x5)">            if i &lt; len(text) - 1:</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x5)">                nextchar = text[i + 1]</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x4)">                if (char in GREEK and nextchar not in GREEK) or (</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x3)">                    char not in GREEK and nextchar in GREEK</span>
 <span class="line-empty" title="No Anys on this line!">                ):</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x14)">                    return [(span[0], span[0] + i + 1), (span[0] + i + 1, span[1])]</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">        # Perform all normal WordTokenizer splits</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x5)">        return super()._subspan(s, span, nextspan, additional_regex)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!"></span>
@@ -4182,171 +4139,163 @@ Unannotated (x5)">        return super()._subspan(s, span, nextspan, additional_
 <span class="line-precise" title="No Anys on this line!">    do_not_split_if_in_num = [".", ","]</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="No Anys on this line!">    def __init__(self, split_last_stop=True, path=None, lowercase=True):</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x2)">        super().__init__(split_last_stop)</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">        if path is None:</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x6)">            path = find_data("models/scibert_uncased_vocab-1.0.txt")</span>
 <span class="line-empty" title="No Anys on this line!">        # TODO: It's maybe worth replacing with the transformers library tokenizers.</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x4)
 Unimported (x1)">        self.tokenizer = BertWordPieceTokenizer(path, lowercase=lowercase)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="No Anys on this line!">    def span_tokenize(self, s, additional_regex=None):</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x6)">        output = self.tokenizer.encode(str(s))</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x5)">        offsets = output.offsets[1:-1]</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x5)">        given_tokens = output.tokens[1:-1]</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">        current_span = (0, 0)</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">        spans = []</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">        i = 0</span>
-<span class="line-any" title="Any Types on this line:
-Unannotated (x6)
-Explicit (x9)
-Omitted Generics (x30)">        zipped = [el for el in zip(offsets, given_tokens)]</span>
+<span class="line-any" title="Any Types on this line: 
+Unannotated (x5)
+Omitted Generics (x33)
+Explicit (x9)">        zipped = list(zip(offsets, given_tokens, strict=False))</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x4)">        while i &lt; len(zipped):</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x5)">            offset, token = zipped[i]</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">            # If symbol is in do_not_split and it's part of a word, i.e. it's not surrounded</span>
 <span class="line-empty" title="No Anys on this line!">            # by whitespace, then don't split it</span>
-<span class="line-empty" title="No Anys on this line!">            if (</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
+Unannotated (x1)">            if (</span>
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x11)">                s[offset[0] : offset[1]] in self.do_not_split_if_in_num</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x5)">                and offset[0] == current_span[1]</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x5)">                and i &lt; len(zipped) - 1</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x9)">                and zipped[i + 1][0][0] == offset[1]</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x15)">                and re.match(r"\d+$", s[zipped[i + 1][0][0] : zipped[i + 1][0][1]])</span>
-<span class="line-empty" title="No Anys on this line!">            ):</span>
-<span class="line-any" title="Any Types on this line:
-Unannotated (x1)">                i += 1</span>
-<span class="line-any" title="Any Types on this line:
-Unannotated (x5)">                offset, token = zipped[i]</span>
-<span class="line-any" title="Any Types on this line:
-Unannotated (x5)">                current_span = (current_span[0], offset[1])</span>
-<span class="line-empty" title="No Anys on this line!">            # If symbol is in do_not_split and it's part of a word, i.e. it's not surrounded</span>
-<span class="line-empty" title="No Anys on this line!">            # by whitespace, then don't split it</span>
-<span class="line-empty" title="No Anys on this line!">            elif (</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-empty" title="No Anys on this line!">            ) or (</span>
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x10)">                s[offset[0] : offset[1]] in self.do_not_split</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x5)">                and offset[0] == current_span[1]</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x5)">                and i &lt; len(zipped) - 1</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x9)">                and zipped[i + 1][0][0] == offset[1]</span>
 <span class="line-empty" title="No Anys on this line!">            ):</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">                i += 1</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x5)">                offset, token = zipped[i]</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x5)">                current_span = (current_span[0], offset[1])</span>
 <span class="line-empty" title="No Anys on this line!">            # Prevent splitting of negative numbers, but allow splitting of ranges such as 0.5-1.0</span>
 <span class="line-empty" title="No Anys on this line!">            # and cases like 5-Bromo-6-Penda...</span>
 <span class="line-empty" title="No Anys on this line!">            elif (</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x12)">                s[offset[0] : offset[1]] == "-"</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x5)">                and i &lt; len(zipped) - 1</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x9)">                and zipped[i + 1][0][0] == offset[1]</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x15)">                and re.match(r"\d+$", s[zipped[i + 1][0][0] : zipped[i + 1][0][1]])</span>
 <span class="line-empty" title="No Anys on this line!">                and (</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x3)">                    i == 0</span>
 <span class="line-precise" title="No Anys on this line!">                    or not (</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x10)">                        zipped[i - 1][0][1] == offset[0]</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x15)">                        and re.match(r"\d+$", s[zipped[i - 1][0][0] : zipped[i - 1][0][1]])</span>
 <span class="line-empty" title="No Anys on this line!">                    )</span>
 <span class="line-empty" title="No Anys on this line!">                )</span>
 <span class="line-empty" title="No Anys on this line!">                and (</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x6)">                    i &gt;= len(zipped) - 2</span>
 <span class="line-precise" title="No Anys on this line!">                    or not (</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x14)">                        zipped[i + 2][0][0] == zipped[i + 1][0][1]</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x15)">                        and s[zipped[i + 2][0][0] : zipped[i + 2][0][1]] == "-"</span>
 <span class="line-empty" title="No Anys on this line!">                    )</span>
 <span class="line-empty" title="No Anys on this line!">                )</span>
 <span class="line-empty" title="No Anys on this line!">            ):</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">                i += 1</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x2)">                if current_span != (0, 0):</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x4)">                    spans.append(current_span)</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x2)">                current_span = offset</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x5)">                offset, token = zipped[i]</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x5)">                current_span = (current_span[0], offset[1])</span>
 <span class="line-empty" title="No Anys on this line!">            # If the token is a subword, as defined by BERT, then merge it with the previous token</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x7)">            elif len(token) &gt; 2 and token[:2] == "##":</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x5)">                current_span = (current_span[0], offset[1])</span>
 <span class="line-empty" title="No Anys on this line!">            # Otherwise, split it</span>
 <span class="line-empty" title="No Anys on this line!">            else:</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x2)">                if current_span != (0, 0):</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x4)">                    spans.append(current_span)</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x2)">                current_span = offset</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">            i += 1</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x4)">        spans.append(current_span)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">        # Perform additional tokenisation as required by the additional regex</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">        if additional_regex is not None:</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">            i = 0</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x4)">            while i &lt; len(spans):</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x3)">                subspans = self.handle_additional_regex(</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">                    s,</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x3)">                    spans[i],</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x9)">                    spans[i + 1] if i + 1 &lt; len(spans) else None,</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">                    additional_regex,</span>
 <span class="line-empty" title="No Anys on this line!">                )</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">                if subspans is None:</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x4)">                    subspans = [spans[i]]</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x13)">                spans[i : i + 1] = [subspan for subspan in subspans if subspan[1] - subspan[0] &gt; 0]</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x3)">                if len(subspans) == 1:</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">                    i += 1</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">        return spans</span>
 </pre></td>
 </tr></tbody>

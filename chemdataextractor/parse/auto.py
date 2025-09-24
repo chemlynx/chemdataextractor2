@@ -19,12 +19,10 @@ from __future__ import annotations
 
 import copy
 import logging
+from collections.abc import Callable
 from typing import TYPE_CHECKING
 from typing import Any
-from collections.abc import Callable
-from typing import List
 from typing import Optional
-from typing import Tuple
 
 from lxml.builder import E
 
@@ -81,7 +79,7 @@ def construct_unit_element(
         return None
     # Handle all the magnitudes
     units_regex = "^(("
-    for element in magnitudes_dict.keys():
+    for element in magnitudes_dict:
         units_regex += "(" + element.pattern + ")|"
     units_regex = units_regex[:-1]
     units_regex += ")?"
@@ -279,7 +277,7 @@ class BaseAutoParser(BaseParser):
                     and self.model.fields["raw_value"].required
                     and not self.model.fields["raw_value"].contextual
                 ):
-                    requirements = False
+                    pass
                 property_entities.update({"raw_value": raw_value})
 
             elif hasattr(self.model, "dimensions") and self.model.dimensions:
@@ -450,18 +448,21 @@ class AutoSentenceParser(BaseAutoParser, BaseSentenceParser):
 
         # the optional, user-defined, entities of the model are added, they are tagged with the name of the field
         for field in self.model.fields:
-            if field not in [
-                "raw_value",
-                "raw_units",
-                "value",
-                "units",
-                "error",
-                "specifier",
-            ]:
-                if self.model.__getattribute__(self.model, field).parse_expression is not None:
-                    entities.append(
-                        self.model.__getattribute__(self.model, field).parse_expression(field)
-                    )
+            if (
+                field
+                not in [
+                    "raw_value",
+                    "raw_units",
+                    "value",
+                    "units",
+                    "error",
+                    "specifier",
+                ]
+                and self.model.__getattribute__(self.model, field).parse_expression is not None
+            ):
+                entities.append(
+                    self.model.__getattribute__(self.model, field).parse_expression(field)
+                )
 
         # the chem_name has to be parsed last in order to avoid a conflict with other elements of the model
         entities.append(chem_name)
@@ -537,18 +538,21 @@ class AutoTableParser(BaseAutoParser, BaseTableParser):
 
         # the optional, user-defined, entities of the model are added, they are tagged with the name of the field
         for field in self.model.fields:
-            if field not in [
-                "raw_value",
-                "raw_units",
-                "value",
-                "units",
-                "error",
-                "specifier",
-            ]:
-                if self.model.__getattribute__(self.model, field).parse_expression is not None:
-                    entities.append(
-                        self.model.__getattribute__(self.model, field).parse_expression(field)
-                    )
+            if (
+                field
+                not in [
+                    "raw_value",
+                    "raw_units",
+                    "value",
+                    "units",
+                    "error",
+                    "specifier",
+                ]
+                and self.model.__getattribute__(self.model, field).parse_expression is not None
+            ):
+                entities.append(
+                    self.model.__getattribute__(self.model, field).parse_expression(field)
+                )
 
         # the chem_name has to be parsed last in order to avoid a conflict with other elements of the model
         entities.append(chem_name)

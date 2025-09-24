@@ -7,12 +7,14 @@ TriggerEngine for significant performance improvements in parsing operations.
 
 from __future__ import annotations
 
+from collections.abc import Iterator
+from typing import TYPE_CHECKING
 from typing import Any
 from typing import ClassVar
-from typing import Iterator
-from typing import TYPE_CHECKING
 
-from .base import BaseParser, BaseSentenceParser, BaseTableParser
+from .base import BaseParser
+from .base import BaseSentenceParser
+from .base import BaseTableParser
 from .trigger_engine import TriggerEngine
 
 if TYPE_CHECKING:
@@ -80,9 +82,7 @@ class OptimizedBaseParser(BaseParser):
     def _original_trigger_check(self, sentence: BaseElement) -> bool:
         """Original trigger phrase checking logic (fallback)."""
         if self.trigger_phrase is not None:
-            trigger_phrase_results = [
-                result for result in self.trigger_phrase.scan(sentence.tokens)
-            ]
+            trigger_phrase_results = list(self.trigger_phrase.scan(sentence.tokens))
             return bool(trigger_phrase_results)
         return True  # No trigger phrase means always parse
 
@@ -112,9 +112,7 @@ class OptimizedTableParser(OptimizedBaseParser, BaseTableParser):
         if self.trigger_phrase is not None:
             if not self._global_trigger_engine or not self._optimization_enabled:
                 # Fallback to original logic
-                trigger_phrase_results = [
-                    result for result in self.trigger_phrase.scan(cell.tokens)
-                ]
+                trigger_phrase_results = list(self.trigger_phrase.scan(cell.tokens))
                 if not trigger_phrase_results:
                     return
             else:
@@ -135,15 +133,12 @@ class BatchOptimizedParser:
         self.trigger_engine = TriggerEngine.get_global_instance()
 
     def parse_sentences_batch(
-        self,
-        sentences: list[BaseElement]
+        self, sentences: list[BaseElement]
     ) -> dict[str, dict[str, list[BaseModel]]]:
         """Parse multiple sentences in batch for maximum efficiency."""
 
         # Get parser assignments for all sentences at once
-        parser_assignments = self.trigger_engine.process_sentences_batch(
-            sentences, self.parsers
-        )
+        parser_assignments = self.trigger_engine.process_sentences_batch(sentences, self.parsers)
 
         results: dict[str, dict[str, list[BaseModel]]] = {}
 
@@ -169,29 +164,34 @@ class BatchOptimizedParser:
 # Backwards compatibility aliases
 class FastBaseParser(OptimizedBaseParser):
     """Alias for OptimizedBaseParser for backwards compatibility."""
+
     pass
 
 
 class FastSentenceParser(OptimizedSentenceParser):
     """Alias for OptimizedSentenceParser for backwards compatibility."""
+
     pass
 
 
 class FastTableParser(OptimizedTableParser):
     """Alias for OptimizedTableParser for backwards compatibility."""
+
     pass
 
 
-def create_optimized_parser_class(original_parser_class: type[BaseParser]) -> type[OptimizedBaseParser]:
+def create_optimized_parser_class(
+    original_parser_class: type[BaseParser],
+) -> type[OptimizedBaseParser]:
     """Create an optimized version of an existing parser class."""
 
     class OptimizedWrapper(OptimizedSentenceParser):
         """Dynamically created optimized wrapper."""
 
         # Copy class attributes from original
-        root = getattr(original_parser_class, 'root', None)
-        trigger_phrase = getattr(original_parser_class, 'trigger_phrase', None)
-        model = getattr(original_parser_class, 'model', None)
+        root = getattr(original_parser_class, "root", None)
+        trigger_phrase = getattr(original_parser_class, "trigger_phrase", None)
+        model = getattr(original_parser_class, "model", None)
 
         def interpret(self, *args, **kwargs):
             """Delegate to original parser's interpret method."""
@@ -220,7 +220,7 @@ class TriggerPerformanceMonitor:
             "trigger_checks": 0,
             "cache_hits": 0,
             "total_processing_time": 0.0,
-            "average_sentence_time": 0.0
+            "average_sentence_time": 0.0,
         }
 
     def record_sentence_processing(self, processing_time: float) -> None:
@@ -239,16 +239,14 @@ class TriggerPerformanceMonitor:
 
     def get_performance_report(self) -> dict[str, Any]:
         """Get comprehensive performance report."""
-        cache_hit_rate = (
-            self.stats["cache_hits"] / max(1, self.stats["trigger_checks"])
-        )
+        cache_hit_rate = self.stats["cache_hits"] / max(1, self.stats["trigger_checks"])
 
         return {
             **self.stats,
             "cache_hit_rate": cache_hit_rate,
             "sentences_per_second": (
                 self.stats["sentences_processed"] / max(0.001, self.stats["total_processing_time"])
-            )
+            ),
         }
 
 

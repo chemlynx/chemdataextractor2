@@ -10,9 +10,6 @@ from __future__ import annotations
 import logging
 import re
 from typing import TYPE_CHECKING
-from typing import List
-from typing import Optional
-from typing import Tuple
 
 from ..text import bracket_level
 
@@ -226,9 +223,8 @@ class AbbreviationDetector:
             if token != "-":
                 spaced_tokens += [token, " "]
             else:
-                if i != 0:
-                    if spaced_tokens[-1] == " ":
-                        spaced_tokens.pop(-1)
+                if i != 0 and spaced_tokens[-1] == " ":
+                    spaced_tokens.pop(-1)
                 spaced_tokens.append("-")
 
         longs = {"".join(spaced_tokens)}
@@ -238,10 +234,7 @@ class AbbreviationDetector:
             for long in longs:
                 newlongs.add(long.replace(before, after))
             longs.update(newlongs)
-        for long in longs:
-            if _is_valid(abbr, long):
-                return True
-        return False
+        return any(_is_valid(abbr, long) for long in longs)
 
     def _filter_candidates(self, tokens, candidates):
         """Discard if long shorter than abbr, or if abbr token(s) are in the long token(s)."""

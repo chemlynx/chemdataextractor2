@@ -2,16 +2,23 @@
 Parse metadata stored as XMP (Extensible Metadata Platform).
 
 This is commonly embedded within PDF documents, and can be extracted using the PDFMiner framework.
+Provides functionality to parse XMP metadata into structured Python dictionaries.
 
 More information is available on the Adobe website:
 
     http://www.adobe.com/products/xmp/index.html
-
 """
 
+from __future__ import annotations
+
 from collections import defaultdict
+from typing import TYPE_CHECKING
+from typing import Any
 
 from lxml import etree
+
+if TYPE_CHECKING:
+    from lxml.etree import _Element
 
 RDF_NS = "{http://www.w3.org/1999/02/22-rdf-syntax-ns#}"
 XML_NS = "{http://www.w3.org/XML/1998/namespace}"
@@ -46,14 +53,26 @@ class XmpParser:
 
     """
 
-    def __init__(self, ns_map=NS_MAP):
-        self.ns_map = ns_map
+    def __init__(self, ns_map: dict[str, str] = NS_MAP) -> None:
+        """Initialize XMP parser with namespace mappings.
 
-    def parse(self, xmp):
-        """Run parser and return a dictionary of all the parsed metadata."""
+        Args:
+            ns_map: Dictionary mapping namespace URIs to abbreviations
+        """
+        self.ns_map: dict[str, str] = ns_map
+
+    def parse(self, xmp: str | bytes) -> dict[str, dict[str, Any]]:
+        """Run parser and return a dictionary of all the parsed metadata.
+
+        Args:
+            xmp: XMP metadata string or bytes
+
+        Returns:
+            Dictionary with namespace keys containing metadata dictionaries
+        """
         tree = etree.fromstring(xmp)
         rdf_tree = tree.find(RDF_NS + "RDF")
-        meta = defaultdict(dict)
+        meta: defaultdict[str, dict[str, Any]] = defaultdict(dict)
         for desc in rdf_tree.findall(RDF_NS + "Description"):
             for el in desc.getchildren():
                 ns, tag = self._parse_tag(el)
@@ -61,9 +80,16 @@ class XmpParser:
                 meta[ns][tag] = value
         return dict(meta)
 
-    def _parse_tag(self, el):
-        """Extract the namespace and tag from an element."""
-        ns = None
+    def _parse_tag(self, el: _Element) -> tuple[str | None, str]:
+        """Extract the namespace and tag from an element.
+
+        Args:
+            el: XML element to parse
+
+        Returns:
+            Tuple of (namespace, tag_name)
+        """
+        ns: str | None = None
         tag = el.tag
         if tag[0] == "{":
             ns, tag = tag[1:].split("}", 1)
@@ -71,10 +97,17 @@ class XmpParser:
                 ns = self.ns_map[ns]
         return ns, tag
 
-    def _parse_value(self, el):
-        """Extract the metadata value from an element."""
+    def _parse_value(self, el: _Element) -> Any:
+        """Extract the metadata value from an element.
+
+        Args:
+            el: XML element to extract value from
+
+        Returns:
+            Parsed value (string, list, or dict depending on structure)
+        """
         if el.find(RDF_NS + "Bag") is not None:
-            value = []
+            value: list[str | None] = []
             for li in el.findall(RDF_NS + "Bag/" + RDF_NS + "li"):
                 value.append(li.text)
         elif el.find(RDF_NS + "Seq") is not None:
@@ -82,14 +115,22 @@ class XmpParser:
             for li in el.findall(RDF_NS + "Seq/" + RDF_NS + "li"):
                 value.append(li.text)
         elif el.find(RDF_NS + "Alt") is not None:
-            value = {}
+            value_dict: dict[str | None, str | None] = {}
             for li in el.findall(RDF_NS + "Alt/" + RDF_NS + "li"):
-                value[li.get(XML_NS + "lang")] = li.text
+                value_dict[li.get(XML_NS + "lang")] = li.text
+            value = value_dict
         else:
             value = el.text
         return value
 
 
-def parse_xmp(xmp):
-    """Shorthand function for parsing an XMP string into a python dictionary."""
+def parse_xmp(xmp: str | bytes) -> dict[str, dict[str, Any]]:
+    """Shorthand function for parsing an XMP string into a python dictionary.
+
+    Args:
+        xmp: XMP metadata string or bytes
+
+    Returns:
+        Dictionary with namespace keys containing metadata dictionaries
+    """
     return XmpParser().parse(xmp)

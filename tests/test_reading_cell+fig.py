@@ -1,5 +1,4 @@
 import logging
-import sys
 import unittest
 
 from chemdataextractor import Document

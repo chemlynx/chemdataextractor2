@@ -2,7 +2,11 @@
 """
 Tools for converting LaTeX to unicode.
 
+Provides comprehensive LaTeX to Unicode conversion utilities for processing
+scientific documents and mathematical notation in chemical literature.
 """
+
+from __future__ import annotations
 
 import re
 import string
@@ -11,11 +15,15 @@ from . import NAME_SMALL
 from . import SMALL
 
 
-def latex_to_unicode(text, capitalize=False):
+def latex_to_unicode(text: str, capitalize: str | bool = False) -> str:
     """Replace LaTeX entities with the equivalent unicode and optionally capitalize.
 
-    :param text: The LaTeX string to be converted
-    :param capitalize: Can be 'sentence', 'name', 'title', 'upper', 'lower'
+    Args:
+        text: The LaTeX string to be converted
+        capitalize: Capitalization mode - can be 'sentence', 'name', 'title', 'upper', 'lower', or False
+
+    Returns:
+        The converted Unicode string with optional capitalization applied
     """
     if capitalize:
         res = []
@@ -27,18 +35,24 @@ def latex_to_unicode(text, capitalize=False):
                 brac_count -= 1
             if brac_count > 0:
                 res.append(c)
-            elif capitalize == "upper" or (i == 0 and capitalize != "lower"):
-                res.append(c.upper())
-            elif capitalize == "sentence" and (i > 2 and text[i - 1] == " " and text[i - 2] == "."):
+            elif (
+                capitalize == "upper"
+                or (i == 0 and capitalize != "lower")
+                or capitalize == "sentence"
+                and (i > 2 and text[i - 1] == " " and text[i - 2] == ".")
+            ):
                 res.append(c.upper())
             elif (capitalize == "name" and text[i - 1] in [" ", "-"]) or (
                 capitalize == "title" and text[i - 1] == " "
             ):
                 nextword = text[i:].split(" ", 1)[0].rstrip(string.punctuation)
                 nextword = nextword[:1].lower() + nextword[1:] if text else ""
-                if capitalize == "name" and nextword in NAME_SMALL:
-                    res.append(c.lower())
-                elif capitalize == "title" and nextword in SMALL:
+                if (
+                    capitalize == "name"
+                    and nextword in NAME_SMALL
+                    or capitalize == "title"
+                    and nextword in SMALL
+                ):
                     res.append(c.lower())
                 else:
                     res.append(c.upper())

@@ -131,12 +131,6 @@
 <span id="L121" class="lineno"><a class="lineno" href="#L121">121</a></span>
 <span id="L122" class="lineno"><a class="lineno" href="#L122">122</a></span>
 <span id="L123" class="lineno"><a class="lineno" href="#L123">123</a></span>
-<span id="L124" class="lineno"><a class="lineno" href="#L124">124</a></span>
-<span id="L125" class="lineno"><a class="lineno" href="#L125">125</a></span>
-<span id="L126" class="lineno"><a class="lineno" href="#L126">126</a></span>
-<span id="L127" class="lineno"><a class="lineno" href="#L127">127</a></span>
-<span id="L128" class="lineno"><a class="lineno" href="#L128">128</a></span>
-<span id="L129" class="lineno"><a class="lineno" href="#L129">129</a></span>
 </pre></td>
 <td class="table-code"><pre><span class="line-empty" title="No Anys on this line!">"""</span>
 <span class="line-empty" title="No Anys on this line!">Phrase object</span>
@@ -188,13 +182,13 @@ Unannotated (x2)">            self.create()</span>
 <span class="line-empty" title="No Anys on this line!">        output_string = ""</span>
 <span class="line-empty" title="No Anys on this line!">        output_string += " ".join(self.elements["prefix"]["tokens"]) + " "</span>
 <span class="line-empty" title="No Anys on this line!">        if isinstance(self.entities[0].tag, tuple):</span>
-<span class="line-empty" title="No Anys on this line!">            output_string += "(" + ", ".join([i for i in self.entities[0].tag]) + ") "</span>
+<span class="line-empty" title="No Anys on this line!">            output_string += "(" + ", ".join(list(self.entities[0].tag)) + ") "</span>
 <span class="line-empty" title="No Anys on this line!">        else:</span>
 <span class="line-empty" title="No Anys on this line!">            output_string += "(" + self.entities[0].tag + ") "</span>
 <span class="line-empty" title="No Anys on this line!">        for i in range(0, self.number_of_entities - 1):</span>
 <span class="line-empty" title="No Anys on this line!">            output_string += " ".join(self.elements["middle_" + str(i + 1)]["tokens"]) + " "</span>
 <span class="line-empty" title="No Anys on this line!">            if isinstance(self.entities[i + 1].tag, tuple):</span>
-<span class="line-empty" title="No Anys on this line!">                output_string += "(" + ", ".join([i for i in self.entities[i + 1].tag]) + ") "</span>
+<span class="line-empty" title="No Anys on this line!">                output_string += "(" + ", ".join(list(self.entities[i + 1].tag)) + ") "</span>
 <span class="line-empty" title="No Anys on this line!">            else:</span>
 <span class="line-empty" title="No Anys on this line!">                output_string += "(" + self.entities[i + 1].tag + ") "</span>
 <span class="line-empty" title="No Anys on this line!">        output_string = output_string</span>
@@ -223,7 +217,7 @@ Unannotated (x2)">                if entity in combined_entity_list:</span>
 <span class="line-any" title="No Anys on this line!">                    continue</span>
 <span class="line-empty" title="No Anys on this line!">                else:</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x5)">                    if entity.tag not in entity_counter.keys():</span>
+Unannotated (x3)">                    if entity.tag not in entity_counter:</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x3)">                        entity_counter[entity.tag] = 1</span>
 <span class="line-empty" title="No Anys on this line!">                    else:</span>
@@ -254,16 +248,12 @@ Unannotated (x2)">        self.entities = sorted_entity_list</span>
 Unannotated (x5)">        self.order = [e.tag for e in self.entities]</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">        # Create the phrase elements, prefix, middles, suffix</span>
-<span class="line-imprecise" title="Any Types on this line: 
-Unannotated (x1)">        prefix_tokens = [</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x1)">            t</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x3)">            for t in sentence[</span>
+Unannotated (x4)
+Omitted Generics (x3)">        prefix_tokens = list(sentence[</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x8)">                sorted_entity_list[0].start - self.prefix_length : sorted_entity_list[0].start</span>
-<span class="line-empty" title="No Anys on this line!">            ]</span>
-<span class="line-empty" title="No Anys on this line!">        ]</span>
+<span class="line-empty" title="No Anys on this line!">            ])</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">        if len(prefix_tokens) == 0:</span>
 <span class="line-any" title="Any Types on this line: 
@@ -277,7 +267,8 @@ Unannotated (x4)">            prev_entity_end = sorted_entity_list[m].end</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x4)">            next_entitiy_start = sorted_entity_list[m + 1].start</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x7)">            middle_tokens = [t for t in sentence[prev_entity_end:next_entitiy_start]]</span>
+Unannotated (x6)
+Omitted Generics (x3)">            middle_tokens = list(sentence[prev_entity_end:next_entitiy_start])</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">            if len(middle_tokens) == 0:</span>
 <span class="line-any" title="Any Types on this line: 
@@ -285,16 +276,12 @@ Unannotated (x1)">                middle_tokens = ["&lt;Blank&gt;"]</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x3)">            self.elements["middle_" + str(m + 1)] = {"tokens": middle_tokens}</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-imprecise" title="Any Types on this line: 
-Unannotated (x1)">        suffix_tokens = [</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x1)">            t</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x3)">            for t in sentence[</span>
+Unannotated (x4)
+Omitted Generics (x3)">        suffix_tokens = list(sentence[</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x8)">                sorted_entity_list[-1].end : sorted_entity_list[-1].end + self.suffix_length</span>
-<span class="line-empty" title="No Anys on this line!">            ]</span>
-<span class="line-empty" title="No Anys on this line!">        ]</span>
+<span class="line-empty" title="No Anys on this line!">            ])</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">        if len(suffix_tokens) == 0:</span>
 <span class="line-any" title="Any Types on this line: 
@@ -306,7 +293,7 @@ Unannotated (x3)">        self.elements["suffix"] = {"tokens": suffix_tokens}</s
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="No Anys on this line!">    def reset_vectors(self):</span>
 <span class="line-empty" title="No Anys on this line!">        """Set all element vectors to None"""</span>
-<span class="line-empty" title="No Anys on this line!">        for element in self.elements.keys():</span>
+<span class="line-empty" title="No Anys on this line!">        for element in self.elements:</span>
 <span class="line-empty" title="No Anys on this line!">            self.elements[element]["vector"] = None</span>
 <span class="line-empty" title="No Anys on this line!">        return</span>
 </pre></td>

@@ -3,10 +3,7 @@ Conditional random field
 Implemented by AllenNLP 2.5.0
 """
 
-from typing import Dict
-from typing import List
-from typing import Tuple
-from typing import Union
+from __future__ import annotations
 
 import torch
 
@@ -66,7 +63,7 @@ def allowed_transitions(constraint_type: str, labels: dict[int, str]) -> list[tu
 
 def is_transition_allowed(
     constraint_type: str, from_tag: str, from_entity: str, to_tag: str, to_entity: str
-):
+) -> bool:
     """
     Given a constraint type and strings `from_tag` and `to_tag` that
     represent the origin and destination of the transition, return whether
@@ -400,7 +397,7 @@ class ConditionalRandomField(torch.nn.Module):
         # Pad the max sequence length by 2 to account for start_tag + end_tag.
         tag_sequence = torch.Tensor(max_seq_length + 2, num_tags + 2)
 
-        for prediction, prediction_mask in zip(logits, mask):
+        for prediction, prediction_mask in zip(logits, mask, strict=False):
             mask_indices = prediction_mask.nonzero(as_tuple=False).squeeze()
             masked_prediction = torch.index_select(prediction, 0, mask_indices)
             sequence_length = masked_prediction.shape[0]
@@ -421,7 +418,7 @@ class ConditionalRandomField(torch.nn.Module):
                 top_k=top_k,
             )
             top_k_paths = []
-            for viterbi_path, viterbi_score in zip(viterbi_paths, viterbi_scores):
+            for viterbi_path, viterbi_score in zip(viterbi_paths, viterbi_scores, strict=False):
                 # Get rid of START and END sentinels and append.
                 viterbi_path = viterbi_path[1:-1]
                 top_k_paths.append((viterbi_path, viterbi_score.item()))

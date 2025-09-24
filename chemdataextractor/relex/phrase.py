@@ -40,13 +40,13 @@ class Phrase:
         output_string = ""
         output_string += " ".join(self.elements["prefix"]["tokens"]) + " "
         if isinstance(self.entities[0].tag, tuple):
-            output_string += "(" + ", ".join([i for i in self.entities[0].tag]) + ") "
+            output_string += "(" + ", ".join(list(self.entities[0].tag)) + ") "
         else:
             output_string += "(" + self.entities[0].tag + ") "
         for i in range(0, self.number_of_entities - 1):
             output_string += " ".join(self.elements["middle_" + str(i + 1)]["tokens"]) + " "
             if isinstance(self.entities[i + 1].tag, tuple):
-                output_string += "(" + ", ".join([i for i in self.entities[i + 1].tag]) + ") "
+                output_string += "(" + ", ".join(list(self.entities[i + 1].tag)) + ") "
             else:
                 output_string += "(" + self.entities[i + 1].tag + ") "
         output_string = output_string
@@ -69,7 +69,7 @@ class Phrase:
                 if entity in combined_entity_list:
                     continue
                 else:
-                    if entity.tag not in entity_counter.keys():
+                    if entity.tag not in entity_counter:
                         entity_counter[entity.tag] = 1
                     else:
                         entity_counter[entity.tag] += 1
@@ -92,12 +92,9 @@ class Phrase:
         self.order = [e.tag for e in self.entities]
 
         # Create the phrase elements, prefix, middles, suffix
-        prefix_tokens = [
-            t
-            for t in sentence[
-                sorted_entity_list[0].start - self.prefix_length : sorted_entity_list[0].start
-            ]
-        ]
+        prefix_tokens = list(
+            sentence[sorted_entity_list[0].start - self.prefix_length : sorted_entity_list[0].start]
+        )
         if len(prefix_tokens) == 0:
             prefix_tokens = ["<Blank>"]
         self.elements["prefix"] = {"tokens": prefix_tokens}
@@ -105,17 +102,14 @@ class Phrase:
         for m in range(0, number_of_middles):
             prev_entity_end = sorted_entity_list[m].end
             next_entitiy_start = sorted_entity_list[m + 1].start
-            middle_tokens = [t for t in sentence[prev_entity_end:next_entitiy_start]]
+            middle_tokens = list(sentence[prev_entity_end:next_entitiy_start])
             if len(middle_tokens) == 0:
                 middle_tokens = ["<Blank>"]
             self.elements["middle_" + str(m + 1)] = {"tokens": middle_tokens}
 
-        suffix_tokens = [
-            t
-            for t in sentence[
-                sorted_entity_list[-1].end : sorted_entity_list[-1].end + self.suffix_length
-            ]
-        ]
+        suffix_tokens = list(
+            sentence[sorted_entity_list[-1].end : sorted_entity_list[-1].end + self.suffix_length]
+        )
         if len(suffix_tokens) == 0:
             suffix_tokens = ["<Blank>"]
         self.elements["suffix"] = {"tokens": suffix_tokens}
@@ -124,6 +118,6 @@ class Phrase:
 
     def reset_vectors(self):
         """Set all element vectors to None"""
-        for element in self.elements.keys():
+        for element in self.elements:
             self.elements[element]["vector"] = None
         return

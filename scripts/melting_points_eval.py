@@ -153,10 +153,9 @@ def standardize_results():
     # with open('n2s.pickle 7') as fin:
     #     n2s = pickle.load(fin)
     n2s = {}
-    with open("opsin_input.txt") as op_in:
-        with open("opsin_output.txt") as op_out:
-            for name, smiles in zip(op_in, op_out):
-                n2s[name.strip().decode("utf8")] = smiles.strip().decode("utf8")
+    with open("opsin_input.txt") as op_in, open("opsin_output.txt") as op_out:
+        for name, smiles in zip(op_in, op_out, strict=False):
+            n2s[name.strip().decode("utf8")] = smiles.strip().decode("utf8")
 
     result_dir = "../examples/mp/results"
     for filename in os.listdir(result_dir):

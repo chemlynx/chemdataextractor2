@@ -43,8 +43,6 @@
 <span id="L33" class="lineno"><a class="lineno" href="#L33">33</a></span>
 <span id="L34" class="lineno"><a class="lineno" href="#L34">34</a></span>
 <span id="L35" class="lineno"><a class="lineno" href="#L35">35</a></span>
-<span id="L36" class="lineno"><a class="lineno" href="#L36">36</a></span>
-<span id="L37" class="lineno"><a class="lineno" href="#L37">37</a></span>
 </pre></td>
 <td class="table-code"><pre><span class="line-empty" title="No Anys on this line!">"""</span>
 <span class="line-empty" title="No Anys on this line!">Readers for ChemSpider SyntheticPages.</span>
@@ -88,9 +86,7 @@ Unannotated (x1)">        return footnotes</span>
 Unannotated (x9)">        if fname and not (fname.endswith(".html") or fname.endswith(".htm")):</span>
 <span class="line-any" title="No Anys on this line!">            return False</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x1)">        if b'meta name="DC.Publisher" content="ChemSpider SyntheticPages"' in fstring:</span>
-<span class="line-any" title="No Anys on this line!">            return True</span>
-<span class="line-any" title="No Anys on this line!">        return False</span>
+Unannotated (x1)">        return b'meta name="DC.Publisher" content="ChemSpider SyntheticPages"' in fstring</span>
 </pre></td>
 </tr></tbody>
 </table>

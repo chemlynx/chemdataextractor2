@@ -11,8 +11,6 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING
 from typing import Any
-from typing import Dict
-from typing import Tuple
 
 from ...parse.auto import AutoTableParser
 from ...parse.auto import construct_unit_element
@@ -347,9 +345,9 @@ class QuantityModel(BaseModel, metaclass=_QuantityModelMeta):
         if other.error is not None:
             min_other_value = min_other_value - other.error
             max_other_value = max_other_value + other.error
-        if min_converted_value <= max_other_value or max_converted_value >= min_other_value:
-            return True
-        return False
+        return bool(
+            min_converted_value <= max_other_value or max_converted_value >= min_other_value
+        )
 
     def is_superset(self, other):
         if type(self) != type(other):
@@ -380,7 +378,7 @@ class QuantityModel(BaseModel, metaclass=_QuantityModelMeta):
         if type(other) == type(self):
             # Check if the other seems to be describing the same thing as self.
             match = True
-            for field_name, field in self.fields.items():
+            for field_name, _field in self.fields.items():
                 if (
                     field_name == "raw_value"
                     and other[field_name] == "NoValue"

@@ -1,18 +1,30 @@
+"""
+Subsentence extraction for coordinated clauses.
+
+Extracts subsentences (clauses) from bulk text using coordination analysis
+to identify complex sentence structures for better parsing.
+"""
+
+from __future__ import annotations
+
 import copy
 from collections import namedtuple
+from typing import Any
 
 CoordinatedGroup = namedtuple("CoordinatedGroup", ["root", "content"])
 
 
-def _add(subsentences, coordinated_group, prev_location, min_index):
+def _add(subsentences: list[Any], coordinated_group: CoordinatedGroup, prev_location: int, min_index: int) -> list[Any]:
     if len(subsentences) != len(coordinated_group.content):
         raise AttributeError(
             "To perform add, there should be an equal number of coordinated clauses and subsentences."
         )
     added_subsentences = []
-    for coordinated_content, subsentence in zip(coordinated_group.content, subsentences):
+    for coordinated_content, subsentence in zip(
+        coordinated_group.content, subsentences, strict=False
+    ):
         sub = copy.copy(subsentence)
-        sub.extend([i for i in range(prev_location + 1, min_index)])
+        sub.extend(list(range(prev_location + 1, min_index)))
 
         coordinated_indices = sorted([el[0] for el in coordinated_content])
         sub.extend(coordinated_indices)
@@ -21,12 +33,12 @@ def _add(subsentences, coordinated_group, prev_location, min_index):
     return added_subsentences
 
 
-def _multiply(subsentences, coordinated_group, prev_location, min_index):
+def _multiply(subsentences: list[Any], coordinated_group: CoordinatedGroup, prev_location: int, min_index: int) -> list[Any]:
     mul_subsentences = []
     for subsentence in subsentences:
         for coordinated_content in coordinated_group.content:
             sub = copy.copy(subsentence)
-            sub.extend([i for i in range(prev_location + 1, min_index)])
+            sub.extend(list(range(prev_location + 1, min_index)))
 
             coordinated_indices = sorted([el[0] for el in coordinated_content])
             sub.extend(coordinated_indices)
@@ -45,17 +57,21 @@ class SubsentenceExtractor:
     trigger_words = {"and", "or"}
     disallowed_conjunctions = {"/", ":"}
 
-    def __init__(self, max_subsentences=12):
+    def __init__(self, max_subsentences: int = 12) -> None:
         self.max_subsentences = max_subsentences
 
-    def subsentences(self, sentence):
+    def subsentences(self, sentence: Any) -> list[Any]:
+        """Extract subsentences from a sentence.
+
+        Args:
+            sentence: The sentence to extract subsentences from
+
+        Returns:
+            List of subsentences
+        """
         # Ensure that the trigger words are found in the sentence
         if (
-            len(
-                self.trigger_words.intersection(
-                    set(token.text.lower() for token in sentence.tokens)
-                )
-            )
+            len(self.trigger_words.intersection({token.text.lower() for token in sentence.tokens}))
             == 0
         ):
             return [sentence.tokens]
@@ -102,7 +118,7 @@ class SubsentenceExtractor:
 
                 if should_add:
                     conj_roots_indices.add(dependency.head.index)
-        conj_root_indices = sorted(list(conj_roots_indices))
+        conj_root_indices = sorted(conj_roots_indices)
 
         coordinated_groups = []
         for index, root_index in enumerate(conj_root_indices):
@@ -170,7 +186,9 @@ class SubsentenceExtractor:
 
         subsentence_indices = [[]]
         prev_location = -1
-        for extent, operation, coordinated_group in zip(extents, operations, coordinated_groups):
+        for extent, operation, coordinated_group in zip(
+            extents, operations, coordinated_groups, strict=False
+        ):
             min_index = extent[0]
             max_index = extent[1]
 
@@ -180,7 +198,7 @@ class SubsentenceExtractor:
             prev_location = max_index
 
         for subsentence in subsentence_indices:
-            subsentence.extend([i for i in range(prev_location + 1, len(sentence.tokens))])
+            subsentence.extend(list(range(prev_location + 1, len(sentence.tokens))))
 
         subsentence_tokens = []
         for subsentence in subsentence_indices:
@@ -191,7 +209,7 @@ class SubsentenceExtractor:
 
         return subsentence_tokens
 
-    def _find_coordinated_group(self, root_index, dependencies, next_root=None):
+    def _find_coordinated_group(self, root_index: int, dependencies: Any, next_root: int | None = None) -> CoordinatedGroup | None:
         phrase_roots = [root_index]
         for index, dependency in enumerate(dependencies):
             if dependency.relation == "conj" and dependency.head.index == root_index:
@@ -223,7 +241,7 @@ class SubsentenceExtractor:
             self._all_dependencies_for_root(
                 phrase_root, dependencies, excluded_relations, min_index, max_index
             )
-            for max_index, phrase_root in zip(max_indices, phrase_roots)
+            for max_index, phrase_root in zip(max_indices, phrase_roots, strict=False)
         ]
 
         if len(coordinated_graphs) >= 3:
@@ -240,12 +258,12 @@ class SubsentenceExtractor:
 
     def _all_dependencies_for_root(
         self,
-        root_index,
-        dependencies,
-        excluded_relations=None,
-        min_index=None,
-        max_index=None,
-    ):
+        root_index: int,
+        dependencies: Any,
+        excluded_relations: set[str] | None = None,
+        min_index: int | None = None,
+        max_index: int | None = None,
+    ) -> set[int]:
         if excluded_relations is None:
             excluded_relations = []
         coordinated_graph = [(root_index, dependencies[root_index])]
@@ -263,7 +281,7 @@ class SubsentenceExtractor:
                 )
         return coordinated_graph
 
-    def _remove_unneeded(self, coordinated_graphs, unneeded="punct"):
+    def _remove_unneeded(self, coordinated_graphs: list[Any], unneeded: str = "punct") -> list[Any]:
         unneeded_count = 0
         for coordinated_graph in coordinated_graphs:
             for dependency in coordinated_graph:
@@ -296,7 +314,7 @@ class SubsentenceExtractor:
 
         return new_coordinated_graphs
 
-    def _remove_unneeded_head(self, coordinated_graphs, unneeded="nummod"):
+    def _remove_unneeded_head(self, coordinated_graphs: list[Any], unneeded: str = "nummod") -> list[Any]:
         unneeded_count = 0
         for coordinated_graph in coordinated_graphs:
             for dependency in coordinated_graph:
@@ -331,7 +349,7 @@ class SubsentenceExtractor:
 
         return new_coordinated_graphs
 
-    def _find_operations(self, conjugated_groups):
+    def _find_operations(self, conjugated_groups: list[CoordinatedGroup]) -> list[tuple[str, int]]:
         operations = []
         previous_operation = None
         total_subsentences = 1
@@ -356,5 +374,13 @@ class SubsentenceExtractor:
 
 
 class NoneSubsentenceExtractor:
-    def subsentences(self, sentence):
+    def subsentences(self, sentence: Any) -> list[Any]:
+        """Extract subsentences (fallback implementation).
+
+        Args:
+            sentence: The sentence to extract subsentences from
+
+        Returns:
+            List containing the original sentence tokens
+        """
         return [sentence.tokens]

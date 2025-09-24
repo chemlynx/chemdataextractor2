@@ -20,8 +20,8 @@ from .utils import ensure_dir
 log = logging.getLogger(__name__)
 
 
-SERVER_ROOT = "http://data.chemdataextractor.org/"
-AUTO_DOWNLOAD = True
+SERVER_ROOT: str = "http://data.chemdataextractor.org/"
+AUTO_DOWNLOAD: bool = True
 
 
 class Package:
@@ -72,15 +72,11 @@ class Package:
     def remote_exists(self):
         """"""
         r = requests.get(self.remote_path)
-        if r.status_code in {400, 401, 403, 404}:
-            return False
-        return True
+        return r.status_code not in {400, 401, 403, 404}
 
     def local_exists(self):
         """"""
-        if os.path.exists(self.local_path):
-            return True
-        return False
+        return bool(os.path.exists(self.local_path))
 
     def download(self, force=False):
         if self.custom_download is not None:

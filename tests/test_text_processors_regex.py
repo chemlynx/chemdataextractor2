@@ -15,6 +15,7 @@ providing performance improvements through pre-compiled regex patterns.
 
 import logging
 import unittest
+
 from chemdataextractor.text.processors import floats
 
 logging.basicConfig(level=logging.DEBUG)

@@ -1,15 +1,23 @@
 """
 Common parser elements.
 
+This module provides commonly used parsing elements for POS tags, punctuation,
+and regex patterns that are shared across multiple parsers.
 """
+
+from __future__ import annotations
 
 import logging
 import re
+from typing import TYPE_CHECKING
 
 from .elements import Optional
 from .elements import R
 from .elements import T
 from .elements import W
+
+if TYPE_CHECKING:
+    pass
 
 log = logging.getLogger(__name__)
 

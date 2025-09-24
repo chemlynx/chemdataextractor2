@@ -267,11 +267,6 @@
 <span id="L257" class="lineno"><a class="lineno" href="#L257">257</a></span>
 <span id="L258" class="lineno"><a class="lineno" href="#L258">258</a></span>
 <span id="L259" class="lineno"><a class="lineno" href="#L259">259</a></span>
-<span id="L260" class="lineno"><a class="lineno" href="#L260">260</a></span>
-<span id="L261" class="lineno"><a class="lineno" href="#L261">261</a></span>
-<span id="L262" class="lineno"><a class="lineno" href="#L262">262</a></span>
-<span id="L263" class="lineno"><a class="lineno" href="#L263">263</a></span>
-<span id="L264" class="lineno"><a class="lineno" href="#L264">264</a></span>
 </pre></td>
 <td class="table-code"><pre><span class="line-empty" title="No Anys on this line!">"""</span>
 <span class="line-empty" title="No Anys on this line!">Cluster objects for grouping similar patterns in relationship extraction.</span>
@@ -284,8 +279,6 @@
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">from collections import OrderedDict</span>
 <span class="line-precise" title="No Anys on this line!">from typing import Any</span>
-<span class="line-precise" title="No Anys on this line!">from typing import List</span>
-<span class="line-precise" title="No Anys on this line!">from typing import Optional</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">import numpy as np</span>
 <span class="line-any" title="No Anys on this line!">from scipy import spatial</span>
@@ -301,7 +294,7 @@
 <span class="line-empty" title="No Anys on this line!"># Type aliases for clustering</span>
 <span class="line-precise" title="No Anys on this line!">PhraseList = list[Phrase]  # List of phrases in a cluster</span>
 <span class="line-precise" title="No Anys on this line!">ClusterDict = OrderedDict[str, Any]  # Dictionary of cluster properties</span>
-<span class="line-precise" title="Any Types on this line:
+<span class="line-precise" title="Any Types on this line: 
 Explicit (x6)
 Omitted Generics (x4)">DistanceMatrix = np.ndarray  # Matrix of distances between patterns</span>
 <span class="line-empty" title="No Anys on this line!"></span>
@@ -337,19 +330,19 @@ Omitted Generics (x4)">DistanceMatrix = np.ndarray  # Matrix of distances betwee
 <span class="line-empty" title="No Anys on this line!">        :param phrase: The phrase to add to the cluster</span>
 <span class="line-empty" title="No Anys on this line!">        :type phrase: chemdataextractor.relex.phrase.Phrase</span>
 <span class="line-empty" title="No Anys on this line!">        """</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x3)">        self.phrases.append(phrase)</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x2)">        self.order = phrase.order</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x3)">        self.entities = phrase.entities</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x4)">        self.update_dictionaries(phrase)</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x2)">        self.update_weights()</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x2)">        self.update_pattern()</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x2)">        self.update_pattern_confidence()</span>
 <span class="line-empty" title="No Anys on this line!">        return</span>
 <span class="line-empty" title="No Anys on this line!"></span>
@@ -361,8 +354,8 @@ Unannotated (x2)">        self.update_pattern_confidence()</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">        """</span>
 <span class="line-empty" title="No Anys on this line!">        # Go through the prefix, middle and suffix elements</span>
-<span class="line-empty" title="No Anys on this line!">        for element in phrase.elements.keys():  # Prefix, middles, suffix</span>
-<span class="line-empty" title="No Anys on this line!">            if element not in self.dictionaries.keys():</span>
+<span class="line-empty" title="No Anys on this line!">        for element in phrase.elements:  # Prefix, middles, suffix</span>
+<span class="line-empty" title="No Anys on this line!">            if element not in self.dictionaries:</span>
 <span class="line-empty" title="No Anys on this line!">                self.dictionaries[element] = {</span>
 <span class="line-empty" title="No Anys on this line!">                    "token dict": OrderedDict(),</span>
 <span class="line-empty" title="No Anys on this line!">                    "unique words": [],  # Which words appear once</span>
@@ -385,7 +378,7 @@ Unannotated (x2)">        self.update_pattern_confidence()</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">        """</span>
 <span class="line-empty" title="No Anys on this line!">        for token in tokens:</span>
-<span class="line-empty" title="No Anys on this line!">            if token not in dictionary["token dict"].keys():</span>
+<span class="line-empty" title="No Anys on this line!">            if token not in dictionary["token dict"]:</span>
 <span class="line-empty" title="No Anys on this line!">                dictionary["total words"] += 1</span>
 <span class="line-empty" title="No Anys on this line!">                dictionary["token dict"][token] = [1.0, 0]  # [frequeny, weight]</span>
 <span class="line-empty" title="No Anys on this line!">            else:</span>
@@ -395,8 +388,8 @@ Unannotated (x2)">        self.update_pattern_confidence()</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="No Anys on this line!">    def update_weights(self):</span>
 <span class="line-empty" title="No Anys on this line!">        """Update the weights on each token in the phrases"""</span>
-<span class="line-empty" title="No Anys on this line!">        for element in self.dictionaries.keys():</span>
-<span class="line-empty" title="No Anys on this line!">            for token in self.dictionaries[element]["token dict"].keys():</span>
+<span class="line-empty" title="No Anys on this line!">        for element in self.dictionaries:</span>
+<span class="line-empty" title="No Anys on this line!">            for token in self.dictionaries[element]["token dict"]:</span>
 <span class="line-empty" title="No Anys on this line!">                freq = self.dictionaries[element]["token dict"][token][0]</span>
 <span class="line-empty" title="No Anys on this line!">                weight = freq / self.dictionaries[element]["total words"]</span>
 <span class="line-empty" title="No Anys on this line!">                self.dictionaries[element]["token dict"][token] = [freq, weight]</span>
@@ -416,72 +409,65 @@ Unannotated (x2)">        self.update_pattern_confidence()</span>
 <span class="line-precise" title="No Anys on this line!">        pattern_elements = {}</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">        # Create a dict of vectors for all phrases in the cluster</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x2)">        for phrase in self.phrases:</span>
-<span class="line-any" title="Any Types on this line:
-Unannotated (x5)">            for element in phrase.elements.keys():  # Prefix, ,iddles, suffix</span>
-<span class="line-any" title="Any Types on this line:
-Unannotated (x7)">                if element not in vectors.keys():</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
+Unannotated (x3)">            for element in phrase.elements:  # Prefix, ,iddles, suffix</span>
+<span class="line-any" title="Any Types on this line: 
+Unannotated (x3)">                if element not in vectors:</span>
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x3)">                    vectors[element] = []</span>
 <span class="line-precise" title="No Anys on this line!">                phrase_element_vector = []</span>
-<span class="line-any" title="Any Types on this line:
-Unannotated (x8)">                for token in self.dictionaries[element]["token dict"].keys():</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
+Unannotated (x6)">                for token in self.dictionaries[element]["token dict"]:</span>
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x6)">                    if token in phrase.elements[element]["tokens"]:</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x2)">                        phrase_element_vector.append(</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x8)">                            self.dictionaries[element]["token dict"][token][1]</span>
 <span class="line-empty" title="No Anys on this line!">                        )</span>
 <span class="line-empty" title="No Anys on this line!">                    else:</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x2)">                        phrase_element_vector.append(0)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x7)">                vectors[element].append(phrase_element_vector)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">        # print("Vectors", vectors)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">        # Find the centroid vector for prefix, middles, suffix</span>
-<span class="line-any" title="Any Types on this line:
-Unannotated (x7)">        for element in vectors.keys():</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
+Unannotated (x3)">        for element in vectors:</span>
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x6)
 Explicit (x6)
 Omitted Generics (x9)">            element_array = np.array(vectors[element])</span>
 <span class="line-empty" title="No Anys on this line!">            # print("Element", element)</span>
 <span class="line-empty" title="No Anys on this line!">            # print("Element Array", element_array)</span>
 <span class="line-empty" title="No Anys on this line!">            # compute mode of vectors</span>
-<span class="line-imprecise" title="Any Types on this line:
-Explicit (x5)
-Omitted Generics (x2)
-Unannotated (x1)">            if element_array.any():</span>
-<span class="line-any" title="Any Types on this line:
-Unannotated (x5)">                element_mode = mode_rows(element_array)</span>
-<span class="line-empty" title="No Anys on this line!">            else:</span>
-<span class="line-any" title="Any Types on this line:
-Unannotated (x2)
-Explicit (x6)
-Omitted Generics (x9)">                element_mode = np.array([])</span>
+<span class="line-any" title="Any Types on this line: 
+Explicit (x11)
+Omitted Generics (x11)
+Unannotated (x8)">            element_mode = mode_rows(element_array) if element_array.any() else np.array([])</span>
 <span class="line-empty" title="No Anys on this line!">            # print("Mode", element_mode)</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unimported (x7)
-Unannotated (x2)">            medoid_idx = spatial.KDTree(element_array).query(element_mode)[1]</span>
+Unannotated (x3)">            medoid_idx = spatial.KDTree(element_array).query(element_mode)[1]</span>
 <span class="line-empty" title="No Anys on this line!">            # print("Idx", medoid_idx)</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x4)
 Unimported (x1)">            pattern_elements[element] = self.phrases[medoid_idx].elements[element]</span>
 <span class="line-empty" title="No Anys on this line!">            # print("Pattern element", pattern_elements[element])</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">        self.pattern = Pattern(</span>
-<span class="line-imprecise" title="Any Types on this line:
+<span class="line-imprecise" title="Any Types on this line: 
 Unannotated (x1)">            elements=pattern_elements,</span>
-<span class="line-imprecise" title="Any Types on this line:
+<span class="line-imprecise" title="Any Types on this line: 
 Unannotated (x1)">            entities=self.entities,</span>
 <span class="line-precise" title="No Anys on this line!">            label=self.label,</span>
 <span class="line-precise" title="No Anys on this line!">            order=self.order,</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x2)">            relations=phrase.relations,</span>
 <span class="line-any" title="No Anys on this line!">            confidence=0,</span>
 <span class="line-empty" title="No Anys on this line!">        )</span>
@@ -495,45 +481,46 @@ Unannotated (x2)">            relations=phrase.relations,</span>
 <span class="line-empty" title="No Anys on this line!">        # print("Old confidence:", self.old_pattern_confidence)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="No Anys on this line!">        total_matches = 0</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Omitted Generics (x6)
 Explicit (x8)
 Unannotated (x4)">        total_relations = sum([len(phrase.relations) for phrase in self.phrases])</span>
 <span class="line-empty" title="No Anys on this line!">        # print("Total relations in cluster: %d" % total_relations)</span>
 <span class="line-empty" title="No Anys on this line!">        # compare the centroid pattern to all sentences found in the phrases</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x2)">        for phrase in self.phrases:</span>
 <span class="line-empty" title="No Anys on this line!">            # print("Phrase", phrase)</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x13)">            sentence = Sentence(phrase.full_sentence)</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x3)">            relations = phrase.relations</span>
-<span class="line-any" title="Any Types on this line:
-Unannotated (x5)">            found_relations = self.get_relations(sentence.tokens)</span>
+<span class="line-any" title="Any Types on this line: 
+Unannotated (x4)
+Explicit (x1)">            found_relations = self.get_relations(sentence.tokens)</span>
 <span class="line-empty" title="No Anys on this line!">            # print("Found relations", found_relations, len(found_relations))</span>
 <span class="line-empty" title="No Anys on this line!">            # print("Known relations", relations)</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x2)">            for fr in found_relations:</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x2)">                if fr in relations:</span>
 <span class="line-any" title="No Anys on this line!">                    total_matches += 1</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">        new_pattern_confidence = float(total_matches / total_relations)</span>
 <span class="line-empty" title="No Anys on this line!">        # print("new confidence", new_pattern_confidence)</span>
 <span class="line-empty" title="No Anys on this line!">        # Make sure new cluster begins with confidence 1.0</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">        if len(self.phrases) == 1:</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Error (x1)">            self.pattern.confidence = new_pattern_confidence</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Error (x1)">            self.old_pattern_confidence = self.pattern.confidence</span>
 <span class="line-empty" title="No Anys on this line!">        else:</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Error (x1)">            self.pattern.confidence = (</span>
 <span class="line-precise" title="No Anys on this line!">                self.learning_rate * new_pattern_confidence</span>
 <span class="line-any" title="No Anys on this line!">                + (1.0 - self.learning_rate) * self.old_pattern_confidence</span>
 <span class="line-empty" title="No Anys on this line!">            )</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Error (x1)">            self.old_pattern_confidence = self.pattern.confidence</span>
 <span class="line-empty" title="No Anys on this line!">        return</span>
 <span class="line-empty" title="No Anys on this line!"></span>
@@ -557,7 +544,7 @@ Error (x1)">            self.old_pattern_confidence = self.pattern.confidence</s
 <span class="line-empty" title="No Anys on this line!">                # print("Relation", pattern_relation)</span>
 <span class="line-empty" title="No Anys on this line!">                found_entities = []</span>
 <span class="line-empty" title="No Anys on this line!">                for pattern_entity in pattern_relation.entities:</span>
-<span class="line-empty" title="No Anys on this line!">                    if pattern_entity.tag not in entity_type_indexes.keys():</span>
+<span class="line-empty" title="No Anys on this line!">                    if pattern_entity.tag not in entity_type_indexes:</span>
 <span class="line-empty" title="No Anys on this line!">                        entity_type_indexes[pattern_entity.tag] = [pattern_entity]</span>
 <span class="line-empty" title="No Anys on this line!">                    else:</span>
 <span class="line-empty" title="No Anys on this line!">                        if pattern_entity not in entity_type_indexes[pattern_entity.tag]:</span>

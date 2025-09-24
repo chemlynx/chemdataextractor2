@@ -4,7 +4,9 @@ https://github.com/allenai/allennlp/blob/v0.9.0/allennlp/modules/time_distribute
 https://github.com/allenai/allennlp/blob/v0.9.0/allennlp/data/tokenizers/token.py
 """
 
-from typing import List
+from __future__ import annotations
+
+from typing import Any
 from typing import NamedTuple
 
 import torch
@@ -28,12 +30,11 @@ class TimeDistributed(torch.nn.Module):
     the optional `pass_through` iterable.
     """
 
-    def __init__(self, module):
+    def __init__(self, module: torch.nn.Module) -> None:
         super().__init__()
         self._module = module
 
-    @overrides
-    def forward(self, *inputs, pass_through: list[str] = None, **kwargs):
+    def forward(self, *inputs: torch.Tensor, pass_through: list[str] | None = None, **kwargs: Any) -> torch.Tensor:
         pass_through = pass_through or []
 
         reshaped_inputs = [self._reshape_tensor(input_tensor) for input_tensor in inputs]
@@ -76,7 +77,7 @@ class TimeDistributed(torch.nn.Module):
         return outputs
 
     @staticmethod
-    def _reshape_tensor(input_tensor):
+    def _reshape_tensor(input_tensor: torch.Tensor) -> torch.Tensor:
         input_size = input_tensor.size()
         if len(input_size) <= 2:
             raise RuntimeError(f"No dimension to distribute: {input_size}")
@@ -128,10 +129,10 @@ class Token(NamedTuple):
     ent_type_: str = None
     text_id: int = None
 
-    def __str__(self):
+    def __str__(self) -> str:
         return self.text
 
-    def __repr__(self):
+    def __repr__(self) -> str:
         return self.__str__()
 
 

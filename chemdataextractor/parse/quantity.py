@@ -18,16 +18,20 @@ from typing import Any
 
 from deprecation import deprecated
 
-from .regex_patterns import split_by_error_pattern, split_by_space_dash, get_pattern
+from .regex_patterns import get_pattern
+from .regex_patterns import split_by_error_pattern
+from .regex_patterns import split_by_space_dash
 
 if TYPE_CHECKING:
-    pass
+    from .elements import BaseParserElement
 
 # Type aliases for quantity parsing
 type NumericValue = int | float  # Numeric values
 type ValueList = list[float]  # List of extracted values
 type UnitString = str  # String representation of units
 type MagnitudeDict = dict[Any, float]  # Magnitude multipliers
+
+import contextlib
 
 from ..utils import memoize
 from .actions import join
@@ -80,7 +84,9 @@ _division_pattern = re.compile(r"[/]\D*")
 _magnitude_indicators = re.compile("[pnµmTGMkc]")
 
 
-def value_element(units=None, activate_to_range=False):
+def value_element(
+    units: BaseParserElement | None = None, activate_to_range: bool = False
+) -> BaseParserElement:
     """
     Create a Parse element that can extract all sorts of values.
     """
@@ -156,15 +162,15 @@ def value_element(units=None, activate_to_range=False):
     deprecated_in="2.1",
     details="Deprecated in favour of calling value_element with no arguments.",
 )
-def value_element_plain():
+def value_element_plain() -> BaseParserElement:
     return value_element()
 
 
 # @memoize
-def construct_quantity_re(*models):
+def construct_quantity_re(*models: Any) -> re.Pattern[str] | None:
     # Handle all the magnitudes
     units_regex = "(("
-    for element in magnitudes_dict.keys():
+    for element in magnitudes_dict:
         units_regex += "(" + element.pattern + ")|"
     units_regex = units_regex[:-1]
     units_regex += ")?"
@@ -181,7 +187,7 @@ def construct_quantity_re(*models):
     # Case where we have a token that's just brackets
     units_regex += r"(\((?!\d))|(\)|\])|\-|"
     # Handle all the units
-    for element, unit in units_dict.items():
+    for element, _unit in units_dict.items():
         # if unit is not None:
         units_regex += "(" + element.pattern + ")|"
     units_regex += r"(\/)"
@@ -286,10 +292,8 @@ def extract_value(string: str | None) -> ValueList | None:
             float_val = float(value)
             values.append(float_val)
         except ValueError:
-            try:
+            with contextlib.suppress(ValueError, ZeroDivisionError):
                 values.append(float(Fraction(value)))
-            except (ValueError, ZeroDivisionError):
-                pass
         index += 1
     return values
 
@@ -408,7 +412,7 @@ def _convert_from_european_format(string):
 
 
 @memoize
-def extract_units(string, dimensions, strict=False):
+def extract_units(string: str | None, dimensions: Any, strict: bool = False) -> Any:
     """
     Takes a string and returns a Unit.
     Raises TypeError if strict and the dimensions do not match the expected dimensions
@@ -548,8 +552,8 @@ def _find_unit_types(tokenized_sentence, dimensions):
         # Find the potential matches for each of the units using the regex supplied by the user in units_dict
         all_results = []
         found_units = {}
-        for unit in units_dict.keys():
-            matches = [res for res in re.finditer(unit.pattern, element)]
+        for unit in units_dict:
+            matches = list(re.finditer(unit.pattern, element))
             if matches is not None:
                 for match in matches:
                     text = match.group(0)
@@ -590,7 +594,7 @@ def _find_unit_types(tokenized_sentence, dimensions):
             prev_unit = None
             current_string = ""
             for index, string in enumerate(split):
-                if string in found_units.keys():
+                if string in found_units:
                     # path 1
                     if found_units[string] == prev_unit:
                         # path 1b
@@ -602,7 +606,7 @@ def _find_unit_types(tokenized_sentence, dimensions):
                     elif (
                         prev_unit
                         and re.fullmatch(_magnitude_indicators, split[index - 1])
-                        and split[index - 1] in found_units.keys()
+                        and split[index - 1] in found_units
                     ):
                         # path 1c
                         units_list[-1] = (
@@ -757,7 +761,7 @@ def _find_units(powers_cleaned, dimensions, strict):
         exp = 0.0
         # If there's still a string left, use that to calculate the magnitude, e.g. 3 for kilo
         if original_string != "":
-            for magnitude in magnitudes_dict.keys():
+            for magnitude in magnitudes_dict:
                 for result in magnitude.scan([[original_string, "a"]]):
                     exp = magnitudes_dict[magnitude]
                     original_string = original_string.replace(result[0].text, "", 1)
@@ -765,7 +769,7 @@ def _find_units(powers_cleaned, dimensions, strict):
             unassociated_elements.append(original_string)
         # To handle cases when the units given by parsing don't match with what's expected.
         try:
-            if power[0](magnitude=exp) in powers.keys():
+            if power[0](magnitude=exp) in powers:
                 powers[power[0](magnitude=exp)] += power[2]
             else:
                 powers[power[0](magnitude=exp)] = power[2]
@@ -775,10 +779,7 @@ def _find_units(powers_cleaned, dimensions, strict):
             break
     end_unit = None
     for unit, power in powers.items():
-        if end_unit is None:
-            end_unit = unit**power
-        else:
-            end_unit = end_unit * (unit**power)
+        end_unit = unit**power if end_unit is None else end_unit * unit**power
     if strict:
         if (
             end_unit is not None
@@ -801,7 +802,7 @@ def _find_units(powers_cleaned, dimensions, strict):
         return end_unit
 
 
-def infer_value(string, instance):
+def infer_value(string: str, instance: Any) -> list[float] | None:
     """
     Infer the value expressed in the string. Intended to be used with :class:`~chemdataextractor.model.base.InferredProperty`.
     If one simply wishes to extract the value from a string, consider using the extract_value function instead.
@@ -821,7 +822,7 @@ def infer_value(string, instance):
     return value
 
 
-def infer_error(string, instance):
+def infer_error(string: str, instance: Any) -> float | None:
     """
     Infer the error expressed in the string. Intended to be used with :class:`~chemdataextractor.model.base.InferredProperty`.
     If one simply wishes to extract the error from a string, consider using the extract_error function instead.
@@ -840,7 +841,7 @@ def infer_error(string, instance):
     return error
 
 
-def infer_unit(string, instance):
+def infer_unit(string: str, instance: Any) -> Any:
     """
     Infer the units expressed in the string. Intended to be used with :class:`~chemdataextractor.model.base.InferredProperty`.
     If one simply wishes to extract the units from a string, consider using the extract_units function instead.

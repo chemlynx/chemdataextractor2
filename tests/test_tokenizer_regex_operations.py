@@ -13,8 +13,9 @@ providing performance improvements through pre-compiled regex patterns.
 """
 
 import logging
-import unittest
 import re
+import unittest
+
 from chemdataextractor.nlp.tokenize import ChemWordTokenizer
 
 logging.basicConfig(level=logging.DEBUG)

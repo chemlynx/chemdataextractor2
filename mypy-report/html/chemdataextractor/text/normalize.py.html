@@ -257,18 +257,17 @@
 <span id="L247" class="lineno"><a class="lineno" href="#L247">247</a></span>
 <span id="L248" class="lineno"><a class="lineno" href="#L248">248</a></span>
 <span id="L249" class="lineno"><a class="lineno" href="#L249">249</a></span>
-<span id="L250" class="lineno"><a class="lineno" href="#L250">250</a></span>
 </pre></td>
 <td class="table-code"><pre><span class="line-empty" title="No Anys on this line!">"""</span>
 <span class="line-empty" title="No Anys on this line!">Tools for normalizing text.</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">"""</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-precise" title="No Anys on this line!">import re</span>
 <span class="line-precise" title="No Anys on this line!">import unicodedata</span>
 <span class="line-precise" title="No Anys on this line!">from abc import ABCMeta</span>
 <span class="line-precise" title="No Anys on this line!">from abc import abstractmethod</span>
 <span class="line-empty" title="No Anys on this line!"></span>
+<span class="line-precise" title="No Anys on this line!">from ..parse.regex_patterns import normalize_chemical_spelling</span>
 <span class="line-precise" title="No Anys on this line!">from . import ACCENTS</span>
 <span class="line-precise" title="No Anys on this line!">from . import APOSTROPHES</span>
 <span class="line-precise" title="No Anys on this line!">from . import CONTROLS</span>
@@ -280,7 +279,6 @@
 <span class="line-precise" title="No Anys on this line!">from . import SLASHES</span>
 <span class="line-precise" title="No Anys on this line!">from . import TILDES</span>
 <span class="line-precise" title="No Anys on this line!">from .processors import BaseProcessor</span>
-<span class="line-precise" title="No Anys on this line!">from ..parse.regex_patterns import normalize_chemical_spelling</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">class BaseNormalizer(BaseProcessor, metaclass=ABCMeta):</span>
@@ -297,12 +295,12 @@
 <span class="line-empty" title="No Anys on this line!">        :returns: Normalized text.</span>
 <span class="line-empty" title="No Anys on this line!">        :rtype: string</span>
 <span class="line-empty" title="No Anys on this line!">        """</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">        return text</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="No Anys on this line!">    def __call__(self, text):</span>
 <span class="line-empty" title="No Anys on this line!">        """Calling a normalizer instance like a function just calls the normalize method."""</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x4)">        return self.normalize(text)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!"></span>
@@ -338,21 +336,21 @@ Unannotated (x4)">        return self.normalize(text)</span>
 <span class="line-empty" title="No Anys on this line!">        :param bool slashes: Whether to normalize slash characters to the ASCII slash character.</span>
 <span class="line-empty" title="No Anys on this line!">        :param bool tildes: Whether to normalize tilde characters to the ASCII tilde character.</span>
 <span class="line-empty" title="No Anys on this line!">        """</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x2)">        self.form = form</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x2)">        self.strip = strip</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x2)">        self.collapse = collapse</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x2)">        self.hyphens = hyphens</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x2)">        self.quotes = quotes</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x2)">        self.ellipsis = ellipsis</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x2)">        self.slashes = slashes</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x2)">        self.tildes = tildes</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="No Anys on this line!">    def normalize(self, text):</span>
@@ -361,22 +359,22 @@ Unannotated (x2)">        self.tildes = tildes</span>
 <span class="line-empty" title="No Anys on this line!">        :param text: The string to normalize.</span>
 <span class="line-empty" title="No Anys on this line!">        """</span>
 <span class="line-empty" title="No Anys on this line!">        # Normalize to canonical unicode (using NFKC by default)</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">        if self.form is not None:</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x3)">            text = unicodedata.normalize(self.form, text)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">        # Strip out any control characters (they occasionally creep in somehow)</span>
 <span class="line-precise" title="No Anys on this line!">        for control in CONTROLS:</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x4)">            text = text.replace(control, "")</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">        # Normalize unusual whitespace not caught by unicodedata</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x8)">        text = text.replace("\u000b", " ").replace("\u000c", " ").replace("\u0085", " ")</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">        text = (</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x9)">            text.replace("\u2028", "\n")</span>
 <span class="line-any" title="No Anys on this line!">            .replace("\u2029", "\n")</span>
 <span class="line-any" title="No Anys on this line!">            .replace("\r\n", "\n")</span>
@@ -384,75 +382,75 @@ Unannotated (x9)">            text.replace("\u2028", "\n")</span>
 <span class="line-empty" title="No Anys on this line!">        )</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">        # Normalize all hyphens, minuses and dashes to ascii hyphen-minus and remove soft hyphen entirely</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">        if self.hyphens:</span>
 <span class="line-empty" title="No Anys on this line!">            # TODO: Better normalization of em/en dashes to '--' if surrounded by spaces or start/end?</span>
 <span class="line-precise" title="No Anys on this line!">            for hyphen in HYPHENS | MINUSES:</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x4)">                text = text.replace(hyphen, "-")</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x4)">            text = text.replace("\u00ad", "")</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">        # Normalize all quotes and primes to ascii apostrophe and quotation mark</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">        if self.quotes:</span>
 <span class="line-precise" title="No Anys on this line!">            for double_quote in DOUBLE_QUOTES:</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x4)">                text = text.replace(double_quote, '"')  # \u0022</span>
 <span class="line-precise" title="No Anys on this line!">            for single_quote in SINGLE_QUOTES | APOSTROPHES | ACCENTS:</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x4)">                text = text.replace(single_quote, "'")  # \u0027</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x4)">            text = text.replace("′", "'")  # \u2032 prime</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x4)">            text = text.replace("‵", "'")  # \u2035 reversed prime</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x4)">            text = text.replace("″", "''")  # \u2033 double prime</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x4)">            text = text.replace("‶", "''")  # \u2036 reversed double prime</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x4)">            text = text.replace("‴", "'''")  # \u2034 triple prime</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x4)">            text = text.replace("‷", "'''")  # \u2037 reversed triple prime</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x4)">            text = text.replace("⁗", "''''")  # \u2057 quadruple prime</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">        if self.ellipsis:</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x6)">            text = text.replace("…", "...").replace(" . . . ", " ... ")  # \u2026</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">        if self.slashes:</span>
 <span class="line-precise" title="No Anys on this line!">            for slash in SLASHES:</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x4)">                text = text.replace(slash, "/")</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">        if self.tildes:</span>
 <span class="line-precise" title="No Anys on this line!">            for tilde in TILDES:</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x4)">                text = text.replace(tilde, "~")</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">        if self.strip:</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x4)">            text = text.strip()</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">        # Collapse all whitespace down to a single space</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">        if self.collapse:</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x4)">            text = " ".join(text.split())</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">        return text</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">#: Default normalize that canonicalizes unicode and fixes whitespace.</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x8)">normalize = Normalizer(strip=True, collapse=True, hyphens=False, quotes=False, ellipsis=False)</span>
 <span class="line-empty" title="No Anys on this line!">#: More aggressive normalize that also standardizes hyphens, and quotes.</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x8)">strict_normalize = Normalizer(</span>
 <span class="line-precise" title="No Anys on this line!">    strip=True, collapse=True, hyphens=True, quotes=True, ellipsis=True, tildes=True</span>
 <span class="line-empty" title="No Anys on this line!">)</span>
@@ -476,47 +474,47 @@ Unannotated (x8)">strict_normalize = Normalizer(</span>
 <span class="line-any" title="No Anys on this line!">        tildes=True,</span>
 <span class="line-empty" title="No Anys on this line!">    ):</span>
 <span class="line-empty" title="No Anys on this line!">        """"""</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">        super().__init__(</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">            form,</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">            strip=strip,</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">            collapse=collapse,</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">            hyphens=hyphens,</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">            quotes=quotes,</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">            ellipsis=ellipsis,</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">            tildes=tildes,</span>
 <span class="line-empty" title="No Anys on this line!">        )</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="No Anys on this line!">    def normalize(self, text):</span>
 <span class="line-empty" title="No Anys on this line!">        # Lowercase and normalize unicode</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x5)">        text = super().normalize(text.lower())</span>
 <span class="line-empty" title="No Anys on this line!">        # Remove all whitespace</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x4)">        text = "".join(text.split())</span>
 <span class="line-empty" title="No Anys on this line!">        # Convert all apostrophes, quotes, accents, primes to single ascii apostrophe</span>
 <span class="line-precise" title="No Anys on this line!">        for quote in QUOTES:</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x4)">            text = text.replace(quote, "'")</span>
 <span class="line-empty" title="No Anys on this line!">        # Convert all brackets to regular parentheses</span>
 <span class="line-any" title="No Anys on this line!">        for ob in {"(", "&lt;", "[", "{", "&amp;lt;"}:</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x4)">            text = text.replace(ob, "(")</span>
 <span class="line-any" title="No Anys on this line!">        for cb in {")", "&gt;", "]", "}", "&amp;gt;"}:</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x4)">            text = text.replace(cb, "(")</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">        return text</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x7)">excess_normalize = ExcessNormalizer(</span>
 <span class="line-precise" title="No Anys on this line!">    strip=True, collapse=True, hyphens=True, quotes=True, ellipsis=True, tildes=True</span>
 <span class="line-empty" title="No Anys on this line!">)</span>
@@ -537,40 +535,40 @@ Unannotated (x7)">excess_normalize = ExcessNormalizer(</span>
 <span class="line-any" title="No Anys on this line!">        chem_spell=True,</span>
 <span class="line-empty" title="No Anys on this line!">    ):</span>
 <span class="line-empty" title="No Anys on this line!">        """"""</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">        super().__init__(</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">            form,</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">            strip=strip,</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">            collapse=collapse,</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">            hyphens=hyphens,</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">            quotes=quotes,</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">            ellipsis=ellipsis,</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">            tildes=tildes,</span>
 <span class="line-empty" title="No Anys on this line!">        )</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x2)">        self.chem_spell = chem_spell</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="No Anys on this line!">    def normalize(self, text):</span>
 <span class="line-empty" title="No Anys on this line!">        """Normalize unicode, hyphens, whitespace, and some chemistry terms and formatting."""</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x3)">        text = super().normalize(text)</span>
 <span class="line-empty" title="No Anys on this line!">        # Normalize element spelling</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">        if self.chem_spell:</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x2)">            text = normalize_chemical_spelling(text)</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">        return text</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x8)">chem_normalize = ChemNormalizer(</span>
 <span class="line-precise" title="No Anys on this line!">    strip=True,</span>
 <span class="line-precise" title="No Anys on this line!">    collapse=True,</span>

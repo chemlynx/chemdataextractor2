@@ -566,11 +566,6 @@
 <span id="L556" class="lineno"><a class="lineno" href="#L556">556</a></span>
 <span id="L557" class="lineno"><a class="lineno" href="#L557">557</a></span>
 <span id="L558" class="lineno"><a class="lineno" href="#L558">558</a></span>
-<span id="L559" class="lineno"><a class="lineno" href="#L559">559</a></span>
-<span id="L560" class="lineno"><a class="lineno" href="#L560">560</a></span>
-<span id="L561" class="lineno"><a class="lineno" href="#L561">561</a></span>
-<span id="L562" class="lineno"><a class="lineno" href="#L562">562</a></span>
-<span id="L563" class="lineno"><a class="lineno" href="#L563">563</a></span>
 </pre></td>
 <td class="table-code"><pre><span class="line-empty" title="No Anys on this line!">"""</span>
 <span class="line-empty" title="No Anys on this line!">Functionality to enable multi-turn question answering for information extraction in ChemDataExtractor</span>
@@ -722,14 +717,12 @@ Unannotated (x2)">            for action in self.actions:</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x4)">                answer = action(answer)</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x1)">        if self.condition is not None:</span>
+Unannotated (x5)">        if self.condition is not None and not self.condition(answer):</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x3)">            if not self.condition(answer):</span>
+Unannotated (x1)">            raise ValueError(</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x1)">                raise ValueError(</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x8)">                    f"{answer} does not satisfy conditions for question {self.question}"</span>
-<span class="line-empty" title="No Anys on this line!">                )</span>
+Unannotated (x8)">                f"{answer} does not satisfy conditions for question {self.question}"</span>
+<span class="line-empty" title="No Anys on this line!">            )</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">        return answer</span>
 <span class="line-empty" title="No Anys on this line!"></span>
@@ -830,7 +823,7 @@ Unannotated (x4)
 Explicit (x9)
 Omitted Generics (x30)">        for sentence, sentence_records, asked_questions_for_sentence in zip(</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x3)">            sentences, records, asked_questions</span>
+Unannotated (x3)">            sentences, records, asked_questions, strict=False</span>
 <span class="line-empty" title="No Anys on this line!">        ):</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x3)">            eligible_questions_for_sentence = cls._eligible_questions(</span>
@@ -984,7 +977,7 @@ Unannotated (x2)">            self.device = torch.cuda.current_device()</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x2)">            self.device = device</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x5)">        self.numerical_value_expression = value_element()</span>
+Unannotated (x2)">        self.numerical_value_expression = value_element()</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x2)">        self.skip_phrase = skip_phrase</span>
@@ -1003,7 +996,8 @@ Unannotated (x2)">        self.manual_parser = manual_parser</span>
 Unannotated (x2)">        self.enable_single_sentence = enable_single_sentence</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="Any Types on this line: 
-Unannotated (x2)">    @memoized_property</span>
+Omitted Generics (x1)
+Explicit (x1)">    @memoized_property</span>
 <span class="line-any" title="No Anys on this line!">    def qa_model(self):</span>
 <span class="line-empty" title="No Anys on this line!">        """</span>
 <span class="line-empty" title="No Anys on this line!">        The Huggingface tokensiers extractive question answering model for this parser.</span>
@@ -1204,7 +1198,7 @@ Unannotated (x7)">                    new_records_list[index].append(batch_quest
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x5)
 Explicit (x9)
-Omitted Generics (x30)">            for old_sentence_records, new_sentence_records in zip(records, new_records_list):</span>
+Omitted Generics (x30)">            for old_sentence_records, new_sentence_records in zip(records, new_records_list, strict=False):</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x2)">                for record in old_sentence_records:</span>
 <span class="line-any" title="Any Types on this line: 
@@ -1221,20 +1215,15 @@ Unannotated (x3)">            id(sentence): sentence_records</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x5)
 Explicit (x9)
-Omitted Generics (x30)">            for sentence, sentence_records in zip(filtered_sentences, records)</span>
+Omitted Generics (x30)">            for sentence, sentence_records in zip(filtered_sentences, records, strict=False)</span>
 <span class="line-empty" title="No Anys on this line!">        }</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">        return records_dict</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="No Anys on this line!">    def _is_valid_sentence(self, sentence):</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">        if len(</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x9)">            [result for result in self.model.specifier.parse_expression.scan(sentence.tokens)]</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x8)">        ) and len([result for result in self.numerical_value_expression.scan(sentence.tokens)]):</span>
-<span class="line-any" title="No Anys on this line!">            return True</span>
-<span class="line-any" title="No Anys on this line!">        return False</span>
+Unannotated (x18)
+Omitted Generics (x6)">        return bool(len(list(self.model.specifier.parse_expression.scan(sentence.tokens))) and len(list(self.numerical_value_expression.scan(sentence.tokens))))</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="No Anys on this line!">    def _do_manual_parsing(self, sentence):</span>
 <span class="line-any" title="Any Types on this line: 

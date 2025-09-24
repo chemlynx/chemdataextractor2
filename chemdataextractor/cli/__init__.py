@@ -7,6 +7,7 @@ by typing 'cde' in a terminal for document extraction and processing.
 
 from __future__ import annotations
 
+import builtins
 import json
 import logging
 from typing import Any
@@ -17,7 +18,6 @@ import click
 
 from .. import __version__
 from ..doc import Document
-import builtins
 
 log = logging.getLogger(__name__)
 

@@ -12,9 +12,7 @@ from abc import abstractmethod
 from typing import TYPE_CHECKING
 from typing import Any
 from typing import BinaryIO
-from typing import Optional
 from typing import TextIO
-from typing import Union
 
 if TYPE_CHECKING:
     from ..doc.document import Document

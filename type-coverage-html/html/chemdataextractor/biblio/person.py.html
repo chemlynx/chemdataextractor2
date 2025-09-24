@@ -579,7 +579,6 @@
 <span id="L569" class="lineno"><a class="lineno" href="#L569">569</a></span>
 <span id="L570" class="lineno"><a class="lineno" href="#L570">570</a></span>
 <span id="L571" class="lineno"><a class="lineno" href="#L571">571</a></span>
-<span id="L572" class="lineno"><a class="lineno" href="#L572">572</a></span>
 </pre></td>
 <td class="table-code"><pre><span class="line-empty" title="No Anys on this line!">"""</span>
 <span class="line-empty" title="No Anys on this line!">Tools for parsing people's names from strings into various name components.</span>
@@ -592,7 +591,7 @@
 <span class="line-precise" title="No Anys on this line!">from ..text import QUOTES</span>
 <span class="line-precise" title="No Anys on this line!">from ..text.latex import latex_to_unicode</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-precise" title="Any Types on this line:
+<span class="line-precise" title="Any Types on this line: 
 Omitted Generics (x4)">ORCID_RE = re.compile(r"^\d{4}-\d{4}-\d{4}-\d{4}$")</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!"></span>
@@ -977,27 +976,27 @@ Omitted Generics (x4)">ORCID_RE = re.compile(r"^\d{4}-\d{4}-\d{4}-\d{4}$")</span
 <span class="line-empty" title="No Anys on this line!">        :param bool from_bibtex: (Optional) Whether the fullname parameter is in BibTeX format. Default False.</span>
 <span class="line-empty" title="No Anys on this line!">        """</span>
 <span class="line-precise" title="No Anys on this line!">        super().__init__()</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x2)">        self._from_bibtex = from_bibtex</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x2)">        self.fullname = fullname</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="No Anys on this line!">    def __repr__(self):</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">        return f"{self.__class__.__name__}({self.fullname!r})"</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="No Anys on this line!">    def __str__(self):</span>
-<span class="line-precise" title="Any Types on this line:
+<span class="line-precise" title="Any Types on this line: 
 Omitted Generics (x18)">        return dict.__repr__(self)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="No Anys on this line!">    def could_be(self, other):</span>
 <span class="line-empty" title="No Anys on this line!">        """Return True if the other PersonName is not explicitly inconsistent."""</span>
 <span class="line-empty" title="No Anys on this line!">        # TODO: Some suffix and title differences should be allowed</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Explicit (x4)
 Unannotated (x1)">        if type(other) is not type(self):</span>
 <span class="line-precise" title="No Anys on this line!">            return NotImplemented</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x2)">        if self == other:</span>
 <span class="line-any" title="No Anys on this line!">            return True</span>
 <span class="line-precise" title="No Anys on this line!">        for attr in [</span>
@@ -1009,52 +1008,50 @@ Unannotated (x2)">        if self == other:</span>
 <span class="line-any" title="No Anys on this line!">            "lastname",</span>
 <span class="line-any" title="No Anys on this line!">            "suffix",</span>
 <span class="line-empty" title="No Anys on this line!">        ]:</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">            if attr not in self or attr not in other:</span>
 <span class="line-any" title="No Anys on this line!">                continue</span>
-<span class="line-any" title="Any Types on this line:
-Omitted Generics (x18)">            puncmap = dict((ord(char), None) for char in string.punctuation)</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="No Anys on this line!">            puncmap = {ord(char): None for char in string.punctuation}</span>
+<span class="line-any" title="Any Types on this line: 
 Error (x6)">            s = self[attr].lower().translate(puncmap)</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x7)">            o = other[attr].lower().translate(puncmap)</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Error (x2)
 Unannotated (x1)">            if s == o:</span>
 <span class="line-any" title="No Anys on this line!">                continue</span>
-<span class="line-any" title="No Anys on this line!">            if attr in {"firstname", "middlename", "lastname"}:</span>
-<span class="line-imprecise" title="Any Types on this line:
-Error (x1)">                if (</span>
-<span class="line-any" title="Any Types on this line:
-Error (x6)">                    {len(comp) for comp in s.split()} == {1}</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
+Error (x2)">            if attr in {"firstname", "middlename", "lastname"} and ((</span>
+<span class="line-any" title="Any Types on this line: 
+Error (x6)">                {len(comp) for comp in s.split()} == {1}</span>
+<span class="line-any" title="Any Types on this line: 
 Error (x4)
-Unannotated (x6)">                    and [el[0] for el in o.split()] == s.split()</span>
-<span class="line-empty" title="No Anys on this line!">                ) or (</span>
-<span class="line-any" title="Any Types on this line:
-Unannotated (x6)">                    {len(comp) for comp in o.split()} == {1}</span>
-<span class="line-any" title="Any Types on this line:
+Unannotated (x6)">                and [el[0] for el in o.split()] == s.split()</span>
+<span class="line-empty" title="No Anys on this line!">            ) or (</span>
+<span class="line-any" title="Any Types on this line: 
+Unannotated (x6)">                {len(comp) for comp in o.split()} == {1}</span>
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x4)
-Error (x6)">                    and [el[0] for el in s.split()] == o.split()</span>
-<span class="line-empty" title="No Anys on this line!">                ):</span>
-<span class="line-any" title="No Anys on this line!">                    continue</span>
+Error (x6)">                and [el[0] for el in s.split()] == o.split()</span>
+<span class="line-empty" title="No Anys on this line!">            )):</span>
+<span class="line-any" title="No Anys on this line!">                continue</span>
 <span class="line-any" title="No Anys on this line!">            return False</span>
 <span class="line-any" title="No Anys on this line!">        return True</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">    @property</span>
 <span class="line-any" title="No Anys on this line!">    def fullname(self):</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Error (x8)
 Omitted Generics (x2)">        return self.get("fullname", "")</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-unanalyzed" title="No Anys on this line!">    @fullname.setter</span>
 <span class="line-any" title="No Anys on this line!">    def fullname(self, fullname):</span>
 <span class="line-precise" title="No Anys on this line!">        self.clear()</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x4)">        self._parse(fullname)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="No Anys on this line!">    def __getattr__(self, name):</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">        if name in {</span>
 <span class="line-any" title="No Anys on this line!">            "title",</span>
 <span class="line-any" title="No Anys on this line!">            "firstname",</span>
@@ -1064,7 +1061,7 @@ Unannotated (x1)">        if name in {</span>
 <span class="line-any" title="No Anys on this line!">            "lastname",</span>
 <span class="line-any" title="No Anys on this line!">            "suffix",</span>
 <span class="line-empty" title="No Anys on this line!">        }:</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Error (x8)
 Omitted Generics (x2)
 Unannotated (x1)">            return self.get(name)</span>
@@ -1073,101 +1070,101 @@ Unannotated (x1)">            return self.get(name)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="No Anys on this line!">    def _is_title(self, t):</span>
 <span class="line-empty" title="No Anys on this line!">        """Return true if t is a title."""</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x5)">        return t.lower().replace(".", "") in TITLES</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="No Anys on this line!">    def _is_prefix(self, t):</span>
 <span class="line-empty" title="No Anys on this line!">        """Return true if t is a prefix."""</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x5)">        return t.lower().replace(".", "") in PREFIXES</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="No Anys on this line!">    def _is_suffix(self, t):</span>
 <span class="line-empty" title="No Anys on this line!">        """Return true if t is a suffix."""</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">        return t not in NOT_SUFFIX and (</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x6)">            t.replace(".", "") in SUFFIXES or t.replace(".", "") in SUFFIXES_LOWER</span>
 <span class="line-empty" title="No Anys on this line!">        )</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="No Anys on this line!">    def _tokenize(self, comps):</span>
 <span class="line-empty" title="No Anys on this line!">        """Split name on spaces, unless inside curly brackets or quotes."""</span>
 <span class="line-precise" title="No Anys on this line!">        ps = []</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x2)">        for comp in comps:</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">            ps.extend([c.strip(" ,") for c in re.split(r"\s+(?=[^{}]*(?:\{|$))", comp)])</span>
 <span class="line-precise" title="No Anys on this line!">        return [p for p in ps if p]</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="No Anys on this line!">    def _clean(self, t, capitalize=None):</span>
 <span class="line-empty" title="No Anys on this line!">        """Convert to normalized unicode and strip trailing full stops."""</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">        if self._from_bibtex:</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x7)">            t = latex_to_unicode(t, capitalize=capitalize)</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x13)">        t = " ".join([el.rstrip(".") if el.count(".") == 1 else el for el in t.split()])</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">        return t</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="No Anys on this line!">    def _strip(self, tokens, criteria, prop, rev=False):</span>
 <span class="line-empty" title="No Anys on this line!">        """Strip off contiguous tokens from the start or end of the list that meet the criteria."""</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">        num = len(tokens)</span>
 <span class="line-precise" title="No Anys on this line!">        res = []</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x8)
 Omitted Generics (x4)">        for i, token in enumerate(reversed(tokens) if rev else tokens):</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x4)">            if criteria(token) and num &gt; i + 1:</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x11)">                res.insert(0, tokens.pop()) if rev else res.append(tokens.pop(0))</span>
 <span class="line-empty" title="No Anys on this line!">            else:</span>
 <span class="line-any" title="No Anys on this line!">                break</span>
-<span class="line-imprecise" title="Any Types on this line:
+<span class="line-imprecise" title="Any Types on this line: 
 Unannotated (x1)">        if res:</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x6)">            self[prop] = self._clean(" ".join(res))</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">        return tokens</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="No Anys on this line!">    def _parse(self, fullname):</span>
 <span class="line-empty" title="No Anys on this line!">        """Perform the parsing."""</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x3)">        n = " ".join(fullname.split()).strip(",")</span>
 <span class="line-precise" title="No Anys on this line!">        if not n:</span>
 <span class="line-empty" title="No Anys on this line!">            return</span>
 <span class="line-any" title="No Anys on this line!">        comps = [p.strip() for p in n.split(",")]</span>
-<span class="line-any" title="Any Types on this line:
-Unannotated (x3)">        if len(comps) &gt; 1 and not all([self._is_suffix(comp) for comp in comps[1:]]):</span>
+<span class="line-any" title="Any Types on this line: 
+Unannotated (x3)">        if len(comps) &gt; 1 and not all(self._is_suffix(comp) for comp in comps[1:]):</span>
 <span class="line-precise" title="No Anys on this line!">            vlj = []</span>
 <span class="line-any" title="No Anys on this line!">            while True:</span>
 <span class="line-any" title="No Anys on this line!">                vlj.append(comps.pop(0))</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x3)">                if not self._is_suffix(comps[0]):</span>
 <span class="line-any" title="No Anys on this line!">                    break</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x4)">            ltokens = self._tokenize(vlj)</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x10)">            ltokens = self._strip(ltokens, self._is_prefix, "prefix")</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x10)">            ltokens = self._strip(ltokens, self._is_suffix, "suffix", True)</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x5)">            self["lastname"] = self._clean(" ".join(ltokens), capitalize="name")</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x4)">        tokens = self._tokenize(comps)</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x10)">        tokens = self._strip(tokens, self._is_title, "title")</span>
 <span class="line-any" title="No Anys on this line!">        if "lastname" not in self:</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x10)">            tokens = self._strip(tokens, self._is_suffix, "suffix", True)</span>
 <span class="line-precise" title="No Anys on this line!">        voni = []</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">        end = len(tokens) - 1</span>
 <span class="line-any" title="No Anys on this line!">        if "prefix" not in self:</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x6)
 Omitted Generics (x4)">            for i, token in enumerate(reversed(tokens)):</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x4)">                if self._is_prefix(token):</span>
 <span class="line-any" title="No Anys on this line!">                    if (i == 0 and end &gt; 0) or ("lastname" not in self and i != end):</span>
 <span class="line-precise" title="No Anys on this line!">                        voni.append(end - i)</span>
@@ -1176,47 +1173,47 @@ Unannotated (x4)">                if self._is_prefix(token):</span>
 <span class="line-any" title="No Anys on this line!">                        break</span>
 <span class="line-precise" title="No Anys on this line!">        if voni:</span>
 <span class="line-any" title="No Anys on this line!">            if "lastname" not in self:</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x6)">                self["lastname"] = self._clean(" ".join(tokens[voni[0] + 1 :]), capitalize="name")</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x6)">            self["prefix"] = self._clean(" ".join(tokens[voni[-1] : voni[0] + 1]))</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x3)">            tokens = tokens[: voni[-1]]</span>
 <span class="line-empty" title="No Anys on this line!">        else:</span>
 <span class="line-any" title="No Anys on this line!">            if "lastname" not in self:</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x7)">                self["lastname"] = self._clean(tokens.pop(), capitalize="name")</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">        if tokens:</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x7)">            self["firstname"] = self._clean(tokens.pop(0), capitalize="name")</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">        if tokens:</span>
 <span class="line-precise" title="No Anys on this line!">            nicki = []</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x5)">            for i, token in enumerate(tokens):</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x2)">                if token[0] in QUOTES:</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x6)">                    for j, token2 in enumerate(tokens[i:]):</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x2)">                        if token2[-1] in QUOTES:</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">                            nicki = range(i, i + j + 1)</span>
 <span class="line-any" title="No Anys on this line!">                            break</span>
-<span class="line-imprecise" title="Any Types on this line:
+<span class="line-imprecise" title="Any Types on this line: 
 Unannotated (x1)">            if nicki:</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x4)">                self["nickname"] = self._clean(</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x7)">                    " ".join(tokens[nicki[0] : nicki[-1] + 1]).strip("".join(QUOTES)),</span>
 <span class="line-any" title="No Anys on this line!">                    capitalize="name",</span>
 <span class="line-empty" title="No Anys on this line!">                )</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x6)">                tokens[nicki[0] : nicki[-1] + 1] = []</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">        if tokens:</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x5)">            self["middlename"] = self._clean(" ".join(tokens), capitalize="name")</span>
 <span class="line-precise" title="No Anys on this line!">        namelist = []</span>
 <span class="line-precise" title="No Anys on this line!">        for attr in [</span>
@@ -1229,9 +1226,9 @@ Unannotated (x5)">            self["middlename"] = self._clean(" ".join(tokens),
 <span class="line-any" title="No Anys on this line!">            "suffix",</span>
 <span class="line-empty" title="No Anys on this line!">        ]:</span>
 <span class="line-precise" title="No Anys on this line!">            if attr in self:</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Error (x4)">                namelist.append(f'"{self[attr]}"' if attr == "nickname" else self[attr])</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Error (x1)">        self["fullname"] = " ".join(namelist)</span>
 </pre></td>
 </tr></tbody>

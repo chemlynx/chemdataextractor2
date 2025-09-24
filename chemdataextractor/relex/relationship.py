@@ -52,7 +52,7 @@ class Relation:
         for entity in self.entities:
             entity_data = entity.serialize()
             entity_root = list(entity_data.keys())[0]
-            if entity_root not in output.keys():
+            if entity_root not in output:
                 output[entity_root] = {}
 
             output[entity_root].update(entity_data[entity_root])

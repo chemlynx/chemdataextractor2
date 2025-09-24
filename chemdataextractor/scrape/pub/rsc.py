@@ -400,10 +400,7 @@ class RscSearchScraper(SearchScraper):
         """Due to RSC not accepting html requests, Selenium is used.
         By default, the Firefox webdriver is used."""
         if driver is None:
-            if self.driver is None:
-                driver = webdriver.Firefox()
-            else:
-                driver = self.driver
+            driver = webdriver.Firefox() if self.driver is None else self.driver
         log.debug(f"Processing query: {query}")
 
         url = "http://pubs.rsc.org/en/results?searchtext="

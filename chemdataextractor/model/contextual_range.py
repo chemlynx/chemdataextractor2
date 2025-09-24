@@ -221,14 +221,8 @@ class ContextualRange:
             SentenceRange(),
         ]
         for range_type in ranges_by_magnitude:
-            self_range_count = (
-                self.constituent_ranges[range_type] if range_type in self.constituent_ranges else 0
-            )
-            other_range_count = (
-                other.constituent_ranges[range_type]
-                if range_type in other.constituent_ranges
-                else 0
-            )
+            self_range_count = self.constituent_ranges.get(range_type, 0)
+            other_range_count = other.constituent_ranges.get(range_type, 0)
             if self_range_count < other_range_count:
                 return True
             elif self_range_count > other_range_count:

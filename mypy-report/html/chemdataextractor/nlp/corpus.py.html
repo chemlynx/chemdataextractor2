@@ -252,62 +252,62 @@
 <span class="line-any" title="No Anys on this line!">    def __init__(self, name, reader_cls, *args, **kwargs):</span>
 <span class="line-any" title="No Anys on this line!">        from nltk.corpus.reader.api import CorpusReader</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x2)
 Unimported (x1)">        assert issubclass(reader_cls, CorpusReader)</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x3)">        self.__name = self.__name__ = name</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x2)">        self.__reader_cls = reader_cls</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x2)">        self.__args = args</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x2)">        self.__kwargs = kwargs</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="No Anys on this line!">    def __load(self):</span>
 <span class="line-empty" title="No Anys on this line!">        # Find the corpus root directory.</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x5)">        corpus = self.__reader_cls(*self.__args, **self.__kwargs)</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x4)">        args, kwargs = self.__args, self.__kwargs</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x4)">        name, reader_cls = self.__name, self.__reader_cls</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x3)">        self.__dict__ = corpus.__dict__</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x3)">        self.__class__ = corpus.__class__</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="No Anys on this line!">        def _unload(self):</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x10)">            lazy_reader = LazyCorpusLoader(name, reader_cls, *args, **kwargs)</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x4)">            self.__dict__ = lazy_reader.__dict__</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x4)">            self.__class__ = lazy_reader.__class__</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">            gc.collect()</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x7)">        self._unload = _make_bound_method(_unload, self)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="No Anys on this line!">    def __getattr__(self, attr):</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x2)">        if attr == "__bases__":</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">            raise AttributeError("LazyCorpusLoader object has no attribute '__bases__'")</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x2)">        self.__load()</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x2)
 Explicit (x12)
 Omitted Generics (x2)">        return getattr(self, attr)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="No Anys on this line!">    def __repr__(self):</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x2)">        return "&lt;{} in {!r} (not loaded yet)&gt;".format(</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x2)">            self.__reader_cls.__name__,</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x2)">            ".../corpora/" + self.__name,</span>
 <span class="line-empty" title="No Anys on this line!">        )</span>
 <span class="line-empty" title="No Anys on this line!"></span>
@@ -322,45 +322,45 @@ Unannotated (x2)">            ".../corpora/" + self.__name,</span>
 <span class="line-any" title="No Anys on this line!">        def meth(self):</span>
 <span class="line-any" title="No Anys on this line!">            pass</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x2)">    f = Foo()</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x4)
 Explicit (x2)">    bound_method = type(f.meth)</span>
 <span class="line-empty" title="No Anys on this line!">    try:</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x6)">        return bound_method(func, self, self.__class__)</span>
 <span class="line-precise" title="No Anys on this line!">    except TypeError:  # python3</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x4)">        return bound_method(func, self)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="No Anys on this line!">def _read_chemdner_line_block(stream):</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">    toks = []</span>
-<span class="line-any" title="Any Types on this line:
-Unannotated (x2)">    for i in range(20):</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
+Unannotated (x2)">    for _i in range(20):</span>
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x4)">        line = stream.readline()</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">        if not line:</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">            return toks</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x6)">        pmid, title, abstract = line.split("\t")</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x6)">        toks.append(title.strip())</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x6)">        toks.append(abstract.strip())</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">    return toks</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">#: Entire WSJ corpus (English News Text Treebank: Penn Treebank Revised, LDC2015T13)</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x4)">wsj = LazyCorpusLoader(</span>
 <span class="line-precise" title="No Anys on this line!">    "wsj_training",</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unimported (x1)">    BracketParseCorpusReader,</span>
 <span class="line-precise" title="No Anys on this line!">    "data/eng_news_txt_tbnk-ptb_revised/data/penntree",</span>
 <span class="line-precise" title="No Anys on this line!">    r"\d\d/wsj_.*\.tree",</span>
@@ -368,10 +368,10 @@ Unimported (x1)">    BracketParseCorpusReader,</span>
 <span class="line-empty" title="No Anys on this line!">)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">#: WSJ corpus sections 0-18 (English News Text Treebank: Penn Treebank Revised, LDC2015T13)</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x4)">wsj_training = LazyCorpusLoader(</span>
 <span class="line-precise" title="No Anys on this line!">    "wsj_training",</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unimported (x1)">    BracketParseCorpusReader,</span>
 <span class="line-precise" title="No Anys on this line!">    "data/eng_news_txt_tbnk-ptb_revised/data/penntree",</span>
 <span class="line-precise" title="No Anys on this line!">    r"(00|01|02|03|04|05|06|07|08|09|10|11|12|13|14|15|16|17|18)/wsj_.*\.tree",</span>
@@ -379,10 +379,10 @@ Unimported (x1)">    BracketParseCorpusReader,</span>
 <span class="line-empty" title="No Anys on this line!">)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">#: WSJ corpus sections 19-21 (English News Text Treebank: Penn Treebank Revised, LDC2015T13)</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x4)">wsj_development = LazyCorpusLoader(</span>
 <span class="line-precise" title="No Anys on this line!">    "wsj_development",</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unimported (x1)">    BracketParseCorpusReader,</span>
 <span class="line-precise" title="No Anys on this line!">    "data/eng_news_txt_tbnk-ptb_revised/data/penntree",</span>
 <span class="line-precise" title="No Anys on this line!">    r"(19|20|21)/wsj_.*\.tree",</span>
@@ -390,10 +390,10 @@ Unimported (x1)">    BracketParseCorpusReader,</span>
 <span class="line-empty" title="No Anys on this line!">)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">#: WSJ corpus sections 22-24 (English News Text Treebank: Penn Treebank Revised, LDC2015T13)</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x4)">wsj_evaluation = LazyCorpusLoader(</span>
 <span class="line-precise" title="No Anys on this line!">    "wsj_evaluation",</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unimported (x1)">    BracketParseCorpusReader,</span>
 <span class="line-precise" title="No Anys on this line!">    "data/eng_news_txt_tbnk-ptb_revised/data/penntree",</span>
 <span class="line-precise" title="No Anys on this line!">    r"(22|23|24)/wsj_.*\.tree",</span>
@@ -401,137 +401,137 @@ Unimported (x1)">    BracketParseCorpusReader,</span>
 <span class="line-empty" title="No Anys on this line!">)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">#: WSJ corpus sections 0-18 (treebank2)</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x4)">treebank2_training = LazyCorpusLoader(</span>
 <span class="line-precise" title="No Anys on this line!">    "treebank2_training",</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unimported (x1)">    ChunkedCorpusReader,</span>
 <span class="line-precise" title="No Anys on this line!">    "data/wsj-pos-training",</span>
 <span class="line-precise" title="No Anys on this line!">    r"wsj_.*\.pos",</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unimported (x2)">    sent_tokenizer=RegexpTokenizer(r"(?&lt;=/\.)\s*(?![^\[]*\])", gaps=True),</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unimported (x1)">    para_block_reader=tagged_treebank_para_block_reader,</span>
 <span class="line-precise" title="No Anys on this line!">    encoding="ascii",</span>
 <span class="line-empty" title="No Anys on this line!">)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">#: WSJ corpus sections 19-21 (treebank2)</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x4)">treebank2_development = LazyCorpusLoader(</span>
 <span class="line-precise" title="No Anys on this line!">    "treebank2_development",</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unimported (x1)">    ChunkedCorpusReader,</span>
 <span class="line-precise" title="No Anys on this line!">    "data/wsj-pos-development",</span>
 <span class="line-precise" title="No Anys on this line!">    r"wsj_.*\.pos",</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unimported (x2)">    sent_tokenizer=RegexpTokenizer(r"(?&lt;=/\.)\s*(?![^\[]*\])", gaps=True),</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unimported (x1)">    para_block_reader=tagged_treebank_para_block_reader,</span>
 <span class="line-precise" title="No Anys on this line!">    encoding="ascii",</span>
 <span class="line-empty" title="No Anys on this line!">)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">#: WSJ corpus sections 22-24 (treebank2)</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x4)">treebank2_evaluation = LazyCorpusLoader(</span>
 <span class="line-precise" title="No Anys on this line!">    "treebank2_evaluation",</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unimported (x1)">    ChunkedCorpusReader,</span>
 <span class="line-precise" title="No Anys on this line!">    "data/wsj-pos-evaluation",</span>
 <span class="line-precise" title="No Anys on this line!">    r"wsj_.*\.pos",</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unimported (x2)">    sent_tokenizer=RegexpTokenizer(r"(?&lt;=/\.)\s*(?![^\[]*\])", gaps=True),</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unimported (x1)">    para_block_reader=tagged_treebank_para_block_reader,</span>
 <span class="line-precise" title="No Anys on this line!">    encoding="ascii",</span>
 <span class="line-empty" title="No Anys on this line!">)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">#: First 80% of GENIA POS-tagged corpus</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x4)">genia_training = LazyCorpusLoader(</span>
 <span class="line-precise" title="No Anys on this line!">    "genia_training",</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unimported (x1)">    TaggedCorpusReader,</span>
 <span class="line-precise" title="No Anys on this line!">    "data/genia-pos-training",</span>
 <span class="line-precise" title="No Anys on this line!">    "genia-pos-training.txt",</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unimported (x2)">    word_tokenizer=RegexpTokenizer(r"\n", gaps=True),</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unimported (x2)">    sent_tokenizer=RegexpTokenizer("====================\n", gaps=True),</span>
 <span class="line-empty" title="No Anys on this line!">)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">#: Last 20% of GENIA POS-tagged corpus</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x4)">genia_evaluation = LazyCorpusLoader(</span>
 <span class="line-precise" title="No Anys on this line!">    "genia_evaluation",</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unimported (x1)">    TaggedCorpusReader,</span>
 <span class="line-precise" title="No Anys on this line!">    "data/genia-pos-evaluation",</span>
 <span class="line-precise" title="No Anys on this line!">    "genia-pos-evaluation.txt",</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unimported (x2)">    word_tokenizer=RegexpTokenizer(r"\n", gaps=True),</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unimported (x2)">    sent_tokenizer=RegexpTokenizer("====================\n", gaps=True),</span>
 <span class="line-empty" title="No Anys on this line!">)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">#:</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x4)">medpost = LazyCorpusLoader(</span>
 <span class="line-precise" title="No Anys on this line!">    "medpost",</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unimported (x1)">    TaggedCorpusReader,</span>
 <span class="line-precise" title="No Anys on this line!">    "data/medpost",</span>
 <span class="line-precise" title="No Anys on this line!">    r"tag_.+\.pos",</span>
 <span class="line-empty" title="No Anys on this line!">)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">#:</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x4)">medpost_training = LazyCorpusLoader(</span>
 <span class="line-precise" title="No Anys on this line!">    "medpost_training",</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unimported (x1)">    TaggedCorpusReader,</span>
 <span class="line-precise" title="No Anys on this line!">    "data/medpost-pos-training",</span>
 <span class="line-precise" title="No Anys on this line!">    "medpost-pos-training.txt",</span>
 <span class="line-empty" title="No Anys on this line!">)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">#:</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x4)">medpost_evaluation = LazyCorpusLoader(</span>
 <span class="line-precise" title="No Anys on this line!">    "medpost_evaluation",</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unimported (x1)">    TaggedCorpusReader,</span>
 <span class="line-precise" title="No Anys on this line!">    "data/medpost-pos-evaluation",</span>
 <span class="line-precise" title="No Anys on this line!">    "medpost-pos-evaluation.txt",</span>
 <span class="line-empty" title="No Anys on this line!">)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">#:</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x4)">cde_tokensc = LazyCorpusLoader(</span>
 <span class="line-precise" title="No Anys on this line!">    "cde_tokensc",</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unimported (x1)">    PlaintextCorpusReader,</span>
 <span class="line-precise" title="No Anys on this line!">    "data/cde-tokens",</span>
 <span class="line-precise" title="No Anys on this line!">    "cde-tokens-norm.txt",</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unimported (x2)">    word_tokenizer=RegexpTokenizer(r" ", gaps=True),</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unimported (x2)">    sent_tokenizer=RegexpTokenizer("\n", gaps=True),</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unimported (x1)">    para_block_reader=read_line_block,</span>
 <span class="line-empty" title="No Anys on this line!">)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">#:</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x4)">chemdner_training = LazyCorpusLoader(</span>
 <span class="line-precise" title="No Anys on this line!">    "chemdner_training",</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unimported (x1)">    PlaintextCorpusReader,</span>
 <span class="line-precise" title="No Anys on this line!">    "data/cde-ner",</span>
 <span class="line-precise" title="No Anys on this line!">    "training.txt",</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unimported (x2)">    word_tokenizer=RegexpTokenizer(r" ", gaps=True),</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unimported (x2)">    sent_tokenizer=RegexpTokenizer("\n", gaps=True),</span>
-<span class="line-precise" title="Any Types on this line:
+<span class="line-precise" title="Any Types on this line: 
 Unannotated (x2)">    para_block_reader=_read_chemdner_line_block,</span>
 <span class="line-empty" title="No Anys on this line!">)</span>
 </pre></td>

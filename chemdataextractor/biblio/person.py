@@ -1,13 +1,22 @@
 """
 Tools for parsing people's names from strings into various name components.
 
+Provides comprehensive name parsing functionality to extract titles, first names,
+last names, suffixes, and other name components from text strings.
 """
+
+from __future__ import annotations
 
 import re
 import string
+from typing import TYPE_CHECKING
+from typing import Any
 
 from ..text import QUOTES
 from ..text.latex import latex_to_unicode
+
+if TYPE_CHECKING:
+    pass
 
 ORCID_RE = re.compile(r"^\d{4}-\d{4}-\d{4}-\d{4}$")
 
@@ -348,7 +357,7 @@ NOT_SUFFIX = {"I.", "V."}
 # to_dict, to_json method?
 
 
-class PersonName(dict):
+class PersonName(dict[str, str]):
     """Class for parsing a person's name into its constituent parts.
 
     Parses a name string into title, firstname, middlename, nickname, prefix, lastname, suffix.
@@ -386,23 +395,25 @@ class PersonName(dict):
     # - Prefix 'ben' is recognised as middlename. Could distinguish 'ben' and 'Ben'?
     # - Multiple word first names like "Emma May" or "Billy Joe" aren't supported
 
-    def __init__(self, fullname=None, from_bibtex=False):
+    def __init__(self, fullname: str | None = None, from_bibtex: bool = False) -> None:
         """Initialize with a name string.
 
-        :param str fullname: The person's name.
-        :param bool from_bibtex: (Optional) Whether the fullname parameter is in BibTeX format. Default False.
+        Args:
+            fullname: The person's name
+            from_bibtex: Whether the fullname parameter is in BibTeX format
         """
         super().__init__()
-        self._from_bibtex = from_bibtex
-        self.fullname = fullname
+        self._from_bibtex: bool = from_bibtex
+        if fullname is not None:
+            self.fullname = fullname
 
-    def __repr__(self):
+    def __repr__(self) -> str:
         return f"{self.__class__.__name__}({self.fullname!r})"
 
-    def __str__(self):
+    def __str__(self) -> str:
         return dict.__repr__(self)
 
-    def could_be(self, other):
+    def could_be(self, other: PersonName) -> bool:
         """Return True if the other PersonName is not explicitly inconsistent."""
         # TODO: Some suffix and title differences should be allowed
         if type(other) is not type(self):
@@ -420,33 +431,35 @@ class PersonName(dict):
         ]:
             if attr not in self or attr not in other:
                 continue
-            puncmap = dict((ord(char), None) for char in string.punctuation)
+            puncmap = {ord(char): None for char in string.punctuation}
             s = self[attr].lower().translate(puncmap)
             o = other[attr].lower().translate(puncmap)
             if s == o:
                 continue
-            if attr in {"firstname", "middlename", "lastname"}:
-                if (
+            if attr in {"firstname", "middlename", "lastname"} and (
+                (
                     {len(comp) for comp in s.split()} == {1}
                     and [el[0] for el in o.split()] == s.split()
-                ) or (
+                )
+                or (
                     {len(comp) for comp in o.split()} == {1}
                     and [el[0] for el in s.split()] == o.split()
-                ):
-                    continue
+                )
+            ):
+                continue
             return False
         return True
 
     @property
-    def fullname(self):
+    def fullname(self) -> str:
         return self.get("fullname", "")
 
     @fullname.setter
-    def fullname(self, fullname):
+    def fullname(self, fullname: str) -> None:
         self.clear()
         self._parse(fullname)
 
-    def __getattr__(self, name):
+    def __getattr__(self, name: str) -> str:
         if name in {
             "title",
             "firstname",
@@ -460,35 +473,35 @@ class PersonName(dict):
         else:
             raise AttributeError
 
-    def _is_title(self, t):
+    def _is_title(self, t: str) -> bool:
         """Return true if t is a title."""
         return t.lower().replace(".", "") in TITLES
 
-    def _is_prefix(self, t):
+    def _is_prefix(self, t: str) -> bool:
         """Return true if t is a prefix."""
         return t.lower().replace(".", "") in PREFIXES
 
-    def _is_suffix(self, t):
+    def _is_suffix(self, t: str) -> bool:
         """Return true if t is a suffix."""
         return t not in NOT_SUFFIX and (
             t.replace(".", "") in SUFFIXES or t.replace(".", "") in SUFFIXES_LOWER
         )
 
-    def _tokenize(self, comps):
+    def _tokenize(self, comps: list[str]) -> list[str]:
         """Split name on spaces, unless inside curly brackets or quotes."""
         ps = []
         for comp in comps:
             ps.extend([c.strip(" ,") for c in re.split(r"\s+(?=[^{}]*(?:\{|$))", comp)])
         return [p for p in ps if p]
 
-    def _clean(self, t, capitalize=None):
+    def _clean(self, t: str, capitalize: str | None = None) -> str:
         """Convert to normalized unicode and strip trailing full stops."""
         if self._from_bibtex:
             t = latex_to_unicode(t, capitalize=capitalize)
         t = " ".join([el.rstrip(".") if el.count(".") == 1 else el for el in t.split()])
         return t
 
-    def _strip(self, tokens, criteria, prop, rev=False):
+    def _strip(self, tokens: list[str], criteria: Any, prop: str, rev: bool = False) -> list[str]:
         """Strip off contiguous tokens from the start or end of the list that meet the criteria."""
         num = len(tokens)
         res = []
@@ -501,13 +514,13 @@ class PersonName(dict):
             self[prop] = self._clean(" ".join(res))
         return tokens
 
-    def _parse(self, fullname):
+    def _parse(self, fullname: str) -> None:
         """Perform the parsing."""
         n = " ".join(fullname.split()).strip(",")
         if not n:
             return
         comps = [p.strip() for p in n.split(",")]
-        if len(comps) > 1 and not all([self._is_suffix(comp) for comp in comps[1:]]):
+        if len(comps) > 1 and not all(self._is_suffix(comp) for comp in comps[1:]):
             vlj = []
             while True:
                 vlj.append(comps.pop(0))

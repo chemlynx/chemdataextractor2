@@ -1,7 +1,14 @@
+"""
+Utility functions for neural network operations and Viterbi decoding.
+
+Provides PyTorch-based utilities for tensor manipulation, device management,
+and Viterbi decoding for sequence labeling tasks in NLP.
+"""
+
+from __future__ import annotations
+
 import logging
 import math
-from typing import List
-from typing import Optional
 
 import torch
 

@@ -1,11 +1,25 @@
 """
 NMR text parser.
 
+Provides parsing capabilities for Nuclear Magnetic Resonance (NMR) spectroscopy data,
+including chemical shifts, coupling constants, and peak multiplicities.
 """
+
+from __future__ import annotations
 
 import copy
 import logging
 import re
+from collections.abc import Generator
+from typing import TYPE_CHECKING
+from typing import Any
+
+if TYPE_CHECKING:
+    from ..model.base import BaseModel
+
+# Type aliases for NMR parsing
+TokenList = list[str]  # List of tokens
+ParseResult = list[Any]  # List of XML elements from parsing
 
 from ..utils import first
 from .actions import fix_whitespace
@@ -86,8 +100,8 @@ temp_units = (W("°") + R("[CFK]") | W("K"))("units").add_action(merge)
 temperature = Optional(I("at").hide()) + Group((temp_value + temp_units) | temp_word)("temperature")
 
 
-def fix_nmr_peak_whitespace_error(tokens, start, result):
-    """"""
+def fix_nmr_peak_whitespace_error(tokens: TokenList, start: int, result: ParseResult) -> ParseResult:
+    """Split comma-separated NMR peaks into individual peak elements."""
     new_result = []
     for e in result:
         shift = e.find("shift")
@@ -101,8 +115,8 @@ def fix_nmr_peak_whitespace_error(tokens, start, result):
     return new_result
 
 
-def strip_delta(tokens, start, result):
-    """"""
+def strip_delta(tokens: TokenList, start: int, result: ParseResult) -> ParseResult:
+    """Remove delta symbol (δ) from chemical shift values."""
     for e in result:
         for child in e.iter():
             if child.text.startswith("δ"):
@@ -209,10 +223,10 @@ class NmrParser(BaseSentenceParser):
     root = nmr
     parse_full_sentence = True
 
-    def __init__(self):
+    def __init__(self) -> None:
         pass
 
-    def interpret(self, result, start, end):
+    def interpret(self, result: Any, start: int, end: int) -> Generator[BaseModel, None, None]:
         c = self.model.fields["compound"].model_class()
 
         n = self.model(

@@ -1,13 +1,22 @@
 """
 BibTeX parser.
 
+Provides comprehensive BibTeX parsing functionality to convert BibTeX data
+into structured Python dictionaries or JSON format.
 """
+
+from __future__ import annotations
 
 import json
 import re
 from collections import OrderedDict
+from typing import TYPE_CHECKING
+from typing import Any
 
 from ..text.latex import latex_to_unicode
+
+if TYPE_CHECKING:
+    pass
 
 
 class BibtexParser:
@@ -25,7 +34,7 @@ class BibtexParser:
 
     """
 
-    def __init__(self, data, **kwargs):
+    def __init__(self, data: str, **kwargs: Any) -> None:
         """Initialize BibtexParser with data.
 
         Optional metadata passed as keyword arguments will be included in the JSON output.
@@ -38,16 +47,16 @@ class BibtexParser:
             bib = BibtexParser(data, created=unicode(datetime.utcnow()), owner='mcs07')
 
         """
-        self.data = data
-        self.meta = kwargs
-        self._token = None
-        self.token_type = None
-        self._tokens = re.compile(r'([^\s"\'#%@{}()=,]+|\s|"|\'|#|%|@|{|}|\(|\)|=|,)').finditer(
+        self.data: str = data
+        self.meta: dict[str, Any] = kwargs
+        self._token: str | None = None
+        self.token_type: str | None = None
+        self._tokens: Iterator[re.Match[str]] = re.compile(r'([^\s"\'#%@{}()=,]+|\s|"|\'|#|%|@|{|}|\(|\)|=|,)').finditer(
             self.data
         )
-        self.mode = None
-        self.definitions = {}
-        self.records = OrderedDict()
+        self.mode: str | None = None
+        self.definitions: dict[str, str] = {}
+        self.records: OrderedDict[str, dict[str, Any]] = OrderedDict()
 
         # Key name normalizations
         self.keynorms = {
@@ -61,12 +70,12 @@ class BibtexParser:
             "subjects": "subject",
         }
 
-    def _next_token(self, skipws=True):
+    def _next_token(self, skipws: bool = True) -> str:
         """Increment _token to the next token and return it."""
         self._token = next(self._tokens).group(0)
         return self._next_token() if skipws and self._token.isspace() else self._token
 
-    def parse(self):
+    def parse(self) -> None:
         """Parse self.data and store the parsed BibTeX to self.records."""
         while True:
             try:
@@ -76,7 +85,7 @@ class BibtexParser:
             except StopIteration:
                 break
 
-    def _parse_entry(self):
+    def _parse_entry(self) -> None:
         """Parse an entry."""
         entry_type = self._next_token().lower()
         if entry_type == "string":
@@ -84,14 +93,14 @@ class BibtexParser:
         elif entry_type not in ["comment", "preamble"]:
             self._parse_record(entry_type)
 
-    def _parse_string(self):
+    def _parse_string(self) -> None:
         """Parse a string entry and store the definition."""
         if self._next_token() in ["{", "("]:
             field = self._parse_field()
             if field:
                 self.definitions[field[0]] = field[1]
 
-    def _parse_record(self, record_type):
+    def _parse_record(self, record_type: str) -> None:
         """Parse a record."""
         if self._next_token() in ["{", "("]:
             key = self._next_token()
@@ -116,14 +125,14 @@ class BibtexParser:
                     if self._token != ",":
                         break
 
-    def _parse_field(self):
+    def _parse_field(self) -> tuple[str, str] | None:
         """Parse a Field."""
         name = self._next_token()
         if self._next_token() == "=":
             value = self._parse_value()
             return name, value
 
-    def _parse_value(self):
+    def _parse_value(self) -> str:
         """Parse a value. Digits, definitions, and the contents of double quotes or curly brackets."""
         val = []
         while True:
@@ -165,37 +174,45 @@ class BibtexParser:
         return value
 
     @classmethod
-    def parse_names(cls, names):
+    def parse_names(cls, names: str) -> list[str]:
         """Parse a string of names separated by "and" like in a BibTeX authors field."""
         names = [latex_to_unicode(n) for n in re.split(r"\sand\s(?=[^{}]*(?:\{|$))", names) if n]
         return names
 
     @property
-    def size(self):
+    def size(self) -> int:
         """Return the number of records parsed."""
         return len(self.records)
 
     @property
-    def records_list(self):
+    def records_list(self) -> list[dict[str, Any]]:
         """Return the records as a list of dictionaries."""
         return list(self.records.values())
 
     @property
-    def metadata(self):
+    def metadata(self) -> dict[str, Any]:
         """Return metadata for the parsed collection of records."""
         auto = {"records": self.size}
         auto.update(self.meta)
         return auto
 
     @property
-    def json(self):
+    def json(self) -> str:
         """Return a list of records as a JSON string. Follows the BibJSON convention."""
         return json.dumps(
             OrderedDict([("metadata", self.metadata), ("records", self.records.values())])
         )
 
 
-def parse_bibtex(data):
+def parse_bibtex(data: str) -> list[dict[str, Any]]:
+    """Parse BibTeX data and return a list of records.
+
+    Args:
+        data: BibTeX data string
+
+    Returns:
+        List of parsed bibliography record dictionaries
+    """
     bib = BibtexParser(data)
     bib.parse()
     return bib.records_list

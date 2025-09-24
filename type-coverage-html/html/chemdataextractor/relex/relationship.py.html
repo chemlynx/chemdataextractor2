@@ -135,7 +135,7 @@ Unannotated (x2)">        self.confidence = confidence</span>
 <span class="line-empty" title="No Anys on this line!">        for entity in self.entities:</span>
 <span class="line-empty" title="No Anys on this line!">            entity_data = entity.serialize()</span>
 <span class="line-empty" title="No Anys on this line!">            entity_root = list(entity_data.keys())[0]</span>
-<span class="line-empty" title="No Anys on this line!">            if entity_root not in output.keys():</span>
+<span class="line-empty" title="No Anys on this line!">            if entity_root not in output:</span>
 <span class="line-empty" title="No Anys on this line!">                output[entity_root] = {}</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">            output[entity_root].update(entity_data[entity_root])</span>

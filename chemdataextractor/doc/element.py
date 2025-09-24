@@ -12,7 +12,7 @@ import json
 import logging
 import operator
 from abc import ABCMeta
-from abc import abstractproperty
+from abc import abstractmethod
 from typing import TYPE_CHECKING
 from typing import Any
 
@@ -118,7 +118,8 @@ class BaseElement(metaclass=ABCMeta):
         # except TypeError:
         #     self._document = document
 
-    @abstractproperty
+    @property
+    @abstractmethod
     def records(self) -> ModelList[BaseModel]:
         """All records found in this Element.
 

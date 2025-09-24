@@ -222,9 +222,6 @@
 <span id="L212" class="lineno"><a class="lineno" href="#L212">212</a></span>
 <span id="L213" class="lineno"><a class="lineno" href="#L213">213</a></span>
 <span id="L214" class="lineno"><a class="lineno" href="#L214">214</a></span>
-<span id="L215" class="lineno"><a class="lineno" href="#L215">215</a></span>
-<span id="L216" class="lineno"><a class="lineno" href="#L216">216</a></span>
-<span id="L217" class="lineno"><a class="lineno" href="#L217">217</a></span>
 </pre></td>
 <td class="table-code"><pre><span class="line-empty" title="No Anys on this line!">"""</span>
 <span class="line-empty" title="No Anys on this line!">Tools for cleaning up XML/HTML by removing tags entirely or replacing with their contents.</span>
@@ -303,156 +300,154 @@
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="No Anys on this line!">    def __call__(self, doc):</span>
 <span class="line-empty" title="No Anys on this line!">        """Clean the document."""</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">        if hasattr(doc, "getroot"):</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x4)">            doc = doc.getroot()</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">        if self.fix_whitespace:</span>
 <span class="line-empty" title="No Anys on this line!">            # Ensure newlines around block elements</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x4)">            for el in doc.iterdescendants():</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x2)">                if el.tag in BLOCK_ELEMENTS:</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x6)">                    el.tail = (el.tail or "") + "\n"</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x4)">                    previous = el.getprevious()</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x4)">                    parent = el.getparent()</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">                    if previous is None:</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x6)">                        parent.text = (parent.text or "") + "\n"</span>
 <span class="line-empty" title="No Anys on this line!">                    else:</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x6)">                        previous.tail = (previous.tail or "") + "\n"</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">        # Collect all the allowed elements</span>
 <span class="line-precise" title="No Anys on this line!">        to_keep = (</span>
-<span class="line-any" title="Any Types on this line:
-Unannotated (x5)">            [el for el in doc.xpath(self.allow_xpath, namespaces=self.namespaces)]</span>
+<span class="line-any" title="Any Types on this line: 
+Unannotated (x4)
+Omitted Generics (x3)">            list(doc.xpath(self.allow_xpath, namespaces=self.namespaces))</span>
 <span class="line-precise" title="No Anys on this line!">            if self.allow_xpath</span>
 <span class="line-empty" title="No Anys on this line!">            else []</span>
 <span class="line-empty" title="No Anys on this line!">        )</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">        # Process xpaths</span>
-<span class="line-imprecise" title="Any Types on this line:
+<span class="line-imprecise" title="Any Types on this line: 
 Unannotated (x2)">        if self.process_xpaths:</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x8)">            for xpath, func in self.process_xpaths.items():</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x5)">                for el in doc.xpath(xpath, namespaces=self.namespaces):</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x4)">                    parent = el.getparent()</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x3)">                    if parent is None or el in to_keep:</span>
 <span class="line-any" title="No Anys on this line!">                        continue</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x4)">                    new_element = func(el)</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">                    if new_element is None:</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x3)">                        el.clear(keep_tail=True)</span>
 <span class="line-empty" title="No Anys on this line!">                    else:</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x7)">                        parent.replace(el, func(el))</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">        # Remove elements that match kill_xpath</span>
 <span class="line-precise" title="No Anys on this line!">        if self.kill_xpath:</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x4)">            for el in doc.xpath(self.kill_xpath, namespaces=self.namespaces):</span>
 <span class="line-empty" title="No Anys on this line!">                # log.debug('Killing: %s' % tostring(el))</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x4)">                parent = el.getparent()</span>
 <span class="line-empty" title="No Anys on this line!">                # We can't kill the root element!</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">                if parent is None:</span>
 <span class="line-any" title="No Anys on this line!">                    continue</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x2)">                if el.tail:</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x4)">                    previous = el.getprevious()</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">                    if previous is None:</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x8)">                        parent.text = (parent.text or "") + el.tail</span>
 <span class="line-empty" title="No Anys on this line!">                    else:</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x8)">                        previous.tail = (previous.tail or "") + el.tail</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x4)">                parent.remove(el)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">        # Replace elements that match strip_xpath with their contents</span>
 <span class="line-precise" title="No Anys on this line!">        if self.strip_xpath:</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x6)">            for el in doc.xpath(self.strip_xpath, namespaces=self.namespaces):</span>
 <span class="line-empty" title="No Anys on this line!">                # Skip if allowed by allow_xpath</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">                if el in to_keep:</span>
 <span class="line-any" title="No Anys on this line!">                    continue</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x3)">                parent = el.getparent()</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x3)">                previous = el.getprevious()</span>
 <span class="line-empty" title="No Anys on this line!">                # We can't strip the root element!</span>
 <span class="line-any" title="No Anys on this line!">                if parent is None:</span>
 <span class="line-any" title="No Anys on this line!">                    continue</span>
 <span class="line-empty" title="No Anys on this line!">                # Append the text to previous tail (or parent text if no previous), ensuring newline if block level</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x6)">                if el.text and isinstance(el.tag, str):</span>
 <span class="line-any" title="No Anys on this line!">                    if previous is None:</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x6)">                        parent.text = (parent.text or "") + el.text</span>
 <span class="line-empty" title="No Anys on this line!">                    else:</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x6)">                        previous.tail = (previous.tail or "") + el.text</span>
 <span class="line-empty" title="No Anys on this line!">                # Append the tail to last child tail, or previous tail, or parent text, ensuring newline if block level</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x2)">                if el.tail:</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x2)">                    if len(el):</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x3)">                        last = el[-1]</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x6)">                        last.tail = (last.tail or "") + el.tail</span>
 <span class="line-any" title="No Anys on this line!">                    elif previous is None:</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x6)">                        parent.text = (parent.text or "") + el.tail</span>
 <span class="line-empty" title="No Anys on this line!">                    else:</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x6)">                        previous.tail = (previous.tail or "") + el.tail</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x3)">                index = parent.index(el)</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x3)">                parent[index : index + 1] = el[:]</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">        # Collapse whitespace down to a single space or a single newline</span>
 <span class="line-precise" title="No Anys on this line!">        if self.fix_whitespace:</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x4)">            for el in doc.iter():</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x2)">                if el.text is not None:</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x4)">                    el.text = re.sub(r"\s*\n\s*", "\n", el.text)</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x4)">                    el.text = re.sub(r"[ \t]+", " ", el.text)</span>
 <span class="line-empty" title="No Anys on this line!">                    # el.text = re.sub(r'\s+', ' ', el.text)</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x2)">                if el.tail is not None:</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x4)">                    el.tail = re.sub(r"\s*\n\s*", "\n", el.tail)</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x4)">                    el.tail = re.sub(r"[ \t]+", " ", el.tail)</span>
 <span class="line-empty" title="No Anys on this line!">                    # el.tail = re.sub(r'\s+', ' ', el.tail)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="No Anys on this line!">    def clean_html(self, html):</span>
 <span class="line-empty" title="No Anys on this line!">        """Apply ``Cleaner`` to HTML string or document and return a cleaned string or document."""</span>
 <span class="line-empty" title="No Anys on this line!">        result_type = type(html)</span>
-<span class="line-empty" title="No Anys on this line!">        if isinstance(html, str):</span>
-<span class="line-empty" title="No Anys on this line!">            doc = html_fromstring(html)</span>
-<span class="line-empty" title="No Anys on this line!">        else:</span>
-<span class="line-empty" title="No Anys on this line!">            doc = copy.deepcopy(html)</span>
+<span class="line-empty" title="No Anys on this line!">        doc = html_fromstring(html) if isinstance(html, str) else copy.deepcopy(html)</span>
 <span class="line-empty" title="No Anys on this line!">        self(doc)</span>
 <span class="line-empty" title="No Anys on this line!">        if issubclass(result_type, bytes):</span>
 <span class="line-empty" title="No Anys on this line!">            return tostring(doc, encoding="utf-8")</span>
@@ -478,27 +473,27 @@ Unannotated (x4)">                    el.tail = re.sub(r"[ \t]+", " ", el.tail)<
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">#: A default Cleaner instance, which kills comments, processing instructions, script tags, style tags.</span>
-<span class="line-precise" title="Any Types on this line:
+<span class="line-precise" title="Any Types on this line: 
 Unannotated (x1)">clean = Cleaner()</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">#: Convenience function for applying ``clean`` to a string.</span>
-<span class="line-precise" title="Any Types on this line:
+<span class="line-precise" title="Any Types on this line: 
 Unannotated (x6)">clean_markup = clean.clean_markup</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">#: Convenience function for applying ``clean`` to a HTML string.</span>
-<span class="line-precise" title="Any Types on this line:
+<span class="line-precise" title="Any Types on this line: 
 Unannotated (x4)">clean_html = clean.clean_html</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">#: A Cleaner instance that is configured to strip all tags, replacing them with their text contents.</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">strip = Cleaner(strip_xpath=".//*")</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">#: Convenience function for applying ``strip`` to a string.</span>
-<span class="line-precise" title="Any Types on this line:
+<span class="line-precise" title="Any Types on this line: 
 Unannotated (x6)">strip_markup = strip.clean_markup</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">#: Convenience function for applying ``strip`` to a HTML string.</span>
-<span class="line-precise" title="Any Types on this line:
+<span class="line-precise" title="Any Types on this line: 
 Unannotated (x4)">strip_html = strip.clean_html</span>
 </pre></td>
 </tr></tbody>

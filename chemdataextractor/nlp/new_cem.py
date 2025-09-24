@@ -1,6 +1,11 @@
 """
 New and improved named entity recognition (NER) for Chemical entity mentions (CEM).
+
+Provides state-of-the-art chemical entity recognition using BERT-CRF models
+for both organic and inorganic materials identification in scientific text.
 """
+
+from __future__ import annotations
 
 from .bertcrf_tagger import BertCrfTagger
 from .bertcrf_tagger import ProcessedTextTagger

@@ -107,15 +107,13 @@ UNAMBIGUOUS_GREEK_WORDS = {
     "omega": "ω",  # \u03c9
 }
 
-DOT_GREEK_RE = re.compile(
-    r"\.({})\.".format("|".join(re.escape(s) for s in GREEK_WORDS.keys())), re.U
-)
+DOT_GREEK_RE = re.compile(r"\.({})\.".format("|".join(re.escape(s) for s in GREEK_WORDS)), re.U)
 GREEK_RE = re.compile(
-    r"([\daA\W]|^)({})([\d\W]|$)".format("|".join(re.escape(s) for s in GREEK_WORDS.keys())),
+    r"([\daA\W]|^)({})([\d\W]|$)".format("|".join(re.escape(s) for s in GREEK_WORDS)),
     re.U,
 )
 UNAMBIGUOUS_GREEK_RE = re.compile(
-    "({})".format("|".join(re.escape(s) for s in UNAMBIGUOUS_GREEK_WORDS.keys())), re.U
+    "({})".format("|".join(re.escape(s) for s in UNAMBIGUOUS_GREEK_WORDS)), re.U
 )
 
 
@@ -152,10 +150,7 @@ def _process_name(name):
     elif len(comps) > 2:
         name = comps[0]
         for i in range(1, len(comps)):
-            if comps[i].endswith("-"):
-                name = f"{comps[i]}{name}"
-            else:
-                name = f"{name} {comps[i]}"
+            name = f"{comps[i]}{name}" if comps[i].endswith("-") else f"{name} {comps[i]}"
     return name
 
 

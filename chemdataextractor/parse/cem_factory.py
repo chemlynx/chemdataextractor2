@@ -50,9 +50,7 @@ def not_separator(result):
     this should ever occur in a paper). This checks whether this is included in the result.
     """
     # print(etree.tostring(result[0]), result[0].text, '🙃' in result[0].text)
-    if "🙃" in result[0].text:
-        return False
-    return True
+    return "🙃" not in result[0].text
 
 
 class _CemFactory:

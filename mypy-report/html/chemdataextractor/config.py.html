@@ -121,6 +121,8 @@
 <span id="L111" class="lineno"><a class="lineno" href="#L111">111</a></span>
 <span id="L112" class="lineno"><a class="lineno" href="#L112">112</a></span>
 <span id="L113" class="lineno"><a class="lineno" href="#L113">113</a></span>
+<span id="L114" class="lineno"><a class="lineno" href="#L114">114</a></span>
+<span id="L115" class="lineno"><a class="lineno" href="#L115">115</a></span>
 </pre></td>
 <td class="table-code"><pre><span class="line-empty" title="No Anys on this line!">"""</span>
 <span class="line-empty" title="No Anys on this line!">Config file reader/writer.</span>
@@ -128,25 +130,27 @@
 <span class="line-empty" title="No Anys on this line!">"""</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">import os</span>
+<span class="line-precise" title="No Anys on this line!">from collections.abc import Iterator</span>
 <span class="line-precise" title="No Anys on this line!">from collections.abc import MutableMapping</span>
+<span class="line-precise" title="No Anys on this line!">from typing import Any</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="No Anys on this line!">import appdirs</span>
 <span class="line-any" title="No Anys on this line!">import yaml</span>
 <span class="line-any" title="No Anys on this line!">from yaml import SafeLoader</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-any" title="No Anys on this line!">def construct_yaml_str(self, node):</span>
+<span class="line-any" title="Any Types on this line: 
+Unimported (x2)">def construct_yaml_str(self: SafeLoader, node: yaml.Node) -&gt; str:</span>
 <span class="line-empty" title="No Anys on this line!">    """Override the default string handling function to always return unicode objects."""</span>
-<span class="line-any" title="Any Types on this line:
-Unannotated (x4)">    return self.construct_scalar(node)</span>
+<span class="line-any" title="Any Types on this line: 
+Unimported (x4)">    return self.construct_scalar(node)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-any" title="Any Types on this line:
-Unimported (x3)
-Unannotated (x3)">SafeLoader.add_constructor("tag:yaml.org,2002:str", construct_yaml_str)</span>
+<span class="line-any" title="Any Types on this line: 
+Unimported (x5)">SafeLoader.add_constructor("tag:yaml.org,2002:str", construct_yaml_str)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-precise" title="No Anys on this line!">class Config(MutableMapping):</span>
+<span class="line-precise" title="No Anys on this line!">class Config(MutableMapping[str, Any]):</span>
 <span class="line-empty" title="No Anys on this line!">    """Read and write to config file.</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">    A config object is essentially a string key-value store that can be treated like a dictionary::</span>
@@ -171,103 +175,95 @@ Unannotated (x3)">SafeLoader.add_constructor("tag:yaml.org,2002:str", construct_
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">    """</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-any" title="No Anys on this line!">    def __init__(self, path=None):</span>
+<span class="line-precise" title="No Anys on this line!">    def __init__(self, path: str | None = None) -&gt; None:</span>
 <span class="line-empty" title="No Anys on this line!">        """</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">        :param string path: (Optional) Path to config file location.</span>
 <span class="line-empty" title="No Anys on this line!">        """</span>
-<span class="line-any" title="Any Types on this line:
-Unannotated (x2)">        self._path = path</span>
-<span class="line-precise" title="No Anys on this line!">        self._data = {}</span>
+<span class="line-precise" title="No Anys on this line!">        self._path: str | None = path</span>
+<span class="line-imprecise" title="Any Types on this line: 
+Explicit (x1)">        self._data: dict[str, Any] = {}</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">        # Use CHEMDATAEXTRACTOR_CONFIG environment variable if set</span>
-<span class="line-any" title="Any Types on this line:
-Unannotated (x1)">        if not self._path:</span>
-<span class="line-any" title="Any Types on this line:
-Omitted Generics (x2)
-Unannotated (x1)">            self._path = os.environ.get("CHEMDATAEXTRACTOR_CONFIG")</span>
+<span class="line-precise" title="No Anys on this line!">        if not self._path:</span>
+<span class="line-precise" title="Any Types on this line: 
+Omitted Generics (x2)">            self._path = os.environ.get("CHEMDATAEXTRACTOR_CONFIG")</span>
 <span class="line-empty" title="No Anys on this line!">        # Use OS-dependent config directory given by appdirs</span>
-<span class="line-any" title="Any Types on this line:
-Unannotated (x1)">        if not self._path:</span>
-<span class="line-any" title="Any Types on this line:
-Unannotated (x1)">            self._path = os.path.join(</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-precise" title="No Anys on this line!">        if not self._path:</span>
+<span class="line-precise" title="No Anys on this line!">            self._path = os.path.join(</span>
+<span class="line-any" title="Any Types on this line: 
 Unimported (x3)">                appdirs.user_config_dir("ChemDataExtractor"),</span>
-<span class="line-any" title="No Anys on this line!">                "chemdataextractor.yml",</span>
+<span class="line-precise" title="No Anys on this line!">                "chemdataextractor.yml",</span>
 <span class="line-empty" title="No Anys on this line!">            )</span>
 <span class="line-precise" title="No Anys on this line!">        if os.path.isfile(self.path):</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-precise" title="Any Types on this line: 
 Unimported (x7)
 Explicit (x1)">            with open(self.path, encoding="utf8") as f:</span>
-<span class="line-any" title="Any Types on this line:
-Unimported (x3)">                self._data = yaml.safe_load(f)</span>
-<span class="line-any" title="No Anys on this line!">                if self._data is None:</span>
-<span class="line-unanalyzed" title="No Anys on this line!">                    self._data = {}</span>
+<span class="line-any" title="Any Types on this line: 
+Unimported (x6)
+Explicit (x1)">                self._data = yaml.safe_load(f) or {}</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">    @property</span>
-<span class="line-any" title="No Anys on this line!">    def path(self):</span>
+<span class="line-precise" title="No Anys on this line!">    def path(self) -&gt; str:</span>
 <span class="line-empty" title="No Anys on this line!">        """The path to the config file."""</span>
-<span class="line-any" title="Any Types on this line:
-Unannotated (x1)">        return self._path</span>
+<span class="line-precise" title="No Anys on this line!">        if self._path is None:</span>
+<span class="line-precise" title="No Anys on this line!">            raise ValueError("Config path not set")</span>
+<span class="line-precise" title="No Anys on this line!">        return self._path</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-any" title="No Anys on this line!">    def _flush(self):</span>
+<span class="line-precise" title="No Anys on this line!">    def _flush(self) -&gt; None:</span>
 <span class="line-empty" title="No Anys on this line!">        """Save the contents of data to the file on disk. You should not need to call this manually."""</span>
-<span class="line-any" title="Any Types on this line:
-Unannotated (x3)
+<span class="line-precise" title="Any Types on this line: 
 Omitted Generics (x4)">        d = os.path.dirname(self.path)</span>
-<span class="line-any" title="Any Types on this line:
-Unannotated (x1)">        if not os.path.isdir(d):</span>
-<span class="line-any" title="Any Types on this line:
-Unannotated (x1)">            os.makedirs(d)</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-precise" title="No Anys on this line!">        if not os.path.isdir(d):</span>
+<span class="line-precise" title="No Anys on this line!">            os.makedirs(d)</span>
+<span class="line-precise" title="Any Types on this line: 
 Unimported (x7)
-Explicit (x1)
-Unannotated (x1)">        with open(self.path, "w", encoding="utf8") as f:</span>
-<span class="line-any" title="Any Types on this line:
-Unimported (x3)">            yaml.safe_dump(self._data, f, default_flow_style=False, encoding=None)</span>
+Explicit (x1)">        with open(self.path, "w", encoding="utf8") as f:</span>
+<span class="line-any" title="Any Types on this line: 
+Unimported (x3)
+Explicit (x1)">            yaml.safe_dump(self._data, f, default_flow_style=False, encoding=None)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-any" title="No Anys on this line!">    def __contains__(self, k):</span>
-<span class="line-any" title="Any Types on this line:
-Unannotated (x1)">        return k in self._data</span>
+<span class="line-precise" title="No Anys on this line!">    def __contains__(self, k: object) -&gt; bool:</span>
+<span class="line-imprecise" title="Any Types on this line: 
+Explicit (x1)">        return k in self._data</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-any" title="No Anys on this line!">    def __getitem__(self, k):</span>
-<span class="line-any" title="Any Types on this line:
-Unannotated (x1)">        return self._data[k]</span>
+<span class="line-any" title="Any Types on this line: 
+Explicit (x1)">    def __getitem__(self, k: str) -&gt; Any:</span>
+<span class="line-any" title="Any Types on this line: 
+Explicit (x2)">        return self._data[k]</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-any" title="No Anys on this line!">    def __setitem__(self, k, v):</span>
-<span class="line-any" title="Any Types on this line:
-Unannotated (x2)">        self._data[k] = v</span>
-<span class="line-any" title="Any Types on this line:
-Unannotated (x2)">        self._flush()</span>
+<span class="line-any" title="Any Types on this line: 
+Explicit (x1)">    def __setitem__(self, k: str, v: Any) -&gt; None:</span>
+<span class="line-any" title="Any Types on this line: 
+Explicit (x2)">        self._data[k] = v</span>
+<span class="line-precise" title="No Anys on this line!">        self._flush()</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-any" title="No Anys on this line!">    def __delitem__(self, k):</span>
-<span class="line-any" title="Any Types on this line:
-Unannotated (x1)">        del self._data[k]</span>
-<span class="line-any" title="Any Types on this line:
-Unannotated (x2)">        self._flush()</span>
+<span class="line-precise" title="No Anys on this line!">    def __delitem__(self, k: str) -&gt; None:</span>
+<span class="line-imprecise" title="Any Types on this line: 
+Explicit (x1)">        del self._data[k]</span>
+<span class="line-precise" title="No Anys on this line!">        self._flush()</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-any" title="No Anys on this line!">    def __iter__(self):</span>
-<span class="line-precise" title="Any Types on this line:
-Explicit (x2)
+<span class="line-precise" title="No Anys on this line!">    def __iter__(self) -&gt; Iterator[str]:</span>
+<span class="line-imprecise" title="Any Types on this line: 
+Explicit (x3)
 Omitted Generics (x8)">        return iter(self._data)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-any" title="No Anys on this line!">    def __len__(self):</span>
-<span class="line-precise" title="No Anys on this line!">        return len(self._data)</span>
+<span class="line-precise" title="No Anys on this line!">    def __len__(self) -&gt; int:</span>
+<span class="line-imprecise" title="Any Types on this line: 
+Explicit (x1)">        return len(self._data)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-any" title="No Anys on this line!">    def __repr__(self):</span>
-<span class="line-any" title="Any Types on this line:
-Unannotated (x1)">        return f"&lt;Config: {self.path}&gt;"</span>
+<span class="line-precise" title="No Anys on this line!">    def __repr__(self) -&gt; str:</span>
+<span class="line-precise" title="No Anys on this line!">        return f"&lt;Config: {self.path}&gt;"</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-any" title="No Anys on this line!">    def clear(self):</span>
+<span class="line-precise" title="No Anys on this line!">    def clear(self) -&gt; None:</span>
 <span class="line-empty" title="No Anys on this line!">        """Clear all values from config."""</span>
-<span class="line-precise" title="No Anys on this line!">        self._data = {}</span>
-<span class="line-any" title="Any Types on this line:
-Unannotated (x2)">        self._flush()</span>
+<span class="line-imprecise" title="Any Types on this line: 
+Explicit (x1)">        self._data = {}</span>
+<span class="line-precise" title="No Anys on this line!">        self._flush()</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">#: Global config instance.</span>
-<span class="line-precise" title="Any Types on this line:
-Unannotated (x1)">config = Config()</span>
+<span class="line-precise" title="No Anys on this line!">config = Config()</span>
 </pre></td>
 </tr></tbody>
 </table>

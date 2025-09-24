@@ -1,7 +1,11 @@
 """
 Reader classes that read a file and produce a ChemDataExtractor Document object.
 
+Provides comprehensive document readers for various scientific literature formats
+including HTML, XML, PDF, and plain text documents.
 """
+
+from __future__ import annotations
 
 from .acs import AcsHtmlReader
 from .cssp import CsspHtmlReader

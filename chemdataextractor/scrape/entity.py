@@ -98,10 +98,7 @@ class Entity(BaseEntity, metaclass=EntityMeta):
             value = self._values.get(field_name)
             field = self.fields.get(field_name)
             if value is not None:
-                if field.all:
-                    value = [field.serialize(v) for v in value]
-                else:
-                    value = field.serialize(value)
+                value = [field.serialize(v) for v in value] if field.all else field.serialize(value)
             # Skip empty fields unless field.null
             if not field.null and (
                 (field.all and value == []) or (not field.all and value in {None, ""})

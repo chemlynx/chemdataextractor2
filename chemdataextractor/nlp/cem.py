@@ -14,9 +14,6 @@ import logging
 import re
 from typing import TYPE_CHECKING
 from typing import Any
-from typing import Dict
-from typing import List
-from typing import Tuple
 
 from ..text import bracket_level
 from .lexicon import ChemLexicon
@@ -825,7 +822,6 @@ STOPLIST = {
     "olive oil",
     "groundnut oil",
     "telomerase",
-    "transdermal patch",
     "cascade",
     "agar",
     "distilled water",
@@ -993,7 +989,6 @@ STOPLIST = {
     "vicilin",
     "maltodextrin",
     "s100",
-    "maltodextrin",
     "spme",
     "p300",
     "p450",
@@ -1042,7 +1037,6 @@ STOPLIST = {
     "octadecaneuropeptide",
     "oligonucleotide",
     "prolactin",
-    "cocktail",
     "carotene",
     "pgc1α",
     "hyaluronan",
@@ -1063,21 +1057,8 @@ STOPLIST = {
     "taxus",
     "proopiomelanocortin",
     "capture",
-    "chitosan",
-    "cellulose",
-    "betaine",
-    "thromboplastin",
-    "thrombin",
-    "aprotinin",
     "xyloglucan",
-    "glucans",
-    "piper",
-    "corticotropin",
-    "dixon",
-    "bengal",
-    "protio",
     "δr(1)",
-    "crotoxin",
     "amphiregulin",
     "fulfill",
     "scpa",
@@ -1235,48 +1216,14 @@ STOPLIST = {
     "hairy",
     "sunshine",
     "star",
-    "spme",
-    "maltodextrin",
-    "s100",
-    "vicilin",
-    "ascophyllum",
     "[h2o2]",
-    "xanthan",
-    "samp",
-    "calcitonin",
-    "ubr2",
-    "aversion",
-    "reconcile",
-    "vortex",
-    "triangle",
-    "homogentisate",
-    "acacia",
-    "dragon",
-    "recruit",
-    "hemozoin",
-    "barrels",
-    "preview",
-    "conserve",
-    "trypsinogen",
-    "ricin",
-    "melanin",
-    "sepharose",
-    "noxa",
-    "ω",
-    "xanthium",
-    "trails",
-    "revolution",
-    "angiotensinogen",
     "igaba",
     "pullulan",
-    "lmwh",
-    "enoxaparin",
     "fenton",
     "meta",
     "active carbon",
     "alamethicin",
     "bionic",
-    "dynorphin",
     "anterior pituitary hormone",
     "gonadotropin releasing hormone",
     "follicle-stimulating hormone",
@@ -1284,9 +1231,6 @@ STOPLIST = {
     "luteinizing hormone",
     "luteinising hormone",
     "parathyroid hormone",
-    "anterior pituitary hormone",
-    "gonadotropin releasing hormone",
-    "adrenocorticotropic hormone",
     "thyroid stimulating hormone",
     "corticotrophin-releasing hormone",
     "antidiuretic hormone",
@@ -1295,10 +1239,8 @@ STOPLIST = {
     "ion",
     "counter-anion",
     "counter-ion",
-    "polypeptide",
     "scopolamine",
     "stainless steel",
-    "danshen",
     "cholera toxin",
     "thymosin β4",
     "sesame oil",
@@ -1563,7 +1505,6 @@ STOPLIST = {
     "cecil",
     "charlie",
     "coca",
-    "cola",
     "coke",
     "heaven",
     "hell",
@@ -1625,7 +1566,6 @@ STOPLIST = {
     "stuff",
     "rival",
     "vermin",
-    "snip",
     "monarch",
     "flair",
     "paladin",
@@ -1635,7 +1575,6 @@ STOPLIST = {
     "stipend",
     "equity",
     "terminator",
-    "tara",
     "jolt",
     "sniper",
     "rampart",
@@ -1736,18 +1675,15 @@ STOPLIST = {
     "bishop-kirtman",
     "bromelain",
     "bromelia",
-    "calcitonin",
     "carob",
     "cocoa butter",
     "complement proteins",
     "metal-oxide",
-    "complement proteins",
     "waters",
     "aldrich",
     "wang",
     "xylan",
     "transfer rna",
-    "tough",
     "torpedo",
     "saccharum",
     "saccharina",
@@ -1842,7 +1778,6 @@ STOPLIST = {
     "galsulfase",
     "reticulin",
     "pyrethrum",
-    "nociceptin",
     "growth hormone releasing hormone",
     "nor-1",
     "protamine",
@@ -1881,7 +1816,6 @@ STOPLIST = {
     "flue gas",
     "isomaltosaccharide",
     "vinca",
-    "actinin-4",
     "il12",
     "siamycin",
     "naglazyme",
@@ -1937,11 +1871,9 @@ STOPLIST = {
     "supra",
     "β-nf",
     "optimizer",
-    "orbit",
     "spirit",
     "rhombic",
     "green tea leaves",
-    "alum",
     "a",
     "about",
     "again",
@@ -2220,14 +2152,16 @@ class _CompatibilityToken:
     result.
     """
 
-    def __init__(self, text, pos_tag, prefetched_tags=None):
+    def __init__(
+        self, text: str, pos_tag: str, prefetched_tags: dict[str, Any] | None = None
+    ) -> None:
         self.pos_tag = pos_tag
         self.text = text
         if prefetched_tags is None:
             prefetched_tags = {}
         self.prefetched_tags = prefetched_tags
 
-    def __getitem__(self, key):
+    def __getitem__(self, key: int | str) -> str:
         if key == 0:
             return self.text
         elif key == 1 or key == POS_TAG_TYPE:
@@ -2290,7 +2224,7 @@ class CrfCemTagger(CrfTagger):
         "feature.possible_states": False,  # Force to generate all possible state features. Default False.
     }
 
-    def legacy_tag(self, tokens):
+    def legacy_tag(self, tokens: list[tuple[str, str]] | list[str]) -> list[tuple[Any, str]]:
         """
         :param list(obj tokens) tokens: Tokens to tag
         :returns (list(obj), obj):
@@ -2312,15 +2246,15 @@ class CrfCemTagger(CrfTagger):
             processed.append((tokens[index], element[1]))
         return processed
 
-    def tag(self, tokens):
+    def tag(self, tokens: list[Any]) -> list[tuple[Any, str]]:
         if not self._loaded_model:
             self.load(self.model)
         features = [self._get_features(tokens, i) for i in range(len(tokens))]
         tags = self._tagger.tag(features)
-        tagged_sent = list(zip(tokens, tags))
+        tagged_sent = list(zip(tokens, tags, strict=False))
         return tagged_sent
 
-    def _get_features(self, tokens, i):
+    def _get_features(self, tokens: list[Any], i: int) -> list[str]:
         """"""
         token = tokens[i].text
         tag = tokens[i][POS_TAG_TYPE]
@@ -2510,7 +2444,7 @@ class LegacyCemTagger(EnsembleTagger):
                 log.debug("Killed: %s", entity)
                 return True
 
-    def legacy_tag(self, tokens):
+    def legacy_tag(self, tokens: list[tuple[str, str]]) -> list[tuple[Any, str]]:
         """
         :param list(obj tokens) tokens: Tokens to tag
         :returns (list(obj), obj):
@@ -2522,7 +2456,7 @@ class LegacyCemTagger(EnsembleTagger):
         """
         pseudo_rich_tokens = []
         all_prefetched_tags = {}
-        for tag_type in self.taggers_dict.keys():
+        for tag_type in self.taggers_dict:
             if tag_type != self.tag_type:
                 tagger = self.taggers_dict[tag_type]
                 all_prefetched_tags[tag_type] = [el[1] for el in tagger.legacy_tag(tokens)]
@@ -2537,14 +2471,14 @@ class LegacyCemTagger(EnsembleTagger):
             processed.append((tokens[index], element[1]))
         return processed
 
-    def tag(self, tokens):
+    def tag(self, tokens: list[Any]) -> list[tuple[Any, str | None]]:
         """Run individual chemical entity mention taggers and return union of matches, with some postprocessing."""
 
         # print("labelling for CemTagger", tokens)
         # Combine output from individual taggers
         tags = [None] * len(tokens)
 
-        for tag_type in self.taggers_dict.keys():
+        for tag_type in self.taggers_dict:
             # tag_gen = tagger.tag(tokens) if isinstance(tagger, CrfCemTagger) else tagger.tag(just_tokens)
             if tag_type != self.tag_type:
                 tagger_tags = [token[tag_type] for token in tokens]
@@ -2616,12 +2550,11 @@ class LegacyCemTagger(EnsembleTagger):
                             len(entity_tokens) >= 4
                             and entity_tokens[-1] == ")"
                             and entity_tokens[-3] == "("
+                        ) and re.match(
+                            r"^(\d{1,2}[A-Za-z]?|I|II|III|IV|V|VI|VII|VIII|IX)$",
+                            entity_tokens[-2],
                         ):
-                            if re.match(
-                                r"^(\d{1,2}[A-Za-z]?|I|II|III|IV|V|VI|VII|VIII|IX)$",
-                                entity_tokens[-2],
-                            ):
-                                log.debug("Removing %s from end of CEM", entity_tokens[-2])
-                                tags[end_i - 3 : end_i] = [None, None, None]
-        tokentags = list(zip(tokens, tags))
+                            log.debug("Removing %s from end of CEM", entity_tokens[-2])
+                            tags[end_i - 3 : end_i] = [None, None, None]
+        tokentags = list(zip(tokens, tags, strict=False))
         return tokentags

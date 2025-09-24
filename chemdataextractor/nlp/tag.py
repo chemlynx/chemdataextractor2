@@ -17,8 +17,6 @@ from abc import abstractmethod
 from collections import defaultdict
 from functools import lru_cache
 from typing import TYPE_CHECKING
-from typing import List
-from typing import Tuple
 
 import dawg
 import pycrfsuite
@@ -97,21 +95,32 @@ class BaseTagger(metaclass=ABCMeta):
         deprecated_in="2.1",
         details="Deprecated in conjunction with the deprecation of the legacy_tag function. Please write equivalent functionality to use RichTokens.",
     )
-    def tag_sents(self, sentences):
-        """Apply the ``tag`` method to each sentence in ``sentences``."""
+    def tag_sents(self, sentences: list[TokenList]) -> list[TaggedSentence]:
+        """Apply the ``tag`` method to each sentence in ``sentences``.
+
+        Args:
+            sentences: List of sentences to tag
+
+        Returns:
+            List of tagged sentences
+        """
         return [self.legacy_tag(s) for s in sentences]
 
-    def evaluate(self, gold):
+    def evaluate(self, gold: list[TaggedSentence]) -> float:
         """Evaluate the accuracy of this tagger using a gold standard corpus.
 
-        :param list(list(tuple(str, str))) gold: The list of tagged sentences to score the tagger on.
-        :returns: Tagger accuracy value.
-        :rtype: float
+        Args:
+            gold: The list of tagged sentences to score the tagger on
+
+        Returns:
+            Tagger accuracy value
         """
         tagged_sents = self.tag_sents([w for (w, t) in sent] for sent in gold)
         gold_tokens = sum(gold, [])
         test_tokens = sum(tagged_sents, [])
-        accuracy = float(sum(x == y for x, y in zip(gold_tokens, test_tokens))) / len(test_tokens)
+        accuracy = float(sum(x == y for x, y in zip(gold_tokens, test_tokens, strict=False))) / len(
+            test_tokens
+        )
         return accuracy
 
     def can_tag(self, tag_type: str) -> bool:
@@ -158,7 +167,7 @@ class EnsembleTagger(BaseTagger):
     tag_type = ""
     taggers = []
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, *args, **kwargs) -> None:
         super().__init__(*args, **kwargs)
         taggers_dict = {}
         for i, tagger in enumerate(self.taggers):
@@ -171,11 +180,18 @@ class EnsembleTagger(BaseTagger):
         self.taggers_dict = taggers_dict
         self.taggers_dict[self.tag_type] = self
 
-    def tag_for_type(self, tokens, tag_type):
+    def tag_for_type(self, tokens: TokenList, tag_type: str) -> TaggedSentence:
         """
         This method will be called if the EnsembleTagger has previously
         claimed that it can tag the given tag type via the :meth:`~chemdataextractor.nlp.tag.EnsembleTagger.can_tag` method. The appropriate
         tagger within EnsembleTagger is called and the results returned.
+
+        Args:
+            tokens: List of tokens to tag
+            tag_type: Type of tags to apply
+
+        Returns:
+            List of tagged tokens
 
         .. note::
             This method can handle having legacy taggers mixed in with
@@ -211,7 +227,7 @@ class EnsembleTagger(BaseTagger):
         return hasattr(self.taggers_dict[tag_type], "batch_tag")
 
     def can_tag(self, tag_type):
-        return tag_type in self.taggers_dict.keys()
+        return tag_type in self.taggers_dict
 
 
 class NoneTagger(BaseTagger):
@@ -495,7 +511,7 @@ class CrfTagger(BaseTagger):
             self.load(self.model)
         features = [self._get_features(tokens, i) for i in range(len(tokens))]
         labels = self._tagger.tag(features)
-        tagged_sent = list(zip(tokens, labels))
+        tagged_sent = list(zip(tokens, labels, strict=False))
         return tagged_sent
 
     def train(self, sentences, model):
@@ -507,7 +523,7 @@ class CrfTagger(BaseTagger):
         trainer = pycrfsuite.Trainer(verbose=True)
         trainer.set_params(self.params)
         for sentence in sentences:
-            tokens, labels = zip(*sentence)
+            tokens, labels = zip(*sentence, strict=False)
             features = [self._get_features(tokens, i) for i in range(len(tokens))]
             trainer.append(features, labels)
         trainer.train(model)
@@ -617,5 +633,5 @@ class DictionaryTagger(BaseTagger):
             if tags[start_token] != f"I-{self.entity}":
                 tags[start_token] = f"B-{self.entity}"
             tags[start_token + 1 : end_token + 1] = [f"I-{self.entity}"] * (end_token - start_token)
-        tokentags = list(zip(tokens, tags))
+        tokentags = list(zip(tokens, tags, strict=False))
         return tokentags

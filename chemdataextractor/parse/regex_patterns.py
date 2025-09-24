@@ -19,9 +19,8 @@ from __future__ import annotations
 
 import re
 from functools import lru_cache
-from typing import Any
-from typing import Dict
 from re import Pattern
+from typing import Any
 
 # Pre-compiled pattern registry for common operations
 # These patterns are used frequently throughout the codebase
@@ -361,7 +360,7 @@ def validate_pattern_registry() -> bool:
         True if all patterns are valid, False otherwise
     """
     try:
-        for name, pattern in PATTERN_REGISTRY.items():
+        for _name, pattern in PATTERN_REGISTRY.items():
             # Test that pattern can be used
             pattern.search("test")
         return True

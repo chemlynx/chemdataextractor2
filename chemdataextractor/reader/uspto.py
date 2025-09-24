@@ -1,15 +1,24 @@
 """
 Readers for USPTO patents.
 
+Provides specialized XML reader for US Patent and Trademark Office (USPTO) patent
+documents with comprehensive table parsing and cell handling.
 """
 
-# from ..doc.table import Table
+from __future__ import annotations
+
+from typing import TYPE_CHECKING
+from typing import Any
+
 from ..doc.table import Table
 from ..doc.text import Caption
 from ..doc.text import Cell
 from ..doc.text import Footnote
 from ..scrape.clean import clean
 from .markup import XmlReader
+
+if TYPE_CHECKING:
+    from lxml.html import HtmlElement
 
 # TODO: The below has only been tested with us-patent-grant-v42
 
@@ -87,8 +96,16 @@ class UsptoXmlReader(XmlReader):
         "figref",
     }
 
-    def detect(self, fstring, fname=None):
-        """"""
+    def detect(self, fstring: str | bytes, fname: str | None = None) -> bool:
+        """Detect USPTO XML patent documents.
+
+        Args:
+            fstring: Input data to check
+            fname: Optional filename for format hints
+
+        Returns:
+            True if this appears to be a USPTO XML document
+        """
         if fname and not fname.lower().endswith(".xml"):
             return False
         if b"us-patent-grant" in fstring:
@@ -96,8 +113,18 @@ class UsptoXmlReader(XmlReader):
         # TODO: Other DTDs
         return False
 
-    def _parse_table(self, el, refs, specials):
-        hdict = {}
+    def _parse_table(self, el: HtmlElement, refs: dict[str, Any], specials: dict[str, Any]) -> list[Table]:
+        """Parse USPTO table structure with complex cell handling.
+
+        Args:
+            el: Table element to parse
+            refs: Reference mapping dictionary
+            specials: Special elements mapping dictionary
+
+        Returns:
+            List containing single Table object
+        """
+        hdict: dict[int, dict[int, Cell]] = {}
         for row, tr in enumerate(self._css(self.table_body_row_css, el)):
             colnum = 0
             for td in self._css(self.table_cell_css, tr):
@@ -175,15 +202,25 @@ class UsptoXmlReader(XmlReader):
         )
         return [tab]
 
-    def _parse_table_rows(self, els, refs, specials):
-        hdict = {}
+    def _parse_table_rows(self, els: list[HtmlElement], refs: dict[str, Any], specials: dict[str, Any]) -> list[list[Cell]]:
+        """Parse table rows with cell spanning support.
+
+        Args:
+            els: List of table row elements
+            refs: Reference mapping dictionary
+            specials: Special elements mapping dictionary
+
+        Returns:
+            List of table rows, each containing Cell objects
+        """
+        hdict: dict[int, dict[int, Cell]] = {}
         for row, tr in enumerate(els):
             colnum = 0
             for td in self._css(self.table_cell_css, tr):
                 cell = self._parse_text(td, refs=refs, specials=specials, element_cls=Cell)
                 colspan = int(td.get("colspan", "1"))
                 rowspan = int(td.get("rowspan", "1"))
-                for i in range(colspan):
+                for _i in range(colspan):
                     for j in range(rowspan):
                         rownum = row + j
                         if rownum not in hdict:
@@ -202,7 +239,17 @@ class UsptoXmlReader(XmlReader):
         rows = [r for r in rows if any(r)]
         return rows
 
-    def _parse_table_footnotes(self, fns, refs, specials):
+    def _parse_table_footnotes(self, fns: list[HtmlElement], refs: dict[str, Any], specials: dict[str, Any]) -> list[Footnote]:
+        """Parse table footnotes.
+
+        Args:
+            fns: List of footnote elements
+            refs: Reference mapping dictionary
+            specials: Special elements mapping dictionary
+
+        Returns:
+            List of Footnote objects
+        """
         return [
             self._parse_text(fn, refs=refs, specials=specials, element_cls=Footnote)[0]
             for fn in fns

@@ -8,19 +8,17 @@ components for maximum performance in parser trigger phrase processing.
 from __future__ import annotations
 
 import time
+from typing import TYPE_CHECKING
 from typing import Any
 from typing import ClassVar
-from typing import TYPE_CHECKING
 
-from .optimized_triggers import (
-    BatchTriggerProcessor,
-    FastTriggerMatcher,
-    TriggerResultPool,
-)
+from .optimized_triggers import BatchTriggerProcessor
+from .optimized_triggers import FastTriggerMatcher
+from .optimized_triggers import TriggerResultPool
 
 if TYPE_CHECKING:
-    from .base import BaseParser
     from ..doc.element import BaseElement
+    from .base import BaseParser
 
 
 class TriggerEngine:
@@ -41,7 +39,7 @@ class TriggerEngine:
             "cache_hits": 0,
             "batch_processes": 0,
             "total_time": 0.0,
-            "compilation_time": 0.0
+            "compilation_time": 0.0,
         }
 
         self._compiled = False
@@ -88,7 +86,7 @@ class TriggerEngine:
         start_time = time.perf_counter()
 
         # If no trigger phrase, always parse
-        if not hasattr(parser, 'trigger_phrase') or parser.trigger_phrase is None:
+        if not hasattr(parser, "trigger_phrase") or parser.trigger_phrase is None:
             return True
 
         # Find matching parsers
@@ -101,9 +99,7 @@ class TriggerEngine:
         return parser in matching_parsers
 
     def process_sentences_batch(
-        self,
-        sentences: list[BaseElement],
-        target_parsers: list[BaseParser] | None = None
+        self, sentences: list[BaseElement], target_parsers: list[BaseParser] | None = None
     ) -> dict[str, set[BaseParser]]:
         """Process multiple sentences efficiently in batch."""
 
@@ -127,11 +123,7 @@ class TriggerEngine:
 
         return results
 
-    def get_parser_suggestions(
-        self,
-        text: str,
-        limit: int = 5
-    ) -> list[tuple[BaseParser, float]]:
+    def get_parser_suggestions(self, text: str, limit: int = 5) -> list[tuple[BaseParser, float]]:
         """Get suggested parsers for text with confidence scores."""
 
         if not self._compiled:
@@ -154,16 +146,14 @@ class TriggerEngine:
     def _calculate_parser_score(self, parser: BaseParser, text: str) -> float:
         """Calculate relevance score for parser and text."""
 
-        if not hasattr(parser, 'trigger_phrase') or parser.trigger_phrase is None:
+        if not hasattr(parser, "trigger_phrase") or parser.trigger_phrase is None:
             return 0.5  # Default score for parsers without triggers
 
         # Simple scoring based on trigger phrase match quality
         text_lower = text.lower()
 
         # Extract trigger phrases
-        phrases = self.trigger_matcher.trigger_index._extract_trigger_phrases(
-            parser.trigger_phrase
-        )
+        phrases = self.trigger_matcher.trigger_index._extract_trigger_phrases(parser.trigger_phrase)
 
         max_score = 0.0
         for phrase in phrases:
@@ -214,7 +204,7 @@ class TriggerEngine:
             "parsers_registered": len(self._parser_registry),
             "average_lookup_time_ms": (
                 self.stats["total_time"] / max(1, self.stats["total_lookups"]) * 1000
-            )
+            ),
         }
 
         return combined_stats
@@ -250,12 +240,12 @@ class TriggerEngine:
             "individual_processing": {
                 "time_seconds": individual_time,
                 "sentences_per_second": len(test_sentences) / max(individual_time, 0.001),
-                "total_matches": individual_results
+                "total_matches": individual_results,
             },
             "batch_processing": {
                 "time_seconds": batch_time,
                 "sentences_per_second": len(test_sentences) / max(batch_time, 0.001),
                 "speedup_factor": individual_time / max(batch_time, 0.001),
-                "total_results": len(batch_results)
-            }
+                "total_results": len(batch_results),
+            },
         }

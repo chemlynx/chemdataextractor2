@@ -150,8 +150,6 @@
 <span id="L140" class="lineno"><a class="lineno" href="#L140">140</a></span>
 <span id="L141" class="lineno"><a class="lineno" href="#L141">141</a></span>
 <span id="L142" class="lineno"><a class="lineno" href="#L142">142</a></span>
-<span id="L143" class="lineno"><a class="lineno" href="#L143">143</a></span>
-<span id="L144" class="lineno"><a class="lineno" href="#L144">144</a></span>
 </pre></td>
 <td class="table-code"><pre><span class="line-empty" title="No Anys on this line!">"""</span>
 <span class="line-empty" title="No Anys on this line!">PDF document reader.</span>
@@ -183,9 +181,7 @@
 <span class="line-any" title="No Anys on this line!">    def detect(self, fstring, fname=None):</span>
 <span class="line-empty" title="No Anys on this line!">        """"""</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x5)">        if fname and not fname.endswith(".pdf"):</span>
-<span class="line-any" title="No Anys on this line!">            return False</span>
-<span class="line-any" title="No Anys on this line!">        return True</span>
+Unannotated (x5)">        return not (fname and not fname.endswith(".pdf"))</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="No Anys on this line!">    def _process_layout(self, layout):</span>
 <span class="line-empty" title="No Anys on this line!">        """Process an LTPage layout and return a list of elements."""</span>
@@ -195,7 +191,7 @@ Unannotated (x1)">        elements = []</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x2)">        for lt_obj in layout:</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x5)">            if isinstance(lt_obj, LTTextBox) or isinstance(lt_obj, LTTextLine):</span>
+Unannotated (x3)">            if isinstance(lt_obj, LTTextBox | LTTextLine):</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x8)">                elements.append(Paragraph(lt_obj.get_text().strip()))</span>
 <span class="line-any" title="Any Types on this line: 

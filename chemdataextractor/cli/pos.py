@@ -134,9 +134,7 @@ def train(ctx, output, corpus, clusters):
                         token,
                         "-RRB-",
                     )  # ) to -RRB- (also do for evaluation)
-                elif tag == "CT":
-                    genia_sents[i][j] = (token, "DT")  # Typo?
-                elif tag == "XT":
+                elif tag == "CT" or tag == "XT":
                     genia_sents[i][j] = (token, "DT")  # Typo?
                 elif tag == "-":
                     genia_sents[i][j] = (token, ":")  # Single hyphen character for dash
@@ -235,9 +233,7 @@ def train_perceptron(ctx, output, corpus, clusters):
                         token,
                         "-RRB-",
                     )  # ) to -RRB- (also do for evaluation)
-                elif tag == "CT":
-                    genia_sents[i][j] = (token, "DT")  # Typo?
-                elif tag == "XT":
+                elif tag == "CT" or tag == "XT":
                     genia_sents[i][j] = (token, "DT")  # Typo?
                 elif tag == "-":
                     genia_sents[i][j] = (token, ":")  # Single hyphen character for dash

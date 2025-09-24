@@ -1,7 +1,11 @@
 """
 Chemistry text handling tools.
 
+Provides chemistry-specific text processing utilities including element names,
+chemical formula parsing, and stereochemistry indicators.
 """
+
+from __future__ import annotations
 
 import re
 
@@ -743,23 +747,51 @@ SMILES_RE = re.compile(
 )
 
 
-def extract_inchis(s):
-    """Return a list of InChI identifiers extracted from the string."""
+def extract_inchis(s: str) -> list[str]:
+    """Return a list of InChI identifiers extracted from the string.
+
+    Args:
+        s: Input string to search
+
+    Returns:
+        List of InChI identifiers found
+    """
     return [t for t in s.split() if INCHI_RE.match(t)]
 
 
-def extract_inchikeys(s):
-    """Return a list of InChIKey identifiers extracted from the string."""
+def extract_inchikeys(s: str) -> list[str]:
+    """Return a list of InChIKey identifiers extracted from the string.
+
+    Args:
+        s: Input string to search
+
+    Returns:
+        List of InChIKey identifiers found
+    """
     return [t for t in s.split() if INCHIKEY_RE.match(t)]
 
 
-def extract_cas(s):
-    """Return a list of CAS identifiers extracted from the string."""
+def extract_cas(s: str) -> list[str]:
+    """Return a list of CAS identifiers extracted from the string.
+
+    Args:
+        s: Input string to search
+
+    Returns:
+        List of CAS identifiers found
+    """
     return [t for t in s.split() if CAS_RE.match(t)]
 
 
-def extract_smiles(s):
-    """Return a list of SMILES identifiers extracted from the string."""
+def extract_smiles(s: str) -> list[str]:
+    """Return a list of SMILES identifiers extracted from the string.
+
+    Args:
+        s: Input string to search
+
+    Returns:
+        List of SMILES identifiers found
+    """
     # TODO: This still gets a lot of false positives.
     smiles = []
     for t in s.split():

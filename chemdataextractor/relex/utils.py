@@ -15,7 +15,7 @@ def match_score(pi, pj, prefix_weight=0.1, middle_weight=0.8, suffix_weight=0.1)
     """
     assert pi.keys() == pj.keys()
 
-    number_of_middles = len([i for i in pi.keys() if i.startswith("middle")])
+    number_of_middles = len([i for i in pi if i.startswith("middle")])
 
     prefix_i = pi["prefix"]
 
@@ -74,20 +74,20 @@ def vectorise(phrase, cluster):
     pattern_element_vectors = {}
     pattern = cluster.pattern
 
-    for element in cluster.dictionaries.keys():  # prefix, middles, suffix
+    for element in cluster.dictionaries:  # prefix, middles, suffix
         # print("element", element, '\n')
         local_dictionary = OrderedDict()
 
         # fill the local dictionary with the cluster tokens
         for token in cluster.dictionaries[element]["token dict"]:
-            if token in local_dictionary.keys():
+            if token in local_dictionary:
                 local_dictionary[token] += 1
             else:
                 local_dictionary[token] = cluster.dictionaries[element]["token dict"][token][0]
 
         # Same for the phrase tokens
         for token in phrase.elements[element]["tokens"]:
-            if token in local_dictionary.keys():
+            if token in local_dictionary:
                 local_dictionary[token] += 1
             else:
                 local_dictionary[token] = 1

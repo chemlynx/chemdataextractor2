@@ -437,20 +437,12 @@
 <span id="L427" class="lineno"><a class="lineno" href="#L427">427</a></span>
 <span id="L428" class="lineno"><a class="lineno" href="#L428">428</a></span>
 <span id="L429" class="lineno"><a class="lineno" href="#L429">429</a></span>
-<span id="L430" class="lineno"><a class="lineno" href="#L430">430</a></span>
-<span id="L431" class="lineno"><a class="lineno" href="#L431">431</a></span>
-<span id="L432" class="lineno"><a class="lineno" href="#L432">432</a></span>
-<span id="L433" class="lineno"><a class="lineno" href="#L433">433</a></span>
 </pre></td>
 <td class="table-code"><pre><span class="line-empty" title="No Anys on this line!">"""</span>
 <span class="line-empty" title="No Anys on this line!">Conditional random field</span>
 <span class="line-empty" title="No Anys on this line!">Implemented by AllenNLP 2.5.0</span>
 <span class="line-empty" title="No Anys on this line!">"""</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-precise" title="No Anys on this line!">from typing import Dict</span>
-<span class="line-precise" title="No Anys on this line!">from typing import List</span>
-<span class="line-precise" title="No Anys on this line!">from typing import Tuple</span>
-<span class="line-precise" title="No Anys on this line!">from typing import Union</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">import torch</span>
 <span class="line-empty" title="No Anys on this line!"></span>
@@ -483,7 +475,7 @@
 <span class="line-precise" title="No Anys on this line!">    num_labels = len(labels)</span>
 <span class="line-precise" title="No Anys on this line!">    start_tag = num_labels</span>
 <span class="line-precise" title="No Anys on this line!">    end_tag = num_labels + 1</span>
-<span class="line-precise" title="Any Types on this line:
+<span class="line-precise" title="Any Types on this line: 
 Omitted Generics (x3)">    labels_with_boundaries = list(labels.items()) + [</span>
 <span class="line-precise" title="No Anys on this line!">        (start_tag, "START"),</span>
 <span class="line-precise" title="No Anys on this line!">        (end_tag, "END"),</span>
@@ -504,13 +496,13 @@ Omitted Generics (x3)">    labels_with_boundaries = list(labels.items()) + [</sp
 <span class="line-empty" title="No Anys on this line!">            else:</span>
 <span class="line-precise" title="No Anys on this line!">                to_tag = to_label[0]</span>
 <span class="line-precise" title="No Anys on this line!">                to_entity = to_label[1:]</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x2)">            if is_transition_allowed(constraint_type, from_tag, from_entity, to_tag, to_entity):</span>
 <span class="line-precise" title="No Anys on this line!">                allowed.append((from_label_index, to_label_index))</span>
 <span class="line-precise" title="No Anys on this line!">    return allowed</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">def is_transition_allowed(</span>
 <span class="line-empty" title="No Anys on this line!">    constraint_type: str, from_tag: str, from_entity: str, to_tag: str, to_entity: str</span>
 <span class="line-empty" title="No Anys on this line!">):</span>
@@ -608,7 +600,7 @@ Unannotated (x1)">def is_transition_allowed(</span>
 <span class="line-empty" title="No Anys on this line!">            ]</span>
 <span class="line-empty" title="No Anys on this line!">        )</span>
 <span class="line-empty" title="No Anys on this line!">    else:</span>
-<span class="line-precise" title="Any Types on this line:
+<span class="line-precise" title="Any Types on this line: 
 Explicit (x1)">        raise ConfigurationError(f"Unknown constraint type: {constraint_type}")</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!"></span>
@@ -642,7 +634,7 @@ Explicit (x1)">        raise ConfigurationError(f"Unknown constraint type: {cons
 <span class="line-precise" title="No Anys on this line!">        self.num_tags = num_tags</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">        # transitions[i, j] is the logit for transitioning from state i to state j.</span>
-<span class="line-precise" title="Any Types on this line:
+<span class="line-precise" title="Any Types on this line: 
 Explicit (x1)">        self.transitions = torch.nn.Parameter(torch.Tensor(num_tags, num_tags))</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">        # _constraint_mask indicates valid transitions (based on supplied constraints).</span>
@@ -651,7 +643,7 @@ Explicit (x1)">        self.transitions = torch.nn.Parameter(torch.Tensor(num_ta
 <span class="line-empty" title="No Anys on this line!">            # All transitions are valid.</span>
 <span class="line-unanalyzed" title="No Anys on this line!">            constraint_mask = torch.Tensor(num_tags + 2, num_tags + 2).fill_(1.0)</span>
 <span class="line-empty" title="No Anys on this line!">        else:</span>
-<span class="line-precise" title="Any Types on this line:
+<span class="line-precise" title="Any Types on this line: 
 Explicit (x1)">            constraint_mask = torch.Tensor(num_tags + 2, num_tags + 2).fill_(0.0)</span>
 <span class="line-precise" title="No Anys on this line!">            for i, j in constraints:</span>
 <span class="line-precise" title="No Anys on this line!">                constraint_mask[i, j] = 1.0</span>
@@ -661,22 +653,22 @@ Explicit (x1)">            constraint_mask = torch.Tensor(num_tags + 2, num_tags
 <span class="line-empty" title="No Anys on this line!">        # Also need logits for transitioning from "start" state and to "end" state.</span>
 <span class="line-precise" title="No Anys on this line!">        self.include_start_end_transitions = include_start_end_transitions</span>
 <span class="line-precise" title="No Anys on this line!">        if include_start_end_transitions:</span>
-<span class="line-precise" title="Any Types on this line:
+<span class="line-precise" title="Any Types on this line: 
 Explicit (x1)">            self.start_transitions = torch.nn.Parameter(torch.Tensor(num_tags))</span>
-<span class="line-precise" title="Any Types on this line:
+<span class="line-precise" title="Any Types on this line: 
 Explicit (x1)">            self.end_transitions = torch.nn.Parameter(torch.Tensor(num_tags))</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x2)">        self.reset_parameters()</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="No Anys on this line!">    def reset_parameters(self):</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x2)">        torch.nn.init.xavier_normal_(self.transitions)</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">        if self.include_start_end_transitions:</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x2)">            torch.nn.init.normal_(self.start_transitions)</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x2)">            torch.nn.init.normal_(self.end_transitions)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">    def _input_likelihood(self, logits: torch.Tensor, mask: torch.BoolTensor) -&gt; torch.Tensor:</span>
@@ -713,7 +705,7 @@ Unannotated (x2)">            torch.nn.init.normal_(self.end_transitions)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">            # In valid positions (mask == True) we want to take the logsumexp over the current_tag dimension</span>
 <span class="line-empty" title="No Anys on this line!">            # of `inner`. Otherwise (mask == False) we want to retain the previous alpha.</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Error (x4)">            alpha = util.logsumexp(inner, 1) * mask[i].view(batch_size, 1) + alpha * (</span>
 <span class="line-precise" title="No Anys on this line!">                ~mask[i]</span>
 <span class="line-precise" title="No Anys on this line!">            ).view(batch_size, 1)</span>
@@ -725,7 +717,7 @@ Error (x4)">            alpha = util.logsumexp(inner, 1) * mask[i].view(batch_si
 <span class="line-precise" title="No Anys on this line!">            stops = alpha</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">        # Finally we log_sum_exp along the num_tags dim, result is (batch_size,)</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Error (x2)">        return util.logsumexp(stops)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">    def _joint_likelihood(</span>
@@ -831,54 +823,54 @@ Error (x2)">        return util.logsumexp(stops)</span>
 <span class="line-empty" title="No Anys on this line!">        # Augment transitions matrix with start and end transitions</span>
 <span class="line-precise" title="No Anys on this line!">        start_tag = num_tags</span>
 <span class="line-precise" title="No Anys on this line!">        end_tag = num_tags + 1</span>
-<span class="line-precise" title="Any Types on this line:
+<span class="line-precise" title="Any Types on this line: 
 Explicit (x1)">        transitions = torch.Tensor(num_tags + 2, num_tags + 2).fill_(-10000.0)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">        # Apply transition constraints</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x2)">        constrained_transitions = self.transitions * self._constraint_mask[</span>
 <span class="line-precise" title="No Anys on this line!">            :num_tags, :num_tags</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x2)">        ] + -10000.0 * (1 - self._constraint_mask[:num_tags, :num_tags])</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x2)">        transitions[:num_tags, :num_tags] = constrained_transitions.data</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">        if self.include_start_end_transitions:</span>
 <span class="line-precise" title="No Anys on this line!">            transitions[start_tag, :num_tags] = (</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">                self.start_transitions.detach() * self._constraint_mask[start_tag, :num_tags].data</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x2)">                + -10000.0 * (1 - self._constraint_mask[start_tag, :num_tags].detach())</span>
 <span class="line-empty" title="No Anys on this line!">            )</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">            transitions[:num_tags, end_tag] = self.end_transitions.detach() * self._constraint_mask[</span>
 <span class="line-precise" title="No Anys on this line!">                :num_tags, end_tag</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x2)">            ].data + -10000.0 * (1 - self._constraint_mask[:num_tags, end_tag].detach())</span>
 <span class="line-empty" title="No Anys on this line!">        else:</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">            transitions[start_tag, :num_tags] = -10000.0 * (</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">                1 - self._constraint_mask[start_tag, :num_tags].detach()</span>
 <span class="line-empty" title="No Anys on this line!">            )</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">            transitions[:num_tags, end_tag] = -10000.0 * (</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">                1 - self._constraint_mask[:num_tags, end_tag].detach()</span>
 <span class="line-empty" title="No Anys on this line!">            )</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">        best_paths = []</span>
 <span class="line-empty" title="No Anys on this line!">        # Pad the max sequence length by 2 to account for start_tag + end_tag.</span>
-<span class="line-precise" title="Any Types on this line:
+<span class="line-precise" title="Any Types on this line: 
 Explicit (x1)">        tag_sequence = torch.Tensor(max_seq_length + 2, num_tags + 2)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x4)
 Explicit (x9)
-Omitted Generics (x30)">        for prediction, prediction_mask in zip(logits, mask):</span>
-<span class="line-any" title="Any Types on this line:
+Omitted Generics (x30)">        for prediction, prediction_mask in zip(logits, mask, strict=False):</span>
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x6)">            mask_indices = prediction_mask.nonzero(as_tuple=False).squeeze()</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x2)">            masked_prediction = torch.index_select(prediction, 0, mask_indices)</span>
 <span class="line-precise" title="No Anys on this line!">            sequence_length = masked_prediction.shape[0]</span>
 <span class="line-empty" title="No Anys on this line!"></span>
@@ -892,30 +884,30 @@ Unannotated (x2)">            masked_prediction = torch.index_select(prediction,
 <span class="line-precise" title="No Anys on this line!">            tag_sequence[sequence_length + 1, end_tag] = 0.0</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">            # We pass the tags and the transitions to `viterbi_decode`.</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x4)">            viterbi_paths, viterbi_scores = util.viterbi_decode(</span>
 <span class="line-precise" title="No Anys on this line!">                tag_sequence=tag_sequence[: (sequence_length + 2)],</span>
 <span class="line-precise" title="No Anys on this line!">                transition_matrix=transitions,</span>
 <span class="line-precise" title="No Anys on this line!">                top_k=top_k,</span>
 <span class="line-empty" title="No Anys on this line!">            )</span>
 <span class="line-precise" title="No Anys on this line!">            top_k_paths = []</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x6)
 Explicit (x9)
-Omitted Generics (x30)">            for viterbi_path, viterbi_score in zip(viterbi_paths, viterbi_scores):</span>
+Omitted Generics (x30)">            for viterbi_path, viterbi_score in zip(viterbi_paths, viterbi_scores, strict=False):</span>
 <span class="line-empty" title="No Anys on this line!">                # Get rid of START and END sentinels and append.</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x3)">                viterbi_path = viterbi_path[1:-1]</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x8)">                top_k_paths.append((viterbi_path, viterbi_score.item()))</span>
-<span class="line-imprecise" title="Any Types on this line:
+<span class="line-imprecise" title="Any Types on this line: 
 Unannotated (x6)">            best_paths.append(top_k_paths)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">        if flatten_output:</span>
-<span class="line-imprecise" title="Any Types on this line:
+<span class="line-imprecise" title="Any Types on this line: 
 Unannotated (x8)">            return [top_k_paths[0] for top_k_paths in best_paths]</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-imprecise" title="Any Types on this line:
+<span class="line-imprecise" title="Any Types on this line: 
 Unannotated (x2)">        return best_paths</span>
 </pre></td>
 </tr></tbody>

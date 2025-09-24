@@ -1,9 +1,15 @@
 """
 PDF document reader.
 
+Provides functionality to parse PDF documents using pdfminer and convert them
+into structured ChemDataExtractor Document objects.
 """
 
+from __future__ import annotations
+
 import io
+from typing import TYPE_CHECKING
+from typing import Any
 
 from pdfminer.converter import PDFPageAggregator
 from pdfminer.layout import LAParams
@@ -16,35 +22,70 @@ from pdfminer.pdfinterp import PDFResourceManager
 from pdfminer.pdfpage import PDFPage
 from pdfminer.pdfparser import PDFParser
 
-from ..doc.document import Document
 from ..doc.text import Paragraph
 from ..errors import ReaderError
 from .base import BaseReader
 
+if TYPE_CHECKING:
+    from ..doc.document import Document
+
 
 class PdfReader(BaseReader):
-    """"""
+    """Reader for PDF documents using pdfminer.
 
-    def detect(self, fstring, fname=None):
-        """"""
-        if fname and not fname.endswith(".pdf"):
-            return False
-        return True
+    Extracts text content from PDF files and organizes it into paragraphs
+    and other document elements.
+    """
 
-    def _process_layout(self, layout):
-        """Process an LTPage layout and return a list of elements."""
+    def detect(self, fstring: str | bytes, fname: str | None = None) -> bool:
+        """Detect PDF documents.
+
+        Args:
+            fstring: Input data to check
+            fname: Optional filename for format hints
+
+        Returns:
+            True if this appears to be a PDF document
+        """
+        return not (fname and not fname.endswith(".pdf"))
+
+    def _process_layout(self, layout: Any) -> list[Paragraph]:
+        """Process an LTPage layout and return a list of elements.
+
+        Args:
+            layout: PDF layout object from pdfminer
+
+        Returns:
+            List of Paragraph elements extracted from the layout
+        """
         # Here we just group text into paragraphs
         elements = []
         for lt_obj in layout:
-            if isinstance(lt_obj, LTTextBox) or isinstance(lt_obj, LTTextLine):
+            if isinstance(lt_obj, LTTextBox | LTTextLine):
                 elements.append(Paragraph(lt_obj.get_text().strip()))
             elif isinstance(lt_obj, LTFigure):
                 # Recursive...
                 elements.extend(self._process_layout(lt_obj))
         return elements
 
-    def parse(self, fstring):
+    def parse(self, fstring: str | bytes) -> Document:
+        """Parse PDF input and return a Document.
+
+        Args:
+            fstring: PDF file data as bytes
+
+        Returns:
+            Document with text content organized into paragraphs
+
+        Raises:
+            ReaderError: If PDF parsing fails
+        """
+        # Import here to avoid circular imports
+        from ..doc.document import Document
+
         try:
+            if isinstance(fstring, str):
+                fstring = fstring.encode('utf-8')
             f = io.BytesIO(fstring)
             parser = PDFParser(f)
             document = PDFDocument(parser)

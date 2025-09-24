@@ -624,17 +624,23 @@ Unannotated (x6)">        c = self.model.fields["compound"].model_class()</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x3)">        n = self.model(</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x6)">            nucleus=first(result.xpath("./nucleus/text()")),</span>
+Unannotated (x4)
+Omitted Generics (x2)">            nucleus=first(result.xpath("./nucleus/text()")),</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x6)">            solvent=first(result.xpath("./solvent/text()")),</span>
+Unannotated (x4)
+Omitted Generics (x2)">            solvent=first(result.xpath("./solvent/text()")),</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x6)">            frequency=first(result.xpath("./frequency/value/text()")),</span>
+Unannotated (x4)
+Omitted Generics (x2)">            frequency=first(result.xpath("./frequency/value/text()")),</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x6)">            frequency_units=first(result.xpath("./frequency/units/text()")),</span>
+Unannotated (x4)
+Omitted Generics (x2)">            frequency_units=first(result.xpath("./frequency/units/text()")),</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x6)">            temperature=first(result.xpath("./temperature/value/text()")),</span>
+Unannotated (x4)
+Omitted Generics (x2)">            temperature=first(result.xpath("./temperature/value/text()")),</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x6)">            temperature_units=first(result.xpath("./temperature/units/text()")),</span>
+Unannotated (x4)
+Omitted Generics (x2)">            temperature_units=first(result.xpath("./temperature/units/text()")),</span>
 <span class="line-empty" title="No Anys on this line!">        )</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x6)">        peak_model = self.model.fields["peaks"].field.model_class</span>
@@ -643,17 +649,23 @@ Unannotated (x4)">        for peak_result in result.xpath("./peaks/peak"):</span
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x3)">            nmr_peak = peak_model(</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x6)">                shift=first(peak_result.xpath("./shift/text()")),</span>
+Unannotated (x4)
+Omitted Generics (x2)">                shift=first(peak_result.xpath("./shift/text()")),</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x6)">                multiplicity=first(peak_result.xpath("./multiplicity/text()")),</span>
+Unannotated (x4)
+Omitted Generics (x2)">                multiplicity=first(peak_result.xpath("./multiplicity/text()")),</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x6)">                coupling=first(peak_result.xpath("./coupling/value/text()")),</span>
+Unannotated (x4)
+Omitted Generics (x2)">                coupling=first(peak_result.xpath("./coupling/value/text()")),</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x6)">                coupling_units=first(peak_result.xpath("./coupling/units/text()")),</span>
+Unannotated (x4)
+Omitted Generics (x2)">                coupling_units=first(peak_result.xpath("./coupling/units/text()")),</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x6)">                number=first(peak_result.xpath("./number/text()")),</span>
+Unannotated (x4)
+Omitted Generics (x2)">                number=first(peak_result.xpath("./number/text()")),</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x6)">                assignment=first(peak_result.xpath("./assignment/text()")),</span>
+Unannotated (x4)
+Omitted Generics (x2)">                assignment=first(peak_result.xpath("./assignment/text()")),</span>
 <span class="line-empty" title="No Anys on this line!">            )</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x5)">            n.peaks.append(nmr_peak)</span>

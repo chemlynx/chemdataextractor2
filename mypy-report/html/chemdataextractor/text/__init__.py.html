@@ -531,19 +531,6 @@
 <span id="L521" class="lineno"><a class="lineno" href="#L521">521</a></span>
 <span id="L522" class="lineno"><a class="lineno" href="#L522">522</a></span>
 <span id="L523" class="lineno"><a class="lineno" href="#L523">523</a></span>
-<span id="L524" class="lineno"><a class="lineno" href="#L524">524</a></span>
-<span id="L525" class="lineno"><a class="lineno" href="#L525">525</a></span>
-<span id="L526" class="lineno"><a class="lineno" href="#L526">526</a></span>
-<span id="L527" class="lineno"><a class="lineno" href="#L527">527</a></span>
-<span id="L528" class="lineno"><a class="lineno" href="#L528">528</a></span>
-<span id="L529" class="lineno"><a class="lineno" href="#L529">529</a></span>
-<span id="L530" class="lineno"><a class="lineno" href="#L530">530</a></span>
-<span id="L531" class="lineno"><a class="lineno" href="#L531">531</a></span>
-<span id="L532" class="lineno"><a class="lineno" href="#L532">532</a></span>
-<span id="L533" class="lineno"><a class="lineno" href="#L533">533</a></span>
-<span id="L534" class="lineno"><a class="lineno" href="#L534">534</a></span>
-<span id="L535" class="lineno"><a class="lineno" href="#L535">535</a></span>
-<span id="L536" class="lineno"><a class="lineno" href="#L536">536</a></span>
 </pre></td>
 <td class="table-code"><pre><span class="line-empty" title="No Anys on this line!">"""</span>
 <span class="line-empty" title="No Anys on this line!">Tools for processing text.</span>
@@ -800,9 +787,7 @@
 <span class="line-precise" title="No Anys on this line!">    "the",</span>
 <span class="line-precise" title="No Anys on this line!">    "to",</span>
 <span class="line-precise" title="No Anys on this line!">    "v",</span>
-<span class="line-precise" title="No Anys on this line!">    "v",</span>
 <span class="line-precise" title="No Anys on this line!">    "via",</span>
-<span class="line-precise" title="No Anys on this line!">    "vs",</span>
 <span class="line-precise" title="No Anys on this line!">    "vs",</span>
 <span class="line-empty" title="No Anys on this line!">}</span>
 <span class="line-empty" title="No Anys on this line!"></span>
@@ -816,7 +801,6 @@
 <span class="line-precise" title="No Anys on this line!">    "de",</span>
 <span class="line-precise" title="No Anys on this line!">    "del",</span>
 <span class="line-precise" title="No Anys on this line!">    "der",</span>
-<span class="line-precise" title="No Anys on this line!">    "de",</span>
 <span class="line-precise" title="No Anys on this line!">    "di",</span>
 <span class="line-precise" title="No Anys on this line!">    "dí",</span>
 <span class="line-precise" title="No Anys on this line!">    "ibn",</span>
@@ -1003,8 +987,16 @@ Unannotated (x1)
 Omitted Generics (x23)">    return min(lev[len1]) if allow_substring else lev[len1][len2]</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-any" title="No Anys on this line!">def bracket_level(text, open={"(", "[", "{"}, close={")", "]", "}"}):</span>
+<span class="line-any" title="No Anys on this line!">def bracket_level(text, open=None, close=None):</span>
 <span class="line-empty" title="No Anys on this line!">    """Return 0 if string contains balanced brackets or no brackets."""</span>
+<span class="line-any" title="Any Types on this line: 
+Unannotated (x1)">    if close is None:</span>
+<span class="line-any" title="Any Types on this line: 
+Unannotated (x1)">        close = {")", "]", "}"}</span>
+<span class="line-any" title="Any Types on this line: 
+Unannotated (x1)">    if open is None:</span>
+<span class="line-any" title="Any Types on this line: 
+Unannotated (x1)">        open = {"(", "[", "{"}</span>
 <span class="line-any" title="No Anys on this line!">    level = 0</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x2)">    for c in text:</span>
@@ -1019,22 +1011,12 @@ Unannotated (x2)">        elif c in close:</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="No Anys on this line!">def is_punct(text):</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">    for char in text:</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x1)">        if not unicodedata.category(char).startswith("P"):</span>
-<span class="line-any" title="No Anys on this line!">            return False</span>
-<span class="line-empty" title="No Anys on this line!">    else:</span>
-<span class="line-any" title="No Anys on this line!">        return True</span>
+Unannotated (x3)">    return all(unicodedata.category(char).startswith("P") for char in text)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="No Anys on this line!">def is_ascii(text):</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">    for char in text:</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x1)">        if ord(char) &gt;= 128:</span>
-<span class="line-any" title="No Anys on this line!">            return False</span>
-<span class="line-empty" title="No Anys on this line!">    else:</span>
-<span class="line-any" title="No Anys on this line!">        return True</span>
+Unannotated (x3)">    return all(ord(char) &lt; 128 for char in text)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="No Anys on this line!">def like_url(text):</span>
@@ -1042,10 +1024,7 @@ Unannotated (x1)">        if ord(char) &gt;= 128:</span>
 Unannotated (x1)">    if len(text) &lt; 1:</span>
 <span class="line-any" title="No Anys on this line!">        return False</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x3)">    if text.startswith("http://"):</span>
-<span class="line-any" title="No Anys on this line!">        return True</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x5)">    elif text.startswith("www.") and len(text) &gt;= 5:</span>
+Unannotated (x9)">    if text.startswith("http://") or text.startswith("www.") and len(text) &gt;= 5:</span>
 <span class="line-any" title="No Anys on this line!">        return True</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x11)">    if len(text) &lt; 2 or text[0] == "." or text[-1] == "." or "." not in text:</span>
@@ -1056,9 +1035,7 @@ Unannotated (x8)">    tld = text.rsplit(".", 1)[1].split(":", 1)[0]</span>
 Unannotated (x3)">    if tld.endswith("/"):</span>
 <span class="line-any" title="No Anys on this line!">        return True</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x5)">    if tld.isalpha() and tld in TLDS:</span>
-<span class="line-any" title="No Anys on this line!">        return True</span>
-<span class="line-any" title="No Anys on this line!">    return False</span>
+Unannotated (x5)">    return bool(tld.isalpha() and tld in TLDS)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="No Anys on this line!">def like_number(text):</span>
@@ -1075,9 +1052,7 @@ Unannotated (x5)">        num, denom = text.split("/")</span>
 Unannotated (x9)">        if like_number(num) and like_number(denom):</span>
 <span class="line-any" title="No Anys on this line!">            return True</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x1)">    if text in NUMBERS:</span>
-<span class="line-any" title="No Anys on this line!">        return True</span>
-<span class="line-any" title="No Anys on this line!">    return False</span>
+Unannotated (x1)">    return text in NUMBERS</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="No Anys on this line!">def word_shape(text):</span>

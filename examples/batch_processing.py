@@ -26,9 +26,6 @@ from dataclasses import asdict
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
-from typing import Dict
-from typing import List
-from typing import Tuple
 
 from chemdataextractor.doc import Document
 

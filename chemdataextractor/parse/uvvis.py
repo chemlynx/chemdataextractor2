@@ -1,10 +1,20 @@
 """
 UV-vis text parser.
 
+Provides parsing capabilities for UV-visible spectroscopy data,
+including peak wavelengths, solvents, and absorption characteristics.
 """
+
+from __future__ import annotations
 
 import logging
 import re
+from collections.abc import Generator
+from typing import TYPE_CHECKING
+from typing import Any
+
+if TYPE_CHECKING:
+    from ..model.base import BaseModel
 
 from ..utils import first
 from .actions import strip_stop
@@ -58,11 +68,21 @@ uvvis = (prelude + peaks + Optional(delim) + Optional(units) + Optional(insolven
 
 
 class UvvisParser(BaseSentenceParser):
-    """"""
+    """Parser for UV-visible spectroscopy data."""
 
     root = uvvis
 
-    def interpret(self, result, start, end):
+    def interpret(self, result: Any, start: int, end: int) -> Generator[BaseModel, None, None]:
+        """Interpret parsed UV-vis spectrum results.
+
+        Args:
+            result: Parsed result containing UV-vis spectrum data
+            start: Starting position in text
+            end: Ending position in text
+
+        Yields:
+            BaseModel instances containing UV-vis spectrum data
+        """
         c = self.model.fields["compound"].model_class()
         u = self.model(solvent=first(result.xpath("./solvent/text()")))
         peak_model = self.model.fields["peaks"].field.model_class

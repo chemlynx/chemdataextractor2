@@ -86,11 +86,10 @@ class Compound(BaseModel):
         if type(other) is not type(self):
             return self
         for k in self.keys():
-            if other[k] is not None:
-                if self[k] is not None:
-                    for new_item in other[k]:
-                        if new_item not in self[k]:
-                            self[k].add(new_item)
+            if other[k] is not None and self[k] is not None:
+                for new_item in other[k]:
+                    if new_item not in self[k]:
+                        self[k].add(new_item)
         log.debug(f"Result: {self.serialize()}")
         return self
 
@@ -101,9 +100,7 @@ class Compound(BaseModel):
         Returns:
             bool - True if compound has no names or labels
         """
-        if not self.names and not self.labels:
-            return True
-        return False
+        return bool(not self.names and not self.labels)
 
     @property
     def is_id_only(self) -> bool:
@@ -115,9 +112,7 @@ class Compound(BaseModel):
         for key, value in self.items():
             if key not in {"names", "labels", "roles"} and value:
                 return False
-        if self.names or self.labels:
-            return True
-        return False
+        return bool(self.names or self.labels)
 
     @classmethod
     def update(cls, definitions: list[dict[str, Any]], strict: bool = True) -> None:

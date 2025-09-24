@@ -193,21 +193,25 @@ Unannotated (x2)">    root = uvvis</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x6)">        c = self.model.fields["compound"].model_class()</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x9)">        u = self.model(solvent=first(result.xpath("./solvent/text()")))</span>
+Unannotated (x7)
+Omitted Generics (x2)">        u = self.model(solvent=first(result.xpath("./solvent/text()")))</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x6)">        peak_model = self.model.fields["peaks"].field.model_class</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x7)">        units = first(result.xpath("./units/text()"))</span>
+Unannotated (x5)
+Omitted Generics (x2)">        units = first(result.xpath("./units/text()"))</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x4)">        for peak_result in result.xpath("./peaks/peak"):</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x3)">            uvvis_peak = peak_model(</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x6)">                value=first(peak_result.xpath("./value/text()")),</span>
+Unannotated (x4)
+Omitted Generics (x2)">                value=first(peak_result.xpath("./value/text()")),</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">                units=units,</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x6)">                shape=first(peak_result.xpath("./shape/text()")),</span>
+Unannotated (x4)
+Omitted Generics (x2)">                shape=first(peak_result.xpath("./shape/text()")),</span>
 <span class="line-empty" title="No Anys on this line!">            )</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x5)">            u.peaks.append(uvvis_peak)</span>

@@ -13,12 +13,12 @@ import logging
 import math
 from abc import ABCMeta
 from collections.abc import Callable
+from collections.abc import Iterable
+from collections.abc import Iterator
 from collections.abc import MutableSequence
 from typing import TYPE_CHECKING
 from typing import Any
 from typing import ClassVar
-from collections.abc import Iterable
-from collections.abc import Iterator
 from typing import overload
 
 try:
@@ -217,9 +217,7 @@ class StringType(BaseType[str | None]):
         Returns:
             True if value is None, empty string, or not a string; False otherwise
         """
-        if value is not None and isinstance(value, str) and value:
-            return False
-        return True
+        return not (value is not None and isinstance(value, str) and value)
 
 
 class FloatType(BaseType[float | None]):
@@ -247,9 +245,7 @@ class FloatType(BaseType[float | None]):
         Returns:
             True if value is None; False otherwise
         """
-        if value is not None:
-            return False
-        return True
+        return value is None
 
 
 class ModelType(BaseType[ModelT | None]):
@@ -379,9 +375,7 @@ class ListType[T](BaseType[list[T] | None]):
         Returns:
             True if value is None or empty list; False otherwise
         """
-        if isinstance(value, list) and len(value) != 0:
-            return False
-        return True
+        return not (isinstance(value, list) and len(value) != 0)
 
 
 class InferredProperty(BaseType[T]):
@@ -502,7 +496,7 @@ class SetType[T](BaseType[set[T] | None]):
         if value is None:
             instance._values[self.name] = None
         else:
-            instance._values[self.name] = set(self.field.process(v) for v in value if v is not None)
+            instance._values[self.name] = {self.field.process(v) for v in value if v is not None}
 
     def serialize(self, value: set[T] | None, primitive: bool = False) -> list[Any] | None:
         """Serialize the set field to a sorted list for JSON compatibility.
@@ -519,7 +513,7 @@ class SetType[T](BaseType[set[T] | None]):
         # A list, instead of a set is needed for easy compatibility with JSON output formats
         # A new sorted list instance ensures the same order for different runs
         # Sorting in place results in an empty list in this case
-        rec_list = list(self.field.serialize(v, primitive=primitive) for v in value)
+        rec_list = [self.field.serialize(v, primitive=primitive) for v in value]
         return sorted(rec_list)
 
     def is_empty(self, value: set[T] | None) -> bool:
@@ -531,9 +525,7 @@ class SetType[T](BaseType[set[T] | None]):
         Returns:
             True if value is None or empty set; False otherwise
         """
-        if isinstance(value, set) and len(value) != 0:
-            return False
-        return True
+        return not (isinstance(value, set) and len(value) != 0)
 
 
 class ModelMeta(ABCMeta):
@@ -678,8 +670,8 @@ class BaseModel(metaclass=ModelMeta):
         return record
 
     @classmethod
-    def _flatten_serialized(cls, serialized):
-        flattened = []
+    def _flatten_serialized(cls, serialized: dict[str, Any]) -> list[tuple[list[str], Any]]:
+        flattened: list[tuple[list[str], Any]] = []
         for key, value in serialized.items():
             if isinstance(value, dict):
                 flattened_for_key = cls._flatten_serialized(value)
@@ -691,11 +683,16 @@ class BaseModel(metaclass=ModelMeta):
         return flattened
 
     @classmethod
-    def _clean_key(cls, key):
+    def _clean_key(cls, key: list[str]) -> list[str]:
         # Hack to get rid of bits of keys where the type is included
         return [key_el for key_el in key if key_el.lower() == key_el]
 
-    def get_confidence(self, key, default_confidence=None, pooling_method=min_value):
+    def get_confidence(
+        self,
+        key: str | list[str],
+        default_confidence: float | None = None,
+        pooling_method: Callable = min_value,
+    ) -> float | None:
         if not isinstance(key, list):
             key = self._get_keypath(key)
         if len(key) == 1 and key[0] == "self":
@@ -727,7 +724,7 @@ class BaseModel(metaclass=ModelMeta):
         else:
             raise KeyError(key)
 
-    def set_confidence(self, key, value):
+    def set_confidence(self, key: str | list[str], value: float | None) -> None:
         try:
             if not isinstance(key, list):
                 key = self._get_keypath(key)
@@ -752,7 +749,9 @@ class BaseModel(metaclass=ModelMeta):
         except AttributeError:
             pass
 
-    def total_confidence(self, pooling_method=min_value, _account_for_merging=False):
+    def total_confidence(
+        self, pooling_method: Callable = min_value, _account_for_merging: bool = False
+    ) -> float:
         if "self" in self._confidences and self._confidences["self"] is not None:
             return self._confidences["self"]
 
@@ -770,7 +769,7 @@ class BaseModel(metaclass=ModelMeta):
         requiredness_factor = self._requiredness_factor()
         return total_confidence * merging_factor * requiredness_factor
 
-    def _requiredness_factor(self):
+    def _requiredness_factor(self) -> float:
         total_factor = 1.0
         for field_name, field in self.fields.items():
             if field.required and field.requiredness != 1.0:
@@ -783,7 +782,7 @@ class BaseModel(metaclass=ModelMeta):
         return total_factor
 
     @property
-    def is_unidentified(self):
+    def is_unidentified(self) -> bool:
         """
         If there is no 'compound' field associated with the model but the compound is contextual
         """
@@ -795,23 +794,23 @@ class BaseModel(metaclass=ModelMeta):
         except AttributeError:
             return True
 
-    def __repr__(self):
+    def __repr__(self) -> str:
         return f"<{self.__class__.__name__}>"
 
-    def __str__(self):
+    def __str__(self) -> str:
         return f"<{self.__class__.__name__}>"
 
-    def __eq__(self, other):
+    def __eq__(self, other: object) -> bool:
         # TODO: Check this actually works as expected (what about default values?)
         if isinstance(other, self.__class__):
             log.debug(self._values, other._values)
             return self._values == other._values
         return False
 
-    def __iter__(self):
+    def __iter__(self) -> Iterator[str]:
         return iter(self.fields)
 
-    def __delattr__(self, attr):
+    def __delattr__(self, attr: str) -> None:
         """Handle deletion of field values by setting to default if specified."""
         # Set to default value
         if attr in self.fields:
@@ -819,11 +818,11 @@ class BaseModel(metaclass=ModelMeta):
         else:
             super().__delattr__(attr)
 
-    def __getitem__(self, key):
+    def __getitem__(self, key: str | list[str]) -> Any:
         """Redirect dictionary-style field access to attribute-style."""
         return self._get_item(key)
 
-    def _get_item(self, key, create_defaults=False):
+    def _get_item(self, key: str | list[str], create_defaults: bool = False) -> Any:
         """
         A recursive way to items given a key, which can either be a simple property name for a top
         level property (e.g. `names` for a compound), or a keypath to be able to drill down
@@ -862,7 +861,7 @@ class BaseModel(metaclass=ModelMeta):
             pass
         raise KeyError(key)
 
-    def __setitem__(self, key, value):
+    def __setitem__(self, key: str | list[str], value: Any) -> None:
         """Redirect dictionary-style field setting to attribute-style."""
         if not isinstance(key, list):
             key = self._get_keypath(key)
@@ -879,17 +878,17 @@ class BaseModel(metaclass=ModelMeta):
                     target = target[0]
         return setattr(target, key[-1], value)
 
-    def __contains__(self, name):
+    def __contains__(self, name: str) -> bool:
         try:
             val = getattr(self, name)
             return val is not None
         except AttributeError:
             return False
 
-    def __hash__(self):
+    def __hash__(self) -> int:
         return str(self.serialize()).__hash__()
 
-    def _get_keypath(self, string):
+    def _get_keypath(self, string: str) -> list[str]:
         return string.split(".")
 
     @classmethod
@@ -897,7 +896,7 @@ class BaseModel(metaclass=ModelMeta):
         """
         Reset all updatable parse_expressions of properties associated with the class.
         """
-        for key, field in cls.fields.items():
+        for key, _field in cls.fields.items():
             if cls.fields[key].updatable:
                 cls.fields[key].reset()
                 cls._updated = False
@@ -913,9 +912,7 @@ class BaseModel(metaclass=ModelMeta):
         for definition in definitions:
             for field in cls.fields:
                 if cls.fields[field].updatable:
-                    matches = [
-                        i for i in cls.fields[field].parse_expression.scan(definition["tokens"])
-                    ]
+                    matches = list(cls.fields[field].parse_expression.scan(definition["tokens"]))
                     # print(matches)
                     if any(matches):
                         cls._updated = True
@@ -1417,7 +1414,7 @@ class BaseModel(metaclass=ModelMeta):
                     ):
                         match = False
                         break
-                elif isinstance(field, ListType) or isinstance(field, SetType):
+                elif isinstance(field, ListType | SetType):
                     if (
                         not field.ignore_when_merging
                         and self[field_name] is not None
@@ -1534,7 +1531,7 @@ class BaseModel(metaclass=ModelMeta):
         :rtype: set(BaseModel)
         """
         model_set = {cls}
-        for field_name, field in cls.fields.items():
+        for _field_name, field in cls.fields.items():
             while hasattr(field, "field") and (
                 include_inferred or not isinstance(field, InferredProperty)
             ):
@@ -1642,12 +1639,11 @@ class BaseModel(metaclass=ModelMeta):
         else:
             for field_name, field in other.fields.items():
                 if field_name in binding_properties:
-                    if other[field_name]:
-                        if not (
-                            binding_properties[field_name].is_superset(other[field_name])
-                            or binding_properties[field_name].is_subset(other[field_name])
-                        ):
-                            return False
+                    if other[field_name] and not (
+                        binding_properties[field_name].is_superset(other[field_name])
+                        or binding_properties[field_name].is_subset(other[field_name])
+                    ):
+                        return False
                 elif hasattr(field, "model_class"):
                     if not self._binding_compatible(other[field_name]):
                         return False
@@ -1749,9 +1745,9 @@ class ModelList[ModelT](MutableSequence[ModelT]):
     def __getitem__(self, index: int) -> ModelT: ...
 
     @overload
-    def __getitem__(self, index: slice) -> Modellist[ModelT]: ...
+    def __getitem__(self, index: slice) -> ModelList[ModelT]: ...
 
-    def __getitem__(self, index: int | slice) -> ModelT | Modellist[ModelT]:
+    def __getitem__(self, index: int | slice) -> ModelT | ModelList[ModelT]:
         """Get item(s) from the list with proper type annotation.
 
         Args:
@@ -1902,12 +1898,13 @@ class ModelList[ModelT](MutableSequence[ModelT]):
                     continue
 
                 other_model = self.models[j]
-                if hasattr(current_model, "merge_contextual") and hasattr(
-                    other_model, "can_merge_with"
+                if (
+                    hasattr(current_model, "merge_contextual")
+                    and hasattr(other_model, "can_merge_with")
+                    and current_model.can_merge_with(other_model)
                 ):
-                    if current_model.can_merge_with(other_model):
-                        if current_model.merge_contextual(other_model, distance):
-                            used_indices.add(j)
+                    if current_model.merge_contextual(other_model, distance):
+                        used_indices.add(j)
 
             merged_models.append(current_model)
 

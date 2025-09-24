@@ -1385,10 +1385,6 @@
 <span id="L1375" class="lineno"><a class="lineno" href="#L1375">1375</a></span>
 <span id="L1376" class="lineno"><a class="lineno" href="#L1376">1376</a></span>
 <span id="L1377" class="lineno"><a class="lineno" href="#L1377">1377</a></span>
-<span id="L1378" class="lineno"><a class="lineno" href="#L1378">1378</a></span>
-<span id="L1379" class="lineno"><a class="lineno" href="#L1379">1379</a></span>
-<span id="L1380" class="lineno"><a class="lineno" href="#L1380">1380</a></span>
-<span id="L1381" class="lineno"><a class="lineno" href="#L1381">1381</a></span>
 </pre></td>
 <td class="table-code"><pre><span class="line-empty" title="No Anys on this line!">"""</span>
 <span class="line-empty" title="No Anys on this line!">Text-based document elements.</span>
@@ -1415,10 +1411,8 @@
 <span class="line-precise" title="No Anys on this line!">from ..nlp.dependency import DependencyTagger</span>
 <span class="line-precise" title="No Anys on this line!">from ..nlp.dependency import IndexTagger</span>
 <span class="line-precise" title="No Anys on this line!">from ..nlp.lexicon import ChemLexicon</span>
-<span class="line-precise" title="No Anys on this line!">from ..nlp.lexicon import Lexicon</span>
 <span class="line-precise" title="No Anys on this line!">from ..nlp.new_cem import CemTagger</span>
 <span class="line-precise" title="No Anys on this line!">from ..nlp.pos import ChemCrfPosTagger</span>
-<span class="line-precise" title="No Anys on this line!">from ..nlp.pos import CrfPosTagger</span>
 <span class="line-precise" title="No Anys on this line!">from ..nlp.subsentence import NoneSubsentenceExtractor</span>
 <span class="line-precise" title="No Anys on this line!">from ..nlp.subsentence import SubsentenceExtractor</span>
 <span class="line-precise" title="No Anys on this line!">from ..nlp.tag import NER_TAG_TYPE</span>
@@ -1426,8 +1420,6 @@
 <span class="line-precise" title="No Anys on this line!">from ..nlp.tag import NoneTagger</span>
 <span class="line-precise" title="No Anys on this line!">from ..nlp.tokenize import BertWordTokenizer</span>
 <span class="line-precise" title="No Anys on this line!">from ..nlp.tokenize import ChemSentenceTokenizer</span>
-<span class="line-precise" title="No Anys on this line!">from ..nlp.tokenize import SentenceTokenizer</span>
-<span class="line-precise" title="No Anys on this line!">from ..nlp.tokenize import WordTokenizer</span>
 <span class="line-precise" title="No Anys on this line!">from ..nlp.tokenize import regex_span_tokenize</span>
 <span class="line-precise" title="No Anys on this line!">from ..parse.cem import cem_phrase</span>
 <span class="line-precise" title="No Anys on this line!">from ..parse.cem import chemical_name</span>
@@ -1438,9 +1430,9 @@
 <span class="line-precise" title="No Anys on this line!">from .element import BaseElement</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">log = logging.getLogger(__name__)</span>
-<span class="line-precise" title="Any Types on this line:
+<span class="line-precise" title="Any Types on this line: 
 Unannotated (x2)">cem_tagger = CemTagger()</span>
-<span class="line-precise" title="Any Types on this line:
+<span class="line-precise" title="Any Types on this line: 
 Unannotated (x2)">dep_tagger = DependencyTagger()</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!"></span>
@@ -1489,38 +1481,38 @@ Unannotated (x2)">dep_tagger = DependencyTagger()</span>
 <span class="line-empty" title="No Anys on this line!">            inside a :class:`~chemdataextractor.doc.text.Paragraph`), or is part of a :class:`~chemdataextractor.doc.document.Document`,</span>
 <span class="line-empty" title="No Anys on this line!">            this is set automatically to be the same as that of the containing element, unless manually set otherwise.</span>
 <span class="line-empty" title="No Anys on this line!">        """</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">        if not isinstance(text, str):</span>
 <span class="line-any" title="No Anys on this line!">            raise TypeError("Text must be a unicode string")</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">        super().__init__(**kwargs)</span>
 <span class="line-precise" title="No Anys on this line!">        self._text = text</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x4)">        self.word_tokenizer = word_tokenizer if word_tokenizer is not None else self.word_tokenizer</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x4)">        self.lexicon = lexicon if lexicon is not None else self.lexicon</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">        self.abbreviation_detector = (</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">            abbreviation_detector</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">            if abbreviation_detector is not None</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">            else self.abbreviation_detector</span>
 <span class="line-empty" title="No Anys on this line!">        )</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x2)">        if taggers is not None and len(taggers) != 0:</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x2)">            self.taggers = taggers</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-any" title="No Anys on this line!">    def __repr__(self):</span>
-<span class="line-any" title="No Anys on this line!">        return f"{self.__class__.__name__}(id={self.id}, references={self.references}, text={self._text}"</span>
+<span class="line-precise" title="No Anys on this line!">    def __repr__(self) -&gt; str:</span>
+<span class="line-precise" title="No Anys on this line!">        return f"{self.__class__.__name__}(id={self.id}, references={self.references}, text={self._text}"</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-any" title="No Anys on this line!">    def __str__(self):</span>
+<span class="line-precise" title="No Anys on this line!">    def __str__(self) -&gt; str:</span>
 <span class="line-precise" title="No Anys on this line!">        return self._text</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">    @property</span>
-<span class="line-any" title="No Anys on this line!">    def text(self):</span>
+<span class="line-precise" title="No Anys on this line!">    def text(self) -&gt; str:</span>
 <span class="line-empty" title="No Anys on this line!">        """The raw text :class:`str` for this passage of text."""</span>
 <span class="line-precise" title="No Anys on this line!">        return self._text</span>
 <span class="line-empty" title="No Anys on this line!"></span>
@@ -1537,51 +1529,51 @@ Unannotated (x2)">            self.taggers = taggers</span>
 <span class="line-empty" title="No Anys on this line!">    @property</span>
 <span class="line-any" title="No Anys on this line!">    def pos_tagger(self):</span>
 <span class="line-empty" title="No Anys on this line!">        """The part of speech tagger used by this element. A subclass of :class:`~chemdataextractor.nlp.tag.BaseTagger`"""</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x3)
 Omitted Generics (x4)">        for tagger in reversed(self.taggers):</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x3)">            if tagger.can_tag(POS_TAG_TYPE):</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">                return tagger</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-unanalyzed" title="No Anys on this line!">    @pos_tagger.setter</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unimported (x2)">    @deprecated(</span>
 <span class="line-precise" title="No Anys on this line!">        deprecated_in="2.1",</span>
 <span class="line-precise" title="No Anys on this line!">        details="Deprecated due to the introduction of taggers API. Consult the migration guide for more information.",</span>
 <span class="line-empty" title="No Anys on this line!">    )</span>
 <span class="line-any" title="No Anys on this line!">    def pos_tagger(self, value):</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x3)">        if not value.can_tag(POS_TAG_TYPE):</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x2)">            value.tag_type = POS_TAG_TYPE</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x3)">        self.taggers.append(value)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">    @property</span>
 <span class="line-any" title="No Anys on this line!">    def ner_tagger(self):</span>
 <span class="line-empty" title="No Anys on this line!">        """The named entity recognition tagger used by this element. A subclass of :class:`~chemdataextractor.nlp.tag.BaseTagger`"""</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x3)
 Omitted Generics (x4)">        for tagger in reversed(self.taggers):</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x3)">            if tagger.can_tag(NER_TAG_TYPE):</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">                return tagger</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-unanalyzed" title="No Anys on this line!">    @ner_tagger.setter</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unimported (x2)">    @deprecated(</span>
 <span class="line-precise" title="No Anys on this line!">        deprecated_in="2.1",</span>
 <span class="line-precise" title="No Anys on this line!">        details="Deprecated due to the introduction of taggers API. Consult the migration guide for more information.",</span>
 <span class="line-empty" title="No Anys on this line!">    )</span>
 <span class="line-any" title="No Anys on this line!">    def ner_tagger(self, value):</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x3)">        if not value.can_tag(NER_TAG_TYPE):</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x2)">            value.tag_type = NER_TAG_TYPE</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x3)">        self.taggers.append(value)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">    @abstractproperty</span>
@@ -1616,25 +1608,22 @@ Unannotated (x3)">        self.taggers.append(value)</span>
 <span class="line-empty" title="No Anys on this line!">        the name of the class being serialized, and the key 'content' will contain</span>
 <span class="line-empty" title="No Anys on this line!">        a serialized representation of :attr:`text`, which is a :class:`str`</span>
 <span class="line-empty" title="No Anys on this line!">        """</span>
-<span class="line-any" title="Any Types on this line:
-Unannotated (x2)">        data = {"type": self.__class__.__name__, "content": self.text}</span>
-<span class="line-imprecise" title="Any Types on this line:
-Unannotated (x1)">        return data</span>
+<span class="line-any" title="No Anys on this line!">        data = {"type": self.__class__.__name__, "content": self.text}</span>
+<span class="line-precise" title="No Anys on this line!">        return data</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="No Anys on this line!">    def _repr_html_(self):</span>
-<span class="line-any" title="Any Types on this line:
-Unannotated (x1)">        return self.text</span>
+<span class="line-precise" title="No Anys on this line!">        return self.text</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">class Text(collections.abc.Sequence, BaseText):</span>
 <span class="line-empty" title="No Anys on this line!">    """A passage of text, comprising one or more sentences."""</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">    sentence_tokenizer = ChemSentenceTokenizer()</span>
-<span class="line-precise" title="Any Types on this line:
+<span class="line-precise" title="Any Types on this line: 
 Unannotated (x3)">    word_tokenizer = BertWordTokenizer()</span>
 <span class="line-precise" title="No Anys on this line!">    lexicon = ChemLexicon()</span>
 <span class="line-precise" title="No Anys on this line!">    abbreviation_detector = ChemAbbreviationDetector()</span>
-<span class="line-precise" title="Any Types on this line:
+<span class="line-precise" title="Any Types on this line: 
 Unannotated (x4)">    taggers = [ChemCrfPosTagger(), cem_tagger, dep_tagger]</span>
 <span class="line-precise" title="No Anys on this line!">    subsentence_extractor = None</span>
 <span class="line-empty" title="No Anys on this line!"></span>
@@ -1681,36 +1670,37 @@ Unannotated (x4)">    taggers = [ChemCrfPosTagger(), cem_tagger, dep_tagger]</sp
 <span class="line-empty" title="No Anys on this line!">            inside a :class:`~chemdataextractor.doc.text.Paragraph`), or is part of a :class:`~chemdataextractor.doc.document.Document`,</span>
 <span class="line-empty" title="No Anys on this line!">            this is set automatically to be the same as that of the containing element, unless manually set otherwise.</span>
 <span class="line-empty" title="No Anys on this line!">        """</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">        super().__init__(</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">            text,</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">            word_tokenizer=word_tokenizer,</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">            lexicon=lexicon,</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">            abbreviation_detector=abbreviation_detector,</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">            pos_tagger=pos_tagger,</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">            ner_tagger=ner_tagger,</span>
 <span class="line-any" title="No Anys on this line!">            parsers=None,</span>
-<span class="line-imprecise" title="Any Types on this line:
+<span class="line-imprecise" title="Any Types on this line: 
 Unannotated (x1)">            **kwargs,</span>
 <span class="line-empty" title="No Anys on this line!">        )</span>
 <span class="line-precise" title="No Anys on this line!">        self.sentence_tokenizer = (</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x2)">            sentence_tokenizer if sentence_tokenizer is not None else self.sentence_tokenizer</span>
 <span class="line-empty" title="No Anys on this line!">        )</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="No Anys on this line!">    def __getitem__(self, index):</span>
-<span class="line-any" title="Any Types on this line:
-Unannotated (x3)">        return self.sentences[index]</span>
+<span class="line-any" title="Any Types on this line: 
+Explicit (x2)
+Unannotated (x1)">        return self.sentences[index]</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="No Anys on this line!">    def __len__(self):</span>
-<span class="line-any" title="Any Types on this line:
-Unannotated (x1)">        return len(self.sentences)</span>
+<span class="line-any" title="Any Types on this line: 
+Explicit (x1)">        return len(self.sentences)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="No Anys on this line!">    def set_config(self):</span>
 <span class="line-empty" title="No Anys on this line!">        """Load settings from configuration file</span>
@@ -1723,25 +1713,20 @@ Unannotated (x1)">        return len(self.sentences)</span>
 <span class="line-empty" title="No Anys on this line!">        else:</span>
 <span class="line-precise" title="No Anys on this line!">            c = self.document.config</span>
 <span class="line-any" title="No Anys on this line!">            if "SENTENCE_TOKENIZER" in c:</span>
-<span class="line-any" title="Any Types on this line:
-Explicit (x4)
-Unannotated (x1)">                self.sentence_tokenizer = eval(c["SENTENCE_TOKENIZER"])()</span>
+<span class="line-any" title="Any Types on this line: 
+Explicit (x5)">                self.sentence_tokenizer = eval(c["SENTENCE_TOKENIZER"])()</span>
 <span class="line-any" title="No Anys on this line!">            if "WORD_TOKENIZER" in c:</span>
-<span class="line-any" title="Any Types on this line:
-Explicit (x4)
-Unannotated (x1)">                self.word_tokenizer = eval(c["WORD_TOKENIZER"])()</span>
+<span class="line-any" title="Any Types on this line: 
+Explicit (x5)">                self.word_tokenizer = eval(c["WORD_TOKENIZER"])()</span>
 <span class="line-any" title="No Anys on this line!">            if "POS_TAGGER" in c:</span>
-<span class="line-any" title="Any Types on this line:
-Explicit (x4)
-Unannotated (x1)">                self.pos_tagger = eval(c["POS_TAGGER"])()</span>
+<span class="line-any" title="Any Types on this line: 
+Explicit (x5)">                self.pos_tagger = eval(c["POS_TAGGER"])()</span>
 <span class="line-any" title="No Anys on this line!">            if "NER_TAGGER" in c:</span>
-<span class="line-any" title="Any Types on this line:
-Explicit (x4)
-Unannotated (x1)">                self.ner_tagger = eval(c["NER_TAGGER"])()</span>
+<span class="line-any" title="Any Types on this line: 
+Explicit (x5)">                self.ner_tagger = eval(c["NER_TAGGER"])()</span>
 <span class="line-any" title="No Anys on this line!">            if "LEXICON" in c:</span>
-<span class="line-any" title="Any Types on this line:
-Explicit (x4)
-Unannotated (x1)">                self.lexicon = eval(c["LEXICON"])()</span>
+<span class="line-any" title="Any Types on this line: 
+Explicit (x5)">                self.lexicon = eval(c["LEXICON"])()</span>
 <span class="line-any" title="No Anys on this line!">            if "PARSERS" in c:</span>
 <span class="line-empty" title="No Anys on this line!">                raise (</span>
 <span class="line-precise" title="No Anys on this line!">                    DeprecationWarning(</span>
@@ -1749,39 +1734,40 @@ Unannotated (x1)">                self.lexicon = eval(c["LEXICON"])()</span>
 <span class="line-empty" title="No Anys on this line!">                    )</span>
 <span class="line-empty" title="No Anys on this line!">                )</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-precise" title="Any Types on this line:
-Unannotated (x2)">    @memoized_property</span>
+<span class="line-precise" title="Any Types on this line: 
+Omitted Generics (x1)
+Explicit (x1)">    @memoized_property</span>
 <span class="line-any" title="No Anys on this line!">    def sentences(self):</span>
 <span class="line-empty" title="No Anys on this line!">        """A list of :class:`Sentence` s that make up this text passage."""</span>
 <span class="line-precise" title="No Anys on this line!">        sents = self.sentence_tokenizer.get_sentences(self)</span>
 <span class="line-precise" title="No Anys on this line!">        for sent in sents:</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Error (x1)">            sent.document = self.document</span>
 <span class="line-precise" title="No Anys on this line!">        return sents</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">    @property</span>
 <span class="line-any" title="No Anys on this line!">    def elements(self):</span>
-<span class="line-any" title="Any Types on this line:
-Unannotated (x1)">        return self.sentences</span>
+<span class="line-any" title="Any Types on this line: 
+Explicit (x1)">        return self.sentences</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="No Anys on this line!">    def _sentences_from_spans(self, spans):</span>
 <span class="line-precise" title="No Anys on this line!">        sents = []</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x2)">        for span in spans:</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x11)">            sent = Sentence(</span>
-<span class="line-any" title="Any Types on this line:
-Unannotated (x6)">                text=self.text[span[0] : span[1]],</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
+Unannotated (x4)">                text=self.text[span[0] : span[1]],</span>
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x2)">                start=span[0],</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x2)">                end=span[1],</span>
 <span class="line-precise" title="No Anys on this line!">                word_tokenizer=self.word_tokenizer,</span>
 <span class="line-precise" title="No Anys on this line!">                lexicon=self.lexicon,</span>
 <span class="line-precise" title="No Anys on this line!">                abbreviation_detector=self.abbreviation_detector,</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">                pos_tagger=self.pos_tagger,</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">                ner_tagger=self.ner_tagger,</span>
 <span class="line-precise" title="No Anys on this line!">                document=self.document,</span>
 <span class="line-precise" title="No Anys on this line!">                models=self.models,</span>
@@ -1794,31 +1780,31 @@ Unannotated (x1)">                ner_tagger=self.ner_tagger,</span>
 <span class="line-empty" title="No Anys on this line!">    @property</span>
 <span class="line-any" title="No Anys on this line!">    def raw_sentences(self):</span>
 <span class="line-empty" title="No Anys on this line!">        """A list of :class:`str` for the sentences that make up this text passage."""</span>
-<span class="line-any" title="Any Types on this line:
-Unannotated (x4)">        return [sentence.text for sentence in self.sentences]</span>
+<span class="line-any" title="Any Types on this line: 
+Explicit (x4)">        return [sentence.text for sentence in self.sentences]</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">    @property</span>
 <span class="line-any" title="No Anys on this line!">    def tokens(self):</span>
-<span class="line-any" title="Any Types on this line:
-Unannotated (x4)">        return [sent.tokens for sent in self.sentences]</span>
+<span class="line-any" title="Any Types on this line: 
+Explicit (x4)">        return [sent.tokens for sent in self.sentences]</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">    @property</span>
 <span class="line-any" title="No Anys on this line!">    def raw_tokens(self):</span>
 <span class="line-empty" title="No Anys on this line!">        """A list of :class:`str` representations for the tokens of each sentence in this text passage."""</span>
-<span class="line-any" title="Any Types on this line:
-Unannotated (x4)">        return [sent.raw_tokens for sent in self.sentences]</span>
+<span class="line-any" title="Any Types on this line: 
+Explicit (x4)">        return [sent.raw_tokens for sent in self.sentences]</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">    @property</span>
 <span class="line-any" title="No Anys on this line!">    def pos_tagged_tokens(self):</span>
 <span class="line-empty" title="No Anys on this line!">        """A list of (:class:`Token` token, :class:`str` tag) tuples for each sentence in this text passage."""</span>
-<span class="line-any" title="Any Types on this line:
-Unannotated (x4)">        return [sent.pos_tagged_tokens for sent in self.sentences]</span>
+<span class="line-any" title="Any Types on this line: 
+Explicit (x4)">        return [sent.pos_tagged_tokens for sent in self.sentences]</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">    @property</span>
 <span class="line-any" title="No Anys on this line!">    def pos_tags(self):</span>
 <span class="line-empty" title="No Anys on this line!">        """A list of :class:`str` part of speech tags for each sentence in this text passage."""</span>
-<span class="line-any" title="Any Types on this line:
-Unannotated (x4)">        return [sent.pos_tags for sent in self.sentences]</span>
+<span class="line-any" title="Any Types on this line: 
+Explicit (x4)">        return [sent.pos_tags for sent in self.sentences]</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">    @property</span>
 <span class="line-any" title="No Anys on this line!">    def unprocessed_ner_tagged_tokens(self):</span>
@@ -1828,8 +1814,8 @@ Unannotated (x4)">        return [sent.pos_tags for sent in self.sentences]</spa
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">        No corrections from abbreviation detection are performed.</span>
 <span class="line-empty" title="No Anys on this line!">        """</span>
-<span class="line-any" title="Any Types on this line:
-Unannotated (x4)">        return [sent.unprocessed_ner_tagged_tokens for sent in self.sentences]</span>
+<span class="line-any" title="Any Types on this line: 
+Explicit (x4)">        return [sent.unprocessed_ner_tagged_tokens for sent in self.sentences]</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">    @property</span>
 <span class="line-any" title="No Anys on this line!">    def unprocessed_ner_tags(self):</span>
@@ -1838,8 +1824,8 @@ Unannotated (x4)">        return [sent.unprocessed_ner_tagged_tokens for sent in
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">        No corrections from abbreviation detection are performed.</span>
 <span class="line-empty" title="No Anys on this line!">        """</span>
-<span class="line-any" title="Any Types on this line:
-Unannotated (x4)">        return [sent.unprocessed_ner_tags for sent in self.sentences]</span>
+<span class="line-any" title="Any Types on this line: 
+Explicit (x4)">        return [sent.unprocessed_ner_tags for sent in self.sentences]</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">    @property</span>
 <span class="line-any" title="No Anys on this line!">    def ner_tagged_tokens(self):</span>
@@ -1847,8 +1833,8 @@ Unannotated (x4)">        return [sent.unprocessed_ner_tags for sent in self.sen
 <span class="line-empty" title="No Anys on this line!">        A list of (:class:`Token` token, :class:`str` named entity recognition tag)</span>
 <span class="line-empty" title="No Anys on this line!">        from the text.</span>
 <span class="line-empty" title="No Anys on this line!">        """</span>
-<span class="line-any" title="Any Types on this line:
-Unannotated (x4)">        return [sent.ner_tagged_tokens for sent in self.sentences]</span>
+<span class="line-any" title="Any Types on this line: 
+Explicit (x4)">        return [sent.ner_tagged_tokens for sent in self.sentences]</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">    @property</span>
 <span class="line-any" title="No Anys on this line!">    def ner_tags(self):</span>
@@ -1857,35 +1843,35 @@ Unannotated (x4)">        return [sent.ner_tagged_tokens for sent in self.senten
 <span class="line-empty" title="No Anys on this line!">        For information on what each of the tags can be, check the documentation on</span>
 <span class="line-empty" title="No Anys on this line!">        the specific :attr:`ner_tagger` used for this object.</span>
 <span class="line-empty" title="No Anys on this line!">        """</span>
-<span class="line-any" title="Any Types on this line:
-Unannotated (x4)">        return [sent.ner_tags for sent in self.sentences]</span>
+<span class="line-any" title="Any Types on this line: 
+Explicit (x4)">        return [sent.ner_tags for sent in self.sentences]</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">    @property</span>
 <span class="line-any" title="No Anys on this line!">    def cems(self):</span>
 <span class="line-empty" title="No Anys on this line!">        """</span>
 <span class="line-empty" title="No Anys on this line!">        A list of all Chemical Entity Mentions in this text as :class:`chemdataextractor.doc.text.span`</span>
 <span class="line-empty" title="No Anys on this line!">        """</span>
-<span class="line-any" title="Any Types on this line:
-Unannotated (x6)">        return [cem for sent in self.sentences for cem in sent.cems]</span>
+<span class="line-any" title="Any Types on this line: 
+Explicit (x6)">        return [cem for sent in self.sentences for cem in sent.cems]</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">    @property</span>
 <span class="line-any" title="No Anys on this line!">    def definitions(self):</span>
 <span class="line-empty" title="No Anys on this line!">        """</span>
 <span class="line-empty" title="No Anys on this line!">        Return a list of tagged definitions for each sentence in this text passage</span>
 <span class="line-empty" title="No Anys on this line!">        """</span>
-<span class="line-any" title="Any Types on this line:
-Unannotated (x6)">        return [definition for sent in self.sentences for definition in sent.definitions]</span>
+<span class="line-any" title="Any Types on this line: 
+Explicit (x6)">        return [definition for sent in self.sentences for definition in sent.definitions]</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">    @property</span>
 <span class="line-any" title="No Anys on this line!">    def chemical_definitions(self):</span>
 <span class="line-empty" title="No Anys on this line!">        """</span>
 <span class="line-empty" title="No Anys on this line!">        Return a list of tagged definitions for each sentence in this text passage</span>
 <span class="line-empty" title="No Anys on this line!">        """</span>
-<span class="line-any" title="Any Types on this line:
-Unannotated (x6)">        return [definition for sent in self.sentences for definition in sent.chemical_definitions]</span>
+<span class="line-any" title="Any Types on this line: 
+Explicit (x6)">        return [definition for sent in self.sentences for definition in sent.chemical_definitions]</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">    @property</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unimported (x2)">    @deprecated(</span>
 <span class="line-precise" title="No Anys on this line!">        deprecated_in="2.1",</span>
 <span class="line-precise" title="No Anys on this line!">        details="Deprecated due to the introduction of RichTokens, and is now just an alias for .tokens.",</span>
@@ -1894,13 +1880,13 @@ Unimported (x2)">    @deprecated(</span>
 <span class="line-empty" title="No Anys on this line!">        """</span>
 <span class="line-empty" title="No Anys on this line!">        A list of lists of :class:`~chemdataextractor.doc.text.RichToken` instances found in the text.</span>
 <span class="line-empty" title="No Anys on this line!">        """</span>
-<span class="line-any" title="Any Types on this line:
-Unannotated (x4)">        return [sent.tagged_tokens for sent in self.sentences]</span>
+<span class="line-any" title="Any Types on this line: 
+Explicit (x4)">        return [sent.tagged_tokens for sent in self.sentences]</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">    @property</span>
 <span class="line-any" title="No Anys on this line!">    def tags(self):</span>
-<span class="line-any" title="Any Types on this line:
-Unannotated (x4)">        return [sent.tags for sent in self.sentences]</span>
+<span class="line-any" title="Any Types on this line: 
+Explicit (x4)">        return [sent.tags for sent in self.sentences]</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">    @property</span>
 <span class="line-any" title="No Anys on this line!">    def abbreviation_definitions(self):</span>
@@ -1908,87 +1894,89 @@ Unannotated (x4)">        return [sent.tags for sent in self.sentences]</span>
 <span class="line-empty" title="No Anys on this line!">        A list of all abbreviation definitions in this Document. Each abbreviation is in the form</span>
 <span class="line-empty" title="No Anys on this line!">        (:class:`str` abbreviation, :class:`str` long form of abbreviation, :class:`str` ner_tag)</span>
 <span class="line-empty" title="No Anys on this line!">        """</span>
-<span class="line-any" title="Any Types on this line:
-Unannotated (x6)">        return [ab for sent in self.sentences for ab in sent.abbreviation_definitions]</span>
+<span class="line-any" title="Any Types on this line: 
+Explicit (x6)">        return [ab for sent in self.sentences for ab in sent.abbreviation_definitions]</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">    @property</span>
 <span class="line-any" title="No Anys on this line!">    def records(self):</span>
 <span class="line-empty" title="No Anys on this line!">        """All records found in the object, as a list of :class:`~chemdataextractor.model.base.BaseModel`."""</span>
-<span class="line-any" title="Any Types on this line:
-Unannotated (x5)">        records_by_sentence = [sent.records for sent in self.sentences]</span>
-<span class="line-imprecise" title="Any Types on this line:
-Unannotated (x1)">        num_sentences = len(records_by_sentence)</span>
+<span class="line-any" title="Any Types on this line: 
+Explicit (x5)">        records_by_sentence = [sent.records for sent in self.sentences]</span>
+<span class="line-imprecise" title="Any Types on this line: 
+Explicit (x1)">        num_sentences = len(records_by_sentence)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-any" title="Any Types on this line:
-Unannotated (x5)">        for index, sent_records in enumerate(records_by_sentence):</span>
+<span class="line-any" title="Any Types on this line: 
+Explicit (x5)">        for index, sent_records in enumerate(records_by_sentence):</span>
 <span class="line-any" title="No Anys on this line!">            offset = 1</span>
-<span class="line-precise" title="Any Types on this line:
+<span class="line-precise" title="Any Types on this line: 
 Omitted Generics (x23)">            max_offset = max(num_sentences - index, index)</span>
 <span class="line-precise" title="No Anys on this line!">            merge_candidates = []</span>
 <span class="line-precise" title="No Anys on this line!">            while offset &lt;= max_offset:</span>
 <span class="line-precise" title="No Anys on this line!">                backwards_index = index - offset</span>
 <span class="line-precise" title="No Anys on this line!">                forwards_index = index + offset</span>
 <span class="line-precise" title="No Anys on this line!">                distance = offset * SentenceRange()</span>
-<span class="line-imprecise" title="Any Types on this line:
-Unannotated (x2)">                merge_candidates.extend(</span>
-<span class="line-any" title="Any Types on this line:
-Unannotated (x4)">                    [(distance, record) for record in records_by_sentence[backwards_index]]</span>
+<span class="line-imprecise" title="Any Types on this line: 
+Explicit (x2)">                merge_candidates.extend(</span>
+<span class="line-any" title="Any Types on this line: 
+Explicit (x4)">                    [(distance, record) for record in records_by_sentence[backwards_index]]</span>
 <span class="line-empty" title="No Anys on this line!">                )</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="No Anys on this line!">                if backwards_index &gt;= 0:</span>
-<span class="line-imprecise" title="Any Types on this line:
-Unannotated (x2)">                    merge_candidates.extend(</span>
-<span class="line-any" title="Any Types on this line:
-Unannotated (x4)">                        (distance, record) for record in records_by_sentence[backwards_index]</span>
+<span class="line-imprecise" title="Any Types on this line: 
+Explicit (x2)">                    merge_candidates.extend(</span>
+<span class="line-any" title="Any Types on this line: 
+Explicit (x4)">                        (distance, record) for record in records_by_sentence[backwards_index]</span>
 <span class="line-empty" title="No Anys on this line!">                    )</span>
 <span class="line-precise" title="No Anys on this line!">                if forwards_index &lt; num_sentences:</span>
-<span class="line-imprecise" title="Any Types on this line:
-Unannotated (x2)">                    merge_candidates.extend(</span>
-<span class="line-any" title="Any Types on this line:
-Unannotated (x4)">                        (distance, record) for record in records_by_sentence[forwards_index]</span>
+<span class="line-imprecise" title="Any Types on this line: 
+Explicit (x2)">                    merge_candidates.extend(</span>
+<span class="line-any" title="Any Types on this line: 
+Explicit (x4)">                        (distance, record) for record in records_by_sentence[forwards_index]</span>
 <span class="line-empty" title="No Anys on this line!">                    )</span>
 <span class="line-any" title="No Anys on this line!">                offset += 1</span>
-<span class="line-any" title="Any Types on this line:
-Unannotated (x6)">            self._resolve_contextual(sent_records, sort_merge_candidates(merge_candidates))</span>
+<span class="line-any" title="Any Types on this line: 
+Unannotated (x4)
+Explicit (x2)">            self._resolve_contextual(sent_records, sort_merge_candidates(merge_candidates))</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">        # Don't sort these records as this encodes where they were found in the paragraph</span>
-<span class="line-any" title="Any Types on this line:
-Unannotated (x4)">        records = ModelList(</span>
-<span class="line-any" title="Any Types on this line:
-Unannotated (x5)">            *[r for sentence_records in records_by_sentence for r in sentence_records]</span>
+<span class="line-any" title="Any Types on this line: 
+Explicit (x4)">        records = ModelList(</span>
+<span class="line-any" title="Any Types on this line: 
+Explicit (x5)">            *[r for sentence_records in records_by_sentence for r in sentence_records]</span>
 <span class="line-empty" title="No Anys on this line!">        )</span>
-<span class="line-any" title="Any Types on this line:
-Unannotated (x4)">        records.remove_subsets()</span>
-<span class="line-imprecise" title="Any Types on this line:
-Unannotated (x1)">        return records</span>
+<span class="line-any" title="Any Types on this line: 
+Unannotated (x3)
+Explicit (x1)">        records.remove_subsets()</span>
+<span class="line-imprecise" title="Any Types on this line: 
+Explicit (x1)">        return records</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="No Anys on this line!">    def _resolve_contextual(self, parent_records, child_records):</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x2)">        for parent_record in parent_records:</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x3)">            for distance, child_record in child_records:</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x5)">                parent_record.merge_contextual(child_record, distance=distance)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="No Anys on this line!">    def __add__(self, other):</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Explicit (x4)
 Unannotated (x1)">        if type(self) is type(other):</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x9)">            merged = self.__class__(</span>
-<span class="line-any" title="Any Types on this line:
-Unannotated (x4)">                text=self.text + other.text,</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
+Unannotated (x3)">                text=self.text + other.text,</span>
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x2)">                id=self.id or other.id,</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x3)">                references=self.references + other.references,</span>
 <span class="line-precise" title="No Anys on this line!">                sentence_tokenizer=self.sentence_tokenizer,</span>
 <span class="line-precise" title="No Anys on this line!">                word_tokenizer=self.word_tokenizer,</span>
 <span class="line-precise" title="No Anys on this line!">                lexicon=self.lexicon,</span>
 <span class="line-precise" title="No Anys on this line!">                abbreviation_detector=self.abbreviation_detector,</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">                pos_tagger=self.pos_tagger,</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">                ner_tagger=self.ner_tagger,</span>
 <span class="line-empty" title="No Anys on this line!">            )</span>
 <span class="line-precise" title="No Anys on this line!">            return merged</span>
@@ -1997,59 +1985,55 @@ Unannotated (x1)">                ner_tagger=self.ner_tagger,</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">class Title(Text):</span>
 <span class="line-any" title="No Anys on this line!">    def __init__(self, text, **kwargs):</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x3)">        super().__init__(text, **kwargs)</span>
 <span class="line-precise" title="No Anys on this line!">        self.models = []</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="No Anys on this line!">    def _repr_html_(self):</span>
-<span class="line-any" title="Any Types on this line:
-Unannotated (x3)">        return '&lt;h1 class="cde-title"&gt;' + self.text + "&lt;/h1&gt;"</span>
+<span class="line-any" title="No Anys on this line!">        return '&lt;h1 class="cde-title"&gt;' + self.text + "&lt;/h1&gt;"</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">class Heading(Text):</span>
 <span class="line-any" title="No Anys on this line!">    def __init__(self, text, **kwargs):</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x3)">        super().__init__(text, **kwargs)</span>
 <span class="line-precise" title="No Anys on this line!">        self.models = []</span>
 <span class="line-empty" title="No Anys on this line!">        # default_parsers = [CompoundHeadingParser(), ChemicalLabelParser()]</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="No Anys on this line!">    def _repr_html_(self):</span>
-<span class="line-any" title="Any Types on this line:
-Unannotated (x3)">        return '&lt;h2 class="cde-title"&gt;' + self.text + "&lt;/h2&gt;"</span>
+<span class="line-any" title="No Anys on this line!">        return '&lt;h2 class="cde-title"&gt;' + self.text + "&lt;/h2&gt;"</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">class Paragraph(Text):</span>
 <span class="line-any" title="No Anys on this line!">    def __init__(self, text, **kwargs):</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x3)">        super().__init__(text, **kwargs)</span>
 <span class="line-empty" title="No Anys on this line!">        # default_parsers = [CompoundParser(), ChemicalLabelParser(), NmrParser(), IrParser(), UvvisParser(), MpParser(),</span>
 <span class="line-empty" title="No Anys on this line!">        #        TgParser(), ContextParser()]</span>
 <span class="line-precise" title="No Anys on this line!">        self.models = []</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="No Anys on this line!">    def _repr_html_(self):</span>
-<span class="line-any" title="Any Types on this line:
-Unannotated (x3)">        return '&lt;p class="cde-paragraph"&gt;' + self.text + "&lt;/p&gt;"</span>
+<span class="line-any" title="No Anys on this line!">        return '&lt;p class="cde-paragraph"&gt;' + self.text + "&lt;/p&gt;"</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">class Footnote(Text):</span>
 <span class="line-any" title="No Anys on this line!">    def __init__(self, text, **kwargs):</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x3)">        super().__init__(text, **kwargs)</span>
 <span class="line-empty" title="No Anys on this line!">        # default_parsers = [ContextParser(), CaptionContextParser()]</span>
 <span class="line-precise" title="No Anys on this line!">        self.models = []</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="No Anys on this line!">    def _repr_html_(self):</span>
-<span class="line-any" title="Any Types on this line:
-Unannotated (x3)">        return '&lt;p class="cde-footnote"&gt;' + self.text + "&lt;/p&gt;"</span>
+<span class="line-any" title="No Anys on this line!">        return '&lt;p class="cde-footnote"&gt;' + self.text + "&lt;/p&gt;"</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">class Citation(Text):</span>
 <span class="line-precise" title="No Anys on this line!">    taggers = [</span>
-<span class="line-precise" title="Any Types on this line:
+<span class="line-precise" title="Any Types on this line: 
 Unannotated (x4)">        ChemCrfPosTagger(),</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">        NoneTagger(tag_type=NER_TAG_TYPE),</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">        NoneTagger(tag_type="dependency"),</span>
 <span class="line-precise" title="No Anys on this line!">        IndexTagger(),</span>
 <span class="line-empty" title="No Anys on this line!">    ]</span>
@@ -2059,39 +2043,37 @@ Unannotated (x1)">        NoneTagger(tag_type="dependency"),</span>
 <span class="line-empty" title="No Anys on this line!">    # TODO: Store number/label</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="No Anys on this line!">    def _repr_html_(self):</span>
-<span class="line-any" title="Any Types on this line:
-Unannotated (x3)">        return '&lt;p class="cde-citation"&gt;' + self.text + "&lt;/p&gt;"</span>
+<span class="line-any" title="No Anys on this line!">        return '&lt;p class="cde-citation"&gt;' + self.text + "&lt;/p&gt;"</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">class Caption(Text):</span>
 <span class="line-any" title="No Anys on this line!">    def __init__(self, text, **kwargs):</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x3)">        super().__init__(text, **kwargs)</span>
 <span class="line-precise" title="No Anys on this line!">        self.models = []</span>
 <span class="line-empty" title="No Anys on this line!">        # default_parsers = [CompoundParser(), ChemicalLabelParser(), CaptionContextParser()]</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="No Anys on this line!">    def _repr_html_(self):</span>
-<span class="line-any" title="Any Types on this line:
-Unannotated (x3)">        return '&lt;caption class="cde-caption"&gt;' + self.text + "&lt;/caption&gt;"</span>
+<span class="line-any" title="No Anys on this line!">        return '&lt;caption class="cde-caption"&gt;' + self.text + "&lt;/caption&gt;"</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">    @property</span>
 <span class="line-any" title="No Anys on this line!">    def definitions(self):</span>
-<span class="line-any" title="Any Types on this line:
-Unannotated (x6)">        return [definition for sent in self.sentences for definition in sent.definitions]</span>
+<span class="line-any" title="Any Types on this line: 
+Explicit (x6)">        return [definition for sent in self.sentences for definition in sent.definitions]</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">class Sentence(BaseText):</span>
 <span class="line-empty" title="No Anys on this line!">    """A single sentence within a text passage."""</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-precise" title="Any Types on this line:
+<span class="line-precise" title="Any Types on this line: 
 Unannotated (x3)">    word_tokenizer = BertWordTokenizer()</span>
 <span class="line-precise" title="No Anys on this line!">    lexicon = ChemLexicon()</span>
 <span class="line-precise" title="No Anys on this line!">    abbreviation_detector = ChemAbbreviationDetector()</span>
-<span class="line-precise" title="Any Types on this line:
+<span class="line-precise" title="Any Types on this line: 
 Unannotated (x1)">    subsentence_extractor = SubsentenceExtractor()</span>
-<span class="line-precise" title="Any Types on this line:
+<span class="line-precise" title="Any Types on this line: 
 Unannotated (x4)">    taggers = [ChemCrfPosTagger(), cem_tagger, dep_tagger]</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x2)">    specifier_definition = specifier_definition</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="No Anys on this line!">    def __init__(</span>
@@ -2140,68 +2122,69 @@ Unannotated (x2)">    specifier_definition = specifier_definition</span>
 <span class="line-empty" title="No Anys on this line!">            this is set automatically to be the same as that of the containing element, unless manually set otherwise.</span>
 <span class="line-empty" title="No Anys on this line!">        """</span>
 <span class="line-precise" title="No Anys on this line!">        self.models = []</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">        super().__init__(</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">            text,</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">            word_tokenizer=word_tokenizer,</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">            lexicon=lexicon,</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">            abbreviation_detector=abbreviation_detector,</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">            pos_tagger=pos_tagger,</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">            ner_tagger=ner_tagger,</span>
-<span class="line-imprecise" title="Any Types on this line:
+<span class="line-imprecise" title="Any Types on this line: 
 Unannotated (x1)">            **kwargs,</span>
 <span class="line-empty" title="No Anys on this line!">        )</span>
 <span class="line-empty" title="No Anys on this line!">        #: The start index of this sentence within the text passage.</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x2)">        self.start = start</span>
 <span class="line-empty" title="No Anys on this line!">        #: The end index of this sentence within the text passage.</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x4)">        self.end = end if end is not None else len(text)</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">        if specifier_definition is not None:</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x2)">            self.specifier_definition = specifier_definition</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">        if subsentence_extractor is not None:</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">            self.subsentence_extractor = subsentence_extractor</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="No Anys on this line!">    def __repr__(self):</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x2)">        return f"{self.__class__.__name__}({self._text}, {self.start}, {self.end})"</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-precise" title="Any Types on this line:
-Unannotated (x2)">    @memoized_property</span>
+<span class="line-precise" title="Any Types on this line: 
+Omitted Generics (x1)
+Explicit (x1)">    @memoized_property</span>
 <span class="line-any" title="No Anys on this line!">    def tokens(self):</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x5)">        tokens = self.word_tokenizer.get_word_tokens(self)</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x2)">        for token in tokens:</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x7)">            token.text = "".join(ch for ch in token.text if unicodedata.category(ch)[0] != "C")</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">        return tokens</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="No Anys on this line!">    def _tokens_for_spans(self, spans):</span>
 <span class="line-precise" title="No Anys on this line!">        toks = [</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x5)">            RichToken(</span>
-<span class="line-any" title="Any Types on this line:
-Unannotated (x6)">                text=self.text[span[0] : span[1]],</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
+Unannotated (x4)">                text=self.text[span[0] : span[1]],</span>
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x4)">                start=span[0] + self.start,</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x4)">                end=span[1] + self.start,</span>
 <span class="line-precise" title="No Anys on this line!">                lexicon=self.lexicon,</span>
 <span class="line-precise" title="No Anys on this line!">                sentence=self,</span>
 <span class="line-empty" title="No Anys on this line!">            )</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x2)">            for span in spans</span>
 <span class="line-empty" title="No Anys on this line!">        ]</span>
 <span class="line-precise" title="No Anys on this line!">        return toks</span>
@@ -2209,25 +2192,27 @@ Unannotated (x2)">            for span in spans</span>
 <span class="line-empty" title="No Anys on this line!">    @property</span>
 <span class="line-any" title="No Anys on this line!">    def raw_tokens(self):</span>
 <span class="line-empty" title="No Anys on this line!">        """A list of :class:`str` representations for the tokens in the object."""</span>
-<span class="line-any" title="Any Types on this line:
-Unannotated (x4)">        return [token.text for token in self.tokens]</span>
+<span class="line-any" title="Any Types on this line: 
+Explicit (x4)">        return [token.text for token in self.tokens]</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-precise" title="Any Types on this line:
-Unannotated (x2)">    @memoized_property</span>
+<span class="line-precise" title="Any Types on this line: 
+Omitted Generics (x1)
+Explicit (x1)">    @memoized_property</span>
 <span class="line-any" title="No Anys on this line!">    def pos_tagged_tokens(self):</span>
 <span class="line-empty" title="No Anys on this line!">        """A list of (:class:`Token` token, :class:`str` tag) tuples for each sentence in this sentence."""</span>
 <span class="line-empty" title="No Anys on this line!">        # log.debug('Getting pos tags')</span>
-<span class="line-any" title="Any Types on this line:
-Unannotated (x6)">        return [(token.text, token.pos_tag) for token in self.tokens]</span>
+<span class="line-any" title="Any Types on this line: 
+Explicit (x6)">        return [(token.text, token.pos_tag) for token in self.tokens]</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">    @property</span>
 <span class="line-any" title="No Anys on this line!">    def pos_tags(self):</span>
 <span class="line-empty" title="No Anys on this line!">        """A list of :class:`str` part of speech tags for each sentence in this sentence."""</span>
-<span class="line-any" title="Any Types on this line:
-Unannotated (x4)">        return [token[1] for token in self.pos_tagged_tokens]</span>
+<span class="line-any" title="Any Types on this line: 
+Explicit (x4)">        return [token[1] for token in self.pos_tagged_tokens]</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-precise" title="Any Types on this line:
-Unannotated (x2)">    @memoized_property</span>
+<span class="line-precise" title="Any Types on this line: 
+Omitted Generics (x1)
+Explicit (x1)">    @memoized_property</span>
 <span class="line-any" title="No Anys on this line!">    def unprocessed_ner_tagged_tokens(self):</span>
 <span class="line-empty" title="No Anys on this line!">        """</span>
 <span class="line-empty" title="No Anys on this line!">        A list of (:class:`Token` token, :class:`str` named entity recognition tag)</span>
@@ -2236,22 +2221,24 @@ Unannotated (x2)">    @memoized_property</span>
 <span class="line-empty" title="No Anys on this line!">        No corrections from abbreviation detection are performed.</span>
 <span class="line-empty" title="No Anys on this line!">        """</span>
 <span class="line-empty" title="No Anys on this line!">        # log.debug('Getting unprocessed_ner_tags')</span>
-<span class="line-any" title="Any Types on this line:
-Unannotated (x6)">        return [(token.text, token.ner_tag) for token in self.tokens]</span>
+<span class="line-any" title="Any Types on this line: 
+Explicit (x6)">        return [(token.text, token.ner_tag) for token in self.tokens]</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-precise" title="Any Types on this line:
-Unannotated (x2)">    @memoized_property</span>
+<span class="line-precise" title="Any Types on this line: 
+Omitted Generics (x1)
+Explicit (x1)">    @memoized_property</span>
 <span class="line-any" title="No Anys on this line!">    def unprocessed_ner_tags(self):</span>
 <span class="line-empty" title="No Anys on this line!">        """</span>
 <span class="line-empty" title="No Anys on this line!">        A list of :class:`str` unprocessed named entity tags for the tokens in this sentence.</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">        No corrections from abbreviation detection are performed.</span>
 <span class="line-empty" title="No Anys on this line!">        """</span>
-<span class="line-any" title="Any Types on this line:
-Unannotated (x4)">        return [token[1] for token in self.unprocessed_ner_tagged_tokens]</span>
+<span class="line-any" title="Any Types on this line: 
+Explicit (x4)">        return [token[1] for token in self.unprocessed_ner_tagged_tokens]</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-precise" title="Any Types on this line:
-Unannotated (x2)">    @memoized_property</span>
+<span class="line-precise" title="Any Types on this line: 
+Omitted Generics (x1)
+Explicit (x1)">    @memoized_property</span>
 <span class="line-any" title="No Anys on this line!">    def abbreviation_definitions(self):</span>
 <span class="line-empty" title="No Anys on this line!">        """</span>
 <span class="line-empty" title="No Anys on this line!">        A list of all abbreviation definitions in this Document. Each abbreviation is in the form</span>
@@ -2260,40 +2247,45 @@ Unannotated (x2)">    @memoized_property</span>
 <span class="line-precise" title="No Anys on this line!">        abbreviations = []</span>
 <span class="line-precise" title="No Anys on this line!">        if self.abbreviation_detector:</span>
 <span class="line-empty" title="No Anys on this line!">            # log.debug('Detecting abbreviations')</span>
-<span class="line-any" title="Any Types on this line:
-Unannotated (x2)">            ners = self.unprocessed_ner_tags</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
+Explicit (x2)">            ners = self.unprocessed_ner_tags</span>
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x6)">            for abbr_span, long_span in self.abbreviation_detector.detect_spans(self.raw_tokens):</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x7)">                abbr = self.raw_tokens[abbr_span[0] : abbr_span[1]]</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x7)">                long = self.raw_tokens[long_span[0] : long_span[1]]</span>
 <span class="line-empty" title="No Anys on this line!">                # Check if long is entirely tagged as one named entity type</span>
-<span class="line-any" title="Any Types on this line:
-Unannotated (x7)">                long_tags = ners[long_span[0] : long_span[1]]</span>
-<span class="line-any" title="Any Types on this line:
-Unannotated (x6)">                unique_tags = {tag[2:] for tag in long_tags if tag is not None}</span>
-<span class="line-any" title="Any Types on this line:
-Unannotated (x6)">                tag = long_tags[0][2:] if None not in long_tags and len(unique_tags) == 1 else None</span>
-<span class="line-any" title="Any Types on this line:
-Unannotated (x9)">                abbreviations.append((abbr, long, tag))</span>
-<span class="line-imprecise" title="Any Types on this line:
-Unannotated (x3)">        return abbreviations</span>
+<span class="line-any" title="Any Types on this line: 
+Explicit (x3)
+Unannotated (x4)">                long_tags = ners[long_span[0] : long_span[1]]</span>
+<span class="line-any" title="Any Types on this line: 
+Explicit (x6)">                unique_tags = {tag[2:] for tag in long_tags if tag is not None}</span>
+<span class="line-any" title="Any Types on this line: 
+Explicit (x6)">                tag = long_tags[0][2:] if None not in long_tags and len(unique_tags) == 1 else None</span>
+<span class="line-any" title="Any Types on this line: 
+Explicit (x3)
+Unannotated (x6)">                abbreviations.append((abbr, long, tag))</span>
+<span class="line-imprecise" title="Any Types on this line: 
+Explicit (x1)
+Unannotated (x2)">        return abbreviations</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-precise" title="Any Types on this line:
-Unannotated (x2)">    @memoized_property</span>
+<span class="line-precise" title="Any Types on this line: 
+Omitted Generics (x1)
+Explicit (x1)">    @memoized_property</span>
 <span class="line-any" title="No Anys on this line!">    def ner_tagged_tokens(self):</span>
 <span class="line-empty" title="No Anys on this line!">        """</span>
 <span class="line-empty" title="No Anys on this line!">        A list of (:class:`Token` token, :class:`str` named entity recognition tag)</span>
 <span class="line-empty" title="No Anys on this line!">        from the sentence.</span>
 <span class="line-empty" title="No Anys on this line!">        """</span>
-<span class="line-any" title="Any Types on this line:
-Unannotated (x5)
+<span class="line-any" title="Any Types on this line: 
+Unannotated (x4)
 Omitted Generics (x33)
-Explicit (x9)">        return list(zip(self.raw_tokens, self.ner_tags, strict=False))</span>
+Explicit (x10)">        return list(zip(self.raw_tokens, self.ner_tags, strict=False))</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-precise" title="Any Types on this line:
-Unannotated (x2)">    @memoized_property</span>
+<span class="line-precise" title="Any Types on this line: 
+Omitted Generics (x1)
+Explicit (x1)">    @memoized_property</span>
 <span class="line-any" title="No Anys on this line!">    def ner_tags(self):</span>
 <span class="line-empty" title="No Anys on this line!">        """</span>
 <span class="line-empty" title="No Anys on this line!">        A list of named entity tags corresponding to each of the tokens in the object.</span>
@@ -2301,58 +2293,60 @@ Unannotated (x2)">    @memoized_property</span>
 <span class="line-empty" title="No Anys on this line!">        the specific :attr:`ner_tagger` used for this object.</span>
 <span class="line-empty" title="No Anys on this line!">        """</span>
 <span class="line-empty" title="No Anys on this line!">        # log.debug('Getting ner_tags')</span>
-<span class="line-any" title="Any Types on this line:
-Unannotated (x2)">        ner_tags = self.unprocessed_ner_tags</span>
-<span class="line-imprecise" title="Any Types on this line:
-Unannotated (x1)">        abbrev_defs = (</span>
+<span class="line-any" title="Any Types on this line: 
+Explicit (x2)">        ner_tags = self.unprocessed_ner_tags</span>
+<span class="line-imprecise" title="Any Types on this line: 
+Explicit (x1)">        abbrev_defs = (</span>
 <span class="line-precise" title="No Anys on this line!">            self.document.abbreviation_definitions</span>
 <span class="line-precise" title="No Anys on this line!">            if self.document</span>
-<span class="line-any" title="Any Types on this line:
-Unannotated (x1)">            else self.abbreviation_definitions</span>
+<span class="line-any" title="Any Types on this line: 
+Explicit (x1)">            else self.abbreviation_definitions</span>
 <span class="line-empty" title="No Anys on this line!">        )</span>
 <span class="line-empty" title="No Anys on this line!">        # Ensure abbreviation entity matches long entity</span>
 <span class="line-empty" title="No Anys on this line!">        # TODO: This is potentially a performance bottleneck?</span>
-<span class="line-any" title="Any Types on this line:
-Unannotated (x1)">        for i in range(0, len(ner_tags)):</span>
-<span class="line-imprecise" title="Any Types on this line:
-Unannotated (x4)">            for abbr, long, ner_tag in abbrev_defs:</span>
-<span class="line-any" title="Any Types on this line:
-Unannotated (x5)">                if abbr == self.raw_tokens[i : i + len(abbr)]:</span>
-<span class="line-any" title="Any Types on this line:
-Unannotated (x4)">                    old_ner_tags = ner_tags[i : i + len(abbr)]</span>
-<span class="line-any" title="Any Types on this line:
-Unannotated (x3)">                    ner_tags[i] = f"B-{ner_tag}" if ner_tag is not None else None</span>
-<span class="line-any" title="Any Types on this line:
-Unannotated (x2)">                    ner_tags[i + 1 : i + len(abbr)] = [</span>
-<span class="line-any" title="Any Types on this line:
-Unannotated (x2)">                        f"I-{ner_tag}" if ner_tag is not None else None</span>
-<span class="line-any" title="Any Types on this line:
-Unannotated (x1)">                    ] * (len(abbr) - 1)</span>
+<span class="line-any" title="Any Types on this line: 
+Explicit (x1)">        for i in range(0, len(ner_tags)):</span>
+<span class="line-imprecise" title="Any Types on this line: 
+Explicit (x4)">            for abbr, long, ner_tag in abbrev_defs:</span>
+<span class="line-any" title="Any Types on this line: 
+Unannotated (x3)
+Explicit (x2)">                if abbr == self.raw_tokens[i : i + len(abbr)]:</span>
+<span class="line-any" title="Any Types on this line: 
+Explicit (x4)">                    old_ner_tags = ner_tags[i : i + len(abbr)]</span>
+<span class="line-any" title="Any Types on this line: 
+Explicit (x3)">                    ner_tags[i] = f"B-{ner_tag}" if ner_tag is not None else None</span>
+<span class="line-any" title="Any Types on this line: 
+Explicit (x2)">                    ner_tags[i + 1 : i + len(abbr)] = [</span>
+<span class="line-any" title="Any Types on this line: 
+Explicit (x2)">                        f"I-{ner_tag}" if ner_tag is not None else None</span>
+<span class="line-any" title="Any Types on this line: 
+Explicit (x1)">                    ] * (len(abbr) - 1)</span>
 <span class="line-empty" title="No Anys on this line!">                    # Remove ner tags from brackets surrounding abbreviation</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x4)">                    if i &gt; 1 and self.raw_tokens[i - 1] == "(":</span>
-<span class="line-any" title="Any Types on this line:
-Unannotated (x1)">                        ner_tags[i - 1] = None</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
+Explicit (x1)">                        ner_tags[i - 1] = None</span>
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x5)">                    if i &lt; len(self.raw_tokens) - 1 and self.raw_tokens[i + 1] == ")":</span>
-<span class="line-any" title="Any Types on this line:
-Unannotated (x1)">                        ner_tags[i + 1] = None</span>
-<span class="line-any" title="Any Types on this line:
-Unannotated (x5)">                    if old_ner_tags != ner_tags[i : i + len(abbr)]:</span>
+<span class="line-any" title="Any Types on this line: 
+Explicit (x1)">                        ner_tags[i + 1] = None</span>
+<span class="line-any" title="Any Types on this line: 
+Explicit (x5)">                    if old_ner_tags != ner_tags[i : i + len(abbr)]:</span>
 <span class="line-precise" title="No Anys on this line!">                        log.debug(</span>
-<span class="line-any" title="Any Types on this line:
-Unannotated (x6)">                            f"Correcting abbreviation tag: {' '.join(abbr)} ({' '.join(long)}): {old_ner_tags} -&gt; {ner_tags[i : i + len(abbr)]}"</span>
+<span class="line-any" title="Any Types on this line: 
+Explicit (x6)">                            f"Correcting abbreviation tag: {' '.join(abbr)} ({' '.join(long)}): {old_ner_tags} -&gt; {ner_tags[i : i + len(abbr)]}"</span>
 <span class="line-empty" title="No Anys on this line!">                        )</span>
 <span class="line-empty" title="No Anys on this line!">        # TODO: Ensure abbreviations in brackets at the end of an entity match are separated and the brackets untagged</span>
 <span class="line-empty" title="No Anys on this line!">        # Hydrogen Peroxide (H2O2)</span>
 <span class="line-empty" title="No Anys on this line!">        # Tungsten Carbide (WC)</span>
 <span class="line-empty" title="No Anys on this line!">        # TODO: Filter off alphanumerics from end (1h) (3) (I)</span>
 <span class="line-empty" title="No Anys on this line!">        # May need more intelligent</span>
-<span class="line-any" title="Any Types on this line:
-Unannotated (x1)">        return ner_tags</span>
+<span class="line-any" title="Any Types on this line: 
+Explicit (x1)">        return ner_tags</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-precise" title="Any Types on this line:
-Unannotated (x2)">    @memoized_property</span>
+<span class="line-precise" title="Any Types on this line: 
+Omitted Generics (x1)
+Explicit (x1)">    @memoized_property</span>
 <span class="line-any" title="No Anys on this line!">    def cems(self):</span>
 <span class="line-empty" title="No Anys on this line!">        """</span>
 <span class="line-empty" title="No Anys on this line!">        A list of all Chemical Entity Mentions in this text as :class:`~chemdataextractor.doc.text.Span`</span>
@@ -2360,114 +2354,109 @@ Unannotated (x2)">    @memoized_property</span>
 <span class="line-empty" title="No Anys on this line!">        # log.debug('Getting cems')</span>
 <span class="line-precise" title="No Anys on this line!">        spans = []</span>
 <span class="line-empty" title="No Anys on this line!">        # print(self.text.encode('utf8'))</span>
-<span class="line-any" title="Any Types on this line:
-Unannotated (x5)">        for result in chemical_name.scan(self.tokens):</span>
+<span class="line-any" title="Any Types on this line: 
+Unannotated (x4)
+Explicit (x1)">        for result in chemical_name.scan(self.tokens):</span>
 <span class="line-empty" title="No Anys on this line!">            # parser scan yields (result, startindex, endindex) - we just use the indexes here</span>
-<span class="line-any" title="Any Types on this line:
-Unannotated (x7)">            tokens = self.tokens[result[1] : result[2]]</span>
-<span class="line-any" title="Any Types on this line:
-Unannotated (x4)">            start = tokens[0].start</span>
-<span class="line-any" title="Any Types on this line:
-Unannotated (x4)">            end = tokens[-1].end</span>
+<span class="line-any" title="Any Types on this line: 
+Explicit (x3)
+Unannotated (x4)">            tokens = self.tokens[result[1] : result[2]]</span>
+<span class="line-any" title="Any Types on this line: 
+Explicit (x4)">            start = tokens[0].start</span>
+<span class="line-any" title="Any Types on this line: 
+Explicit (x4)">            end = tokens[-1].end</span>
 <span class="line-empty" title="No Anys on this line!">            # Adjust boundaries to exclude disallowed prefixes/suffixes</span>
-<span class="line-any" title="Any Types on this line:
-Unannotated (x11)">            currenttext = self.text[start - self.start : end - self.start].lower()</span>
+<span class="line-any" title="Any Types on this line: 
+Explicit (x4)
+Unannotated (x2)">            currenttext = self.text[start - self.start : end - self.start].lower()</span>
 <span class="line-precise" title="No Anys on this line!">            for prefix in IGNORE_PREFIX:</span>
-<span class="line-any" title="Any Types on this line:
-Unannotated (x3)">                if currenttext.startswith(prefix):</span>
+<span class="line-precise" title="No Anys on this line!">                if currenttext.startswith(prefix):</span>
 <span class="line-empty" title="No Anys on this line!">                    # print('%s removing %s' % (currenttext, prefix))</span>
-<span class="line-any" title="Any Types on this line:
-Unannotated (x1)">                    start += len(prefix)</span>
+<span class="line-any" title="Any Types on this line: 
+Explicit (x1)">                    start += len(prefix)</span>
 <span class="line-any" title="No Anys on this line!">                    break</span>
 <span class="line-precise" title="No Anys on this line!">            for suffix in IGNORE_SUFFIX:</span>
-<span class="line-any" title="Any Types on this line:
-Unannotated (x3)">                if currenttext.endswith(suffix):</span>
+<span class="line-precise" title="No Anys on this line!">                if currenttext.endswith(suffix):</span>
 <span class="line-empty" title="No Anys on this line!">                    # print('%s removing %s' % (currenttext, suffix))</span>
-<span class="line-any" title="Any Types on this line:
-Unannotated (x1)">                    end -= len(suffix)</span>
+<span class="line-any" title="Any Types on this line: 
+Explicit (x1)">                    end -= len(suffix)</span>
 <span class="line-any" title="No Anys on this line!">                    break</span>
 <span class="line-empty" title="No Anys on this line!">            # Adjust boundaries to exclude matching brackets at start and end</span>
-<span class="line-any" title="Any Types on this line:
-Unannotated (x9)">            currenttext = self.text[start - self.start : end - self.start]</span>
+<span class="line-any" title="Any Types on this line: 
+Explicit (x4)
+Unannotated (x2)">            currenttext = self.text[start - self.start : end - self.start]</span>
 <span class="line-any" title="No Anys on this line!">            for bpair in [("(", ")"), ("[", "]")]:</span>
 <span class="line-empty" title="No Anys on this line!">                if (</span>
-<span class="line-any" title="Any Types on this line:
-Unannotated (x3)">                    len(currenttext) &gt; 2</span>
-<span class="line-any" title="Any Types on this line:
-Unannotated (x3)">                    and currenttext[0] == bpair[0]</span>
-<span class="line-any" title="Any Types on this line:
-Unannotated (x3)">                    and currenttext[-1] == bpair[1]</span>
+<span class="line-any" title="No Anys on this line!">                    len(currenttext) &gt; 2</span>
+<span class="line-any" title="No Anys on this line!">                    and currenttext[0] == bpair[0]</span>
+<span class="line-any" title="No Anys on this line!">                    and currenttext[-1] == bpair[1]</span>
 <span class="line-empty" title="No Anys on this line!">                ):</span>
 <span class="line-any" title="No Anys on this line!">                    level = 1</span>
-<span class="line-any" title="Any Types on this line:
-Unannotated (x6)">                    for k, char in enumerate(currenttext[1:]):</span>
-<span class="line-any" title="Any Types on this line:
-Unannotated (x2)">                        if char == bpair[0]:</span>
+<span class="line-any" title="No Anys on this line!">                    for k, char in enumerate(currenttext[1:]):</span>
+<span class="line-any" title="No Anys on this line!">                        if char == bpair[0]:</span>
 <span class="line-any" title="No Anys on this line!">                            level += 1</span>
-<span class="line-any" title="Any Types on this line:
-Unannotated (x2)">                        elif char == bpair[1]:</span>
+<span class="line-any" title="No Anys on this line!">                        elif char == bpair[1]:</span>
 <span class="line-any" title="No Anys on this line!">                            level -= 1</span>
-<span class="line-any" title="Any Types on this line:
-Unannotated (x1)">                        if level == 0 and k == len(currenttext) - 2:</span>
-<span class="line-any" title="Any Types on this line:
-Unannotated (x1)">                            start += 1</span>
-<span class="line-any" title="Any Types on this line:
-Unannotated (x1)">                            end -= 1</span>
+<span class="line-any" title="No Anys on this line!">                        if level == 0 and k == len(currenttext) - 2:</span>
+<span class="line-any" title="Any Types on this line: 
+Explicit (x1)">                            start += 1</span>
+<span class="line-any" title="Any Types on this line: 
+Explicit (x1)">                            end -= 1</span>
 <span class="line-any" title="No Anys on this line!">                            break</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">            # If entity has been reduced to nothing by adjusting boundaries, skip it</span>
-<span class="line-any" title="Any Types on this line:
-Unannotated (x3)">            if start &gt;= end:</span>
+<span class="line-any" title="Any Types on this line: 
+Explicit (x3)">            if start &gt;= end:</span>
 <span class="line-any" title="No Anys on this line!">                continue</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-any" title="Any Types on this line:
-Unannotated (x9)">            currenttext = self.text[start - self.start : end - self.start]</span>
+<span class="line-any" title="Any Types on this line: 
+Explicit (x4)
+Unannotated (x2)">            currenttext = self.text[start - self.start : end - self.start]</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">            # Do splits</span>
 <span class="line-precise" title="No Anys on this line!">            split_spans = []</span>
-<span class="line-any" title="Any Types on this line:
-Omitted Generics (x3)
-Unannotated (x1)">            comps = list(regex_span_tokenize(currenttext, r"(-|\+|\)?-to-\(?|···|/|\s)"))</span>
+<span class="line-any" title="Any Types on this line: 
+Omitted Generics (x3)">            comps = list(regex_span_tokenize(currenttext, r"(-|\+|\)?-to-\(?|···|/|\s)"))</span>
 <span class="line-any" title="No Anys on this line!">            if len(comps) &gt; 1:</span>
 <span class="line-precise" title="No Anys on this line!">                for split in SPLITS:</span>
-<span class="line-any" title="Any Types on this line:
-Unannotated (x2)">                    if all(re.search(split, currenttext[comp[0] : comp[1]]) for comp in comps):</span>
+<span class="line-any" title="No Anys on this line!">                    if all(re.search(split, currenttext[comp[0] : comp[1]]) for comp in comps):</span>
 <span class="line-empty" title="No Anys on this line!">                        # print('%s splitting %s' % (currenttext, [currenttext[comp[0]:comp[1]] for comp in comps]))</span>
 <span class="line-precise" title="No Anys on this line!">                        for comp in comps:</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x3)">                            span = Span(</span>
-<span class="line-any" title="Any Types on this line:
-Unannotated (x2)">                                text=currenttext[comp[0] : comp[1]],</span>
-<span class="line-any" title="Any Types on this line:
-Unannotated (x2)">                                start=start + comp[0],</span>
-<span class="line-any" title="Any Types on this line:
-Unannotated (x2)">                                end=start + comp[1],</span>
+<span class="line-any" title="No Anys on this line!">                                text=currenttext[comp[0] : comp[1]],</span>
+<span class="line-any" title="Any Types on this line: 
+Explicit (x2)">                                start=start + comp[0],</span>
+<span class="line-any" title="Any Types on this line: 
+Explicit (x2)">                                end=start + comp[1],</span>
 <span class="line-empty" title="No Anys on this line!">                            )</span>
 <span class="line-empty" title="No Anys on this line!">                            # print('SPLIT: %s - %s' % (currenttext, repr(span)))</span>
 <span class="line-precise" title="No Anys on this line!">                            split_spans.append(span)</span>
 <span class="line-any" title="No Anys on this line!">                        break</span>
 <span class="line-empty" title="No Anys on this line!">                else:</span>
-<span class="line-any" title="Any Types on this line:
-Unannotated (x6)">                    split_spans.append(Span(text=currenttext, start=start, end=end))</span>
+<span class="line-any" title="Any Types on this line: 
+Unannotated (x3)
+Explicit (x2)">                    split_spans.append(Span(text=currenttext, start=start, end=end))</span>
 <span class="line-empty" title="No Anys on this line!">            else:</span>
-<span class="line-any" title="Any Types on this line:
-Unannotated (x6)">                split_spans.append(Span(text=currenttext, start=start, end=end))</span>
+<span class="line-any" title="Any Types on this line: 
+Unannotated (x3)
+Explicit (x2)">                split_spans.append(Span(text=currenttext, start=start, end=end))</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">            # Do specials</span>
 <span class="line-precise" title="No Anys on this line!">            for split_span in split_spans:</span>
 <span class="line-precise" title="No Anys on this line!">                for special in SPECIALS:</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">                    m = re.search(special, split_span.text)</span>
 <span class="line-precise" title="No Anys on this line!">                    if m:</span>
 <span class="line-empty" title="No Anys on this line!">                        # print('%s special %s' % (split_span.text, m.groups()))</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Omitted Generics (x2)">                        for i in range(1, len(m.groups()) + 1):</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x3)">                            span = Span(</span>
 <span class="line-precise" title="No Anys on this line!">                                text=m.group(i),</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x2)">                                start=split_span.start + m.start(i),</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x2)">                                end=split_span.start + m.end(i),</span>
 <span class="line-empty" title="No Anys on this line!">                            )</span>
 <span class="line-empty" title="No Anys on this line!">                            # print('SUBMATCH: %s - %s' % (currenttext, repr(span)))</span>
@@ -2477,8 +2466,9 @@ Unannotated (x2)">                                end=split_span.start + m.end(i
 <span class="line-precise" title="No Anys on this line!">                    spans.append(split_span)</span>
 <span class="line-precise" title="No Anys on this line!">        return spans</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-precise" title="Any Types on this line:
-Unannotated (x2)">    @memoized_property</span>
+<span class="line-precise" title="Any Types on this line: 
+Omitted Generics (x1)
+Explicit (x1)">    @memoized_property</span>
 <span class="line-any" title="No Anys on this line!">    def definitions(self):</span>
 <span class="line-empty" title="No Anys on this line!">        """</span>
 <span class="line-empty" title="No Anys on this line!">        Return specifier definitions from this sentence</span>
@@ -2492,78 +2482,86 @@ Unannotated (x2)">    @memoized_property</span>
 <span class="line-empty" title="No Anys on this line!">        :return: list -- The specifier definitions</span>
 <span class="line-empty" title="No Anys on this line!">        """</span>
 <span class="line-precise" title="No Anys on this line!">        defs = []</span>
-<span class="line-any" title="Any Types on this line:
-Unannotated (x2)">        tokens = self.tokens</span>
-<span class="line-any" title="Any Types on this line:
-Unannotated (x5)">        for result in self.specifier_definition.scan(tokens):</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
+Explicit (x2)">        tokens = self.tokens</span>
+<span class="line-any" title="Any Types on this line: 
+Unannotated (x4)
+Explicit (x1)">        for result in self.specifier_definition.scan(tokens):</span>
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x3)">            definition = result[0]</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x3)">            start = result[1]</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x3)">            end = result[2]</span>
-<span class="line-imprecise" title="Any Types on this line:
-Unannotated (x1)">            new_def = {</span>
-<span class="line-any" title="Any Types on this line:
-Unannotated (x6)">                "definition": first(definition.xpath("./phrase/text()")),</span>
-<span class="line-any" title="Any Types on this line:
-Unannotated (x6)">                "specifier": first(definition.xpath("./specifier/text()")),</span>
-<span class="line-any" title="Any Types on this line:
-Unannotated (x4)">                "tokens": tokens[start:end],</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-imprecise" title="Any Types on this line: 
+Explicit (x1)">            new_def = {</span>
+<span class="line-any" title="Any Types on this line: 
+Explicit (x3)
+Unannotated (x3)">                "definition": first(definition.xpath("./phrase/text()")),</span>
+<span class="line-any" title="Any Types on this line: 
+Explicit (x3)
+Unannotated (x3)">                "specifier": first(definition.xpath("./specifier/text()")),</span>
+<span class="line-any" title="Any Types on this line: 
+Explicit (x2)
+Unannotated (x2)">                "tokens": tokens[start:end],</span>
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">                "start": start,</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">                "end": end,</span>
 <span class="line-empty" title="No Anys on this line!">            }</span>
-<span class="line-imprecise" title="Any Types on this line:
-Unannotated (x3)">            defs.append(new_def)</span>
-<span class="line-imprecise" title="Any Types on this line:
-Unannotated (x1)">        return defs</span>
+<span class="line-imprecise" title="Any Types on this line: 
+Explicit (x3)">            defs.append(new_def)</span>
+<span class="line-imprecise" title="Any Types on this line: 
+Explicit (x1)">        return defs</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-precise" title="Any Types on this line:
-Unannotated (x2)">    @memoized_property</span>
+<span class="line-precise" title="Any Types on this line: 
+Omitted Generics (x1)
+Explicit (x1)">    @memoized_property</span>
 <span class="line-any" title="No Anys on this line!">    def chemical_definitions(self):</span>
 <span class="line-empty" title="No Anys on this line!">        """Return a list of chemical entity mentions and their associated label"""</span>
 <span class="line-precise" title="No Anys on this line!">        cem_defs = []</span>
-<span class="line-any" title="Any Types on this line:
-Unannotated (x2)">        tokens = self.tokens</span>
-<span class="line-any" title="Any Types on this line:
-Unannotated (x5)">        for result in cem_phrase.scan(tokens):</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
+Explicit (x2)">        tokens = self.tokens</span>
+<span class="line-any" title="Any Types on this line: 
+Unannotated (x4)
+Explicit (x1)">        for result in cem_phrase.scan(tokens):</span>
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x3)">            tree = result[0]</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x3)">            start = result[1]</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x3)">            end = result[2]</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x7)">            name = first(tree.xpath("./compound/names/text()"))</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x7)">            label = first(tree.xpath("./compound/labels/text()"))</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-imprecise" title="Any Types on this line: 
 Unannotated (x3)">            if name and label:</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x5)">                cem_def = {"name": name, "label": label, "start": start, "end": end}</span>
-<span class="line-imprecise" title="Any Types on this line:
+<span class="line-imprecise" title="Any Types on this line: 
 Unannotated (x3)">                cem_defs.append(cem_def)</span>
-<span class="line-imprecise" title="Any Types on this line:
+<span class="line-imprecise" title="Any Types on this line: 
 Unannotated (x1)">        return cem_defs</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-precise" title="Any Types on this line:
-Unannotated (x2)">    @memoized_property</span>
+<span class="line-precise" title="Any Types on this line: 
+Omitted Generics (x1)
+Explicit (x1)">    @memoized_property</span>
 <span class="line-any" title="No Anys on this line!">    def tags(self):</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x2)">        tags = self.pos_tags</span>
-<span class="line-any" title="Any Types on this line:
-Unannotated (x5)">        for i, tag in enumerate(self.ner_tags):</span>
-<span class="line-any" title="Any Types on this line:
-Unannotated (x1)">            if tag is not None:</span>
-<span class="line-any" title="Any Types on this line:
-Unannotated (x2)">                tags[i] = tag</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
+Explicit (x5)">        for i, tag in enumerate(self.ner_tags):</span>
+<span class="line-any" title="Any Types on this line: 
+Explicit (x1)">            if tag is not None:</span>
+<span class="line-any" title="Any Types on this line: 
+Explicit (x1)
+Unannotated (x1)">                tags[i] = tag</span>
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">        return tags</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">    @property</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unimported (x2)">    @deprecated(</span>
 <span class="line-precise" title="No Anys on this line!">        deprecated_in="2.1",</span>
 <span class="line-precise" title="No Anys on this line!">        details="Deprecated due to the introduction of RichTokens, and is now just an alias for .tokens.",</span>
@@ -2573,163 +2571,169 @@ Unimported (x2)">    @deprecated(</span>
 <span class="line-empty" title="No Anys on this line!">        A list of :class:`~chemdataextractor.doc.text.RichToken` instances found in the text.</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">        """</span>
-<span class="line-any" title="Any Types on this line:
-Unannotated (x1)">        return self.tokens</span>
+<span class="line-any" title="Any Types on this line: 
+Explicit (x1)">        return self.tokens</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="No Anys on this line!">    def _assign_tags(self, tag_type):</span>
 <span class="line-empty" title="No Anys on this line!">        """</span>
 <span class="line-empty" title="No Anys on this line!">        Assign tags for each token, with some intelligence with regards to which method to use for tagging.</span>
 <span class="line-empty" title="No Anys on this line!">        See :class:`~chemdataextractor.nlp.tag.BaseTagger` and :ref:`this guide&lt;creating_taggers&gt;` for more information.</span>
 <span class="line-empty" title="No Anys on this line!">        """</span>
-<span class="line-precise" title="Any Types on this line:
+<span class="line-precise" title="Any Types on this line: 
 Omitted Generics (x4)">        for tagger in reversed(self.taggers):</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">            if tagger.can_tag(tag_type):</span>
 <span class="line-any" title="No Anys on this line!">                tags = None</span>
 <span class="line-empty" title="No Anys on this line!">                if (</span>
 <span class="line-any" title="No Anys on this line!">                    hasattr(tagger, "batch_tag_for_type")</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">                    and tagger.can_batch_tag(tag_type)</span>
 <span class="line-any" title="No Anys on this line!">                    and self.document is not None</span>
 <span class="line-empty" title="No Anys on this line!">                ):</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x5)">                    self.document._batch_assign_tags(tagger, tag_type)</span>
 <span class="line-any" title="No Anys on this line!">                elif hasattr(tagger, "tag_for_type"):</span>
-<span class="line-any" title="Any Types on this line:
-Unannotated (x5)">                    tags = tagger.tag_for_type(self.tokens, tag_type)</span>
+<span class="line-any" title="Any Types on this line: 
+Unannotated (x4)
+Explicit (x1)">                    tags = tagger.tag_for_type(self.tokens, tag_type)</span>
 <span class="line-any" title="No Anys on this line!">                elif hasattr(tagger, "batch_tag") and self.document is not None:</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x5)">                    self.document._batch_assign_tags(tagger, tag_type)</span>
 <span class="line-empty" title="No Anys on this line!">                else:</span>
 <span class="line-any" title="No Anys on this line!">                    if hasattr(tagger, "tag"):</span>
-<span class="line-any" title="Any Types on this line:
-Unannotated (x4)">                        tags = tagger.tag(self.tokens)</span>
+<span class="line-any" title="Any Types on this line: 
+Unannotated (x3)
+Explicit (x1)">                        tags = tagger.tag(self.tokens)</span>
 <span class="line-empty" title="No Anys on this line!">                    else:</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Error (x2)
 Unannotated (x2)">                        tags = tagger.legacy_tag(self.raw_tokens)</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">                if tags is not None:</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x5)">                    for index, tag in enumerate(tags):</span>
-<span class="line-any" title="Any Types on this line:
-Unannotated (x6)">                        self.tokens[index]._tags[tag_type] = tag[1]</span>
+<span class="line-any" title="Any Types on this line: 
+Unannotated (x3)
+Explicit (x3)">                        self.tokens[index]._tags[tag_type] = tag[1]</span>
 <span class="line-any" title="No Anys on this line!">                break</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">    @property</span>
 <span class="line-any" title="No Anys on this line!">    def quantity_re(self):</span>
-<span class="line-any" title="Any Types on this line:
-Unannotated (x3)">        return construct_quantity_re(*self._streamlined_models)</span>
+<span class="line-any" title="Any Types on this line: 
+Explicit (x1)">        return construct_quantity_re(*self._streamlined_models)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-precise" title="Any Types on this line:
-Unannotated (x2)">    @memoized_property</span>
+<span class="line-precise" title="Any Types on this line: 
+Omitted Generics (x1)
+Explicit (x1)">    @memoized_property</span>
 <span class="line-any" title="No Anys on this line!">    def subsentences(self):</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x4)">        subsentence_tokens_list = self.subsentence_extractor.subsentences(self)</span>
 <span class="line-precise" title="No Anys on this line!">        subsentences = []</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x2)">        for subsentence_tokens in subsentence_tokens_list:</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x4)">            subsentence = Subsentence(self, subsentence_tokens)</span>
 <span class="line-precise" title="No Anys on this line!">            subsentences.append(subsentence)</span>
 <span class="line-any" title="No Anys on this line!">        if len(subsentences) == 1:</span>
 <span class="line-any" title="No Anys on this line!">            subsentences[0]._is_only_subsentence = True</span>
 <span class="line-precise" title="No Anys on this line!">        return subsentences</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-precise" title="Any Types on this line:
-Unannotated (x2)">    @memoized_property</span>
+<span class="line-precise" title="Any Types on this line: 
+Omitted Generics (x1)
+Explicit (x1)">    @memoized_property</span>
 <span class="line-any" title="No Anys on this line!">    def full_subsentence(self):</span>
-<span class="line-any" title="Any Types on this line:
-Unannotated (x2)">        subsentence_tokens = self.tokens</span>
-<span class="line-any" title="Any Types on this line:
-Unannotated (x4)">        return Subsentence(self, subsentence_tokens, is_full_sentence=True)</span>
+<span class="line-any" title="Any Types on this line: 
+Explicit (x2)">        subsentence_tokens = self.tokens</span>
+<span class="line-any" title="Any Types on this line: 
+Unannotated (x3)
+Explicit (x1)">        return Subsentence(self, subsentence_tokens, is_full_sentence=True)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">    @property</span>
 <span class="line-any" title="No Anys on this line!">    def records(self):</span>
 <span class="line-empty" title="No Anys on this line!">        """All records found in the object, as a list of :class:`~chemdataextractor.model.base.BaseModel`."""</span>
-<span class="line-imprecise" title="Any Types on this line:
+<span class="line-imprecise" title="Any Types on this line: 
 Error (x1)">        records = ModelList()</span>
-<span class="line-any" title="Any Types on this line:
-Unannotated (x1)">        if len(self.subsentences) != 1:</span>
-<span class="line-any" title="Any Types on this line:
-Unannotated (x2)
+<span class="line-any" title="Any Types on this line: 
+Explicit (x1)">        if len(self.subsentences) != 1:</span>
+<span class="line-any" title="Any Types on this line: 
+Explicit (x2)
 Error (x1)">            records = self.full_subsentence.records</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-any" title="Any Types on this line:
-Unannotated (x2)">        for subsentence in self.subsentences:</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
+Explicit (x2)">        for subsentence in self.subsentences:</span>
+<span class="line-any" title="Any Types on this line: 
 Error (x2)
-Unannotated (x2)">            records.extend(subsentence.records)</span>
-<span class="line-any" title="Any Types on this line:
+Explicit (x2)">            records.extend(subsentence.records)</span>
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x3)
 Error (x1)">        records.remove_subsets()</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="No Anys on this line!">        i = 0</span>
-<span class="line-imprecise" title="Any Types on this line:
+<span class="line-imprecise" title="Any Types on this line: 
 Error (x1)">        length = len(records)</span>
 <span class="line-precise" title="No Anys on this line!">        while i &lt; length:</span>
 <span class="line-any" title="No Anys on this line!">            j = 0</span>
 <span class="line-precise" title="No Anys on this line!">            while j &lt; length:</span>
 <span class="line-precise" title="No Anys on this line!">                if i != j:</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Error (x6)">                    records[j].merge_all(records[i], distance=0 * SentenceRange())</span>
 <span class="line-any" title="No Anys on this line!">                j += 1</span>
 <span class="line-any" title="No Anys on this line!">            i += 1</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">        cleaned_records = []</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Error (x2)">        for record in records:</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Error (x3)">            record._clean(clean_contextual=False)</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Error (x2)">            if record.noncontextual_required_fulfilled:</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Error (x3)">                cleaned_records.append(record)</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Error (x5)">        cleaned_records = ModelList(*cleaned_records)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">        if self.document and self.document._should_remove_subrecord_if_merged_in:</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Error (x3)">            cleaned_records._remove_used_subrecords()</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Error (x4)">        sorted_records = ModelList(</span>
-<span class="line-imprecise" title="Any Types on this line:
+<span class="line-imprecise" title="Any Types on this line: 
 Error (x1)
 Omitted Generics (x5)">            *sorted(</span>
-<span class="line-imprecise" title="Any Types on this line:
+<span class="line-imprecise" title="Any Types on this line: 
 Error (x1)">                cleaned_records,</span>
 <span class="line-empty" title="No Anys on this line!">                key=lambda el: (</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Error (x6)">                    el.total_confidence() if el.total_confidence() is not None else -10000</span>
 <span class="line-empty" title="No Anys on this line!">                ),</span>
 <span class="line-any" title="No Anys on this line!">                reverse=True,</span>
 <span class="line-empty" title="No Anys on this line!">            )</span>
 <span class="line-empty" title="No Anys on this line!">        )</span>
-<span class="line-imprecise" title="Any Types on this line:
+<span class="line-imprecise" title="Any Types on this line: 
 Error (x1)">        return sorted_records</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="No Anys on this line!">    def __add__(self, other):</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Explicit (x4)
 Unannotated (x1)">        if type(self) is type(other):</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x11)">            merged = self.__class__(</span>
-<span class="line-any" title="Any Types on this line:
-Unannotated (x4)">                text=self.text + other.text,</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
+Unannotated (x3)">                text=self.text + other.text,</span>
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">                start=self.start,</span>
 <span class="line-any" title="No Anys on this line!">                end=None,</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x2)">                id=self.id or other.id,</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x3)">                references=self.references + other.references,</span>
 <span class="line-precise" title="No Anys on this line!">                word_tokenizer=self.word_tokenizer,</span>
 <span class="line-precise" title="No Anys on this line!">                lexicon=self.lexicon,</span>
 <span class="line-precise" title="No Anys on this line!">                abbreviation_detector=self.abbreviation_detector,</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">                pos_tagger=self.pos_tagger,</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">                ner_tagger=self.ner_tagger,</span>
 <span class="line-empty" title="No Anys on this line!">            )</span>
 <span class="line-precise" title="No Anys on this line!">            return merged</span>
@@ -2746,43 +2750,43 @@ Unannotated (x1)">                ner_tagger=self.ner_tagger,</span>
 <span class="line-empty" title="No Anys on this line!">    of sentences.</span>
 <span class="line-empty" title="No Anys on this line!">    """</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-imprecise" title="Any Types on this line:
+<span class="line-imprecise" title="Any Types on this line: 
 Unannotated (x1)">    tokens = []</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="No Anys on this line!">    def __init__(self, parent_sentence, tokens, is_full_sentence=False):</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x5)">        super().__init__(" ".join([token.text for token in tokens]))</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x2)">        self.tokens = tokens</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x2)">        self.models = parent_sentence.models</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x2)">        self.parent_sentence = parent_sentence</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x2)">        self.document = self.parent_sentence.document</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x2)">        self.is_full_sentence = is_full_sentence</span>
 <span class="line-any" title="No Anys on this line!">        self._is_only_subsentence = False</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">    @property</span>
 <span class="line-any" title="No Anys on this line!">    def records(self):</span>
 <span class="line-empty" title="No Anys on this line!">        """All records found in the object, as a list of :class:`~chemdataextractor.model.base.BaseModel`."""</span>
-<span class="line-imprecise" title="Any Types on this line:
+<span class="line-imprecise" title="Any Types on this line: 
 Error (x1)">        records = ModelList()</span>
-<span class="line-precise" title="Any Types on this line:
+<span class="line-precise" title="Any Types on this line: 
 Omitted Generics (x3)">        seen_labels = set()</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Explicit (x2)">        skip_parsers = self.document.skip_parsers if self.document is not None else []</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">        for model in self._streamlined_models:</span>
 <span class="line-precise" title="No Anys on this line!">            for parser in model.parsers:</span>
-<span class="line-imprecise" title="Any Types on this line:
+<span class="line-imprecise" title="Any Types on this line: 
 Explicit (x1)">                if parser in skip_parsers:</span>
 <span class="line-any" title="No Anys on this line!">                    continue</span>
 <span class="line-any" title="No Anys on this line!">                if hasattr(parser, "parse_sentence") or hasattr(parser, "batch_parse_sentences"):</span>
-<span class="line-imprecise" title="Any Types on this line:
+<span class="line-imprecise" title="Any Types on this line: 
 Error (x1)">                    if (</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Error (x2)
 Unannotated (x1)">                        parser.parse_full_sentence != self.is_full_sentence</span>
 <span class="line-precise" title="No Anys on this line!">                    ) and not self._is_only_subsentence:</span>
@@ -2790,105 +2794,105 @@ Unannotated (x1)">                        parser.parse_full_sentence != self.is_
 <span class="line-precise" title="No Anys on this line!">                    parser_records = []</span>
 <span class="line-empty" title="No Anys on this line!">                    # Add batch parsed records</span>
 <span class="line-empty" title="No Anys on this line!">                    if (</span>
-<span class="line-imprecise" title="Any Types on this line:
+<span class="line-imprecise" title="Any Types on this line: 
 Explicit (x1)">                        parser not in skip_parsers</span>
 <span class="line-any" title="No Anys on this line!">                        and hasattr(parser, "_batch_parsed_records_dict")</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x2)">                        and id(self.parent_sentence) in parser._batch_parsed_records_dict</span>
 <span class="line-empty" title="No Anys on this line!">                    ):</span>
-<span class="line-imprecise" title="Any Types on this line:
+<span class="line-imprecise" title="Any Types on this line: 
 Omitted Generics (x2)">                        parser_records.extend(</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x3)">                            parser._batch_parsed_records_dict[id(self.parent_sentence)]</span>
 <span class="line-empty" title="No Anys on this line!">                        )</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Omitted Generics (x2)
 Error (x2)">                    parser_records.extend(parser.parse_sentence(self))</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Omitted Generics (x2)">                    for record in parser_records:</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Omitted Generics (x4)">                        p = record.serialize()</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Omitted Generics (x2)">                        if record.is_empty:  # TODO: Potential performance issues?</span>
 <span class="line-any" title="No Anys on this line!">                            continue</span>
 <span class="line-empty" title="No Anys on this line!">                        # Skip duplicate records</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Omitted Generics (x1)
 Error (x1)">                        if record in records:</span>
 <span class="line-any" title="No Anys on this line!">                            continue</span>
 <span class="line-empty" title="No Anys on this line!">                        # Skip just labels that have already been seen (bit of a hack)</span>
 <span class="line-empty" title="No Anys on this line!">                        if (</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Explicit (x3)
 Omitted Generics (x1)">                            type(record) is Compound</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Omitted Generics (x1)">                            and "Compound" in p</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Omitted Generics (x4)">                            and all(k in {"labels", "roles"} for k in p["Compound"])</span>
-<span class="line-imprecise" title="Any Types on this line:
+<span class="line-imprecise" title="Any Types on this line: 
 Explicit (x1)
 Omitted Generics (x4)">                            and set(record.labels).issubset(seen_labels)</span>
 <span class="line-empty" title="No Anys on this line!">                        ):</span>
 <span class="line-any" title="No Anys on this line!">                            continue</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Explicit (x3)
 Omitted Generics (x1)">                        if type(record) is Compound:</span>
-<span class="line-imprecise" title="Any Types on this line:
+<span class="line-imprecise" title="Any Types on this line: 
 Omitted Generics (x2)">                            seen_labels.update(record.labels)</span>
 <span class="line-empty" title="No Anys on this line!">                            # This could be super slow if we find lots of things</span>
 <span class="line-any" title="No Anys on this line!">                            found = False</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Error (x2)">                            for seen_record in records:</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Error (x1)
 Explicit (x1)">                                if isinstance(seen_record, Compound) and (</span>
-<span class="line-imprecise" title="Any Types on this line:
+<span class="line-imprecise" title="Any Types on this line: 
 Explicit (x1)
 Omitted Generics (x3)">                                    not set(record.names).isdisjoint(seen_record.names)</span>
-<span class="line-imprecise" title="Any Types on this line:
+<span class="line-imprecise" title="Any Types on this line: 
 Explicit (x1)
 Omitted Generics (x3)">                                    or not set(record.labels).isdisjoint(seen_record.labels)</span>
 <span class="line-empty" title="No Anys on this line!">                                ):</span>
-<span class="line-imprecise" title="Any Types on this line:
+<span class="line-imprecise" title="Any Types on this line: 
 Omitted Generics (x5)
 Explicit (x1)">                                    seen_record.names = sorted(</span>
-<span class="line-precise" title="Any Types on this line:
+<span class="line-precise" title="Any Types on this line: 
 Omitted Generics (x3)">                                        set(seen_record.names).union(record.names)</span>
 <span class="line-empty" title="No Anys on this line!">                                    )</span>
-<span class="line-imprecise" title="Any Types on this line:
+<span class="line-imprecise" title="Any Types on this line: 
 Omitted Generics (x5)
 Explicit (x1)">                                    seen_record.labels = sorted(</span>
-<span class="line-precise" title="Any Types on this line:
+<span class="line-precise" title="Any Types on this line: 
 Omitted Generics (x3)">                                        set(seen_record.labels).union(record.labels)</span>
 <span class="line-empty" title="No Anys on this line!">                                    )</span>
-<span class="line-imprecise" title="Any Types on this line:
+<span class="line-imprecise" title="Any Types on this line: 
 Omitted Generics (x5)
 Explicit (x1)">                                    seen_record.roles = sorted(</span>
-<span class="line-precise" title="Any Types on this line:
+<span class="line-precise" title="Any Types on this line: 
 Omitted Generics (x3)">                                        set(seen_record.roles).union(record.roles)</span>
 <span class="line-empty" title="No Anys on this line!">                                    )</span>
 <span class="line-any" title="No Anys on this line!">                                    found = True</span>
 <span class="line-precise" title="No Anys on this line!">                            if found:</span>
 <span class="line-any" title="No Anys on this line!">                                continue</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Omitted Generics (x3)">                        elif hasattr(record, "compound") and record.compound is not None:</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Omitted Generics (x5)">                            seen_labels.update(record.compound.labels)</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Error (x2)
 Omitted Generics (x1)">                        records.append(record)</span>
 <span class="line-any" title="No Anys on this line!">        i = 0</span>
-<span class="line-imprecise" title="Any Types on this line:
+<span class="line-imprecise" title="Any Types on this line: 
 Error (x1)">        length = len(records)</span>
 <span class="line-precise" title="No Anys on this line!">        while i &lt; length:</span>
 <span class="line-any" title="No Anys on this line!">            j = 0</span>
 <span class="line-precise" title="No Anys on this line!">            while j &lt; length:</span>
 <span class="line-precise" title="No Anys on this line!">                if i != j:</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Error (x6)">                    records[j].merge_all(records[i], distance=0 * SentenceRange())</span>
 <span class="line-any" title="No Anys on this line!">                j += 1</span>
 <span class="line-any" title="No Anys on this line!">            i += 1</span>
-<span class="line-imprecise" title="Any Types on this line:
+<span class="line-imprecise" title="Any Types on this line: 
 Error (x1)">        return records</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!"></span>
@@ -2903,7 +2907,7 @@ Error (x1)">        return records</span>
 <span class="line-precise" title="No Anys on this line!">    subsentence_extractor = NoneSubsentenceExtractor()</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="No Anys on this line!">    def __init__(self, *args, **kwargs):</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x3)">        super().__init__(*args, **kwargs)</span>
 <span class="line-any" title="No Anys on this line!">        self.data = None</span>
 <span class="line-any" title="No Anys on this line!">        self.row_categories = None</span>
@@ -2922,117 +2926,131 @@ Unannotated (x3)">        super().__init__(*args, **kwargs)</span>
 <span class="line-any" title="No Anys on this line!">        cell_separator = ";"</span>
 <span class="line-any" title="No Anys on this line!">        text = " ".join(</span>
 <span class="line-empty" title="No Anys on this line!">            [</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x2)">                tde_cell[0],</span>
 <span class="line-precise" title="No Anys on this line!">                separator,</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x2)">                cell_separator.join(tde_cell[1]),</span>
 <span class="line-precise" title="No Anys on this line!">                separator,</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x2)">                cell_separator.join(tde_cell[2]),</span>
 <span class="line-empty" title="No Anys on this line!">            ]</span>
 <span class="line-empty" title="No Anys on this line!">        )</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x4)">        cell = cls(text, document=document, **kwargs)</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x3)">        cell.data = tde_cell[0]</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x3)">        cell.row_categories = tde_cell[1]</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x3)">        cell.col_categories = tde_cell[2]</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x13)">        cell.data_sent = Sentence(cell.data)</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x15)">        cell.row_categories_sents = [Sentence(cell_text) for cell_text in cell.row_categories]</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x15)">        cell.col_categories_sents = [Sentence(cell_text) for cell_text in cell.col_categories]</span>
 <span class="line-any" title="No Anys on this line!">        cell.is_tde_cell = True</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">        cell.document = document</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">        # Doing it this way means that a lot of RichTokens are shared between the sub-elements, resulting</span>
 <span class="line-empty" title="No Anys on this line!">        # in tagging being only done once per RichToken, which is faster.</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-any" title="Any Types on this line:
-Unannotated (x2)">        tokens = cell.data_sent.tokens</span>
-<span class="line-any" title="Any Types on this line:
-Unannotated (x1)">        span_offset = (</span>
-<span class="line-any" title="Any Types on this line:
-Unannotated (x4)">            tokens[-1].end + 1</span>
+<span class="line-any" title="Any Types on this line: 
+Explicit (x2)">        tokens = cell.data_sent.tokens</span>
+<span class="line-any" title="Any Types on this line: 
+Explicit (x1)">        span_offset = (</span>
+<span class="line-any" title="Any Types on this line: 
+Explicit (x4)">            tokens[-1].end + 1</span>
 <span class="line-empty" title="No Anys on this line!">        )  # a cursor to help getting the span location correct when extending the token list</span>
-<span class="line-any" title="Any Types on this line:
-Unannotated (x8)">        separator_token = RichToken(separator, span_offset, span_offset + 4, cls.lexicon, cell)</span>
-<span class="line-any" title="Any Types on this line:
-Unannotated (x3)">        span_offset = separator_token.end + 1</span>
-<span class="line-any" title="Any Types on this line:
-Unannotated (x3)">        tokens.append(separator_token)</span>
+<span class="line-any" title="Any Types on this line: 
+Unannotated (x5)
+Explicit (x3)">        separator_token = RichToken(separator, span_offset, span_offset + 4, cls.lexicon, cell)</span>
+<span class="line-any" title="Any Types on this line: 
+Unannotated (x2)
+Explicit (x1)">        span_offset = separator_token.end + 1</span>
+<span class="line-any" title="Any Types on this line: 
+Explicit (x3)">        tokens.append(separator_token)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x2)">        for row_category_sent in cell.row_categories_sents:</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x3)">            for token in row_category_sent.tokens:</span>
-<span class="line-any" title="Any Types on this line:
-Unannotated (x6)">                token.start = token.start + span_offset</span>
-<span class="line-any" title="Any Types on this line:
-Unannotated (x6)">                token.end = token.end + span_offset</span>
-<span class="line-any" title="Any Types on this line:
-Unannotated (x4)">                tokens.append(token)</span>
-<span class="line-any" title="Any Types on this line:
-Unannotated (x5)">            span_offset = tokens[-1].end + 1</span>
-<span class="line-any" title="Any Types on this line:
-Unannotated (x8)">            cell_separator = RichToken(separator, span_offset, span_offset + 4, cls.lexicon, cell)</span>
-<span class="line-any" title="Any Types on this line:
-Unannotated (x3)">            tokens.append(cell_separator)</span>
+<span class="line-any" title="Any Types on this line: 
+Unannotated (x5)
+Explicit (x1)">                token.start = token.start + span_offset</span>
+<span class="line-any" title="Any Types on this line: 
+Unannotated (x5)
+Explicit (x1)">                token.end = token.end + span_offset</span>
+<span class="line-any" title="Any Types on this line: 
+Explicit (x3)
+Unannotated (x1)">                tokens.append(token)</span>
+<span class="line-any" title="Any Types on this line: 
+Explicit (x5)">            span_offset = tokens[-1].end + 1</span>
+<span class="line-any" title="Any Types on this line: 
+Unannotated (x5)
+Explicit (x3)">            cell_separator = RichToken(separator, span_offset, span_offset + 4, cls.lexicon, cell)</span>
+<span class="line-any" title="Any Types on this line: 
+Explicit (x3)">            tokens.append(cell_separator)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-imprecise" title="Any Types on this line:
+<span class="line-imprecise" title="Any Types on this line: 
 Unannotated (x1)">        if cell.row_categories_sents:</span>
-<span class="line-any" title="Any Types on this line:
-Unannotated (x3)">            tokens = tokens[:-1]</span>
-<span class="line-any" title="Any Types on this line:
-Unannotated (x5)">            span_offset = tokens[-1].end + 1</span>
+<span class="line-any" title="Any Types on this line: 
+Explicit (x3)">            tokens = tokens[:-1]</span>
+<span class="line-any" title="Any Types on this line: 
+Explicit (x5)">            span_offset = tokens[-1].end + 1</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-any" title="Any Types on this line:
-Unannotated (x8)">        separator_token = RichToken(separator, span_offset, span_offset + 4, cls.lexicon, cell)</span>
-<span class="line-any" title="Any Types on this line:
-Unannotated (x3)">        span_offset = separator_token.end + 1</span>
+<span class="line-any" title="Any Types on this line: 
+Unannotated (x5)
+Explicit (x3)">        separator_token = RichToken(separator, span_offset, span_offset + 4, cls.lexicon, cell)</span>
+<span class="line-any" title="Any Types on this line: 
+Unannotated (x2)
+Explicit (x1)">        span_offset = separator_token.end + 1</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-any" title="Any Types on this line:
-Unannotated (x3)">        tokens.append(separator_token)</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
+Explicit (x3)">        tokens.append(separator_token)</span>
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x2)">        for col_category_sent in cell.col_categories_sents:</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x3)">            for token in col_category_sent.tokens:</span>
-<span class="line-any" title="Any Types on this line:
-Unannotated (x6)">                token.start = token.start + span_offset</span>
-<span class="line-any" title="Any Types on this line:
-Unannotated (x6)">                token.end = token.end + span_offset</span>
-<span class="line-any" title="Any Types on this line:
-Unannotated (x4)">                tokens.append(token)</span>
-<span class="line-any" title="Any Types on this line:
-Unannotated (x5)">            span_offset = tokens[-1].end + 1</span>
-<span class="line-any" title="Any Types on this line:
-Unannotated (x8)">            cell_separator = RichToken(separator, span_offset, span_offset + 4, cls.lexicon, cell)</span>
-<span class="line-any" title="Any Types on this line:
-Unannotated (x3)">            tokens.append(cell_separator)</span>
+<span class="line-any" title="Any Types on this line: 
+Unannotated (x5)
+Explicit (x1)">                token.start = token.start + span_offset</span>
+<span class="line-any" title="Any Types on this line: 
+Unannotated (x5)
+Explicit (x1)">                token.end = token.end + span_offset</span>
+<span class="line-any" title="Any Types on this line: 
+Explicit (x3)
+Unannotated (x1)">                tokens.append(token)</span>
+<span class="line-any" title="Any Types on this line: 
+Explicit (x5)">            span_offset = tokens[-1].end + 1</span>
+<span class="line-any" title="Any Types on this line: 
+Unannotated (x5)
+Explicit (x3)">            cell_separator = RichToken(separator, span_offset, span_offset + 4, cls.lexicon, cell)</span>
+<span class="line-any" title="Any Types on this line: 
+Explicit (x3)">            tokens.append(cell_separator)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-imprecise" title="Any Types on this line:
+<span class="line-imprecise" title="Any Types on this line: 
 Unannotated (x1)">        if cell.col_categories_sents:</span>
-<span class="line-any" title="Any Types on this line:
-Unannotated (x3)">            tokens = tokens[:-1]</span>
+<span class="line-any" title="Any Types on this line: 
+Explicit (x3)">            tokens = tokens[:-1]</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-any" title="Any Types on this line:
-Unannotated (x2)">        for token in tokens:</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
+Unannotated (x1)
+Explicit (x1)">        for token in tokens:</span>
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x2)">            token.sentence = cell</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-any" title="Any Types on this line:
-Unannotated (x1)
+<span class="line-any" title="Any Types on this line: 
+Explicit (x1)
 Error (x1)">        cell._tokens = tokens</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">        return cell</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-precise" title="Any Types on this line:
-Unannotated (x2)">    @memoized_property</span>
+<span class="line-precise" title="Any Types on this line: 
+Omitted Generics (x1)
+Explicit (x1)">    @memoized_property</span>
 <span class="line-any" title="No Anys on this line!">    def abbreviation_definitions(self):</span>
 <span class="line-empty" title="No Anys on this line!">        """Empty list. Abbreviation detection is disabled within table cells."""</span>
 <span class="line-empty" title="No Anys on this line!">        return []</span>
@@ -3049,7 +3067,7 @@ Unannotated (x2)">    @memoized_property</span>
 <span class="line-empty" title="No Anys on this line!">        #     elements.append(self.data_sent)</span>
 <span class="line-empty" title="No Anys on this line!">        #     elements.extend(self.row_categories_sents)</span>
 <span class="line-empty" title="No Anys on this line!">        #     elements.extend(self.col_categories_sents)</span>
-<span class="line-imprecise" title="Any Types on this line:
+<span class="line-imprecise" title="Any Types on this line: 
 Unannotated (x1)">        return elements</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!"></span>
@@ -3062,44 +3080,44 @@ Unannotated (x1)">        return elements</span>
 <span class="line-empty" title="No Anys on this line!">        :param int start: The start offset of this token in the original text.</span>
 <span class="line-empty" title="No Anys on this line!">        :param int end: The end offsent of this token in the original text.</span>
 <span class="line-empty" title="No Anys on this line!">        """</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x2)">        self.text = text</span>
 <span class="line-empty" title="No Anys on this line!">        """The :class:`str` text content of this span."""</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x2)">        self.start = start</span>
 <span class="line-empty" title="No Anys on this line!">        """The :class:`int` start offset of this token in the original text."""</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x2)">        self.end = end</span>
 <span class="line-empty" title="No Anys on this line!">        """The :class:`int` end offset of this token in the original text."""</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="No Anys on this line!">    def __repr__(self):</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x3)">        return f"{self.__class__.__name__}({self.text}, {self.start}, {self.end})"</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="No Anys on this line!">    def __str__(self):</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">        return self.text</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="No Anys on this line!">    def __eq__(self, other):</span>
 <span class="line-empty" title="No Anys on this line!">        """Span objects are equal if the source text is equal, and the start and end indices are equal."""</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">        if not isinstance(other, self.__class__):</span>
 <span class="line-any" title="No Anys on this line!">            return False</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x11)">        return self.text == other.text and self.start == other.start and self.end == other.end</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="No Anys on this line!">    def __ne__(self, other):</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x2)">        return not self == other</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="No Anys on this line!">    def __hash__(self):</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x3)">        return hash((self.text, self.start, self.end))</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">    @property</span>
 <span class="line-any" title="No Anys on this line!">    def length(self):</span>
 <span class="line-empty" title="No Anys on this line!">        """The :class:`int` offset length of this span in the original text."""</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x3)">        return self.end - self.start</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!"></span>
@@ -3113,18 +3131,18 @@ Unannotated (x3)">        return self.end - self.start</span>
 <span class="line-empty" title="No Anys on this line!">        :param int end: The end offset of this token in the original text.</span>
 <span class="line-empty" title="No Anys on this line!">        :param Lexicon lexicon: The lexicon which contains this token.</span>
 <span class="line-empty" title="No Anys on this line!">        """</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x4)">        super().__init__(text, start, end)</span>
 <span class="line-empty" title="No Anys on this line!">        #: The lexicon for this token.</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x2)">        self.lexicon = lexicon</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x4)">        self.lexicon.add(text)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">    @property</span>
 <span class="line-any" title="No Anys on this line!">    def lex(self):</span>
 <span class="line-empty" title="No Anys on this line!">        """The corresponding :class:`chemdataextractor.nlp.lexicon.Lexeme` entry in the Lexicon for this token."""</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x3)">        return self.lexicon[self.text]</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!"></span>
@@ -3153,86 +3171,86 @@ Unannotated (x3)">        return self.lexicon[self.text]</span>
 <span class="line-empty" title="No Anys on this line!">    """</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="No Anys on this line!">    def __init__(self, text, start, end, lexicon, sentence):</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x5)">        super().__init__(text, start, end, lexicon)</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x2)">        self.sentence = sentence</span>
 <span class="line-precise" title="No Anys on this line!">        self._tags = {}</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">    @classmethod</span>
 <span class="line-any" title="No Anys on this line!">    def _from_token(cls, token, sentence):</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x5)">        rich_token = cls(</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x2)">            text=token.text,</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x2)">            start=token.start,</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x2)">            end=token.end,</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x2)">            lexicon=token.lexicon,</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">            sentence=sentence,</span>
 <span class="line-empty" title="No Anys on this line!">        )</span>
 <span class="line-precise" title="No Anys on this line!">        return rich_token</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">    @property</span>
 <span class="line-any" title="No Anys on this line!">    def legacy_pos_tag(self):</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x2)">        pos_tag = self[POS_TAG_TYPE]</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x2)">        ner_tag = self[NER_TAG_TYPE]</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x4)">        if ner_tag is not None and ner_tag != "O":</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">            return ner_tag</span>
 <span class="line-empty" title="No Anys on this line!">        else:</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">            return pos_tag</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="No Anys on this line!">    def __getitem__(self, key):</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x2)">        if key == 0:</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">            return self.text</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x2)">        elif key == 1:</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">            return self.legacy_pos_tag</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">        elif isinstance(key, str):</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x3)">            return self.__getattr__(key)</span>
 <span class="line-empty" title="No Anys on this line!">        else:</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">            raise IndexError("Key" + str(key) + " is out of bounds for this token.")</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="No Anys on this line!">    def __getattr__(self, name):</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x3)">        if name in self._tags:</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x4)">            return self._tags[name]</span>
 <span class="line-empty" title="No Anys on this line!">        else:</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x4)">            self.sentence._assign_tags(name)</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x3)">            if name not in self._tags:</span>
 <span class="line-precise" title="No Anys on this line!">                raise AttributeError(</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x7)">                    name</span>
 <span class="line-any" title="No Anys on this line!">                    + " is not a supported tag type for the sentence: "</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">                    + str(self.sentence)</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x2)">                    + str(self.sentence.taggers)</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Explicit (x2)
 Unannotated (x1)">                    + str(type(self.sentence))</span>
-<span class="line-imprecise" title="Any Types on this line:
+<span class="line-imprecise" title="Any Types on this line: 
 Unannotated (x2)">                    + str(self._tags)</span>
 <span class="line-precise" title="No Anys on this line!">                    + str(self)</span>
 <span class="line-empty" title="No Anys on this line!">                )</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x4)">            return self._tags[name]</span>
 </pre></td>
 </tr></tbody>

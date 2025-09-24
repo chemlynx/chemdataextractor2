@@ -214,7 +214,7 @@
 <span class="line-empty" title="No Anys on this line!">    """</span>
 <span class="line-empty" title="No Anys on this line!">    assert pi.keys() == pj.keys()</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-empty" title="No Anys on this line!">    number_of_middles = len([i for i in pi.keys() if i.startswith("middle")])</span>
+<span class="line-empty" title="No Anys on this line!">    number_of_middles = len([i for i in pi if i.startswith("middle")])</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">    prefix_i = pi["prefix"]</span>
 <span class="line-empty" title="No Anys on this line!"></span>
@@ -273,20 +273,20 @@
 <span class="line-empty" title="No Anys on this line!">    pattern_element_vectors = {}</span>
 <span class="line-empty" title="No Anys on this line!">    pattern = cluster.pattern</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-empty" title="No Anys on this line!">    for element in cluster.dictionaries.keys():  # prefix, middles, suffix</span>
+<span class="line-empty" title="No Anys on this line!">    for element in cluster.dictionaries:  # prefix, middles, suffix</span>
 <span class="line-empty" title="No Anys on this line!">        # print("element", element, '\n')</span>
 <span class="line-empty" title="No Anys on this line!">        local_dictionary = OrderedDict()</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">        # fill the local dictionary with the cluster tokens</span>
 <span class="line-empty" title="No Anys on this line!">        for token in cluster.dictionaries[element]["token dict"]:</span>
-<span class="line-empty" title="No Anys on this line!">            if token in local_dictionary.keys():</span>
+<span class="line-empty" title="No Anys on this line!">            if token in local_dictionary:</span>
 <span class="line-empty" title="No Anys on this line!">                local_dictionary[token] += 1</span>
 <span class="line-empty" title="No Anys on this line!">            else:</span>
 <span class="line-empty" title="No Anys on this line!">                local_dictionary[token] = cluster.dictionaries[element]["token dict"][token][0]</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">        # Same for the phrase tokens</span>
 <span class="line-empty" title="No Anys on this line!">        for token in phrase.elements[element]["tokens"]:</span>
-<span class="line-empty" title="No Anys on this line!">            if token in local_dictionary.keys():</span>
+<span class="line-empty" title="No Anys on this line!">            if token in local_dictionary:</span>
 <span class="line-empty" title="No Anys on this line!">                local_dictionary[token] += 1</span>
 <span class="line-empty" title="No Anys on this line!">            else:</span>
 <span class="line-empty" title="No Anys on this line!">                local_dictionary[token] = 1</span>

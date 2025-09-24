@@ -1,10 +1,24 @@
 """
 IR spectrum text parser.
 
+Provides parsing capabilities for Infrared spectroscopy data,
+including peak values, units, solvent information, and bond types.
 """
+
+from __future__ import annotations
 
 import logging
 import re
+from collections.abc import Generator
+from typing import TYPE_CHECKING
+from typing import Any
+
+if TYPE_CHECKING:
+    from ..model.base import BaseModel
+
+# Type aliases for IR parsing
+TokenList = list[str]  # List of tokens
+ParseResult = list[Any]  # List of XML elements from parsing
 
 from lxml.builder import E
 
@@ -27,8 +41,8 @@ from .elements import ZeroOrMore
 log = logging.getLogger(__name__)
 
 
-def extract_units(tokens, start, result):
-    """Extract units from bracketed after nu"""
+def extract_units(tokens: TokenList, start: int, result: ParseResult) -> ParseResult:
+    """Extract units from bracketed after nu."""
     for e in result:
         for child in e.iter():
             if "cm−1" in child.text:
@@ -123,12 +137,22 @@ ir = (prelude + peaks + Optional(delim) + Optional(units))("ir")
 
 
 class IrParser(BaseSentenceParser):
-    """"""
+    """Parser for Infrared spectroscopy data."""
 
     root = ir
     parse_full_sentence = True
 
-    def interpret(self, result, start, end):
+    def interpret(self, result: Any, start: int, end: int) -> Generator[BaseModel, None, None]:
+        """Interpret parsed IR spectrum results.
+
+        Args:
+            result: Parsed result containing IR spectrum data
+            start: Starting position in text
+            end: Ending position in text
+
+        Yields:
+            BaseModel instances containing IR spectrum data
+        """
         c = self.model.fields["compound"].model_class()
         i = self.model(solvent=first(result.xpath("./solvent/text()")))
         peak_model = self.model.fields["peaks"].field.model_class

@@ -1,7 +1,12 @@
 """
 Part-of-speech tagging.
 
+Provides part-of-speech taggers optimized for chemical and scientific text,
+including Averaged Perceptron and Conditional Random Field implementations
+with chemistry-aware feature extraction.
 """
+
+from __future__ import annotations
 
 import logging
 
@@ -72,8 +77,18 @@ class ApPosTagger(ApTagger):
     tag_type = POS_TAG_TYPE
     clusters = False
 
-    def _get_features(self, i, context, prev, prev2):
-        """Map tokens into a feature representation."""
+    def _get_features(self, i: int, context: list[str], prev: str, prev2: str) -> list[str]:
+        """Map tokens into a feature representation.
+
+        Args:
+            i: Current token index
+            context: List of tokens
+            prev: Previous tag
+            prev2: Tag before previous
+
+        Returns:
+            List of feature strings
+        """
         w = self.lexicon[context[i]]
         features = [
             "bias",
@@ -217,8 +232,16 @@ class CrfPosTagger(CrfTagger):
     tag_type = POS_TAG_TYPE
     clusters = False
 
-    def _get_features(self, tokens, i):
-        """"""
+    def _get_features(self, tokens: list[str], i: int) -> list[str]:
+        """Extract features for CRF-based POS tagging.
+
+        Args:
+            tokens: List of tokens
+            i: Current token index
+
+        Returns:
+            List of feature strings
+        """
         token = tokens[i]
         w = self.lexicon[token]
         features = [

@@ -7,18 +7,18 @@ to achieve significant speedup in document parsing operations.
 
 from __future__ import annotations
 
-import re
 import hashlib
+import re
 from collections import defaultdict
-from typing import Any
 from typing import TYPE_CHECKING
+from typing import Any
 
 from ..types import Final
 from ..utils import memoize
 
 if TYPE_CHECKING:
-    from .base import BaseParser
     from ..doc.element import BaseElement
+    from .base import BaseParser
 
 # Constants for optimization tuning
 BLOOM_FILTER_SIZE: Final[int] = 10000
@@ -65,19 +65,19 @@ class TriggerPhraseIndex:
 
     def add_parser(self, parser: BaseParser) -> None:
         """Add parser and its trigger phrases to the index."""
-        if not hasattr(parser, 'trigger_phrase') or parser.trigger_phrase is None:
+        if not hasattr(parser, "trigger_phrase") or parser.trigger_phrase is None:
             return
 
         # Extract trigger phrases from parser element
         phrases = self._extract_trigger_phrases(parser.trigger_phrase)
 
         # If no meaningful phrases extracted, use parser-specific heuristics
-        if not phrases or all(p.lower() == 'none' for p in phrases):
+        if not phrases or all(p.lower() == "none" for p in phrases):
             phrases = self._get_heuristic_phrases(parser)
 
         for phrase in phrases:
             phrase_lower = phrase.lower().strip()
-            if phrase_lower and phrase_lower != 'none':
+            if phrase_lower and phrase_lower != "none":
                 self.phrase_to_parsers[phrase_lower].append(parser)
                 self.bloom_filter.add(phrase_lower)
 
@@ -98,38 +98,53 @@ class TriggerPhraseIndex:
         phrases = []
 
         # Handle different trigger element types
-        if hasattr(trigger_element, 'pattern'):
+        if hasattr(trigger_element, "pattern"):
             # Regex element
             phrases.append(str(trigger_element.pattern))
-        elif hasattr(trigger_element, 'name'):
+        elif hasattr(trigger_element, "name"):
             # Word element
             phrases.append(str(trigger_element.name))
-        elif hasattr(trigger_element, 'exprs'):
+        elif hasattr(trigger_element, "exprs"):
             # Compound elements like And, Or - recursively extract from sub-expressions
             for expr in trigger_element.exprs:
                 phrases.extend(self._extract_trigger_phrases(expr))
-        elif hasattr(trigger_element, 'expr'):
+        elif hasattr(trigger_element, "expr"):
             # Elements with single expression like Optional, Hide
             phrases.extend(self._extract_trigger_phrases(trigger_element.expr))
-        elif hasattr(trigger_element, 'match'):
+        elif hasattr(trigger_element, "match"):
             # Word elements - extract the string to match
             match_str = str(trigger_element.match)
             if match_str and len(match_str) > 1:
-                phrases.append(match_str.strip('"\''))
+                phrases.append(match_str.strip("\"'"))
         else:
             # Try to get string representation and extract meaningful phrases
             phrase_str = str(trigger_element)
-            if phrase_str and phrase_str.lower() != 'none':
+            if phrase_str and phrase_str.lower() != "none":
                 # Clean up common parser element artifacts
-                cleaned = re.sub(r'[<>{}()\[\]|*+?^$\\]', ' ', phrase_str)
-                words = [w.strip() for w in cleaned.split() if len(w.strip()) > 2 and not w.isdigit()]
+                cleaned = re.sub(r"[<>{}()\[\]|*+?^$\\]", " ", phrase_str)
+                words = [
+                    w.strip() for w in cleaned.split() if len(w.strip()) > 2 and not w.isdigit()
+                ]
                 # Filter out class names and common artifacts
                 filtered_words = [
-                    w for w in words
-                    if not any(artifact in w.lower() for artifact in [
-                        'chemdataextractor', 'parse', 'elements', 'object', 'class',
-                        'at', '0x', 'and', 'or', 'not', 'optional'
-                    ])
+                    w
+                    for w in words
+                    if not any(
+                        artifact in w.lower()
+                        for artifact in [
+                            "chemdataextractor",
+                            "parse",
+                            "elements",
+                            "object",
+                            "class",
+                            "at",
+                            "0x",
+                            "and",
+                            "or",
+                            "not",
+                            "optional",
+                        ]
+                    )
                 ]
                 phrases.extend(filtered_words)
 
@@ -140,24 +155,24 @@ class TriggerPhraseIndex:
         parser_name = parser.__class__.__name__.lower()
 
         # Parser-specific heuristics
-        if 'mp' in parser_name or 'melting' in parser_name:
-            return ['melting', 'point', 'mp', 'm.p', 'm.pt', 'melt']
-        elif 'tg' in parser_name or 'glass' in parser_name:
-            return ['glass', 'transition', 'tg', 'glass transition']
-        elif 'ir' in parser_name:
-            return ['ir', 'infrared', 'spectrum', 'cm-1']
-        elif 'nmr' in parser_name:
-            return ['nmr', 'nuclear', 'magnetic', 'resonance', 'ppm', 'chemical shift']
-        elif 'uvvis' in parser_name:
-            return ['uv', 'vis', 'ultraviolet', 'visible', 'absorption', 'nm']
+        if "mp" in parser_name or "melting" in parser_name:
+            return ["melting", "point", "mp", "m.p", "m.pt", "melt"]
+        elif "tg" in parser_name or "glass" in parser_name:
+            return ["glass", "transition", "tg", "glass transition"]
+        elif "ir" in parser_name:
+            return ["ir", "infrared", "spectrum", "cm-1"]
+        elif "nmr" in parser_name:
+            return ["nmr", "nuclear", "magnetic", "resonance", "ppm", "chemical shift"]
+        elif "uvvis" in parser_name:
+            return ["uv", "vis", "ultraviolet", "visible", "absorption", "nm"]
 
         # Default fallback
-        return [parser_name.replace('parser', '').strip()]
+        return [parser_name.replace("parser", "").strip()]
 
     def _is_simple_phrase(self, phrase: str) -> bool:
         """Check if phrase is a simple string (not regex)."""
         # Simple heuristic - contains regex metacharacters
-        regex_chars = set('.*+?^${}[]|()')
+        regex_chars = set(".*+?^${}[]|()")
         return not any(char in phrase for char in regex_chars)
 
     def get_candidate_parsers(self, text: str) -> set[BaseParser]:
@@ -170,15 +185,13 @@ class TriggerPhraseIndex:
 
         # Fast string search for simple phrases
         for phrase in self.simple_phrases:
-            if self.bloom_filter.might_contain(phrase):
-                if phrase in text_lower:
-                    candidates.update(self.phrase_to_parsers[phrase])
+            if self.bloom_filter.might_contain(phrase) and phrase in text_lower:
+                candidates.update(self.phrase_to_parsers[phrase])
 
         # Regex search for complex patterns
         for phrase, pattern in self.compiled_patterns.items():
-            if self.bloom_filter.might_contain(phrase):
-                if pattern.search(text_lower):
-                    candidates.update(self.phrase_to_parsers[phrase])
+            if self.bloom_filter.might_contain(phrase) and pattern.search(text_lower):
+                candidates.update(self.phrase_to_parsers[phrase])
 
         return candidates
 
@@ -192,11 +205,10 @@ class TriggerPhraseIndex:
             "total_phrases": len(self.phrase_to_parsers),
             "simple_phrases": len(self.simple_phrases),
             "regex_phrases": len(self.compiled_patterns),
-            "total_parsers": len(set(
-                parser for parsers in self.phrase_to_parsers.values()
-                for parser in parsers
-            )),
-            "compiled": self._compiled
+            "total_parsers": len(
+                {parser for parsers in self.phrase_to_parsers.values() for parser in parsers}
+            ),
+            "compiled": self._compiled,
         }
 
 
@@ -213,7 +225,7 @@ class FastTriggerMatcher:
         # Handle both string tokens and RichToken objects
         token_strings = []
         for token in tokens:
-            if hasattr(token, 'text'):
+            if hasattr(token, "text"):
                 token_strings.append(str(token.text))
             else:
                 token_strings.append(str(token))
@@ -238,7 +250,7 @@ class FastTriggerMatcher:
         # Convert tokens to text, handling RichToken objects
         token_strings = []
         for token in tokens:
-            if hasattr(token, 'text'):
+            if hasattr(token, "text"):
                 token_strings.append(str(token.text))
             else:
                 token_strings.append(str(token))
@@ -265,10 +277,12 @@ class FastTriggerMatcher:
     def get_stats(self) -> dict[str, Any]:
         """Get matcher statistics."""
         stats = self.trigger_index.get_stats()
-        stats.update({
-            "cache_size": len(self.sentence_cache),
-            "cache_hit_ratio": len(self.sentence_cache) / max(1, len(self.sentence_cache))
-        })
+        stats.update(
+            {
+                "cache_size": len(self.sentence_cache),
+                "cache_hit_ratio": len(self.sentence_cache) / max(1, len(self.sentence_cache)),
+            }
+        )
         return stats
 
 
@@ -279,10 +293,7 @@ class BatchTriggerProcessor:
         self.trigger_matcher = trigger_matcher
         self.batch_cache: dict[str, dict[str, set[BaseParser]]] = {}
 
-    def process_sentences_batch(
-        self,
-        sentences: list[BaseElement]
-    ) -> dict[str, set[BaseParser]]:
+    def process_sentences_batch(self, sentences: list[BaseElement]) -> dict[str, set[BaseParser]]:
         """Process multiple sentences at once for better performance."""
 
         # Group sentences by similar token patterns for deduplication
@@ -320,8 +331,7 @@ class BatchTriggerProcessor:
         return results
 
     def _group_sentences_by_similarity(
-        self,
-        sentences: list[BaseElement]
+        self, sentences: list[BaseElement]
     ) -> dict[str, list[BaseElement]]:
         """Group sentences by token similarity for batch processing."""
 
@@ -331,8 +341,16 @@ class BatchTriggerProcessor:
             # Create similarity key based on sentence length and first/last tokens
             if sentence.tokens:
                 # Handle RichToken objects
-                first_token_text = sentence.tokens[0].text if hasattr(sentence.tokens[0], 'text') else str(sentence.tokens[0])
-                last_token_text = sentence.tokens[-1].text if hasattr(sentence.tokens[-1], 'text') else str(sentence.tokens[-1])
+                first_token_text = (
+                    sentence.tokens[0].text
+                    if hasattr(sentence.tokens[0], "text")
+                    else str(sentence.tokens[0])
+                )
+                last_token_text = (
+                    sentence.tokens[-1].text
+                    if hasattr(sentence.tokens[-1], "text")
+                    else str(sentence.tokens[-1])
+                )
 
                 first_token = first_token_text.lower()
                 last_token = last_token_text.lower() if len(sentence.tokens) > 1 else ""
@@ -387,5 +405,5 @@ class TriggerResultPool:
         return {
             "available_lists": len(self.result_lists),
             "available_sets": len(self.parser_sets),
-            "max_pool_size": self.max_pool_size
+            "max_pool_size": self.max_pool_size,
         }

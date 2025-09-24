@@ -1,7 +1,11 @@
 """
 Readers for NLM Journal Archiving and Interchange DTD XML files. (i.e. from PubMed Central)
 
+Provides specialized XML reader for National Library of Medicine (NLM) JATS format
+with comprehensive element type definitions and cleaning rules.
 """
+
+from __future__ import annotations
 
 from ..scrape.clean import clean
 from ..scrape.pub.nlm import space_labels
@@ -83,14 +87,20 @@ class NlmXmlReader(XmlReader):
         "{http://www.w3.org/1998/math/mathml}mn",
     }
 
-    def detect(self, fstring, fname=None):
-        """"""
+    def detect(self, fstring: str | bytes, fname: str | None = None) -> bool:
+        """Detect NLM XML documents.
+
+        Args:
+            fstring: Input data to check
+            fname: Optional filename for format hints
+
+        Returns:
+            True if this appears to be an NLM XML document
+        """
         if fname and not (fname.endswith(".xml") or fname.endswith(".nxml")):
             return False
         if b'xmlns="http://jats.nlm.nih.gov/ns/archiving' in fstring:
             return True
         if b"JATS-archivearticle1.dtd" in fstring:
             return True
-        if b"-//NLM//DTD JATS" in fstring:
-            return True
-        return False
+        return b"-//NLM//DTD JATS" in fstring

@@ -548,10 +548,6 @@
 <span id="L538" class="lineno"><a class="lineno" href="#L538">538</a></span>
 <span id="L539" class="lineno"><a class="lineno" href="#L539">539</a></span>
 <span id="L540" class="lineno"><a class="lineno" href="#L540">540</a></span>
-<span id="L541" class="lineno"><a class="lineno" href="#L541">541</a></span>
-<span id="L542" class="lineno"><a class="lineno" href="#L542">542</a></span>
-<span id="L543" class="lineno"><a class="lineno" href="#L543">543</a></span>
-<span id="L544" class="lineno"><a class="lineno" href="#L544">544</a></span>
 </pre></td>
 <td class="table-code"><pre><span class="line-empty" title="No Anys on this line!">"""_summary_</span>
 <span class="line-empty" title="No Anys on this line!">This module contains the implementation of a BERT-CRF tagger for named entity recognition (NER) using the ChemDataExtractor library.</span>
@@ -573,10 +569,6 @@
 <span class="line-precise" title="No Anys on this line!">import logging</span>
 <span class="line-precise" title="No Anys on this line!">import math</span>
 <span class="line-precise" title="No Anys on this line!">import re</span>
-<span class="line-precise" title="No Anys on this line!">from typing import Dict</span>
-<span class="line-precise" title="No Anys on this line!">from typing import List</span>
-<span class="line-precise" title="No Anys on this line!">from typing import Optional</span>
-<span class="line-precise" title="No Anys on this line!">from typing import Tuple</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">import numpy as np</span>
 <span class="line-precise" title="No Anys on this line!">import torch</span>
@@ -612,24 +604,24 @@
 <span class="line-empty" title="No Anys on this line!">    """</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">    tag_type = "processed_text"</span>
-<span class="line-precise" title="Any Types on this line:
+<span class="line-precise" title="Any Types on this line: 
 Omitted Generics (x4)">    number_pattern = re.compile(r"([\+\-–−]?\d+(([\.・,\d])+)?)")</span>
 <span class="line-precise" title="No Anys on this line!">    number_string = "&lt;nUm&gt;"</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="No Anys on this line!">    def tag(self, tokens):</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">        tags = []</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x2)">        for token in tokens:</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x3)">            processed_text = token.text</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x3)">            if re.fullmatch(self.number_pattern, processed_text):</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x2)">                processed_text = self.number_string</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x5)">            tags.append((token, processed_text))</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">        return tags</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!"></span>
@@ -642,22 +634,22 @@ Unannotated (x1)">        return tags</span>
 <span class="line-precise" title="No Anys on this line!">    tag_type = "_bertcrftoken"</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="No Anys on this line!">    def tag(self, tokens):</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">        tags = []</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x2)">        for token in tokens:</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x4)">            bertcrftoken = BertCrfToken(text=token.processed_text)</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x5)">            tags.append((token, bertcrftoken))</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">        return tags</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">class BertCrfConfig(PretrainedConfig):</span>
 <span class="line-precise" title="No Anys on this line!">    model_type = "bert"</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x2)">    def __init__(</span>
 <span class="line-empty" title="No Anys on this line!">        self,</span>
 <span class="line-precise" title="No Anys on this line!">        num_tags: int = 3,</span>
@@ -671,7 +663,7 @@ Unannotated (x2)">    def __init__(</span>
 <span class="line-empty" title="No Anys on this line!">        **kwargs,</span>
 <span class="line-empty" title="No Anys on this line!">    ):</span>
 <span class="line-precise" title="No Anys on this line!">        self.num_tags = num_tags</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x2)">        self.dropout = dropout</span>
 <span class="line-precise" title="No Anys on this line!">        self.label_namespace = label_namespace</span>
 <span class="line-precise" title="No Anys on this line!">        self.label_encoding = label_encoding</span>
@@ -679,7 +671,7 @@ Unannotated (x2)">        self.dropout = dropout</span>
 <span class="line-precise" title="No Anys on this line!">        self.constrain_crf_decoding = constrain_crf_decoding</span>
 <span class="line-precise" title="No Anys on this line!">        self.include_start_end_transitions = include_start_end_transitions</span>
 <span class="line-precise" title="No Anys on this line!">        self.model_name_or_path = model_name_or_path</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">        super().__init__(**kwargs)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!"></span>
@@ -714,43 +706,43 @@ Unannotated (x1)">        super().__init__(**kwargs)</span>
 <span class="line-empty" title="No Anys on this line!">            Default 220. Any sentences longer than this will be split into multiple smaller sentences via a sliding window approach and the</span>
 <span class="line-empty" title="No Anys on this line!">            results will be collected. Needs to be a multiple of 4 for correct predictions.</span>
 <span class="line-empty" title="No Anys on this line!">        """</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">        if tag_type is not None:</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x2)">            self.tag_type = tag_type</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x2)">        self._gpu_id = gpu_id</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">        if archive_location is None:</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x7)">            archive_location = find_data(self.model)</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x2)">        self._archive_location = archive_location</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">        self._predictor = None</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x2)">        self.min_batch_size = min_batch_size</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">        if min_batch_size is None:</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">            self.min_batch_size = 50</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x2)">        self.max_batch_size = max_batch_size</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">        if max_batch_size is None:</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">            self.max_batch_size = 100</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x2)">        self.max_allowed_length = max_allowed_length</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">        if max_allowed_length is None:</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">            self.max_allowed_length = 220</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x16)">        self.bert_tokenizer = BertTokenizer.from_pretrained(</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x6)">            find_data(self.model), do_lower_case=False</span>
 <span class="line-empty" title="No Anys on this line!">        )</span>
 <span class="line-empty" title="No Anys on this line!"></span>
@@ -758,93 +750,93 @@ Unannotated (x6)">            find_data(self.model), do_lower_case=False</span>
 <span class="line-empty" title="No Anys on this line!">        """</span>
 <span class="line-empty" title="No Anys on this line!">        Collate a batch of samples into a dictionary of tensors.</span>
 <span class="line-empty" title="No Anys on this line!">        """</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x5)">        input_ids = [d["input_ids"] for d in instances]</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x5)">        offsets = [d["offsets"] for d in instances]</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x5)">        crf_mask = [d["crf_mask"] for d in instances]</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x3)">        batched_input_ids = nn.utils.rnn.pad_sequence(input_ids, batch_first=True, padding_value=0)</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x3)">        batched_offsets = nn.utils.rnn.pad_sequence(offsets, batch_first=True, padding_value=0)</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x3)">        batched_crf_mask = nn.utils.rnn.pad_sequence(crf_mask, batch_first=True, padding_value=0)</span>
 <span class="line-empty" title="No Anys on this line!">        return {</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">            "input_ids": batched_input_ids,</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">            "offsets": batched_offsets,</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">            "crf_mask": batched_crf_mask,</span>
 <span class="line-empty" title="No Anys on this line!">        }</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="No Anys on this line!">    def process(self, tag):</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x3)">        return tag.replace("CEM", "CM")</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="No Anys on this line!">    def get_predictor_inputs(self, tokens):</span>
 <span class="line-empty" title="No Anys on this line!">        """</span>
 <span class="line-empty" title="No Anys on this line!">        Get the inputs for the predictor</span>
 <span class="line-empty" title="No Anys on this line!">        """</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x5)">        text = (token.text for token in tokens)</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">        token_wordpiece_ids = [</span>
 <span class="line-empty" title="No Anys on this line!">            [</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x5)">                self.bert_tokenizer.wordpiece_tokenizer.vocab[wordpiece]</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x6)">                for wordpiece in self.bert_tokenizer.wordpiece_tokenizer.tokenize(token)</span>
 <span class="line-empty" title="No Anys on this line!">            ]</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x2)">            for token in text</span>
 <span class="line-empty" title="No Anys on this line!">        ]</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">        offsets = []</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">        offset = 1</span>
 <span class="line-empty" title="No Anys on this line!">        # Count amount of wordpieces accumulated</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">        pieces_accumulated = 0</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x2)">        for token in token_wordpiece_ids:</span>
 <span class="line-empty" title="No Anys on this line!">            # For initial offsets, the current value of ``offset`` is the start of</span>
 <span class="line-empty" title="No Anys on this line!">            # the current wordpiece, so add it to ``offsets`` and then increment it.</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x4)">            offsets.append(offset)</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x3)">            offset += len(token)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x3)">            pieces_accumulated += len(token)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">        flat_token_wordpiece_ids = [</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x5)">            wordpiece_id for token in token_wordpiece_ids for wordpiece_id in token</span>
 <span class="line-empty" title="No Anys on this line!">        ]</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">        wordpiece_ids = (</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x4)">            [self.bert_tokenizer.cls_token_id]</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">            + flat_token_wordpiece_ids</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x2)">            + [self.bert_tokenizer.sep_token_id]</span>
 <span class="line-empty" title="No Anys on this line!">        )</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x2)">        mask = [1 for _ in offsets]</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">        return {</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x2)
 Explicit (x1)">            "input_ids": torch.LongTensor(wordpiece_ids),</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x2)
 Explicit (x1)">            "offsets": torch.LongTensor(offsets),</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x2)
 Explicit (x1)">            "crf_mask": torch.LongTensor(mask),</span>
 <span class="line-empty" title="No Anys on this line!">        }</span>
@@ -854,41 +846,41 @@ Explicit (x1)">            "crf_mask": torch.LongTensor(mask),</span>
 <span class="line-empty" title="No Anys on this line!">        """</span>
 <span class="line-empty" title="No Anys on this line!">        The predictor for this tagger.</span>
 <span class="line-empty" title="No Anys on this line!">        """</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">        if self._predictor is None:</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x3)
 Explicit (x2)">            with yaspin(text="Initialising BertCrf model", side="right").simpleDots as sp:</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x2)">                gpu_id = self._gpu_id</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x3)">                if gpu_id is None and torch.cuda.is_available():</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">                    print("Automatically activating GPU support")</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x2)">                    gpu_id = torch.cuda.current_device()</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x9)">                model = BertCrfModel.from_pretrained(find_data("models/hf_bert_crf_tagger"))</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x4)">                if gpu_id is not None and gpu_id &gt;= 0:</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x9)">                    model = model.to(f"cuda:{gpu_id}")</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x4)">                model = model.eval()</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x3)
 Omitted Generics (x2)
 Explicit (x2)">                self._predictor = copy.deepcopy(model)</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x3)">                sp.ok("✔")</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">        return self._predictor</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="No Anys on this line!">    def tag(self, tokens):</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x6)
 Omitted Generics (x3)">        tags = list(self.batch_tag([tokens])[0])</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">        return tags</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="No Anys on this line!">    def batch_tag(self, sents):</span>
@@ -901,65 +893,65 @@ Unannotated (x1)">        return tags</span>
 <span class="line-empty" title="No Anys on this line!">        of lists of tokens, as sorting is done so that we can bucket sentences by their lengths.</span>
 <span class="line-empty" title="No Anys on this line!">        More information can be found in the :class:`~chemdataextractor.nlp.tag.BaseTagger` documentation, and :ref:`in this guide&lt;creating_taggers&gt;`.</span>
 <span class="line-empty" title="No Anys on this line!">        """</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x4)">        log.debug(len(sents))</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x3)">        start_time = datetime.datetime.now()</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">        # Divide up the sentence so that we don't get sentences longer than BERT can handle</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x5)">        all_bertcrftokens, sentence_subsentence_map = self._get_subsentences(sents)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">        # Create batches</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x3)
 Omitted Generics (x5)">        all_bertcrftokens = sorted(all_bertcrftokens, key=len)</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x4)">        instances = self._create_batches(all_bertcrftokens)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x3)">        instance_time = datetime.datetime.now()</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x8)">        log.debug("".join(["Created instances:", str(instance_time - start_time)]))</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x4)">        log.debug("Num Batches: %d", len(instances))</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">        predictions = []</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x2)">        for instance in instances:</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x3)">            prediction_start_time = datetime.datetime.now()</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x7)">            log.debug("".join(["Batch size:", str(len(instance))]))</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">            with torch.no_grad():</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x5)">                batch_predictions = self.predictor.forward_on_instances(instance)</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x4)">            predictions.extend(batch_predictions)</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x3)">            prediction_end_time = datetime.datetime.now()</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x8)">            log.debug("".join(["Batch time:", str(prediction_end_time - prediction_start_time)]))</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">        id_predictions_map = {}</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x5)
 Explicit (x9)
-Omitted Generics (x30)">        for allensentence, prediction in zip(all_bertcrftokens, predictions):</span>
-<span class="line-any" title="Any Types on this line:
+Omitted Generics (x30)">        for allensentence, prediction in zip(all_bertcrftokens, predictions, strict=False):</span>
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x5)">            id_predictions_map[id(allensentence)] = prediction["tags"]</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">        # Assign tags to each sentence</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x6)">        tags = self._assign_tags(sents, sentence_subsentence_map, id_predictions_map)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x3)">        end_time = datetime.datetime.now()</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x8)">        log.debug("".join(["Total time for batch_tag:", str(end_time - start_time)]))</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">        return tags</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="No Anys on this line!">    def _get_subsentences(self, sents):</span>
@@ -970,60 +962,60 @@ Unannotated (x1)">        return tags</span>
 <span class="line-empty" title="No Anys on this line!">        long sentences into multiple overlapping subsentences using a sliding window,</span>
 <span class="line-empty" title="No Anys on this line!">        and returning a map between these subsentences and their parent sentence.</span>
 <span class="line-empty" title="No Anys on this line!">        """</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">        sentence_subsentence_map = {}</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">        all_bertcrftokens = []</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x2)">        max_allowed_length = self.max_allowed_length</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x2)">        for sent in sents:</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x2)">            subsentences = [sent]</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x4)">            if len(sent) &gt; max_allowed_length:</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x5)">                num_sent_divisions = len(sent) / max_allowed_length</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">                num_tokens_per_subsentence = (</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x8)
 Omitted Generics (x4)">                    math.ceil(math.ceil(len(sent) / num_sent_divisions) / 4) * 4</span>
 <span class="line-empty" title="No Anys on this line!">                )</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x4)
 Omitted Generics (x2)">                increment = math.ceil(num_tokens_per_subsentence / 2)</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x4)">                subsentences = [sent[:num_tokens_per_subsentence]]</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x2)">                i = increment</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x6)">                while i + increment &lt; len(sent):</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x9)">                    subsentences.append(sent[i : i + num_tokens_per_subsentence])</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x2)">                    i += increment</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">            bertcrfsents_for_sent = []</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x2)">            for subsent in subsentences:</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">                bertcrftokens = []</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x2)">                for token in subsent:</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x5)">                    bertcrftokens.append(token._bertcrftoken)</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x5)">                bertcrfsents_for_sent.append(id(bertcrftokens))</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x4)">                all_bertcrftokens.append(bertcrftokens)</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x4)">            sentence_subsentence_map[id(sent)] = bertcrfsents_for_sent</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x2)">        return all_bertcrftokens, sentence_subsentence_map</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="No Anys on this line!">    def _create_batches(self, all_bertcrftokens):</span>
@@ -1031,65 +1023,65 @@ Unannotated (x2)">        return all_bertcrftokens, sentence_subsentence_map</sp
 <span class="line-empty" title="No Anys on this line!">        Create batches to feed into the predictor within the given batch size range.</span>
 <span class="line-empty" title="No Anys on this line!">        To try to be more efficient, these batches are sorted by the length of the sentences.</span>
 <span class="line-empty" title="No Anys on this line!">        """</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x2)">        min_batch_size = self.min_batch_size</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x2)">        max_batch_size = self.max_batch_size</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">        new_list_sequence_delta = 5</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">        instances = []</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x4)">        if len(all_bertcrftokens) &gt; min_batch_size:</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x4)">            current_list_min_sequence_length = len(all_bertcrftokens[0])</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">            divided_sents = []</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">            sents_current = []</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x2)">            for sent in all_bertcrftokens:</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">                if (</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x7)">                    len(sent) &gt; current_list_min_sequence_length + new_list_sequence_delta</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x4)">                    and len(sents_current) &gt; min_batch_size</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x4)">                ) or len(sents_current) &gt; max_batch_size:</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x4)">                    divided_sents.append(sents_current)</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x2)">                    sents_current = [sent]</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x3)">                    current_list_min_sequence_length = len(sent)</span>
 <span class="line-empty" title="No Anys on this line!">                else:</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x4)">                    sents_current.append(sent)</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x4)">            divided_sents.append(sents_current)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x2)">            for div_sents in divided_sents:</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">                division_instances = []</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x2)">                for sent in div_sents:</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x6)">                    division_instances.append(self.get_predictor_inputs(sent))</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x6)">                instances.append(self.collate_batch(division_instances))</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">        else:</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x2)">            for bertcrftokens in all_bertcrftokens:</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x6)">                instances.append(self.get_predictor_inputs(bertcrftokens))</span>
 <span class="line-empty" title="No Anys on this line!">            # just a single batch</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x4)">            instances = [self.collate_batch(instances)]</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">        return instances</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="No Anys on this line!">    def _assign_tags(self, sents, sentence_subsentence_map, id_predictions_map):</span>
@@ -1100,195 +1092,196 @@ Unannotated (x1)">        return instances</span>
 <span class="line-empty" title="No Anys on this line!">        See the paper on new NER (citation to be added) for more detail on how the tags</span>
 <span class="line-empty" title="No Anys on this line!">        are allocated from each subsentence.</span>
 <span class="line-empty" title="No Anys on this line!">        """</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">        tags = []</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x2)">        for sent in sents:</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">            sent_tags = []</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x5)">            allen_ids = sentence_subsentence_map[id(sent)]</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x2)">            for allen_id in allen_ids:</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x6)">                sent_tags.append(id_predictions_map[allen_id])</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x3)">            if len(sent_tags) == 1:</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x3)">                consolidated_tags = sent_tags[0]</span>
 <span class="line-empty" title="No Anys on this line!">            else:</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">                consolidated_tags = []</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">                _ranges_used = []</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x4)">                num_tokens_per_subsentence = len(sent_tags[0])</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x4)">                quarter_loc = int(num_tokens_per_subsentence / 4)</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x4)
 Omitted Generics (x2)">                for index, subsent_tags in enumerate(sent_tags):</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x2)">                    if index == 0:</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x7)">                        consolidated_tags.extend(subsent_tags[:-quarter_loc])</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x8)">                        _ranges_used.append(len(subsent_tags[:-quarter_loc]))</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x5)">                    elif index == len(sent_tags) - 1:</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x6)">                        consolidated_tags.extend(subsent_tags[quarter_loc:])</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x7)">                        _ranges_used.append(len(subsent_tags[quarter_loc:]))</span>
 <span class="line-empty" title="No Anys on this line!">                    else:</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x8)">                        consolidated_tags.extend(subsent_tags[quarter_loc:-quarter_loc])</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x9)">                        _ranges_used.append(len(subsent_tags[quarter_loc : 3 * quarter_loc]))</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x5)">            if len(sent) != len(consolidated_tags):</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">                raise TypeError(</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x13)">                    f"The length of the sentence {len(sent)} and the length of the consolidated tags {len(consolidated_tags)} are different for the tagger for {self.tag_type}."</span>
 <span class="line-empty" title="No Anys on this line!">                )</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x10)
 Explicit (x9)
-Omitted Generics (x30)">            tags.append(zip(sent, [self.process(tag) for tag in consolidated_tags]))</span>
-<span class="line-any" title="Any Types on this line:
+Omitted Generics (x30)">            tags.append(zip(sent, [self.process(tag) for tag in consolidated_tags], strict=False))</span>
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">        return tags</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">class BertCrfModel(PreTrainedModel):</span>
-<span class="line-precise" title="Any Types on this line:
+<span class="line-precise" title="Any Types on this line: 
 Unannotated (x4)">    config_class = BertCrfConfig  # Required for saving/loading</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="No Anys on this line!">    def __init__(self, config):</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x2)">        super().__init__(config)</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x5)">        self.bert_model = AutoModel.from_config(</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x4)">            AutoConfig.from_pretrained(config.model_name_or_path)</span>
 <span class="line-empty" title="No Anys on this line!">        )</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x3)">        self.num_tags = config.num_tags</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x3)">        self.tag_projection_layer = TimeDistributed(</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x7)">            nn.Linear(self.bert_model.config.hidden_size, self.num_tags, bias=True)</span>
 <span class="line-empty" title="No Anys on this line!">        )</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x3)">        self.label_encoding = config.label_encoding</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x3)">        self.index_and_label = config.index_and_label</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x3)">        self.index_to_label = self._index_to_label()</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x3)">        self.label_to_index = self._label_to_index()</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x2)">        if config.constrain_crf_decoding:</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x2)">            if not config.label_encoding:</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x1)
 Explicit (x1)">                raise ConfigurationError(</span>
 <span class="line-any" title="No Anys on this line!">                    "constrain_crf_decoding is True, but no label_encoding was specified."</span>
 <span class="line-empty" title="No Anys on this line!">                )</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x2)">            labels = self.index_to_label</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x5)">            constraints = allowed_transitions(config.label_encoding, labels)</span>
 <span class="line-empty" title="No Anys on this line!">        else:</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">            constraints = None</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x3)">        self.include_start_end_transitions = config.include_start_end_transitions</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x2)">        self.crf = ConditionalRandomField(</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">            self.num_tags,</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">            constraints,</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x2)">            include_start_end_transitions=config.include_start_end_transitions,</span>
 <span class="line-empty" title="No Anys on this line!">        )</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">        # Dropout for regularization</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x4)">        self.dropout = nn.Dropout(config.dropout)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="No Anys on this line!">    def _index_to_label(self):</span>
-<span class="line-any" title="Any Types on this line:
-Unannotated (x5)">        return {index: label for index, label in self.index_and_label}</span>
+<span class="line-any" title="Any Types on this line: 
+Unannotated (x2)
+Omitted Generics (x18)">        return dict(self.index_and_label)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="No Anys on this line!">    def _label_to_index(self):</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x5)">        return {label: index for index, label in self.index_and_label}</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="No Anys on this line!">    def forward(self, input_ids, offsets, crf_mask, token_type_ids=None):</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">        if token_type_ids is None:</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x3)">            token_type_ids = torch.zeros_like(input_ids)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x5)">        input_mask = (input_ids != 0).long()</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">        # input_ids may have extra dimensions, so we reshape down to 2-d</span>
 <span class="line-empty" title="No Anys on this line!">        # before calling the BERT model and then reshape back at the end.</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x3)">        outputs = self.bert_model(</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x2)">            input_ids=combine_initial_dims(input_ids),</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x2)">            token_type_ids=combine_initial_dims(token_type_ids),</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x2)">            attention_mask=combine_initial_dims(input_mask),</span>
 <span class="line-empty" title="No Anys on this line!">        )</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x3)">        last_hidden_state = outputs.last_hidden_state</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x4)">        last_hidden_state = self.dropout(last_hidden_state)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">        # At this point, mix is (batch_size * d1 * ... * dn, sequence_length, embedding_dim)</span>
 <span class="line-empty" title="No Anys on this line!">        # offsets is (batch_size, d1, ..., dn, orig_sequence_length)</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x3)">        offsets2d = combine_initial_dims(offsets)</span>
 <span class="line-empty" title="No Anys on this line!">        # now offsets is (batch_size * d1 * ... * dn, orig_sequence_length)</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x4)">        range_vector = get_range_vector(</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x5)">            offsets2d.size(0), device=get_device_of(last_hidden_state)</span>
 <span class="line-any" title="No Anys on this line!">        ).unsqueeze(1)</span>
 <span class="line-empty" title="No Anys on this line!">        # selected embeddings is also (batch_size * d1 * ... * dn, orig_sequence_length)</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x5)">        selected_embeddings = last_hidden_state[range_vector, offsets2d]</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x6)">        output_embeddings = uncombine_initial_dims(selected_embeddings, offsets.size())</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">        # Project onto tag space</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x4)">        logits = self.tag_projection_layer(output_embeddings)</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x6)">        best_paths = self.crf.viterbi_tags(logits, crf_mask)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x5)">        predicted_tags = [x for x, y in best_paths]</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x4)">        output = {"logits": logits, "mask": crf_mask, "tags": predicted_tags}</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">        return output</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-imprecise" title="Any Types on this line:
+<span class="line-imprecise" title="Any Types on this line: 
 Error (x2)">    def forward_on_instances(</span>
 <span class="line-empty" title="No Anys on this line!">        self, instances: dict[str, torch.Tensor]</span>
 <span class="line-empty" title="No Anys on this line!">    ) -&gt; list[dict[str, np.ndarray]]:</span>
@@ -1314,31 +1307,31 @@ Error (x2)">    def forward_on_instances(</span>
 <span class="line-precise" title="No Anys on this line!">        batch_size = instances["input_ids"].size(0)</span>
 <span class="line-precise" title="No Anys on this line!">        with torch.no_grad():</span>
 <span class="line-precise" title="No Anys on this line!">            instances = {k: v.to(self.device) for k, v in instances.items()}</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Explicit (x1)">            outputs = self.decode(self(**instances))</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-imprecise" title="Any Types on this line:
+<span class="line-imprecise" title="Any Types on this line: 
 Error (x2)">            instance_separated_output: list[dict[str, np.ndarray]] = [{} for _ in range(batch_size)]</span>
-<span class="line-precise" title="Any Types on this line:
+<span class="line-precise" title="Any Types on this line: 
 Omitted Generics (x3)">            for name, output in list(outputs.items()):</span>
-<span class="line-precise" title="Any Types on this line:
+<span class="line-precise" title="Any Types on this line: 
 Explicit (x1)">                if isinstance(output, torch.Tensor):</span>
 <span class="line-empty" title="No Anys on this line!">                    # NOTE(markn): This is a hack because 0-dim pytorch tensors are not iterable.</span>
 <span class="line-empty" title="No Anys on this line!">                    # This occurs with batch size 1, because we still want to include the loss in that case.</span>
 <span class="line-empty" title="No Anys on this line!">                    # if output.dim() == 0:</span>
 <span class="line-empty" title="No Anys on this line!">                    #     output = output.unsqueeze(0)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-imprecise" title="Any Types on this line:
+<span class="line-imprecise" title="Any Types on this line: 
 Error (x4)">                    output = output.detach().cpu().numpy()</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Error (x6)
 Unannotated (x2)
 Explicit (x9)
-Omitted Generics (x30)">                for instance_output, batch_element in zip(instance_separated_output, output):</span>
-<span class="line-any" title="Any Types on this line:
+Omitted Generics (x30)">                for instance_output, batch_element in zip(instance_separated_output, output, strict=False):</span>
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x1)
 Error (x2)">                    instance_output[name] = batch_element</span>
-<span class="line-imprecise" title="Any Types on this line:
+<span class="line-imprecise" title="Any Types on this line: 
 Error (x2)">            return instance_separated_output</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">    def decode(self, output_dict: dict[str, torch.Tensor]) -&gt; dict[str, torch.Tensor]:</span>
@@ -1348,9 +1341,9 @@ Error (x2)">            return instance_separated_output</span>
 <span class="line-empty" title="No Anys on this line!">        so we use an ugly nested list comprehension.</span>
 <span class="line-empty" title="No Anys on this line!">        """</span>
 <span class="line-precise" title="No Anys on this line!">        output_dict["tags"] = [</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x5)">            [self.index_to_label[tag] for tag in instance_tags]</span>
-<span class="line-any" title="Any Types on this line:
+<span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">            for instance_tags in output_dict["tags"]</span>
 <span class="line-empty" title="No Anys on this line!">        ]</span>
 <span class="line-precise" title="No Anys on this line!">        return output_dict</span>

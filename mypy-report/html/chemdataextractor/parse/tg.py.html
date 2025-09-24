@@ -191,7 +191,7 @@ Error (x8)
 Unannotated (x10)">units = (W("°") + Optional(R(r"^[CFK]\.?$")) | W(r"K\.?") | W("°C"))("units").add_action(merge)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x6)">value = value_element()(None)</span>
+Unannotated (x2)">value = value_element()(None)</span>
 <span class="line-any" title="Any Types on this line: 
 Error (x6)
 Unannotated (x8)">temp_range = (Optional(R(r"^[\-–−]$")) + value)("value").add_action(merge)</span>
@@ -265,12 +265,15 @@ Unannotated (x6)">        compound = self.model.fields["compound"].model_class()
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x3)">        glass_transition = self.model(</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x6)">            value=first(result.xpath("./tg/value/text()")),</span>
+Unannotated (x4)
+Omitted Generics (x2)">            value=first(result.xpath("./tg/value/text()")),</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x6)">            units=first(result.xpath("./tg/units/text()")),</span>
+Unannotated (x4)
+Omitted Generics (x2)">            units=first(result.xpath("./tg/units/text()")),</span>
 <span class="line-empty" title="No Anys on this line!">        )</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x7)">        cem_el = first(result.xpath("./cem"))</span>
+Unannotated (x5)
+Omitted Generics (x2)">        cem_el = first(result.xpath("./cem"))</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">        if cem_el is not None:</span>
 <span class="line-any" title="Any Types on this line: 

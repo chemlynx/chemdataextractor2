@@ -92,7 +92,7 @@ class Cleaner:
 
         # Collect all the allowed elements
         to_keep = (
-            [el for el in doc.xpath(self.allow_xpath, namespaces=self.namespaces)]
+            list(doc.xpath(self.allow_xpath, namespaces=self.namespaces))
             if self.allow_xpath
             else []
         )
@@ -170,10 +170,7 @@ class Cleaner:
     def clean_html(self, html):
         """Apply ``Cleaner`` to HTML string or document and return a cleaned string or document."""
         result_type = type(html)
-        if isinstance(html, str):
-            doc = html_fromstring(html)
-        else:
-            doc = copy.deepcopy(html)
+        doc = html_fromstring(html) if isinstance(html, str) else copy.deepcopy(html)
         self(doc)
         if issubclass(result_type, bytes):
             return tostring(doc, encoding="utf-8")

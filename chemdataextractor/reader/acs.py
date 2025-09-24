@@ -1,7 +1,11 @@
 """
 Readers for documents from the ACS.
 
+Provides specialized HTML reader for American Chemical Society (ACS) publications
+with custom CSS selectors and cleaning rules.
 """
+
+from __future__ import annotations
 
 from ..scrape.clean import Cleaner
 from ..scrape.clean import clean
@@ -27,10 +31,16 @@ class AcsHtmlReader(HtmlReader):
     citation_css = ".reference"
     ignore_css = 'a[href="JavaScript:void(0);"], a.ref sup'
 
-    def detect(self, fstring, fname=None):
-        """"""
+    def detect(self, fstring: str | bytes, fname: str | None = None) -> bool:
+        """Detect ACS HTML documents.
+
+        Args:
+            fstring: Input data to check
+            fname: Optional filename for format hints
+
+        Returns:
+            True if this appears to be an ACS HTML document
+        """
         if fname and not (fname.endswith(".html") or fname.endswith(".htm")):
             return False
-        if b'<meta name="dc.Identifier" scheme="doi" content="10.1021/' in fstring:
-            return True
-        return False
+        return b'<meta name="dc.Identifier" scheme="doi" content="10.1021/' in fstring

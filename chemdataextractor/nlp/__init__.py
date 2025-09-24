@@ -1,7 +1,12 @@
 """
 Chemistry-aware natural language processing framework.
 
+Provides comprehensive NLP tools specifically designed for processing
+chemical and scientific literature, including tokenization, tagging,
+named entity recognition, and abbreviation detection.
 """
+
+from __future__ import annotations
 
 from .abbrev import AbbreviationDetector
 from .abbrev import ChemAbbreviationDetector
