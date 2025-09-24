@@ -161,9 +161,9 @@
 <span class="line-empty" title="No Anys on this line!">        """</span>
 <span class="line-empty" title="No Anys on this line!">        Create a new Figure element, to interface with FDE</span>
 <span class="line-empty" title="No Anys on this line!">        """</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x4)">        super().__init__(caption=caption, label=label, models=models, **kwargs)</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x2)">        self.links = links</span>
 <span class="line-any" title="No Anys on this line!">        self.caption_tokens = None</span>
 <span class="line-empty" title="No Anys on this line!"></span>
@@ -174,175 +174,175 @@ Unannotated (x2)">        self.links = links</span>
 <span class="line-empty" title="No Anys on this line!">        Returns:</span>
 <span class="line-empty" title="No Anys on this line!">            [type] -- [description]</span>
 <span class="line-empty" title="No Anys on this line!">        """</span>
-<span class="line-imprecise" title="Any Types on this line: 
+<span class="line-imprecise" title="Any Types on this line:
 Error (x1)">        records = ModelList()</span>
-<span class="line-precise" title="Any Types on this line: 
+<span class="line-precise" title="Any Types on this line:
 Omitted Generics (x3)">        seen_labels = set()</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Explicit (x2)">        skip_parsers = self.document.skip_parsers if self.document is not None else []</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="No Anys on this line!">        p = None</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-imprecise" title="Any Types on this line: 
+<span class="line-imprecise" title="Any Types on this line:
 Unannotated (x1)">        if not self.caption_tokens:</span>
-<span class="line-imprecise" title="Any Types on this line: 
+<span class="line-imprecise" title="Any Types on this line:
 Unannotated (x1)">            self.caption_tokens = []</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Error (x2)">            for sent in self.caption.sentences:</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x2)
 Error (x2)">                self.caption_tokens.extend(sent.tokens)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">        for model in self._streamlined_models:</span>
 <span class="line-precise" title="No Anys on this line!">            for parser in model.parsers:</span>
-<span class="line-imprecise" title="Any Types on this line: 
+<span class="line-imprecise" title="Any Types on this line:
 Explicit (x1)">                if parser in skip_parsers:</span>
 <span class="line-empty" title="No Anys on this line!">                    # print(f"Figure Skipped: {parser.model}")</span>
 <span class="line-any" title="No Anys on this line!">                    continue</span>
 <span class="line-precise" title="No Anys on this line!">                parser_records = []</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="No Anys on this line!">                if hasattr(parser, "parse_caption"):</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x4)">                    for record in parser.parse_caption(self.caption, self.label, self.links):</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x3)">                        parser_records.append(record)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="No Anys on this line!">                elif hasattr(parser, "parse_sentence"):</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Error (x2)">                    for caption_sentence in self.caption.sentences:</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Error (x3)">                        for subsentence in caption_sentence.subsentences:</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x3)
 Error (x1)">                            for record in parser.parse_sentence(subsentence):</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x3)">                                parser_records.append(record)</span>
 <span class="line-empty" title="No Anys on this line!">                else:</span>
 <span class="line-any" title="No Anys on this line!">                    continue</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-imprecise" title="Any Types on this line: 
+<span class="line-imprecise" title="Any Types on this line:
 Unannotated (x1)">                if not parser_records:</span>
 <span class="line-any" title="No Anys on this line!">                    continue</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x2)">                for record in parser_records:</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x4)">                    p = record.serialize()</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x1)">                    if not p:  # TODO: Potential performance issues?</span>
 <span class="line-any" title="No Anys on this line!">                        continue</span>
 <span class="line-empty" title="No Anys on this line!">                    # Skip duplicate records</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x1)
 Error (x1)">                    if record in records:</span>
 <span class="line-any" title="No Anys on this line!">                        continue</span>
 <span class="line-empty" title="No Anys on this line!">                    # Skip just labels that have already been seen (bit of a hack)</span>
 <span class="line-empty" title="No Anys on this line!">                    if (</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x1)
 Explicit (x1)">                        isinstance(record, Compound)</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x1)">                        and "Compound" in p</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x4)">                        and all(k in {"labels", "roles"} for k in p["Compound"])</span>
-<span class="line-imprecise" title="Any Types on this line: 
+<span class="line-imprecise" title="Any Types on this line:
 Explicit (x1)
 Omitted Generics (x4)">                        and set(record.labels).issubset(seen_labels)</span>
 <span class="line-empty" title="No Anys on this line!">                    ):</span>
 <span class="line-any" title="No Anys on this line!">                        continue</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x1)
 Explicit (x1)">                    if isinstance(record, Compound):</span>
-<span class="line-imprecise" title="Any Types on this line: 
+<span class="line-imprecise" title="Any Types on this line:
 Omitted Generics (x2)">                        seen_labels.update(record.labels)</span>
 <span class="line-empty" title="No Anys on this line!">                        # This could be super slow if we find lots of things</span>
 <span class="line-any" title="No Anys on this line!">                        found = False</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Error (x2)">                        for seen_record in records:</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Error (x1)
 Explicit (x1)">                            if isinstance(seen_record, Compound) and (</span>
-<span class="line-imprecise" title="Any Types on this line: 
+<span class="line-imprecise" title="Any Types on this line:
 Explicit (x1)
 Omitted Generics (x3)">                                not set(record.names).isdisjoint(seen_record.names)</span>
-<span class="line-imprecise" title="Any Types on this line: 
+<span class="line-imprecise" title="Any Types on this line:
 Explicit (x1)
 Omitted Generics (x3)">                                or not set(record.labels).isdisjoint(seen_record.labels)</span>
 <span class="line-empty" title="No Anys on this line!">                            ):</span>
-<span class="line-imprecise" title="Any Types on this line: 
+<span class="line-imprecise" title="Any Types on this line:
 Omitted Generics (x5)
 Explicit (x1)">                                seen_record.names = sorted(</span>
-<span class="line-precise" title="Any Types on this line: 
+<span class="line-precise" title="Any Types on this line:
 Omitted Generics (x3)">                                    set(seen_record.names).union(record.names)</span>
 <span class="line-empty" title="No Anys on this line!">                                )</span>
-<span class="line-imprecise" title="Any Types on this line: 
+<span class="line-imprecise" title="Any Types on this line:
 Omitted Generics (x5)
 Explicit (x1)">                                seen_record.labels = sorted(</span>
-<span class="line-precise" title="Any Types on this line: 
+<span class="line-precise" title="Any Types on this line:
 Omitted Generics (x3)">                                    set(seen_record.labels).union(record.labels)</span>
 <span class="line-empty" title="No Anys on this line!">                                )</span>
-<span class="line-imprecise" title="Any Types on this line: 
+<span class="line-imprecise" title="Any Types on this line:
 Omitted Generics (x5)
 Explicit (x1)">                                seen_record.roles = sorted(</span>
-<span class="line-precise" title="Any Types on this line: 
+<span class="line-precise" title="Any Types on this line:
 Omitted Generics (x3)">                                    set(seen_record.roles).union(record.roles)</span>
 <span class="line-empty" title="No Anys on this line!">                                )</span>
 <span class="line-any" title="No Anys on this line!">                                found = True</span>
 <span class="line-precise" title="No Anys on this line!">                        if found:</span>
 <span class="line-any" title="No Anys on this line!">                            continue</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x3)">                    elif hasattr(record, "compound") and record.compound is not None:</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Omitted Generics (x2)
 Unannotated (x3)">                        seen_labels.update(record.compound.labels)</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Error (x2)
 Unannotated (x1)">                    records.append(record)</span>
 <span class="line-any" title="No Anys on this line!">        i = 0</span>
-<span class="line-imprecise" title="Any Types on this line: 
+<span class="line-imprecise" title="Any Types on this line:
 Error (x1)">        length = len(records)</span>
 <span class="line-precise" title="No Anys on this line!">        while i &lt; length:</span>
 <span class="line-any" title="No Anys on this line!">            j = 0</span>
 <span class="line-precise" title="No Anys on this line!">            while j &lt; length:</span>
 <span class="line-precise" title="No Anys on this line!">                if i != j:</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Error (x6)">                    records[j].merge_all(records[i])</span>
 <span class="line-any" title="No Anys on this line!">                j += 1</span>
 <span class="line-any" title="No Anys on this line!">            i += 1</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">        cleaned_records = []</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x1)
 Error (x1)">        for record in records:</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x3)">            record._clean(clean_contextual=False)</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x2)">            if record.noncontextual_required_fulfilled:</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x3)">                cleaned_records.append(record)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x4)">        sorted_records = ModelList(</span>
-<span class="line-imprecise" title="Any Types on this line: 
+<span class="line-imprecise" title="Any Types on this line:
 Unannotated (x1)
 Omitted Generics (x5)">            *sorted(</span>
-<span class="line-imprecise" title="Any Types on this line: 
+<span class="line-imprecise" title="Any Types on this line:
 Unannotated (x1)">                cleaned_records,</span>
 <span class="line-empty" title="No Anys on this line!">                key=lambda el: (</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x6)">                    el.total_confidence() if el.total_confidence() is not None else -10000</span>
 <span class="line-empty" title="No Anys on this line!">                ),</span>
 <span class="line-any" title="No Anys on this line!">                reverse=True,</span>
 <span class="line-empty" title="No Anys on this line!">            )</span>
 <span class="line-empty" title="No Anys on this line!">        )</span>
-<span class="line-imprecise" title="Any Types on this line: 
+<span class="line-imprecise" title="Any Types on this line:
 Unannotated (x1)">        return sorted_records</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="No Anys on this line!">    def _repr_html_(self):</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Error (x3)">        html_lines = ["&lt;figure&gt;", self.caption._repr_html_(), "&lt;/figure&gt;"]</span>
 <span class="line-empty" title="No Anys on this line!">        # TODO: img element with figure URL</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Error (x1)">        return "\n".join(html_lines)</span>
 </pre></td>
 </tr></tbody>

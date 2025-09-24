@@ -9,21 +9,17 @@ from __future__ import annotations
 
 import functools
 import time
-from typing import Any
 from typing import TYPE_CHECKING
+from typing import Any
 
-from ..types import (
-    CacheableFunction,
-    ConfidenceFunction,
-    DecoratorP,
-    ModelTuple,
-    MultiModelParser,
-    P,
-    ParserFunction,
-    T,
-    TimingDecorator,
-    ValidationDecorator,
-)
+from ..types import CacheableFunction
+from ..types import ConfidenceFunction
+from ..types import ModelTuple
+from ..types import MultiModelParser
+from ..types import P
+from ..types import ParserFunction
+from ..types import T
+from ..types import ValidationDecorator
 
 if TYPE_CHECKING:
     from ..model.base import BaseModel

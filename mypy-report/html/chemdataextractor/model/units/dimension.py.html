@@ -339,33 +339,33 @@
 <span class="line-precise" title="No Anys on this line!">from .unit import Unit</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!"># Type aliases for dimension system</span>
-<span class="line-precise" title="Any Types on this line: 
+<span class="line-precise" title="Any Types on this line:
 Omitted Generics (x36)">type UnitDict = dict[Unit, float]  # Maps units to their powers</span>
 <span class="line-precise" title="No Anys on this line!">type DimensionValue = int | float  # Numeric dimension values</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">class _DimensionMeta(ABCMeta):</span>
 <span class="line-any" title="No Anys on this line!">    def __new__(mcs, name, bases, attrs):</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x3)">        cls = super().__new__(mcs, name, bases, attrs)</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x1)">        if hasattr(cls, "constituent_dimensions") and cls.constituent_dimensions is not None:</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x6)">            cls.units_dict = copy.copy(cls.constituent_dimensions.units_dict)</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x3)">            cls._dimensions = cls.constituent_dimensions._dimensions</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x3)">            cls._standard_units = cls.constituent_dimensions._standard_units</span>
 <span class="line-precise" title="No Anys on this line!">        return cls</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="No Anys on this line!">    def __setattr__(cls, key, value):</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x4)
 Explicit (x5)">        if key == "standard_units" and not isinstance(value, property):</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x2)">            cls._standard_units = {value: 1.0}</span>
 <span class="line-empty" title="No Anys on this line!">        else:</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x2)">            return super().__setattr__(key, value)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!"></span>
@@ -442,21 +442,21 @@ Unannotated (x2)">            return super().__setattr__(key, value)</span>
 <span class="line-empty" title="No Anys on this line!">                else:</span>
 <span class="line-unanalyzed" title="No Anys on this line!">                    return unit**power</span>
 <span class="line-any" title="No Anys on this line!">        product_unit = None</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Error (x4)">        for unit, power in self._standard_units.items():</span>
-<span class="line-imprecise" title="Any Types on this line: 
+<span class="line-imprecise" title="Any Types on this line:
 Error (x1)">            if not product_unit:</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Error (x4)">                product_unit = unit**power</span>
 <span class="line-empty" title="No Anys on this line!">            else:</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Error (x6)">                product_unit = product_unit * (unit**power)</span>
-<span class="line-imprecise" title="Any Types on this line: 
+<span class="line-imprecise" title="Any Types on this line:
 Error (x1)">        return product_unit</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-unanalyzed" title="No Anys on this line!">    @standard_units.setter</span>
 <span class="line-any" title="No Anys on this line!">    def standard_units(self, value):</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x2)">        self._standard_units = {value: 1.0}</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">    """</span>
@@ -476,16 +476,16 @@ Unannotated (x2)">        self._standard_units = {value: 1.0}</span>
 <span class="line-empty" title="No Anys on this line!">    """</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="No Anys on this line!">    def __truediv__(self, other):</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x3)">        other_inverted = other ** (-1.0)</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x3)">        new_model = self * other_inverted</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x1)">        return new_model</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="No Anys on this line!">    def __pow__(self, other):</span>
 <span class="line-empty" title="No Anys on this line!">        # Handle case that we have no dimensions, so we don't get things like dimensionless units squared.</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x3)">        if isinstance(self, Dimensionless) or other == 0:</span>
 <span class="line-precise" title="No Anys on this line!">            new_model = Dimensionless()</span>
 <span class="line-empty" title="No Anys on this line!"></span>
@@ -493,34 +493,34 @@ Unannotated (x3)">        if isinstance(self, Dimensionless) or other == 0:</spa
 <span class="line-precise" title="No Anys on this line!">            new_model = Dimension()</span>
 <span class="line-precise" title="No Anys on this line!">            dimensions = {}</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x1)">            if self._dimensions is not None:</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x4)">                for dimension, power in self._dimensions.items():</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x4)">                    dimensions[dimension] = power * other</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">            else:</span>
-<span class="line-precise" title="Any Types on this line: 
+<span class="line-precise" title="Any Types on this line:
 Explicit (x2)">                new_key = copy.deepcopy(self)</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x2)">                dimensions[new_key] = other</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-imprecise" title="Any Types on this line: 
+<span class="line-imprecise" title="Any Types on this line:
 Unannotated (x2)">            new_model._dimensions = dimensions</span>
-<span class="line-imprecise" title="Any Types on this line: 
+<span class="line-imprecise" title="Any Types on this line:
 Unannotated (x10)">            new_model.units_dict = copy.copy(self.units_dict)</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x1)">            if self._standard_units is not None:</span>
 <span class="line-precise" title="No Anys on this line!">                _standard_units = {}</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x5)">                for unit, power in self._standard_units.items():</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x5)">                    _standard_units[unit] = power * other</span>
-<span class="line-imprecise" title="Any Types on this line: 
+<span class="line-imprecise" title="Any Types on this line:
 Unannotated (x3)">                new_model._standard_units = _standard_units</span>
 <span class="line-empty" title="No Anys on this line!">            else:</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x1)">                new_model._standard_units = None</span>
 <span class="line-precise" title="No Anys on this line!">        return new_model</span>
 <span class="line-empty" title="No Anys on this line!"></span>
@@ -528,178 +528,178 @@ Unannotated (x1)">                new_model._standard_units = None</span>
 <span class="line-precise" title="No Anys on this line!">        new_model = Dimension()</span>
 <span class="line-precise" title="No Anys on this line!">        dimensions = {}</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x1)">        if self._dimensions is not None:</span>
-<span class="line-imprecise" title="Any Types on this line: 
+<span class="line-imprecise" title="Any Types on this line:
 Unannotated (x5)
 Explicit (x2)">            dimensions = copy.deepcopy(self._dimensions)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">        else:</span>
-<span class="line-precise" title="Any Types on this line: 
+<span class="line-precise" title="Any Types on this line:
 Explicit (x2)">            new_key = copy.deepcopy(self)</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x1)">            dimensions[new_key] = 1.0</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x2)">        if other._dimensions is not None:</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x6)">            for key, value in other._dimensions.items():</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x5)">                if self._dimensions is not None and key in self._dimensions.keys():</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x4)">                    dimensions[key] += value</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x4)">                    if dimensions[key] == 0:</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x7)
 Omitted Generics (x2)">                        dimensions.pop(key)</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Explicit (x4)
 Unannotated (x1)">                elif type(self) == type(key):</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x4)">                    dimensions[key] += value</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x4)">                    if dimensions[key] == 0:</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x7)
 Omitted Generics (x2)">                        dimensions.pop(key)</span>
 <span class="line-empty" title="No Anys on this line!">                else:</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x3)">                    dimensions[key] = value</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">        else:</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x4)
 Explicit (x2)">            new_key = copy.deepcopy(other)</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x1)">            if self._dimensions is not None:</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x2)">                if new_key in self._dimensions:</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x3)">                    dimensions[new_key] += 1.0</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x4)">                    if dimensions[new_key] == 0:</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x7)
 Omitted Generics (x2)">                        dimensions.pop(new_key)</span>
 <span class="line-empty" title="No Anys on this line!">                else:</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x2)">                    dimensions[new_key] = 1.0</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x2)">            elif self == new_key:</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x3)">                dimensions[new_key] += 1.0</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x4)">                if dimensions[new_key] == 0:</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x7)
 Omitted Generics (x2)">                    dimensions.pop(new_key)</span>
 <span class="line-empty" title="No Anys on this line!">            else:</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x2)">                dimensions[new_key] = 1.0</span>
 <span class="line-empty" title="No Anys on this line!">        # Handle the case that we have ended up with no dimensions.</span>
 <span class="line-precise" title="No Anys on this line!">        dimensionless = Dimensionless()</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x6)
 Omitted Generics (x2)">        dimensions.pop(dimensionless, None)</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x1)">        if len(dimensions) == 0:</span>
 <span class="line-precise" title="No Anys on this line!">            new_model = dimensionless</span>
 <span class="line-empty" title="No Anys on this line!">        else:</span>
-<span class="line-imprecise" title="Any Types on this line: 
+<span class="line-imprecise" title="Any Types on this line:
 Unannotated (x2)">            new_model._dimensions = dimensions</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-imprecise" title="Any Types on this line: 
+<span class="line-imprecise" title="Any Types on this line:
 Unannotated (x2)">        new_model.units_dict = {}</span>
 <span class="line-empty" title="No Anys on this line!">        # Look at whether the units_dict for self is different from the units_dict for each of the dimensions combined.</span>
 <span class="line-empty" title="No Anys on this line!">        # If they're the same, then we can start from scratch, if they're different, that means we have some things that</span>
 <span class="line-empty" title="No Anys on this line!">        # are specific to the parent, e.g. J for energy as opposed to as a combination of SI, so we need to</span>
 <span class="line-empty" title="No Anys on this line!">        # preserve the units_dict.</span>
 <span class="line-precise" title="No Anys on this line!">        trial_units_dict = {}</span>
-<span class="line-imprecise" title="Any Types on this line: 
+<span class="line-imprecise" title="Any Types on this line:
 Unannotated (x1)">        if self._dimensions:</span>
-<span class="line-imprecise" title="Any Types on this line: 
+<span class="line-imprecise" title="Any Types on this line:
 Unannotated (x3)">            for dimension in self._dimensions.keys():</span>
-<span class="line-imprecise" title="Any Types on this line: 
+<span class="line-imprecise" title="Any Types on this line:
 Unannotated (x13)">                trial_units_dict.update(dimension.units_dict)</span>
-<span class="line-imprecise" title="Any Types on this line: 
+<span class="line-imprecise" title="Any Types on this line:
 Unannotated (x4)">        if trial_units_dict != self.units_dict:</span>
-<span class="line-imprecise" title="Any Types on this line: 
+<span class="line-imprecise" title="Any Types on this line:
 Unannotated (x10)">            new_model.units_dict = copy.copy(self.units_dict)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">        trial_units_dict_other = {}</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x2)">        if other._dimensions:</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x4)">            for dimension in other._dimensions.keys():</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Omitted Generics (x11)
 Unannotated (x2)">                trial_units_dict_other.update(dimension.units_dict)</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x3)
 Omitted Generics (x2)">        if trial_units_dict_other != other.units_dict:</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x13)">            new_model.units_dict.update(other.units_dict)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-imprecise" title="Any Types on this line: 
+<span class="line-imprecise" title="Any Types on this line:
 Unannotated (x3)">        for dimension in dimensions.keys():</span>
-<span class="line-imprecise" title="Any Types on this line: 
+<span class="line-imprecise" title="Any Types on this line:
 Unannotated (x13)">            new_model.units_dict.update(dimension.units_dict)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x3)">        if self._standard_units is not None and other._standard_units is not None:</span>
 <span class="line-precise" title="No Anys on this line!">            _standard_units = {}</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x4)">            for unit, power in self._standard_units.items():</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x4)">                if unit not in _standard_units.keys():</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x2)">                    _standard_units[unit] = power</span>
 <span class="line-empty" title="No Anys on this line!">                else:</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x2)">                    _standard_units[unit] += power</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x5)">            for unit, power in other._standard_units.items():</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x4)">                if unit not in _standard_units.keys():</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x3)">                    _standard_units[unit] = power</span>
 <span class="line-empty" title="No Anys on this line!">                else:</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x3)">                    _standard_units[unit] += power</span>
-<span class="line-imprecise" title="Any Types on this line: 
+<span class="line-imprecise" title="Any Types on this line:
 Unannotated (x2)">            new_model._standard_units = _standard_units</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">        else:</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x1)">            new_model._standard_units = None</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">        return new_model</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="No Anys on this line!">    def __eq__(self, other):</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x1)">        if not isinstance(other, Dimension):</span>
 <span class="line-any" title="No Anys on this line!">            return False</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x1)">        if self._dimensions is not None:</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x1)">            if other._dimensions is not None:</span>
-<span class="line-imprecise" title="Any Types on this line: 
+<span class="line-imprecise" title="Any Types on this line:
 Unannotated (x2)">                if self._dimensions == other._dimensions:</span>
 <span class="line-any" title="No Anys on this line!">                    return True</span>
 <span class="line-empty" title="No Anys on this line!">            else:</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x5)">                if (self**1.0)._dimensions == (other**1.0)._dimensions:</span>
 <span class="line-any" title="No Anys on this line!">                    return True</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x1)">        elif other._dimensions is not None:</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x4)">            if other._dimensions == (self**1.0)._dimensions:</span>
 <span class="line-any" title="No Anys on this line!">                return True</span>
 <span class="line-empty" title="No Anys on this line!">        else:</span>
-<span class="line-precise" title="Any Types on this line: 
+<span class="line-precise" title="Any Types on this line:
 Explicit (x4)">            if type(self) == type(other):</span>
 <span class="line-any" title="No Anys on this line!">                return True</span>
 <span class="line-empty" title="No Anys on this line!"></span>
@@ -716,20 +716,20 @@ Explicit (x4)">            if type(self) == type(other):</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="No Anys on this line!">    def __str__(self):</span>
 <span class="line-any" title="No Anys on this line!">        string = ""</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x1)">        if self._dimensions is not None:</span>
 <span class="line-precise" title="No Anys on this line!">            name_list = []</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x4)">            for key, value in self._dimensions.items():</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Explicit (x2)
 Unannotated (x1)">                name_list.append(type(key).__name__ + "^(" + str(value) + ")  ")</span>
-<span class="line-precise" title="Any Types on this line: 
+<span class="line-precise" title="Any Types on this line:
 Omitted Generics (x5)">            for name in sorted(name_list):</span>
 <span class="line-precise" title="No Anys on this line!">                string += name</span>
 <span class="line-any" title="No Anys on this line!">            string = string[:-2]</span>
 <span class="line-empty" title="No Anys on this line!">        else:</span>
-<span class="line-precise" title="Any Types on this line: 
+<span class="line-precise" title="Any Types on this line:
 Explicit (x2)">            string += type(self).__name__</span>
 <span class="line-precise" title="No Anys on this line!">        return string</span>
 <span class="line-empty" title="No Anys on this line!"></span>

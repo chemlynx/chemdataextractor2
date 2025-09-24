@@ -919,9 +919,9 @@
 <span class="line-precise" title="No Anys on this line!">    pass</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!"># Type aliases for parsing</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Explicit (x1)">ParseAction = Callable[[list[Any]], Any]  # Function that processes parse results</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Explicit (x1)">ParseCondition = Callable[[list[Any]], bool]  # Function that validates parse results</span>
 <span class="line-precise" title="No Anys on this line!">TokenList = list[str]  # List of token strings</span>
 <span class="line-precise" title="No Anys on this line!">ParseResults = list[Any]  # Results from parsing operations</span>
@@ -929,10 +929,10 @@ Explicit (x1)">ParseCondition = Callable[[list[Any]], bool]  # Function that val
 <span class="line-precise" title="No Anys on this line!">log = logging.getLogger(__name__)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-precise" title="Any Types on this line: 
+<span class="line-precise" title="Any Types on this line:
 Omitted Generics (x6)
 Explicit (x6)">@lru_cache(maxsize=512)</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x1)">def _compile_regex(pattern: str, flags: int = 0):</span>
 <span class="line-empty" title="No Anys on this line!">    """Cached regex compilation to avoid redundant re.compile() calls.</span>
 <span class="line-empty" title="No Anys on this line!"></span>
@@ -953,7 +953,7 @@ Unannotated (x1)">def _compile_regex(pattern: str, flags: int = 0):</span>
 <span class="line-empty" title="No Anys on this line!">        usage patterns while limiting memory usage. Most parsing workflows</span>
 <span class="line-empty" title="No Anys on this line!">        use fewer than 100 unique patterns.</span>
 <span class="line-empty" title="No Anys on this line!">    """</span>
-<span class="line-imprecise" title="Any Types on this line: 
+<span class="line-imprecise" title="Any Types on this line:
 Unannotated (x1)
 Omitted Generics (x4)">    return re.compile(pattern, flags)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
@@ -998,7 +998,7 @@ Omitted Generics (x4)">    return re.compile(pattern, flags)</span>
 <span class="line-empty" title="No Anys on this line!">        """</span>
 <span class="line-precise" title="No Anys on this line!">        return cls(</span>
 <span class="line-precise" title="No Anys on this line!">            parse_exception.tokens,</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Error (x1)">            parse_exception.loc,</span>
 <span class="line-precise" title="No Anys on this line!">            parse_exception.msg,</span>
 <span class="line-precise" title="No Anys on this line!">            parse_exception.element,</span>
@@ -1030,7 +1030,7 @@ Error (x1)">            parse_exception.loc,</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="No Anys on this line!">def safe_name(name):</span>
 <span class="line-empty" title="No Anys on this line!">    """Make name safe for use in XML output."""</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x4)">    return XML_SAFE_TAGS.get(name, name)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!"></span>
@@ -1062,7 +1062,7 @@ Unannotated (x4)">    return XML_SAFE_TAGS.get(name, name)</span>
 <span class="line-empty" title="No Anys on this line!">        Returns:</span>
 <span class="line-empty" title="No Anys on this line!">            Self for method chaining</span>
 <span class="line-empty" title="No Anys on this line!">        """</span>
-<span class="line-precise" title="Any Types on this line: 
+<span class="line-precise" title="Any Types on this line:
 Omitted Generics (x3)">        self.actions = list(fns)</span>
 <span class="line-precise" title="No Anys on this line!">        return self</span>
 <span class="line-empty" title="No Anys on this line!"></span>
@@ -1075,7 +1075,7 @@ Omitted Generics (x3)">        self.actions = list(fns)</span>
 <span class="line-empty" title="No Anys on this line!">        Returns:</span>
 <span class="line-empty" title="No Anys on this line!">            Self for method chaining</span>
 <span class="line-empty" title="No Anys on this line!">        """</span>
-<span class="line-precise" title="Any Types on this line: 
+<span class="line-precise" title="Any Types on this line:
 Omitted Generics (x3)">        self.actions += list(fns)</span>
 <span class="line-precise" title="No Anys on this line!">        return self</span>
 <span class="line-empty" title="No Anys on this line!"></span>
@@ -1129,45 +1129,45 @@ Omitted Generics (x3)">        self.actions += list(fns)</span>
 <span class="line-empty" title="No Anys on this line!">        :returns: A generator of the results found. Each result is a tuple with the first element being a list of elements found, and the second and third elements are the start and end indices representing the span of the result.</span>
 <span class="line-empty" title="No Anys on this line!">        :rtype: generator(tuple(list(lxml.etree.Element), int, int))</span>
 <span class="line-empty" title="No Anys on this line!">        """</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x1)">        if not self.streamlined:</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x2)">            self.streamline()</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x1)">        matches = 0</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x1)">        i = 0</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x3)">        length = len(tokens)</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x7)">        while i &lt; length and matches &lt; max_matches:</span>
 <span class="line-empty" title="No Anys on this line!">            try:</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x6)">                results, next_i = self.parse(tokens, i)</span>
 <span class="line-precise" title="No Anys on this line!">            except ParseException:</span>
 <span class="line-empty" title="No Anys on this line!">                # print(err.msg)</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x1)">                i += 1</span>
 <span class="line-empty" title="No Anys on this line!">            else:</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x3)">                if next_i &gt; i:</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x1)">                    matches += 1</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x3)">                    if len(results) == 1:</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x3)">                        results = results[0]</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x3)">                    yield results, i, next_i</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x1)">                    if overlap:</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x1)">                        i += 1</span>
 <span class="line-empty" title="No Anys on this line!">                    else:</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x2)">                        i = next_i</span>
 <span class="line-empty" title="No Anys on this line!">                else:</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x1)">                    i += 1</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="No Anys on this line!">    def parse(self, tokens, i, actions=True):</span>
@@ -1182,32 +1182,32 @@ Unannotated (x1)">                    i += 1</span>
 <span class="line-empty" title="No Anys on this line!">        :rtype: tuple(list(Element) or None, int)</span>
 <span class="line-empty" title="No Anys on this line!">        """</span>
 <span class="line-empty" title="No Anys on this line!">        try:</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x7)">            result, found_index = self._parse_tokens(tokens, i, actions)</span>
 <span class="line-precise" title="No Anys on this line!">        except IndexError:</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x3)">            raise ParseException(tokens, i, "IndexError", self)</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x1)">        if actions:</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x2)">            for action in self.actions:</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x6)">                action_result = action(tokens, i, result)</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x1)">                if action_result is not None:</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x2)">                    result = action_result</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x1)">        if self.condition is not None:</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x3)">            if not self.condition(result):</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x3)">                raise ParseException(tokens, found_index, "Did not satisfy condition", self)</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x2)">        return result, found_index</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="No Anys on this line!">    def try_parse(self, tokens, i):</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x5)">        return self.parse(tokens, i, actions=False)[1]</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="No Anys on this line!">    def _parse_tokens(self, tokens, i, actions=True):</span>
@@ -1221,83 +1221,83 @@ Unannotated (x5)">        return self.parse(tokens, i, actions=False)[1]</span>
 <span class="line-empty" title="No Anys on this line!">        :rtype: tuple(list(Element) or None, int)</span>
 <span class="line-empty" title="No Anys on this line!">        """</span>
 <span class="line-empty" title="No Anys on this line!">        # TODO: abstractmethod?</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x1)">        return None, i</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="No Anys on this line!">    def streamline(self):</span>
 <span class="line-empty" title="No Anys on this line!">        """</span>
 <span class="line-empty" title="No Anys on this line!">        Streamlines internal representations. e.g., if we have something like And(And(And(And(a), b), c), d), streamline this to And(a, b, c, d)</span>
 <span class="line-empty" title="No Anys on this line!">        """</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x1)">        self.streamlined = True</span>
 <span class="line-precise" title="No Anys on this line!">        return self</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="No Anys on this line!">    def __add__(self, other):</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x2)">        if isinstance(other, str):</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x3)">            other = Word(other)</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x2)">        if not isinstance(other, BaseParserElement):</span>
 <span class="line-empty" title="No Anys on this line!">            # raise?</span>
 <span class="line-any" title="No Anys on this line!">            return None</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x2)">        return And([self, other])</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="No Anys on this line!">    def __radd__(self, other):</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x2)">        if isinstance(other, str):</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x3)">            other = Word(other)</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x2)">        if not isinstance(other, BaseParserElement):</span>
 <span class="line-empty" title="No Anys on this line!">            # raise?</span>
 <span class="line-any" title="No Anys on this line!">            return None</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x1)">        return other + self</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="No Anys on this line!">    def __or__(self, other):</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x2)">        if isinstance(other, str):</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x3)">            other = Word(other)</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x2)">        if not isinstance(other, BaseParserElement):</span>
 <span class="line-any" title="No Anys on this line!">            return None</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x2)">        return First([self, other])</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="No Anys on this line!">    def __ror__(self, other):</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x2)">        if isinstance(other, str):</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x3)">            other = Word(other)</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x2)">        if not isinstance(other, BaseParserElement):</span>
 <span class="line-any" title="No Anys on this line!">            return None</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x1)">        return other | self</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="No Anys on this line!">    def __xor__(self, other):</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x2)">        if isinstance(other, str):</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x3)">            other = Word(other)</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x2)">        if not isinstance(other, BaseParserElement):</span>
 <span class="line-any" title="No Anys on this line!">            return None</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x2)">        return Or([self, other])</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="No Anys on this line!">    def __rxor__(self, other):</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x2)">        if isinstance(other, str):</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x3)">            other = Word(other)</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x2)">        if not isinstance(other, BaseParserElement):</span>
 <span class="line-any" title="No Anys on this line!">            return None</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x1)">        return other ^ self</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">    # def __and__(self, other):</span>
@@ -1315,7 +1315,7 @@ Unannotated (x1)">        return other ^ self</span>
 <span class="line-empty" title="No Anys on this line!">    #     return other &amp; self</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="No Anys on this line!">    def __invert__(self):</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x2)">        return Not(self)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="No Anys on this line!">    def __call__(self, name):</span>
@@ -1326,11 +1326,11 @@ Unannotated (x2)">        return Not(self)</span>
 <span class="line-empty" title="No Anys on this line!">        :returns: A BaseParserElement with the given name</span>
 <span class="line-empty" title="No Anys on this line!">        :rtype: BaseParserElement</span>
 <span class="line-empty" title="No Anys on this line!">        """</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x3)">        return self.set_name(name)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="No Anys on this line!">    def hide(self):</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x2)">        return Hide(self)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!"></span>
@@ -1338,14 +1338,14 @@ Unannotated (x2)">        return Hide(self)</span>
 <span class="line-empty" title="No Anys on this line!">    """Always match a single token."""</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="No Anys on this line!">    def _parse_tokens(self, tokens, i, actions=True):</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x16)
 Unimported (x1)">        return [E(self.name or safe_name(tokens[i][1]), tokens[i][0])], i + 1</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">class NoMatch(BaseParserElement):</span>
 <span class="line-any" title="No Anys on this line!">    def _parse_tokens(self, tokens, i, actions=True):</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x3)">        raise ParseException(tokens, i, "NoMatch will not match any tokens", self)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!"></span>
@@ -1353,20 +1353,20 @@ Unannotated (x3)">        raise ParseException(tokens, i, "NoMatch will not matc
 <span class="line-empty" title="No Anys on this line!">    """Match token text exactly. Case-sensitive."""</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="No Anys on this line!">    def __init__(self, match):</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x1)">        super().__init__()</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x2)">        self.match = match</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="No Anys on this line!">    def _parse_tokens(self, tokens, i, actions=True):</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x5)">        token_text = tokens[i][0]</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x3)">        if token_text == self.match:</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x13)
 Unimported (x1)">            return [E(self.name or safe_name(tokens[i][1]), token_text)], i + 1</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x11)">        raise ParseException(tokens, i, f"Expected {self.match}, got {token_text}", self)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!"></span>
@@ -1374,29 +1374,29 @@ Unannotated (x11)">        raise ParseException(tokens, i, f"Expected {self.matc
 <span class="line-empty" title="No Anys on this line!">    """Match tag exactly."""</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="No Anys on this line!">    def __init__(self, match, tag_type=None):</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x1)">        super().__init__()</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x2)">        self.match = match</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x1)">        if tag_type:</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x2)">            self.tag_type = tag_type</span>
 <span class="line-empty" title="No Anys on this line!">        else:</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x1)">            self.tag_type = 1</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="No Anys on this line!">    def _parse_tokens(self, tokens, i, actions=True):</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x4)">        token = tokens[i]</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x4)">        tag = token[self.tag_type]</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x3)">        if tag == self.match:</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x11)
 Unimported (x1)">            return [E(self.name or safe_name(tag), token[0])], i + 1</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x11)">        raise ParseException(tokens, i, f"Expected {self.match}, got {tag}", self)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!"></span>
@@ -1404,18 +1404,18 @@ Unannotated (x11)">        raise ParseException(tokens, i, f"Expected {self.matc
 <span class="line-empty" title="No Anys on this line!">    """Case-insensitive match token text."""</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="No Anys on this line!">    def __init__(self, match):</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x4)">        super().__init__(match.lower())</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="No Anys on this line!">    def _parse_tokens(self, tokens, i, actions=True):</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x5)">        token_text = tokens[i][0]</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x5)">        if token_text.lower() == self.match:</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x16)
 Unimported (x1)">            return [E(self.name or safe_name(tokens[i][1]), tokens[i][0])], i + 1</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x14)">        raise ParseException(tokens, i, f"Expected {self.match}, got {tokens[i][0]}", self)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!"></span>
@@ -1428,43 +1428,43 @@ Unannotated (x14)">        raise ParseException(tokens, i, f"Expected {self.matc
 <span class="line-empty" title="No Anys on this line!">    """</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="No Anys on this line!">    def __init__(self, pattern, flags=0, group=None):</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x1)">        super().__init__()</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x2)">        if isinstance(pattern, str):</span>
 <span class="line-empty" title="No Anys on this line!">            # Use cached compilation for string patterns</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x4)">            self.regex = _compile_regex(pattern, flags)</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x1)">            self.pattern = pattern</span>
 <span class="line-empty" title="No Anys on this line!">        else:</span>
 <span class="line-empty" title="No Anys on this line!">            # Use pre-compiled pattern as-is</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x2)">            self.regex = pattern</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x3)">            self.pattern = pattern.pattern</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x2)">        self.group = group</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="No Anys on this line!">    def _parse_tokens(self, tokens, i, actions=True):</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x5)">        token_text = tokens[i][0]</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x5)">        result = self.regex.search(token_text)</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x1)">        if result:</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x7)">            text = token_text if self.group is None else result.group(self.group)</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x13)
 Unimported (x1)">            return [E(self.name or safe_name(tokens[i][1]), text)], i + 1</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x11)">        raise ParseException(tokens, i, f"Expected {self.pattern}, got {token_text}", self)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">    # Solves issues with deepcopying of records, jm2111</span>
 <span class="line-empty" title="No Anys on this line!">    # only the pattern is copied and the object is created from scratch</span>
 <span class="line-any" title="No Anys on this line!">    def __deepcopy__(self, memodict={}):</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x5)
 Explicit (x4)
 Omitted Generics (x2)">        return type(self)(deepcopy(self.pattern, memodict))</span>
@@ -1474,15 +1474,15 @@ Omitted Generics (x2)">        return type(self)(deepcopy(self.pattern, memodict
 <span class="line-empty" title="No Anys on this line!">    """Match at start of tokens."""</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="No Anys on this line!">    def __init__(self):</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x1)">        super().__init__()</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="No Anys on this line!">    def _parse_tokens(self, tokens, i, actions=True):</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x2)">        if i != 0:</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x3)">            raise ParseException(tokens, i, "Expected start of tokens", self)</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x1)">        return [], i</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!"></span>
@@ -1490,15 +1490,15 @@ Unannotated (x1)">        return [], i</span>
 <span class="line-empty" title="No Anys on this line!">    """Match at end of tokens."""</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="No Anys on this line!">    def __init__(self):</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x1)">        super().__init__()</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="No Anys on this line!">    def _parse_tokens(self, tokens, i, actions=True):</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x4)">        if i &lt; len(tokens):</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x3)">            raise ParseException(tokens, i, "Expected end of tokens", self)</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x1)">        return [], i</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!"></span>
@@ -1506,81 +1506,81 @@ Unannotated (x1)">        return [], i</span>
 <span class="line-empty" title="No Anys on this line!">    """Abstract class for combining and post-processing parsed tokens."""</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="No Anys on this line!">    def __init__(self, exprs):</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x1)">        super().__init__()</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x2)
 Omitted Generics (x3)">        if isinstance(exprs, types.GeneratorType):</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x2)
 Omitted Generics (x3)">            exprs = list(exprs)</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x2)">        if isinstance(exprs, str):</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x3)">            self.exprs = [Word(exprs)]</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x2)
 Omitted Generics (x1)">        elif isinstance(exprs, collections.abc.Sequence):</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x4)">            if all(isinstance(expr, str) for expr in exprs):</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x3)
 Omitted Generics (x42)
 Explicit (x9)">                exprs = map(Word, exprs)</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x3)
 Omitted Generics (x3)">            self.exprs = list(exprs)</span>
 <span class="line-empty" title="No Anys on this line!">        else:</span>
 <span class="line-empty" title="No Anys on this line!">            try:</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x3)
 Omitted Generics (x3)">                self.exprs = list(exprs)</span>
 <span class="line-precise" title="No Anys on this line!">            except TypeError:</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x2)">                self.exprs = [exprs]</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="No Anys on this line!">    def __getitem__(self, i):</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x3)">        return self.exprs[i]</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="No Anys on this line!">    def append(self, other):</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x4)">        self.exprs.append(other)</span>
 <span class="line-precise" title="No Anys on this line!">        return self</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="No Anys on this line!">    def copy(self):</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x2)">        ret = super().copy()</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x7)">        ret.exprs = [e.copy() for e in self.exprs]</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x1)">        return ret</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="No Anys on this line!">    def streamline(self):</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x1)">        if not self.streamlined:</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x1)">            super().streamline()</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x2)">            for e in self.exprs:</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x2)">                if not e.streamlined:</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x3)">                    e.streamline()</span>
 <span class="line-empty" title="No Anys on this line!">            # collapse nested exprs from e.g. And(And(And(a, b), c), d) to And(a,b,c,d)</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x3)">            if len(self.exprs) == 2:</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x3)">                other = self.exprs[0]</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x9)">                if isinstance(other, self.__class__) and not other.actions and other.name is None:</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x7)">                    self.exprs = other.exprs[:] + [self.exprs[1]]</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x4)">                other = self.exprs[-1]</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x9)">                if isinstance(other, self.__class__) and not other.actions and other.name is None:</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x8)">                    self.exprs = self.exprs[:-1] + other.exprs[:]</span>
 <span class="line-precise" title="No Anys on this line!">        return self</span>
 <span class="line-empty" title="No Anys on this line!"></span>
@@ -1592,30 +1592,30 @@ Unannotated (x8)">                    self.exprs = self.exprs[:-1] + other.exprs
 <span class="line-empty" title="No Anys on this line!">    """</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="No Anys on this line!">    def __init__(self, exprs):</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x2)">        super().__init__(exprs)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="No Anys on this line!">    def _parse_tokens(self, tokens, i, actions=True):</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x1)">        results = []</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x2)">        for e in self.exprs:</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x7)">            exprresults, i = e.parse(tokens, i)</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x1)">            if exprresults is not None:</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x4)">                results.extend(exprresults)</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x6)
 Unimported (x1)">        return ([E(self.name, *results)] if self.name else results), i</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="No Anys on this line!">    def __iadd__(self, other):</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x2)">        if isinstance(other, str):</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x3)">            other = Word(other)</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x3)">        return self.append(other)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!"></span>
@@ -1649,70 +1649,70 @@ Unannotated (x3)">        return self.append(other)</span>
 <span class="line-empty" title="No Anys on this line!">    """</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="No Anys on this line!">    def _parse_tokens(self, tokens, i, actions=True):</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x2)">        furthest_exception_i = -1</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x2)">        furthest_match_i = -1</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x1)">        furthest_exception = None</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x2)">        for e in self.exprs:</span>
 <span class="line-empty" title="No Anys on this line!">            try:</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x6)">                end_i = e.try_parse(tokens, i)</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x1)">            except ParseException as err:</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x4)">                if err.i &gt; furthest_exception_i:</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x2)">                    furthest_exception = err</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x3)">                    furthest_exception_i = err.i</span>
 <span class="line-precise" title="No Anys on this line!">            except IndexError:</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x4)">                if len(tokens) &gt; furthest_exception_i:</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x5)">                    furthest_exception = ParseException(tokens, len(tokens), "", self)</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x3)">                    furthest_exception_i = len(tokens)</span>
 <span class="line-empty" title="No Anys on this line!">            else:</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x3)">                if end_i &gt; furthest_match_i:</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x2)">                    furthest_match_i = end_i</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x2)">                    furthest_match = e</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x2)">        if furthest_match_i &lt; 0:</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x1)">            if furthest_exception is not None:</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x1)">                raise furthest_exception</span>
 <span class="line-empty" title="No Anys on this line!">            else:</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x3)">                raise ParseException(tokens, i, "No alternatives match", self)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">        # If a name is assigned to an Or, it replaces the name of the contained result</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x1)">        if self.name:</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x5)">            furthest_match = furthest_match.set_name(self.name)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">        # NOTE: While it may seem that there is a performance gain to be made by not redoing</span>
 <span class="line-empty" title="No Anys on this line!">        # the parse result, it's balanced out by the fact that actions are not</span>
 <span class="line-empty" title="No Anys on this line!">        # performed for try_parse.</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x8)">        result, result_i = furthest_match.parse(tokens, i, actions=actions)</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x2)">        return result, result_i</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="No Anys on this line!">    def __ixor__(self, other):</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x2)">        if isinstance(other, str):</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x3)">            other = Word(other)</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x3)">        return self.append(other)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!"></span>
@@ -1722,45 +1722,45 @@ Unannotated (x3)">        return self.append(other)</span>
 <span class="line-empty" title="No Anys on this line!">    """</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="No Anys on this line!">    def _parse_tokens(self, tokens, i, actions=True):</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x2)">        furthest_exception_i = -1</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x2)">        furthest_match_i = -1</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x1)">        furthest_exception = None</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x2)">        for e in self.exprs:</span>
 <span class="line-empty" title="No Anys on this line!">            try:</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x6)">                end_i = e.try_parse(tokens, i)</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x1)">            except ParseException as err:</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x1)">                raise err</span>
 <span class="line-precise" title="No Anys on this line!">            except IndexError:</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x4)">                if len(tokens) &gt; furthest_exception_i:</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x5)">                    furthest_exception = ParseException(tokens, len(tokens), "", self)</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x1)">                    raise furthest_exception</span>
 <span class="line-empty" title="No Anys on this line!">            else:</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x3)">                if end_i &gt; furthest_match_i:</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x2)">                    furthest_match_i = end_i</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x2)">                    furthest_match = e</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">        # If a name is assigned to an Every, it replaces the name of the contained result</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x1)">        if self.name:</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x5)">            furthest_match = furthest_match.set_name(self.name)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x8)">        result, result_i = furthest_match.parse(tokens, i, actions=actions)</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x2)">        return result, result_i</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!"></span>
@@ -1768,51 +1768,51 @@ Unannotated (x2)">        return result, result_i</span>
 <span class="line-empty" title="No Anys on this line!">    """Match the first."""</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="No Anys on this line!">    def __init__(self, exprs):</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x2)">        super().__init__(exprs)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="No Anys on this line!">    def _parse_tokens(self, tokens, i, actions=True):</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x2)">        furthest_i = -1</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x1)">        furthest_exception = None</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x2)">        for e in self.exprs:</span>
 <span class="line-empty" title="No Anys on this line!">            try:</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x7)">                result, result_i = e.parse(tokens, i, actions=True)</span>
 <span class="line-empty" title="No Anys on this line!">                # If a name is assigned to a First, it replaces the name of the contained result</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x1)">                if self.name:</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x2)">                    for e in result:</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x3)">                        e.tag = self.name</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x2)">                return result, result_i</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x1)">            except ParseException as err:</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x4)">                if err.i &gt; furthest_i:</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x2)">                    furthest_exception = err</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x3)">                    furthest_i = err.i</span>
 <span class="line-empty" title="No Anys on this line!">        else:</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x1)">            if furthest_exception is not None:</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x1)">                raise furthest_exception</span>
 <span class="line-empty" title="No Anys on this line!">            else:</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x3)">                raise ParseException(tokens, i, "No alternatives match", self)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="No Anys on this line!">    def __ior__(self, other):</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x2)">        if isinstance(other, str):</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x3)">            other = Word(other)</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x3)">        return self.append(other)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!"></span>
@@ -1820,34 +1820,34 @@ Unannotated (x3)">        return self.append(other)</span>
 <span class="line-empty" title="No Anys on this line!">    """Abstract class for combining and post-processing parsed tokens."""</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="No Anys on this line!">    def __init__(self, expr):</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x1)">        super().__init__()</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x2)">        if isinstance(expr, str):</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x3)">            expr = Word(expr)</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x2)">        self.expr = expr</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="No Anys on this line!">    def _parse_tokens(self, tokens, i, actions=True):</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x1)">        if self.expr is not None:</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x5)">            return self.expr.parse(tokens, i)</span>
 <span class="line-empty" title="No Anys on this line!">        else:</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x2)">            raise ParseException("", i, "Error", self)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="No Anys on this line!">    def streamline(self):</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x1)">        if not self.streamlined:</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x1)">            super().streamline()</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x1)">            if self.expr is not None:</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x2)">                if not self.expr.streamlined:</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x3)">                    self.expr.streamline()</span>
 <span class="line-precise" title="No Anys on this line!">        return self</span>
 <span class="line-empty" title="No Anys on this line!"></span>
@@ -1864,9 +1864,9 @@ Unannotated (x3)">                    self.expr.streamline()</span>
 <span class="line-empty" title="No Anys on this line!">    """</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="No Anys on this line!">    def _parse_tokens(self, tokens, i, actions=True):</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x5)">        self.expr.try_parse(tokens, i)</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x1)">        return [], i</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!"></span>
@@ -1883,14 +1883,14 @@ Unannotated (x1)">        return [], i</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="No Anys on this line!">    def _parse_tokens(self, tokens, i, actions=True):</span>
 <span class="line-empty" title="No Anys on this line!">        try:</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x5)">            self.expr.try_parse(tokens, i)</span>
 <span class="line-precise" title="No Anys on this line!">        except (ParseException, IndexError):</span>
 <span class="line-any" title="No Anys on this line!">            pass</span>
 <span class="line-empty" title="No Anys on this line!">        else:</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x3)">            raise ParseException(tokens, i, "Encountered disallowed token", self)</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x1)">        return [], i</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!"></span>
@@ -1898,23 +1898,23 @@ Unannotated (x1)">        return [], i</span>
 <span class="line-empty" title="No Anys on this line!">    """Optional repetition of zero or more of the given expression."""</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="No Anys on this line!">    def _parse_tokens(self, tokens, i, actions=True):</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x1)">        results = []</span>
 <span class="line-empty" title="No Anys on this line!">        try:</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x8)">            results, i = self.expr.parse(tokens, i, actions)</span>
 <span class="line-any" title="No Anys on this line!">            while 1:</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x2)">                start_i = i</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x8)">                tmpresults, i = self.expr.parse(tokens, start_i, actions)</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x1)">                if tmpresults:</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x4)">                    results.extend(tmpresults)</span>
 <span class="line-precise" title="No Anys on this line!">        except (ParseException, IndexError):</span>
 <span class="line-any" title="No Anys on this line!">            pass</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x6)
 Unimported (x1)">        return ([E(self.name, *results)] if self.name else results), i</span>
 <span class="line-empty" title="No Anys on this line!"></span>
@@ -1924,21 +1924,21 @@ Unimported (x1)">        return ([E(self.name, *results)] if self.name else resu
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="No Anys on this line!">    def _parse_tokens(self, tokens, i, actions=True):</span>
 <span class="line-empty" title="No Anys on this line!">        # must be at least one</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x8)">        results, i = self.expr.parse(tokens, i, actions)</span>
 <span class="line-empty" title="No Anys on this line!">        try:</span>
 <span class="line-any" title="No Anys on this line!">            while 1:</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x2)">                start_i = i</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x8)">                tmpresults, i = self.expr.parse(tokens, start_i, actions)</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x1)">                if tmpresults:</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x4)">                    results.extend(tmpresults)</span>
 <span class="line-precise" title="No Anys on this line!">        except (ParseException, IndexError):</span>
 <span class="line-any" title="No Anys on this line!">            pass</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x6)
 Unimported (x1)">        return ([E(self.name, *results)] if self.name else results), i</span>
 <span class="line-empty" title="No Anys on this line!"></span>
@@ -1950,18 +1950,18 @@ Unimported (x1)">        return ([E(self.name, *results)] if self.name else resu
 <span class="line-empty" title="No Anys on this line!">    """</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="No Anys on this line!">    def __init__(self, expr):</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x2)">        super().__init__(expr)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="No Anys on this line!">    def _parse_tokens(self, tokens, i, actions=True):</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x1)">        results = []</span>
 <span class="line-empty" title="No Anys on this line!">        try:</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x8)">            results, i = self.expr.parse(tokens, i, actions)</span>
 <span class="line-precise" title="No Anys on this line!">        except (ParseException, IndexError):</span>
 <span class="line-any" title="No Anys on this line!">            pass</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x6)
 Unimported (x1)">        return ([E(self.name, *results)] if self.name else results), i</span>
 <span class="line-empty" title="No Anys on this line!"></span>
@@ -1974,9 +1974,9 @@ Unimported (x1)">        return ([E(self.name, *results)] if self.name else resu
 <span class="line-empty" title="No Anys on this line!">    """</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="No Anys on this line!">    def _parse_tokens(self, tokens, i, actions=True):</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x8)">        results, i = self.expr.parse(tokens, i, actions)</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x6)
 Unimported (x1)">        return ([E(self.name, *results)] if self.name else results), i</span>
 <span class="line-empty" title="No Anys on this line!"></span>
@@ -1996,38 +1996,38 @@ Unimported (x1)">        return ([E(self.name, *results)] if self.name else resu
 <span class="line-empty" title="No Anys on this line!">    """</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="No Anys on this line!">    def __init__(self, expr, include=False):</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x2)">        super().__init__(expr)</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x2)">        self.include = include</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="No Anys on this line!">    def _parse_tokens(self, tokens, i, actions=True):</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x2)">        start_i = i</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x3)">        tokens_length = len(tokens)</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x3)">        while i &lt;= tokens_length:</span>
 <span class="line-empty" title="No Anys on this line!">            try:</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x5)">                self.expr.parse(tokens, i, actions=False)</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x14)
 Unimported (x1)">                results = [E(safe_name(t[1]), t[0]) for t in tokens[start_i:i]]</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x1)">                if self.include:</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x8)">                    match_result, i = self.expr.parse(tokens, i, actions)</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x1)">                    if match_result:</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x4)">                        results.extend(match_result)</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x2)">                return results, i</span>
 <span class="line-precise" title="No Anys on this line!">            except (ParseException, IndexError):</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x1)">                i += 1</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x3)">        raise ParseException(tokens, i, "", self)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!"></span>
@@ -2038,9 +2038,9 @@ Unannotated (x3)">        raise ParseException(tokens, i, "", self)</span>
 <span class="line-empty" title="No Anys on this line!">    """</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="No Anys on this line!">    def _parse_tokens(self, tokens, i, actions=True):</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x5)">        results, i = super()._parse_tokens(tokens, i)</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x1)">        return [], i</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="No Anys on this line!">    def hide(self):</span>
@@ -2048,15 +2048,15 @@ Unannotated (x1)">        return [], i</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!"># Abbreviations</span>
-<span class="line-precise" title="Any Types on this line: 
+<span class="line-precise" title="Any Types on this line:
 Unannotated (x2)">W = Word</span>
-<span class="line-precise" title="Any Types on this line: 
+<span class="line-precise" title="Any Types on this line:
 Unannotated (x2)">I = IWord</span>
-<span class="line-precise" title="Any Types on this line: 
+<span class="line-precise" title="Any Types on this line:
 Unannotated (x6)">R = Regex</span>
-<span class="line-precise" title="Any Types on this line: 
+<span class="line-precise" title="Any Types on this line:
 Unannotated (x4)">T = Tag</span>
-<span class="line-precise" title="Any Types on this line: 
+<span class="line-precise" title="Any Types on this line:
 Unannotated (x2)">H = Hide</span>
 </pre></td>
 </tr></tbody>

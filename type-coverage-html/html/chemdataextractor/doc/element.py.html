@@ -413,7 +413,7 @@
 <span class="line-empty" title="No Anys on this line!">        references: List of citations referenced in this element</span>
 <span class="line-empty" title="No Anys on this line!">    """</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Explicit (x1)">    def __init__(</span>
 <span class="line-empty" title="No Anys on this line!">        self,</span>
 <span class="line-precise" title="No Anys on this line!">        document: Document | None = None,</span>
@@ -534,13 +534,13 @@ Explicit (x1)">    def __init__(</span>
 <span class="line-empty" title="No Anys on this line!">            Sorted list of model classes including nested dependencies</span>
 <span class="line-empty" title="No Anys on this line!">        """</span>
 <span class="line-precise" title="No Anys on this line!">        if self._streamlined_models_list is None:</span>
-<span class="line-precise" title="Any Types on this line: 
+<span class="line-precise" title="Any Types on this line:
 Omitted Generics (x3)">            models: set[type[BaseModel]] = set()</span>
 <span class="line-precise" title="No Anys on this line!">            log.debug(self.models)</span>
 <span class="line-precise" title="No Anys on this line!">            for model in self.models:</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x3)">                models.update(model.flatten(include_inferred=False))</span>
-<span class="line-imprecise" title="Any Types on this line: 
+<span class="line-imprecise" title="Any Types on this line:
 Omitted Generics (x5)
 Explicit (x12)">            self._streamlined_models_list = sorted(models, key=operator.attrgetter("__name__"))</span>
 <span class="line-precise" title="No Anys on this line!">        for model in self._streamlined_models_list:</span>
@@ -548,7 +548,7 @@ Explicit (x12)">            self._streamlined_models_list = sorted(models, key=o
 <span class="line-precise" title="No Anys on this line!">                parser.model = model</span>
 <span class="line-precise" title="No Anys on this line!">        return self._streamlined_models_list</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Explicit (x2)">    def to_json(self, *args: Any, **kwargs: Any) -&gt; str:</span>
 <span class="line-empty" title="No Anys on this line!">        """Convert element to JSON string.</span>
 <span class="line-empty" title="No Anys on this line!"></span>
@@ -559,7 +559,7 @@ Explicit (x2)">    def to_json(self, *args: Any, **kwargs: Any) -&gt; str:</span
 <span class="line-empty" title="No Anys on this line!">        Returns:</span>
 <span class="line-empty" title="No Anys on this line!">            JSON string representation of the element</span>
 <span class="line-empty" title="No Anys on this line!">        """</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Explicit (x6)
 Error (x2)">        return json.dumps(self.serialize(), *args, **kwargs)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
@@ -585,7 +585,7 @@ Error (x2)">        return json.dumps(self.serialize(), *args, **kwargs)</span>
 <span class="line-empty" title="No Anys on this line!">        label: Optional label identifier (e.g., "1" for "Table 1")</span>
 <span class="line-empty" title="No Anys on this line!">    """</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Explicit (x1)">    def __init__(self, caption: BaseElement, label: str | None = None, **kwargs: Any) -&gt; None:</span>
 <span class="line-empty" title="No Anys on this line!">        """Initialize a CaptionedElement.</span>
 <span class="line-empty" title="No Anys on this line!"></span>
@@ -600,18 +600,18 @@ Explicit (x1)">    def __init__(self, caption: BaseElement, label: str | None = 
 <span class="line-empty" title="No Anys on this line!">        """</span>
 <span class="line-precise" title="No Anys on this line!">        self.caption: BaseElement = caption</span>
 <span class="line-precise" title="No Anys on this line!">        self.label: str | None = label</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Explicit (x1)">        super().__init__(**kwargs)</span>
 <span class="line-precise" title="No Anys on this line!">        self.caption.document = self.document</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">    def __repr__(self) -&gt; str:</span>
 <span class="line-empty" title="No Anys on this line!">        """Return detailed string representation of the captioned element."""</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Error (x1)">        return f"{self.__class__.__name__}(id={self.id}, references={self.references}, captions={self.caption.text})"</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">    def __str__(self) -&gt; str:</span>
 <span class="line-empty" title="No Anys on this line!">        """Return the caption text as string representation."""</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Error (x1)">        return self.caption.text</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">    @property</span>
@@ -649,7 +649,7 @@ Error (x1)">        return self.caption.text</span>
 <span class="line-empty" title="No Anys on this line!">        Returns:</span>
 <span class="line-empty" title="No Anys on this line!">            List of abbreviation definition tuples from the caption</span>
 <span class="line-empty" title="No Anys on this line!">        """</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Error (x1)">        return self.caption.abbreviation_definitions</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">    @property</span>
@@ -660,7 +660,7 @@ Error (x1)">        return self.caption.abbreviation_definitions</span>
 <span class="line-empty" title="No Anys on this line!">            List of NER tags from the caption. None for non-entities,</span>
 <span class="line-empty" title="No Anys on this line!">            'B-CM' for beginning of chemical mentions, 'I-CM' for continuation.</span>
 <span class="line-empty" title="No Anys on this line!">        """</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Error (x1)">        return self.caption.ner_tags</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">    @property</span>
@@ -670,29 +670,29 @@ Error (x1)">        return self.caption.ner_tags</span>
 <span class="line-empty" title="No Anys on this line!">        Returns:</span>
 <span class="line-empty" title="No Anys on this line!">            List of chemical entity mention Spans from the caption</span>
 <span class="line-empty" title="No Anys on this line!">        """</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Error (x1)">        return self.caption.cems</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">    @property</span>
-<span class="line-imprecise" title="Any Types on this line: 
+<span class="line-imprecise" title="Any Types on this line:
 Explicit (x1)">    def definitions(self) -&gt; list[dict[str, Any]]:</span>
 <span class="line-empty" title="No Anys on this line!">        """All specifier definitions in the caption.</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">        Returns:</span>
 <span class="line-empty" title="No Anys on this line!">            List of specifier definition dictionaries from the caption</span>
 <span class="line-empty" title="No Anys on this line!">        """</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Error (x1)">        return self.caption.definitions</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">    @property</span>
-<span class="line-imprecise" title="Any Types on this line: 
+<span class="line-imprecise" title="Any Types on this line:
 Explicit (x1)">    def chemical_definitions(self) -&gt; list[dict[str, Any]]:</span>
 <span class="line-empty" title="No Anys on this line!">        """All chemical definitions in the caption.</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">        Returns:</span>
 <span class="line-empty" title="No Anys on this line!">            List of chemical definition dictionaries from the caption</span>
 <span class="line-empty" title="No Anys on this line!">        """</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Error (x1)">        return self.caption.chemical_definitions</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">    @property</span>
@@ -714,7 +714,7 @@ Error (x1)">        return self.caption.chemical_definitions</span>
 <span class="line-precise" title="No Anys on this line!">        self._models = value</span>
 <span class="line-precise" title="No Anys on this line!">        self.caption.models = value</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-imprecise" title="Any Types on this line: 
+<span class="line-imprecise" title="Any Types on this line:
 Explicit (x1)">    def serialize(self) -&gt; dict[str, Any]:</span>
 <span class="line-empty" title="No Anys on this line!">        """Convert this element to a dictionary.</span>
 <span class="line-empty" title="No Anys on this line!"></span>
@@ -722,9 +722,9 @@ Explicit (x1)">    def serialize(self) -&gt; dict[str, Any]:</span>
 <span class="line-empty" title="No Anys on this line!">            Dictionary with 'type' containing the class name and 'caption'</span>
 <span class="line-empty" title="No Anys on this line!">            containing the serialized caption element</span>
 <span class="line-empty" title="No Anys on this line!">        """</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Error (x3)">        data = {"type": self.__class__.__name__, "caption": self.caption.serialize()}</span>
-<span class="line-imprecise" title="Any Types on this line: 
+<span class="line-imprecise" title="Any Types on this line:
 Error (x1)">        return data</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">    @property</span>

@@ -187,91 +187,91 @@
 <span class="line-empty" title="No Anys on this line!">    """</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="No Anys on this line!">    def __init__(self, module):</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x1)">        super().__init__()</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x2)">        self._module = module</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-precise" title="Any Types on this line: 
+<span class="line-precise" title="Any Types on this line:
 Error (x8)
 Omitted Generics (x2)">    @overrides</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x3)">    def forward(self, *inputs, pass_through: list[str] = None, **kwargs):</span>
 <span class="line-precise" title="No Anys on this line!">        pass_through = pass_through or []</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x7)">        reshaped_inputs = [self._reshape_tensor(input_tensor) for input_tensor in inputs]</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">        # Need some input to then get the batch_size and time_steps.</span>
 <span class="line-precise" title="No Anys on this line!">        some_input = None</span>
-<span class="line-imprecise" title="Any Types on this line: 
+<span class="line-imprecise" title="Any Types on this line:
 Unannotated (x1)">        if inputs:</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x3)">            some_input = inputs[-1]</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">        reshaped_kwargs = {}</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x4)">        for key, value in kwargs.items():</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x1)
 Explicit (x1)">            if isinstance(value, torch.Tensor) and key not in pass_through:</span>
-<span class="line-imprecise" title="Any Types on this line: 
+<span class="line-imprecise" title="Any Types on this line:
 Unannotated (x1)">                if some_input is None:</span>
-<span class="line-imprecise" title="Any Types on this line: 
+<span class="line-imprecise" title="Any Types on this line:
 Unannotated (x1)">                    some_input = value</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x4)">                value = self._reshape_tensor(value)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x2)">            reshaped_kwargs[key] = value</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x5)">        reshaped_outputs = self._module(*reshaped_inputs, **reshaped_kwargs)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-imprecise" title="Any Types on this line: 
+<span class="line-imprecise" title="Any Types on this line:
 Unannotated (x1)">        if some_input is None:</span>
 <span class="line-precise" title="No Anys on this line!">            raise RuntimeError("No input tensor to time-distribute")</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">        # Now get the output back into the right shape.</span>
 <span class="line-empty" title="No Anys on this line!">        # (batch_size, time_steps, **output_size)</span>
 <span class="line-precise" title="No Anys on this line!">        tuple_output = True</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x1)
 Omitted Generics (x2)">        if not isinstance(reshaped_outputs, tuple):</span>
 <span class="line-precise" title="No Anys on this line!">            tuple_output = False</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x2)">            reshaped_outputs = (reshaped_outputs,)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">        outputs = []</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x2)">        for reshaped_output in reshaped_outputs:</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x10)">            new_size = some_input.size()[:2] + reshaped_output.size()[1:]</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x8)">            outputs.append(reshaped_output.contiguous().view(new_size))</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">        if not tuple_output:</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x3)">            outputs = outputs[0]</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-imprecise" title="Any Types on this line: 
+<span class="line-imprecise" title="Any Types on this line:
 Unannotated (x1)">        return outputs</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">    @staticmethod</span>
 <span class="line-any" title="No Anys on this line!">    def _reshape_tensor(input_tensor):</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x4)">        input_size = input_tensor.size()</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x3)">        if len(input_size) &lt;= 2:</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x6)">            raise RuntimeError(f"No dimension to distribute: {input_size}")</span>
 <span class="line-empty" title="No Anys on this line!">        # Squash batch_size and time_steps into a single axis; result has shape</span>
 <span class="line-empty" title="No Anys on this line!">        # (batch_size * time_steps, **input_size).</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x6)
 Omitted Generics (x3)">        squashed_shape = [-1] + list(input_size[2:])</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x6)">        return input_tensor.contiguous().view(*squashed_shape)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!"></span>
@@ -318,11 +318,11 @@ Unannotated (x6)">        return input_tensor.contiguous().view(*squashed_shape)
 <span class="line-precise" title="No Anys on this line!">    text_id: int = None</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="No Anys on this line!">    def __str__(self):</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x1)">        return self.text</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="No Anys on this line!">    def __repr__(self):</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x2)">        return self.__str__()</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!"></span>

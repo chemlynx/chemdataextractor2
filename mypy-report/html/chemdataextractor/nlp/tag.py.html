@@ -670,10 +670,10 @@
 <span class="line-precise" title="No Anys on this line!">TokenList = list[str]  # List of token strings</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-precise" title="Any Types on this line: 
+<span class="line-precise" title="Any Types on this line:
 Omitted Generics (x6)
 Explicit (x6)">@lru_cache(maxsize=256)</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x1)">def _compile_tagger_regex(pattern: str, flags: int = 0):</span>
 <span class="line-empty" title="No Anys on this line!">    """Cached regex compilation for tagger patterns.</span>
 <span class="line-empty" title="No Anys on this line!"></span>
@@ -692,7 +692,7 @@ Unannotated (x1)">def _compile_tagger_regex(pattern: str, flags: int = 0):</span
 <span class="line-empty" title="No Anys on this line!">        Cache size of 256 is optimized for tagger usage patterns which</span>
 <span class="line-empty" title="No Anys on this line!">        typically involve fewer unique patterns than parser elements.</span>
 <span class="line-empty" title="No Anys on this line!">    """</span>
-<span class="line-imprecise" title="Any Types on this line: 
+<span class="line-imprecise" title="Any Types on this line:
 Unannotated (x1)
 Omitted Generics (x4)">    return re.compile(pattern, flags)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
@@ -730,14 +730,14 @@ Omitted Generics (x4)">    return re.compile(pattern, flags)</span>
 <span class="line-empty" title="No Anys on this line!">    When this tag type is requested from a token, this tagger will be called.</span>
 <span class="line-empty" title="No Anys on this line!">    """</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unimported (x2)">    @deprecated(</span>
 <span class="line-precise" title="No Anys on this line!">        deprecated_in="2.1",</span>
 <span class="line-precise" title="No Anys on this line!">        details="Deprecated in conjunction with the deprecation of the legacy_tag function. Please write equivalent functionality to use RichTokens.",</span>
 <span class="line-empty" title="No Anys on this line!">    )</span>
 <span class="line-any" title="No Anys on this line!">    def tag_sents(self, sentences):</span>
 <span class="line-empty" title="No Anys on this line!">        """Apply the ``tag`` method to each sentence in ``sentences``."""</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x5)">        return [self.legacy_tag(s) for s in sentences]</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="No Anys on this line!">    def evaluate(self, gold):</span>
@@ -747,21 +747,21 @@ Unannotated (x5)">        return [self.legacy_tag(s) for s in sentences]</span>
 <span class="line-empty" title="No Anys on this line!">        :returns: Tagger accuracy value.</span>
 <span class="line-empty" title="No Anys on this line!">        :rtype: float</span>
 <span class="line-empty" title="No Anys on this line!">        """</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x9)">        tagged_sents = self.tag_sents([w for (w, t) in sent] for sent in gold)</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x3)
 Omitted Generics (x6)
 Explicit (x8)">        gold_tokens = sum(gold, [])</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x3)
 Omitted Generics (x6)
 Explicit (x8)">        test_tokens = sum(tagged_sents, [])</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x14)
 Omitted Generics (x36)
 Explicit (x17)">        accuracy = float(sum(x == y for x, y in zip(gold_tokens, test_tokens))) / len(test_tokens)</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x1)">        return accuracy</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">    def can_tag(self, tag_type: str) -&gt; bool:</span>
@@ -809,27 +809,27 @@ Unannotated (x1)">        return accuracy</span>
 <span class="line-precise" title="No Anys on this line!">    taggers = []</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="No Anys on this line!">    def __init__(self, *args, **kwargs):</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x3)">        super().__init__(*args, **kwargs)</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x1)">        taggers_dict = {}</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x4)
 Omitted Generics (x2)">        for i, tagger in enumerate(self.taggers):</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x4)">            if tagger.tag_type == self.tag_type:</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x7)">                tag_type = "_" + self.tag_type + "_" + str(i)</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x3)">                tagger.tag_type = tag_type</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x3)">                taggers_dict[tag_type] = tagger</span>
 <span class="line-empty" title="No Anys on this line!">            else:</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x4)">                taggers_dict[tagger.tag_type] = tagger</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x2)">        self.taggers_dict = taggers_dict</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x2)">        self.taggers_dict[self.tag_type] = self</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="No Anys on this line!">    def tag_for_type(self, tokens, tag_type):</span>
@@ -847,14 +847,14 @@ Unannotated (x2)">        self.taggers_dict[self.tag_type] = self</span>
 <span class="line-empty" title="No Anys on this line!">        :return: A list of tuples of the given tokens and the corresponding tags.</span>
 <span class="line-empty" title="No Anys on this line!">        :rtype: list(tuple(~chemdataextractor.doc.text.RichToken, obj))</span>
 <span class="line-empty" title="No Anys on this line!">        """</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x4)">        tagger = self.taggers_dict[tag_type]</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x2)">        if hasattr(tagger, "tag"):</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x4)">            return tagger.tag(tokens)</span>
 <span class="line-empty" title="No Anys on this line!">        else:</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x7)">            return tagger.legacy_tag([token.text for token in tokens])</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="No Anys on this line!">    def batch_tag_for_type(self, sents, tag_type):</span>
@@ -869,17 +869,17 @@ Unannotated (x7)">            return tagger.legacy_tag([token.text for token in 
 <span class="line-empty" title="No Anys on this line!">        :return: A list of tuples of the given tokens and the corresponding tags.</span>
 <span class="line-empty" title="No Anys on this line!">        :rtype: list(tuple(~chemdataextractor.doc.text.RichToken, obj))</span>
 <span class="line-empty" title="No Anys on this line!">        """</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x4)">        tagger = self.taggers_dict[tag_type]</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x4)">        return tagger.batch_tag(sents)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="No Anys on this line!">    def can_batch_tag(self, tag_type):</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x4)">        return hasattr(self.taggers_dict[tag_type], "batch_tag")</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="No Anys on this line!">    def can_tag(self, tag_type):</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x4)">        return tag_type in self.taggers_dict.keys()</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!"></span>
@@ -887,16 +887,16 @@ Unannotated (x4)">        return tag_type in self.taggers_dict.keys()</span>
 <span class="line-empty" title="No Anys on this line!">    """Tag every token with None."""</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="No Anys on this line!">    def __init__(self, tag_type=None):</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x1)">        if tag_type is not None:</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x2)">            self.tag_type = tag_type</span>
 <span class="line-empty" title="No Anys on this line!">        else:</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x1)">            self.tag_type = None</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="No Anys on this line!">    def tag(self, tokens):</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x3)">        return [(token, None) for token in tokens]</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!"></span>
@@ -928,38 +928,38 @@ Unannotated (x3)">        return [(token, None) for token in tokens]</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">        :param list(tuple(string, string)) patterns: List of (regex, tag) pairs.</span>
 <span class="line-empty" title="No Anys on this line!">        """</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x4)">        self.patterns = patterns if patterns is not None else self.patterns</span>
 <span class="line-empty" title="No Anys on this line!">        # Use cached compilation for improved performance</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x1)">        self.regexes = [</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x8)">            (_compile_tagger_regex(pattern, re.I | re.U), tag) for pattern, tag in self.patterns</span>
 <span class="line-empty" title="No Anys on this line!">        ]</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x4)">        self.lexicon = lexicon if lexicon is not None else self.lexicon</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x12)">        log.debug(f"{self.__class__.__name__}: Initializing with {len(self.patterns)} patterns")</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="No Anys on this line!">    def tag(self, tokens):</span>
 <span class="line-empty" title="No Anys on this line!">        """Return a list of (token, tag) tuples for a given list of tokens."""</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x1)">        tags = []</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x2)">        for token in tokens:</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x5)">            normalized = self.lexicon[token].normalized</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x3)">            for regex, tag in self.regexes:</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x4)">                if regex.match(normalized):</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x5)">                    tags.append((token, tag))</span>
 <span class="line-any" title="No Anys on this line!">                    break</span>
 <span class="line-empty" title="No Anys on this line!">            else:</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x4)">                tags.append((token, None))</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x1)">        return tags</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!"></span>
@@ -975,41 +975,41 @@ Unannotated (x1)">        return tags</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="No Anys on this line!">    def __init__(self):</span>
 <span class="line-empty" title="No Anys on this line!">        # Each feature gets its own weight vector, so weights is a dict-of-dicts</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x1)">        self.weights = {}</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x2)
 Omitted Generics (x3)">        self.classes = set()</span>
 <span class="line-empty" title="No Anys on this line!">        # The accumulated values, for the averaging. Keyed by feature/class tuples</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x2)
 Omitted Generics (x28)">        self._totals = defaultdict(int)</span>
 <span class="line-empty" title="No Anys on this line!">        # The last time the feature was changed, for the averaging. Keyed by feature/class tuples</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x2)
 Omitted Generics (x28)">        self._tstamps = defaultdict(int)</span>
 <span class="line-empty" title="No Anys on this line!">        # Number of instances seen</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x1)">        self.i = 0</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="No Anys on this line!">    def predict(self, features):</span>
 <span class="line-empty" title="No Anys on this line!">        """Dot-product the features and current weights and return the best label."""</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x2)
 Omitted Generics (x28)">        scores = defaultdict(float)</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x2)">        for feat in features:</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x2)">            if feat not in self.weights:</span>
 <span class="line-any" title="No Anys on this line!">                continue</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x4)">            weights = self.weights[feat]</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x5)">            for label, weight in weights.items():</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x4)">                scores[label] += weight</span>
 <span class="line-empty" title="No Anys on this line!">        # Do a secondary alphabetic sort, for stability</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x4)
 Omitted Generics (x23)">        return max(self.classes, key=lambda label: (scores[label], label))</span>
 <span class="line-empty" title="No Anys on this line!"></span>
@@ -1017,73 +1017,73 @@ Omitted Generics (x23)">        return max(self.classes, key=lambda label: (scor
 <span class="line-empty" title="No Anys on this line!">        """Update the feature weights."""</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="No Anys on this line!">        def upd_feat(c, f, w, v):</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x3)">            param = (f, c)</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x10)">            self._totals[param] += (self.i - self._tstamps[param]) * w</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x3)">            self._tstamps[param] = self.i</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x7)">            self.weights[f][c] = w + v</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x1)">        self.i += 1</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x3)">        if truth == guess:</span>
 <span class="line-any" title="No Anys on this line!">            return None</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x2)">        for f in features:</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x5)">            weights = self.weights.setdefault(f, {})</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x12)">            upd_feat(truth, f, weights.get(truth, 0.0), 1.0)</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x13)">            upd_feat(guess, f, weights.get(guess, 0.0), -1.0)</span>
 <span class="line-any" title="No Anys on this line!">        return None</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="No Anys on this line!">    def average_weights(self):</span>
 <span class="line-empty" title="No Anys on this line!">        """Average weights from all iterations."""</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x5)">        for feat, weights in self.weights.items():</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x1)">            new_feat_weights = {}</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x5)">            for clas, weight in weights.items():</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x3)">                param = (feat, clas)</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x4)">                total = self._totals[param]</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x8)">                total += (self.i - self._tstamps[param]) * weight</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x6)
 Omitted Generics (x4)">                averaged = round(total / float(self.i), 3)</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x1)">                if averaged:</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x3)">                    new_feat_weights[clas] = averaged</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x3)">            self.weights[feat] = new_feat_weights</span>
 <span class="line-any" title="No Anys on this line!">        return None</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="No Anys on this line!">    def save(self, path):</span>
 <span class="line-empty" title="No Anys on this line!">        """Save the pickled model weights."""</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x3)
 Unimported (x7)
 Explicit (x1)">        with open(path, "wb") as fout:</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x4)
 Explicit (x1)
 Omitted Generics (x18)">            return pickle.dump(dict(self.weights), fout)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="No Anys on this line!">    def load(self, path):</span>
 <span class="line-empty" title="No Anys on this line!">        """Load the pickled model weights."""</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x3)
 Unimported (x7)
 Explicit (x1)">        with open(path, "rb") as fin:</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x3)
 Explicit (x2)">            self.weights = pickle.load(fin)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
@@ -1103,51 +1103,51 @@ Explicit (x2)">            self.weights = pickle.load(fin)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="No Anys on this line!">    def __init__(self, model=None, lexicon=None, clusters=None):</span>
 <span class="line-empty" title="No Anys on this line!">        """"""</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x2)">        self.perceptron = AveragedPerceptron()</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x1)">        self.tagdict = {}</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x2)
 Omitted Generics (x3)">        self.classes = set()</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x4)">        self.model = model if model is not None else self.model</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x4)">        self.lexicon = lexicon if lexicon is not None else self.lexicon</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x4)">        self.clusters = clusters if clusters is not None else self.clusters</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x11)">        log.debug(f"{self.__class__.__name__}: Initializing with {self.model}")</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="No Anys on this line!">    def legacy_tag(self, tokens):</span>
 <span class="line-empty" title="No Anys on this line!">        """Return a list of (token, tag) tuples for a given list of tokens."""</span>
 <span class="line-empty" title="No Anys on this line!">        # Lazy load model first time we tag</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x1)">        if not self.classes:</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x3)">            self.load(self.model)</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x3)">        prev, prev2 = self.START</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x1)">        tags = []</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x4)
 Omitted Generics (x2)">        for i, token in enumerate(tokens):</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x5)">            tag = self.tagdict.get(token)</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x1)">            if not tag:</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x7)">                features = self._get_features(i, tokens, prev, prev2)</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x5)">                tag = self.perceptron.predict(features)</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x5)">            tags.append((token, tag))</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x2)">            prev2 = prev</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x2)">            prev = tag</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x1)">        return tags</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="No Anys on this line!">    def train(self, sentences, nr_iter=5):</span>
@@ -1156,68 +1156,68 @@ Unannotated (x1)">        return tags</span>
 <span class="line-empty" title="No Anys on this line!">        :param sentences: A list of sentences, each of which is a list of (token, tag) tuples.</span>
 <span class="line-empty" title="No Anys on this line!">        :param nr_iter: Number of training iterations.</span>
 <span class="line-empty" title="No Anys on this line!">        """</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x3)">        self._make_tagdict(sentences)</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x3)">        self.perceptron.classes = self.classes</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x3)">        for iter_ in range(nr_iter):</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x1)">            c = 0</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x1)">            n = 0</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x2)">            for sentence in sentences:</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x3)">                prev, prev2 = self.START</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x5)">                context = [t[0] for t in sentence]</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x5)
 Omitted Generics (x2)">                for i, (token, tag) in enumerate(sentence):</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x5)">                    guess = self.tagdict.get(token)</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x1)">                    if not guess:</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x7)">                        feats = self._get_features(i, context, prev, prev2)</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x5)">                        guess = self.perceptron.predict(feats)</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x6)">                        self.perceptron.update(tag, guess, feats)</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x2)">                    prev2 = prev</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x2)">                    prev = guess</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x4)">                    c += guess == tag</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x1)">                    n += 1</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x2)
 Explicit (x1)">            random.shuffle(sentences)</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x20)">            log.debug(f"Iter {iter_}: {c}/{n}={(float(c) / n) * 100}")</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x3)">        self.perceptron.average_weights()</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="No Anys on this line!">    def save(self, f):</span>
 <span class="line-empty" title="No Anys on this line!">        """Save pickled model to file."""</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x1)
 Explicit (x1)">        return pickle.dump(</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x5)">            (self.perceptron.weights, self.tagdict, self.classes, self.clusters),</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x1)">            f,</span>
 <span class="line-precise" title="No Anys on this line!">            protocol=pickle.HIGHEST_PROTOCOL,</span>
 <span class="line-empty" title="No Anys on this line!">        )</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="No Anys on this line!">    def load(self, model):</span>
 <span class="line-empty" title="No Anys on this line!">        """Load pickled model."""</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x9)">        self.perceptron.weights, self.tagdict, self.classes, self.clusters = load_model(model)</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x3)">        self.perceptron.classes = self.classes</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">    @abstractmethod</span>
@@ -1227,34 +1227,34 @@ Unannotated (x3)">        self.perceptron.classes = self.classes</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="No Anys on this line!">    def _make_tagdict(self, sentences):</span>
 <span class="line-empty" title="No Anys on this line!">        """Make a tag dictionary for single-tag words."""</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x3)
 Omitted Generics (x56)">        counts = defaultdict(lambda: defaultdict(int))</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x2)">        for sent in sentences:</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x3)">            for word, tag in sent:</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x5)">                counts[word][tag] += 1</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x4)">                self.classes.add(tag)</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x1)">        freq_thresh = 20</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x1)">        ambiguity_thresh = 0.97</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x5)">        for word, tag_freqs in counts.items():</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x7)
 Omitted Generics (x23)">            tag, mode = max(tag_freqs.items(), key=lambda item: item[1])</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x5)
 Omitted Generics (x6)
 Explicit (x8)">            n = sum(tag_freqs.values())</span>
 <span class="line-empty" title="No Anys on this line!">            # Don't add rare words to the tag dictionary, only add quite unambiguous words</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x10)">            if n &gt;= freq_thresh and (float(mode) / n) &gt;= ambiguity_thresh:</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x3)">                self.tagdict[word] = tag</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!"></span>
@@ -1278,44 +1278,44 @@ Unannotated (x3)">                self.tagdict[word] = tag</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="No Anys on this line!">    def __init__(self, model=None, lexicon=None, clusters=None, params=None):</span>
 <span class="line-empty" title="No Anys on this line!">        """"""</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x4)">        self.model = model if model is not None else self.model</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x4)">        self.lexicon = lexicon if lexicon is not None else self.lexicon</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x4)">        self.clusters = clusters if clusters is not None else self.clusters</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x4)">        self.params = params if params is not None else self.params</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x3)
 Unimported (x1)">        self._tagger = pycrfsuite.Tagger()</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x1)">        self._loaded_model = False</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="No Anys on this line!">    def load(self, model):</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x7)">        log.debug(f"Loading {model}")</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x9)">        self._tagger.open(find_data(model))</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x1)">        self._loaded_model = True</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="No Anys on this line!">    def legacy_tag(self, tokens):</span>
 <span class="line-empty" title="No Anys on this line!">        """Return a list of ((token, tag), label) tuples for a given list of (token, tag) tuples."""</span>
 <span class="line-empty" title="No Anys on this line!">        # Lazy load model first time we tag</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x1)">        if not self._loaded_model:</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x3)">            self.load(self.model)</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x9)">        features = [self._get_features(tokens, i) for i in range(len(tokens))]</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x5)">        labels = self._tagger.tag(features)</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x5)
 Omitted Generics (x33)
 Explicit (x9)">        tagged_sent = list(zip(tokens, labels))</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x1)">        return tagged_sent</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="No Anys on this line!">    def train(self, sentences, model):</span>
@@ -1324,24 +1324,24 @@ Unannotated (x1)">        return tagged_sent</span>
 <span class="line-empty" title="No Anys on this line!">        :params sentences: Annotated sentences.</span>
 <span class="line-empty" title="No Anys on this line!">        :params model: Path to save pickled model.</span>
 <span class="line-empty" title="No Anys on this line!">        """</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x3)
 Unimported (x1)">        trainer = pycrfsuite.Trainer(verbose=True)</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x4)">        trainer.set_params(self.params)</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x2)">        for sentence in sentences:</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x4)
 Explicit (x9)
 Omitted Generics (x30)">            tokens, labels = zip(*sentence)</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x9)">            features = [self._get_features(tokens, i) for i in range(len(tokens))]</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x5)">            trainer.append(features, labels)</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x4)">        trainer.train(model)</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x3)">        self.load(model)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!"></span>
@@ -1355,7 +1355,7 @@ Unannotated (x3)">        self.load(model)</span>
 <span class="line-empty" title="No Anys on this line!">    #: Entity tag. Matches will be tagged like 'B-CM' and 'I-CM' according to IOB scheme. TODO: Optional no B/I?</span>
 <span class="line-precise" title="No Anys on this line!">    entity = "CM"</span>
 <span class="line-empty" title="No Anys on this line!">    #: Delimiters that define where matches are allowed to start or end.</span>
-<span class="line-precise" title="Any Types on this line: 
+<span class="line-precise" title="Any Types on this line:
 Omitted Generics (x4)">    delimiters = re.compile(r"(^.|\b|\s|\W|.$)")</span>
 <span class="line-empty" title="No Anys on this line!">    #: Whether dictionary matches are case sensitive.</span>
 <span class="line-precise" title="No Anys on this line!">    case_sensitive = False</span>
@@ -1365,151 +1365,151 @@ Omitted Generics (x4)">    delimiters = re.compile(r"(^.|\b|\s|\W|.$)")</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">        :param list(list(string)) words: list of words, each of which is a list of tokens.</span>
 <span class="line-empty" title="No Anys on this line!">        """</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x3)
 Unimported (x1)">        self._dawg = dawg.CompletionDAWG()</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x4)">        self.model = model if model is not None else self.model</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x4)">        self.entity = entity if entity is not None else self.entity</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x4)">        self.case_sensitive = case_sensitive if case_sensitive is not None else self.case_sensitive</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x4)">        self.lexicon = lexicon if lexicon is not None else self.lexicon</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x1)">        self._loaded_model = False</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x1)">        if words is not None:</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x3)">            self.build(words)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="No Anys on this line!">    def load(self, model):</span>
 <span class="line-empty" title="No Anys on this line!">        """Load pickled DAWG from disk."""</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x9)">        self._dawg.load(find_data(model))</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x1)">        self._loaded_model = True</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="No Anys on this line!">    def save(self, path):</span>
 <span class="line-empty" title="No Anys on this line!">        """Save pickled DAWG to disk."""</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x4)">        self._dawg.save(path)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="No Anys on this line!">    def build(self, words):</span>
 <span class="line-empty" title="No Anys on this line!">        """Construct dictionary DAWG from tokenized words."""</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x6)">        words = [self._normalize(tokens) for tokens in words]</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x4)
 Unimported (x1)">        self._dawg = dawg.CompletionDAWG(words)</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x1)">        self._loaded_model = True</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="No Anys on this line!">    def _normalize(self, tokens):</span>
 <span class="line-empty" title="No Anys on this line!">        """Normalization transform to apply to both dictionary words and input tokens."""</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x1)">        if self.case_sensitive:</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x8)">            return " ".join(self.lexicon[t].normalized for t in tokens)</span>
 <span class="line-empty" title="No Anys on this line!">        else:</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x8)">            return " ".join(self.lexicon[t].lower for t in tokens)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="No Anys on this line!">    def legacy_tag(self, tokens):</span>
 <span class="line-empty" title="No Anys on this line!">        """Return a list of (token, tag) tuples for a given list of tokens."""</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x7)
 Omitted Generics (x2)">        if len(tokens) &gt; 0 and isinstance(tokens[0], tuple):</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x5)">            tokens = [token[0] for token in tokens]</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x1)">        if not self._loaded_model:</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x3)">            self.load(self.model)</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x4)">        tags = [None] * len(tokens)</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x4)">        norm = self._normalize(tokens)</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x3)">        length = len(norm)</span>
 <span class="line-empty" title="No Anys on this line!">        # A set of allowed indexes for matches to start or end at</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x1)">        delims = (</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x2)">            [0]</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x12)">            + [i for span in [m.span() for m in self.delimiters.finditer(norm)] for i in span]</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x1)">            + [length]</span>
 <span class="line-empty" title="No Anys on this line!">        )</span>
 <span class="line-empty" title="No Anys on this line!">        # Token indices</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x1)">        token_at_index = []</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x4)
 Omitted Generics (x2)">        for i, t in enumerate(tokens):</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x11)">            token_at_index.extend([i] * (len(self.lexicon[t].normalized) + 1))</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x1)">        start_i = 0</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x1)">        end_i = 1</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x1)">        matches = {}</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x2)">        next_start = end_i</span>
 <span class="line-empty" title="No Anys on this line!">        # TODO: This could be a little more efficient by skipping indexes forward to next delim points.</span>
 <span class="line-any" title="No Anys on this line!">        while True:</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x5)">            current = norm[start_i:end_i]</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x4)">            if self._dawg.has_keys_with_prefix(current):</span>
 <span class="line-empty" title="No Anys on this line!">                # print('%s:%s:%s' % (start_i, end_i, current))</span>
 <span class="line-empty" title="No Anys on this line!">                # If the current span is in the dawg, and isn't followed by an alphanumeric character</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x8)">                if current in self._dawg and start_i in delims and end_i in delims:</span>
 <span class="line-empty" title="No Anys on this line!">                    # print(current)</span>
 <span class="line-empty" title="No Anys on this line!">                    # Subsequent longer matches with same start_i will overwrite values in matches dict</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x5)">                    matches[start_i] = (start_i, end_i, current)</span>
 <span class="line-empty" title="No Anys on this line!">                    # We can skip forward to after this match next time we increment start_i</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x2)">                    next_start = end_i</span>
 <span class="line-empty" title="No Anys on this line!">                # Increment end_i provided we aren't already at the end of the input</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x3)">                if end_i &lt; length:</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x1)">                    end_i += 1</span>
 <span class="line-any" title="No Anys on this line!">                    continue</span>
 <span class="line-empty" title="No Anys on this line!">            # Increment start_i provided we aren't already at the end of the input</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x2)">            start_i = next_start</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x4)">            if start_i &gt;= length - 1:</span>
 <span class="line-any" title="No Anys on this line!">                break</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x3)">            end_i = start_i + 1</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x2)">            next_start = end_i</span>
 <span class="line-empty" title="No Anys on this line!">        # Apply matches as tags to the relevant tokens</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x6)">        for start_i, end_i, current in matches.values():</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x4)">            start_token = token_at_index[start_i]</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x4)">            end_token = token_at_index[end_i]</span>
 <span class="line-empty" title="No Anys on this line!">            # Possible for match to start in 'I' token from prev match. Merge matches by not overwriting to 'B'.</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x9)">            if tags[start_token] != f"I-{self.entity}":</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x7)">                tags[start_token] = f"B-{self.entity}"</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x14)">            tags[start_token + 1 : end_token + 1] = [f"I-{self.entity}"] * (end_token - start_token)</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x5)
 Omitted Generics (x33)
 Explicit (x9)">        tokentags = list(zip(tokens, tags))</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x1)">        return tokentags</span>
 </pre></td>
 </tr></tbody>

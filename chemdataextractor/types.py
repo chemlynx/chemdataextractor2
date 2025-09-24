@@ -10,25 +10,23 @@ from __future__ import annotations
 from collections.abc import Callable
 from typing import TYPE_CHECKING
 from typing import Any
-from typing import ClassVar
 from typing import Final
 from typing import Literal
 from typing import Protocol
 from typing import TypeVar
-from typing import Union
 from typing import runtime_checkable
 
 try:
     from typing import NotRequired
     from typing import ParamSpec
     from typing import Self
+    from typing import TypedDict
     from typing import TypeVarTuple
-
-    from typing_extensions import TypedDict
 except ImportError:
     from typing import NotRequired
     from typing import Self
     from typing import TypedDict
+
     from typing_extensions import ParamSpec
     from typing_extensions import TypeVarTuple
 

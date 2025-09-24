@@ -99,43 +99,43 @@
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="No Anys on this line!">def memoized_property(fget):</span>
 <span class="line-empty" title="No Anys on this line!">    """Decorator to create memoized properties."""</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x2)">    attr_name = f"_{fget.__name__}"</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x10)">    @functools.wraps(fget)</span>
 <span class="line-any" title="No Anys on this line!">    def fget_memoized(self):</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x1)">        if not hasattr(self, attr_name):</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Explicit (x1)
 Unannotated (x4)">            setattr(self, attr_name, fget(self))</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Explicit (x13)
 Omitted Generics (x2)
 Unannotated (x1)">        return getattr(self, attr_name)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-imprecise" title="Any Types on this line: 
+<span class="line-imprecise" title="Any Types on this line:
 Explicit (x5)
 Unannotated (x5)">    return property(fget_memoized)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="No Anys on this line!">def memoize(obj):</span>
 <span class="line-empty" title="No Anys on this line!">    """Decorator to create memoized functions, methods or classes."""</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x4)">    cache = obj.cache = {}</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x10)">    @functools.wraps(obj)</span>
 <span class="line-any" title="No Anys on this line!">    def memoizer(*args, **kwargs):</span>
-<span class="line-imprecise" title="Any Types on this line: 
+<span class="line-imprecise" title="Any Types on this line:
 Unannotated (x3)">        if args not in cache:</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x7)">            cache[args] = obj(*args, **kwargs)</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x4)">        return cache[args]</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-imprecise" title="Any Types on this line: 
+<span class="line-imprecise" title="Any Types on this line:
 Unannotated (x6)">    return memoizer</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!"></span>
@@ -145,37 +145,37 @@ Unannotated (x6)">    return memoizer</span>
 <span class="line-precise" title="No Anys on this line!">    _instances = {}</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="No Anys on this line!">    def __call__(cls, *args, **kwargs):</span>
-<span class="line-imprecise" title="Any Types on this line: 
+<span class="line-imprecise" title="Any Types on this line:
 Unannotated (x2)">        if cls not in cls._instances:</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Explicit (x1)
 Unannotated (x4)">            cls._instances[cls] = super().__call__(*args, **kwargs)</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x3)">        return cls._instances[cls]</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="No Anys on this line!">def flatten(x):</span>
 <span class="line-empty" title="No Anys on this line!">    """Return a single flat list containing elements from nested lists."""</span>
 <span class="line-precise" title="No Anys on this line!">    result = []</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x2)">    for el in x:</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x2)">        if hasattr(el, "__iter__") and not isinstance(el, str):</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Omitted Generics (x2)
 Unannotated (x4)">            result.extend(flatten(el))</span>
 <span class="line-empty" title="No Anys on this line!">        else:</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Omitted Generics (x2)
 Unannotated (x1)">            result.append(el)</span>
-<span class="line-imprecise" title="Any Types on this line: 
+<span class="line-imprecise" title="Any Types on this line:
 Omitted Generics (x1)">    return result</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="No Anys on this line!">def first(el):</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x1)">    if len(el) &gt; 0:</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x2)">        return el[0]</span>
 <span class="line-empty" title="No Anys on this line!">    else:</span>
 <span class="line-any" title="No Anys on this line!">        return None</span>
@@ -184,7 +184,7 @@ Unannotated (x2)">        return el[0]</span>
 <span class="line-any" title="No Anys on this line!">def ensure_dir(path):</span>
 <span class="line-empty" title="No Anys on this line!">    """Ensure a directory exists."""</span>
 <span class="line-empty" title="No Anys on this line!">    try:</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x1)">        os.makedirs(path)</span>
 <span class="line-precise" title="No Anys on this line!">    except OSError as e:</span>
 <span class="line-precise" title="No Anys on this line!">        if e.errno != errno.EEXIST:</span>

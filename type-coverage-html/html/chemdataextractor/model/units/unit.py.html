@@ -533,7 +533,7 @@
 <span class="line-empty" title="No Anys on this line!">    Ensures dimensional consistency when units are assigned.</span>
 <span class="line-empty" title="No Anys on this line!">    """</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Explicit (x1)">    def __set__(self, instance: BaseModel, value: Any) -&gt; None:</span>
 <span class="line-empty" title="No Anys on this line!">        """Set unit value with dimensional validation.</span>
 <span class="line-empty" title="No Anys on this line!"></span>
@@ -545,21 +545,21 @@ Explicit (x1)">    def __set__(self, instance: BaseModel, value: Any) -&gt; None
 <span class="line-empty" title="No Anys on this line!">            value: Any - The unit value to assign</span>
 <span class="line-empty" title="No Anys on this line!">        """</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Explicit (x1)">        if hasattr(value, "dimensions"):</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Explicit (x3)
 Error (x1)">            if value.dimensions == instance.dimensions:</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Explicit (x3)">                instance._values[self.name] = self.process(value)</span>
 <span class="line-empty" title="No Anys on this line!">            else:</span>
-<span class="line-imprecise" title="Any Types on this line: 
+<span class="line-imprecise" title="Any Types on this line:
 Explicit (x1)">                instance._values[self.name] = None</span>
 <span class="line-empty" title="No Anys on this line!">        else:</span>
-<span class="line-imprecise" title="Any Types on this line: 
+<span class="line-imprecise" title="Any Types on this line:
 Explicit (x1)">            instance._values[self.name] = None</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Explicit (x1)">    def process(self, value: Any) -&gt; Unit | None:</span>
 <span class="line-empty" title="No Anys on this line!">        """Process and validate unit value.</span>
 <span class="line-empty" title="No Anys on this line!"></span>
@@ -569,7 +569,7 @@ Explicit (x1)">    def process(self, value: Any) -&gt; Unit | None:</span>
 <span class="line-empty" title="No Anys on this line!">        Returns:</span>
 <span class="line-empty" title="No Anys on this line!">            Optional[Unit] - Processed unit or None if invalid</span>
 <span class="line-empty" title="No Anys on this line!">        """</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Explicit (x1)">        if isinstance(value, Unit):</span>
 <span class="line-precise" title="No Anys on this line!">            return value</span>
 <span class="line-precise" title="No Anys on this line!">        return None</span>
@@ -584,10 +584,10 @@ Explicit (x1)">        if isinstance(value, Unit):</span>
 <span class="line-empty" title="No Anys on this line!">        Returns:</span>
 <span class="line-empty" title="No Anys on this line!">            str - String representation of the unit</span>
 <span class="line-empty" title="No Anys on this line!">        """</span>
-<span class="line-imprecise" title="Any Types on this line: 
+<span class="line-imprecise" title="Any Types on this line:
 Error (x1)">        return str(value**1.0)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Explicit (x1)">    def is_empty(self, value: Any) -&gt; bool:</span>
 <span class="line-empty" title="No Anys on this line!">        """Check if unit value is empty.</span>
 <span class="line-empty" title="No Anys on this line!"></span>
@@ -597,7 +597,7 @@ Explicit (x1)">    def is_empty(self, value: Any) -&gt; bool:</span>
 <span class="line-empty" title="No Anys on this line!">        Returns:</span>
 <span class="line-empty" title="No Anys on this line!">            bool - True if value is not a valid Unit</span>
 <span class="line-empty" title="No Anys on this line!">        """</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Explicit (x1)">        if isinstance(value, Unit):</span>
 <span class="line-precise" title="No Anys on this line!">            return False</span>
 <span class="line-precise" title="No Anys on this line!">        return True</span>
@@ -610,83 +610,83 @@ Explicit (x1)">        if isinstance(value, Unit):</span>
 <span class="line-empty" title="No Anys on this line!">    to and from standard units by wrapping conversion methods.</span>
 <span class="line-empty" title="No Anys on this line!">    """</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-imprecise" title="Any Types on this line: 
+<span class="line-imprecise" title="Any Types on this line:
 Explicit (x1)">    def __new__(mcs, name: str, bases: tuple[type, ...], attrs: dict[str, Any]) -&gt; type:</span>
-<span class="line-imprecise" title="Any Types on this line: 
+<span class="line-imprecise" title="Any Types on this line:
 Omitted Generics (x2)
 Explicit (x5)">        cls = type.__new__(mcs, name, bases, attrs)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">        if hasattr(cls, "convert_value_to_standard"):</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x2)">            sub_convert_to_standard = cls.convert_value_to_standard</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="No Anys on this line!">            def new_convert_to_standard(self, value):</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x9)">                val = value * 10 ** (self.magnitude + self.base_magnitude)</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x4)">                return sub_convert_to_standard(self, val)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x4)">            cls.convert_value_to_standard = new_convert_to_standard</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">        if hasattr(cls, "convert_value_from_standard"):</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x2)">            sub_convert_from_standard = cls.convert_value_from_standard</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="No Anys on this line!">            def new_convert_from_standard(self, value):</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x10)">                val = value * 10 ** (-1 * (self.magnitude + self.base_magnitude))</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x4)">                return sub_convert_from_standard(self, val)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x4)">            cls.convert_value_from_standard = new_convert_from_standard</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">        if hasattr(cls, "convert_error_to_standard"):</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x2)">            sub_convert_err_to_standard = cls.convert_error_to_standard</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="No Anys on this line!">            def new_convert_err_to_standard(self, value):</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x9)">                val = value * 10 ** (self.magnitude + self.base_magnitude)</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x4)">                return sub_convert_err_to_standard(self, val)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x4)">            cls.convert_error_to_standard = new_convert_err_to_standard</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">        if hasattr(cls, "convert_error_from_standard"):</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x2)">            sub_convert_err_from_standard = cls.convert_error_from_standard</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="No Anys on this line!">            def new_convert_err_from_standard(self, value):</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x10)">                val = value * 10 ** (-1 * (self.magnitude + self.base_magnitude))</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x4)">                return sub_convert_err_from_standard(self, val)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x4)">            cls.convert_error_from_standard = new_convert_err_from_standard</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x1)">        if hasattr(cls, "constituent_units") and cls.constituent_units is not None:</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x2)
 Error (x1)">            cls.base_magnitude = cls.constituent_units.magnitude</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="No Anys on this line!">            def new_initializer(self, magnitude=0.0):</span>
 <span class="line-precise" title="No Anys on this line!">                Unit.__init__(</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x1)">                    self,</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x2)">                    cls.constituent_units.dimensions,</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x1)">                    magnitude,</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x2)">                    powers=cls.constituent_units.powers,</span>
 <span class="line-empty" title="No Anys on this line!">                )</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x3)
 Error (x1)">            cls.__init__ = new_initializer</span>
 <span class="line-empty" title="No Anys on this line!"></span>
@@ -778,9 +778,9 @@ Error (x1)">            cls.__init__ = new_initializer</span>
 <span class="line-empty" title="No Anys on this line!">        Returns:</span>
 <span class="line-empty" title="No Anys on this line!">            float - The value converted to standard units</span>
 <span class="line-empty" title="No Anys on this line!">        """</span>
-<span class="line-imprecise" title="Any Types on this line: 
+<span class="line-imprecise" title="Any Types on this line:
 Error (x3)">        for unit, power in self.powers.items():</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Explicit (x2)
 Error (x5)">            value = unit.convert_value_to_standard(value ** (1 / power)) ** power</span>
 <span class="line-precise" title="No Anys on this line!">        return value</span>
@@ -796,9 +796,9 @@ Error (x5)">            value = unit.convert_value_to_standard(value ** (1 / pow
 <span class="line-empty" title="No Anys on this line!">        Returns:</span>
 <span class="line-empty" title="No Anys on this line!">            float - The value converted from standard units</span>
 <span class="line-empty" title="No Anys on this line!">        """</span>
-<span class="line-imprecise" title="Any Types on this line: 
+<span class="line-imprecise" title="Any Types on this line:
 Error (x3)">        for unit, power in self.powers.items():</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Explicit (x2)
 Error (x5)">            value = unit.convert_value_from_standard(value ** (1 / power)) ** power</span>
 <span class="line-precise" title="No Anys on this line!">        return value</span>
@@ -815,9 +815,9 @@ Error (x5)">            value = unit.convert_value_from_standard(value ** (1 / p
 <span class="line-empty" title="No Anys on this line!">            float - The error converted to standard units</span>
 <span class="line-empty" title="No Anys on this line!">        """</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-imprecise" title="Any Types on this line: 
+<span class="line-imprecise" title="Any Types on this line:
 Error (x3)">        for unit, power in self.powers.items():</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Explicit (x2)
 Error (x5)">            error = unit.convert_error_to_standard(error ** (1 / power)) ** power</span>
 <span class="line-precise" title="No Anys on this line!">        return error</span>
@@ -834,9 +834,9 @@ Error (x5)">            error = unit.convert_error_to_standard(error ** (1 / pow
 <span class="line-empty" title="No Anys on this line!">            float - The error converted from standard units</span>
 <span class="line-empty" title="No Anys on this line!">        """</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-imprecise" title="Any Types on this line: 
+<span class="line-imprecise" title="Any Types on this line:
 Error (x3)">        for unit, power in self.powers.items():</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Explicit (x2)
 Error (x5)">            error = unit.convert_error_from_standard(error ** (1 / power)) ** power</span>
 <span class="line-precise" title="No Anys on this line!">        return error</span>
@@ -879,11 +879,11 @@ Error (x5)">            error = unit.convert_error_from_standard(error ** (1 / p
 <span class="line-precise" title="No Anys on this line!">            for key, value in self.powers.items():</span>
 <span class="line-precise" title="No Anys on this line!">                powers[key] = self.powers[key] * other</span>
 <span class="line-empty" title="No Anys on this line!">        else:</span>
-<span class="line-precise" title="Any Types on this line: 
+<span class="line-precise" title="Any Types on this line:
 Explicit (x2)">            new_key = copy.deepcopy(self)</span>
 <span class="line-precise" title="No Anys on this line!">            new_key.magnitude = 0.0</span>
 <span class="line-precise" title="No Anys on this line!">            powers[new_key] = other</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x1)">        return Unit(self.dimensions**other, powers=powers, magnitude=self.magnitude * other)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">    def __mul__(self, other: Unit) -&gt; Unit:</span>
@@ -895,7 +895,7 @@ Unannotated (x1)">        return Unit(self.dimensions**other, powers=powers, mag
 <span class="line-empty" title="No Anys on this line!">        Returns:</span>
 <span class="line-empty" title="No Anys on this line!">            Unit - The resulting unit</span>
 <span class="line-empty" title="No Anys on this line!">        """</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x2)">        dimensions = self.dimensions * other.dimensions</span>
 <span class="line-precise" title="No Anys on this line!">        powers = {}</span>
 <span class="line-empty" title="No Anys on this line!">        # normalised_values is created as searching for keys won't always work</span>
@@ -907,14 +907,14 @@ Unannotated (x2)">        dimensions = self.dimensions * other.dimensions</span>
 <span class="line-precise" title="No Anys on this line!">        if self.powers:</span>
 <span class="line-precise" title="No Anys on this line!">            for key, value in self.powers.items():</span>
 <span class="line-precise" title="No Anys on this line!">                powers[key] = self.powers[key]</span>
-<span class="line-precise" title="Any Types on this line: 
+<span class="line-precise" title="Any Types on this line:
 Explicit (x2)">                normalised_key = copy.deepcopy(key)</span>
 <span class="line-precise" title="No Anys on this line!">                normalised_key.magnitude = 0.0</span>
 <span class="line-precise" title="No Anys on this line!">                normalised_values[normalised_key] = key.magnitude</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">        else:</span>
 <span class="line-precise" title="No Anys on this line!">            if not isinstance(self, DimensionlessUnit):</span>
-<span class="line-precise" title="Any Types on this line: 
+<span class="line-precise" title="Any Types on this line:
 Explicit (x2)">                new_key = copy.deepcopy(self)</span>
 <span class="line-precise" title="No Anys on this line!">                new_key.magnitude = 0.0</span>
 <span class="line-precise" title="No Anys on this line!">                powers[new_key] = 1.0</span>
@@ -922,26 +922,26 @@ Explicit (x2)">                new_key = copy.deepcopy(self)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">        if other.powers:</span>
 <span class="line-precise" title="No Anys on this line!">            for key, value in other.powers.items():</span>
-<span class="line-precise" title="Any Types on this line: 
+<span class="line-precise" title="Any Types on this line:
 Explicit (x2)">                normalised_key = copy.deepcopy(key)</span>
 <span class="line-precise" title="No Anys on this line!">                normalised_key.magnitude = 0.0</span>
 <span class="line-precise" title="No Anys on this line!">                if normalised_key in normalised_values.keys():</span>
 <span class="line-precise" title="No Anys on this line!">                    powers[key] += value</span>
 <span class="line-precise" title="No Anys on this line!">                    if powers[key] == 0:</span>
-<span class="line-precise" title="Any Types on this line: 
+<span class="line-precise" title="Any Types on this line:
 Omitted Generics (x2)">                        powers.pop(key)</span>
 <span class="line-empty" title="No Anys on this line!">                else:</span>
 <span class="line-precise" title="No Anys on this line!">                    powers[normalised_key] = value</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">        else:</span>
 <span class="line-precise" title="No Anys on this line!">            if not isinstance(other, DimensionlessUnit):</span>
-<span class="line-precise" title="Any Types on this line: 
+<span class="line-precise" title="Any Types on this line:
 Explicit (x2)">                normalised_other = copy.deepcopy(other)</span>
 <span class="line-precise" title="No Anys on this line!">                normalised_other.magnitude = 0.0</span>
 <span class="line-precise" title="No Anys on this line!">                if normalised_other in normalised_values:</span>
 <span class="line-precise" title="No Anys on this line!">                    powers[normalised_other] += 1.0</span>
 <span class="line-precise" title="No Anys on this line!">                    if powers[normalised_other] == 0:</span>
-<span class="line-precise" title="Any Types on this line: 
+<span class="line-precise" title="Any Types on this line:
 Omitted Generics (x2)">                        powers.pop(other)</span>
 <span class="line-empty" title="No Anys on this line!">                else:</span>
 <span class="line-precise" title="No Anys on this line!">                    powers[normalised_other] = 1.0</span>
@@ -949,12 +949,12 @@ Omitted Generics (x2)">                        powers.pop(other)</span>
 <span class="line-precise" title="No Anys on this line!">        if len(powers) == 0:</span>
 <span class="line-precise" title="No Anys on this line!">            return DimensionlessUnit(magnitude=magnitude)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x1)">        return Unit(dimensions=dimensions, powers=powers, magnitude=magnitude)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">    # eq and hash implemented so Units can be used as keys in dictionaries</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Explicit (x1)">    def __eq__(self, other: Any) -&gt; bool:</span>
 <span class="line-empty" title="No Anys on this line!">        """Check equality with another unit.</span>
 <span class="line-empty" title="No Anys on this line!"></span>
@@ -964,7 +964,7 @@ Explicit (x1)">    def __eq__(self, other: Any) -&gt; bool:</span>
 <span class="line-empty" title="No Anys on this line!">        Returns:</span>
 <span class="line-empty" title="No Anys on this line!">            bool - True if units are equal</span>
 <span class="line-empty" title="No Anys on this line!">        """</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Explicit (x1)">        if not isinstance(other, Unit):</span>
 <span class="line-precise" title="No Anys on this line!">            return False</span>
 <span class="line-precise" title="No Anys on this line!">        if self.powers:</span>
@@ -979,11 +979,11 @@ Explicit (x1)">        if not isinstance(other, Unit):</span>
 <span class="line-precise" title="No Anys on this line!">                return True</span>
 <span class="line-empty" title="No Anys on this line!">        else:</span>
 <span class="line-empty" title="No Anys on this line!">            if (</span>
-<span class="line-imprecise" title="Any Types on this line: 
+<span class="line-imprecise" title="Any Types on this line:
 Unannotated (x2)
 Explicit (x4)">                type(self) == type(other)</span>
 <span class="line-precise" title="No Anys on this line!">                and self.magnitude == other.magnitude</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x1)">                and self.dimensions == other.dimensions</span>
 <span class="line-empty" title="No Anys on this line!">            ):</span>
 <span class="line-precise" title="No Anys on this line!">                return True</span>
@@ -996,7 +996,7 @@ Unannotated (x1)">                and self.dimensions == other.dimensions</span>
 <span class="line-empty" title="No Anys on this line!">            int - Hash value for this unit</span>
 <span class="line-empty" title="No Anys on this line!">        """</span>
 <span class="line-precise" title="No Anys on this line!">        string = str(self.__class__.__name__)</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x2)">        string += str(self.dimensions.__hash__())</span>
 <span class="line-precise" title="No Anys on this line!">        string += str(float(self.magnitude))</span>
 <span class="line-empty" title="No Anys on this line!">        # TODO: Should use the powers as part of the hash as well, but does not seem to work.</span>
@@ -1018,14 +1018,14 @@ Unannotated (x2)">        string += str(self.dimensions.__hash__())</span>
 <span class="line-precise" title="No Anys on this line!">        name_list = []</span>
 <span class="line-precise" title="No Anys on this line!">        if self.powers is not None:</span>
 <span class="line-precise" title="No Anys on this line!">            for key, value in self.powers.items():</span>
-<span class="line-precise" title="Any Types on this line: 
+<span class="line-precise" title="Any Types on this line:
 Explicit (x2)">                name_list.append(type(key).__name__ + "^(" + str(value) + ")  ")</span>
-<span class="line-precise" title="Any Types on this line: 
+<span class="line-precise" title="Any Types on this line:
 Omitted Generics (x5)">            for name in sorted(name_list):</span>
 <span class="line-precise" title="No Anys on this line!">                string += name</span>
 <span class="line-precise" title="No Anys on this line!">            string = string[:-2]</span>
 <span class="line-empty" title="No Anys on this line!">        else:</span>
-<span class="line-precise" title="Any Types on this line: 
+<span class="line-precise" title="Any Types on this line:
 Explicit (x2)">            string += type(self).__name__</span>
 <span class="line-precise" title="No Anys on this line!">        return string</span>
 <span class="line-empty" title="No Anys on this line!"></span>

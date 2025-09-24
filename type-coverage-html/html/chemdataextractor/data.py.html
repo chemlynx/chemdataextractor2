@@ -279,148 +279,148 @@
 <span class="line-empty" title="No Anys on this line!">        :param bool (optional) untar: Whether the package should be untarred after download.</span>
 <span class="line-empty" title="No Anys on this line!">            You should only ever set this or unzip to True.</span>
 <span class="line-empty" title="No Anys on this line!">        """</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x2)">        self.path = path</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x2)">        self.server_root = server_root</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x1)">        if server_root is None:</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x1)">            self.server_root = SERVER_ROOT</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x2)">        self._remote_path = remote_path</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x2)">        self.unzip = unzip</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x2)">        self.untar = untar</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x2)">        self.custom_download = custom_download</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">    @property</span>
 <span class="line-any" title="No Anys on this line!">    def remote_path(self):</span>
 <span class="line-empty" title="No Anys on this line!">        """"""</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x1)">        if self._remote_path is not None:</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x1)">            return self._remote_path</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x3)">        return self.server_root + self.path</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">    @property</span>
 <span class="line-any" title="No Anys on this line!">    def local_path(self):</span>
 <span class="line-empty" title="No Anys on this line!">        """"""</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x6)">        return find_data(self.path, warn=False, get_data=False)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="No Anys on this line!">    def remote_exists(self):</span>
 <span class="line-empty" title="No Anys on this line!">        """"""</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unimported (x4)
 Unannotated (x1)">        r = requests.get(self.remote_path)</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unimported (x2)">        if r.status_code in {400, 401, 403, 404}:</span>
 <span class="line-any" title="No Anys on this line!">            return False</span>
 <span class="line-any" title="No Anys on this line!">        return True</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="No Anys on this line!">    def local_exists(self):</span>
 <span class="line-empty" title="No Anys on this line!">        """"""</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x1)">        if os.path.exists(self.local_path):</span>
 <span class="line-any" title="No Anys on this line!">            return True</span>
 <span class="line-any" title="No Anys on this line!">        return False</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="No Anys on this line!">    def download(self, force=False):</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x1)">        if self.custom_download is not None:</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x4)">            self.custom_download(self.local_path, force=force)</span>
 <span class="line-empty" title="No Anys on this line!">        else:</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x4)">            self.default_download(force)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="No Anys on this line!">    def default_download(self, force=False):</span>
 <span class="line-empty" title="No Anys on this line!">        """"""</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x1)">        log.debug("Considering %s", self.remote_path)</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x5)
 Omitted Generics (x4)">        ensure_dir(os.path.dirname(self.local_path))</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unimported (x4)
 Unannotated (x1)">        r = requests.get(self.remote_path, stream=True)</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unimported (x3)">        r.raise_for_status()</span>
 <span class="line-empty" title="No Anys on this line!">        # Check if already downloaded</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x2)">        if self.local_exists():</span>
 <span class="line-empty" title="No Anys on this line!">            # Skip if existing, unless the file has changed</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x2)">            if not force and os.path.getsize(self.local_path) == int(</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unimported (x4)">                r.headers.get("content-length")</span>
 <span class="line-empty" title="No Anys on this line!">            ):</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x1)">                log.debug("Skipping existing: %s", self.local_path)</span>
 <span class="line-any" title="No Anys on this line!">                return False</span>
 <span class="line-empty" title="No Anys on this line!">            else:</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x1)">                log.debug("File size mismatch for %s", self.local_path)</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x2)">        log.info("Downloading %s to %s", self.remote_path, self.local_path)</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x2)">        download_path = self.local_path</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x1)">        if self.unzip:</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x3)">            download_path = self.local_path + ".zip"</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x1)">        elif self.untar:</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x3)">            download_path = self.local_path + ".tar.gz"</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unimported (x7)
 Explicit (x1)
 Unannotated (x1)">        with open(download_path, "wb") as f:</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Explicit (x2)
 Unannotated (x1)">            with yaspin(text=f"Couldn't find {self.path}, downloading", side="right").simpleDots:</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unimported (x4)">                for chunk in r.iter_content(chunk_size=1024 * 1024):  # Large 10MB chunks</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unimported (x1)">                    if chunk:</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unimported (x1)">                        f.write(chunk)</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x1)">        if self.unzip:</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x1)">            with zipfile.ZipFile(download_path, "r") as f:</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x1)">                f.extractall(self.local_path)</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x1)">            os.remove(download_path)</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x1)">        elif self.untar:</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x1)">            with tarfile.open(download_path, "r:gz") as f:</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x1)">                f.extractall(self.local_path)</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x1)">            os.remove(download_path)</span>
 <span class="line-any" title="No Anys on this line!">        return True</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="No Anys on this line!">    def __repr__(self):</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x1)">        return f"&lt;Package: {self.path}&gt;"</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="No Anys on this line!">    def __str__(self):</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x1)">        return f"&lt;Package: {self.path}&gt;"</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="No Anys on this line!">def get_data_dir():</span>
 <span class="line-empty" title="No Anys on this line!">    """Return path to the data directory."""</span>
 <span class="line-empty" title="No Anys on this line!">    # Use data_dir config value if set, otherwise use OS-dependent data directory given by appdirs</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Error (x6)
 Omitted Generics (x2)
 Unimported (x3)">    return config.get("data_dir", appdirs.user_data_dir("ChemDataExtractor"))</span>
@@ -428,22 +428,22 @@ Unimported (x3)">    return config.get("data_dir", appdirs.user_data_dir("ChemDa
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="No Anys on this line!">def find_data(path, warn=True, get_data=True):</span>
 <span class="line-empty" title="No Anys on this line!">    """Return the absolute path to a data file within the data directory."""</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x3)">    full_path = os.path.join(get_data_dir(), path)</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x3)">    if AUTO_DOWNLOAD and get_data and not os.path.exists(full_path):</span>
 <span class="line-precise" title="No Anys on this line!">        for package in PACKAGES:</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x3)">            if package.path == path:</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x3)">                package.download()</span>
 <span class="line-any" title="No Anys on this line!">                break</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x2)">    elif warn and not os.path.exists(full_path):</span>
 <span class="line-precise" title="No Anys on this line!">        for package in PACKAGES:</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x3)">            if path == package.path:</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x1)">                log.warn(f"{path} doesn't exist. Run `cde data download` to get it.")</span>
 <span class="line-any" title="No Anys on this line!">                break</span>
 <span class="line-precise" title="No Anys on this line!">    return full_path</span>
@@ -455,98 +455,98 @@ Unannotated (x1)">                log.warn(f"{path} doesn't exist. Run `cde data
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="No Anys on this line!">def load_model(path):</span>
 <span class="line-empty" title="No Anys on this line!">    """Load a model from a pickle file in the data directory. Cached so model is only loaded once."""</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x7)">    abspath = find_data(path)</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x12)
 Omitted Generics (x2)">    cached = _model_cache.get(abspath)</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x1)">    if cached is not None:</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x1)">        log.debug(f"Using cached copy of {path}")</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x1)">        return cached</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x1)">    log.debug(f"Loading model {path}")</span>
 <span class="line-empty" title="No Anys on this line!">    try:</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unimported (x7)
 Explicit (x1)
 Unannotated (x1)">        with open(abspath, "rb") as f:</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Explicit (x4)">            model = pickle.load(f)</span>
 <span class="line-precise" title="No Anys on this line!">    except OSError:</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Explicit (x1)
 Unannotated (x1)">        raise ModelNotFoundError(f"Could not load {path}. Have you run `cde data download`?")</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Explicit (x2)
 Unannotated (x2)">    _model_cache[abspath] = model</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Explicit (x1)">    return model</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">#: Current active data packages</span>
 <span class="line-precise" title="No Anys on this line!">PACKAGES = [</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x6)">    Package("models/cem_crf-1.0.pickle"),</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x6)">    Package("models/cem_crf_chemdner_cemp-1.0.pickle"),</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x6)">    Package("models/cem_dict_cs-1.0.pickle"),</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x6)">    Package("models/cem_dict-1.0.pickle"),</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x6)">    Package("models/clusters_chem1500-1.0.pickle"),</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x6)">    Package("models/pos_ap_genia_nocluster-1.0.pickle"),</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x6)">    Package("models/pos_ap_genia-1.0.pickle"),</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x6)">    Package("models/pos_ap_wsj_genia_nocluster-1.0.pickle"),</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x6)">    Package("models/pos_ap_wsj_genia-1.0.pickle"),</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x6)">    Package("models/pos_ap_wsj_nocluster-1.0.pickle"),</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x6)">    Package("models/pos_ap_wsj-1.0.pickle"),</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x6)">    Package("models/pos_crf_genia_nocluster-1.0.pickle"),</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x6)">    Package("models/pos_crf_genia-1.0.pickle"),</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x6)">    Package("models/pos_crf_wsj_genia_nocluster-1.0.pickle"),</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x6)">    Package("models/pos_crf_wsj_genia-1.0.pickle"),</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x6)">    Package("models/pos_crf_wsj_nocluster-1.0.pickle"),</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x6)">    Package("models/pos_crf_wsj-1.0.pickle"),</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x6)">    Package("models/punkt_chem-1.0.pickle"),</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x6)">    Package(</span>
 <span class="line-precise" title="No Anys on this line!">        "models/bert_finetuned_crf_model-1.0a",</span>
 <span class="line-precise" title="No Anys on this line!">        remote_path="https://cdemodels.blob.core.windows.net/cdemodels/bert_pretrained_crf_model-1.0a.tar.gz",</span>
 <span class="line-precise" title="No Anys on this line!">        untar=True,</span>
 <span class="line-empty" title="No Anys on this line!">    ),</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x6)">    Package(</span>
 <span class="line-precise" title="No Anys on this line!">        "models/hf_bert_crf_tagger",</span>
 <span class="line-precise" title="No Anys on this line!">        remote_path="https://cdemodels.blob.core.windows.net/cdemodels/hf_bert_crf_tagger.tar.gz",</span>
 <span class="line-precise" title="No Anys on this line!">        untar=True,</span>
 <span class="line-empty" title="No Anys on this line!">    ),</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x6)">    Package(</span>
 <span class="line-precise" title="No Anys on this line!">        "models/scibert_cased_vocab-1.0.txt",</span>
 <span class="line-precise" title="No Anys on this line!">        remote_path="https://cdemodels.blob.core.windows.net/cdemodels/scibert_cased_vocab_1.0.txt",</span>
 <span class="line-empty" title="No Anys on this line!">    ),</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x6)">    Package(</span>
 <span class="line-precise" title="No Anys on this line!">        "models/scibert_uncased_vocab-1.0.txt",</span>
 <span class="line-precise" title="No Anys on this line!">        remote_path="https://cdemodels.blob.core.windows.net/cdemodels/scibert_uncased_vocab-1.0.txt",</span>
 <span class="line-empty" title="No Anys on this line!">    ),</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x6)">    Package(</span>
 <span class="line-precise" title="No Anys on this line!">        "models/scibert_cased_weights-1.0.tar.gz",</span>
 <span class="line-precise" title="No Anys on this line!">        remote_path="https://cdemodels.blob.core.windows.net/cdemodels/scibert_cased_weights-1.0.tar.gz",</span>

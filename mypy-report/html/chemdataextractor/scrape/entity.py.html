@@ -246,30 +246,30 @@
 <span class="line-empty" title="No Anys on this line!">        """</span>
 <span class="line-precise" title="No Anys on this line!">        self._values = {}</span>
 <span class="line-empty" title="No Anys on this line!">        # Iterate all defined fields</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x8)">        for field_name, field in self.fields.items():</span>
 <span class="line-empty" title="No Anys on this line!">            # Scrape field values from selector</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Explicit (x14)
 Omitted Generics (x2)
 Unannotated (x1)">            cleaner = getattr(self, f"clean_{field_name}", None)</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Explicit (x14)
 Omitted Generics (x2)
 Unannotated (x1)">            processor = getattr(self, f"process_{field_name}", None)</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x5)
 Explicit (x2)">            value = field.scrape(selector, cleaner=cleaner, processor=processor)</span>
 <span class="line-empty" title="No Anys on this line!">            # Finalize value using finalize_* method on scrape, if it exists</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x1)">            if hasattr(self, f"finalize_{field_name}"):</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Explicit (x14)
 Omitted Generics (x2)
 Unannotated (x3)">                value = getattr(self, f"finalize_{field_name}")(value)</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x2)">            log.debug(f"Assigning {field_name}: {value}")</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Explicit (x1)
 Unannotated (x2)">            setattr(self, field_name, value)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
@@ -354,7 +354,7 @@ Unannotated (x2)">            setattr(self, field_name, value)</span>
 <span class="line-empty" title="No Anys on this line!">    """Wrapper around a list of Entities to facilitate operations on all at once."""</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="No Anys on this line!">    def __init__(self, *entities):</span>
-<span class="line-imprecise" title="Any Types on this line: 
+<span class="line-imprecise" title="Any Types on this line:
 Unannotated (x3)
 Omitted Generics (x3)">        self.entities = list(entities)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
@@ -376,83 +376,83 @@ Omitted Generics (x3)">        self.entities = list(entities)</span>
 <span class="line-precise" title="No Anys on this line!">class DocumentEntity(Entity):</span>
 <span class="line-empty" title="No Anys on this line!">    """Generic document entity."""</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x5)">    doi = StringField(</span>
 <span class="line-precise" title="No Anys on this line!">        '//meta[@name="citation_doi"]/@content | //meta[@name="dc.identifier"]/@content | //meta[@name="DC.identifier"]/@content | //meta[@name="DC.Identifier"]/@content | //meta[@name="dc.Identifier"]/@content',</span>
 <span class="line-precise" title="No Anys on this line!">        xpath=True,</span>
 <span class="line-precise" title="No Anys on this line!">        lower=True,</span>
 <span class="line-empty" title="No Anys on this line!">    )</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x5)">    title = StringField(</span>
 <span class="line-precise" title="No Anys on this line!">        '//meta[@name="citation_title"]/@content | //meta[@name="dc.title"]/@content | //meta[@name="DC.title"]/@content | //meta[@name="DC.Title"]/@content | //meta[@name="dc.Title"]/@content | //meta[@name="title"]/@content',</span>
 <span class="line-precise" title="No Anys on this line!">        xpath=True,</span>
 <span class="line-precise" title="No Anys on this line!">        strip=True,</span>
 <span class="line-empty" title="No Anys on this line!">    )</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x5)">    authors = StringField(</span>
 <span class="line-precise" title="No Anys on this line!">        '//meta[@name="citation_author"]/@content | //meta[@name="dc.creator"]/@content | //meta[@name="DC.creator"]/@content | //meta[@name="DC.Creator"]/@content | //meta[@name="dc.Creator"]/@content',</span>
 <span class="line-precise" title="No Anys on this line!">        xpath=True,</span>
 <span class="line-precise" title="No Anys on this line!">        all=True,</span>
 <span class="line-empty" title="No Anys on this line!">    )</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x7)">    published_date = DateTimeField(</span>
 <span class="line-precise" title="No Anys on this line!">        '//meta[@name="citation_publication_date"]/@content | //meta[@name="prism.publicationDate"]/@content | //meta[@name="citation_date"]/@content | //meta[@name="dc.date"]/@content | //meta[@name="DC.date"]/@content | //meta[@name="DC.Date"]/@content | //meta[@name="dc.Date"]/@content',</span>
 <span class="line-precise" title="No Anys on this line!">        xpath=True,</span>
 <span class="line-empty" title="No Anys on this line!">    )</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x7)">    online_date = DateTimeField('//meta[@name="citation_online_date"]/@content', xpath=True)</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x5)">    journal = StringField(</span>
 <span class="line-precise" title="No Anys on this line!">        '//meta[@name="citation_journal_title"]/@content | //meta[@name="citation_journal_abbrev"]/@content | //meta[@name="prism.publicationName"]/@content | //meta[@name="dc.source"]/@content | //meta[@name="DC.source"]/@content | //meta[@name="DC.Source"]/@content',</span>
 <span class="line-precise" title="No Anys on this line!">        xpath=True,</span>
 <span class="line-precise" title="No Anys on this line!">        strip=True,</span>
 <span class="line-empty" title="No Anys on this line!">    )</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x5)">    volume = StringField(</span>
 <span class="line-precise" title="No Anys on this line!">        '//meta[@name="citation_volume"]/@content | //meta[@name="prism.volume"]/@content',</span>
 <span class="line-precise" title="No Anys on this line!">        xpath=True,</span>
 <span class="line-empty" title="No Anys on this line!">    )</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x5)">    issue = StringField(</span>
 <span class="line-precise" title="No Anys on this line!">        '//meta[@name="citation_issue"]/@content | //meta[@name="prism.number"]/@content | //meta[@name="citation_technical_report_number"]/@content',</span>
 <span class="line-precise" title="No Anys on this line!">        xpath=True,</span>
 <span class="line-empty" title="No Anys on this line!">    )</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x5)">    firstpage = StringField(</span>
 <span class="line-precise" title="No Anys on this line!">        '//meta[@name="citation_firstpage"]/@content | //meta[@name="prism.startingPage"]/@content',</span>
 <span class="line-precise" title="No Anys on this line!">        xpath=True,</span>
 <span class="line-empty" title="No Anys on this line!">    )</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x5)">    lastpage = StringField('//meta[@name="citation_lastpage"]/@content', xpath=True)</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x5)">    abstract = StringField('//meta[@name="citation_abstract"]/@content', xpath=True, strip=True)</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x5)">    publisher = StringField(</span>
 <span class="line-precise" title="No Anys on this line!">        '//meta[@name="citation_publisher"]/@content | //meta[@name="dc.publisher"]/@content | //meta[@name="DC.publisher"]/@content | //meta[@name="dc.Publisher"]/@content | //meta[@name="DC.Publisher"]/@content',</span>
 <span class="line-precise" title="No Anys on this line!">        xpath=True,</span>
 <span class="line-empty" title="No Anys on this line!">    )</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x5)">    issn = StringField(</span>
 <span class="line-precise" title="No Anys on this line!">        '//meta[@name="citation_issn"]/@content | //meta[@name="prism.issn"]/@content',</span>
 <span class="line-precise" title="No Anys on this line!">        xpath=True,</span>
 <span class="line-empty" title="No Anys on this line!">    )</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x5)">    language = StringField(</span>
 <span class="line-precise" title="No Anys on this line!">        '//meta[@name="citation_language"]/@content | //meta[@name="dc.language"]/@content | //meta[@name="DC.language"] | //meta[@name="DC.Language"]/@content',</span>
 <span class="line-precise" title="No Anys on this line!">        xpath=True,</span>
 <span class="line-empty" title="No Anys on this line!">    )</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x5)">    copyright = StringField(</span>
 <span class="line-precise" title="No Anys on this line!">        '//meta[@name="dc.copyright"]/@content | //meta[@name="DC.copyright"]/@content | //meta[@name="DC.Copyright"]/@content | //meta[@name="prism.copyright"]/@content',</span>
 <span class="line-precise" title="No Anys on this line!">        xpath=True,</span>
 <span class="line-empty" title="No Anys on this line!">    )</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x3)">    license = UrlField('//a[@rel="license"]/@href', xpath=True)</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x3)">    html_url = UrlField('//meta[@name="citation_fulltext_html_url"]/@content', xpath=True)</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x3)">    pdf_url = UrlField('//meta[@name="citation_pdf_url"]/@content', xpath=True)</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x3)">    landing_url = UrlField('//meta[@name="citation_abstract_html_url"]/@content', xpath=True)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">    process_title = normalize</span>

@@ -653,14 +653,14 @@
 <span class="line-empty" title="No Anys on this line!">        roles: Set[str] - Chemical roles (e.g., "catalyst", "product")</span>
 <span class="line-empty" title="No Anys on this line!">    """</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Explicit (x1)
 Unimported (x1)
 Unannotated (x1)">    names = SetType(StringType(), parse_expression=names_only, updatable=True)</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Explicit (x1)
 Unimported (x1)">    labels = SetType(StringType(), parse_expression=NoMatch(), updatable=True)</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Explicit (x1)
 Unimported (x1)
 Unannotated (x1)">    roles = SetType(StringType(), parse_expression=roles_only, updatable=True)</span>
@@ -673,7 +673,7 @@ Unannotated (x1)">    roles = SetType(StringType(), parse_expression=roles_only,
 <span class="line-empty" title="No Anys on this line!">    # parsers = [CompoundParser(), CompoundHeadingParser(), ChemicalLabelParser()]</span>
 <span class="line-empty" title="No Anys on this line!">    # parsers = [CompoundParser()]</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unimported (x1)">    def merge(self, other: Compound) -&gt; Self:</span>
 <span class="line-empty" title="No Anys on this line!">        """Merge data from another Compound into this Compound.</span>
 <span class="line-empty" title="No Anys on this line!"></span>
@@ -683,24 +683,24 @@ Unimported (x1)">    def merge(self, other: Compound) -&gt; Self:</span>
 <span class="line-empty" title="No Anys on this line!">        Returns:</span>
 <span class="line-empty" title="No Anys on this line!">            Self - This compound instance with merged data</span>
 <span class="line-empty" title="No Anys on this line!">        """</span>
-<span class="line-imprecise" title="Any Types on this line: 
+<span class="line-imprecise" title="Any Types on this line:
 Explicit (x4)">        log.debug(f"Merging: {self.serialize()} and {other.serialize()}")</span>
-<span class="line-precise" title="Any Types on this line: 
+<span class="line-precise" title="Any Types on this line:
 Explicit (x4)">        if type(other) is not type(self):</span>
 <span class="line-precise" title="No Anys on this line!">            return self</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x3)">        for k in self.keys():</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x2)">            if other[k] is not None:</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x2)">                if self[k] is not None:</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x3)">                    for new_item in other[k]:</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x3)">                        if new_item not in self[k]:</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x5)">                            self[k].add(new_item)</span>
-<span class="line-imprecise" title="Any Types on this line: 
+<span class="line-imprecise" title="Any Types on this line:
 Explicit (x2)">        log.debug(f"Result: {self.serialize()}")</span>
 <span class="line-precise" title="No Anys on this line!">        return self</span>
 <span class="line-empty" title="No Anys on this line!"></span>
@@ -722,9 +722,9 @@ Explicit (x2)">        log.debug(f"Result: {self.serialize()}")</span>
 <span class="line-empty" title="No Anys on this line!">        Returns:</span>
 <span class="line-empty" title="No Anys on this line!">            bool - True if only names, labels, or roles are present</span>
 <span class="line-empty" title="No Anys on this line!">        """</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x4)">        for key, value in self.items():</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x3)">            if key not in {"names", "labels", "roles"} and value:</span>
 <span class="line-precise" title="No Anys on this line!">                return False</span>
 <span class="line-precise" title="No Anys on this line!">        if self.names or self.labels:</span>
@@ -732,7 +732,7 @@ Unannotated (x3)">            if key not in {"names", "labels", "roles"} and val
 <span class="line-precise" title="No Anys on this line!">        return False</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">    @classmethod</span>
-<span class="line-imprecise" title="Any Types on this line: 
+<span class="line-imprecise" title="Any Types on this line:
 Explicit (x1)">    def update(cls, definitions: list[dict[str, Any]], strict: bool = True) -&gt; None:</span>
 <span class="line-empty" title="No Anys on this line!">        """Update the Compound labels parse expression.</span>
 <span class="line-empty" title="No Anys on this line!"></span>
@@ -741,28 +741,28 @@ Explicit (x1)">    def update(cls, definitions: list[dict[str, Any]], strict: bo
 <span class="line-empty" title="No Anys on this line!">            strict: bool - Whether to use strict word matching (default: True)</span>
 <span class="line-empty" title="No Anys on this line!">        """</span>
 <span class="line-precise" title="No Anys on this line!">        log.debug("Updating Compound")</span>
-<span class="line-imprecise" title="Any Types on this line: 
+<span class="line-imprecise" title="Any Types on this line:
 Explicit (x2)">        for definition in definitions:</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Explicit (x3)">            label = definition["label"]</span>
 <span class="line-precise" title="No Anys on this line!">            if strict:</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x3)
 Explicit (x1)">                new_label_expression = Group(W(label)("labels"))</span>
 <span class="line-empty" title="No Anys on this line!">            else:</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x3)
 Explicit (x1)">                new_label_expression = Group(I(label)("labels"))</span>
-<span class="line-imprecise" title="Any Types on this line: 
+<span class="line-imprecise" title="Any Types on this line:
 Unimported (x1)">            if not cls.labels.parse_expression:</span>
-<span class="line-imprecise" title="Any Types on this line: 
+<span class="line-imprecise" title="Any Types on this line:
 Unimported (x1)">                cls.labels.parse_expression = new_label_expression</span>
 <span class="line-empty" title="No Anys on this line!">            else:</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unimported (x3)">                cls.labels.parse_expression = cls.labels.parse_expression | new_label_expression</span>
 <span class="line-empty" title="No Anys on this line!">        return</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Explicit (x1)">    def construct_label_expression(self, label: str) -&gt; Any:</span>
 <span class="line-empty" title="No Anys on this line!">        """Construct a parse expression for a compound label.</span>
 <span class="line-empty" title="No Anys on this line!"></span>
@@ -772,7 +772,7 @@ Explicit (x1)">    def construct_label_expression(self, label: str) -&gt; Any:</
 <span class="line-empty" title="No Anys on this line!">        Returns:</span>
 <span class="line-empty" title="No Anys on this line!">            Parse expression for matching the label</span>
 <span class="line-empty" title="No Anys on this line!">        """</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x2)">        return W(label)("labels")</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!"></span>
@@ -786,7 +786,7 @@ Unannotated (x2)">        return W(label)("labels")</span>
 <span class="line-empty" title="No Anys on this line!">        name: str - Name or model of the analytical apparatus</span>
 <span class="line-empty" title="No Anys on this line!">    """</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-precise" title="Any Types on this line: 
+<span class="line-precise" title="Any Types on this line:
 Unimported (x1)">    name = StringType()</span>
 <span class="line-precise" title="No Anys on this line!">    parsers = [ApparatusParser()]</span>
 <span class="line-empty" title="No Anys on this line!"></span>
@@ -806,19 +806,19 @@ Unimported (x1)">    name = StringType()</span>
 <span class="line-empty" title="No Anys on this line!">    """</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">    #: Peak value, i.e. wavelength</span>
-<span class="line-precise" title="Any Types on this line: 
+<span class="line-precise" title="Any Types on this line:
 Unimported (x1)">    value = StringType()</span>
 <span class="line-empty" title="No Anys on this line!">    #: Peak value units</span>
-<span class="line-precise" title="Any Types on this line: 
+<span class="line-precise" title="Any Types on this line:
 Unimported (x1)">    units = StringType(contextual=True)</span>
 <span class="line-empty" title="No Anys on this line!">    # Extinction value</span>
-<span class="line-precise" title="Any Types on this line: 
+<span class="line-precise" title="Any Types on this line:
 Unimported (x1)">    extinction = StringType()</span>
 <span class="line-empty" title="No Anys on this line!">    # Extinction units</span>
-<span class="line-precise" title="Any Types on this line: 
+<span class="line-precise" title="Any Types on this line:
 Unimported (x1)">    extinction_units = StringType(contextual=True)</span>
 <span class="line-empty" title="No Anys on this line!">    # Peak shape information (e.g. shoulder, broad)</span>
-<span class="line-precise" title="Any Types on this line: 
+<span class="line-precise" title="Any Types on this line:
 Unimported (x1)">    shape = StringType()</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!"></span>
@@ -839,21 +839,21 @@ Unimported (x1)">    shape = StringType()</span>
 <span class="line-empty" title="No Anys on this line!">        compound: Compound - Associated chemical compound</span>
 <span class="line-empty" title="No Anys on this line!">    """</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-precise" title="Any Types on this line: 
+<span class="line-precise" title="Any Types on this line:
 Unimported (x1)">    solvent = StringType(contextual=True)</span>
-<span class="line-precise" title="Any Types on this line: 
+<span class="line-precise" title="Any Types on this line:
 Unimported (x1)">    temperature = StringType(contextual=True)</span>
-<span class="line-precise" title="Any Types on this line: 
+<span class="line-precise" title="Any Types on this line:
 Unimported (x1)">    temperature_units = StringType(contextual=True)</span>
-<span class="line-precise" title="Any Types on this line: 
+<span class="line-precise" title="Any Types on this line:
 Unimported (x1)">    concentration = StringType(contextual=True)</span>
-<span class="line-precise" title="Any Types on this line: 
+<span class="line-precise" title="Any Types on this line:
 Unimported (x1)">    concentration_units = StringType(contextual=True)</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Explicit (x2)">    apparatus = ModelType(Apparatus, contextual=True)</span>
-<span class="line-precise" title="Any Types on this line: 
+<span class="line-precise" title="Any Types on this line:
 Explicit (x3)">    peaks = ListType(ModelType(UvvisPeak))</span>
-<span class="line-precise" title="Any Types on this line: 
+<span class="line-precise" title="Any Types on this line:
 Explicit (x2)">    compound = ModelType(Compound)</span>
 <span class="line-precise" title="No Anys on this line!">    parsers = [UvvisParser()]</span>
 <span class="line-empty" title="No Anys on this line!"></span>
@@ -871,13 +871,13 @@ Explicit (x2)">    compound = ModelType(Compound)</span>
 <span class="line-empty" title="No Anys on this line!">        bond: str - Bond assignment for this peak</span>
 <span class="line-empty" title="No Anys on this line!">    """</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-precise" title="Any Types on this line: 
+<span class="line-precise" title="Any Types on this line:
 Unimported (x1)">    value = StringType()</span>
-<span class="line-precise" title="Any Types on this line: 
+<span class="line-precise" title="Any Types on this line:
 Unimported (x1)">    units = StringType(contextual=True)</span>
-<span class="line-precise" title="Any Types on this line: 
+<span class="line-precise" title="Any Types on this line:
 Unimported (x1)">    strength = StringType()</span>
-<span class="line-precise" title="Any Types on this line: 
+<span class="line-precise" title="Any Types on this line:
 Unimported (x1)">    bond = StringType()</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!"></span>
@@ -898,21 +898,21 @@ Unimported (x1)">    bond = StringType()</span>
 <span class="line-empty" title="No Anys on this line!">        compound: Compound - Associated chemical compound</span>
 <span class="line-empty" title="No Anys on this line!">    """</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-precise" title="Any Types on this line: 
+<span class="line-precise" title="Any Types on this line:
 Unimported (x1)">    solvent = StringType(contextual=True)</span>
-<span class="line-precise" title="Any Types on this line: 
+<span class="line-precise" title="Any Types on this line:
 Unimported (x1)">    temperature = StringType(contextual=True)</span>
-<span class="line-precise" title="Any Types on this line: 
+<span class="line-precise" title="Any Types on this line:
 Unimported (x1)">    temperature_units = StringType(contextual=True)</span>
-<span class="line-precise" title="Any Types on this line: 
+<span class="line-precise" title="Any Types on this line:
 Unimported (x1)">    concentration = StringType(contextual=True)</span>
-<span class="line-precise" title="Any Types on this line: 
+<span class="line-precise" title="Any Types on this line:
 Unimported (x1)">    concentration_units = StringType(contextual=True)</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Explicit (x2)">    apparatus = ModelType(Apparatus, contextual=True)</span>
-<span class="line-precise" title="Any Types on this line: 
+<span class="line-precise" title="Any Types on this line:
 Explicit (x3)">    peaks = ListType(ModelType(IrPeak))</span>
-<span class="line-precise" title="Any Types on this line: 
+<span class="line-precise" title="Any Types on this line:
 Explicit (x2)">    compound = ModelType(Compound)</span>
 <span class="line-precise" title="No Anys on this line!">    parsers = [IrParser()]</span>
 <span class="line-empty" title="No Anys on this line!"></span>
@@ -933,19 +933,19 @@ Explicit (x2)">    compound = ModelType(Compound)</span>
 <span class="line-empty" title="No Anys on this line!">        assignment: str - Structural assignment for this peak</span>
 <span class="line-empty" title="No Anys on this line!">    """</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-precise" title="Any Types on this line: 
+<span class="line-precise" title="Any Types on this line:
 Unimported (x1)">    shift = StringType()</span>
-<span class="line-precise" title="Any Types on this line: 
+<span class="line-precise" title="Any Types on this line:
 Unimported (x1)">    intensity = StringType()</span>
-<span class="line-precise" title="Any Types on this line: 
+<span class="line-precise" title="Any Types on this line:
 Unimported (x1)">    multiplicity = StringType()</span>
-<span class="line-precise" title="Any Types on this line: 
+<span class="line-precise" title="Any Types on this line:
 Unimported (x1)">    coupling = StringType()</span>
-<span class="line-precise" title="Any Types on this line: 
+<span class="line-precise" title="Any Types on this line:
 Unimported (x1)">    coupling_units = StringType(contextual=True)</span>
-<span class="line-precise" title="Any Types on this line: 
+<span class="line-precise" title="Any Types on this line:
 Unimported (x1)">    number = StringType()</span>
-<span class="line-precise" title="Any Types on this line: 
+<span class="line-precise" title="Any Types on this line:
 Unimported (x1)">    assignment = StringType()</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!"></span>
@@ -970,29 +970,29 @@ Unimported (x1)">    assignment = StringType()</span>
 <span class="line-empty" title="No Anys on this line!">        compound: Compound - Associated chemical compound</span>
 <span class="line-empty" title="No Anys on this line!">    """</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-precise" title="Any Types on this line: 
+<span class="line-precise" title="Any Types on this line:
 Unimported (x1)">    nucleus = StringType(contextual=True)</span>
-<span class="line-precise" title="Any Types on this line: 
+<span class="line-precise" title="Any Types on this line:
 Unimported (x1)">    solvent = StringType(contextual=True)</span>
-<span class="line-precise" title="Any Types on this line: 
+<span class="line-precise" title="Any Types on this line:
 Unimported (x1)">    frequency = StringType(contextual=True)</span>
-<span class="line-precise" title="Any Types on this line: 
+<span class="line-precise" title="Any Types on this line:
 Unimported (x1)">    frequency_units = StringType(contextual=True)</span>
-<span class="line-precise" title="Any Types on this line: 
+<span class="line-precise" title="Any Types on this line:
 Unimported (x1)">    standard = StringType(contextual=True)</span>
-<span class="line-precise" title="Any Types on this line: 
+<span class="line-precise" title="Any Types on this line:
 Unimported (x1)">    temperature = StringType(contextual=True)</span>
-<span class="line-precise" title="Any Types on this line: 
+<span class="line-precise" title="Any Types on this line:
 Unimported (x1)">    temperature_units = StringType(contextual=True)</span>
-<span class="line-precise" title="Any Types on this line: 
+<span class="line-precise" title="Any Types on this line:
 Unimported (x1)">    concentration = StringType(contextual=True)</span>
-<span class="line-precise" title="Any Types on this line: 
+<span class="line-precise" title="Any Types on this line:
 Unimported (x1)">    concentration_units = StringType(contextual=True)</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Explicit (x2)">    apparatus = ModelType(Apparatus, contextual=True)</span>
-<span class="line-precise" title="Any Types on this line: 
+<span class="line-precise" title="Any Types on this line:
 Explicit (x3)">    peaks = ListType(ModelType(NmrPeak))</span>
-<span class="line-precise" title="Any Types on this line: 
+<span class="line-precise" title="Any Types on this line:
 Explicit (x2)">    compound = ModelType(Compound)</span>
 <span class="line-precise" title="No Anys on this line!">    parsers = [NmrParser()]</span>
 <span class="line-empty" title="No Anys on this line!"></span>
@@ -1012,15 +1012,15 @@ Explicit (x2)">    compound = ModelType(Compound)</span>
 <span class="line-empty" title="No Anys on this line!">        compound: Compound - Associated chemical compound (contextual)</span>
 <span class="line-empty" title="No Anys on this line!">    """</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-precise" title="Any Types on this line: 
+<span class="line-precise" title="Any Types on this line:
 Unimported (x1)">    solvent = StringType(contextual=True)</span>
-<span class="line-precise" title="Any Types on this line: 
+<span class="line-precise" title="Any Types on this line:
 Unimported (x1)">    concentration = StringType(contextual=True)</span>
-<span class="line-precise" title="Any Types on this line: 
+<span class="line-precise" title="Any Types on this line:
 Unimported (x1)">    concentration_units = StringType(contextual=True)</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Explicit (x2)">    apparatus = ModelType(Apparatus, contextual=True)</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Explicit (x2)">    compound = ModelType(Compound, contextual=True)</span>
 <span class="line-precise" title="No Anys on this line!">    parsers = [MpParser()]</span>
 <span class="line-empty" title="No Anys on this line!"></span>
@@ -1040,17 +1040,17 @@ Explicit (x2)">    compound = ModelType(Compound, contextual=True)</span>
 <span class="line-empty" title="No Anys on this line!">        compound: Compound - Associated chemical compound</span>
 <span class="line-empty" title="No Anys on this line!">    """</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-precise" title="Any Types on this line: 
+<span class="line-precise" title="Any Types on this line:
 Unimported (x1)">    value = StringType()</span>
-<span class="line-precise" title="Any Types on this line: 
+<span class="line-precise" title="Any Types on this line:
 Unimported (x1)">    units = StringType(contextual=True)</span>
-<span class="line-precise" title="Any Types on this line: 
+<span class="line-precise" title="Any Types on this line:
 Unimported (x1)">    method = StringType(contextual=True)</span>
-<span class="line-precise" title="Any Types on this line: 
+<span class="line-precise" title="Any Types on this line:
 Unimported (x1)">    concentration = StringType(contextual=True)</span>
-<span class="line-precise" title="Any Types on this line: 
+<span class="line-precise" title="Any Types on this line:
 Unimported (x1)">    concentration_units = StringType(contextual=True)</span>
-<span class="line-precise" title="Any Types on this line: 
+<span class="line-precise" title="Any Types on this line:
 Explicit (x2)">    compound = ModelType(Compound)</span>
 <span class="line-precise" title="No Anys on this line!">    parsers = [TgParser()]</span>
 <span class="line-empty" title="No Anys on this line!"></span>
@@ -1076,29 +1076,29 @@ Explicit (x2)">    compound = ModelType(Compound)</span>
 <span class="line-empty" title="No Anys on this line!">        apparatus: Apparatus - Measurement apparatus (contextual)</span>
 <span class="line-empty" title="No Anys on this line!">    """</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-precise" title="Any Types on this line: 
+<span class="line-precise" title="Any Types on this line:
 Unimported (x1)">    value = StringType()</span>
-<span class="line-precise" title="Any Types on this line: 
+<span class="line-precise" title="Any Types on this line:
 Unimported (x1)">    units = StringType(contextual=True)</span>
-<span class="line-precise" title="Any Types on this line: 
+<span class="line-precise" title="Any Types on this line:
 Unimported (x1)">    solvent = StringType(contextual=True)</span>
-<span class="line-precise" title="Any Types on this line: 
+<span class="line-precise" title="Any Types on this line:
 Unimported (x1)">    type = StringType(contextual=True)</span>
-<span class="line-precise" title="Any Types on this line: 
+<span class="line-precise" title="Any Types on this line:
 Unimported (x1)">    standard = StringType(contextual=True)</span>
-<span class="line-precise" title="Any Types on this line: 
+<span class="line-precise" title="Any Types on this line:
 Unimported (x1)">    standard_value = StringType(contextual=True)</span>
-<span class="line-precise" title="Any Types on this line: 
+<span class="line-precise" title="Any Types on this line:
 Unimported (x1)">    standard_solvent = StringType(contextual=True)</span>
-<span class="line-precise" title="Any Types on this line: 
+<span class="line-precise" title="Any Types on this line:
 Unimported (x1)">    concentration = StringType(contextual=True)</span>
-<span class="line-precise" title="Any Types on this line: 
+<span class="line-precise" title="Any Types on this line:
 Unimported (x1)">    concentration_units = StringType(contextual=True)</span>
-<span class="line-precise" title="Any Types on this line: 
+<span class="line-precise" title="Any Types on this line:
 Unimported (x1)">    temperature = StringType(contextual=True)</span>
-<span class="line-precise" title="Any Types on this line: 
+<span class="line-precise" title="Any Types on this line:
 Unimported (x1)">    temperature_units = StringType(contextual=True)</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Explicit (x2)">    apparatus = ModelType(Apparatus, contextual=True)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!"></span>
@@ -1119,21 +1119,21 @@ Explicit (x2)">    apparatus = ModelType(Apparatus, contextual=True)</span>
 <span class="line-empty" title="No Anys on this line!">        apparatus: Apparatus - Measurement apparatus (contextual)</span>
 <span class="line-empty" title="No Anys on this line!">    """</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-precise" title="Any Types on this line: 
+<span class="line-precise" title="Any Types on this line:
 Unimported (x1)">    value = StringType()</span>
-<span class="line-precise" title="Any Types on this line: 
+<span class="line-precise" title="Any Types on this line:
 Unimported (x1)">    units = StringType(contextual=True)</span>
-<span class="line-precise" title="Any Types on this line: 
+<span class="line-precise" title="Any Types on this line:
 Unimported (x1)">    solvent = StringType(contextual=True)</span>
-<span class="line-precise" title="Any Types on this line: 
+<span class="line-precise" title="Any Types on this line:
 Unimported (x1)">    concentration = StringType(contextual=True)</span>
-<span class="line-precise" title="Any Types on this line: 
+<span class="line-precise" title="Any Types on this line:
 Unimported (x1)">    concentration_units = StringType(contextual=True)</span>
-<span class="line-precise" title="Any Types on this line: 
+<span class="line-precise" title="Any Types on this line:
 Unimported (x1)">    temperature = StringType(contextual=True)</span>
-<span class="line-precise" title="Any Types on this line: 
+<span class="line-precise" title="Any Types on this line:
 Unimported (x1)">    temperature_units = StringType(contextual=True)</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Explicit (x2)">    apparatus = ModelType(Apparatus, contextual=True)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!"></span>
@@ -1155,23 +1155,23 @@ Explicit (x2)">    apparatus = ModelType(Apparatus, contextual=True)</span>
 <span class="line-empty" title="No Anys on this line!">        apparatus: Apparatus - Electrochemical apparatus (contextual)</span>
 <span class="line-empty" title="No Anys on this line!">    """</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-precise" title="Any Types on this line: 
+<span class="line-precise" title="Any Types on this line:
 Unimported (x1)">    value = StringType()</span>
-<span class="line-precise" title="Any Types on this line: 
+<span class="line-precise" title="Any Types on this line:
 Unimported (x1)">    units = StringType(contextual=True)</span>
-<span class="line-precise" title="Any Types on this line: 
+<span class="line-precise" title="Any Types on this line:
 Unimported (x1)">    type = StringType(contextual=True)</span>
-<span class="line-precise" title="Any Types on this line: 
+<span class="line-precise" title="Any Types on this line:
 Unimported (x1)">    solvent = StringType(contextual=True)</span>
-<span class="line-precise" title="Any Types on this line: 
+<span class="line-precise" title="Any Types on this line:
 Unimported (x1)">    concentration = StringType(contextual=True)</span>
-<span class="line-precise" title="Any Types on this line: 
+<span class="line-precise" title="Any Types on this line:
 Unimported (x1)">    concentration_units = StringType(contextual=True)</span>
-<span class="line-precise" title="Any Types on this line: 
+<span class="line-precise" title="Any Types on this line:
 Unimported (x1)">    temperature = StringType(contextual=True)</span>
-<span class="line-precise" title="Any Types on this line: 
+<span class="line-precise" title="Any Types on this line:
 Unimported (x1)">    temperature_units = StringType(contextual=True)</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Explicit (x2)">    apparatus = ModelType(Apparatus, contextual=True)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!"></span>
@@ -1188,14 +1188,14 @@ Explicit (x2)">    apparatus = ModelType(Apparatus, contextual=True)</span>
 <span class="line-empty" title="No Anys on this line!">    """</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">    # expression = (I('T')+I('N')).add_action(merge)</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x1)">    expression = I("TN")</span>
 <span class="line-empty" title="No Anys on this line!">    # specifier = I('TN')</span>
-<span class="line-imprecise" title="Any Types on this line: 
+<span class="line-imprecise" title="Any Types on this line:
 Unimported (x1)">    specifier = StringType(</span>
 <span class="line-precise" title="No Anys on this line!">        parse_expression=expression, required=True, contextual=False, updatable=False</span>
 <span class="line-empty" title="No Anys on this line!">    )</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Explicit (x2)">    compound = ModelType(Compound, required=False, contextual=False)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!"></span>
@@ -1212,14 +1212,14 @@ Explicit (x2)">    compound = ModelType(Compound, required=False, contextual=Fal
 <span class="line-empty" title="No Anys on this line!">    """</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">    # expression = (I('T') + I('C')).add_action(merge)</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x12)">    expression = ((I("Curie") + R("^temperature(s)?$")) | R(r"T[Cc]\d?")).add_action(join)</span>
-<span class="line-imprecise" title="Any Types on this line: 
+<span class="line-imprecise" title="Any Types on this line:
 Unimported (x1)">    specifier = StringType(</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x1)">        parse_expression=expression, required=True, contextual=False, updatable=False</span>
 <span class="line-empty" title="No Anys on this line!">    )</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Explicit (x2)">    compound = ModelType(Compound, required=False, contextual=False)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!"></span>
@@ -1236,20 +1236,20 @@ Explicit (x2)">    compound = ModelType(Compound, required=False, contextual=Fal
 <span class="line-empty" title="No Anys on this line!">        another_label: str - Additional label field (optional, non-contextual)</span>
 <span class="line-empty" title="No Anys on this line!">    """</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x14)">    specifier_expression = (R("^bond$") + R("^distance")).add_action(merge)</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unimported (x1)
 Unannotated (x1)">    specifier = StringType(parse_expression=specifier_expression, required=False, contextual=True)</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x3)">    rij_label = R(</span>
 <span class="line-precise" title="No Anys on this line!">        r"^((X|Ac|Ag|Al|Am|Ar|As|At|Au|B|Ba|Be|Bh|Bi|Bk|Br|C|Ca|Cd|Ce|Cf|Cl|Cm|Cn|Co|Cr|Cs|Cu|Db|Ds|Dy|Er|Es|Eu|F|Fe|Fl|Fm|Fr|Ga|Gd|Ge|H|He|Hf|Hg|Ho|Hs|I|In|Ir|K|Kr|La|Li|Lr|Lu|Lv|Mc|Md|Mg|Mn|Mo|Mt|N|Na|Nb|Nd|Ne|Nh|Ni|No|Np|O|Og|Os|P|Pa|Pb|Pd|Pm|Po|Pr|Pt|Pu|Ra|Rb|Re|Rf|Rg|Rh|Rn|Ru|S|Sb|Sc|Se|Sg|Si|Sm|Sn|Sr|Ta|Tb|Tc|Te|Th|Ti|Tl|Tm|Ts|U|V|W|Xe|Y|Yb|Zn|Zr)\-?(X|Ac|Ag|Al|Am|Ar|As|At|Au|B|Ba|Be|Bh|Bi|Bk|Br|C|Ca|Cd|Ce|Cf|Cl|Cm|Cn|Co|Cr|Cs|Cu|Db|Ds|Dy|Er|Es|Eu|F|Fe|Fl|Fm|Fr|Ga|Gd|Ge|H|He|Hf|Hg|Ho|Hs|I|In|Ir|K|Kr|La|Li|Lr|Lu|Lv|Mc|Md|Mg|Mn|Mo|Mt|N|Na|Nb|Nd|Ne|Nh|Ni|No|Np|O|Og|Os|P|Pa|Pb|Pd|Pm|Po|Pr|Pt|Pu|Ra|Rb|Re|Rf|Rg|Rh|Rn|Ru|S|Sb|Sc|Se|Sg|Si|Sm|Sn|Sr|Ta|Tb|Tc|Te|Th|Ti|Tl|Tm|Ts|U|V|W|Xe|Y|Yb|Zn|Zr))$"</span>
 <span class="line-empty" title="No Anys on this line!">    )</span>
-<span class="line-imprecise" title="Any Types on this line: 
+<span class="line-imprecise" title="Any Types on this line:
 Unimported (x1)">    species = StringType(parse_expression=rij_label, required=True, contextual=False)</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Explicit (x2)">    compound = ModelType(Compound, required=True, contextual=True)</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unimported (x1)
 Unannotated (x3)">    another_label = StringType(parse_expression=R("^adgahg$"), required=False, contextual=False)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
@@ -1271,21 +1271,21 @@ Unannotated (x3)">    another_label = StringType(parse_expression=R("^adgahg$"),
 <span class="line-empty" title="No Anys on this line!">    """</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">    # something like NTi-O will not work with this, only work if there is space between the label and specifier</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x3)">    coordination_number_label = R(</span>
 <span class="line-precise" title="No Anys on this line!">        r"^((X|Ac|Ag|Al|Am|Ar|As|At|Au|B|Ba|Be|Bh|Bi|Bk|Br|C|Ca|Cd|Ce|Cf|Cl|Cm|Cn|Co|Cr|Cs|Cu|Db|Ds|Dy|Er|Es|Eu|F|Fe|Fl|Fm|Fr|Ga|Gd|Ge|H|He|Hf|Hg|Ho|Hs|I|In|Ir|K|Kr|La|Li|Lr|Lu|Lv|Mc|Md|Mg|Mn|Mo|Mt|N|Na|Nb|Nd|Ne|Nh|Ni|No|Np|O|Og|Os|P|Pa|Pb|Pd|Pm|Po|Pr|Pt|Pu|Ra|Rb|Re|Rf|Rg|Rh|Rn|Ru|S|Sb|Sc|Se|Sg|Si|Sm|Sn|Sr|Ta|Tb|Tc|Te|Th|Ti|Tl|Tm|Ts|U|V|W|Xe|Y|Yb|Zn|Zr)\-?(X|Ac|Ag|Al|Am|Ar|As|At|Au|B|Ba|Be|Bh|Bi|Bk|Br|C|Ca|Cd|Ce|Cf|Cl|Cm|Cn|Co|Cr|Cs|Cu|Db|Ds|Dy|Er|Es|Eu|F|Fe|Fl|Fm|Fr|Ga|Gd|Ge|H|He|Hf|Hg|Ho|Hs|I|In|Ir|K|Kr|La|Li|Lr|Lu|Lv|Mc|Md|Mg|Mn|Mo|Mt|N|Na|Nb|Nd|Ne|Nh|Ni|No|Np|O|Og|Os|P|Pa|Pb|Pd|Pm|Po|Pr|Pt|Pu|Ra|Rb|Re|Rf|Rg|Rh|Rn|Ru|S|Sb|Sc|Se|Sg|Si|Sm|Sn|Sr|Ta|Tb|Tc|Te|Th|Ti|Tl|Tm|Ts|U|V|W|Xe|Y|Yb|Zn|Zr))$"</span>
 <span class="line-empty" title="No Anys on this line!">    )</span>
 <span class="line-empty" title="No Anys on this line!">    # specifier = (R('^(N|n|k)$') | (I('Pair') + I('ij')).add_action(merge)</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x3)">    specifier_expression = R("^(N|n|k)$")</span>
-<span class="line-imprecise" title="Any Types on this line: 
+<span class="line-imprecise" title="Any Types on this line:
 Unimported (x1)">    specifier = StringType(parse_expression=specifier_expression, required=True, contextual=True)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-imprecise" title="Any Types on this line: 
+<span class="line-imprecise" title="Any Types on this line:
 Unimported (x1)">    cn_label = StringType(</span>
 <span class="line-precise" title="No Anys on this line!">        parse_expression=coordination_number_label, required=True, contextual=True</span>
 <span class="line-empty" title="No Anys on this line!">    )</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Explicit (x2)">    compound = ModelType(Compound, required=True, contextual=True)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!"></span>
@@ -1301,17 +1301,17 @@ Explicit (x2)">    compound = ModelType(Compound, required=True, contextual=True
 <span class="line-empty" title="No Anys on this line!">    """</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">    # separate model to test automated parsing for stuff that are not quantities</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x3)">    coordination_number_label = R(</span>
 <span class="line-precise" title="No Anys on this line!">        r"^((X|Ac|Ag|Al|Am|Ar|As|At|Au|B|Ba|Be|Bh|Bi|Bk|Br|C|Ca|Cd|Ce|Cf|Cl|Cm|Cn|Co|Cr|Cs|Cu|Db|Ds|Dy|Er|Es|Eu|F|Fe|Fl|Fm|Fr|Ga|Gd|Ge|H|He|Hf|Hg|Ho|Hs|I|In|Ir|K|Kr|La|Li|Lr|Lu|Lv|Mc|Md|Mg|Mn|Mo|Mt|N|Na|Nb|Nd|Ne|Nh|Ni|No|Np|O|Og|Os|P|Pa|Pb|Pd|Pm|Po|Pr|Pt|Pu|Ra|Rb|Re|Rf|Rg|Rh|Rn|Ru|S|Sb|Sc|Se|Sg|Si|Sm|Sn|Sr|Ta|Tb|Tc|Te|Th|Ti|Tl|Tm|Ts|U|V|W|Xe|Y|Yb|Zn|Zr)\-?(X|Ac|Ag|Al|Am|Ar|As|At|Au|B|Ba|Be|Bh|Bi|Bk|Br|C|Ca|Cd|Ce|Cf|Cl|Cm|Cn|Co|Cr|Cs|Cu|Db|Ds|Dy|Er|Es|Eu|F|Fe|Fl|Fm|Fr|Ga|Gd|Ge|H|He|Hf|Hg|Ho|Hs|I|In|Ir|K|Kr|La|Li|Lr|Lu|Lv|Mc|Md|Mg|Mn|Mo|Mt|N|Na|Nb|Nd|Ne|Nh|Ni|No|Np|O|Og|Os|P|Pa|Pb|Pd|Pm|Po|Pr|Pt|Pu|Ra|Rb|Re|Rf|Rg|Rh|Rn|Ru|S|Sb|Sc|Se|Sg|Si|Sm|Sn|Sr|Ta|Tb|Tc|Te|Th|Ti|Tl|Tm|Ts|U|V|W|Xe|Y|Yb|Zn|Zr))$"</span>
 <span class="line-empty" title="No Anys on this line!">    )</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x10)">    specifier = (I("Pair") + I("ij")).add_action(merge)</span>
-<span class="line-imprecise" title="Any Types on this line: 
+<span class="line-imprecise" title="Any Types on this line:
 Unimported (x1)">    label_Juraj = StringType(parse_expression=coordination_number_label)</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Explicit (x2)">    compound = ModelType(Compound, required=False)</span>
-<span class="line-precise" title="Any Types on this line: 
+<span class="line-precise" title="Any Types on this line:
 Unannotated (x3)">    parsers = [AutoSentenceParser(), AutoTableParser()]</span>
 </pre></td>
 </tr></tbody>

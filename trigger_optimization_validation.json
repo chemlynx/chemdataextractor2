@@ -1,0 +1,67 @@
+{
+  "timestamp": 1758695855.8603199,
+  "test_configuration": {
+    "documents": 300,
+    "total_sentences": 300
+  },
+  "original_system": {
+    "total_sentences": 300,
+    "sentences_with_triggers": 150,
+    "total_time_seconds": 25.474524471999757,
+    "average_trigger_time_ms": 61.80082415665311,
+    "median_trigger_time_ms": 1.1110694999842963,
+    "trigger_time_stddev_ms": 67.71872438672574,
+    "average_parse_time_ms": 46.081775306629424,
+    "sentences_per_second": 11.77647105168711,
+    "trigger_hit_rate": 0.5
+  },
+  "optimized_system": {
+    "total_sentences": 300,
+    "sentences_with_triggers": 250,
+    "total_time_seconds": 22.983053637999546,
+    "average_trigger_time_ms": 0.03899323668520083,
+    "median_trigger_time_ms": 0.0368684995919466,
+    "trigger_time_stddev_ms": 0.017580098830513737,
+    "average_parse_time_ms": 91.85172600801161,
+    "sentences_per_second": 13.053095760259998,
+    "trigger_hit_rate": 0.8333333333333334,
+    "engine_stats": {
+      "engine": {
+        "total_lookups": 810,
+        "cache_hits": 0,
+        "batch_processes": 0,
+        "total_time": 0.02041969600941229,
+        "compilation_time": 0.00021715700040658703
+      },
+      "trigger_matcher": {
+        "total_phrases": 6,
+        "simple_phrases": 4,
+        "regex_phrases": 2,
+        "total_parsers": 1,
+        "compiled": true,
+        "cache_size": 12,
+        "cache_hit_ratio": 1.0
+      },
+      "result_pool": {
+        "available_lists": 0,
+        "available_sets": 0,
+        "max_pool_size": 100
+      },
+      "compiled": true,
+      "parsers_registered": 1,
+      "average_lookup_time_ms": 0.027582264307771505
+    }
+  },
+  "batch_processing": {
+    "total_sentences": 300,
+    "batch_processing_time": 0.013858654000614479,
+    "sentences_per_second": 21647.123882788204,
+    "total_extractions": 0,
+    "extractions_per_second": 0.0
+  },
+  "performance_improvements": {
+    "trigger_speedup": 1584.9113695172805,
+    "overall_speedup": 0.902197552824246,
+    "target_achieved": true
+  }
+}

@@ -166,7 +166,7 @@
 <span class="line-precise" title="No Anys on this line!">from ..text import get_encoding</span>
 <span class="line-precise" title="No Anys on this line!">from .markup import HtmlReader</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x1)">clean_springer_html = Cleaner(fix_whitespace=True, strip_xpath=".//sub | .//em | .//strong")</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!"></span>
@@ -188,50 +188,50 @@ Unannotated (x1)">clean_springer_html = Cleaner(fix_whitespace=True, strip_xpath
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="No Anys on this line!">    def detect(self, fstring, fname=None):</span>
 <span class="line-empty" title="No Anys on this line!">        """"""</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x9)">        if fname and not (fname.endswith(".html") or fname.endswith(".htm")):</span>
 <span class="line-any" title="No Anys on this line!">            return False</span>
 <span class="line-empty" title="No Anys on this line!">        if (</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x2)">            b'&lt;a class="footer-copyright_link" href="http://www.springernature.com"' in fstring</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x1)">            or b'&lt;meta content="SpringerLink"' in fstring</span>
 <span class="line-empty" title="No Anys on this line!">        ):</span>
 <span class="line-any" title="No Anys on this line!">            return True</span>
 <span class="line-any" title="No Anys on this line!">        return False</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="No Anys on this line!">    def _make_tree(self, fstring):</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x3)
 Unimported (x1)">        root = etree.fromstring(</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x1)">            fstring,</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x7)
 Unimported (x1)">            parser=HTMLParser(encoding=get_encoding(fstring, guesses="utf-8", is_html=True)),</span>
 <span class="line-empty" title="No Anys on this line!">        )</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x1)">        return root</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="No Anys on this line!">def springer_html_whitespace(document):</span>
 <span class="line-empty" title="No Anys on this line!">    """Remove whitespace in xml.text or xml.tails for all elements, if it is only whitespace"""</span>
 <span class="line-empty" title="No Anys on this line!">    # selects all tags and checks if the text or tail are spaces</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x4)">    for el in document.xpath("//*"):</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x5)">        if str(el.text).isspace():</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x2)">            el.text = ""</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x5)">        if str(el.tail).isspace():</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x2)">            el.tail = ""</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">    # debug, check the document</span>
 <span class="line-empty" title="No Anys on this line!">    # print(etree.tostring(document, pretty_print=True))</span>
 <span class="line-empty" title="No Anys on this line!">    # sys.exit()</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x1)">    return document</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!"></span>
@@ -244,29 +244,29 @@ Unannotated (x1)">    return document</span>
 <span class="line-empty" title="No Anys on this line!">    Returns:</span>
 <span class="line-empty" title="No Anys on this line!">        [type] -- [description]</span>
 <span class="line-empty" title="No Anys on this line!">    """</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x4)">    for el in document.xpath(".//table//p | .//table//p"):</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x2)">        if el.text:</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x6)">            stripped = str(el.text).strip()</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x3)">            el.text = stripped</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x1)">    return document</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">class SpringerHtmlReader(HtmlReader):</span>
 <span class="line-precise" title="No Anys on this line!">    cleaners = [</span>
 <span class="line-precise" title="No Anys on this line!">        clean,</span>
-<span class="line-precise" title="Any Types on this line: 
+<span class="line-precise" title="Any Types on this line:
 Unannotated (x2)">        springer_html_whitespace,</span>
 <span class="line-precise" title="No Anys on this line!">        clean_springer_html,</span>
-<span class="line-precise" title="Any Types on this line: 
+<span class="line-precise" title="Any Types on this line:
 Unannotated (x2)">        strip_html,</span>
-<span class="line-precise" title="Any Types on this line: 
+<span class="line-precise" title="Any Types on this line:
 Unannotated (x2)">        tidy_springer_references,</span>
-<span class="line-precise" title="Any Types on this line: 
+<span class="line-precise" title="Any Types on this line:
 Unannotated (x2)">        fix_springer_table_whitespace,</span>
 <span class="line-empty" title="No Anys on this line!">    ]</span>
 <span class="line-empty" title="No Anys on this line!"></span>
@@ -298,31 +298,31 @@ Unannotated (x2)">        fix_springer_table_whitespace,</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="No Anys on this line!">    def detect(self, fstring, fname=None):</span>
 <span class="line-empty" title="No Anys on this line!">        """"""</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x9)">        if fname and not (fname.endswith(".html") or fname.endswith(".htm")):</span>
 <span class="line-any" title="No Anys on this line!">            return False</span>
 <span class="line-empty" title="No Anys on this line!">        if (</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x2)">            b'&lt;meta content="Springer US" name="citation_publisher"' in fstring</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x1)">            or b'&lt;meta content="SpringerLink"' in fstring</span>
 <span class="line-empty" title="No Anys on this line!">        ):</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x1)">            print("springer HTML")</span>
 <span class="line-any" title="No Anys on this line!">            return True</span>
 <span class="line-any" title="No Anys on this line!">        return False</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="No Anys on this line!">    def _make_tree(self, fstring):</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x3)
 Unimported (x1)">        root = etree.fromstring(</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x1)">            fstring,</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x7)
 Unimported (x1)">            parser=HTMLParser(encoding=get_encoding(fstring, guesses="utf-8", is_html=True)),</span>
 <span class="line-empty" title="No Anys on this line!">        )</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x1)">        return root</span>
 </pre></td>
 </tr></tbody>

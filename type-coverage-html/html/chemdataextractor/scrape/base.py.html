@@ -272,7 +272,7 @@
 <span class="line-any" title="No Anys on this line!">    def __init__(self):</span>
 <span class="line-empty" title="No Anys on this line!">        """"""</span>
 <span class="line-empty" title="No Anys on this line!">        # Create a HTTP session for all requests</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x3)">        self.http = self.create_session()</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="No Anys on this line!">    def create_session(self):</span>
@@ -382,24 +382,24 @@ Unannotated (x3)">        self.http = self.create_session()</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="No Anys on this line!">    def __new__(mcs, name, bases, attrs):</span>
 <span class="line-precise" title="No Anys on this line!">        fields = {}</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x5)">        for attr_name, attr_value in attrs.items():</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x8)">            if isinstance(attr_value, BaseField):</span>
 <span class="line-empty" title="No Anys on this line!">                # Set the name attribute on the field to the attribute name on the Entity</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x1)">                attr_value.name = str(attr_name)</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x2)">                fields[attr_name] = attr_value</span>
 <span class="line-empty" title="No Anys on this line!">        # attrs['fields'] = fields</span>
 <span class="line-empty" title="No Anys on this line!">        # Set default _meta values, then update with any custom definitions from meta</span>
 <span class="line-empty" title="No Anys on this line!">        # attrs['_meta'] = {'root': None}</span>
 <span class="line-empty" title="No Anys on this line!">        # attrs['_meta'].update(attrs.pop('meta', {}))</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x3)">        cls = super().__new__(mcs, name, bases, attrs)</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Error (x4)">        cls.fields = cls.fields.copy()</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Error (x3)
 Unannotated (x1)">        cls.fields.update(fields)</span>
 <span class="line-precise" title="No Anys on this line!">        return cls</span>
@@ -431,19 +431,19 @@ Unannotated (x1)">        cls.fields.update(fields)</span>
 <span class="line-empty" title="No Anys on this line!">        :param bool null: (Optional) Include in serialized output even if value is None. Default False.</span>
 <span class="line-empty" title="No Anys on this line!">        :param bool raw: (Optional) Whether to scrape the raw HTML/XML instead of the text contents. Default False.</span>
 <span class="line-empty" title="No Anys on this line!">        """</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x2)">        self.selection = selection</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x2)">        self.xpath = xpath</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x2)">        self.re = re</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x2)">        self.all = all</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x2)">        self.default = default</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x2)">        self.null = null</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x2)">        self.raw = raw</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="No Anys on this line!">    def __get__(self, instance, owner):</span>

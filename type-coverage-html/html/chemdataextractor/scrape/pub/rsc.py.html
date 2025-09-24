@@ -814,16 +814,16 @@
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">#: HTML stripper that kills superscript references and anything with style="display:none;" (typically tooltips)</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x1)">strip_rsc_html = Cleaner(</span>
 <span class="line-precise" title="No Anys on this line!">    strip_xpath=".//*",</span>
 <span class="line-precise" title="No Anys on this line!">    kill_xpath='.//span[@class="sup_ref"]|.//a[text()="†"]|.//i/small/sup/a|.//*[@style="display:none;"]',</span>
 <span class="line-empty" title="No Anys on this line!">)</span>
 <span class="line-empty" title="No Anys on this line!">#: HTML stripper that also kills text from buttons in references.</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x1)">strip_cit_html = Cleaner(strip_xpath=".//*", kill_xpath=".//a")</span>
 <span class="line-empty" title="No Anys on this line!">#: Substitutor that replaces RSC escape codes with the actual unicode character</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x1)">rsc_substitute = Substitutor(CHAR_REPLACEMENTS)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!"></span>
@@ -902,16 +902,16 @@ Unannotated (x1)">rsc_substitute = Substitutor(CHAR_REPLACEMENTS)</span>
 <span class="line-precise" title="No Anys on this line!">class RscRssDocument(Entity):</span>
 <span class="line-empty" title="No Anys on this line!">    """Document information from RSC RSS feed."""</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x5)">    doi = StringField("guid::text", lower=True)</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x5)">    title = StringField("title::text")</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x5)">    authors = StringField("dc|creator::text", all=True)</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x3)">    landing_url = UrlField("guid::text", lower=True)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x1)">    process_title = Chain(rsc_substitute, normalize)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="No Anys on this line!">    def finalize_doi(self, value):</span>
@@ -922,7 +922,7 @@ Unannotated (x1)">    process_title = Chain(rsc_substitute, normalize)</span>
 <span class="line-precise" title="No Anys on this line!">class RscRssScraper(RssScraper):</span>
 <span class="line-empty" title="No Anys on this line!">    """Scraper for RSC RSS feeds."""</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-precise" title="Any Types on this line: 
+<span class="line-precise" title="Any Types on this line:
 Unannotated (x2)">    entity = RscRssDocument</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!"></span>
@@ -930,58 +930,58 @@ Unannotated (x2)">    entity = RscRssDocument</span>
 <span class="line-precise" title="No Anys on this line!">class RscSearchDocument(Entity):</span>
 <span class="line-empty" title="No Anys on this line!">    """Document information from RSC search results page."""</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x5)">    doi = StringField('a::attr("name")', lower=True)</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x5)">    title = StringField(".capsule__title")</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x3)">    landing_url = UrlField('.capsule__action::attr("href")', lower=True)</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x3)">    pdf_url = UrlField(</span>
 <span class="line-precise" title="No Anys on this line!">        '.btn.btn--primary.btn--tiny::attr("href")', lower=True, strip_querystring=True</span>
 <span class="line-empty" title="No Anys on this line!">    )</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x3)">    html_url = UrlField('.btn.btn--tiny::attr("href")', lower=True, strip_querystring=True)</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x5)">    journal = StringField(".text--small strong::text")</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x5)">    abstract = StringField(".capsule__text")</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x3)">    clean_title = Chain(replace_rsc_img_chars, strip_rsc_html)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x1)">    process_doi = LAdd("10.1039/")</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x1)">    process_title = Chain(</span>
 <span class="line-precise" title="No Anys on this line!">        normalize,</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x1)">        RStrip("§"),</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x1)">        RStrip("‡"),</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x1)">        RStrip("†"),</span>
 <span class="line-precise" title="No Anys on this line!">        str.strip,</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x1)">        LStrip("\\n"),</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x1)">        RStrip("\\n"),</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x1)">        LStrip(" "),</span>
 <span class="line-empty" title="No Anys on this line!">    )</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x3)">    process_landing_url = Chain(normalize, LStrip(":///"), LAdd("https://pubs.rsc.org"))</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x3)">    process_pdf_url = Chain(normalize, LStrip(":///"), LAdd("https://pubs.rsc.org/"))</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x1)">    process_html_url = Chain(</span>
 <span class="line-precise" title="No Anys on this line!">        normalize,</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x1)">        LStrip(":///en/content/articlepdf/"),</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x1)">        LAdd("https://pubs.rsc.org/en/content/articlehtml/"),</span>
 <span class="line-empty" title="No Anys on this line!">    )</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x4)">    process_abstract = Chain(normalize, LStrip("\\n"), RStrip("\\n"), LStrip(" "))</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!"></span>
@@ -989,7 +989,7 @@ Unannotated (x4)">    process_abstract = Chain(normalize, LStrip("\\n"), RStrip(
 <span class="line-precise" title="No Anys on this line!">class RscSearchScraper(SearchScraper):</span>
 <span class="line-empty" title="No Anys on this line!">    """Scraper for RSC search results."""</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-precise" title="Any Types on this line: 
+<span class="line-precise" title="Any Types on this line:
 Unannotated (x2)">    entity = RscSearchDocument</span>
 <span class="line-precise" title="No Anys on this line!">    root = ".capsule.capsule--article"</span>
 <span class="line-empty" title="No Anys on this line!"></span>
@@ -998,11 +998,11 @@ Unannotated (x2)">    entity = RscSearchDocument</span>
 <span class="line-empty" title="No Anys on this line!">        :param selenium.webdriver driver: driver from which results will be scraped.</span>
 <span class="line-empty" title="No Anys on this line!">        :param float max_wait_time: Maximum time spent waiting for the page to load. (seconds)</span>
 <span class="line-empty" title="No Anys on this line!">        """</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x2)">        self.max_wait_time = max_wait_time</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x2)">        self.driver = driver</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x1)">        super().__init__()</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="No Anys on this line!">    def perform_search(self, query, page=1, driver=None):</span>
@@ -1049,28 +1049,28 @@ Unannotated (x1)">        super().__init__()</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">class RscLandingSupplement(Entity):</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x5)">    name = StringField("a::text", strip=True)</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x3)">    url = UrlField('a::attr("href")')</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">class RscLandingDocument(DocumentEntity):</span>
 <span class="line-empty" title="No Anys on this line!">    """Document information from RSC landing page."""</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x3)">    supplements = EntityField(</span>
-<span class="line-precise" title="Any Types on this line: 
+<span class="line-precise" title="Any Types on this line:
 Unannotated (x1)">        RscLandingSupplement,</span>
 <span class="line-precise" title="No Anys on this line!">        ".ESIright_highlight_txt_red, .ESIright_highlight_txt_red_hidden",</span>
 <span class="line-precise" title="No Anys on this line!">        all=True,</span>
 <span class="line-empty" title="No Anys on this line!">    )</span>
 <span class="line-empty" title="No Anys on this line!">    # TODO: The meta abstract and title inherited from DocumentEntity are missing characters</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x1)">    process_abstract = Chain(</span>
 <span class="line-precise" title="No Anys on this line!">        normalize,</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x1)">        Discard(</span>
 <span class="line-precise" title="No Anys on this line!">            "No abstract available",</span>
 <span class="line-precise" title="No Anys on this line!">            "A graphical abstract is available for this content",</span>
@@ -1081,36 +1081,36 @@ Unannotated (x1)">        Discard(</span>
 <span class="line-precise" title="No Anys on this line!">class RscLandingScraper(UrlScraper):</span>
 <span class="line-empty" title="No Anys on this line!">    """Scraper for RSC Landing pages."""</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-precise" title="Any Types on this line: 
+<span class="line-precise" title="Any Types on this line:
 Unannotated (x2)">    entity = RscLandingDocument</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">class RscChemicalMention(Entity):</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x5)">    text = StringField(".", xpath=True)</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x5)">    chemspider_id = StringField(</span>
 <span class="line-precise" title="No Anys on this line!">        'a[href^="http://www.chemspider.com/Chemical-Structure."]::attr("href")'</span>
 <span class="line-empty" title="No Anys on this line!">    )</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x5)">    inchi = StringField('a[href^="http://www.chemspider.com/Search.aspx?q="]::attr("href")')</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x3)">    clean_text = Chain(replace_rsc_img_chars, strip_rsc_html)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">    process_text = normalize</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x1)">    process_chemspider_id = Chain(</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x1)">        LStrip("http://www.chemspider.com/Chemical-Structure."),</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x1)">        RStrip(".html"),</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x1)">        Discard(""),</span>
 <span class="line-empty" title="No Anys on this line!">    )</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x1)">    process_inchi = Chain(</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x1)">        LStrip("http://www.chemspider.com/Search.aspx?q="),</span>
 <span class="line-precise" title="No Anys on this line!">        urllib.parse.unquote,</span>
 <span class="line-precise" title="No Anys on this line!">        str.strip,</span>
@@ -1121,16 +1121,16 @@ Unannotated (x1)">        LStrip("http://www.chemspider.com/Search.aspx?q="),</s
 <span class="line-empty" title="No Anys on this line!">    """Embedded image. Includes both Schemes and Figures."""</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">    # First try image link, which provides high-res image in newer articles. Otherwise the image source.</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x3)">    url = UrlField('.imgHolder a::attr("href"), .imgHolder img::attr("src")')</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x5)">    label = StringField(".image_title &gt; b::text", strip=True)</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x5)">    reference = StringField('.image_title &gt; span::attr("id")')</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x5)">    caption = StringField(".graphic_title")</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x3)">    clean_caption = Chain(replace_rsc_img_chars, strip_rsc_html)</span>
 <span class="line-precise" title="No Anys on this line!">    process_caption = normalize</span>
 <span class="line-empty" title="No Anys on this line!"></span>
@@ -1138,33 +1138,33 @@ Unannotated (x3)">    clean_caption = Chain(replace_rsc_img_chars, strip_rsc_htm
 <span class="line-precise" title="No Anys on this line!">class RscTable(Entity):</span>
 <span class="line-empty" title="No Anys on this line!">    """Table within document."""</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x5)">    reference = StringField('span[id^="tab"]::attr("id")')</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x5)">    label = StringField("b::text")</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x5)">    caption = StringField('span[id^="tab"]')</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x5)">    src = StringField("./following-sibling::table[1]/table", xpath=True, raw=True)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x3)">    clean_src = Chain(replace_rsc_img_chars, clean)</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x3)">    clean_caption = Chain(replace_rsc_img_chars, strip_rsc_html)</span>
 <span class="line-precise" title="No Anys on this line!">    process_caption = normalize</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">class RscHtmlDocument(DocumentEntity):</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x5)">    title = StringField(".title_heading")</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x5)">    abstract = StringField(".abstract")</span>
 <span class="line-empty" title="No Anys on this line!">    # chemical_mentions = EntityField(RscChemicalMention, 'span.TC', all=True)</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x3)">    pdf_url = UrlField('meta[name="citation_pdf_url"]::attr("content")', lower=True)</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x3)">    html_url = UrlField('meta[name="citation_fulltext_html_url"]::attr("content")', lower=True)</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x3)">    landing_url = UrlField('meta[name="citation_abstract_html_url"]::attr("content")', lower=True)</span>
 <span class="line-empty" title="No Anys on this line!">    # figures = EntityField(RscImage, '.image_table', all=True)</span>
 <span class="line-empty" title="No Anys on this line!">    # schemes = EntityField(RscImage, '.image_table', all=True)</span>
@@ -1172,14 +1172,14 @@ Unannotated (x3)">    landing_url = UrlField('meta[name="citation_abstract_html_
 <span class="line-empty" title="No Anys on this line!">    # headings = StringField('.a_heading, .b_heading, .c_heading, .c_heading_indent, .d_heading, .d_heading_indent', all=True)</span>
 <span class="line-empty" title="No Anys on this line!">    # paragraphs = StringField('.otherpara, #wrapper &gt; span, #wrapper &gt; div:not(#art-admin):not(.left_head):not(right_head):not(.article_info):not(.table_caption):not(.otherpara) &gt; span:not(.oa):not(.c_heading_indent):not(.d_heading_indent)', all=True)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x3)">    clean_title = Chain(replace_rsc_img_chars, strip_rsc_html)</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x3)">    clean_abstract = Chain(replace_rsc_img_chars, strip_rsc_html)</span>
 <span class="line-empty" title="No Anys on this line!">    # clean_headings = Chain(replace_rsc_img_chars, strip_rsc_html)</span>
 <span class="line-empty" title="No Anys on this line!">    # clean_paragraphs = Chain(space_references, replace_rsc_img_chars, strip_rsc_html)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x4)">    process_title = Chain(normalize, RStrip("§"), RStrip("‡"), RStrip("†"), str.strip)</span>
 <span class="line-precise" title="No Anys on this line!">    process_abstract = normalize</span>
 <span class="line-empty" title="No Anys on this line!">    # process_headings = normalize</span>
@@ -1205,7 +1205,7 @@ Unannotated (x4)">    process_title = Chain(normalize, RStrip("§"), RStrip("‡
 <span class="line-precise" title="No Anys on this line!">class RscHtmlScraper(UrlScraper):</span>
 <span class="line-empty" title="No Anys on this line!">    """Scraper for RSC Landing pages."""</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-precise" title="Any Types on this line: 
+<span class="line-precise" title="Any Types on this line:
 Unannotated (x2)">    entity = RscHtmlDocument</span>
 </pre></td>
 </tr></tbody>

@@ -416,9 +416,9 @@
 <span class="line-precise" title="No Anys on this line!">        if len(tokens) - 2 * num_hyph &lt;= 2:</span>
 <span class="line-precise" title="No Anys on this line!">            abbr_text = "".join(tokens)</span>
 <span class="line-empty" title="No Anys on this line!">            if (</span>
-<span class="line-imprecise" title="Any Types on this line: 
+<span class="line-imprecise" title="Any Types on this line:
 Unannotated (x1)">                self.abbr_min &lt;= len(abbr_text) - num_hyph &lt;= self.abbr_max</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x6)">                and bracket_level(abbr_text) == 0</span>
 <span class="line-empty" title="No Anys on this line!">            ):</span>
 <span class="line-empty" title="No Anys on this line!">                # Check the number of characters in abbrev_text and if it contains balanced brackets or no brackets</span>
@@ -433,167 +433,167 @@ Unannotated (x6)">                and bracket_level(abbr_text) == 0</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="No Anys on this line!">    def _max_long_length(self, abbr):</span>
 <span class="line-empty" title="No Anys on this line!">        """Set upper limit to the number of tokens in full name."""</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x5)">        abbr_len = len("".join(abbr))</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x5)
 Omitted Generics (x23)">        return min(abbr_len + 5, abbr_len * 2)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="No Anys on this line!">    def _get_candidates(self, tokens):</span>
 <span class="line-empty" title="No Anys on this line!">        """Find valid pairs of full names and abbreviations."""</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x1)">        candidates = []</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x1)">        bracket_spans = []</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x4)
 Omitted Generics (x2)">        for i, t1 in enumerate(tokens):</span>
 <span class="line-empty" title="No Anys on this line!">            # Find potential abbreviation and full names in the form short_name=long_name</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x2)">            if t1 == "=":</span>
 <span class="line-empty" title="No Anys on this line!">                # abbr = long</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x4)">                abbr_span = (i - 1, i)  # abbreviation of 1 tokens is allowed only.</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x7)">                abbr = tokens[abbr_span[0] : abbr_span[1]]</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x6)">                if i &gt; 0 and self._is_allowed_abbr(abbr):</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x7)">                    long_span = self._get_long_span(tokens, abbr_span, start=i + 1)</span>
 <span class="line-empty" title="No Anys on this line!">                    # long = self._get_long(abbr, tokens[i+1:], fix_left=True)</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x1)">                    if long_span:</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x5)">                        candidates.append((abbr_span, long_span))</span>
 <span class="line-empty" title="No Anys on this line!">                        # candidates.append((abbr, long))</span>
 <span class="line-empty" title="No Anys on this line!">            # Find potential abbreviation and full names in the form long_name (short_name)</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x2)">            if t1 == "(":</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x7)
 Omitted Generics (x2)">                for j, t2 in enumerate(tokens[i + 1 :]):</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x1)">                    if t2 in {")", ";", ","}:</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x9)">                        bracket_spans.append((i + 1, i + j + 1))</span>
 <span class="line-any" title="No Anys on this line!">                        break</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x2)">        for span in bracket_spans:</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x7)">            inside = tokens[span[0] : span[1]]</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x3)">            if self._is_allowed_abbr(inside):</span>
 <span class="line-empty" title="No Anys on this line!">                # long ( abbr ) or ; or ,</span>
 <span class="line-empty" title="No Anys on this line!">                # long = self._get_long(inside, tokens[:span[0]-1], fix_right=True)</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x8)">                long_span = self._get_long_span(tokens, span, end=span[0] - 1)</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x1)">                if long_span:</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x5)">                    candidates.append((span, long_span))</span>
 <span class="line-empty" title="No Anys on this line!">                    # candidates.append((inside, long))</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x5)">            elif tokens[span[1]] == ")":</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x12)">                if span[0] - 1 &gt; 0 and self._is_allowed_abbr([tokens[span[0] - 2]]):</span>
 <span class="line-empty" title="No Anys on this line!">                    # abbr ( long )</span>
 <span class="line-empty" title="No Anys on this line!">                    # abbr = [tokens[span[0]-2]]</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x7)">                    abbr_span = (span[0] - 2, span[0] - 1)</span>
 <span class="line-empty" title="No Anys on this line!">                    # long = self._get_long(abbr, inside, fix_left=True, fix_right=True)</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x9)">                    long_span = self._get_long_span(tokens, abbr_span, start=span[0], end=span[1])</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x1)">                    if long_span:</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x5)">                        candidates.append((abbr_span, long_span))</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x5)">            elif tokens[span[1]] == ",":</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x11)
 Omitted Generics (x2)">                for j, t2 in enumerate(tokens[span[1] + 2 : span[1] + 4]):</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x2)">                    if t2 == ")":</span>
 <span class="line-empty" title="No Anys on this line!">                        # ( long , abbr )</span>
 <span class="line-empty" title="No Anys on this line!">                        # abbr = tokens[span[1]+1:span[1]+2+j]</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x9)">                        abbr_span = (span[1] + 1, span[1] + 2 + j)</span>
 <span class="line-empty" title="No Anys on this line!">                        # long = self._get_long(abbr, inside, fix_left=True, fix_right=True)</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x3)">                        long_span = self._get_long_span(</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x6)">                            tokens, abbr_span, start=span[0], end=span[1]</span>
 <span class="line-empty" title="No Anys on this line!">                        )</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x1)">                        if long_span:</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x5)">                            candidates.append((abbr_span, long_span))</span>
 <span class="line-any" title="No Anys on this line!">                        break</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x1)">        return candidates</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="No Anys on this line!">    def _get_long_span(self, tokens, abbr_span, start=None, end=None):</span>
 <span class="line-empty" title="No Anys on this line!">        """"""</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x7)">        abbr = tokens[abbr_span[0] : abbr_span[1]]</span>
 <span class="line-empty" title="No Anys on this line!">        # print(abbr)</span>
 <span class="line-empty" title="No Anys on this line!">        # Get the maximum allowed number of tokens</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x4)">        max_length = self._max_long_length(abbr)</span>
 <span class="line-empty" title="No Anys on this line!">        # print(max_length)</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x3)">        if start is not None and end is not None:</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x13)">            if end - start &lt;= max_length and self._is_valid_long(abbr, tokens[start:end]):</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x2)">                return start, end</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x3)">        elif start is None and end is not None:</span>
 <span class="line-empty" title="No Anys on this line!">            # Expand long backwards from end</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x1)">            i = 1</span>
 <span class="line-any" title="No Anys on this line!">            while True:</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x7)">                long_tokens = tokens[end - i : end]</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x4)">                num_hyph = long_tokens.count("-")</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x7)">                if len(long_tokens) - 2 * num_hyph &gt; max_length:</span>
 <span class="line-empty" title="No Anys on this line!">                    # ab-cd-ef should be counted as 1 token,  number tokens minus number of hyphens minus the number of tokens due to splitting on hyphens</span>
 <span class="line-any" title="No Anys on this line!">                    return None</span>
 <span class="line-empty" title="No Anys on this line!">                else:</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x4)">                    if self._is_valid_long(abbr, long_tokens):</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x4)">                        return (end - i, end)</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x1)">                    i += 1</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x3)">                if i &gt; end:</span>
 <span class="line-any" title="No Anys on this line!">                    return None</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x3)">        elif start is not None and end is None:</span>
 <span class="line-empty" title="No Anys on this line!">            # Expand long forwards from start</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x1)">            i = 1</span>
 <span class="line-any" title="No Anys on this line!">            while True:</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x7)">                long_tokens = tokens[start : start + i]</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x4)">                num_hyph = long_tokens.count("-")</span>
 <span class="line-empty" title="No Anys on this line!">                #  number tokens minus number of hyphens minus the number of tokens due to splitting on hyphens</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x7)">                if len(long_tokens) - 2 * num_hyph &gt; max_length:</span>
 <span class="line-any" title="No Anys on this line!">                    return None</span>
 <span class="line-empty" title="No Anys on this line!">                else:</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x4)">                    if self._is_valid_long(abbr, long_tokens):</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x4)">                        return (start, start + i)</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x1)">                    i += 1</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x6)">                if start + i == len(tokens):</span>
 <span class="line-any" title="No Anys on this line!">                    return None</span>
 <span class="line-empty" title="No Anys on this line!"></span>
@@ -602,114 +602,114 @@ Unannotated (x6)">                if start + i == len(tokens):</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="No Anys on this line!">        def _is_valid(abbr, long):</span>
 <span class="line-empty" title="No Anys on this line!">            # Disallowed characters - @ typically in emails</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x1)">            if "@" in long:</span>
 <span class="line-any" title="No Anys on this line!">                return False</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x4)">            l_i = len(long) - 1</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x7)">            for a_i in range(len(abbr) - 1, -1, -1):</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x6)">                current = abbr[a_i].lower()</span>
 <span class="line-empty" title="No Anys on this line!">                # print('current: %s' % current)</span>
 <span class="line-empty" title="No Anys on this line!">                # Ignore non-alphanumeric  # TODO: Greek!</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x3)">                if not current.isalnum():</span>
 <span class="line-any" title="No Anys on this line!">                    continue</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x11)">                while (l_i &gt;= 0 and long[l_i].lower() != current) or (</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x12)">                    a_i == 0 and l_i &gt; 0 and long[l_i - 1].isalnum()</span>
 <span class="line-empty" title="No Anys on this line!">                ):</span>
 <span class="line-empty" title="No Anys on this line!">                    # The letters in an abbreviation should appear in the long name</span>
 <span class="line-empty" title="No Anys on this line!">                    # in the same order as in the abbreviation</span>
 <span class="line-empty" title="No Anys on this line!">                    # print('L: %s' % long[l_i])</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x1)">                    l_i -= 1</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x2)">                if l_i &lt; 0:</span>
 <span class="line-empty" title="No Anys on this line!">                    # print('l_i &lt; 0 : fail')</span>
 <span class="line-any" title="No Anys on this line!">                    return False</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x1)">                l_i -= 1</span>
 <span class="line-any" title="No Anys on this line!">            return True</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x4)">        abbr = "".join(abbr)</span>
 <span class="line-empty" title="No Anys on this line!">        # long = ' '.join(tokens)</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x1)">        spaced_tokens = []</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x4)
 Omitted Generics (x2)">        for i, token in enumerate(tokens):</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x2)">            if token != "-":</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x2)">                spaced_tokens += [token, " "]</span>
 <span class="line-empty" title="No Anys on this line!">            else:</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x2)">                if i != 0:</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x4)">                    if spaced_tokens[-1] == " ":</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x4)">                        spaced_tokens.pop(-1)</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x3)">                spaced_tokens.append("-")</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x4)">        longs = {"".join(spaced_tokens)}</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x3)">        for before, after in self.abbr_equivs:</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x2)
 Omitted Generics (x3)">            newlongs = set()</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x2)">            for long in longs:</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x8)">                newlongs.add(long.replace(before, after))</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x4)">            longs.update(newlongs)</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x2)">        for long in longs:</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x6)">            if _is_valid(abbr, long):</span>
 <span class="line-any" title="No Anys on this line!">                return True</span>
 <span class="line-any" title="No Anys on this line!">        return False</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="No Anys on this line!">    def _filter_candidates(self, tokens, candidates):</span>
 <span class="line-empty" title="No Anys on this line!">        """Discard if long shorter than abbr, or if abbr token(s) are in the long token(s)."""</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x1)">        results = []</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x3)">        for abbr_span, long_span in candidates:</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x7)">            abbr = tokens[abbr_span[0] : abbr_span[1]]</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x7)">            long = tokens[long_span[0] : long_span[1]]</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x15)">            if not all(a in long for a in abbr) and len("".join(long)) &gt; len("".join(abbr)):</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x5)">                results.append((abbr_span, long_span))</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x1)">        return results</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="No Anys on this line!">    def detect(self, tokens):</span>
 <span class="line-empty" title="No Anys on this line!">        """Return a (abbr, long) pair for each abbreviation definition."""</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x1)">        results = []</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x5)">        for abbr_span, long_span in self.detect_spans(tokens):</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x3)">            results.append(</span>
 <span class="line-empty" title="No Anys on this line!">                (</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x6)">                    tokens[abbr_span[0] : abbr_span[1]],</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x6)">                    tokens[long_span[0] : long_span[1]],</span>
 <span class="line-empty" title="No Anys on this line!">                )</span>
 <span class="line-empty" title="No Anys on this line!">            )</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x1)">        return results</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="No Anys on this line!">    def detect_spans(self, tokens):</span>
@@ -717,11 +717,11 @@ Unannotated (x1)">        return results</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">        abbr_span and long_span are (int, int) spans defining token ranges.</span>
 <span class="line-empty" title="No Anys on this line!">        """</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x4)">        candidates = self._get_candidates(tokens)</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x5)">        results = self._filter_candidates(tokens, candidates)</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x1)">        return results</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!"></span>

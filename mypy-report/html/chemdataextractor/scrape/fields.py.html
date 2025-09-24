@@ -181,13 +181,13 @@
 <span class="line-empty" title="No Anys on this line!">        :param bool upper: (Optional) Whether to uppercase the string. Default False.</span>
 <span class="line-empty" title="No Anys on this line!">        :param bool strip: (Optional) Whether to strip whitespace from start/end. Default False.</span>
 <span class="line-empty" title="No Anys on this line!">        """</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x3)">        super().__init__(selection, **kwargs)</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x2)">        self.lower = lower</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x2)">        self.upper = upper</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x2)">        self.strip = strip</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="No Anys on this line!">    def process(self, value):</span>
@@ -210,9 +210,9 @@ Unannotated (x2)">        self.strip = strip</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">        :param strip_querystring: (Optional) Whether to remove the querystring. Default False.</span>
 <span class="line-empty" title="No Anys on this line!">        """</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x2)">        self.strip_querystring = strip_querystring</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x3)">        super().__init__(selection, **kwargs)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="No Anys on this line!">    def process(self, value):</span>
@@ -230,9 +230,9 @@ Unannotated (x3)">        super().__init__(selection, **kwargs)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">        :param entity: The embedded entity.</span>
 <span class="line-empty" title="No Anys on this line!">        """</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x2)">        self.entity = entity</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x3)">        super().__init__(selection, **kwargs)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="No Anys on this line!">    def scrape(self, selector, cleaner=None, processor=None):</span>
@@ -269,10 +269,10 @@ Unannotated (x3)">        super().__init__(selection, **kwargs)</span>
 <span class="line-any" title="No Anys on this line!">    def __init__(</span>
 <span class="line-empty" title="No Anys on this line!">        self,</span>
 <span class="line-empty" title="No Anys on this line!">        selection,</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x1)
 Omitted Generics (x4)">        true=re.compile("true|yes|1", re.I),</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x1)
 Omitted Generics (x4)">        false=re.compile("false|no|0", re.I),</span>
 <span class="line-empty" title="No Anys on this line!">        **kwargs,</span>
@@ -282,13 +282,13 @@ Omitted Generics (x4)">        false=re.compile("false|no|0", re.I),</span>
 <span class="line-empty" title="No Anys on this line!">        :param true: Regular expression match that evaluates to True.</span>
 <span class="line-empty" title="No Anys on this line!">        :param false: Regular expression match that evaluates to False.</span>
 <span class="line-empty" title="No Anys on this line!">        """</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x3)
 Omitted Generics (x4)">        self.true = re.compile(true, re.U) if isinstance(true, str) else true</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x3)
 Omitted Generics (x4)">        self.false = re.compile(false, re.U) if isinstance(false, str) else false</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Unannotated (x3)">        super().__init__(selection, **kwargs)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="No Anys on this line!">    def process(self, value):</span>

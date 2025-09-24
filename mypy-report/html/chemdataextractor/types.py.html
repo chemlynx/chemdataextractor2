@@ -713,7 +713,7 @@
 <span class="line-precise" title="No Anys on this line!">CHEMICAL_FORMULA_PATTERN: Final[str] = r"[A-Z][a-z]?(\d+)?(\([A-Z][a-z]?\d*\)\d*)?"</span>
 <span class="line-precise" title="No Anys on this line!">TEMPERATURE_UNITS: Final[tuple[str, ...]] = ("°C", "°F", "K", "celsius", "fahrenheit", "kelvin")</span>
 <span class="line-precise" title="No Anys on this line!">MASS_UNITS: Final[tuple[str, ...]] = ("g", "kg", "mg", "μg", "ng", "lb", "oz")</span>
-<span class="line-precise" title="Any Types on this line: 
+<span class="line-precise" title="Any Types on this line:
 Omitted Generics (x3)">SUPPORTED_ELEMENTS: Final[frozenset[str]] = frozenset(</span>
 <span class="line-empty" title="No Anys on this line!">    [</span>
 <span class="line-precise" title="No Anys on this line!">        "H",</span>
@@ -778,7 +778,7 @@ Omitted Generics (x3)">SUPPORTED_ELEMENTS: Final[frozenset[str]] = frozenset(</s
 <span class="line-unanalyzed" title="No Anys on this line!">    BaseParserElement = "chemdataextractor.parse.base.BaseParserElement"</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-precise" title="Any Types on this line: 
+<span class="line-precise" title="Any Types on this line:
 Omitted Generics (x2)">@runtime_checkable</span>
 <span class="line-precise" title="No Anys on this line!">class Serializable(Protocol):</span>
 <span class="line-empty" title="No Anys on this line!">    """Protocol for objects that can be serialized to dictionaries.</span>
@@ -787,7 +787,7 @@ Omitted Generics (x2)">@runtime_checkable</span>
 <span class="line-empty" title="No Anys on this line!">    to and from dictionary representations for data persistence and exchange.</span>
 <span class="line-empty" title="No Anys on this line!">    """</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-imprecise" title="Any Types on this line: 
+<span class="line-imprecise" title="Any Types on this line:
 Explicit (x1)">    def serialize(self, primitive: bool = False) -&gt; dict[str, Any]:</span>
 <span class="line-empty" title="No Anys on this line!">        """Serialize object to dictionary representation.</span>
 <span class="line-empty" title="No Anys on this line!"></span>
@@ -800,7 +800,7 @@ Explicit (x1)">    def serialize(self, primitive: bool = False) -&gt; dict[str, 
 <span class="line-precise" title="No Anys on this line!">        ...</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">    @classmethod</span>
-<span class="line-imprecise" title="Any Types on this line: 
+<span class="line-imprecise" title="Any Types on this line:
 Omitted Generics (x2)
 Explicit (x1)">    def deserialize(cls, data: dict[str, Any]) -&gt; Self:</span>
 <span class="line-empty" title="No Anys on this line!">        """Deserialize object from dictionary representation.</span>
@@ -814,7 +814,7 @@ Explicit (x1)">    def deserialize(cls, data: dict[str, Any]) -&gt; Self:</span>
 <span class="line-precise" title="No Anys on this line!">        ...</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-precise" title="Any Types on this line: 
+<span class="line-precise" title="Any Types on this line:
 Omitted Generics (x2)">@runtime_checkable</span>
 <span class="line-precise" title="No Anys on this line!">class Mergeable(Protocol):</span>
 <span class="line-empty" title="No Anys on this line!">    """Protocol for objects that support contextual merging.</span>
@@ -823,7 +823,7 @@ Omitted Generics (x2)">@runtime_checkable</span>
 <span class="line-empty" title="No Anys on this line!">    merge their fields with other compatible objects based on contextual distance.</span>
 <span class="line-empty" title="No Anys on this line!">    """</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-imprecise" title="Any Types on this line: 
+<span class="line-imprecise" title="Any Types on this line:
 Omitted Generics (x2)">    def merge_contextual(self, other: Self, distance: ContextualRange | None = None) -&gt; bool:</span>
 <span class="line-empty" title="No Anys on this line!">        """Merge contextual fields from another object.</span>
 <span class="line-empty" title="No Anys on this line!"></span>
@@ -836,7 +836,7 @@ Omitted Generics (x2)">    def merge_contextual(self, other: Self, distance: Con
 <span class="line-empty" title="No Anys on this line!">        """</span>
 <span class="line-precise" title="No Anys on this line!">        ...</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-imprecise" title="Any Types on this line: 
+<span class="line-imprecise" title="Any Types on this line:
 Omitted Generics (x2)">    def can_merge_with(self, other: Self) -&gt; bool:</span>
 <span class="line-empty" title="No Anys on this line!">        """Check if two objects are compatible for merging.</span>
 <span class="line-empty" title="No Anys on this line!"></span>
@@ -849,7 +849,7 @@ Omitted Generics (x2)">    def can_merge_with(self, other: Self) -&gt; bool:</sp
 <span class="line-precise" title="No Anys on this line!">        ...</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-precise" title="Any Types on this line: 
+<span class="line-precise" title="Any Types on this line:
 Omitted Generics (x2)">@runtime_checkable</span>
 <span class="line-precise" title="No Anys on this line!">class Parseable(Protocol):</span>
 <span class="line-empty" title="No Anys on this line!">    """Protocol for elements that can be parsed for data extraction.</span>
@@ -858,7 +858,7 @@ Omitted Generics (x2)">@runtime_checkable</span>
 <span class="line-empty" title="No Anys on this line!">    and extract structured information using parsing expressions.</span>
 <span class="line-empty" title="No Anys on this line!">    """</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Explicit (x1)">    def parse(self, text: str, **kwargs: Any) -&gt; list[BaseModel]:</span>
 <span class="line-empty" title="No Anys on this line!">        """Parse text and extract model instances.</span>
 <span class="line-empty" title="No Anys on this line!"></span>
@@ -881,7 +881,7 @@ Explicit (x1)">    def parse(self, text: str, **kwargs: Any) -&gt; list[BaseMode
 <span class="line-precise" title="No Anys on this line!">        ...</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-precise" title="Any Types on this line: 
+<span class="line-precise" title="Any Types on this line:
 Omitted Generics (x2)">@runtime_checkable</span>
 <span class="line-precise" title="No Anys on this line!">class ChemicalEntity(Protocol):</span>
 <span class="line-empty" title="No Anys on this line!">    """Protocol for chemical entities with standard properties.</span>
@@ -909,7 +909,7 @@ Omitted Generics (x2)">@runtime_checkable</span>
 <span class="line-precise" title="No Anys on this line!">        ...</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-precise" title="Any Types on this line: 
+<span class="line-precise" title="Any Types on this line:
 Omitted Generics (x2)">@runtime_checkable</span>
 <span class="line-precise" title="No Anys on this line!">class QuantitativeProperty(Protocol[NumericT]):</span>
 <span class="line-empty" title="No Anys on this line!">    """Protocol for properties with numeric values and units.</span>
@@ -933,7 +933,7 @@ Omitted Generics (x2)">@runtime_checkable</span>
 <span class="line-empty" title="No Anys on this line!">        """Error/uncertainty values if available."""</span>
 <span class="line-precise" title="No Anys on this line!">        ...</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-imprecise" title="Any Types on this line: 
+<span class="line-imprecise" title="Any Types on this line:
 Omitted Generics (x6)">    def convert_to(self, target_unit: Unit) -&gt; Self:</span>
 <span class="line-empty" title="No Anys on this line!">        """Convert to different units.</span>
 <span class="line-empty" title="No Anys on this line!"></span>
@@ -946,7 +946,7 @@ Omitted Generics (x6)">    def convert_to(self, target_unit: Unit) -&gt; Self:</
 <span class="line-precise" title="No Anys on this line!">        ...</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-precise" title="Any Types on this line: 
+<span class="line-precise" title="Any Types on this line:
 Omitted Generics (x2)">@runtime_checkable</span>
 <span class="line-precise" title="No Anys on this line!">class Cacheable(Protocol):</span>
 <span class="line-empty" title="No Anys on this line!">    """Protocol for objects that support caching operations.</span>
@@ -976,7 +976,7 @@ Omitted Generics (x2)">@runtime_checkable</span>
 <span class="line-precise" title="No Anys on this line!">        ...</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-precise" title="Any Types on this line: 
+<span class="line-precise" title="Any Types on this line:
 Omitted Generics (x2)">@runtime_checkable</span>
 <span class="line-precise" title="No Anys on this line!">class Configurable(Protocol):</span>
 <span class="line-empty" title="No Anys on this line!">    """Protocol for objects that can be configured with settings.</span>
@@ -985,7 +985,7 @@ Omitted Generics (x2)">@runtime_checkable</span>
 <span class="line-empty" title="No Anys on this line!">    configuration dictionaries and can validate settings.</span>
 <span class="line-empty" title="No Anys on this line!">    """</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-imprecise" title="Any Types on this line: 
+<span class="line-imprecise" title="Any Types on this line:
 Explicit (x1)">    def configure(self, config: dict[str, Any]) -&gt; None:</span>
 <span class="line-empty" title="No Anys on this line!">        """Apply configuration settings to this object.</span>
 <span class="line-empty" title="No Anys on this line!"></span>
@@ -994,7 +994,7 @@ Explicit (x1)">    def configure(self, config: dict[str, Any]) -&gt; None:</span
 <span class="line-empty" title="No Anys on this line!">        """</span>
 <span class="line-precise" title="No Anys on this line!">        ...</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-imprecise" title="Any Types on this line: 
+<span class="line-imprecise" title="Any Types on this line:
 Explicit (x1)">    def get_config(self) -&gt; dict[str, Any]:</span>
 <span class="line-empty" title="No Anys on this line!">        """Get current configuration settings.</span>
 <span class="line-empty" title="No Anys on this line!"></span>
@@ -1003,7 +1003,7 @@ Explicit (x1)">    def get_config(self) -&gt; dict[str, Any]:</span>
 <span class="line-empty" title="No Anys on this line!">        """</span>
 <span class="line-precise" title="No Anys on this line!">        ...</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-imprecise" title="Any Types on this line: 
+<span class="line-imprecise" title="Any Types on this line:
 Explicit (x1)">    def validate_config(self, config: dict[str, Any]) -&gt; bool:</span>
 <span class="line-empty" title="No Anys on this line!">        """Validate configuration settings.</span>
 <span class="line-empty" title="No Anys on this line!"></span>
@@ -1016,7 +1016,7 @@ Explicit (x1)">    def validate_config(self, config: dict[str, Any]) -&gt; bool:
 <span class="line-precise" title="No Anys on this line!">        ...</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-precise" title="Any Types on this line: 
+<span class="line-precise" title="Any Types on this line:
 Omitted Generics (x2)">@runtime_checkable</span>
 <span class="line-precise" title="No Anys on this line!">class Extractable(Protocol):</span>
 <span class="line-empty" title="No Anys on this line!">    """Protocol for objects that can extract structured data.</span>
@@ -1025,7 +1025,7 @@ Omitted Generics (x2)">@runtime_checkable</span>
 <span class="line-empty" title="No Anys on this line!">    that return confidence-scored results.</span>
 <span class="line-empty" title="No Anys on this line!">    """</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-imprecise" title="Any Types on this line: 
+<span class="line-imprecise" title="Any Types on this line:
 Explicit (x1)">    def extract(self, source: str) -&gt; list[dict[str, Any]]:</span>
 <span class="line-empty" title="No Anys on this line!">        """Extract structured data from source text.</span>
 <span class="line-empty" title="No Anys on this line!"></span>
@@ -1037,7 +1037,7 @@ Explicit (x1)">    def extract(self, source: str) -&gt; list[dict[str, Any]]:</s
 <span class="line-empty" title="No Anys on this line!">        """</span>
 <span class="line-precise" title="No Anys on this line!">        ...</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-imprecise" title="Any Types on this line: 
+<span class="line-imprecise" title="Any Types on this line:
 Explicit (x1)">    def extract_with_confidence(self, source: str) -&gt; list[tuple[dict[str, Any], float]]:</span>
 <span class="line-empty" title="No Anys on this line!">        """Extract data with confidence scores.</span>
 <span class="line-empty" title="No Anys on this line!"></span>
@@ -1050,7 +1050,7 @@ Explicit (x1)">    def extract_with_confidence(self, source: str) -&gt; list[tup
 <span class="line-precise" title="No Anys on this line!">        ...</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-precise" title="Any Types on this line: 
+<span class="line-precise" title="Any Types on this line:
 Omitted Generics (x2)">@runtime_checkable</span>
 <span class="line-precise" title="No Anys on this line!">class Validatable(Protocol):</span>
 <span class="line-empty" title="No Anys on this line!">    """Protocol for objects that can validate their data.</span>
@@ -1097,9 +1097,9 @@ Omitted Generics (x2)">@runtime_checkable</span>
 <span class="line-precise" title="No Anys on this line!">class ModelConfig(TypedDict):</span>
 <span class="line-empty" title="No Anys on this line!">    """Configuration for model behavior."""</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-imprecise" title="Any Types on this line: 
+<span class="line-imprecise" title="Any Types on this line:
 Explicit (x1)">    parsers: list[Any]  # BaseParser - avoiding circular import</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Explicit (x1)">    contextual_range: Any  # ContextualRange</span>
 <span class="line-precise" title="No Anys on this line!">    required: NotRequired[bool]</span>
 <span class="line-precise" title="No Anys on this line!">    contextual: NotRequired[bool]</span>
@@ -1109,7 +1109,7 @@ Explicit (x1)">    contextual_range: Any  # ContextualRange</span>
 <span class="line-empty" title="No Anys on this line!">    """Structured result from data extraction operations."""</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">    text: str  # Original text that was extracted from</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Explicit (x1)">    value: Any  # Extracted value (could be string, number, etc.)</span>
 <span class="line-precise" title="No Anys on this line!">    confidence: NotRequired[float]  # Confidence score (0.0-1.0)</span>
 <span class="line-precise" title="No Anys on this line!">    units: NotRequired[str]  # Units for numeric values</span>
@@ -1127,7 +1127,7 @@ Explicit (x1)">    value: Any  # Extracted value (could be string, number, etc.)
 <span class="line-precise" title="No Anys on this line!">    smiles: NotRequired[str]  # SMILES representation</span>
 <span class="line-precise" title="No Anys on this line!">    inchi: NotRequired[str]  # InChI representation</span>
 <span class="line-precise" title="No Anys on this line!">    formula: NotRequired[str]  # Molecular formula</span>
-<span class="line-imprecise" title="Any Types on this line: 
+<span class="line-imprecise" title="Any Types on this line:
 Explicit (x1)">    properties: NotRequired[dict[str, Any]]  # Associated properties</span>
 <span class="line-precise" title="No Anys on this line!">    confidence: NotRequired[float]  # Identification confidence</span>
 <span class="line-empty" title="No Anys on this line!"></span>
@@ -1139,7 +1139,7 @@ Explicit (x1)">    properties: NotRequired[dict[str, Any]]  # Associated propert
 <span class="line-precise" title="No Anys on this line!">    value: list[float]  # Numeric value(s)</span>
 <span class="line-precise" title="No Anys on this line!">    units: NotRequired[str]  # Units of measurement</span>
 <span class="line-precise" title="No Anys on this line!">    error: NotRequired[float]  # Uncertainty/error value</span>
-<span class="line-imprecise" title="Any Types on this line: 
+<span class="line-imprecise" title="Any Types on this line:
 Explicit (x1)">    conditions: NotRequired[dict[str, Any]]  # Experimental conditions</span>
 <span class="line-precise" title="No Anys on this line!">    method: NotRequired[str]  # Measurement method</span>
 <span class="line-precise" title="No Anys on this line!">    reference: NotRequired[str]  # Literature reference</span>
@@ -1150,13 +1150,13 @@ Explicit (x1)">    conditions: NotRequired[dict[str, Any]]  # Experimental condi
 <span class="line-empty" title="No Anys on this line!">    """Structured data for spectroscopic measurements."""</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">    spectrum_type: str  # Type (e.g., 'IR', 'NMR', 'UV-Vis')</span>
-<span class="line-imprecise" title="Any Types on this line: 
+<span class="line-imprecise" title="Any Types on this line:
 Explicit (x1)">    peaks: list[dict[str, Any]]  # List of peak data</span>
 <span class="line-precise" title="No Anys on this line!">    solvent: NotRequired[str]  # Solvent used</span>
 <span class="line-precise" title="No Anys on this line!">    temperature: NotRequired[float]  # Measurement temperature</span>
 <span class="line-precise" title="No Anys on this line!">    frequency_range: NotRequired[tuple[float, float]]  # Frequency range</span>
 <span class="line-precise" title="No Anys on this line!">    instrument: NotRequired[str]  # Instrument used</span>
-<span class="line-imprecise" title="Any Types on this line: 
+<span class="line-imprecise" title="Any Types on this line:
 Explicit (x1)">    conditions: NotRequired[dict[str, Any]]  # Other conditions</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!"></span>
@@ -1165,55 +1165,55 @@ Explicit (x1)">    conditions: NotRequired[dict[str, Any]]  # Other conditions</
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">    field: str  # Field name that failed validation</span>
 <span class="line-precise" title="No Anys on this line!">    message: str  # Error message</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Explicit (x1)">    value: Any  # Invalid value</span>
 <span class="line-precise" title="No Anys on this line!">    expected_type: NotRequired[str]  # Expected type/format</span>
 <span class="line-precise" title="No Anys on this line!">    severity: NotRequired[str]  # Error severity level</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!"># Type aliases for common patterns</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Explicit (x14)
 Omitted Generics (x36)">type RecordDict = dict[str, Any]</span>
-<span class="line-precise" title="Any Types on this line: 
+<span class="line-precise" title="Any Types on this line:
 Omitted Generics (x36)">type SerializedRecord = dict[str, RecordDict]</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Explicit (x4)
 Omitted Generics (x6)">type ElementList = list[Any]  # List[BaseElement]</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Explicit (x4)
 Omitted Generics (x6)">type ModelList = list[Any]  # List[BaseModel]</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!"># Enhanced type aliases from Phase 3 work</span>
-<span class="line-precise" title="Any Types on this line: 
+<span class="line-precise" title="Any Types on this line:
 Omitted Generics (x6)">type TokenSpan = tuple[int, int]  # Start and end positions of tokens</span>
-<span class="line-precise" title="Any Types on this line: 
+<span class="line-precise" title="Any Types on this line:
 Omitted Generics (x6)">type TokenList = list[str]  # List of token strings</span>
 <span class="line-precise" title="No Anys on this line!">type CEMTag = str  # Chemical entity mention tag (e.g., 'B-CM', 'I-CM')</span>
-<span class="line-precise" title="Any Types on this line: 
+<span class="line-precise" title="Any Types on this line:
 Omitted Generics (x6)">type TokenTags = list[tuple[str, CEMTag]]  # List of (token, tag) pairs</span>
-<span class="line-precise" title="Any Types on this line: 
+<span class="line-precise" title="Any Types on this line:
 Omitted Generics (x6)">type AbbreviationDef = tuple[</span>
 <span class="line-precise" title="No Anys on this line!">    list[str], list[str], str</span>
 <span class="line-empty" title="No Anys on this line!">]  # (definition_tokens, abbrev_tokens, abbrev_str)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!"># Table processing types</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Explicit (x5)
 Omitted Generics (x6)">type TableData = list[list[Any]]  # Raw table data structure</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Explicit (x4)
 Omitted Generics (x6)">type CDETable = list[Any]  # CDE table with Cell objects (avoiding circular import)</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Explicit (x4)
 Omitted Generics (x6)">type CDETables = list[Any]  # List of CDE tables</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Explicit (x4)
 Omitted Generics (x6)">type CategoryTable = list[Any]  # Table category data</span>
 <span class="line-precise" title="No Anys on this line!">type TableRecords = Any  # ModelList collection (avoiding circular import)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!"># Contextual merging types</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Explicit (x6)
 Omitted Generics (x36)">type RangeCount = dict[</span>
 <span class="line-unanalyzed" title="No Anys on this line!">    Any, float</span>
@@ -1221,11 +1221,11 @@ Omitted Generics (x36)">type RangeCount = dict[</span>
 <span class="line-precise" title="No Anys on this line!">type NumericValue = int | float  # Numeric values for range calculations</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!"># Parser types</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Omitted Generics (x6)
 Explicit (x4)">type ParseResult = tuple[list[Any], int]  # Parse result with tokens and position</span>
 <span class="line-precise" title="No Anys on this line!">type ParserFunction = Callable[[ParseResult], bool]  # Function to validate parse results</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line:
 Explicit (x4)
 Omitted Generics (x6)">type EntityList = list[Any]  # List of parser elements (avoiding circular import)</span>
 <span class="line-empty" title="No Anys on this line!"></span>

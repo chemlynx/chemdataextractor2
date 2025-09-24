@@ -11,19 +11,11 @@ from __future__ import annotations
 import time
 from typing import Any
 
-from chemdataextractor.types import (
-    MultiModelParser,
-    ModelTuple,
-    ParserFunction,
-    ConfidenceFunction,
-)
-from chemdataextractor.utils import (
-    cache_results,
-    timing_decorator,
-    with_confidence_scoring,
-    MultiParser,
-)
-
+from chemdataextractor.types import ModelTuple
+from chemdataextractor.utils import MultiParser
+from chemdataextractor.utils import cache_results
+from chemdataextractor.utils import timing_decorator
+from chemdataextractor.utils import with_confidence_scoring
 
 # Phase 4a: ParamSpec Decorator Demonstrations
 
