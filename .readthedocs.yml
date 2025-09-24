@@ -14,7 +14,12 @@ formats: all
 
 # Optionally set the version of Python and requirements required to build your docs
 python:
-  version: 3.6
+  version: "3.9"
   install:
+    # Modern approach: install with optional dependencies
+    - method: pip
+      path: .
+      extra_requirements:
+        - docs
+    # Fallback: legacy requirements files for compatibility
     - requirements: docs/requirements.txt
-    - requirements: requirements/development.txt

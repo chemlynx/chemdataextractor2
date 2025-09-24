@@ -1,13 +1,13 @@
 [project]
 description = "A toolkit for extracting chemical information from the scientific literature"
 name = "chemdataextractor2"
-version = "2.4.0"
+version = "2.5.0a0"
 authors = [
   { name = "Matt Swain", email = "m.swain@me.com" },
   { name = "Callum Court", email = "cc889@cam.ac.uk" },
 ]
 readme = "README.md"
-requires-python = ">=3.11"
+requires-python = ">=3.9"
 dependencies = [
   "appdirs>=1.4.3",
   "beautifulsoup4>=4.12.0",
@@ -59,6 +59,17 @@ dev = [
   "safety>=3.6.1",
   "vulture>=2.14",
 ]
+
+docs = [
+  "sphinx==1.8.2",
+  "ipykernel",
+  "m2r2",
+  "nbsphinx==0.3.5",
+  "nbsphinx-link==1.1.1",
+  "pydata-sphinx-theme",
+  "Jinja2<3.0.0",
+]
+
 [project.scripts]
 cde = "chemdataextractor.cli:cli"
 

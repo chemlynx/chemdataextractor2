@@ -12,10 +12,12 @@ jobs:
     name: Test on Python ${{ matrix.python-version }}
     steps:
     - uses: actions/checkout@v4
-    - name: Set up Python ${{ matrix.python-version }}
-      uses: actions/setup-python@v5
+    - name: Install uv
+      uses: astral-sh/setup-uv@v3
       with:
-        python-version: ${{ matrix.python-version }}
+        version: "latest"
+    - name: Set up Python ${{ matrix.python-version }}
+      run: uv python install ${{ matrix.python-version }}
     - name: Set up Selenium
       run: |
         wget https://github.com/mozilla/geckodriver/releases/download/v0.11.1/geckodriver-v0.11.1-linux64.tar.gz
@@ -24,12 +26,11 @@ jobs:
         export PATH=$PATH:$PWD/geckodriver
     - name: Install dependencies
       run: |
-        python -m pip install --upgrade pip setuptools wheel
-        pip install nbsphinx==0.3.5 nbsphinx-link m2r2 ipython ipykernel sphinx-rtd-theme
-        pip install future==0.17.1
-        pip install -r requirements/development.txt
-        pip install .
-        cde data download
+        # Install documentation dependencies (not in pyproject.toml)
+        uv add --group docs nbsphinx==0.3.5 nbsphinx-link m2r2 ipython ipykernel sphinx-rtd-theme future==0.17.1
+        # Install project with development dependencies
+        uv sync --group dev --group docs
+        uv run cde data download
     - name: Running tests
       run: |
-        pytest -W ignore::DeprecationWarning
+        uv run pytest -W ignore::DeprecationWarning

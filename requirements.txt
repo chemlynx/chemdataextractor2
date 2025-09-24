@@ -1,1 +1,5 @@
+# Legacy requirements file - dependencies are now managed in pyproject.toml
+# For modern installation, use: uv sync
+# For pip installation, use: pip install .
+
 -r requirements/production.txt

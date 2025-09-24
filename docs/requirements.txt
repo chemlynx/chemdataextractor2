@@ -1,3 +1,6 @@
+# Legacy requirements file - documentation dependencies are now managed in pyproject.toml [dependency-groups.docs]
+# For modern setup, use: uv sync --group docs
+
 python_version > '3.6'
 sphinx == 1.8.2
 ipykernel

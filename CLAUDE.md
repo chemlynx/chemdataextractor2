@@ -81,22 +81,26 @@ ChemDataExtractor2 is a comprehensive toolkit for extracting chemical informatio
 - **Content**: Quinazolinone synthesis and TLX agonist development research
 - **Results**: Successfully extracted comprehensive chemical data
 
-### Extraction Scripts Created
+### Development and Example Scripts ✅ ORGANIZED
 
-1. **extract_rsc_configurable.py** - User-configurable model selection
-   - Options: 'default', 'fast' (no BERT), 'all', custom comma-separated
-   - Interactive model selection for different use cases
+Scripts are now organized in the `scripts/` directory:
 
-2. **extract_rsc_article.py** - Comprehensive extraction with all 11 models
-   - Complete analysis including compound identification and property extraction
+- **`scripts/examples/`** - RSC journal article extraction examples
+  - `extract_rsc_configurable.py` - User-configurable model selection
+  - `extract_rsc_article.py` - Comprehensive extraction with all 11 models
+  - `extract_rsc_quick.py` - Fast melting point extraction
+  - `extract_rsc_simple.py` - Simple extraction example
+  - `rsc_extraction_summary.py` - Capabilities demonstration
+  - `main.py` - Basic usage demonstration
 
-3. **extract_rsc_quick.py** - Fast melting point extraction
-   - Avoids BERT initialization for quick results
+- **`scripts/development/`** - Debugging and validation tools
+  - `debug_trigger_extraction.py` - Trigger phrase debugging
+  - `validate_trigger_optimization.py` - Performance validation
+  - `count_mypy_errors.py` - Type checking analysis
 
-4. **analyze_rsc_text.py** - Fast regex-based text analysis
-   - Completed successfully: found 47 quinazoline compounds, 20 NMR shifts, 24 MS values
-
-5. **rsc_extraction_summary.py** - Capabilities demonstration
+- **`scripts/benchmarks/`** - Performance data and analysis results
+  - Various JSON files with benchmark results
+  - Performance analysis reports
 
 ### BERT Model Analysis ✅ COMPLETED
 
