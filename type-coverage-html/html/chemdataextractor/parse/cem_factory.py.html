@@ -1416,7 +1416,7 @@ Unannotated (x8)">        self.icm = kwargs.get("icm", icm.with_condition(not_se
 Unannotated (x8)">        self.bcm = kwargs.get("bcm", bcm.with_condition(not_separator))</span>
 <span class="line-empty" title="No Anys on this line!">        # self.joining_characters = kwargs.get("joining_characters", R(r'^\@|\/|:|[-–‐‑‒–—―]$'))</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x8)">        self.joining_characters = kwargs.get("joining_characters", R(r"^\@|\/|[-–‐‑‒–—―]$"))</span>
+Unannotated (x5)">        self.joining_characters = kwargs.get("joining_characters", R(r"^\@|\/|[-–‐‑‒–—―]$"))</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">        # Tagged chemical mentions - One B-CM tag followed by zero or more I-CM tags.</span>
 <span class="line-any" title="Any Types on this line: 
@@ -1435,7 +1435,7 @@ Unannotated (x4)">        self.alphanumeric = kwargs.get(</span>
 Unannotated (x2)">            Every(</span>
 <span class="line-empty" title="No Anys on this line!">                [</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x4)">                    R(r"^(d-)?(\d{1,2}[A-Za-z]{1,2}[′″‴‶‷⁗]?)(-d)?$"),</span>
+Unannotated (x1)">                    R(r"^(d-)?(\d{1,2}[A-Za-z]{1,2}[′″‴‶‷⁗]?)(-d)?$"),</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x5)">                    Not(self.bcm | self.icm),</span>
 <span class="line-empty" title="No Anys on this line!">                ]</span>
@@ -1445,24 +1445,24 @@ Unannotated (x5)">                    Not(self.bcm | self.icm),</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x4)">        self.lenient_alphanumeric = kwargs.get(</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x4)">            "lenient_alphanumeric", R(r"^(d-)?(\d{1,2}[A-Za-z]{1,2}[′″‴‶‷⁗]?)(-d)?$")</span>
+Unannotated (x1)">            "lenient_alphanumeric", R(r"^(d-)?(\d{1,2}[A-Za-z]{1,2}[′″‴‶‷⁗]?)(-d)?$")</span>
 <span class="line-empty" title="No Anys on this line!">        )</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x15)">        self.numeric = kwargs.get("numeric", Every([R(r"^\d{1,3}$"), Not(self.bcm | self.icm)]))</span>
+Unannotated (x12)">        self.numeric = kwargs.get("numeric", Every([R(r"^\d{1,3}$"), Not(self.bcm | self.icm)]))</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x8)">        self.lenient_numeric = kwargs.get("lenient_numeric", R(r"^\d{1,3}$"))</span>
+Unannotated (x5)">        self.lenient_numeric = kwargs.get("lenient_numeric", R(r"^\d{1,3}$"))</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x4)">        self.letter_number = kwargs.get(</span>
 <span class="line-any" title="No Anys on this line!">            "letter_number",</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x11)">            Every([R(r"^(H\d)?[LSNM]{1,2}\d\d?$"), Not(self.bcm | self.icm)]),</span>
+Unannotated (x8)">            Every([R(r"^(H\d)?[LSNM]{1,2}\d\d?$"), Not(self.bcm | self.icm)]),</span>
 <span class="line-empty" title="No Anys on this line!">        )</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x4)">        self.lenient_letter_number = kwargs.get(</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x4)">            "lenient_letter_number", R(r"^(H\d)?[LSNM]{1,2}\d\d?$")</span>
+Unannotated (x1)">            "lenient_letter_number", R(r"^(H\d)?[LSNM]{1,2}\d\d?$")</span>
 <span class="line-empty" title="No Anys on this line!">        )</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">        # Blocklist to truncate chemical mentions where tags continue on incorrectly</span>
@@ -1471,19 +1471,19 @@ Unannotated (x4)">        self.cm_blocklist = kwargs.get(</span>
 <span class="line-any" title="No Anys on this line!">            "cm_blocklist",</span>
 <span class="line-empty" title="No Anys on this line!">            (</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x8)">                W("in")</span>
+Unannotated (x7)">                W("in")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">                | I("electrodes")</span>
+Unannotated (x1)">                | I("electrodes")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">                | I("anodes")</span>
+Unannotated (x1)">                | I("anodes")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">                | I("specimen")</span>
+Unannotated (x1)">                | I("specimen")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">                | I("and")</span>
+Unannotated (x1)">                | I("and")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x7)">                | W(":") + R(r"^m\.?p\.?$", re.I)</span>
+Unannotated (x3)">                | W(":") + R(r"^m\.?p\.?$", re.I)</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x9)">                | W(":") + Any() + R(r"^N\.?M\.?R\.?\(?$", re.I)</span>
+Unannotated (x5)">                | W(":") + Any() + R(r"^N\.?M\.?R\.?\(?$", re.I)</span>
 <span class="line-empty" title="No Anys on this line!">            ),</span>
 <span class="line-empty" title="No Anys on this line!">        )</span>
 <span class="line-empty" title="No Anys on this line!"></span>
@@ -1494,20 +1494,20 @@ Unannotated (x4)">        self.exclude_prefix = kwargs.get(</span>
 Unannotated (x2)">            Start()</span>
 <span class="line-empty" title="No Anys on this line!">            + (</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x9)">                lbrct + roman_numeral + rbrct + Not(hyphen)</span>
+Unannotated (x7)">                lbrct + roman_numeral + rbrct + Not(hyphen)</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x7)">                | (R(r"^\d{1,3}(\.\d{1,3}(\.\d{1,3}(\.\d{1,3})?)?)?$") + Not(hyphen))</span>
+Unannotated (x4)">                | (R(r"^\d{1,3}(\.\d{1,3}(\.\d{1,3}(\.\d{1,3})?)?)?$") + Not(hyphen))</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x12)">                | (I("stage") | I("step") | I("section") | I("part"))</span>
+Unannotated (x8)">                | (I("stage") | I("step") | I("section") | I("part"))</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x9)">                + (self.alphanumeric | self.numeric | roman_numeral | R("^[A-Z]$"))</span>
+Unannotated (x6)">                + (self.alphanumeric | self.numeric | roman_numeral | R("^[A-Z]$"))</span>
 <span class="line-empty" title="No Anys on this line!">            ),</span>
 <span class="line-empty" title="No Anys on this line!">        )</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x12)">        self.comma = kwargs.get("comma", (W(",") | T(",")).hide())</span>
+Unannotated (x11)">        self.comma = kwargs.get("comma", (W(",") | T(",")).hide())</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x12)">        self.colon = kwargs.get("colon", (W(":") | T(":")).hide())</span>
+Unannotated (x11)">        self.colon = kwargs.get("colon", (W(":") | T(":")).hide())</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">        # Prefixes to include in the name</span>
 <span class="line-any" title="Any Types on this line: 
@@ -1517,12 +1517,12 @@ Unannotated (x4)">        self.include_prefix = kwargs.get(</span>
 Unannotated (x3)">            Not(bcm)</span>
 <span class="line-empty" title="No Anys on this line!">            + (</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x5)">                R(</span>
+Unannotated (x2)">                R(</span>
 <span class="line-any" title="No Anys on this line!">                    "^(deuterated|triflated|butylated|brominated|acetylated|twisted)$",</span>
 <span class="line-precise" title="No Anys on this line!">                    re.I,</span>
 <span class="line-empty" title="No Anys on this line!">                )</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x12)">                | ((W("g") | I("nano") | W("mpg")) + Optional(W("-")))</span>
+Unannotated (x9)">                | ((W("g") | I("nano") | W("mpg")) + Optional(W("-")))</span>
 <span class="line-empty" title="No Anys on this line!">            ),</span>
 <span class="line-empty" title="No Anys on this line!">        )</span>
 <span class="line-empty" title="No Anys on this line!"></span>
@@ -1532,15 +1532,15 @@ Unannotated (x4)">        self.label_type = kwargs.get(</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x4)">            (</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x7)">                Optional(I("reference") | I("comparative"))</span>
+Unannotated (x6)">                Optional(I("reference") | I("comparative"))</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x4)">                + R(</span>
+Unannotated (x1)">                + R(</span>
 <span class="line-any" title="No Anys on this line!">                    "^(compound|ligand|chemical|dye|derivative|complex|example|intermediate|product|formulae?|preparation|specimen)s?$",</span>
 <span class="line-precise" title="No Anys on this line!">                    re.I,</span>
 <span class="line-empty" title="No Anys on this line!">                )</span>
 <span class="line-any" title="No Anys on this line!">            )("roles").add_action(join)</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x4)">            + Optional(self.colon).hide(),</span>
+Unannotated (x5)">            + Optional(self.colon).hide(),</span>
 <span class="line-empty" title="No Anys on this line!">        )</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="Any Types on this line: 
@@ -1549,9 +1549,9 @@ Unannotated (x4)">        self.synthesis_of = kwargs.get(</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x3)">            (</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x12)">                (I("synthesis") | I("preparation") | I("production") | I("data"))</span>
+Unannotated (x8)">                (I("synthesis") | I("preparation") | I("production") | I("data"))</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x5)">                + (I("of") | I("for"))</span>
+Unannotated (x3)">                + (I("of") | I("for"))</span>
 <span class="line-any" title="No Anys on this line!">            )("roles").add_action(join),</span>
 <span class="line-empty" title="No Anys on this line!">        )</span>
 <span class="line-empty" title="No Anys on this line!"></span>
@@ -1561,13 +1561,13 @@ Unannotated (x4)">        self.to_give = kwargs.get(</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x3)">            (</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x14)">                I("to") + (I("give") | I("yield") | I("afford"))</span>
+Unannotated (x10)">                I("to") + (I("give") | I("yield") | I("afford"))</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">                | I("afforded")</span>
+Unannotated (x1)">                | I("afforded")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">                | I("affording")</span>
+Unannotated (x1)">                | I("affording")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">                | I("yielded")</span>
+Unannotated (x1)">                | I("yielded")</span>
 <span class="line-any" title="No Anys on this line!">            )("roles").add_action(join),</span>
 <span class="line-empty" title="No Anys on this line!">        )</span>
 <span class="line-empty" title="No Anys on this line!"></span>
@@ -1575,7 +1575,7 @@ Unannotated (x2)">                | I("yielded")</span>
 Unannotated (x4)">        self.label_blocklist = kwargs.get(</span>
 <span class="line-any" title="No Anys on this line!">            "label_blocklist",</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x4)">            R(r"^(wR.*|R\d|31P|[12]H|[23]D|15N|14C|[4567890]\d+|2A)$"),</span>
+Unannotated (x1)">            R(r"^(wR.*|R\d|31P|[12]H|[23]D|15N|14C|[4567890]\d+|2A)$"),</span>
 <span class="line-empty" title="No Anys on this line!">        )</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="Any Types on this line: 
@@ -1585,7 +1585,7 @@ Unannotated (x4)">        self.prefixed_label = kwargs.get(</span>
 Unannotated (x2)">            Every(</span>
 <span class="line-empty" title="No Anys on this line!">                [</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x4)">                    R(r"^(cis|trans)-((d-)?(\d{1,2}[A-Za-z]{0,2}[′″‴‶‷⁗]?)(-d)?|[LS]\d\d?)$"),</span>
+Unannotated (x1)">                    R(r"^(cis|trans)-((d-)?(\d{1,2}[A-Za-z]{0,2}[′″‴‶‷⁗]?)(-d)?|[LS]\d\d?)$"),</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x5)">                    Not(self.bcm | self.icm),</span>
 <span class="line-empty" title="No Anys on this line!">                ]</span>
@@ -1610,7 +1610,7 @@ Unannotated (x4)">        self.lenient_chemical_label = kwargs.get(</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x4)">            self.numeric("labels")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x10)">            | Every([R(r"^([A-Z]\d{1,3})$"), Not(bcm | icm)])("labels")</span>
+Unannotated (x7)">            | Every([R(r"^([A-Z]\d{1,3})$"), Not(bcm | icm)])("labels")</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">            | self.strict_chemical_label,</span>
 <span class="line-empty" title="No Anys on this line!">        )</span>
@@ -1621,7 +1621,7 @@ Unannotated (x4)">        self.very_lenient_chemical_label = kwargs.get(</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x4)">            self.lenient_numeric("labels")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x5)">            | R(r"^([A-Z]\d{1,3})$")("labels")</span>
+Unannotated (x2)">            | R(r"^([A-Z]\d{1,3})$")("labels")</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">            | self.strict_chemical_label,</span>
 <span class="line-empty" title="No Anys on this line!">        )</span>
@@ -1641,7 +1641,7 @@ Unannotated (x9)">                    + ZeroOrMore((T("CC") | self.comma) + self
 <span class="line-empty" title="No Anys on this line!">                )</span>
 <span class="line-empty" title="No Anys on this line!">                | (</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x6)">                    Optional(self.label_type.hide())</span>
+Unannotated (x7)">                    Optional(self.label_type.hide())</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">                    + self.strict_chemical_label</span>
 <span class="line-any" title="Any Types on this line: 
@@ -1656,7 +1656,7 @@ Unannotated (x4)">        self.chemical_label_phrase1 = kwargs.get(</span>
 <span class="line-any" title="No Anys on this line!">            "chemical_label_phrase1",</span>
 <span class="line-empty" title="No Anys on this line!">            (</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x5)">                Optional(self.synthesis_of)</span>
+Unannotated (x6)">                Optional(self.synthesis_of)</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">                + self.label_type</span>
 <span class="line-any" title="Any Types on this line: 
@@ -1673,7 +1673,7 @@ Unannotated (x4)">        self.chemical_label_phrase2 = kwargs.get(</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x4)">                self.synthesis_of</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">                + Optional(self.label_type)</span>
+Unannotated (x3)">                + Optional(self.label_type)</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">                + self.lenient_chemical_label</span>
 <span class="line-any" title="Any Types on this line: 
@@ -1688,28 +1688,28 @@ Unannotated (x4)">        self.chemical_label_phrase3 = kwargs.get(</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x6)">                self.to_give</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x1)">                + Optional(dt)</span>
+Unannotated (x2)">                + Optional(dt)</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">                + Optional(self.label_type)</span>
+Unannotated (x3)">                + Optional(self.label_type)</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">                + self.lenient_chemical_label</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x14)">                + Optional(lbrct + OneOrMore(Not(rbrct) + Any()) + rbrct).hide()</span>
+Unannotated (x12)">                + Optional(lbrct + OneOrMore(Not(rbrct) + Any()) + rbrct).hide()</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x10)">                + (End() | I("as") | self.colon | self.comma).hide()</span>
+Unannotated (x9)">                + (End() | I("as") | self.colon | self.comma).hide()</span>
 <span class="line-empty" title="No Anys on this line!">            ),</span>
 <span class="line-empty" title="No Anys on this line!">        )</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">        ###### DOPED CHEMICAL LABELS ##########</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x9)">        self.doped_chemical_identifier = kwargs.get("doped_chemical_identifier", (W("x") | W("y")))</span>
+Unannotated (x7)">        self.doped_chemical_identifier = kwargs.get("doped_chemical_identifier", (W("x") | W("y")))</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x8)">        self.doping_value = kwargs.get("doping_value", R(r"^(\d\.?)+$"))</span>
+Unannotated (x5)">        self.doping_value = kwargs.get("doping_value", R(r"^(\d\.?)+$"))</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x4)">        self.doping_range = kwargs.get(</span>
 <span class="line-any" title="No Anys on this line!">            "doping_range",</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x10)">            (self.doping_value + (T("HYPH", tag_type="pos_tag") | I("to")) + self.doping_value),</span>
+Unannotated (x9)">            (self.doping_value + (T("HYPH", tag_type="pos_tag") | I("to")) + self.doping_value),</span>
 <span class="line-empty" title="No Anys on this line!">        )</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="Any Types on this line: 
@@ -1719,11 +1719,11 @@ Unannotated (x4)">        self.doping_label_1 = kwargs.get(</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x5)">                self.doping_value</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x4)">                + R(r"^\&lt;$")</span>
+Unannotated (x1)">                + R(r"^\&lt;$")</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">                + self.doped_chemical_identifier</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x4)">                + R(r"^\&lt;$")</span>
+Unannotated (x1)">                + R(r"^\&lt;$")</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">                + self.doping_value</span>
 <span class="line-empty" title="No Anys on this line!">            ),</span>
@@ -1735,11 +1735,11 @@ Unannotated (x4)">        self.doping_label_2 = kwargs.get(</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x3)">                self.doped_chemical_identifier</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">                + W("=")</span>
+Unannotated (x1)">                + W("=")</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x2)">                + OneOrMore(</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x14)">                    self.doping_range | self.doping_value | R(r"^[,:;\.]$") | I("or") | I("and")</span>
+Unannotated (x9)">                    self.doping_range | self.doping_value | R(r"^[,:;\.]$") | I("or") | I("and")</span>
 <span class="line-empty" title="No Anys on this line!">                )</span>
 <span class="line-empty" title="No Anys on this line!">            ),</span>
 <span class="line-empty" title="No Anys on this line!">        )</span>
@@ -1773,43 +1773,43 @@ Unannotated (x4)">        self.informal_chemical_symbol = kwargs.get(</span>
 <span class="line-any" title="No Anys on this line!">            "informal_chemical_symbol",</span>
 <span class="line-empty" title="No Anys on this line!">            (</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x20)">                W("AE")</span>
+Unannotated (x19)">                W("AE")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">                | W("T")</span>
+Unannotated (x1)">                | W("T")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">                | W("RE")</span>
+Unannotated (x1)">                | W("RE")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x11)">                | (W("R") + Not(lbrct + W("Å") + rbrct))</span>
+Unannotated (x7)">                | (W("R") + Not(lbrct + W("Å") + rbrct))</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">                | W("REM")</span>
+Unannotated (x1)">                | W("REM")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">                | W("REO")</span>
+Unannotated (x1)">                | W("REO")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">                | W("REY")</span>
+Unannotated (x1)">                | W("REY")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">                | W("LREE")</span>
+Unannotated (x1)">                | W("LREE")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">                | W("HREE")</span>
+Unannotated (x1)">                | W("HREE")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">                | I("Ln")</span>
+Unannotated (x1)">                | I("Ln")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x4)">                | R(r"^B\′?$")</span>
+Unannotated (x1)">                | R(r"^B\′?$")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">                | W("M")</span>
+Unannotated (x1)">                | W("M")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">                | W("ET")</span>
+Unannotated (x1)">                | W("ET")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">                | W("IM2py")</span>
+Unannotated (x1)">                | W("IM2py")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">                | W("NN′3")</span>
+Unannotated (x1)">                | W("NN′3")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">                | W("TDAE")</span>
+Unannotated (x1)">                | W("TDAE")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">                | W("X")</span>
+Unannotated (x1)">                | W("X")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">                | I("H2mal")</span>
+Unannotated (x1)">                | I("H2mal")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x11)">                | (W("A") + Not(lbrct + W("Å") + rbrct))</span>
+Unannotated (x7)">                | (W("A") + Not(lbrct + W("Å") + rbrct))</span>
 <span class="line-empty" title="No Anys on this line!">            ),</span>
 <span class="line-empty" title="No Anys on this line!">        )</span>
 <span class="line-empty" title="No Anys on this line!"></span>
@@ -1819,11 +1819,11 @@ Unannotated (x4)">        self.metals = kwargs.get(</span>
 <span class="line-any" title="No Anys on this line!">            "metals",</span>
 <span class="line-empty" title="No Anys on this line!">            (</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x5)">                R(</span>
+Unannotated (x2)">                R(</span>
 <span class="line-any" title="No Anys on this line!">                    "^(Li|Be|Na|Mg|Al|Ca|Sc|Ti|V|Cr|K|Mn|Fe|Co|Ni|Cu|Zn|Ga|Rb|Sr|Y|Zr|Nb|Mo|Tc|Ru|Rh|Pd|Ag|Cd|In|Sn|Cs|Ba|La|Ce|Pr|Nd|Pm|Sm|Eu|Gd|Tb|Dy|Ho|Er|Tm|Yb|Lu|Hf|Ta|W|Re|Os|Ir|Pt|Au|Hg|Tl|Pb|Bi|Po|Fr|Ra|Ac|Th|Pa|U|Np|Pu|Am|Cm|Bk|Cf|Es|Fm|Md|No|Lr|Rf|Db|Sg|Bh|Hs|Mt|Ds|Rg|Cn|Uut|Fl|Uup|Lv)$"</span>
 <span class="line-empty" title="No Anys on this line!">                )</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x4)">                | R(r"^metal(s)?$")</span>
+Unannotated (x1)">                | R(r"^metal(s)?$")</span>
 <span class="line-empty" title="No Anys on this line!">            ),</span>
 <span class="line-empty" title="No Anys on this line!">        )</span>
 <span class="line-any" title="Any Types on this line: 
@@ -1831,11 +1831,11 @@ Unannotated (x4)">        self.transition_metals = kwargs.get(</span>
 <span class="line-any" title="No Anys on this line!">            "transition_metals",</span>
 <span class="line-empty" title="No Anys on this line!">            (</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x5)">                R(</span>
+Unannotated (x2)">                R(</span>
 <span class="line-any" title="No Anys on this line!">                    "^(Sc|Ti|V|Cr|Mn|Fe|Co|Ni|Cu|Zn|Y|Zr|Nb|Mo|Tc|Ru|Rh|Pd|Ag|Cd|La|Ce|Pr|Nd|Pm|Sm|Eu|Gd|Tb|Dy|Ho|Er|Tm|Yb|Lu|Hf|Ta|W|Re|Os|Ir|Pt|Au|Hg|Ac|Th|Pa|U|Np|Pu|Am|Cm|Bk|Cf|Em|Fm|Md|No|Lr|Rf|Db|Sg|Bh|Hs|Mt|Ds|Rg|Cn)$"</span>
 <span class="line-empty" title="No Anys on this line!">                )</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x8)">                | (I("transition") + (I("metal") | I("metals")))</span>
+Unannotated (x5)">                | (I("transition") + (I("metal") | I("metals")))</span>
 <span class="line-empty" title="No Anys on this line!">            ),</span>
 <span class="line-empty" title="No Anys on this line!">        )</span>
 <span class="line-any" title="Any Types on this line: 
@@ -1843,21 +1843,21 @@ Unannotated (x4)">        self.lanthanides = kwargs.get(</span>
 <span class="line-any" title="No Anys on this line!">            "lanthanides",</span>
 <span class="line-empty" title="No Anys on this line!">            (</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x6)">                R("^(Sc|Y|La|Ce|Pr|Nd|Pm|Sm|Eu|Gd|Tb|Dy|Ho|Er|Tm|Yb|Lu)$")</span>
+Unannotated (x3)">                R("^(Sc|Y|La|Ce|Pr|Nd|Pm|Sm|Eu|Gd|Tb|Dy|Ho|Er|Tm|Yb|Lu)$")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x4)">                | R("^[Ll]anthanide(s)?$")</span>
+Unannotated (x1)">                | R("^[Ll]anthanide(s)?$")</span>
 <span class="line-empty" title="No Anys on this line!">                | (</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x5)">                    R(r"^[Rr]are\-?earth(s)?$")</span>
+Unannotated (x2)">                    R(r"^[Rr]are\-?earth(s)?$")</span>
 <span class="line-empty" title="No Anys on this line!">                    | (</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x5)">                        I("rare")</span>
+Unannotated (x4)">                        I("rare")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x4)">                        + Optional(T("HYPH"))</span>
+Unannotated (x5)">                        + Optional(T("HYPH"))</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x4)">                        + R("^earth(s)?$")</span>
+Unannotated (x1)">                        + R("^earth(s)?$")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x5)">                        + Optional(R("^metal(s)?$"))</span>
+Unannotated (x3)">                        + Optional(R("^metal(s)?$"))</span>
 <span class="line-empty" title="No Anys on this line!">                    )</span>
 <span class="line-empty" title="No Anys on this line!">                )</span>
 <span class="line-empty" title="No Anys on this line!">            ),</span>
@@ -1867,14 +1867,14 @@ Unannotated (x4)">        self.ion_symbol = kwargs.get(</span>
 <span class="line-any" title="No Anys on this line!">            "ion_symbol",</span>
 <span class="line-empty" title="No Anys on this line!">            (</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x4)">                R(</span>
+Unannotated (x1)">                R(</span>
 <span class="line-any" title="No Anys on this line!">                    r"^(Ti|V|Cr|Mn|Fe|Co|Ni|Cu|Ce|Ir|Pr|Nd|Pm|Sm|Eu|Gd|Tb|Dy|Ho|Er|Tm|Yb|Li|Be|Na|Al|As)(([2|3|4|5|6|7]?\+?)|\(I{2,7}\))?$"</span>
 <span class="line-empty" title="No Anys on this line!">                )</span>
 <span class="line-empty" title="No Anys on this line!">            ),</span>
 <span class="line-empty" title="No Anys on this line!">        )</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x15)">        self.other_symbol = kwargs.get("other_symbol", (W("NO3") | W("HF2") | W("ClO4") | W("BF4")))</span>
+Unannotated (x11)">        self.other_symbol = kwargs.get("other_symbol", (W("NO3") | W("HF2") | W("ClO4") | W("BF4")))</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x4)">        self.informal_values = kwargs.get(</span>
@@ -1902,19 +1902,19 @@ Unannotated (x3)">            (</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x3)">                self.informal_chemical_symbol</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">                + W("=")</span>
+Unannotated (x1)">                + W("=")</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x2)">                + OneOrMore(</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x5)">                    self.informal_values</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x4)">                    | R(r"^[,:;\.]$")</span>
+Unannotated (x1)">                    | R(r"^[,:;\.]$")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">                    | I("and")</span>
+Unannotated (x1)">                    | I("and")</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">                    | self.informal_chemical_symbol</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">                    | W("=")</span>
+Unannotated (x1)">                    | W("=")</span>
 <span class="line-empty" title="No Anys on this line!">                )</span>
 <span class="line-any" title="No Anys on this line!">            )("label").add_action(join),</span>
 <span class="line-empty" title="No Anys on this line!">        )</span>
@@ -1924,7 +1924,7 @@ Unannotated (x2)">                    | W("=")</span>
 Unannotated (x4)">        self.informal_chemical_label_2 = kwargs.get(</span>
 <span class="line-any" title="No Anys on this line!">            "informal_chemical_label_2",</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x15)">            (self.informal_values + (I("compound") | I("sample") | I("material")).hide())(</span>
+Unannotated (x12)">            (self.informal_values + (I("compound") | I("sample") | I("material")).hide())(</span>
 <span class="line-any" title="No Anys on this line!">                "label"</span>
 <span class="line-precise" title="No Anys on this line!">            ).add_action(join),</span>
 <span class="line-empty" title="No Anys on this line!">        )</span>
@@ -1961,7 +1961,7 @@ Unannotated (x1)">                | self.chemical_label_phrase3</span>
 Unannotated (x4)">        self.element_name = kwargs.get(</span>
 <span class="line-any" title="No Anys on this line!">            "element_name",</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x4)">            R(</span>
+Unannotated (x1)">            R(</span>
 <span class="line-any" title="No Anys on this line!">                "^(actinium|aluminium|aluminum|americium|antimony|argon|arsenic|astatine|barium|berkelium|beryllium|bismuth|bohrium|boron|bromine|cadmium|caesium|calcium|californium|carbon|cerium|cesium|chlorine|chromium|cobalt|copernicium|copper|curium|darmstadtium|dubnium|dysprosium|einsteinium|erbium|europium|fermium|flerovium|fluorine|francium|gadolinium|gallium|germanium|hafnium|hassium|helium|holmium|hydrargyrum|hydrogen|indium|iodine|iridium|iron|kalium|krypton|lanthanum|laIrencium|lithium|livermorium|lutetium|magnesium|manganese|meitnerium|mendelevium|mercury|molybdenum|natrium|neodymium|neon|neptunium|nickel|niobium|nitrogen|nobelium|osmium|oxygen|palladium|phosphorus|platinum|plumbum|plutonium|polonium|potassium|praseodymium|promethium|protactinium|radium|radon|rhenium|rhodium|roentgenium|rubidium|ruthenium|rutherfordium|samarium|scandium|seaborgium|selenium|silicon|silver|sodium|stannum|stibium|strontium|sulfur|tantalum|technetium|tellurium|terbium|thallium|thorium|thulium|tin|titanium|tungsten|ununoctium|ununpentium|ununseptium|ununtrium|uranium|vanadium|Iolfram|xenon|ytterbium|yttrium|zinc|zirconium)$",</span>
 <span class="line-precise" title="No Anys on this line!">                re.I,</span>
 <span class="line-empty" title="No Anys on this line!">            ),</span>
@@ -1972,7 +1972,7 @@ Unannotated (x4)">            R(</span>
 Unannotated (x4)">        self.element_symbol = kwargs.get(</span>
 <span class="line-any" title="No Anys on this line!">            "element_symbol",</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x4)">            R("^(Ag|Au|Br|Cd|Cl|Cu|Fe|Gd|Ge|Hg|Mg|Pb|Pd|Pt|Ru|Sb|Si|Sn|Ti|Xe|Zn|Zr)$"),</span>
+Unannotated (x1)">            R("^(Ag|Au|Br|Cd|Cl|Cu|Fe|Gd|Ge|Hg|Mg|Pb|Pd|Pt|Ru|Sb|Si|Sn|Ti|Xe|Zn|Zr)$"),</span>
 <span class="line-empty" title="No Anys on this line!">        )</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">        #: Registry number patterns</span>
@@ -1980,15 +1980,15 @@ Unannotated (x4)">            R("^(Ag|Au|Br|Cd|Cl|Cu|Fe|Gd|Ge|Hg|Mg|Pb|Pd|Pt|Ru|
 Unannotated (x4)">        self.registry_number = kwargs.get(</span>
 <span class="line-any" title="No Anys on this line!">            "registry_number",</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x8)">            R(r"^BRN-?\d+$")</span>
+Unannotated (x5)">            R(r"^BRN-?\d+$")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x4)">            | R(r"^CHEMBL-?\d+$")</span>
+Unannotated (x1)">            | R(r"^CHEMBL-?\d+$")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x4)">            | R(r"^GSK-?\d{3-7}$")</span>
+Unannotated (x1)">            | R(r"^GSK-?\d{3-7}$")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x4)">            | R(r"^\[?(([1-9]\d{2,7})|([5-9]\d))-\d\d-\d\]?$")</span>
+Unannotated (x1)">            | R(r"^\[?(([1-9]\d{2,7})|([5-9]\d))-\d\d-\d\]?$")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x11)">            | (W("CAS") + OneOrMore(R(r"^(\-?(\d+)|\-)$"))).add_action(join),</span>
+Unannotated (x7)">            | (W("CAS") + OneOrMore(R(r"^(\-?(\d+)|\-)$"))).add_action(join),</span>
 <span class="line-empty" title="No Anys on this line!">        )</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">        #: Amino acid abbreviations. His removed, too ambiguous</span>
@@ -1996,7 +1996,7 @@ Unannotated (x11)">            | (W("CAS") + OneOrMore(R(r"^(\-?(\d+)|\-)$"))).a
 Unannotated (x4)">        self.amino_acid = kwargs.get(</span>
 <span class="line-any" title="No Anys on this line!">            "amino_acid",</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x4)">            R(</span>
+Unannotated (x1)">            R(</span>
 <span class="line-any" title="No Anys on this line!">                "^((Ala|Arg|Asn|Asp|Cys|Glu|Gln|Gly|Ile|Leu|Lys|Met|Phe|Pro|Ser|Thr|Trp|Tyr|Val)-?)+$"</span>
 <span class="line-empty" title="No Anys on this line!">            ),</span>
 <span class="line-empty" title="No Anys on this line!">        )</span>
@@ -2006,14 +2006,14 @@ Unannotated (x4)">        self.amino_acid_name = kwargs.get(</span>
 <span class="line-any" title="No Anys on this line!">            "amino_acid_name",</span>
 <span class="line-empty" title="No Anys on this line!">            (</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x6)">                R(</span>
+Unannotated (x3)">                R(</span>
 <span class="line-any" title="No Anys on this line!">                    "^(histidine|isoleucine|leucine|lysine|methionine|phenylalanine|threonine|tryptophan|valine|selenocysteine|serine|tyrosine|alanine|arginine|asparagine|cysteine|glutamine|glycine|proline)$",</span>
 <span class="line-precise" title="No Anys on this line!">                    re.I,</span>
 <span class="line-empty" title="No Anys on this line!">                )</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x5)">                | I("aspartic") + I("acid")</span>
+Unannotated (x3)">                | I("aspartic") + I("acid")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x5)">                | I("glutamic") + I("acid")</span>
+Unannotated (x3)">                | I("glutamic") + I("acid")</span>
 <span class="line-empty" title="No Anys on this line!">            ),</span>
 <span class="line-empty" title="No Anys on this line!">        )</span>
 <span class="line-empty" title="No Anys on this line!"></span>
@@ -2023,109 +2023,108 @@ Unannotated (x3)">        default_formula = (</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">            (</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x13)">                R(r"^C\(?\d{1,3}\)?(([HNOP]|Cl)\(?\d\d?\)?)+(\(?\d?[\+\-]\d?\)?)?$")</span>
+Unannotated (x10)">                R(r"^C\(?\d{1,3}\)?(([HNOP]|Cl)\(?\d\d?\)?)+(\(?\d?[\+\-]\d?\)?)?$")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x4)">                | R(</span>
+Unannotated (x1)">                | R(</span>
 <span class="line-any" title="No Anys on this line!">                    r"^(\(?(A([glmru]|(s\d\.?))|B[ahikr]?|C[adeflmnorsu(\d)]|D[bsy]|E[rsu]|F[elmr$]|G[ade]|H[efgos]|I[rn][1-9]?|K[r(\d\.?)]|(L[airuv])|M[dgnot]|N[abdeip(\d\.?)]|O[s\d.]?|P[abdmotuOr\d]|R[abefghnuE]|S[bcegimnr(\d\.?)]|T[abehil\d]|U(u[opst])|V|Xe|Yb?|Z[nr])(\)?([\d.]+)?)+){2,}(\+[δβγ])?"</span>
 <span class="line-empty" title="No Anys on this line!">                )</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x4)">                | R(</span>
+Unannotated (x1)">                | R(</span>
 <span class="line-any" title="No Anys on this line!">                    r"^((\(?\d{2,3}\)?)?(Fe|Ti|Mg|Ru|Cd|Se)\(?(\d\d?|[IV]+)?\)?((O|Hg)\(?\d?\d?\)?)?)+(\(?\d?[\+\-]\d?\)?)?$"</span>
 <span class="line-empty" title="No Anys on this line!">                )</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x4)">                | R(r"(NaOH|CaCl\d?\d?|EtOH|EtAc|MeOH|CF\d|C\d?\d?H\d\d?)+$")</span>
+Unannotated (x1)">                | R(r"(NaOH|CaCl\d?\d?|EtOH|EtAc|MeOH|CF\d|C\d?\d?H\d\d?)+$")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x4)">                | R(</span>
+Unannotated (x1)">                | R(</span>
 <span class="line-any" title="No Anys on this line!">                    r"(NO\d|BH4|Ca\(2\+\)|Ti\(0\)2|\(CH3\)2CHOH|\(CH3\)2CO|\(CH3\)2NCOH|C2H5CN|CH2ClCH2Cl|CH3C6H5|CH3CN|CH3CO2H|CH3COCH3|CH3COOH|CH3NHCOH|CH3Ph|CH3SOCH3|Cl2CH2|ClCH2CH2Cl)"</span>
 <span class="line-empty" title="No Anys on this line!">                )</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x4)">                | R(</span>
+Unannotated (x1)">                | R(</span>
 <span class="line-any" title="No Anys on this line!">                    r"^(\(CD3\)2CO|\(CDCl2\)2|C6D6|C2D5CN|CD2Cl2|CD3CN|CD3COCD3|CD3OD|CD3SOCD3|CDCl3|CH3OD|D2O|EtOD|MeOD)$"</span>
 <span class="line-empty" title="No Anys on this line!">                )</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x4)">                | R(</span>
+Unannotated (x1)">                | R(</span>
 <span class="line-any" title="No Anys on this line!">                    r"^[\[\{\(].*(NH\d|H2O|NO\d|C\d?H\d|C–H|NBu4|CF3|CD3|CO2|[bp]i?py|\(CO\)|\d,\d['′]?-|BF4|PF6|Cl\d|Fe\d|Ph\d).*[\]\}\)]$"</span>
 <span class="line-empty" title="No Anys on this line!">                )</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x4)">                | R(r"^[\[\{\(]{1,2}(Ru|Ph|Py|Cu|Ir|Pt|Et\d).*[\]\}\)]$")</span>
+Unannotated (x1)">                | R(r"^[\[\{\(]{1,2}(Ru|Ph|Py|Cu|Ir|Pt|Et\d).*[\]\}\)]$")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x4)">                | R(r"^(GABA|NO|\(\d\)H|KCl)$")</span>
+Unannotated (x1)">                | R(r"^(GABA|NO|\(\d\)H|KCl)$")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">                | W("CN")</span>
+Unannotated (x1)">                | W("CN")</span>
 <span class="line-empty" title="No Anys on this line!">            )</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x6)">            + Optional(W("+") + W("δ"))</span>
-<span class="line-precise" title="Any Types on this line: 
-Unannotated (x4)">        ).add_action(merge)</span>
+Unannotated (x5)">            + Optional(W("+") + W("δ"))</span>
+<span class="line-precise" title="No Anys on this line!">        ).add_action(merge)</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x5)">        self.formula = kwargs.get("formula", default_formula)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">        default_solvent_formula = (</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x33)">            W("CCl4")</span>
+Unannotated (x32)">            W("CCl4")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | W("(CH3)2CHOH")</span>
+Unannotated (x1)">            | W("(CH3)2CHOH")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | W("(CH3)2CO")</span>
+Unannotated (x1)">            | W("(CH3)2CO")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | W("(CH3)2NCOH")</span>
+Unannotated (x1)">            | W("(CH3)2NCOH")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | W("C2H4Cl2")</span>
+Unannotated (x1)">            | W("C2H4Cl2")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | W("C2H5CN")</span>
+Unannotated (x1)">            | W("C2H5CN")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | W("C2H5OH")</span>
+Unannotated (x1)">            | W("C2H5OH")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | W("C5H5N")</span>
+Unannotated (x1)">            | W("C5H5N")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | W("C6H12")</span>
+Unannotated (x1)">            | W("C6H12")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | W("C6H14")</span>
+Unannotated (x1)">            | W("C6H14")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | W("C6H5CH3")</span>
+Unannotated (x1)">            | W("C6H5CH3")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | W("C6H5Cl")</span>
+Unannotated (x1)">            | W("C6H5Cl")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | W("C6H6")</span>
+Unannotated (x1)">            | W("C6H6")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | W("C7H8")</span>
+Unannotated (x1)">            | W("C7H8")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | W("CH2Cl2")</span>
+Unannotated (x1)">            | W("CH2Cl2")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | W("CH2ClCH2Cl")</span>
+Unannotated (x1)">            | W("CH2ClCH2Cl")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | W("CH3C6H5")</span>
+Unannotated (x1)">            | W("CH3C6H5")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | W("CH3Cl")</span>
+Unannotated (x1)">            | W("CH3Cl")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | W("CH3CN")</span>
+Unannotated (x1)">            | W("CH3CN")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | W("CH3CO2H")</span>
+Unannotated (x1)">            | W("CH3CO2H")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | W("CH3COCH3")</span>
+Unannotated (x1)">            | W("CH3COCH3")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | W("CH3COOH")</span>
+Unannotated (x1)">            | W("CH3COOH")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | W("CH3NHCOH")</span>
+Unannotated (x1)">            | W("CH3NHCOH")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | W("CH3NO2")</span>
+Unannotated (x1)">            | W("CH3NO2")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | W("CH3OH")</span>
+Unannotated (x1)">            | W("CH3OH")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | W("CH3Ph")</span>
+Unannotated (x1)">            | W("CH3Ph")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | W("CH3SOCH3")</span>
+Unannotated (x1)">            | W("CH3SOCH3")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | W("CHCl2")</span>
+Unannotated (x1)">            | W("CHCl2")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | W("CHCl3")</span>
+Unannotated (x1)">            | W("CHCl3")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | W("Cl2CH2")</span>
+Unannotated (x1)">            | W("Cl2CH2")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | W("ClCH2CH2Cl")</span>
+Unannotated (x1)">            | W("ClCH2CH2Cl")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | W("CDCl3")</span>
+Unannotated (x1)">            | W("CDCl3")</span>
 <span class="line-empty" title="No Anys on this line!">        )</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x5)">        self.solvent_formula = kwargs.get("solvent_formula", default_solvent_formula)</span>
@@ -2134,119 +2133,119 @@ Unannotated (x5)">        self.solvent_formula = kwargs.get("solvent_formula", d
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">        default_nmr_solvent = (</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x64)">            I("THF") + W("-") + I("d8")</span>
+Unannotated (x61)">            I("THF") + W("-") + I("d8")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x8)">            | I("d8") + W("-") + I("THF")</span>
+Unannotated (x5)">            | I("d8") + W("-") + I("THF")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x8)">            | I("acetone") + W("-") + I("d6")</span>
+Unannotated (x5)">            | I("acetone") + W("-") + I("d6")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x8)">            | I("d6") + W("-") + I("acetone")</span>
+Unannotated (x5)">            | I("d6") + W("-") + I("acetone")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x8)">            | I("chloroform") + W("-") + I("d")</span>
+Unannotated (x5)">            | I("chloroform") + W("-") + I("d")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x8)">            | I("d") + W("-") + I("chloroform")</span>
+Unannotated (x5)">            | I("d") + W("-") + I("chloroform")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x8)">            | I("methanol") + W("-") + I("d4")</span>
+Unannotated (x5)">            | I("methanol") + W("-") + I("d4")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x8)">            | I("d4") + W("-") + I("methanol")</span>
+Unannotated (x5)">            | I("d4") + W("-") + I("methanol")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x8)">            | I("pyridine") + W("-") + I("d5")</span>
+Unannotated (x5)">            | I("pyridine") + W("-") + I("d5")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x8)">            | I("d5") + W("-") + I("pyridine")</span>
+Unannotated (x5)">            | I("d5") + W("-") + I("pyridine")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x8)">            | I("DMSO") + W("-") + I("d6")</span>
+Unannotated (x5)">            | I("DMSO") + W("-") + I("d6")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x8)">            | I("d6") + W("-") + I("DMSO")</span>
+Unannotated (x5)">            | I("d6") + W("-") + I("DMSO")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x8)">            | I("dimethylsulfoxide") + W("-") + I("d6")</span>
+Unannotated (x5)">            | I("dimethylsulfoxide") + W("-") + I("d6")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x8)">            | I("d6") + W("-") + I("dimethylsulfoxide")</span>
+Unannotated (x5)">            | I("d6") + W("-") + I("dimethylsulfoxide")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x8)">            | W("MeOH") + W("-") + I("d4")</span>
+Unannotated (x5)">            | W("MeOH") + W("-") + I("d4")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x8)">            | I("d4") + W("-") + W("MeOH")</span>
+Unannotated (x5)">            | I("d4") + W("-") + W("MeOH")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x8)">            | I("benzene-d6") + W("-") + I("d6")</span>
+Unannotated (x5)">            | I("benzene-d6") + W("-") + I("d6")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x8)">            | I("d6") + W("-") + I("benzene")</span>
+Unannotated (x5)">            | I("d6") + W("-") + I("benzene")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x8)">            | I("d2") + W("-") + I("tetrachloroethane")</span>
+Unannotated (x5)">            | I("d2") + W("-") + I("tetrachloroethane")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x8)">            | I("tetrachloroethane") + W("-") + I("d2")</span>
+Unannotated (x5)">            | I("tetrachloroethane") + W("-") + I("d2")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | I("(CD3)2CO")</span>
+Unannotated (x1)">            | I("(CD3)2CO")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | I("(CDCl2)2")</span>
+Unannotated (x1)">            | I("(CDCl2)2")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | I("C6D6")</span>
+Unannotated (x1)">            | I("C6D6")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | I("C2D5CN")</span>
+Unannotated (x1)">            | I("C2D5CN")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | I("CD2Cl2")</span>
+Unannotated (x1)">            | I("CD2Cl2")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | I("CD3CN")</span>
+Unannotated (x1)">            | I("CD3CN")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | I("CD3COCD3")</span>
+Unannotated (x1)">            | I("CD3COCD3")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | I("CD3OD")</span>
+Unannotated (x1)">            | I("CD3OD")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | I("CD3SOCD3")</span>
+Unannotated (x1)">            | I("CD3SOCD3")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | I("CDCl3")</span>
+Unannotated (x1)">            | I("CDCl3")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | I("CH3OD")</span>
+Unannotated (x1)">            | I("CH3OD")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | I("D2O")</span>
+Unannotated (x1)">            | I("D2O")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | W("EtOD")</span>
+Unannotated (x1)">            | W("EtOD")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | W("MeOD")</span>
+Unannotated (x1)">            | W("MeOD")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | I("THF-d8")</span>
+Unannotated (x1)">            | I("THF-d8")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | I("d8-THF")</span>
+Unannotated (x1)">            | I("d8-THF")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | I("acetone-d6")</span>
+Unannotated (x1)">            | I("acetone-d6")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | I("d6-acetone")</span>
+Unannotated (x1)">            | I("d6-acetone")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | I("chloroform-d")</span>
+Unannotated (x1)">            | I("chloroform-d")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | I("d-chloroform")</span>
+Unannotated (x1)">            | I("d-chloroform")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | I("methanol-d4")</span>
+Unannotated (x1)">            | I("methanol-d4")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | I("d4-methanol")</span>
+Unannotated (x1)">            | I("d4-methanol")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | I("pyridine-d5")</span>
+Unannotated (x1)">            | I("pyridine-d5")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | I("d5-pyridine")</span>
+Unannotated (x1)">            | I("d5-pyridine")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | I("DMSO-d6")</span>
+Unannotated (x1)">            | I("DMSO-d6")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | I("d6-DMSO")</span>
+Unannotated (x1)">            | I("d6-DMSO")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | I("dimethylsulfoxide-d6")</span>
+Unannotated (x1)">            | I("dimethylsulfoxide-d6")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | W("C7D8")</span>
+Unannotated (x1)">            | W("C7D8")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | I("d6-dimethylsulfoxide")</span>
+Unannotated (x1)">            | I("d6-dimethylsulfoxide")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | W("MeOH-d4")</span>
+Unannotated (x1)">            | W("MeOH-d4")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | W("d4-MeOH")</span>
+Unannotated (x1)">            | W("d4-MeOH")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | I("DMSO")</span>
+Unannotated (x1)">            | I("DMSO")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | I("benzene-d6")</span>
+Unannotated (x1)">            | I("benzene-d6")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | I("d6-benzene")</span>
+Unannotated (x1)">            | I("d6-benzene")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | I("1,1,2,2-tetrachloroethane-d2")</span>
+Unannotated (x1)">            | I("1,1,2,2-tetrachloroethane-d2")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | I("tetrachloroethane-d2")</span>
+Unannotated (x1)">            | I("tetrachloroethane-d2")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | I("d2-tetrachloroethane")</span>
+Unannotated (x1)">            | I("d2-tetrachloroethane")</span>
 <span class="line-empty" title="No Anys on this line!">        )</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x5)">        self.nmr_solvent = kwargs.get("default_nmr_solvent", default_nmr_solvent)</span>
@@ -2255,815 +2254,815 @@ Unannotated (x5)">        self.nmr_solvent = kwargs.get("default_nmr_solvent", d
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">        default_other_solvent = (</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x406)">            I("1-butanol")</span>
+Unannotated (x405)">            I("1-butanol")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | I("1-butylimidazole")</span>
+Unannotated (x1)">            | I("1-butylimidazole")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | I("1-cyclohexanol")</span>
+Unannotated (x1)">            | I("1-cyclohexanol")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | I("1-decanol")</span>
+Unannotated (x1)">            | I("1-decanol")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | I("1-heptanol")</span>
+Unannotated (x1)">            | I("1-heptanol")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | I("1-hexanol")</span>
+Unannotated (x1)">            | I("1-hexanol")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x5)">            | I("1-methylethyl") + I("acetate")</span>
+Unannotated (x3)">            | I("1-methylethyl") + I("acetate")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | I("1-octanol")</span>
+Unannotated (x1)">            | I("1-octanol")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | I("1-pentanol")</span>
+Unannotated (x1)">            | I("1-pentanol")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | I("1-phenylethanol")</span>
+Unannotated (x1)">            | I("1-phenylethanol")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | I("1-propanol")</span>
+Unannotated (x1)">            | I("1-propanol")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | I("1-undecanol")</span>
+Unannotated (x1)">            | I("1-undecanol")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | I("1,1,1-trifluoroethanol")</span>
+Unannotated (x1)">            | I("1,1,1-trifluoroethanol")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | I("1,1,1,3,3,3-hexafluoro-2-propanol")</span>
+Unannotated (x1)">            | I("1,1,1,3,3,3-hexafluoro-2-propanol")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | I("1,1,1,3,3,3-hexafluoropropan-2-ol")</span>
+Unannotated (x1)">            | I("1,1,1,3,3,3-hexafluoropropan-2-ol")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | I("1,1,2-trichloroethane")</span>
+Unannotated (x1)">            | I("1,1,2-trichloroethane")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | I("1,2-c2h4cl2")</span>
+Unannotated (x1)">            | I("1,2-c2h4cl2")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | I("1,2-dichloroethane")</span>
+Unannotated (x1)">            | I("1,2-dichloroethane")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | I("1,2-dimethoxyethane")</span>
+Unannotated (x1)">            | I("1,2-dimethoxyethane")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | I("1,2-dimethylbenzene")</span>
+Unannotated (x1)">            | I("1,2-dimethylbenzene")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | I("1,2-ethanediol")</span>
+Unannotated (x1)">            | I("1,2-ethanediol")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | I("1,2,4-trichlorobenzene")</span>
+Unannotated (x1)">            | I("1,2,4-trichlorobenzene")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | I("1,4-dimethylbenzene")</span>
+Unannotated (x1)">            | I("1,4-dimethylbenzene")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | I("1,4-dioxane")</span>
+Unannotated (x1)">            | I("1,4-dioxane")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x5)">            | I("2-(n-morpholino)ethanesulfonic") + I("acid")</span>
+Unannotated (x3)">            | I("2-(n-morpholino)ethanesulfonic") + I("acid")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | I("2-butanol")</span>
+Unannotated (x1)">            | I("2-butanol")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | I("2-butanone")</span>
+Unannotated (x1)">            | I("2-butanone")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | I("2-me-thf")</span>
+Unannotated (x1)">            | I("2-me-thf")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | I("2-methf")</span>
+Unannotated (x1)">            | I("2-methf")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | I("2-methoxy-2-methylpropane")</span>
+Unannotated (x1)">            | I("2-methoxy-2-methylpropane")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x5)">            | I("2-methyl") + I("tetrahydrofuran")</span>
+Unannotated (x3)">            | I("2-methyl") + I("tetrahydrofuran")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | I("2-methylpentane")</span>
+Unannotated (x1)">            | I("2-methylpentane")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | I("2-methylpropan-1-ol")</span>
+Unannotated (x1)">            | I("2-methylpropan-1-ol")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | I("2-methylpropan-2-ol")</span>
+Unannotated (x1)">            | I("2-methylpropan-2-ol")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | I("2-methyltetrahydrofuran")</span>
+Unannotated (x1)">            | I("2-methyltetrahydrofuran")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | I("2-proh")</span>
+Unannotated (x1)">            | I("2-proh")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | I("2-propanol")</span>
+Unannotated (x1)">            | I("2-propanol")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x5)">            | I("2-propyl") + I("acetate")</span>
+Unannotated (x3)">            | I("2-propyl") + I("acetate")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | I("2-pyrrolidone")</span>
+Unannotated (x1)">            | I("2-pyrrolidone")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | I("2,2,2-trifluoroethanol")</span>
+Unannotated (x1)">            | I("2,2,2-trifluoroethanol")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | I("2,2,4-trimethylpentane")</span>
+Unannotated (x1)">            | I("2,2,4-trimethylpentane")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | I("2Me-THF")</span>
+Unannotated (x1)">            | I("2Me-THF")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | I("2MeTHF")</span>
+Unannotated (x1)">            | I("2MeTHF")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | I("3-methyl-pentane")</span>
+Unannotated (x1)">            | I("3-methyl-pentane")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | I("4-methyl-1,3-dioxolan-2-one")</span>
+Unannotated (x1)">            | I("4-methyl-1,3-dioxolan-2-one")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x5)">            | I("acetic") + I("acid")</span>
+Unannotated (x3)">            | I("acetic") + I("acid")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | I("aceto-nitrile")</span>
+Unannotated (x1)">            | I("aceto-nitrile")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | I("acetone")</span>
+Unannotated (x1)">            | I("acetone")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | I("acetonitrile")</span>
+Unannotated (x1)">            | I("acetonitrile")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | I("acetononitrile")</span>
+Unannotated (x1)">            | I("acetononitrile")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | I("AcOEt")</span>
+Unannotated (x1)">            | I("AcOEt")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | I("AcOH")</span>
+Unannotated (x1)">            | I("AcOH")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | I("AgNO3")</span>
+Unannotated (x1)">            | I("AgNO3")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | I("aniline")</span>
+Unannotated (x1)">            | I("aniline")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | I("anisole")</span>
+Unannotated (x1)">            | I("anisole")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | I("benzene")</span>
+Unannotated (x1)">            | I("benzene")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | I("benzonitrile")</span>
+Unannotated (x1)">            | I("benzonitrile")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x5)">            | I("benzyl") + I("alcohol")</span>
+Unannotated (x3)">            | I("benzyl") + I("alcohol")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | I("bromoform")</span>
+Unannotated (x1)">            | I("bromoform")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | I("Bu2O")</span>
+Unannotated (x1)">            | I("Bu2O")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | I("Bu4NBr")</span>
+Unannotated (x1)">            | I("Bu4NBr")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | I("Bu4NClO4")</span>
+Unannotated (x1)">            | I("Bu4NClO4")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | I("Bu4NPF6")</span>
+Unannotated (x1)">            | I("Bu4NPF6")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | I("BuCN")</span>
+Unannotated (x1)">            | I("BuCN")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | I("BuOH")</span>
+Unannotated (x1)">            | I("BuOH")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | I("butan-1-ol")</span>
+Unannotated (x1)">            | I("butan-1-ol")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | I("butan-2-ol")</span>
+Unannotated (x1)">            | I("butan-2-ol")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | I("butan-2-one")</span>
+Unannotated (x1)">            | I("butan-2-one")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | I("butane")</span>
+Unannotated (x1)">            | I("butane")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | I("butanol")</span>
+Unannotated (x1)">            | I("butanol")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | I("butanone")</span>
+Unannotated (x1)">            | I("butanone")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | I("butene")</span>
+Unannotated (x1)">            | I("butene")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x5)">            | I("butyl") + I("acetate")</span>
+Unannotated (x3)">            | I("butyl") + I("acetate")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x5)">            | I("butyl") + I("acetonitrile")</span>
+Unannotated (x3)">            | I("butyl") + I("acetonitrile")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x5)">            | I("butyl") + I("alcohol")</span>
+Unannotated (x3)">            | I("butyl") + I("alcohol")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x5)">            | I("butyl") + I("amine")</span>
+Unannotated (x3)">            | I("butyl") + I("amine")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x5)">            | I("butyl") + I("chloride")</span>
+Unannotated (x3)">            | I("butyl") + I("chloride")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x5)">            | I("butyl") + I("imidazole")</span>
+Unannotated (x3)">            | I("butyl") + I("imidazole")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | I("butyronitrile")</span>
+Unannotated (x1)">            | I("butyronitrile")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | I("c-hexane")</span>
+Unannotated (x1)">            | I("c-hexane")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x5)">            | I("carbon") + I("disulfide")</span>
+Unannotated (x3)">            | I("carbon") + I("disulfide")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x5)">            | I("carbon") + I("tetrachloride")</span>
+Unannotated (x3)">            | I("carbon") + I("tetrachloride")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | I("chlorobenzene")</span>
+Unannotated (x1)">            | I("chlorobenzene")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | I("chloroform")</span>
+Unannotated (x1)">            | I("chloroform")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | I("chloromethane")</span>
+Unannotated (x1)">            | I("chloromethane")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | I("chlorotoluene")</span>
+Unannotated (x1)">            | I("chlorotoluene")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | I("CHX")</span>
+Unannotated (x1)">            | I("CHX")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | I("cumene")</span>
+Unannotated (x1)">            | I("cumene")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | I("cyclohexane")</span>
+Unannotated (x1)">            | I("cyclohexane")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | I("cyclohexanol")</span>
+Unannotated (x1)">            | I("cyclohexanol")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x8)">            | I("cyclopentyl") + I("methyl") + I("ether")</span>
+Unannotated (x5)">            | I("cyclopentyl") + I("methyl") + I("ether")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | I("DCE")</span>
+Unannotated (x1)">            | I("DCE")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | I("DCM")</span>
+Unannotated (x1)">            | I("DCM")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | I("decalin")</span>
+Unannotated (x1)">            | I("decalin")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | I("decan-1-ol")</span>
+Unannotated (x1)">            | I("decan-1-ol")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | I("decane")</span>
+Unannotated (x1)">            | I("decane")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | I("decanol")</span>
+Unannotated (x1)">            | I("decanol")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | I("DEE")</span>
+Unannotated (x1)">            | I("DEE")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x5)">            | I("di-isopropyl") + I("ether")</span>
+Unannotated (x3)">            | I("di-isopropyl") + I("ether")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x5)">            | I("di-n-butyl") + I("ether")</span>
+Unannotated (x3)">            | I("di-n-butyl") + I("ether")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x5)">            | I("di-n-hexyl") + I("ether")</span>
+Unannotated (x3)">            | I("di-n-hexyl") + I("ether")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | I("dibromoethane")</span>
+Unannotated (x1)">            | I("dibromoethane")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | I("dibutoxymethane")</span>
+Unannotated (x1)">            | I("dibutoxymethane")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x5)">            | I("dibutyl") + I("ether")</span>
+Unannotated (x3)">            | I("dibutyl") + I("ether")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | I("dichloro-methane")</span>
+Unannotated (x1)">            | I("dichloro-methane")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | I("dichlorobenzene")</span>
+Unannotated (x1)">            | I("dichlorobenzene")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | I("dichloroethane")</span>
+Unannotated (x1)">            | I("dichloroethane")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | I("dichloromethane")</span>
+Unannotated (x1)">            | I("dichloromethane")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | I("diethoxymethane")</span>
+Unannotated (x1)">            | I("diethoxymethane")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x5)">            | I("diethyl") + I("carbonate")</span>
+Unannotated (x3)">            | I("diethyl") + I("carbonate")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x5)">            | I("diethyl") + I("ether")</span>
+Unannotated (x3)">            | I("diethyl") + I("ether")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | I("diethylamine")</span>
+Unannotated (x1)">            | I("diethylamine")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | I("diethylether")</span>
+Unannotated (x1)">            | I("diethylether")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | I("diglyme")</span>
+Unannotated (x1)">            | I("diglyme")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x5)">            | I("dihexyl") + I("ether")</span>
+Unannotated (x3)">            | I("dihexyl") + I("ether")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | I("diiodomethane")</span>
+Unannotated (x1)">            | I("diiodomethane")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x5)">            | I("diisopropyl") + I("ether")</span>
+Unannotated (x3)">            | I("diisopropyl") + I("ether")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | I("diisopropylamine")</span>
+Unannotated (x1)">            | I("diisopropylamine")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | I("dimethoxyethane")</span>
+Unannotated (x1)">            | I("dimethoxyethane")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | I("dimethoxymethane")</span>
+Unannotated (x1)">            | I("dimethoxymethane")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x5)">            | I("dimethyl") + I("acetamide")</span>
+Unannotated (x3)">            | I("dimethyl") + I("acetamide")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x5)">            | I("dimethyl") + I("acetimide")</span>
+Unannotated (x3)">            | I("dimethyl") + I("acetimide")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x5)">            | I("dimethyl") + I("benzene")</span>
+Unannotated (x3)">            | I("dimethyl") + I("benzene")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x5)">            | I("dimethyl") + I("carbonate")</span>
+Unannotated (x3)">            | I("dimethyl") + I("carbonate")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x5)">            | I("dimethyl") + I("ether")</span>
+Unannotated (x3)">            | I("dimethyl") + I("ether")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x5)">            | I("dimethyl") + I("formamide")</span>
+Unannotated (x3)">            | I("dimethyl") + I("formamide")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x5)">            | I("dimethyl") + I("sulfoxide")</span>
+Unannotated (x3)">            | I("dimethyl") + I("sulfoxide")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | I("dimethylacetamide")</span>
+Unannotated (x1)">            | I("dimethylacetamide")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | I("dimethylbenzene")</span>
+Unannotated (x1)">            | I("dimethylbenzene")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | I("dimethylformamide")</span>
+Unannotated (x1)">            | I("dimethylformamide")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | I("dimethylformanide")</span>
+Unannotated (x1)">            | I("dimethylformanide")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | I("dimethylsulfoxide")</span>
+Unannotated (x1)">            | I("dimethylsulfoxide")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x8)">            | I("dioctyl") + I("sodium") + I("sulfosuccinate")</span>
+Unannotated (x5)">            | I("dioctyl") + I("sodium") + I("sulfosuccinate")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | I("dioxane")</span>
+Unannotated (x1)">            | I("dioxane")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | I("dioxolane")</span>
+Unannotated (x1)">            | I("dioxolane")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x5)">            | I("dipropyl") + I("ether")</span>
+Unannotated (x3)">            | I("dipropyl") + I("ether")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | I("DMAc")</span>
+Unannotated (x1)">            | I("DMAc")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | I("DMF")</span>
+Unannotated (x1)">            | I("DMF")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | I("DMSO")</span>
+Unannotated (x1)">            | I("DMSO")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | I("Et2O")</span>
+Unannotated (x1)">            | I("Et2O")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | I("EtAc")</span>
+Unannotated (x1)">            | I("EtAc")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | I("EtAcO")</span>
+Unannotated (x1)">            | I("EtAcO")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | I("EtCN")</span>
+Unannotated (x1)">            | I("EtCN")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x5)">            | I("ethane") + I("diol")</span>
+Unannotated (x3)">            | I("ethane") + I("diol")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | I("ethane-1,2-diol")</span>
+Unannotated (x1)">            | I("ethane-1,2-diol")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | I("ethanol")</span>
+Unannotated (x1)">            | I("ethanol")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x5)">            | I("ethyl") + I("(S)-2-hydroxypropanoate")</span>
+Unannotated (x3)">            | I("ethyl") + I("(S)-2-hydroxypropanoate")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x5)">            | I("ethyl") + I("acetate")</span>
+Unannotated (x3)">            | I("ethyl") + I("acetate")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x5)">            | I("ethyl") + I("benzoate")</span>
+Unannotated (x3)">            | I("ethyl") + I("benzoate")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x5)">            | I("ethyl") + I("formate")</span>
+Unannotated (x3)">            | I("ethyl") + I("formate")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x5)">            | I("ethyl") + I("lactate")</span>
+Unannotated (x3)">            | I("ethyl") + I("lactate")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x5)">            | I("ethyl") + I("propionate")</span>
+Unannotated (x3)">            | I("ethyl") + I("propionate")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | I("ethylacetamide")</span>
+Unannotated (x1)">            | I("ethylacetamide")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | I("ethylacetate")</span>
+Unannotated (x1)">            | I("ethylacetate")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x5)">            | I("ethylene") + I("carbonate")</span>
+Unannotated (x3)">            | I("ethylene") + I("carbonate")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x5)">            | I("ethylene") + I("glycol")</span>
+Unannotated (x3)">            | I("ethylene") + I("glycol")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | I("ethyleneglycol")</span>
+Unannotated (x1)">            | I("ethyleneglycol")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | I("ethylhexan-1-ol")</span>
+Unannotated (x1)">            | I("ethylhexan-1-ol")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | I("EtOAc")</span>
+Unannotated (x1)">            | I("EtOAc")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | I("EtOH")</span>
+Unannotated (x1)">            | I("EtOH")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | I("eucalyptol")</span>
+Unannotated (x1)">            | I("eucalyptol")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | I("F3-ethanol")</span>
+Unannotated (x1)">            | I("F3-ethanol")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | I("F3-EtOH")</span>
+Unannotated (x1)">            | I("F3-EtOH")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | I("formamide")</span>
+Unannotated (x1)">            | I("formamide")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x5)">            | I("formic") + I("acid")</span>
+Unannotated (x3)">            | I("formic") + I("acid")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x8)">            | I("glacial") + I("acetic") + I("acid")</span>
+Unannotated (x5)">            | I("glacial") + I("acetic") + I("acid")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | I("glycerol")</span>
+Unannotated (x1)">            | I("glycerol")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | I("H2O")</span>
+Unannotated (x1)">            | I("H2O")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | I("H2O2")</span>
+Unannotated (x1)">            | I("H2O2")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | I("H2SO4")</span>
+Unannotated (x1)">            | I("H2SO4")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | I("HBF4")</span>
+Unannotated (x1)">            | I("HBF4")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | I("HCl")</span>
+Unannotated (x1)">            | I("HCl")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | I("HClO4")</span>
+Unannotated (x1)">            | I("HClO4")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | I("HCO2H")</span>
+Unannotated (x1)">            | I("HCO2H")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | I("HCONH2")</span>
+Unannotated (x1)">            | I("HCONH2")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | I("heptan-1-ol")</span>
+Unannotated (x1)">            | I("heptan-1-ol")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | I("heptane")</span>
+Unannotated (x1)">            | I("heptane")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | I("heptanol")</span>
+Unannotated (x1)">            | I("heptanol")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | I("heptene")</span>
+Unannotated (x1)">            | I("heptene")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | I("HEX")</span>
+Unannotated (x1)">            | I("HEX")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | I("hexadecylamine")</span>
+Unannotated (x1)">            | I("hexadecylamine")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | I("hexafluoroisopropanol")</span>
+Unannotated (x1)">            | I("hexafluoroisopropanol")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | I("hexafluoropropanol")</span>
+Unannotated (x1)">            | I("hexafluoropropanol")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | I("hexan-1-ol")</span>
+Unannotated (x1)">            | I("hexan-1-ol")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | I("hexane")</span>
+Unannotated (x1)">            | I("hexane")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | I("hexanes")</span>
+Unannotated (x1)">            | I("hexanes")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | I("hexanol")</span>
+Unannotated (x1)">            | I("hexanol")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | I("hexene")</span>
+Unannotated (x1)">            | I("hexene")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x5)">            | I("hexyl") + I("ether")</span>
+Unannotated (x3)">            | I("hexyl") + I("ether")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | I("HFIP")</span>
+Unannotated (x1)">            | I("HFIP")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | I("HFP")</span>
+Unannotated (x1)">            | I("HFP")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | I("HNO3")</span>
+Unannotated (x1)">            | I("HNO3")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x5)">            | I("hydrochloric") + I("acid")</span>
+Unannotated (x3)">            | I("hydrochloric") + I("acid")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x5)">            | I("hydrogen") + I("peroxide")</span>
+Unannotated (x3)">            | I("hydrogen") + I("peroxide")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | I("iodobenzene")</span>
+Unannotated (x1)">            | I("iodobenzene")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | I("isohexane")</span>
+Unannotated (x1)">            | I("isohexane")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | I("isooctane")</span>
+Unannotated (x1)">            | I("isooctane")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | I("isopropanol")</span>
+Unannotated (x1)">            | I("isopropanol")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x5)">            | I("isopropyl") + I("benzene")</span>
+Unannotated (x3)">            | I("isopropyl") + I("benzene")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | I("KBr")</span>
+Unannotated (x1)">            | I("KBr")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | I("LiCl")</span>
+Unannotated (x1)">            | I("LiCl")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | I("ligroine")</span>
+Unannotated (x1)">            | I("ligroine")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | I("limonene")</span>
+Unannotated (x1)">            | I("limonene")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | I("Me-THF")</span>
+Unannotated (x1)">            | I("Me-THF")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | I("Me2CO")</span>
+Unannotated (x1)">            | I("Me2CO")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | I("MeCN")</span>
+Unannotated (x1)">            | I("MeCN")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | I("MeCO2Et")</span>
+Unannotated (x1)">            | I("MeCO2Et")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | I("MeNO2")</span>
+Unannotated (x1)">            | I("MeNO2")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | I("MeOH")</span>
+Unannotated (x1)">            | I("MeOH")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | I("mesitylene")</span>
+Unannotated (x1)">            | I("mesitylene")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | I("methanamide")</span>
+Unannotated (x1)">            | I("methanamide")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | I("methanol")</span>
+Unannotated (x1)">            | I("methanol")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | I("MeTHF")</span>
+Unannotated (x1)">            | I("MeTHF")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | I("methoxybenzene")</span>
+Unannotated (x1)">            | I("methoxybenzene")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | I("methoxyethylamine")</span>
+Unannotated (x1)">            | I("methoxyethylamine")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x5)">            | I("methyl") + I("acetamide")</span>
+Unannotated (x3)">            | I("methyl") + I("acetamide")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x5)">            | I("methyl") + I("acetoacetate")</span>
+Unannotated (x3)">            | I("methyl") + I("acetoacetate")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x5)">            | I("methyl") + I("benzene")</span>
+Unannotated (x3)">            | I("methyl") + I("benzene")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x5)">            | I("methyl") + I("butane")</span>
+Unannotated (x3)">            | I("methyl") + I("butane")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x5)">            | I("methyl") + I("cyclohexane")</span>
+Unannotated (x3)">            | I("methyl") + I("cyclohexane")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x8)">            | I("methyl") + I("ethyl") + I("ketone")</span>
+Unannotated (x5)">            | I("methyl") + I("ethyl") + I("ketone")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x5)">            | I("methyl") + I("formamide")</span>
+Unannotated (x3)">            | I("methyl") + I("formamide")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x5)">            | I("methyl") + I("formate")</span>
+Unannotated (x3)">            | I("methyl") + I("formate")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x8)">            | I("methyl") + I("isobutyl") + I("ketone")</span>
+Unannotated (x5)">            | I("methyl") + I("isobutyl") + I("ketone")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x5)">            | I("methyl") + I("laurate")</span>
+Unannotated (x3)">            | I("methyl") + I("laurate")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x5)">            | I("methyl") + I("methanoate")</span>
+Unannotated (x3)">            | I("methyl") + I("methanoate")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x5)">            | I("methyl") + I("naphthalene")</span>
+Unannotated (x3)">            | I("methyl") + I("naphthalene")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x5)">            | I("methyl") + I("pentane")</span>
+Unannotated (x3)">            | I("methyl") + I("pentane")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x5)">            | I("methyl") + I("propan-1-ol")</span>
+Unannotated (x3)">            | I("methyl") + I("propan-1-ol")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x5)">            | I("methyl") + I("propan-2-ol")</span>
+Unannotated (x3)">            | I("methyl") + I("propan-2-ol")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x5)">            | I("methyl") + I("propionate")</span>
+Unannotated (x3)">            | I("methyl") + I("propionate")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x5)">            | I("methyl") + I("pyrrolidin-2-one")</span>
+Unannotated (x3)">            | I("methyl") + I("pyrrolidin-2-one")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x5)">            | I("methyl") + I("pyrrolidine")</span>
+Unannotated (x3)">            | I("methyl") + I("pyrrolidine")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x5)">            | I("methyl") + I("pyrrolidinone")</span>
+Unannotated (x3)">            | I("methyl") + I("pyrrolidinone")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x8)">            | I("methyl") + I("t-butyl") + I("ether")</span>
+Unannotated (x5)">            | I("methyl") + I("t-butyl") + I("ether")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x5)">            | I("methyl") + I("tetrahydrofuran")</span>
+Unannotated (x3)">            | I("methyl") + I("tetrahydrofuran")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | I("methyl-2-pyrrolidone")</span>
+Unannotated (x1)">            | I("methyl-2-pyrrolidone")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | I("methylbenzene")</span>
+Unannotated (x1)">            | I("methylbenzene")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | I("methylcyclohexane")</span>
+Unannotated (x1)">            | I("methylcyclohexane")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x5)">            | I("methylene") + I("chloride")</span>
+Unannotated (x3)">            | I("methylene") + I("chloride")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | I("methylformamide")</span>
+Unannotated (x1)">            | I("methylformamide")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | I("methyltetrahydrofuran")</span>
+Unannotated (x1)">            | I("methyltetrahydrofuran")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | I("MIBK")</span>
+Unannotated (x1)">            | I("MIBK")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | I("morpholine")</span>
+Unannotated (x1)">            | I("morpholine")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | I("monoethanolamine")</span>
+Unannotated (x1)">            | I("monoethanolamine")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | I("mTHF")</span>
+Unannotated (x1)">            | I("mTHF")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | I("n-butanol")</span>
+Unannotated (x1)">            | I("n-butanol")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x5)">            | I("n-butyl") + I("acetate")</span>
+Unannotated (x3)">            | I("n-butyl") + I("acetate")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | I("n-decane")</span>
+Unannotated (x1)">            | I("n-decane")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | I("n-heptane")</span>
+Unannotated (x1)">            | I("n-heptane")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | I("n-HEX")</span>
+Unannotated (x1)">            | I("n-HEX")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | I("n-hexane")</span>
+Unannotated (x1)">            | I("n-hexane")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | I("n-methylformamide")</span>
+Unannotated (x1)">            | I("n-methylformamide")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | I("n-methylpyrrolidone")</span>
+Unannotated (x1)">            | I("n-methylpyrrolidone")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | I("n-nonane")</span>
+Unannotated (x1)">            | I("n-nonane")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | I("n-octanol")</span>
+Unannotated (x1)">            | I("n-octanol")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | I("n-pentane")</span>
+Unannotated (x1)">            | I("n-pentane")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | I("n-propanol")</span>
+Unannotated (x1)">            | I("n-propanol")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | I("n,n-dimethylacetamide")</span>
+Unannotated (x1)">            | I("n,n-dimethylacetamide")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | I("n,n-dimethylformamide")</span>
+Unannotated (x1)">            | I("n,n-dimethylformamide")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | I("n,n-DMF")</span>
+Unannotated (x1)">            | I("n,n-DMF")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | I("Na2SO4")</span>
+Unannotated (x1)">            | I("Na2SO4")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | I("NaCl")</span>
+Unannotated (x1)">            | I("NaCl")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | I("NaClO4")</span>
+Unannotated (x1)">            | I("NaClO4")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | I("NaHCO3")</span>
+Unannotated (x1)">            | I("NaHCO3")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | I("NaOH")</span>
+Unannotated (x1)">            | I("NaOH")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | I("nBu4NBF4")</span>
+Unannotated (x1)">            | I("nBu4NBF4")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x5)">            | I("nitric") + I("acid")</span>
+Unannotated (x3)">            | I("nitric") + I("acid")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | I("nitrobenzene")</span>
+Unannotated (x1)">            | I("nitrobenzene")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | I("nitromethane")</span>
+Unannotated (x1)">            | I("nitromethane")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | I("nonane")</span>
+Unannotated (x1)">            | I("nonane")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | I("nujol")</span>
+Unannotated (x1)">            | I("nujol")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | I("o-dichlorobenzene")</span>
+Unannotated (x1)">            | I("o-dichlorobenzene")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | I("o-xylene")</span>
+Unannotated (x1)">            | I("o-xylene")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | I("octan-1-ol")</span>
+Unannotated (x1)">            | I("octan-1-ol")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | I("octane")</span>
+Unannotated (x1)">            | I("octane")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | I("octanol")</span>
+Unannotated (x1)">            | I("octanol")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | I("octene")</span>
+Unannotated (x1)">            | I("octene")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | I("ODCB")</span>
+Unannotated (x1)">            | I("ODCB")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | I("p-xylene")</span>
+Unannotated (x1)">            | I("p-xylene")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | I("pentan-1-ol")</span>
+Unannotated (x1)">            | I("pentan-1-ol")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | I("pentane")</span>
+Unannotated (x1)">            | I("pentane")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | I("pentanol")</span>
+Unannotated (x1)">            | I("pentanol")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | I("pentanone")</span>
+Unannotated (x1)">            | I("pentanone")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | I("pentene")</span>
+Unannotated (x1)">            | I("pentene")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | I("PeOH")</span>
+Unannotated (x1)">            | I("PeOH")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x5)">            | I("perchloric") + I("acid")</span>
+Unannotated (x3)">            | I("perchloric") + I("acid")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | I("PhCH3")</span>
+Unannotated (x1)">            | I("PhCH3")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | I("PhCl")</span>
+Unannotated (x1)">            | I("PhCl")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | I("PhCN")</span>
+Unannotated (x1)">            | I("PhCN")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | I("phenoxyethanol")</span>
+Unannotated (x1)">            | I("phenoxyethanol")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x5)">            | I("phenyl") + I("acetylene")</span>
+Unannotated (x3)">            | I("phenyl") + I("acetylene")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x5)">            | I("Phenyl") + I("ethanol")</span>
+Unannotated (x3)">            | I("Phenyl") + I("ethanol")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | I("phenylamine")</span>
+Unannotated (x1)">            | I("phenylamine")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | I("phenylethanolamine")</span>
+Unannotated (x1)">            | I("phenylethanolamine")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | I("phenylmethanol")</span>
+Unannotated (x1)">            | I("phenylmethanol")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | I("PhMe")</span>
+Unannotated (x1)">            | I("PhMe")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | I("phosphate")</span>
+Unannotated (x1)">            | I("phosphate")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x8)">            | I("phosphate") + I("buffered") + I("saline")</span>
+Unannotated (x5)">            | I("phosphate") + I("buffered") + I("saline")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | I("pinane")</span>
+Unannotated (x1)">            | I("pinane")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | I("piperidine")</span>
+Unannotated (x1)">            | I("piperidine")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | I("polytetrafluoroethylene")</span>
+Unannotated (x1)">            | I("polytetrafluoroethylene")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x5)">            | I("potassium") + I("bromide")</span>
+Unannotated (x3)">            | I("potassium") + I("bromide")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x8)">            | I("potassium") + I("phosphate") + I("buffer")</span>
+Unannotated (x5)">            | I("potassium") + I("phosphate") + I("buffer")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | I("PrCN")</span>
+Unannotated (x1)">            | I("PrCN")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | I("PrOH")</span>
+Unannotated (x1)">            | I("PrOH")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | I("propan-1-ol")</span>
+Unannotated (x1)">            | I("propan-1-ol")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | I("propan-2-ol")</span>
+Unannotated (x1)">            | I("propan-2-ol")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | I("propane")</span>
+Unannotated (x1)">            | I("propane")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | I("propane-1,2-diol")</span>
+Unannotated (x1)">            | I("propane-1,2-diol")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | I("propane-1,2,3-triol")</span>
+Unannotated (x1)">            | I("propane-1,2,3-triol")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | I("propanol")</span>
+Unannotated (x1)">            | I("propanol")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | I("propene")</span>
+Unannotated (x1)">            | I("propene")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x5)">            | I("propionic") + I("acid")</span>
+Unannotated (x3)">            | I("propionic") + I("acid")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | I("propionitrile")</span>
+Unannotated (x1)">            | I("propionitrile")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x5)">            | I("propyl") + I("acetate")</span>
+Unannotated (x3)">            | I("propyl") + I("acetate")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x5)">            | I("propyl") + I("amine")</span>
+Unannotated (x3)">            | I("propyl") + I("amine")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x5)">            | I("propylene") + I("carbonate")</span>
+Unannotated (x3)">            | I("propylene") + I("carbonate")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x5)">            | I("propylene") + I("glycol")</span>
+Unannotated (x3)">            | I("propylene") + I("glycol")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | I("pyridine")</span>
+Unannotated (x1)">            | I("pyridine")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | I("pyrrolidone")</span>
+Unannotated (x1)">            | I("pyrrolidone")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | I("quinoline")</span>
+Unannotated (x1)">            | I("quinoline")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x5)">            | I("silver") + I("nitrate")</span>
+Unannotated (x3)">            | I("silver") + I("nitrate")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | I("SNO2")</span>
+Unannotated (x1)">            | I("SNO2")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x5)">            | I("sodium") + I("chloride")</span>
+Unannotated (x3)">            | I("sodium") + I("chloride")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x5)">            | I("sodium") + I("hydroxide")</span>
+Unannotated (x3)">            | I("sodium") + I("hydroxide")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x5)">            | I("sodium") + I("perchlorate")</span>
+Unannotated (x3)">            | I("sodium") + I("perchlorate")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x5)">            | I("sulfuric") + I("acid")</span>
+Unannotated (x3)">            | I("sulfuric") + I("acid")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | I("t-butanol")</span>
+Unannotated (x1)">            | I("t-butanol")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | I("TBABF4")</span>
+Unannotated (x1)">            | I("TBABF4")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | I("TBAF")</span>
+Unannotated (x1)">            | I("TBAF")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | I("TBAH")</span>
+Unannotated (x1)">            | I("TBAH")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | I("TBAOH")</span>
+Unannotated (x1)">            | I("TBAOH")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | I("TBAP")</span>
+Unannotated (x1)">            | I("TBAP")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | I("TBAPF6")</span>
+Unannotated (x1)">            | I("TBAPF6")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | I("TEAP")</span>
+Unannotated (x1)">            | I("TEAP")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | I("TEOA")</span>
+Unannotated (x1)">            | I("TEOA")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | I("tert-butanol")</span>
+Unannotated (x1)">            | I("tert-butanol")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x5)">            | I("tert-butyl") + I("alcohol")</span>
+Unannotated (x3)">            | I("tert-butyl") + I("alcohol")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x5)">            | I("tetrabutylammonium") + I("hexafluorophosphate")</span>
+Unannotated (x3)">            | I("tetrabutylammonium") + I("hexafluorophosphate")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x5)">            | I("tetrabutylammonium") + I("hydroxide")</span>
+Unannotated (x3)">            | I("tetrabutylammonium") + I("hydroxide")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | I("tetrachloroethane")</span>
+Unannotated (x1)">            | I("tetrachloroethane")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | I("tetrachloroethylene")</span>
+Unannotated (x1)">            | I("tetrachloroethylene")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | I("tetrachloromethane")</span>
+Unannotated (x1)">            | I("tetrachloromethane")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | I("tetrafluoroethylene")</span>
+Unannotated (x1)">            | I("tetrafluoroethylene")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | I("tetrahydrofuran")</span>
+Unannotated (x1)">            | I("tetrahydrofuran")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | I("tetralin")</span>
+Unannotated (x1)">            | I("tetralin")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | I("tetramethylsilane")</span>
+Unannotated (x1)">            | I("tetramethylsilane")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | I("tetramethylurea")</span>
+Unannotated (x1)">            | I("tetramethylurea")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | I("tetrapiperidine")</span>
+Unannotated (x1)">            | I("tetrapiperidine")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | I("TFA")</span>
+Unannotated (x1)">            | I("TFA")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | I("TFE")</span>
+Unannotated (x1)">            | I("TFE")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | I("THF")</span>
+Unannotated (x1)">            | I("THF")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x5)">            | I("tin") + I("dioxide")</span>
+Unannotated (x3)">            | I("tin") + I("dioxide")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x5)">            | I("titanium") + I("dioxide")</span>
+Unannotated (x3)">            | I("titanium") + I("dioxide")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | I("toluene")</span>
+Unannotated (x1)">            | I("toluene")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x5)">            | I("tri-n-butyl") + I("phosphate")</span>
+Unannotated (x3)">            | I("tri-n-butyl") + I("phosphate")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | I("triacetate")</span>
+Unannotated (x1)">            | I("triacetate")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | I("triacetin")</span>
+Unannotated (x1)">            | I("triacetin")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | I("tribromomethane")</span>
+Unannotated (x1)">            | I("tribromomethane")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x5)">            | I("tributyl") + I("phosphate")</span>
+Unannotated (x3)">            | I("tributyl") + I("phosphate")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | I("trichlorobenzene")</span>
+Unannotated (x1)">            | I("trichlorobenzene")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | I("trichloroethene")</span>
+Unannotated (x1)">            | I("trichloroethene")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | I("trichloromethane")</span>
+Unannotated (x1)">            | I("trichloromethane")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x5)">            | I("triethyl") + I("amine")</span>
+Unannotated (x3)">            | I("triethyl") + I("amine")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x5)">            | I("triethyl") + I("phosphate")</span>
+Unannotated (x3)">            | I("triethyl") + I("phosphate")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | I("triethylamine")</span>
+Unannotated (x1)">            | I("triethylamine")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | I("triethanolamine")</span>
+Unannotated (x1)">            | I("triethanolamine")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x5)">            | I("trifluoroacetic") + I("acid")</span>
+Unannotated (x3)">            | I("trifluoroacetic") + I("acid")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | I("trifluoroethanol")</span>
+Unannotated (x1)">            | I("trifluoroethanol")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x5)">            | I("trimethyl") + I("benzene")</span>
+Unannotated (x3)">            | I("trimethyl") + I("benzene")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x5)">            | I("trimethyl") + I("pentane")</span>
+Unannotated (x3)">            | I("trimethyl") + I("pentane")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | I("tris")</span>
+Unannotated (x1)">            | I("tris")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | I("undecan-1-ol")</span>
+Unannotated (x1)">            | I("undecan-1-ol")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | I("undecanol")</span>
+Unannotated (x1)">            | I("undecanol")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | I("valeronitrile")</span>
+Unannotated (x1)">            | I("valeronitrile")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | I("water")</span>
+Unannotated (x1)">            | I("water")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | I("xylene")</span>
+Unannotated (x1)">            | I("xylene")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | I("xylol")</span>
+Unannotated (x1)">            | I("xylol")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | I("[nBu4N][BF4]")</span>
+Unannotated (x1)">            | I("[nBu4N][BF4]")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | I("BCN")</span>
+Unannotated (x1)">            | I("BCN")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | I("ACN")</span>
+Unannotated (x1)">            | I("ACN")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | I("BTN")</span>
+Unannotated (x1)">            | I("BTN")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | I("BHDC")</span>
+Unannotated (x1)">            | I("BHDC")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | I("AOT")</span>
+Unannotated (x1)">            | I("AOT")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | I("DMA")</span>
+Unannotated (x1)">            | I("DMA")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | I("Triton X-100")</span>
+Unannotated (x1)">            | I("Triton X-100")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | I("MOPS")</span>
+Unannotated (x1)">            | I("MOPS")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | I("TX-100")</span>
+Unannotated (x1)">            | I("TX-100")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x8)">            | I("H2O") + I("+") + I("TX")</span>
+Unannotated (x5)">            | I("H2O") + I("+") + I("TX")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | I("H2O-Triton X")</span>
+Unannotated (x1)">            | I("H2O-Triton X")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | I("MES")</span>
+Unannotated (x1)">            | I("MES")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | I("HDA")</span>
+Unannotated (x1)">            | I("HDA")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | I("PIPES")</span>
+Unannotated (x1)">            | I("PIPES")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x5)">            | I("heavy") + I("water")</span>
+Unannotated (x3)">            | I("heavy") + I("water")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | I("IPA")</span>
+Unannotated (x1)">            | I("IPA")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | I("KPB")</span>
+Unannotated (x1)">            | I("KPB")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | I("MCH")</span>
+Unannotated (x1)">            | I("MCH")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | I("NPA")</span>
+Unannotated (x1)">            | I("NPA")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | I("NMP")</span>
+Unannotated (x1)">            | I("NMP")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | I("PBS")</span>
+Unannotated (x1)">            | I("PBS")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | I("HEPES")</span>
+Unannotated (x1)">            | I("HEPES")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | I("SDS")</span>
+Unannotated (x1)">            | I("SDS")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | I("TBP")</span>
+Unannotated (x1)">            | I("TBP")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            | I("TEA")</span>
+Unannotated (x1)">            | I("TEA")</span>
 <span class="line-empty" title="No Anys on this line!">        )</span>
 <span class="line-empty" title="No Anys on this line!">        # Potentially problematic solvent names at the end above...</span>
 <span class="line-any" title="Any Types on this line: 
@@ -3079,20 +3078,19 @@ Unannotated (x5)">            (self.nmr_solvent | self.solvent_formula | self.ot
 Unannotated (x4)">        self.solvent_name = kwargs.get(</span>
 <span class="line-any" title="No Anys on this line!">            "solvent_name",</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x9)">            (Optional(self.include_prefix) + self.solvent_name_options)("names")</span>
+Unannotated (x10)">            (Optional(self.include_prefix) + self.solvent_name_options)("names")</span>
 <span class="line-precise" title="No Anys on this line!">            .add_action(join)</span>
-<span class="line-precise" title="Any Types on this line: 
-Unannotated (x4)">            .add_action(fix_whitespace),</span>
+<span class="line-precise" title="No Anys on this line!">            .add_action(fix_whitespace),</span>
 <span class="line-empty" title="No Anys on this line!">        )</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x6)">        self.chemical_name_blocklist = kwargs.get("chemical_name_blocklist", (I("mmc")))</span>
+Unannotated (x5)">        self.chemical_name_blocklist = kwargs.get("chemical_name_blocklist", (I("mmc")))</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x3)">        default_proper_chemical_name_options = Group(</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x5)">            Not(self.chemical_name_blocklist)</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            + Optional(self.include_prefix)</span>
+Unannotated (x3)">            + Optional(self.include_prefix)</span>
 <span class="line-empty" title="No Anys on this line!">            + (</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x7)">                self.formula</span>
@@ -3123,14 +3121,14 @@ Unannotated (x4)">        self.mixture_component = kwargs.get(</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x2)">            (</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x13)">                R(r"\d+(\.\d+)?") + W("%") + Optional(I("mol")) + self.proper_chemical_name_options</span>
+Unannotated (x9)">                R(r"\d+(\.\d+)?") + W("%") + Optional(I("mol")) + self.proper_chemical_name_options</span>
 <span class="line-precise" title="No Anys on this line!">            ).add_action(join),</span>
 <span class="line-empty" title="No Anys on this line!">        )</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x4)">        self.mixture_phrase = kwargs.get(</span>
 <span class="line-any" title="No Anys on this line!">            "mixture_phrase",</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x9)">            (self.mixture_component + W("+") + self.mixture_component).add_action(join)("names"),</span>
+Unannotated (x8)">            (self.mixture_component + W("+") + self.mixture_component).add_action(join)("names"),</span>
 <span class="line-empty" title="No Anys on this line!">        )</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="Any Types on this line: 
@@ -3149,10 +3147,9 @@ Unannotated (x5)">                self.joining_characters + (self.proper_chemica
 Unannotated (x4)">        self.chemical_name = kwargs.get(</span>
 <span class="line-any" title="No Anys on this line!">            "chemical_name",</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x9)">            (Optional(self.include_prefix) + self.chemical_name_options)("names")</span>
+Unannotated (x10)">            (Optional(self.include_prefix) + self.chemical_name_options)("names")</span>
 <span class="line-precise" title="No Anys on this line!">            .add_action(join)</span>
-<span class="line-precise" title="Any Types on this line: 
-Unannotated (x4)">            .add_action(fix_whitespace),</span>
+<span class="line-precise" title="No Anys on this line!">            .add_action(fix_whitespace),</span>
 <span class="line-empty" title="No Anys on this line!">        )</span>
 <span class="line-empty" title="No Anys on this line!">        # chemical_name = cm('names').add_action(fix_whitespace)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
@@ -3165,13 +3162,12 @@ Unannotated (x4)">        self.likely_abbreviation = kwargs.get(</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x5)">            (</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x5)">                Optional(self.include_prefix + Optional(hyphen))</span>
+Unannotated (x7)">                Optional(self.include_prefix + Optional(hyphen))</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x4)">                + R(r"^([A-Z]{2,6}(\-[A-Z]{1,6})?|[A-Z](\-[A-Z]{2,6}))$")</span>
+Unannotated (x1)">                + R(r"^([A-Z]{2,6}(\-[A-Z]{1,6})?|[A-Z](\-[A-Z]{2,6}))$")</span>
 <span class="line-any" title="No Anys on this line!">            )("names")</span>
 <span class="line-precise" title="No Anys on this line!">            .add_action(join)</span>
-<span class="line-precise" title="Any Types on this line: 
-Unannotated (x4)">            .add_action(fix_whitespace),</span>
+<span class="line-precise" title="No Anys on this line!">            .add_action(fix_whitespace),</span>
 <span class="line-empty" title="No Anys on this line!">        )</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">        # Lenient name match that should be used with stricter surrounding context</span>
@@ -3179,10 +3175,9 @@ Unannotated (x4)">            .add_action(fix_whitespace),</span>
 Unannotated (x4)">        self.lenient_name = kwargs.get(</span>
 <span class="line-any" title="No Anys on this line!">            "lenient_name",</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x20)">            OneOrMore(self.bcm | self.icm | jj | nn | nnp | nns | hyph | cd | ls | W(","))("names")</span>
+Unannotated (x19)">            OneOrMore(self.bcm | self.icm | jj | nn | nnp | nns | hyph | cd | ls | W(","))("names")</span>
 <span class="line-precise" title="No Anys on this line!">            .add_action(join)</span>
-<span class="line-precise" title="Any Types on this line: 
-Unannotated (x4)">            .add_action(fix_whitespace),</span>
+<span class="line-precise" title="No Anys on this line!">            .add_action(fix_whitespace),</span>
 <span class="line-empty" title="No Anys on this line!">        )</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="Any Types on this line: 
@@ -3194,16 +3189,15 @@ Unannotated (x1)">            (</span>
 Unannotated (x8)">                (self.lenient_alphanumeric | self.lenient_numeric | self.lenient_letter_number)(</span>
 <span class="line-any" title="No Anys on this line!">                    "labels"</span>
 <span class="line-empty" title="No Anys on this line!">                )</span>
-<span class="line-any" title="Any Types on this line: 
-Error (x1)">                + optdelim</span>
+<span class="line-precise" title="No Anys on this line!">                + optdelim</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">                + self.lenient_name</span>
 <span class="line-any" title="No Anys on this line!">            )("compound"),</span>
 <span class="line-empty" title="No Anys on this line!">        )</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x13)">        self.labelled_as = kwargs.get("labelled_as", (R(r"^labell?ed$") + W("as")).hide())</span>
+Unannotated (x9)">        self.labelled_as = kwargs.get("labelled_as", (R(r"^labell?ed$") + W("as")).hide())</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x7)">        self.optquote = kwargs.get("optquote", Optional(quote.hide()))</span>
+Unannotated (x8)">        self.optquote = kwargs.get("optquote", Optional(quote.hide()))</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x4)">        self.name_with_optional_bracketed_label = kwargs.get(</span>
@@ -3211,21 +3205,20 @@ Unannotated (x4)">        self.name_with_optional_bracketed_label = kwargs.get(<
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">            (</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x6)">                Optional(self.synthesis_of | self.to_give)</span>
+Unannotated (x7)">                Optional(self.synthesis_of | self.to_give)</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">                + self.chemical_name</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x1)">                + Optional(</span>
+Unannotated (x2)">                + Optional(</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x5)">                    lbrct</span>
+Unannotated (x4)">                    lbrct</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x4)">                    + Optional(self.labelled_as + self.optquote)</span>
+Unannotated (x5)">                    + Optional(self.labelled_as + self.optquote)</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x5)">                    + (self.chemical_label | self.lenient_chemical_label | self.likely_abbreviation)</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">                    + self.optquote</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x1)">                    + rbrct</span>
+<span class="line-precise" title="No Anys on this line!">                    + rbrct</span>
 <span class="line-empty" title="No Anys on this line!">                )</span>
 <span class="line-any" title="No Anys on this line!">            )("compound"),</span>
 <span class="line-empty" title="No Anys on this line!">        )</span>
@@ -3234,16 +3227,14 @@ Unannotated (x1)">                    + rbrct</span>
 Unannotated (x4)">        self.label_before_name = kwargs.get(</span>
 <span class="line-any" title="No Anys on this line!">            "label_before_name",</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x8)">            Optional(self.synthesis_of | self.to_give)</span>
+Unannotated (x9)">            Optional(self.synthesis_of | self.to_give)</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">            + self.label_type</span>
-<span class="line-any" title="Any Types on this line: 
-Error (x1)">            + optdelim</span>
+<span class="line-precise" title="No Anys on this line!">            + optdelim</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">            + self.label_name_cem</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x6)
-Error (x2)">            + ZeroOrMore(optdelim + cc + optdelim + self.label_name_cem),</span>
+Unannotated (x6)">            + ZeroOrMore(optdelim + cc + optdelim + self.label_name_cem),</span>
 <span class="line-empty" title="No Anys on this line!">        )</span>
 <span class="line-empty" title="No Anys on this line!">        # Very lenient name and label match, with format like "name (Compound 3)"</span>
 <span class="line-any" title="Any Types on this line: 
@@ -3254,17 +3245,15 @@ Unannotated (x1)">            (</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x7)">                Start()</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">                + Optional(self.synthesis_of)</span>
+Unannotated (x3)">                + Optional(self.synthesis_of)</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">                + self.lenient_name</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x1)">                + lbrct</span>
+<span class="line-precise" title="No Anys on this line!">                + lbrct</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x3)">                + self.label_type.hide()</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">                + self.lenient_chemical_label</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x1)">                + rbrct</span>
+<span class="line-precise" title="No Anys on this line!">                + rbrct</span>
 <span class="line-any" title="No Anys on this line!">            )("compound"),</span>
 <span class="line-empty" title="No Anys on this line!">        )</span>
 <span class="line-empty" title="No Anys on this line!"></span>
@@ -3277,12 +3266,11 @@ Unannotated (x2)">            Start()</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x3)">            + Group(</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x3)">                Optional(self.synthesis_of)</span>
+Unannotated (x4)">                Optional(self.synthesis_of)</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x22)">                + (self.cm + W(",") + self.cm + Not(self.bcm | self.icm) + Not(I("and")))("names")</span>
+Unannotated (x20)">                + (self.cm + W(",") + self.cm + Not(self.bcm | self.icm) + Not(I("and")))("names")</span>
 <span class="line-precise" title="No Anys on this line!">                .add_action(join)</span>
-<span class="line-precise" title="Any Types on this line: 
-Unannotated (x4)">                .add_action(fix_whitespace)</span>
+<span class="line-precise" title="No Anys on this line!">                .add_action(fix_whitespace)</span>
 <span class="line-any" title="No Anys on this line!">            )("compound"),</span>
 <span class="line-empty" title="No Anys on this line!">        )</span>
 <span class="line-empty" title="No Anys on this line!"></span>
@@ -3295,7 +3283,7 @@ Unannotated (x1)">            (</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x3)">                self.chemical_name</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x8)">                + OneOrMore(delim | I("with") | I("for"))</span>
+Unannotated (x6)">                + OneOrMore(delim | I("with") | I("for"))</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">                + self.doped_chemical_label</span>
 <span class="line-any" title="No Anys on this line!">            )("compound"),</span>
@@ -3310,9 +3298,9 @@ Unannotated (x1)">            (</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x4)">                self.chemical_name</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x5)">                + Optional(R("compounds?"))</span>
+Unannotated (x3)">                + Optional(R("compounds?"))</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x8)">                + OneOrMore(delim | I("with") | I("for"))</span>
+Unannotated (x6)">                + OneOrMore(delim | I("with") | I("for"))</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">                + self.informal_chemical_label</span>
 <span class="line-any" title="No Anys on this line!">            )("compound"),</span>
@@ -3344,39 +3332,37 @@ Unannotated (x1)">                | self.name_with_optional_bracketed_label</spa
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x4)">        self.cem_phrase = kwargs.get(</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x10)">            "cem_phrase", Group(self.cem)("cem_phrase").add_action(fix_whitespace)</span>
+Unannotated (x6)">            "cem_phrase", Group(self.cem)("cem_phrase").add_action(fix_whitespace)</span>
 <span class="line-empty" title="No Anys on this line!">        )</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x4)">        self.r_equals = kwargs.get(</span>
 <span class="line-any" title="No Anys on this line!">            "r_equals",</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x6)">            R("^[R]$")</span>
+Unannotated (x3)">            R("^[R]$")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            + W("=")</span>
+Unannotated (x1)">            + W("=")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x15)">            + OneOrMore(Not(rbrct) + (self.bcm | self.icm | nn | nnp | nns | hyph | cd | ls)),</span>
+Unannotated (x14)">            + OneOrMore(Not(rbrct) + (self.bcm | self.icm | nn | nnp | nns | hyph | cd | ls)),</span>
 <span class="line-empty" title="No Anys on this line!">        )</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x14)">        self.of_table = kwargs.get("of_table", (I("of") | I("in")) + Optional(dt) + I("table"))</span>
+Unannotated (x12)">        self.of_table = kwargs.get("of_table", (I("of") | I("in")) + Optional(dt) + I("table"))</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x4)">        self.bracketed_after_name = kwargs.get(</span>
 <span class="line-any" title="No Anys on this line!">            "bracketed_after_name",</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x8)">            Optional(self.comma)</span>
+Unannotated (x9)">            Optional(self.comma)</span>
+<span class="line-precise" title="No Anys on this line!">            + lbrct</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x1)">            + lbrct</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x4)">            + Optional(self.labelled_as + self.optquote)</span>
+Unannotated (x5)">            + Optional(self.labelled_as + self.optquote)</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x5)">            + (self.chemical_label | self.lenient_chemical_label | self.likely_abbreviation)</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">            + self.optquote</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x7)">            + Optional(Optional(self.comma) + self.r_equals | self.of_table)</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x1)">            + rbrct,</span>
+Unannotated (x9)">            + Optional(Optional(self.comma) + self.r_equals | self.of_table)</span>
+<span class="line-precise" title="No Anys on this line!">            + rbrct,</span>
 <span class="line-empty" title="No Anys on this line!">        )</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x4)">        self.comma_after_name = kwargs.get(</span>
@@ -3384,7 +3370,7 @@ Unannotated (x4)">        self.comma_after_name = kwargs.get(</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x3)">            self.comma</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x4)">            + Optional(self.labelled_as + self.optquote)</span>
+Unannotated (x5)">            + Optional(self.labelled_as + self.optquote)</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x3)">            + (self.chemical_label | self.likely_abbreviation),</span>
 <span class="line-empty" title="No Anys on this line!">        )</span>
@@ -3394,24 +3380,23 @@ Unannotated (x1)">        default_compound_heading_ending = (</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x2)">            (</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x5)">                Optional(self.comma)</span>
+Unannotated (x6)">                Optional(self.comma)</span>
 <span class="line-empty" title="No Anys on this line!">                + (</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">                    (</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x4)">                        lbrct</span>
+Unannotated (x3)">                        lbrct</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x5)">                        + (self.chemical_label | self.lenient_chemical_label | self.lenient_name)</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x7)">                        + Optional(Optional(self.comma) + self.r_equals | self.of_table)</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x1)">                        + rbrct</span>
+Unannotated (x9)">                        + Optional(Optional(self.comma) + self.r_equals | self.of_table)</span>
+<span class="line-precise" title="No Anys on this line!">                        + rbrct</span>
 <span class="line-empty" title="No Anys on this line!">                    )</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">                    | self.chemical_label</span>
 <span class="line-empty" title="No Anys on this line!">                )</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x7)">                + Optional(R(r"^[:;]$")).hide()</span>
+Unannotated (x5)">                + Optional(R(r"^[:;]$")).hide()</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x5)">                | self.comma + (self.chemical_label | self.lenient_chemical_label)</span>
 <span class="line-empty" title="No Anys on this line!">            )</span>
@@ -3434,14 +3419,14 @@ Unannotated (x4)">        self.section_no = kwargs.get(</span>
 Unannotated (x2)">            Every(</span>
 <span class="line-empty" title="No Anys on this line!">                [</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x13)">                    Optional(I("stage") | I("step") | I("section") | I("part"))</span>
+Unannotated (x10)">                    Optional(I("stage") | I("step") | I("section") | I("part"))</span>
 <span class="line-empty" title="No Anys on this line!">                    + (</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x5)">                        T("CD")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x4)">                        | R(r"^\d{1,3}(\.\d{1,3}(\.\d{1,3}(\.\d{1,3})?)?)?$")</span>
+Unannotated (x1)">                        | R(r"^\d{1,3}(\.\d{1,3}(\.\d{1,3}(\.\d{1,3})?)?)?$")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x5)">                        | (Optional(lbrct) + roman_numeral + rbrct)</span>
+Unannotated (x4)">                        | (Optional(lbrct) + roman_numeral + rbrct)</span>
 <span class="line-empty" title="No Anys on this line!">                    ),</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x5)">                    Not(self.bcm | self.icm),</span>
@@ -3454,19 +3439,18 @@ Unannotated (x1)">        default_compound_heading_style1 = (</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x6)">            Start()</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x4)">            + Optional(self.section_no.hide())</span>
+Unannotated (x5)">            + Optional(self.section_no.hide())</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            + Optional(self.synthesis_of)</span>
+Unannotated (x3)">            + Optional(self.synthesis_of)</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x7)">            + OneOrMore(</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x4)">                Not(self.compound_heading_ending)</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x14)">                + (self.bcm | self.icm | jj | nn | nnp | nns | hyph | sym | cd | ls | W(","))</span>
+Unannotated (x13)">                + (self.bcm | self.icm | jj | nn | nnp | nns | hyph | sym | cd | ls | W(","))</span>
 <span class="line-any" title="No Anys on this line!">            )("names")</span>
 <span class="line-precise" title="No Anys on this line!">            .add_action(join)</span>
-<span class="line-precise" title="Any Types on this line: 
-Unannotated (x4)">            .add_action(fix_whitespace)</span>
+<span class="line-precise" title="No Anys on this line!">            .add_action(fix_whitespace)</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">            + self.compound_heading_ending</span>
 <span class="line-any" title="Any Types on this line: 
@@ -3481,7 +3465,7 @@ Unannotated (x1)">            "compound_heading_style1", default_compound_headin
 Unannotated (x4)">        self.compound_heading_style2 = kwargs.get(</span>
 <span class="line-any" title="No Anys on this line!">            "compound_heading_style2",</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x4)">            self.chemical_name + Optional(self.bracketed_after_name),</span>
+Unannotated (x5)">            self.chemical_name + Optional(self.bracketed_after_name),</span>
 <span class="line-empty" title="No Anys on this line!">        )</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x4)">        self.compound_heading_style3 = kwargs.get(</span>
@@ -3491,7 +3475,7 @@ Unannotated (x3)">            self.synthesis_of</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x3)">            + (self.lenient_name | self.chemical_name)</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x4)">            + Optional(self.bracketed_after_name | self.comma_after_name),</span>
+Unannotated (x5)">            + Optional(self.bracketed_after_name | self.comma_after_name),</span>
 <span class="line-empty" title="No Anys on this line!">        )  # Possibly redundant?</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x4)">        self.compound_heading_style4 = kwargs.get(</span>
@@ -3505,7 +3489,7 @@ Unannotated (x9)">            + ZeroOrMore((T("CC") | self.comma) + self.lenient
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x3)">            + (self.lenient_name | self.chemical_name)</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x4)">            + Optional(self.bracketed_after_name | self.comma_after_name),</span>
+Unannotated (x5)">            + Optional(self.bracketed_after_name | self.comma_after_name),</span>
 <span class="line-empty" title="No Anys on this line!">        )</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x4)">        self.compound_heading_style5 = kwargs.get(</span>
@@ -3555,12 +3539,11 @@ Unannotated (x2)">                Start()</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x2)">                + Group(</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x3)">                    Optional(self.synthesis_of)</span>
+Unannotated (x4)">                    Optional(self.synthesis_of)</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x21)">                    + (self.cm + W(",") + self.cm + Not(self.bcm | self.icm) + Not(I("and")))</span>
+Unannotated (x19)">                    + (self.cm + W(",") + self.cm + Not(self.bcm | self.icm) + Not(I("and")))</span>
 <span class="line-precise" title="No Anys on this line!">                    .add_action(join)</span>
-<span class="line-precise" title="Any Types on this line: 
-Unannotated (x4)">                    .add_action(fix_whitespace)</span>
+<span class="line-precise" title="No Anys on this line!">                    .add_action(fix_whitespace)</span>
 <span class="line-empty" title="No Anys on this line!">                )</span>
 <span class="line-empty" title="No Anys on this line!">            )</span>
 <span class="line-any" title="No Anys on this line!">        )("compound")</span>
@@ -3579,7 +3562,7 @@ Unannotated (x1)">                | self.informal_chemical_label</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">                | self.numeric</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x11)">                | Every([R(r"^([A-Z]\d{1,3})$"), Not(self.bcm | self.icm)])</span>
+Unannotated (x8)">                | Every([R(r"^([A-Z]\d{1,3})$"), Not(self.bcm | self.icm)])</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">                | self.strict_chemical_label</span>
 <span class="line-any" title="No Anys on this line!">            )("compound"),</span>

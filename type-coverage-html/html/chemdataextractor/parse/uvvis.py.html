@@ -86,14 +86,44 @@
 <span id="L76" class="lineno"><a class="lineno" href="#L76">76</a></span>
 <span id="L77" class="lineno"><a class="lineno" href="#L77">77</a></span>
 <span id="L78" class="lineno"><a class="lineno" href="#L78">78</a></span>
+<span id="L79" class="lineno"><a class="lineno" href="#L79">79</a></span>
+<span id="L80" class="lineno"><a class="lineno" href="#L80">80</a></span>
+<span id="L81" class="lineno"><a class="lineno" href="#L81">81</a></span>
+<span id="L82" class="lineno"><a class="lineno" href="#L82">82</a></span>
+<span id="L83" class="lineno"><a class="lineno" href="#L83">83</a></span>
+<span id="L84" class="lineno"><a class="lineno" href="#L84">84</a></span>
+<span id="L85" class="lineno"><a class="lineno" href="#L85">85</a></span>
+<span id="L86" class="lineno"><a class="lineno" href="#L86">86</a></span>
+<span id="L87" class="lineno"><a class="lineno" href="#L87">87</a></span>
+<span id="L88" class="lineno"><a class="lineno" href="#L88">88</a></span>
+<span id="L89" class="lineno"><a class="lineno" href="#L89">89</a></span>
+<span id="L90" class="lineno"><a class="lineno" href="#L90">90</a></span>
+<span id="L91" class="lineno"><a class="lineno" href="#L91">91</a></span>
+<span id="L92" class="lineno"><a class="lineno" href="#L92">92</a></span>
+<span id="L93" class="lineno"><a class="lineno" href="#L93">93</a></span>
+<span id="L94" class="lineno"><a class="lineno" href="#L94">94</a></span>
+<span id="L95" class="lineno"><a class="lineno" href="#L95">95</a></span>
+<span id="L96" class="lineno"><a class="lineno" href="#L96">96</a></span>
+<span id="L97" class="lineno"><a class="lineno" href="#L97">97</a></span>
+<span id="L98" class="lineno"><a class="lineno" href="#L98">98</a></span>
 </pre></td>
 <td class="table-code"><pre><span class="line-empty" title="No Anys on this line!">"""</span>
 <span class="line-empty" title="No Anys on this line!">UV-vis text parser.</span>
 <span class="line-empty" title="No Anys on this line!"></span>
+<span class="line-empty" title="No Anys on this line!">Provides parsing capabilities for UV-visible spectroscopy data,</span>
+<span class="line-empty" title="No Anys on this line!">including peak wavelengths, solvents, and absorption characteristics.</span>
 <span class="line-empty" title="No Anys on this line!">"""</span>
+<span class="line-empty" title="No Anys on this line!"></span>
+<span class="line-precise" title="No Anys on this line!">from __future__ import annotations</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">import logging</span>
 <span class="line-precise" title="No Anys on this line!">import re</span>
+<span class="line-precise" title="No Anys on this line!">from collections.abc import Generator</span>
+<span class="line-precise" title="No Anys on this line!">from typing import TYPE_CHECKING</span>
+<span class="line-precise" title="No Anys on this line!">from typing import Any</span>
+<span class="line-empty" title="No Anys on this line!"></span>
+<span class="line-precise" title="No Anys on this line!">if TYPE_CHECKING:</span>
+<span class="line-precise" title="No Anys on this line!">    from ..model.base import BaseModel</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">from ..utils import first</span>
 <span class="line-precise" title="No Anys on this line!">from .actions import strip_stop</span>
@@ -111,22 +141,19 @@
 <span class="line-precise" title="No Anys on this line!">log = logging.getLogger(__name__)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x6)">delim = R(r"^[;:,\./]$").hide()</span>
+<span class="line-precise" title="No Anys on this line!">delim = R(r"^[;:,\./]$").hide()</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x3)">solvent = chemical_name("solvent")</span>
 <span class="line-any" title="Any Types on this line: 
-Error (x5)
-Unannotated (x3)">units = Optional(W("/")).hide() + W("nm")("units")</span>
+Unannotated (x4)">units = Optional(W("/")).hide() + W("nm")("units")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x11)">value = R(r"^\d{3,4}(\.\d+)?\.?$")("value").add_action(strip_stop)</span>
+Unannotated (x4)">value = R(r"^\d{3,4}(\.\d+)?\.?$")("value").add_action(strip_stop)</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">shape = (</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x5)">    R("^(m|medium|w|weak|s|strong|n|narrow|b|broad|sh|sharp)$", re.I)("shape")</span>
+Unannotated (x2)">    R("^(m|medium|w|weak|s|strong|n|narrow|b|broad|sh|sharp)$", re.I)("shape")</span>
 <span class="line-any" title="Any Types on this line: 
-Error (x3)
 Unannotated (x1)">    + Optional(I("peak")).hide()</span>
 <span class="line-empty" title="No Anys on this line!">)</span>
 <span class="line-any" title="Any Types on this line: 
@@ -134,91 +161,93 @@ Unannotated (x2)">peak_meta_options = shape</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">peak_meta = (</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x14)">    W("(").hide() + peak_meta_options + ZeroOrMore(delim + peak_meta_options) + W(")").hide()</span>
+Unannotated (x7)">    W("(").hide() + peak_meta_options + ZeroOrMore(delim + peak_meta_options) + W(")").hide()</span>
 <span class="line-empty" title="No Anys on this line!">)</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x5)">insolvent = T("IN") + solvent</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">uvvis_abs_title = (</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x9)">    I("absorption") + R("max(ima)?")</span>
+Unannotated (x5)">    I("absorption") + R("max(ima)?")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x4)">    | R("^λ(a(bs)?|max)$")</span>
+Unannotated (x1)">    | R("^λ(a(bs)?|max)$")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x12)">    + ZeroOrMore(R("^a?max$", re.I) | R("abs(or[bp]tion)?", re.I) | I("a") | W(","))</span>
+Unannotated (x4)">    + ZeroOrMore(R("^a?max$", re.I) | R("abs(or[bp]tion)?", re.I) | I("a") | W(","))</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x14)">    | W("λ$") + OneOrMore(R("^a?max$", re.I) | R("abs(or[bp]tion)?", re.I) | I("a") | W(","))</span>
+Unannotated (x5)">    | W("λ$") + OneOrMore(R("^a?max$", re.I) | R("abs(or[bp]tion)?", re.I) | I("a") | W(","))</span>
+<span class="line-precise" title="No Anys on this line!">    | R("uv([-/]?vis)?", re.I)</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x3)">    | R("uv([-/]?vis)?", re.I)</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x10)
-Error (x1)">    | I("UV") + hyphen + R("^vis(ible)?$", re.I) + Optional(R("^abs(or[bp]tion)?$"))</span>
+Unannotated (x4)">    | I("UV") + hyphen + R("^vis(ible)?$", re.I) + Optional(R("^abs(or[bp]tion)?$"))</span>
 <span class="line-empty" title="No Anys on this line!">)</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">prelude = (</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x8)">    uvvis_abs_title.hide()</span>
 <span class="line-any" title="Any Types on this line: 
-Error (x1)
 Unannotated (x1)">    + Optional(delim)</span>
 <span class="line-any" title="Any Types on this line: 
-Error (x1)
 Unannotated (x1)">    + Optional(I("data"))</span>
 <span class="line-any" title="Any Types on this line: 
-Error (x1)
-Unannotated (x1)">    + Optional(insolvent)</span>
+Unannotated (x2)">    + Optional(insolvent)</span>
 <span class="line-any" title="Any Types on this line: 
-Error (x1)
 Unannotated (x1)">    + Optional(delim)</span>
 <span class="line-any" title="Any Types on this line: 
-Error (x2)">    + Optional(units)</span>
+Unannotated (x2)">    + Optional(units)</span>
 <span class="line-empty" title="No Anys on this line!">)</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x5)
-Error (x1)">peak = (value + Optional(peak_meta))("peak")</span>
+Unannotated (x6)">peak = (value + Optional(peak_meta))("peak")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x13)">peaks = (peak + ZeroOrMore(ZeroOrMore(delim | W("and")).hide() + peak))("peaks")</span>
+Unannotated (x9)">peaks = (peak + ZeroOrMore(ZeroOrMore(delim | W("and")).hide() + peak))("peaks")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x10)
-Error (x4)">uvvis = (prelude + peaks + Optional(delim) + Optional(units) + Optional(insolvent))("uvvis")</span>
+Unannotated (x13)">uvvis = (prelude + peaks + Optional(delim) + Optional(units) + Optional(insolvent))("uvvis")</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">class UvvisParser(BaseSentenceParser):</span>
-<span class="line-empty" title="No Anys on this line!">    """"""</span>
+<span class="line-empty" title="No Anys on this line!">    """Parser for UV-visible spectroscopy data."""</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x2)">    root = uvvis</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-any" title="No Anys on this line!">    def interpret(self, result, start, end):</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x6)">        c = self.model.fields["compound"].model_class()</span>
+Explicit (x1)">    def interpret(self, result: Any, start: int, end: int) -&gt; Generator[BaseModel, None, None]:</span>
+<span class="line-empty" title="No Anys on this line!">        """Interpret parsed UV-vis spectrum results.</span>
+<span class="line-empty" title="No Anys on this line!"></span>
+<span class="line-empty" title="No Anys on this line!">        Args:</span>
+<span class="line-empty" title="No Anys on this line!">            result: Parsed result containing UV-vis spectrum data</span>
+<span class="line-empty" title="No Anys on this line!">            start: Starting position in text</span>
+<span class="line-empty" title="No Anys on this line!">            end: Ending position in text</span>
+<span class="line-empty" title="No Anys on this line!"></span>
+<span class="line-empty" title="No Anys on this line!">        Yields:</span>
+<span class="line-empty" title="No Anys on this line!">            BaseModel instances containing UV-vis spectrum data</span>
+<span class="line-empty" title="No Anys on this line!">        """</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x7)
-Omitted Generics (x2)">        u = self.model(solvent=first(result.xpath("./solvent/text()")))</span>
+Error (x5)
+Omitted Generics (x2)">        c = self.model.fields["compound"].model_class()</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x6)">        peak_model = self.model.fields["peaks"].field.model_class</span>
+Error (x2)
+Explicit (x6)">        u = self.model(solvent=first(result.xpath("./solvent/text()")))</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x5)
-Omitted Generics (x2)">        units = first(result.xpath("./units/text()"))</span>
+Error (x5)
+Omitted Generics (x2)">        peak_model = self.model.fields["peaks"].field.model_class</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x4)">        for peak_result in result.xpath("./peaks/peak"):</span>
+Explicit (x7)">        units = first(result.xpath("./units/text()"))</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x3)">            uvvis_peak = peak_model(</span>
+Explicit (x4)">        for peak_result in result.xpath("./peaks/peak"):</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x4)
-Omitted Generics (x2)">                value=first(peak_result.xpath("./value/text()")),</span>
+Error (x3)">            uvvis_peak = peak_model(</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x1)">                units=units,</span>
+Explicit (x6)">                value=first(peak_result.xpath("./value/text()")),</span>
+<span class="line-imprecise" title="Any Types on this line: 
+Explicit (x1)">                units=units,</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x4)
-Omitted Generics (x2)">                shape=first(peak_result.xpath("./shape/text()")),</span>
+Explicit (x6)">                shape=first(peak_result.xpath("./shape/text()")),</span>
 <span class="line-empty" title="No Anys on this line!">            )</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x5)">            u.peaks.append(uvvis_peak)</span>
+Error (x5)">            u.peaks.append(uvvis_peak)</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x3)">        u.compound = c</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x1)">        yield u</span>
+Error (x3)">        u.compound = c</span>
+<span class="line-imprecise" title="Any Types on this line: 
+Error (x1)">        yield u</span>
 </pre></td>
 </tr></tbody>
 </table>

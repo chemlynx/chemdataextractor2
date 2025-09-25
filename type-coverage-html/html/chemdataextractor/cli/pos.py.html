@@ -492,9 +492,9 @@ Omitted Generics (x6)">@click.pass_context</span>
 <span class="line-empty" title="No Anys on this line!">                    genia_sents[i][j] = (token, "NN")  # Typo?</span>
 <span class="line-empty" title="No Anys on this line!">                elif tag == "PP":</span>
 <span class="line-empty" title="No Anys on this line!">                    genia_sents[i][j] = (token, "PRP")  # Typo?</span>
-<span class="line-empty" title="No Anys on this line!">                elif tag == "" and token == ")":</span>
+<span class="line-empty" title="No Anys on this line!">                elif tag == "" and token == ")":  # nosec B105</span>
 <span class="line-empty" title="No Anys on this line!">                    genia_sents[i][j] = (token, "-RRB-")  # Typo?</span>
-<span class="line-empty" title="No Anys on this line!">                elif tag == "" and token == "IFN-gamma":</span>
+<span class="line-empty" title="No Anys on this line!">                elif tag == "" and token == "IFN-gamma":  # nosec B105</span>
 <span class="line-empty" title="No Anys on this line!">                    genia_sents[i][j] = (token, "NN")  # Typo?</span>
 <span class="line-empty" title="No Anys on this line!">                elif "|" in tag:</span>
 <span class="line-empty" title="No Anys on this line!">                    genia_sents[i][j] = (</span>
@@ -607,9 +607,9 @@ Omitted Generics (x7)">@click.pass_obj</span>
 <span class="line-empty" title="No Anys on this line!">                    genia_sents[i][j] = (token, "NN")  # Typo?</span>
 <span class="line-empty" title="No Anys on this line!">                elif tag == "PP":</span>
 <span class="line-empty" title="No Anys on this line!">                    genia_sents[i][j] = (token, "PRP")  # Typo?</span>
-<span class="line-empty" title="No Anys on this line!">                elif tag == "" and token == ")":</span>
+<span class="line-empty" title="No Anys on this line!">                elif tag == "" and token == ")":  # nosec B105</span>
 <span class="line-empty" title="No Anys on this line!">                    genia_sents[i][j] = (token, "-RRB-")  # Typo?</span>
-<span class="line-empty" title="No Anys on this line!">                elif tag == "" and token == "IFN-gamma":</span>
+<span class="line-empty" title="No Anys on this line!">                elif tag == "" and token == "IFN-gamma":  # nosec B105</span>
 <span class="line-empty" title="No Anys on this line!">                    genia_sents[i][j] = (token, "NN")  # Typo?</span>
 <span class="line-empty" title="No Anys on this line!">                elif "|" in tag:</span>
 <span class="line-empty" title="No Anys on this line!">                    genia_sents[i][j] = (</span>

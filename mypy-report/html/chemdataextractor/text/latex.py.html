@@ -1616,12 +1616,34 @@
 <span id="L1606" class="lineno"><a class="lineno" href="#L1606">1606</a></span>
 <span id="L1607" class="lineno"><a class="lineno" href="#L1607">1607</a></span>
 <span id="L1608" class="lineno"><a class="lineno" href="#L1608">1608</a></span>
+<span id="L1609" class="lineno"><a class="lineno" href="#L1609">1609</a></span>
+<span id="L1610" class="lineno"><a class="lineno" href="#L1610">1610</a></span>
+<span id="L1611" class="lineno"><a class="lineno" href="#L1611">1611</a></span>
+<span id="L1612" class="lineno"><a class="lineno" href="#L1612">1612</a></span>
+<span id="L1613" class="lineno"><a class="lineno" href="#L1613">1613</a></span>
+<span id="L1614" class="lineno"><a class="lineno" href="#L1614">1614</a></span>
+<span id="L1615" class="lineno"><a class="lineno" href="#L1615">1615</a></span>
+<span id="L1616" class="lineno"><a class="lineno" href="#L1616">1616</a></span>
+<span id="L1617" class="lineno"><a class="lineno" href="#L1617">1617</a></span>
+<span id="L1618" class="lineno"><a class="lineno" href="#L1618">1618</a></span>
+<span id="L1619" class="lineno"><a class="lineno" href="#L1619">1619</a></span>
+<span id="L1620" class="lineno"><a class="lineno" href="#L1620">1620</a></span>
+<span id="L1621" class="lineno"><a class="lineno" href="#L1621">1621</a></span>
+<span id="L1622" class="lineno"><a class="lineno" href="#L1622">1622</a></span>
+<span id="L1623" class="lineno"><a class="lineno" href="#L1623">1623</a></span>
+<span id="L1624" class="lineno"><a class="lineno" href="#L1624">1624</a></span>
+<span id="L1625" class="lineno"><a class="lineno" href="#L1625">1625</a></span>
+<span id="L1626" class="lineno"><a class="lineno" href="#L1626">1626</a></span>
 </pre></td>
 <td class="table-code"><pre><span class="line-empty" title="No Anys on this line!">#!/usr/bin/env python</span>
 <span class="line-empty" title="No Anys on this line!">"""</span>
 <span class="line-empty" title="No Anys on this line!">Tools for converting LaTeX to unicode.</span>
 <span class="line-empty" title="No Anys on this line!"></span>
+<span class="line-empty" title="No Anys on this line!">Provides comprehensive LaTeX to Unicode conversion utilities for processing</span>
+<span class="line-empty" title="No Anys on this line!">scientific documents and mathematical notation in chemical literature.</span>
 <span class="line-empty" title="No Anys on this line!">"""</span>
+<span class="line-empty" title="No Anys on this line!"></span>
+<span class="line-precise" title="No Anys on this line!">from __future__ import annotations</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">import re</span>
 <span class="line-precise" title="No Anys on this line!">import string</span>
@@ -1630,118 +1652,93 @@
 <span class="line-precise" title="No Anys on this line!">from . import SMALL</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-any" title="No Anys on this line!">def latex_to_unicode(text, capitalize=False):</span>
+<span class="line-precise" title="No Anys on this line!">def latex_to_unicode(text: str, capitalize: str | bool = False) -&gt; str:</span>
 <span class="line-empty" title="No Anys on this line!">    """Replace LaTeX entities with the equivalent unicode and optionally capitalize.</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-empty" title="No Anys on this line!">    :param text: The LaTeX string to be converted</span>
-<span class="line-empty" title="No Anys on this line!">    :param capitalize: Can be 'sentence', 'name', 'title', 'upper', 'lower'</span>
+<span class="line-empty" title="No Anys on this line!">    Args:</span>
+<span class="line-empty" title="No Anys on this line!">        text: The LaTeX string to be converted</span>
+<span class="line-empty" title="No Anys on this line!">        capitalize: Capitalization mode - can be 'sentence', 'name', 'title', 'upper', 'lower', or False</span>
+<span class="line-empty" title="No Anys on this line!"></span>
+<span class="line-empty" title="No Anys on this line!">    Returns:</span>
+<span class="line-empty" title="No Anys on this line!">        The converted Unicode string with optional capitalization applied</span>
 <span class="line-empty" title="No Anys on this line!">    """</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x1)">    if capitalize:</span>
+<span class="line-precise" title="No Anys on this line!">    if capitalize:</span>
 <span class="line-precise" title="No Anys on this line!">        res = []</span>
-<span class="line-any" title="No Anys on this line!">        brac_count = 0</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x5)">        for i, c in enumerate(text):</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            if c == "{":</span>
-<span class="line-any" title="No Anys on this line!">                brac_count += 1</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            if c == "}":</span>
-<span class="line-any" title="No Anys on this line!">                brac_count -= 1</span>
-<span class="line-any" title="No Anys on this line!">            if brac_count &gt; 0:</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x3)">                res.append(c)</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x18)">            elif capitalize == "upper" or (i == 0 and capitalize != "lower") or capitalize == "sentence" and (i &gt; 2 and text[i - 1] == " " and text[i - 2] == "."):</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x5)">                res.append(c.upper())</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x6)">            elif (capitalize == "name" and text[i - 1] in [" ", "-"]) or (</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x6)">                capitalize == "title" and text[i - 1] == " "</span>
+<span class="line-precise" title="No Anys on this line!">        brac_count = 0</span>
+<span class="line-precise" title="No Anys on this line!">        for i, c in enumerate(text):</span>
+<span class="line-precise" title="No Anys on this line!">            if c == "{":</span>
+<span class="line-precise" title="No Anys on this line!">                brac_count += 1</span>
+<span class="line-precise" title="No Anys on this line!">            if c == "}":</span>
+<span class="line-precise" title="No Anys on this line!">                brac_count -= 1</span>
+<span class="line-precise" title="No Anys on this line!">            if brac_count &gt; 0:</span>
+<span class="line-precise" title="No Anys on this line!">                res.append(c)</span>
+<span class="line-empty" title="No Anys on this line!">            elif (</span>
+<span class="line-precise" title="No Anys on this line!">                capitalize == "upper"</span>
+<span class="line-precise" title="No Anys on this line!">                or (i == 0 and capitalize != "lower")</span>
+<span class="line-precise" title="No Anys on this line!">                or capitalize == "sentence"</span>
+<span class="line-precise" title="No Anys on this line!">                and (i &gt; 2 and text[i - 1] == " " and text[i - 2] == ".")</span>
 <span class="line-empty" title="No Anys on this line!">            ):</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x8)">                nextword = text[i:].split(" ", 1)[0].rstrip(string.punctuation)</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x9)">                nextword = nextword[:1].lower() + nextword[1:] if text else ""</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x9)">                if capitalize == "name" and nextword in NAME_SMALL or capitalize == "title" and nextword in SMALL:</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x5)">                    res.append(c.lower())</span>
+<span class="line-precise" title="No Anys on this line!">                res.append(c.upper())</span>
+<span class="line-precise" title="No Anys on this line!">            elif (capitalize == "name" and text[i - 1] in [" ", "-"]) or (</span>
+<span class="line-precise" title="No Anys on this line!">                capitalize == "title" and text[i - 1] == " "</span>
+<span class="line-empty" title="No Anys on this line!">            ):</span>
+<span class="line-precise" title="No Anys on this line!">                nextword = text[i:].split(" ", 1)[0].rstrip(string.punctuation)</span>
+<span class="line-precise" title="No Anys on this line!">                nextword = nextword[:1].lower() + nextword[1:] if text else ""</span>
+<span class="line-empty" title="No Anys on this line!">                if (</span>
+<span class="line-precise" title="No Anys on this line!">                    capitalize == "name"</span>
+<span class="line-precise" title="No Anys on this line!">                    and nextword in NAME_SMALL</span>
+<span class="line-precise" title="No Anys on this line!">                    or capitalize == "title"</span>
+<span class="line-precise" title="No Anys on this line!">                    and nextword in SMALL</span>
+<span class="line-empty" title="No Anys on this line!">                ):</span>
+<span class="line-precise" title="No Anys on this line!">                    res.append(c.lower())</span>
 <span class="line-empty" title="No Anys on this line!">                else:</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x5)">                    res.append(c.upper())</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x8)">            elif capitalize == "name" and c == c.upper():</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x3)">                n1 = text[i - 1] if i &gt; 0 else None</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x3)">                n2 = text[i - 2] if i &gt; 1 else None</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x3)">                n3 = text[i - 3] if i &gt; 2 else None</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x3)">                n4 = text[i - 4] if i &gt; 3 else None</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x10)">                if n2 == "M" and n1 == "c" and (not n3 or n3 == " "):</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x3)">                    res.append(c)  # McCartney</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x10)">                elif n2 == "O" and n1 == "'" and (not n3 or n3 == " "):</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x3)">                    res.append(c)  # O'Boyle</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x13)">                elif n3 == "M" and n2 == "a" and n1 == "c" and (not n4 or n4 == " "):</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x3)">                    res.append(c)  # MacGarry</span>
+<span class="line-precise" title="No Anys on this line!">                    res.append(c.upper())</span>
+<span class="line-precise" title="No Anys on this line!">            elif capitalize == "name" and c == c.upper():</span>
+<span class="line-precise" title="No Anys on this line!">                n1 = text[i - 1] if i &gt; 0 else None</span>
+<span class="line-precise" title="No Anys on this line!">                n2 = text[i - 2] if i &gt; 1 else None</span>
+<span class="line-precise" title="No Anys on this line!">                n3 = text[i - 3] if i &gt; 2 else None</span>
+<span class="line-precise" title="No Anys on this line!">                n4 = text[i - 4] if i &gt; 3 else None</span>
+<span class="line-precise" title="No Anys on this line!">                if n2 == "M" and n1 == "c" and (not n3 or n3 == " "):</span>
+<span class="line-precise" title="No Anys on this line!">                    res.append(c)  # McCartney</span>
+<span class="line-precise" title="No Anys on this line!">                elif n2 == "O" and n1 == "'" and (not n3 or n3 == " "):</span>
+<span class="line-precise" title="No Anys on this line!">                    res.append(c)  # O'Boyle</span>
+<span class="line-precise" title="No Anys on this line!">                elif n3 == "M" and n2 == "a" and n1 == "c" and (not n4 or n4 == " "):</span>
+<span class="line-precise" title="No Anys on this line!">                    res.append(c)  # MacGarry</span>
 <span class="line-empty" title="No Anys on this line!">                else:</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x5)">                    res.append(c.lower())</span>
+<span class="line-precise" title="No Anys on this line!">                    res.append(c.lower())</span>
 <span class="line-empty" title="No Anys on this line!">            else:</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x5)">                res.append(c.lower())</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">        text = "".join(res)</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x1)">    if any(i in text for i in ["\\", "{", "}", "$", "&amp;", "%", "#", "_"]):</span>
+<span class="line-precise" title="No Anys on this line!">                res.append(c.lower())</span>
+<span class="line-precise" title="No Anys on this line!">        text = "".join(res)</span>
+<span class="line-precise" title="No Anys on this line!">    if any(i in text for i in ["\\", "{", "}", "$", "&amp;", "%", "#", "_"]):</span>
 <span class="line-precise" title="No Anys on this line!">        for k, v in LATEX_MAPPINGS.items():</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x4)">            text = text.replace(k, v)</span>
+<span class="line-precise" title="No Anys on this line!">            text = text.replace(k, v)</span>
 <span class="line-precise" title="No Anys on this line!">        for k, v in LATEX_SUB_MAPPINGS.items():</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x4)">            text = text.replace(k, v)</span>
+<span class="line-precise" title="No Anys on this line!">            text = text.replace(k, v)</span>
 <span class="line-precise" title="No Anys on this line!">        for mod in [</span>
-<span class="line-any" title="No Anys on this line!">            "mathbb",</span>
-<span class="line-any" title="No Anys on this line!">            "mathbf",</span>
-<span class="line-any" title="No Anys on this line!">            "mathbit",</span>
-<span class="line-any" title="No Anys on this line!">            "mathfrak",</span>
-<span class="line-any" title="No Anys on this line!">            "mathrm",</span>
-<span class="line-any" title="No Anys on this line!">            "mathscr",</span>
-<span class="line-any" title="No Anys on this line!">            "mathsf",</span>
-<span class="line-any" title="No Anys on this line!">            "mathsfbf",</span>
-<span class="line-any" title="No Anys on this line!">            "mathsfbfsl",</span>
-<span class="line-any" title="No Anys on this line!">            "mathsfsl",</span>
-<span class="line-any" title="No Anys on this line!">            "mathsl",</span>
-<span class="line-any" title="No Anys on this line!">            "mathslbb",</span>
-<span class="line-any" title="No Anys on this line!">            "mathtt",</span>
+<span class="line-precise" title="No Anys on this line!">            "mathbb",</span>
+<span class="line-precise" title="No Anys on this line!">            "mathbf",</span>
+<span class="line-precise" title="No Anys on this line!">            "mathbit",</span>
+<span class="line-precise" title="No Anys on this line!">            "mathfrak",</span>
+<span class="line-precise" title="No Anys on this line!">            "mathrm",</span>
+<span class="line-precise" title="No Anys on this line!">            "mathscr",</span>
+<span class="line-precise" title="No Anys on this line!">            "mathsf",</span>
+<span class="line-precise" title="No Anys on this line!">            "mathsfbf",</span>
+<span class="line-precise" title="No Anys on this line!">            "mathsfbfsl",</span>
+<span class="line-precise" title="No Anys on this line!">            "mathsfsl",</span>
+<span class="line-precise" title="No Anys on this line!">            "mathsl",</span>
+<span class="line-precise" title="No Anys on this line!">            "mathslbb",</span>
+<span class="line-precise" title="No Anys on this line!">            "mathtt",</span>
 <span class="line-empty" title="No Anys on this line!">        ]:</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            text = re.sub(rf"\\{mod}\{{([\\\w]+)\}}", r"\1", text)</span>
+<span class="line-precise" title="No Anys on this line!">            text = re.sub(rf"\\{mod}\{{([\\\w]+)\}}", r"\1", text)</span>
 <span class="line-precise" title="No Anys on this line!">        for k, v in LATEX_SUB_SUB_MAPPINGS.items():</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x4)">            text = text.replace(k, v)</span>
+<span class="line-precise" title="No Anys on this line!">            text = text.replace(k, v)</span>
 <span class="line-precise" title="No Anys on this line!">        for k, v in LATEX_COMBINING_CHARS.items():</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            text = re.sub(rf"{k}\{{?(\w)\}}?", rf"\1{v}", text)</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">        text = re.sub(r"\\noopsort\{.*?\}", r"", text)</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">        text = re.sub(r"\\path\|(.*?)\|", r"\1", text)</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">        text = re.sub(r"(?&lt;!\\)[{}$]", r"", text)</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">        text = re.sub(r"\\([{}$&amp;_])", r"\1", text)</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x1)">    return text</span>
+<span class="line-precise" title="No Anys on this line!">            text = re.sub(rf"{k}\{{?(\w)\}}?", rf"\1{v}", text)</span>
+<span class="line-precise" title="No Anys on this line!">        text = re.sub(r"\\noopsort\{.*?\}", r"", text)</span>
+<span class="line-precise" title="No Anys on this line!">        text = re.sub(r"\\path\|(.*?)\|", r"\1", text)</span>
+<span class="line-precise" title="No Anys on this line!">        text = re.sub(r"(?&lt;!\\)[{}$]", r"", text)</span>
+<span class="line-precise" title="No Anys on this line!">        text = re.sub(r"\\([{}$&amp;_])", r"\1", text)</span>
+<span class="line-precise" title="No Anys on this line!">    return text</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!"># The LaTeX characters apply to the subsequent character, while the unicode applies to the previous character</span>

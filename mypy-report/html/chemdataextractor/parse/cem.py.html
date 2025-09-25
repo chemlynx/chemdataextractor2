@@ -375,6 +375,13 @@
 <span id="L365" class="lineno"><a class="lineno" href="#L365">365</a></span>
 <span id="L366" class="lineno"><a class="lineno" href="#L366">366</a></span>
 <span id="L367" class="lineno"><a class="lineno" href="#L367">367</a></span>
+<span id="L368" class="lineno"><a class="lineno" href="#L368">368</a></span>
+<span id="L369" class="lineno"><a class="lineno" href="#L369">369</a></span>
+<span id="L370" class="lineno"><a class="lineno" href="#L370">370</a></span>
+<span id="L371" class="lineno"><a class="lineno" href="#L371">371</a></span>
+<span id="L372" class="lineno"><a class="lineno" href="#L372">372</a></span>
+<span id="L373" class="lineno"><a class="lineno" href="#L373">373</a></span>
+<span id="L374" class="lineno"><a class="lineno" href="#L374">374</a></span>
 </pre></td>
 <td class="table-code"><pre><span class="line-empty" title="No Anys on this line!">"""</span>
 <span class="line-empty" title="No Anys on this line!">Chemical entity mention parser elements.</span>
@@ -389,10 +396,13 @@
 <span class="line-precise" title="No Anys on this line!">from __future__ import annotations</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">import logging</span>
+<span class="line-precise" title="No Anys on this line!">from collections.abc import Generator</span>
 <span class="line-precise" title="No Anys on this line!">from typing import TYPE_CHECKING</span>
+<span class="line-precise" title="No Anys on this line!">from typing import Any</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">if TYPE_CHECKING:</span>
-<span class="line-precise" title="No Anys on this line!">    pass</span>
+<span class="line-precise" title="No Anys on this line!">    from ..model.base import BaseModel</span>
+<span class="line-precise" title="No Anys on this line!">    from .elements import BaseParserElement</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">from .actions import join</span>
 <span class="line-precise" title="No Anys on this line!">from .base import BaseSentenceParser</span>
@@ -662,18 +672,14 @@ Unannotated (x3)">labels_only = default_cem_factory.labels_only</span>
 Unannotated (x3)">roles_only = default_cem_factory.roles_only</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-any" title="No Anys on this line!">def standardize_role(role):</span>
+<span class="line-precise" title="No Anys on this line!">def standardize_role(role: str) -&gt; str:</span>
 <span class="line-empty" title="No Anys on this line!">    """Convert role text into standardized form."""</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x4)">    role = role.lower()</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x1)">    if any(</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x3)">        c in role for c in {"synthesis", "give", "yield", "afford", "product", "preparation of"}</span>
+<span class="line-precise" title="No Anys on this line!">    role = role.lower()</span>
+<span class="line-precise" title="No Anys on this line!">    if any(</span>
+<span class="line-precise" title="No Anys on this line!">        c in role for c in {"synthesis", "give", "yield", "afford", "product", "preparation of"}</span>
 <span class="line-empty" title="No Anys on this line!">    ):</span>
-<span class="line-any" title="No Anys on this line!">        return "product"</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x1)">    return role</span>
+<span class="line-precise" title="No Anys on this line!">        return "product"</span>
+<span class="line-precise" title="No Anys on this line!">    return role</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!"># TODO jm2111, Problems here! The parsers don't have a parse method anymore. Ruins parsing of captions.</span>
@@ -684,12 +690,12 @@ Unannotated (x1)">    return role</span>
 <span class="line-precise" title="No Anys on this line!">    _root_phrase = None</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">    @property</span>
-<span class="line-any" title="No Anys on this line!">    def root(self):</span>
+<span class="line-precise" title="No Anys on this line!">    def root(self) -&gt; BaseParserElement:</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x5)">        label = self.model.labels.parse_expression("labels")</span>
+Error (x4)">        label = self.model.labels.parse_expression("labels")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x6)
-Error (x1)">        label_name_cem = (label + optdelim + chemical_name)("compound")</span>
+Error (x5)
+Unannotated (x1)">        label_name_cem = (label + optdelim + chemical_name)("compound")</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">        label_before_name = (</span>
@@ -697,13 +703,12 @@ Unannotated (x1)">        label_before_name = (</span>
 Unannotated (x8)">            Optional(synthesis_of | to_give)</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">            + label_type</span>
+<span class="line-precise" title="No Anys on this line!">            + optdelim</span>
 <span class="line-any" title="Any Types on this line: 
-Error (x1)">            + optdelim</span>
+Error (x1)">            + label_name_cem</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x1)">            + label_name_cem</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x6)
-Error (x2)">            + ZeroOrMore(optdelim + cc + optdelim + label_name_cem)</span>
+Unannotated (x4)
+Error (x1)">            + ZeroOrMore(optdelim + cc + optdelim + label_name_cem)</span>
 <span class="line-empty" title="No Anys on this line!">        )</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="Any Types on this line: 
@@ -713,27 +718,26 @@ Unannotated (x6)">            Optional(synthesis_of | to_give)</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">            + chemical_name</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x13)">            + Optional(lbrct + Optional(labelled_as + optquote) + (label) + optquote + rbrct)</span>
-<span class="line-any" title="No Anys on this line!">        )("compound")</span>
+Unannotated (x10)
+Error (x1)">            + Optional(lbrct + Optional(labelled_as + optquote) + (label) + optquote + rbrct)</span>
+<span class="line-precise" title="No Anys on this line!">        )("compound")</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">        # Very lenient name and label match, with format like "name (Compound 3)"</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x2)">        lenient_name_with_bracketed_label = (</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x7)">            Start()</span>
+Unannotated (x6)">            Start()</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x2)">            + Optional(synthesis_of)</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">            + lenient_name</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x1)">            + lbrct</span>
+<span class="line-precise" title="No Anys on this line!">            + lbrct</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x3)">            + label_type.hide()</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x1)">            + label</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x1)">            + rbrct</span>
-<span class="line-any" title="No Anys on this line!">        )("compound")</span>
+Error (x1)">            + label</span>
+<span class="line-precise" title="No Anys on this line!">            + rbrct</span>
+<span class="line-precise" title="No Anys on this line!">        )("compound")</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">        # Chemical name with a doped label after</span>
 <span class="line-empty" title="No Anys on this line!">        # name_with_doped_label = (chemical_name + OneOrMore(delim | I('with') | I('for')) + label)('compound')</span>
@@ -741,7 +745,7 @@ Unannotated (x1)">            + rbrct</span>
 <span class="line-empty" title="No Anys on this line!">        # Chemical name with an informal label after</span>
 <span class="line-empty" title="No Anys on this line!">        # name_with_informal_label = (chemical_name + Optional(R('compounds?')) + OneOrMore(delim | I('with') | I('for')) + informal_chemical_label)('compound')</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x3)">        return Group(</span>
+Unannotated (x2)">        return Group(</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x6)">            name_with_informal_label</span>
 <span class="line-any" title="Any Types on this line: 
@@ -754,26 +758,28 @@ Unannotated (x1)">            | label_before_name</span>
 Unannotated (x1)">            | name_with_comma_within</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">            | name_with_optional_bracketed_label</span>
-<span class="line-any" title="No Anys on this line!">        )("cem_phrase")</span>
+<span class="line-precise" title="No Anys on this line!">        )("cem_phrase")</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-any" title="No Anys on this line!">    def interpret(self, result, start, end):</span>
+<span class="line-any" title="Any Types on this line: 
+Explicit (x1)">    def interpret(self, result: Any, start: int, end: int) -&gt; Generator[BaseModel, None, None]:</span>
 <span class="line-empty" title="No Anys on this line!">        # TODO: Parse label_type into label model object</span>
 <span class="line-empty" title="No Anys on this line!">        # print(etree.tostring(result))</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x4)">        for cem_el in result.xpath("./compound"):</span>
+Explicit (x4)">        for cem_el in result.xpath("./compound"):</span>
+<span class="line-imprecise" title="Any Types on this line: 
+Error (x2)">            c = self.model(</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x3)">            c = self.model(</span>
+Explicit (x3)">                names=cem_el.xpath("./names/text()"),</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x3)">                names=cem_el.xpath("./names/text()"),</span>
+Explicit (x3)">                labels=cem_el.xpath("./labels/text()"),</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x3)">                labels=cem_el.xpath("./labels/text()"),</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x8)">                roles=[standardize_role(r) for r in cem_el.xpath("./roles/text()")],</span>
+Explicit (x5)">                roles=[standardize_role(r) for r in cem_el.xpath("./roles/text()")],</span>
 <span class="line-empty" title="No Anys on this line!">            )</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x4)">            c.record_method = self.__class__.__name__</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x1)">            yield c</span>
+Unannotated (x1)
+Error (x1)">            c.record_method = self.__class__.__name__</span>
+<span class="line-imprecise" title="Any Types on this line: 
+Error (x1)">            yield c</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">class ChemicalLabelParser(BaseSentenceParser):</span>
@@ -783,28 +789,30 @@ Unannotated (x1)">            yield c</span>
 <span class="line-precise" title="No Anys on this line!">    _root_phrase = None</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">    @property</span>
-<span class="line-any" title="No Anys on this line!">    def root(self):</span>
+<span class="line-precise" title="No Anys on this line!">    def root(self) -&gt; BaseParserElement:</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x5)">        label = self.model.labels.parse_expression("labels")</span>
+Error (x4)">        label = self.model.labels.parse_expression("labels")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">        if self._label is label:</span>
+Error (x1)">        if self._label is label:</span>
+<span class="line-precise" title="No Anys on this line!">            return self._root_phrase</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x1)">            return self._root_phrase</span>
+Unannotated (x5)
+Error (x1)">        self._root_phrase = chemical_label_phrase | Group(label)("chemical_label_phrase")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x7)">        self._root_phrase = chemical_label_phrase | Group(label)("chemical_label_phrase")</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">        self._label = label</span>
+Error (x2)">        self._label = label</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">        return self._root_phrase</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-any" title="No Anys on this line!">    def interpret(self, result, start, end):</span>
+<span class="line-any" title="Any Types on this line: 
+Explicit (x1)">    def interpret(self, result: Any, start: int, end: int) -&gt; Generator[BaseModel, None, None]:</span>
 <span class="line-empty" title="No Anys on this line!">        # print(etree.tostring(result))</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x9)">        roles = [standardize_role(r) for r in result.xpath("./roles/text()")]</span>
+Explicit (x5)">        roles = [standardize_role(r) for r in result.xpath("./roles/text()")]</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x4)">        for label in result.xpath("./labels/text()"):</span>
+Explicit (x4)">        for label in result.xpath("./labels/text()"):</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x4)">            yield self.model(labels=[label], roles=roles)</span>
+Error (x1)
+Explicit (x1)">            yield self.model(labels=[label], roles=roles)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">class CompoundHeadingParser(BaseSentenceParser):</span>
@@ -814,117 +822,132 @@ Unannotated (x4)">            yield self.model(labels=[label], roles=roles)</spa
 Unannotated (x2)">    root = compound_heading_phrase</span>
 <span class="line-precise" title="No Anys on this line!">    parse_full_sentence = True</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-any" title="No Anys on this line!">    def interpret(self, result, start, end):</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x9)">        roles = [standardize_role(r) for r in result.xpath("./roles/text()")]</span>
+Explicit (x1)">    def interpret(self, result: Any, start: int, end: int) -&gt; Generator[BaseModel, None, None]:</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x4)">        labels = result.xpath("./labels/text()")</span>
+Explicit (x5)">        roles = [standardize_role(r) for r in result.xpath("./roles/text()")]</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x3)">        if len(labels) &gt; 1:</span>
+Explicit (x4)">        labels = result.xpath("./labels/text()")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            for label in labels:</span>
+Explicit (x1)">        if len(labels) &gt; 1:</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x4)">                yield self.model(labels=[label], roles=roles)</span>
+Explicit (x2)">            for label in labels:</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x4)">            for name in result.xpath("./names/text()"):</span>
+Error (x1)
+Explicit (x1)">                yield self.model(labels=[label], roles=roles)</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x4)">                yield self.model(names=[name], roles=roles)</span>
+Explicit (x4)">            for name in result.xpath("./names/text()"):</span>
+<span class="line-any" title="Any Types on this line: 
+Error (x1)
+Explicit (x1)">                yield self.model(names=[name], roles=roles)</span>
 <span class="line-empty" title="No Anys on this line!">        else:</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x7)">            yield self.model(names=result.xpath("./names/text()"), labels=labels, roles=roles)</span>
+Error (x1)
+Explicit (x4)">            yield self.model(names=result.xpath("./names/text()"), labels=labels, roles=roles)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">class CompoundTableParser(BaseTableParser):</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x8)">    entities = (cem | chemical_label | lenient_chemical_label) | (</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x5)">        (I("Formula") | I("Compound")).add_action(join)</span>
+Unannotated (x3)">        (I("Formula") | I("Compound")).add_action(join)</span>
 <span class="line-precise" title="No Anys on this line!">    )("specifier")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x8)
-Error (x1)">    root = OneOrMore(entities + Optional(SkipTo(entities)))("root_phrase")</span>
+Unannotated (x9)">    root = OneOrMore(entities + Optional(SkipTo(entities)))("root_phrase")</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">    @property</span>
-<span class="line-any" title="No Anys on this line!">    def root(self):</span>
+<span class="line-precise" title="No Anys on this line!">    def root(self) -&gt; BaseParserElement:</span>
 <span class="line-empty" title="No Anys on this line!">        # is always found, our models currently rely on the compound</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x6)">        chem_name = cem | chemical_label | lenient_chemical_label</span>
+<span class="line-precise" title="No Anys on this line!">        compound_model = self.model</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">        compound_model = self.model</span>
+Error (x4)">        labels = compound_model.labels.parse_expression("labels")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x5)">        labels = compound_model.labels.parse_expression("labels")</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">        entities = [labels]</span>
+Error (x2)">        entities = [labels]</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x12)">        specifier = (I("Formula") | I("Compound") | I("Alloy")).add_action(join)("specifier")</span>
+Unannotated (x6)">        specifier = (I("Formula") | I("Compound") | I("Alloy")).add_action(join)("specifier")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x4)">        entities.append(specifier)</span>
+Error (x2)
+Unannotated (x1)">        entities.append(specifier)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">        # the optional, user-defined, entities of the model are added, they are tagged with the name of the field</span>
+<span class="line-imprecise" title="Any Types on this line: 
+Error (x2)
+Omitted Generics (x1)">        for field in self.model.fields:</span>
+<span class="line-empty" title="No Anys on this line!">            if (</span>
+<span class="line-imprecise" title="Any Types on this line: 
+Error (x1)">                field</span>
+<span class="line-empty" title="No Anys on this line!">                not in [</span>
+<span class="line-precise" title="No Anys on this line!">                    "raw_value",</span>
+<span class="line-precise" title="No Anys on this line!">                    "raw_units",</span>
+<span class="line-precise" title="No Anys on this line!">                    "value",</span>
+<span class="line-precise" title="No Anys on this line!">                    "units",</span>
+<span class="line-precise" title="No Anys on this line!">                    "error",</span>
+<span class="line-precise" title="No Anys on this line!">                    "specifier",</span>
+<span class="line-empty" title="No Anys on this line!">                ]</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x3)">        for field in self.model.fields:</span>
+Explicit (x3)
+Error (x1)">                and self.model.__getattribute__(self.model, field).parse_expression is not None</span>
+<span class="line-empty" title="No Anys on this line!">            ):</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            if field not in [</span>
-<span class="line-any" title="No Anys on this line!">                "raw_value",</span>
-<span class="line-any" title="No Anys on this line!">                "raw_units",</span>
-<span class="line-any" title="No Anys on this line!">                "value",</span>
-<span class="line-any" title="No Anys on this line!">                "units",</span>
-<span class="line-any" title="No Anys on this line!">                "error",</span>
-<span class="line-any" title="No Anys on this line!">                "specifier",</span>
+Error (x2)">                entities.append(</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x6)">            ] and self.model.__getattribute__(self.model, field).parse_expression is not None:</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x3)">                entities.append(</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x8)">                    self.model.__getattribute__(self.model, field).parse_expression(field)</span>
+Explicit (x4)
+Error (x2)">                    self.model.__getattribute__(self.model, field).parse_expression(field)</span>
 <span class="line-empty" title="No Anys on this line!">                )</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">        # the chem_name has to be parsed last in order to avoid a conflict with other elements of the model</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x4)">        entities.append(chem_name)</span>
+Error (x2)
+Unannotated (x1)">        entities.append(chem_name)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">        # logic for finding all the elements in any order</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x3)">        combined_entities = entities[0]</span>
+Error (x3)">        combined_entities = entities[0]</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x3)">        for entity in entities[1:]:</span>
+Error (x3)">        for entity in entities[1:]:</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x4)">            combined_entities = combined_entities | entity</span>
+Error (x4)">            combined_entities = combined_entities | entity</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x11)">        root_phrase = OneOrMore(combined_entities + Optional(SkipTo(combined_entities)))(</span>
-<span class="line-any" title="No Anys on this line!">            "root_phrase"</span>
+Unannotated (x6)
+Error (x3)">        root_phrase = OneOrMore(combined_entities + Optional(SkipTo(combined_entities)))(</span>
+<span class="line-precise" title="No Anys on this line!">            "root_phrase"</span>
 <span class="line-empty" title="No Anys on this line!">        )</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x2)">        self._root_phrase = root_phrase</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x3)">        self._specifier = self.model.specifier</span>
+<span class="line-imprecise" title="Any Types on this line: 
+Omitted Generics (x2)
+Error (x2)">        self._specifier = self.model.specifier</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">        return root_phrase</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-any" title="No Anys on this line!">    def interpret(self, result, start, end):</span>
+<span class="line-any" title="Any Types on this line: 
+Explicit (x1)">    def interpret(self, result: Any, start: int, end: int) -&gt; Generator[BaseModel, None, None]:</span>
 <span class="line-empty" title="No Anys on this line!">        # TODO: Parse label_type into label model object</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x4)">        if result.xpath("./specifier/text()") and (</span>
+Explicit (x4)">        if result.xpath("./specifier/text()") and (</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x7)">            result.xpath("./names/names/text()") or result.xpath("./labels/text()")</span>
+Explicit (x7)">            result.xpath("./names/names/text()") or result.xpath("./labels/text()")</span>
 <span class="line-empty" title="No Anys on this line!">        ):</span>
+<span class="line-imprecise" title="Any Types on this line: 
+Error (x2)">            c = self.model(</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x3)">            c = self.model(</span>
+Explicit (x3)">                names=result.xpath("./names/names/text()"),</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x3)">                names=result.xpath("./names/names/text()"),</span>
+Explicit (x3)">                labels=result.xpath("./labels/text()"),</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x3)">                labels=result.xpath("./labels/text()"),</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x8)">                roles=[standardize_role(r) for r in result.xpath("./roles/text()")],</span>
+Explicit (x5)">                roles=[standardize_role(r) for r in result.xpath("./roles/text()")],</span>
 <span class="line-empty" title="No Anys on this line!">            )</span>
+<span class="line-imprecise" title="Any Types on this line: 
+Error (x1)">            if c is not None:</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x1)">            if c is not None:</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x4)">                c.record_method = self.__class__.__name__</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x1)">                yield c</span>
+Unannotated (x1)
+Error (x1)">                c.record_method = self.__class__.__name__</span>
+<span class="line-imprecise" title="Any Types on this line: 
+Error (x1)">                yield c</span>
 </pre></td>
 </tr></tbody>
 </table>

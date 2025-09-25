@@ -1385,6 +1385,16 @@
 <span id="L1375" class="lineno"><a class="lineno" href="#L1375">1375</a></span>
 <span id="L1376" class="lineno"><a class="lineno" href="#L1376">1376</a></span>
 <span id="L1377" class="lineno"><a class="lineno" href="#L1377">1377</a></span>
+<span id="L1378" class="lineno"><a class="lineno" href="#L1378">1378</a></span>
+<span id="L1379" class="lineno"><a class="lineno" href="#L1379">1379</a></span>
+<span id="L1380" class="lineno"><a class="lineno" href="#L1380">1380</a></span>
+<span id="L1381" class="lineno"><a class="lineno" href="#L1381">1381</a></span>
+<span id="L1382" class="lineno"><a class="lineno" href="#L1382">1382</a></span>
+<span id="L1383" class="lineno"><a class="lineno" href="#L1383">1383</a></span>
+<span id="L1384" class="lineno"><a class="lineno" href="#L1384">1384</a></span>
+<span id="L1385" class="lineno"><a class="lineno" href="#L1385">1385</a></span>
+<span id="L1386" class="lineno"><a class="lineno" href="#L1386">1386</a></span>
+<span id="L1387" class="lineno"><a class="lineno" href="#L1387">1387</a></span>
 </pre></td>
 <td class="table-code"><pre><span class="line-empty" title="No Anys on this line!">"""</span>
 <span class="line-empty" title="No Anys on this line!">Text-based document elements.</span>
@@ -1395,7 +1405,7 @@
 <span class="line-precise" title="No Anys on this line!">import logging</span>
 <span class="line-precise" title="No Anys on this line!">import re</span>
 <span class="line-precise" title="No Anys on this line!">import unicodedata</span>
-<span class="line-precise" title="No Anys on this line!">from abc import abstractproperty</span>
+<span class="line-precise" title="No Anys on this line!">from abc import abstractmethod</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="No Anys on this line!">from deprecation import deprecated</span>
 <span class="line-empty" title="No Anys on this line!"></span>
@@ -1411,8 +1421,10 @@
 <span class="line-precise" title="No Anys on this line!">from ..nlp.dependency import DependencyTagger</span>
 <span class="line-precise" title="No Anys on this line!">from ..nlp.dependency import IndexTagger</span>
 <span class="line-precise" title="No Anys on this line!">from ..nlp.lexicon import ChemLexicon</span>
+<span class="line-precise" title="No Anys on this line!">from ..nlp.lexicon import Lexicon  # noqa: F401</span>
 <span class="line-precise" title="No Anys on this line!">from ..nlp.new_cem import CemTagger</span>
 <span class="line-precise" title="No Anys on this line!">from ..nlp.pos import ChemCrfPosTagger</span>
+<span class="line-precise" title="No Anys on this line!">from ..nlp.pos import CrfPosTagger  # noqa: F401</span>
 <span class="line-precise" title="No Anys on this line!">from ..nlp.subsentence import NoneSubsentenceExtractor</span>
 <span class="line-precise" title="No Anys on this line!">from ..nlp.subsentence import SubsentenceExtractor</span>
 <span class="line-precise" title="No Anys on this line!">from ..nlp.tag import NER_TAG_TYPE</span>
@@ -1420,6 +1432,8 @@
 <span class="line-precise" title="No Anys on this line!">from ..nlp.tag import NoneTagger</span>
 <span class="line-precise" title="No Anys on this line!">from ..nlp.tokenize import BertWordTokenizer</span>
 <span class="line-precise" title="No Anys on this line!">from ..nlp.tokenize import ChemSentenceTokenizer</span>
+<span class="line-precise" title="No Anys on this line!">from ..nlp.tokenize import SentenceTokenizer  # noqa: F401</span>
+<span class="line-precise" title="No Anys on this line!">from ..nlp.tokenize import WordTokenizer  # noqa: F401</span>
 <span class="line-precise" title="No Anys on this line!">from ..nlp.tokenize import regex_span_tokenize</span>
 <span class="line-precise" title="No Anys on this line!">from ..parse.cem import cem_phrase</span>
 <span class="line-precise" title="No Anys on this line!">from ..parse.cem import chemical_name</span>
@@ -1516,12 +1530,14 @@ Unannotated (x2)">            self.taggers = taggers</span>
 <span class="line-empty" title="No Anys on this line!">        """The raw text :class:`str` for this passage of text."""</span>
 <span class="line-precise" title="No Anys on this line!">        return self._text</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-empty" title="No Anys on this line!">    @abstractproperty</span>
+<span class="line-empty" title="No Anys on this line!">    @property</span>
+<span class="line-empty" title="No Anys on this line!">    @abstractmethod</span>
 <span class="line-any" title="No Anys on this line!">    def word_tokenizer(self):</span>
 <span class="line-empty" title="No Anys on this line!">        """The :class:`~chemdataextractor.nlp.tokenize.WordTokenizer` used by this element."""</span>
 <span class="line-empty" title="No Anys on this line!">        return</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-empty" title="No Anys on this line!">    @abstractproperty</span>
+<span class="line-empty" title="No Anys on this line!">    @property</span>
+<span class="line-empty" title="No Anys on this line!">    @abstractmethod</span>
 <span class="line-any" title="No Anys on this line!">    def lexicon(self):</span>
 <span class="line-empty" title="No Anys on this line!">        """The :class:`~chemdataextractor.nlp.lexicon.Lexicon` used by this element."""</span>
 <span class="line-empty" title="No Anys on this line!">        return</span>
@@ -1576,12 +1592,14 @@ Unannotated (x2)">            value.tag_type = NER_TAG_TYPE</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x3)">        self.taggers.append(value)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-empty" title="No Anys on this line!">    @abstractproperty</span>
+<span class="line-empty" title="No Anys on this line!">    @property</span>
+<span class="line-empty" title="No Anys on this line!">    @abstractmethod</span>
 <span class="line-any" title="No Anys on this line!">    def tokens(self):</span>
 <span class="line-empty" title="No Anys on this line!">        """A list of :class:`RichToken` s for this object."""</span>
 <span class="line-empty" title="No Anys on this line!">        return</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-empty" title="No Anys on this line!">    @abstractproperty</span>
+<span class="line-empty" title="No Anys on this line!">    @property</span>
+<span class="line-empty" title="No Anys on this line!">    @abstractmethod</span>
 <span class="line-any" title="No Anys on this line!">    def tags(self):</span>
 <span class="line-empty" title="No Anys on this line!">        """</span>
 <span class="line-empty" title="No Anys on this line!">        A list of tags corresponding to each of the tokens in the object.</span>
@@ -1590,14 +1608,16 @@ Unannotated (x3)">        self.taggers.append(value)</span>
 <span class="line-empty" title="No Anys on this line!">        """</span>
 <span class="line-empty" title="No Anys on this line!">        return</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-empty" title="No Anys on this line!">    @abstractproperty</span>
+<span class="line-empty" title="No Anys on this line!">    @property</span>
+<span class="line-empty" title="No Anys on this line!">    @abstractmethod</span>
 <span class="line-any" title="No Anys on this line!">    def definitions(self):</span>
 <span class="line-empty" title="No Anys on this line!">        """</span>
 <span class="line-empty" title="No Anys on this line!">        A list of all specifier definitions</span>
 <span class="line-empty" title="No Anys on this line!">        """</span>
 <span class="line-empty" title="No Anys on this line!">        return</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-empty" title="No Anys on this line!">    @abstractproperty</span>
+<span class="line-empty" title="No Anys on this line!">    @property</span>
+<span class="line-empty" title="No Anys on this line!">    @abstractmethod</span>
 <span class="line-any" title="No Anys on this line!">    def chemical_definitions(self):</span>
 <span class="line-empty" title="No Anys on this line!">        """A list of all chemical label definitiond"""</span>
 <span class="line-empty" title="No Anys on this line!">        return</span>
@@ -2069,8 +2089,7 @@ Explicit (x6)">        return [definition for sent in self.sentences for definit
 Unannotated (x3)">    word_tokenizer = BertWordTokenizer()</span>
 <span class="line-precise" title="No Anys on this line!">    lexicon = ChemLexicon()</span>
 <span class="line-precise" title="No Anys on this line!">    abbreviation_detector = ChemAbbreviationDetector()</span>
-<span class="line-precise" title="Any Types on this line: 
-Unannotated (x1)">    subsentence_extractor = SubsentenceExtractor()</span>
+<span class="line-precise" title="No Anys on this line!">    subsentence_extractor = SubsentenceExtractor()</span>
 <span class="line-precise" title="Any Types on this line: 
 Unannotated (x4)">    taggers = [ChemCrfPosTagger(), cem_tagger, dep_tagger]</span>
 <span class="line-any" title="Any Types on this line: 
@@ -2627,12 +2646,13 @@ Omitted Generics (x1)
 Explicit (x1)">    @memoized_property</span>
 <span class="line-any" title="No Anys on this line!">    def subsentences(self):</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x4)">        subsentence_tokens_list = self.subsentence_extractor.subsentences(self)</span>
+Explicit (x4)">        subsentence_tokens_list = self.subsentence_extractor.subsentences(self)</span>
 <span class="line-precise" title="No Anys on this line!">        subsentences = []</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">        for subsentence_tokens in subsentence_tokens_list:</span>
+Explicit (x2)">        for subsentence_tokens in subsentence_tokens_list:</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x4)">            subsentence = Subsentence(self, subsentence_tokens)</span>
+Unannotated (x3)
+Explicit (x1)">            subsentence = Subsentence(self, subsentence_tokens)</span>
 <span class="line-precise" title="No Anys on this line!">            subsentences.append(subsentence)</span>
 <span class="line-any" title="No Anys on this line!">        if len(subsentences) == 1:</span>
 <span class="line-any" title="No Anys on this line!">            subsentences[0]._is_only_subsentence = True</span>

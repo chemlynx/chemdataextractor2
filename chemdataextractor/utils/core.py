@@ -3,10 +3,8 @@ Miscellaneous utility functions.
 
 """
 
-import errno
 import functools
 import logging
-import os
 from collections.abc import Callable
 from collections.abc import Iterable
 from pathlib import Path

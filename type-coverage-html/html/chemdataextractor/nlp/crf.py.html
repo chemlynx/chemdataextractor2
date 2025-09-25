@@ -437,12 +437,14 @@
 <span id="L427" class="lineno"><a class="lineno" href="#L427">427</a></span>
 <span id="L428" class="lineno"><a class="lineno" href="#L428">428</a></span>
 <span id="L429" class="lineno"><a class="lineno" href="#L429">429</a></span>
+<span id="L430" class="lineno"><a class="lineno" href="#L430">430</a></span>
 </pre></td>
 <td class="table-code"><pre><span class="line-empty" title="No Anys on this line!">"""</span>
 <span class="line-empty" title="No Anys on this line!">Conditional random field</span>
 <span class="line-empty" title="No Anys on this line!">Implemented by AllenNLP 2.5.0</span>
 <span class="line-empty" title="No Anys on this line!">"""</span>
 <span class="line-empty" title="No Anys on this line!"></span>
+<span class="line-precise" title="No Anys on this line!">from __future__ import annotations</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">import torch</span>
 <span class="line-empty" title="No Anys on this line!"></span>
@@ -496,16 +498,14 @@ Omitted Generics (x3)">    labels_with_boundaries = list(labels.items()) + [</sp
 <span class="line-empty" title="No Anys on this line!">            else:</span>
 <span class="line-precise" title="No Anys on this line!">                to_tag = to_label[0]</span>
 <span class="line-precise" title="No Anys on this line!">                to_entity = to_label[1:]</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            if is_transition_allowed(constraint_type, from_tag, from_entity, to_tag, to_entity):</span>
+<span class="line-precise" title="No Anys on this line!">            if is_transition_allowed(constraint_type, from_tag, from_entity, to_tag, to_entity):</span>
 <span class="line-precise" title="No Anys on this line!">                allowed.append((from_label_index, to_label_index))</span>
 <span class="line-precise" title="No Anys on this line!">    return allowed</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x1)">def is_transition_allowed(</span>
+<span class="line-precise" title="No Anys on this line!">def is_transition_allowed(</span>
 <span class="line-empty" title="No Anys on this line!">    constraint_type: str, from_tag: str, from_entity: str, to_tag: str, to_entity: str</span>
-<span class="line-empty" title="No Anys on this line!">):</span>
+<span class="line-empty" title="No Anys on this line!">) -&gt; bool:</span>
 <span class="line-empty" title="No Anys on this line!">    """</span>
 <span class="line-empty" title="No Anys on this line!">    Given a constraint type and strings `from_tag` and `to_tag` that</span>
 <span class="line-empty" title="No Anys on this line!">    represent the origin and destination of the transition, return whether</span>

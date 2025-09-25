@@ -134,9 +134,8 @@ class Snowball(BaseSentenceParser):
         Returns:
             self -- A Snowball Instance
         """
-
-        with open(path, "rb") as f:
-            return pickle.load(f)
+        from ..data import safe_pickle_load
+        return safe_pickle_load(path)
 
     def save(self):
         """Write all snowball settings to file for loading later"""

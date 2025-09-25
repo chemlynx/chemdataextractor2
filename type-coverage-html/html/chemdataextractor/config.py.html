@@ -122,7 +122,6 @@
 <span id="L112" class="lineno"><a class="lineno" href="#L112">112</a></span>
 <span id="L113" class="lineno"><a class="lineno" href="#L113">113</a></span>
 <span id="L114" class="lineno"><a class="lineno" href="#L114">114</a></span>
-<span id="L115" class="lineno"><a class="lineno" href="#L115">115</a></span>
 </pre></td>
 <td class="table-code"><pre><span class="line-empty" title="No Anys on this line!">"""</span>
 <span class="line-empty" title="No Anys on this line!">Config file reader/writer.</span>
@@ -132,6 +131,7 @@
 <span class="line-precise" title="No Anys on this line!">import os</span>
 <span class="line-precise" title="No Anys on this line!">from collections.abc import Iterator</span>
 <span class="line-precise" title="No Anys on this line!">from collections.abc import MutableMapping</span>
+<span class="line-precise" title="No Anys on this line!">from pathlib import Path</span>
 <span class="line-precise" title="No Anys on this line!">from typing import Any</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="No Anys on this line!">import appdirs</span>
@@ -190,12 +190,11 @@ Explicit (x1)">        self._data: dict[str, Any] = {}</span>
 Omitted Generics (x2)">            self._path = os.environ.get("CHEMDATAEXTRACTOR_CONFIG")</span>
 <span class="line-empty" title="No Anys on this line!">        # Use OS-dependent config directory given by appdirs</span>
 <span class="line-precise" title="No Anys on this line!">        if not self._path:</span>
-<span class="line-precise" title="No Anys on this line!">            self._path = os.path.join(</span>
+<span class="line-precise" title="No Anys on this line!">            self._path = str(</span>
 <span class="line-any" title="Any Types on this line: 
-Unimported (x3)">                appdirs.user_config_dir("ChemDataExtractor"),</span>
-<span class="line-precise" title="No Anys on this line!">                "chemdataextractor.yml",</span>
+Unimported (x3)">                Path(appdirs.user_config_dir("ChemDataExtractor")) / "chemdataextractor.yml"</span>
 <span class="line-empty" title="No Anys on this line!">            )</span>
-<span class="line-precise" title="No Anys on this line!">        if os.path.isfile(self.path):</span>
+<span class="line-precise" title="No Anys on this line!">        if Path(self.path).is_file():</span>
 <span class="line-precise" title="Any Types on this line: 
 Unimported (x7)
 Explicit (x1)">            with open(self.path, encoding="utf8") as f:</span>
@@ -212,10 +211,8 @@ Explicit (x1)">                self._data = yaml.safe_load(f) or {}</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">    def _flush(self) -&gt; None:</span>
 <span class="line-empty" title="No Anys on this line!">        """Save the contents of data to the file on disk. You should not need to call this manually."""</span>
-<span class="line-precise" title="Any Types on this line: 
-Omitted Generics (x4)">        d = os.path.dirname(self.path)</span>
-<span class="line-precise" title="No Anys on this line!">        if not os.path.isdir(d):</span>
-<span class="line-precise" title="No Anys on this line!">            os.makedirs(d)</span>
+<span class="line-precise" title="No Anys on this line!">        path_obj = Path(self.path)</span>
+<span class="line-precise" title="No Anys on this line!">        path_obj.parent.mkdir(parents=True, exist_ok=True)</span>
 <span class="line-precise" title="Any Types on this line: 
 Unimported (x7)
 Explicit (x1)">        with open(self.path, "w", encoding="utf8") as f:</span>

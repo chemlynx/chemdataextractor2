@@ -184,6 +184,11 @@
 <span id="L174" class="lineno"><a class="lineno" href="#L174">174</a></span>
 <span id="L175" class="lineno"><a class="lineno" href="#L175">175</a></span>
 <span id="L176" class="lineno"><a class="lineno" href="#L176">176</a></span>
+<span id="L177" class="lineno"><a class="lineno" href="#L177">177</a></span>
+<span id="L178" class="lineno"><a class="lineno" href="#L178">178</a></span>
+<span id="L179" class="lineno"><a class="lineno" href="#L179">179</a></span>
+<span id="L180" class="lineno"><a class="lineno" href="#L180">180</a></span>
+<span id="L181" class="lineno"><a class="lineno" href="#L181">181</a></span>
 </pre></td>
 <td class="table-code"><pre><span class="line-empty" title="No Anys on this line!">"""</span>
 <span class="line-empty" title="No Anys on this line!">Text processors for cleaning and normalizing text.</span>
@@ -231,126 +236,98 @@
 <span class="line-precise" title="No Anys on this line!">class Chain:</span>
 <span class="line-empty" title="No Anys on this line!">    """Apply a series of processors in turn. Stops if a processors returns None."""</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-any" title="No Anys on this line!">    def __init__(self, *callables):</span>
-<span class="line-imprecise" title="Any Types on this line: 
-Unannotated (x2)">        self.callables = callables</span>
+<span class="line-precise" title="No Anys on this line!">    def __init__(self, *callables: BaseProcessor) -&gt; None:</span>
+<span class="line-precise" title="No Anys on this line!">        self.callables = callables</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-any" title="No Anys on this line!">    def __call__(self, value):</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">        for func in self.callables:</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x1)">            if value is None:</span>
-<span class="line-any" title="No Anys on this line!">                break</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x4)">            value = func(value)</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x1)">        return value</span>
+<span class="line-precise" title="No Anys on this line!">    def __call__(self, value: str | None) -&gt; str | None:</span>
+<span class="line-precise" title="No Anys on this line!">        for func in self.callables:</span>
+<span class="line-precise" title="No Anys on this line!">            if value is None:</span>
+<span class="line-precise" title="No Anys on this line!">                break</span>
+<span class="line-precise" title="No Anys on this line!">            value = func(value)</span>
+<span class="line-precise" title="No Anys on this line!">        return value</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">class Discard:</span>
 <span class="line-empty" title="No Anys on this line!">    """Return None if value matches a string."""</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-any" title="No Anys on this line!">    def __init__(self, *match):</span>
-<span class="line-imprecise" title="Any Types on this line: 
-Unannotated (x2)">        self.match = match</span>
+<span class="line-precise" title="No Anys on this line!">    def __init__(self, *match: str) -&gt; None:</span>
+<span class="line-precise" title="No Anys on this line!">        self.match = match</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-any" title="No Anys on this line!">    def __call__(self, value):</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">        if value in self.match:</span>
-<span class="line-any" title="No Anys on this line!">            return None</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x1)">        return value</span>
+<span class="line-precise" title="No Anys on this line!">    def __call__(self, value: str | None) -&gt; str | None:</span>
+<span class="line-precise" title="No Anys on this line!">        if value in self.match:</span>
+<span class="line-precise" title="No Anys on this line!">            return None</span>
+<span class="line-precise" title="No Anys on this line!">        return value</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">class LAdd:</span>
 <span class="line-empty" title="No Anys on this line!">    """Add a substring to the start of a value."""</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-any" title="No Anys on this line!">    def __init__(self, substring):</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">        self.substring = substring</span>
+<span class="line-precise" title="No Anys on this line!">    def __init__(self, substring: str) -&gt; None:</span>
+<span class="line-precise" title="No Anys on this line!">        self.substring = substring</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-any" title="No Anys on this line!">    def __call__(self, value):</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">        return f"{self.substring}{value}"</span>
+<span class="line-precise" title="No Anys on this line!">    def __call__(self, value: str | None) -&gt; str | None:</span>
+<span class="line-precise" title="No Anys on this line!">        return f"{self.substring}{value}"</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">class RAdd:</span>
 <span class="line-empty" title="No Anys on this line!">    """Add a substring to the end of a value."""</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-any" title="No Anys on this line!">    def __init__(self, substring):</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">        self.substring = substring</span>
+<span class="line-precise" title="No Anys on this line!">    def __init__(self, substring: str) -&gt; None:</span>
+<span class="line-precise" title="No Anys on this line!">        self.substring = substring</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-any" title="No Anys on this line!">    def __call__(self, value):</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">        return f"{value}{self.substring}"</span>
+<span class="line-precise" title="No Anys on this line!">    def __call__(self, value: str | None) -&gt; str | None:</span>
+<span class="line-precise" title="No Anys on this line!">        return f"{value}{self.substring}"</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">class LStrip:</span>
 <span class="line-empty" title="No Anys on this line!">    """Remove a substring from the start of a value."""</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-any" title="No Anys on this line!">    def __init__(self, *substrings):</span>
-<span class="line-imprecise" title="Any Types on this line: 
-Unannotated (x2)">        self.substrings = substrings</span>
+<span class="line-precise" title="No Anys on this line!">    def __init__(self, *substrings: str) -&gt; None:</span>
+<span class="line-precise" title="No Anys on this line!">        self.substrings = substrings</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-any" title="No Anys on this line!">    def __call__(self, value):</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">        for substring in self.substrings:</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x4)">            if value.startswith(substring):</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x3)">                return value[len(substring) :]</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x1)">        return value</span>
+<span class="line-precise" title="No Anys on this line!">    def __call__(self, value: str | None) -&gt; str | None:</span>
+<span class="line-precise" title="No Anys on this line!">        for substring in self.substrings:</span>
+<span class="line-imprecise" title="Any Types on this line: 
+Error (x1)">            if value.startswith(substring):</span>
+<span class="line-imprecise" title="Any Types on this line: 
+Error (x1)">                return value[len(substring) :]</span>
+<span class="line-precise" title="No Anys on this line!">        return value</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">class RStrip:</span>
 <span class="line-empty" title="No Anys on this line!">    """Remove a substring from the end of a value."""</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-any" title="No Anys on this line!">    def __init__(self, *substrings):</span>
+<span class="line-precise" title="No Anys on this line!">    def __init__(self, *substrings: str) -&gt; None:</span>
+<span class="line-precise" title="No Anys on this line!">        self.substrings = substrings</span>
+<span class="line-empty" title="No Anys on this line!"></span>
+<span class="line-precise" title="No Anys on this line!">    def __call__(self, value: str | None) -&gt; str | None:</span>
+<span class="line-precise" title="No Anys on this line!">        for substring in self.substrings:</span>
 <span class="line-imprecise" title="Any Types on this line: 
-Unannotated (x2)">        self.substrings = substrings</span>
-<span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-any" title="No Anys on this line!">    def __call__(self, value):</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">        for substring in self.substrings:</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x4)">            if value.endswith(substring):</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x3)">                return value[: -len(substring)]</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x1)">        return value</span>
+Error (x1)">            if value.endswith(substring):</span>
+<span class="line-imprecise" title="Any Types on this line: 
+Error (x1)">                return value[: -len(substring)]</span>
+<span class="line-precise" title="No Anys on this line!">        return value</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-any" title="No Anys on this line!">def floats(s):</span>
+<span class="line-precise" title="No Anys on this line!">def floats(s: str) -&gt; float:</span>
 <span class="line-empty" title="No Anys on this line!">    """Convert string to float. Handles more string formats that the standard python conversion."""</span>
 <span class="line-empty" title="No Anys on this line!">    try:</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x1)">        return float(s)</span>
+<span class="line-precise" title="No Anys on this line!">        return float(s)</span>
 <span class="line-precise" title="No Anys on this line!">    except ValueError:</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">        s = remove_bracketed_numbers(s)  # Remove bracketed numbers from end</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">        s = remove_uncertainty(s)  # Remove uncertainties from end</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x4)">        s = s.rstrip("'\"+-=&lt;&gt;/,.:;!?)]}…∼~≈×*_≥≤")  # Remove trailing punctuation</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x4)">        s = s.lstrip("'\"+=&lt;&gt;/([{∼~≈×*_≥≤£$€#§")  # Remove leading punctuation</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x4)">        s = s.replace(",", "")  # Remove commas</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x4)">        s = "".join(s.split())  # Strip whitespace</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">        s = convert_scientific_notation(s)  # Convert scientific notation</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x1)">        return float(s)</span>
+<span class="line-precise" title="No Anys on this line!">        s = remove_bracketed_numbers(s)  # Remove bracketed numbers from end</span>
+<span class="line-precise" title="No Anys on this line!">        s = remove_uncertainty(s)  # Remove uncertainties from end</span>
+<span class="line-precise" title="No Anys on this line!">        s = s.rstrip("'\"+-=&lt;&gt;/,.:;!?)]}…∼~≈×*_≥≤")  # Remove trailing punctuation</span>
+<span class="line-precise" title="No Anys on this line!">        s = s.lstrip("'\"+=&lt;&gt;/([{∼~≈×*_≥≤£$€#§")  # Remove leading punctuation</span>
+<span class="line-precise" title="No Anys on this line!">        s = s.replace(",", "")  # Remove commas</span>
+<span class="line-precise" title="No Anys on this line!">        s = "".join(s.split())  # Strip whitespace</span>
+<span class="line-precise" title="No Anys on this line!">        s = convert_scientific_notation(s)  # Convert scientific notation</span>
+<span class="line-precise" title="No Anys on this line!">        return float(s)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-any" title="No Anys on this line!">def strip_querystring(url):</span>
+<span class="line-precise" title="No Anys on this line!">def strip_querystring(url: str) -&gt; str:</span>
 <span class="line-empty" title="No Anys on this line!">    """Remove the querystring from the end of a URL."""</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x1)">    p = urllib.parse.urlparse(url)</span>
-<span class="line-any" title="No Anys on this line!">    return p.scheme + "://" + p.netloc + p.path</span>
+<span class="line-precise" title="No Anys on this line!">    p = urllib.parse.urlparse(url)</span>
+<span class="line-precise" title="No Anys on this line!">    return p.scheme + "://" + p.netloc + p.path</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">class Substitutor:</span>
@@ -359,55 +336,49 @@ Unannotated (x1)">    p = urllib.parse.urlparse(url)</span>
 <span class="line-empty" title="No Anys on this line!">    Useful to clean up text where placeholders are used in place of actual unicode characters.</span>
 <span class="line-empty" title="No Anys on this line!">    """</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-any" title="No Anys on this line!">    def __init__(self, substitutions):</span>
-<span class="line-empty" title="No Anys on this line!">        """</span>
+<span class="line-precise" title="No Anys on this line!">    def __init__(self, substitutions: list[tuple[str | re.Pattern[str], str]]) -&gt; None:</span>
+<span class="line-empty" title="No Anys on this line!">        """Initialize with substitution patterns.</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-empty" title="No Anys on this line!">        :param substitutions: List of (regex, string) tuples that define the substitution.</span>
+<span class="line-empty" title="No Anys on this line!">        Args:</span>
+<span class="line-empty" title="No Anys on this line!">            substitutions: List of (regex, string) tuples that define the substitution.</span>
 <span class="line-empty" title="No Anys on this line!">        """</span>
 <span class="line-precise" title="No Anys on this line!">        self.substitutions = []</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x3)">        for pattern, replacement in substitutions:</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x1)">            if isinstance(pattern, str):</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x2)
+<span class="line-precise" title="No Anys on this line!">        for pattern, replacement in substitutions:</span>
+<span class="line-precise" title="No Anys on this line!">            if isinstance(pattern, str):</span>
+<span class="line-precise" title="Any Types on this line: 
 Omitted Generics (x4)">                pattern = re.compile(pattern, re.I | re.U)</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x6)">            self.substitutions.append((pattern, replacement))</span>
+<span class="line-precise" title="No Anys on this line!">            self.substitutions.append((pattern, replacement))</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-any" title="No Anys on this line!">    def __call__(self, t):</span>
+<span class="line-precise" title="No Anys on this line!">    def __call__(self, t: str) -&gt; str:</span>
 <span class="line-empty" title="No Anys on this line!">        """Run substitutions on given text and return it.</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-empty" title="No Anys on this line!">        :param string t: The text to run substitutions on.</span>
+<span class="line-empty" title="No Anys on this line!">        Args:</span>
+<span class="line-empty" title="No Anys on this line!">            t: The text to run substitutions on.</span>
+<span class="line-empty" title="No Anys on this line!"></span>
+<span class="line-empty" title="No Anys on this line!">        Returns:</span>
+<span class="line-empty" title="No Anys on this line!">            The text with substitutions applied.</span>
 <span class="line-empty" title="No Anys on this line!">        """</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x4)">        for pattern, replacement in self.substitutions:</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x6)">            t = pattern.sub(replacement, t)</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x1)">        return t</span>
+<span class="line-precise" title="No Anys on this line!">        for pattern, replacement in self.substitutions:</span>
+<span class="line-precise" title="No Anys on this line!">            t = pattern.sub(replacement, t)</span>
+<span class="line-precise" title="No Anys on this line!">        return t</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-any" title="No Anys on this line!">def extract_emails(text):</span>
+<span class="line-precise" title="No Anys on this line!">def extract_emails(text: str) -&gt; list[str]:</span>
 <span class="line-empty" title="No Anys on this line!">    """Return a list of email addresses extracted from the string."""</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x4)">    text = text.replace("\u2024", ".")</span>
+<span class="line-precise" title="No Anys on this line!">    text = text.replace("\u2024", ".")</span>
 <span class="line-precise" title="No Anys on this line!">    emails = []</span>
 <span class="line-any" title="Any Types on this line: 
-Explicit (x3)
-Unannotated (x1)">    for m in EMAIL_RE.findall(text):</span>
+Explicit (x3)">    for m in EMAIL_RE.findall(text):</span>
 <span class="line-any" title="Any Types on this line: 
 Explicit (x4)">        emails.append(m[0])</span>
 <span class="line-imprecise" title="Any Types on this line: 
 Explicit (x1)">    return emails</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-any" title="No Anys on this line!">def unapostrophe(text):</span>
+<span class="line-precise" title="No Anys on this line!">def unapostrophe(text: str) -&gt; str:</span>
 <span class="line-empty" title="No Anys on this line!">    """Strip apostrophe and 's' from the end of a string."""</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">    text = re.sub(r"[{}]s?$".format("".join(APOSTROPHES)), "", text)</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x1)">    return text</span>
+<span class="line-precise" title="No Anys on this line!">    text = re.sub(r"[{}]s?$".format("".join(APOSTROPHES)), "", text)</span>
+<span class="line-precise" title="No Anys on this line!">    return text</span>
 </pre></td>
 </tr></tbody>
 </table>

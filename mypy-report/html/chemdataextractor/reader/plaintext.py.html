@@ -38,45 +38,89 @@
 <span id="L28" class="lineno"><a class="lineno" href="#L28">28</a></span>
 <span id="L29" class="lineno"><a class="lineno" href="#L29">29</a></span>
 <span id="L30" class="lineno"><a class="lineno" href="#L30">30</a></span>
+<span id="L31" class="lineno"><a class="lineno" href="#L31">31</a></span>
+<span id="L32" class="lineno"><a class="lineno" href="#L32">32</a></span>
+<span id="L33" class="lineno"><a class="lineno" href="#L33">33</a></span>
+<span id="L34" class="lineno"><a class="lineno" href="#L34">34</a></span>
+<span id="L35" class="lineno"><a class="lineno" href="#L35">35</a></span>
+<span id="L36" class="lineno"><a class="lineno" href="#L36">36</a></span>
+<span id="L37" class="lineno"><a class="lineno" href="#L37">37</a></span>
+<span id="L38" class="lineno"><a class="lineno" href="#L38">38</a></span>
+<span id="L39" class="lineno"><a class="lineno" href="#L39">39</a></span>
+<span id="L40" class="lineno"><a class="lineno" href="#L40">40</a></span>
+<span id="L41" class="lineno"><a class="lineno" href="#L41">41</a></span>
+<span id="L42" class="lineno"><a class="lineno" href="#L42">42</a></span>
+<span id="L43" class="lineno"><a class="lineno" href="#L43">43</a></span>
+<span id="L44" class="lineno"><a class="lineno" href="#L44">44</a></span>
+<span id="L45" class="lineno"><a class="lineno" href="#L45">45</a></span>
+<span id="L46" class="lineno"><a class="lineno" href="#L46">46</a></span>
+<span id="L47" class="lineno"><a class="lineno" href="#L47">47</a></span>
+<span id="L48" class="lineno"><a class="lineno" href="#L48">48</a></span>
+<span id="L49" class="lineno"><a class="lineno" href="#L49">49</a></span>
+<span id="L50" class="lineno"><a class="lineno" href="#L50">50</a></span>
+<span id="L51" class="lineno"><a class="lineno" href="#L51">51</a></span>
+<span id="L52" class="lineno"><a class="lineno" href="#L52">52</a></span>
+<span id="L53" class="lineno"><a class="lineno" href="#L53">53</a></span>
+<span id="L54" class="lineno"><a class="lineno" href="#L54">54</a></span>
+<span id="L55" class="lineno"><a class="lineno" href="#L55">55</a></span>
+<span id="L56" class="lineno"><a class="lineno" href="#L56">56</a></span>
 </pre></td>
 <td class="table-code"><pre><span class="line-empty" title="No Anys on this line!">"""</span>
 <span class="line-empty" title="No Anys on this line!">Plain text document reader.</span>
 <span class="line-empty" title="No Anys on this line!"></span>
+<span class="line-empty" title="No Anys on this line!">Provides functionality to parse plain text documents and convert them</span>
+<span class="line-empty" title="No Anys on this line!">into structured ChemDataExtractor Document objects.</span>
 <span class="line-empty" title="No Anys on this line!">"""</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-precise" title="No Anys on this line!">import re</span>
+<span class="line-precise" title="No Anys on this line!">from __future__ import annotations</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-precise" title="No Anys on this line!">from ..doc.document import Document</span>
+<span class="line-precise" title="No Anys on this line!">import re</span>
+<span class="line-precise" title="No Anys on this line!">from typing import TYPE_CHECKING</span>
+<span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">from ..text import get_encoding</span>
 <span class="line-precise" title="No Anys on this line!">from .base import BaseReader</span>
+<span class="line-empty" title="No Anys on this line!"></span>
+<span class="line-precise" title="No Anys on this line!">if TYPE_CHECKING:</span>
+<span class="line-precise" title="No Anys on this line!">    from ..doc.document import Document</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">class PlainTextReader(BaseReader):</span>
 <span class="line-empty" title="No Anys on this line!">    """Read plain text and split into Paragraphs based on newline patterns."""</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-any" title="No Anys on this line!">    def detect(self, fstring, fname=None):</span>
-<span class="line-empty" title="No Anys on this line!">        """Have a stab at most files."""</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x3)">        if fname is not None and "." in fname:</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x5)">            extension = fname.rsplit(".", 1)[1]</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x1)">            if extension in {"pdf", "html", "xml"}:</span>
-<span class="line-any" title="No Anys on this line!">                return False</span>
-<span class="line-any" title="No Anys on this line!">        return True</span>
+<span class="line-precise" title="No Anys on this line!">    def detect(self, fstring: str | bytes, fname: str | None = None) -&gt; bool:</span>
+<span class="line-empty" title="No Anys on this line!">        """Detect if this reader can parse the input.</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-any" title="No Anys on this line!">    def parse(self, fstring):</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">        if isinstance(fstring, bytes):</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x8)">            fstring = fstring.decode(get_encoding(fstring))</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x1)">        para_strings = [</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x6)">            p.strip() for p in re.split(r"\r\n[ \t]*\r\n|\r[ \t]*\r|\n[ \t]*\n", fstring)</span>
+<span class="line-empty" title="No Anys on this line!">        Args:</span>
+<span class="line-empty" title="No Anys on this line!">            fstring: Input data to check</span>
+<span class="line-empty" title="No Anys on this line!">            fname: Optional filename for format hints</span>
+<span class="line-empty" title="No Anys on this line!"></span>
+<span class="line-empty" title="No Anys on this line!">        Returns:</span>
+<span class="line-empty" title="No Anys on this line!">            True if this reader can likely parse the input</span>
+<span class="line-empty" title="No Anys on this line!">        """</span>
+<span class="line-precise" title="No Anys on this line!">        if fname is not None and "." in fname:</span>
+<span class="line-precise" title="No Anys on this line!">            extension = fname.rsplit(".", 1)[1]</span>
+<span class="line-precise" title="No Anys on this line!">            if extension in {"pdf", "html", "xml"}:</span>
+<span class="line-precise" title="No Anys on this line!">                return False</span>
+<span class="line-precise" title="No Anys on this line!">        return True</span>
+<span class="line-empty" title="No Anys on this line!"></span>
+<span class="line-precise" title="No Anys on this line!">    def parse(self, fstring: str | bytes) -&gt; Document:</span>
+<span class="line-empty" title="No Anys on this line!">        """Parse plain text input and return a Document.</span>
+<span class="line-empty" title="No Anys on this line!"></span>
+<span class="line-empty" title="No Anys on this line!">        Args:</span>
+<span class="line-empty" title="No Anys on this line!">            fstring: Plain text input data</span>
+<span class="line-empty" title="No Anys on this line!"></span>
+<span class="line-empty" title="No Anys on this line!">        Returns:</span>
+<span class="line-empty" title="No Anys on this line!">            Document with paragraphs split by double newlines</span>
+<span class="line-empty" title="No Anys on this line!">        """</span>
+<span class="line-empty" title="No Anys on this line!">        # Import here to avoid circular imports</span>
+<span class="line-precise" title="No Anys on this line!">        from ..doc.document import Document</span>
+<span class="line-empty" title="No Anys on this line!"></span>
+<span class="line-precise" title="No Anys on this line!">        if isinstance(fstring, bytes):</span>
+<span class="line-precise" title="No Anys on this line!">            fstring = fstring.decode(get_encoding(fstring))</span>
+<span class="line-precise" title="No Anys on this line!">        para_strings = [</span>
+<span class="line-precise" title="No Anys on this line!">            p.strip() for p in re.split(r"\r\n[ \t]*\r\n|\r[ \t]*\r|\n[ \t]*\n", fstring)</span>
 <span class="line-empty" title="No Anys on this line!">        ]</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x2)
+<span class="line-precise" title="Any Types on this line: 
 Explicit (x1)">        return Document(*para_strings)</span>
 </pre></td>
 </tr></tbody>

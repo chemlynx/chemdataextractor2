@@ -566,6 +566,9 @@
 <span id="L556" class="lineno"><a class="lineno" href="#L556">556</a></span>
 <span id="L557" class="lineno"><a class="lineno" href="#L557">557</a></span>
 <span id="L558" class="lineno"><a class="lineno" href="#L558">558</a></span>
+<span id="L559" class="lineno"><a class="lineno" href="#L559">559</a></span>
+<span id="L560" class="lineno"><a class="lineno" href="#L560">560</a></span>
+<span id="L561" class="lineno"><a class="lineno" href="#L561">561</a></span>
 </pre></td>
 <td class="table-code"><pre><span class="line-empty" title="No Anys on this line!">"""</span>
 <span class="line-empty" title="No Anys on this line!">Functionality to enable multi-turn question answering for information extraction in ChemDataExtractor</span>
@@ -719,10 +722,7 @@ Unannotated (x4)">                answer = action(answer)</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x5)">        if self.condition is not None and not self.condition(answer):</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x1)">            raise ValueError(</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x8)">                f"{answer} does not satisfy conditions for question {self.question}"</span>
-<span class="line-empty" title="No Anys on this line!">            )</span>
+Unannotated (x9)">            raise ValueError(f"{answer} does not satisfy conditions for question {self.question}")</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">        return answer</span>
 <span class="line-empty" title="No Anys on this line!"></span>
@@ -1196,9 +1196,12 @@ Unannotated (x7)">                    new_records_list[index].append(batch_quest
 <span class="line-empty" title="No Anys on this line!">            # Another loop iterating through current records and checking if that is in</span>
 <span class="line-empty" title="No Anys on this line!">            # the new records list, if not, appending it to the list</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x5)
+Unannotated (x3)
 Explicit (x9)
-Omitted Generics (x30)">            for old_sentence_records, new_sentence_records in zip(records, new_records_list, strict=False):</span>
+Omitted Generics (x30)">            for old_sentence_records, new_sentence_records in zip(</span>
+<span class="line-any" title="Any Types on this line: 
+Unannotated (x2)">                records, new_records_list, strict=False</span>
+<span class="line-empty" title="No Anys on this line!">            ):</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x2)">                for record in old_sentence_records:</span>
 <span class="line-any" title="Any Types on this line: 
@@ -1222,8 +1225,14 @@ Unannotated (x1)">        return records_dict</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="No Anys on this line!">    def _is_valid_sentence(self, sentence):</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x18)
-Omitted Generics (x6)">        return bool(len(list(self.model.specifier.parse_expression.scan(sentence.tokens))) and len(list(self.numerical_value_expression.scan(sentence.tokens))))</span>
+Unannotated (x1)">        return bool(</span>
+<span class="line-any" title="Any Types on this line: 
+Unannotated (x10)
+Omitted Generics (x3)">            len(list(self.model.specifier.parse_expression.scan(sentence.tokens)))</span>
+<span class="line-any" title="Any Types on this line: 
+Unannotated (x7)
+Omitted Generics (x3)">            and len(list(self.numerical_value_expression.scan(sentence.tokens)))</span>
+<span class="line-empty" title="No Anys on this line!">        )</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="No Anys on this line!">    def _do_manual_parsing(self, sentence):</span>
 <span class="line-any" title="Any Types on this line: 
@@ -1336,7 +1345,7 @@ Unannotated (x8)">                            self.model.__getattribute__(self.m
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x5)">        combined_entities = _create_entities_list(entities)</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x11)">        root_phrase = OneOrMore(combined_entities + Optional(SkipTo(combined_entities)))(</span>
+Unannotated (x12)">        root_phrase = OneOrMore(combined_entities + Optional(SkipTo(combined_entities)))(</span>
 <span class="line-any" title="No Anys on this line!">            "root_phrase"</span>
 <span class="line-empty" title="No Anys on this line!">        )</span>
 <span class="line-any" title="Any Types on this line: 

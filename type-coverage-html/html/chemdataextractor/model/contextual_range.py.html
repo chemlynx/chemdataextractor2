@@ -281,10 +281,6 @@
 <span id="L271" class="lineno"><a class="lineno" href="#L271">271</a></span>
 <span id="L272" class="lineno"><a class="lineno" href="#L272">272</a></span>
 <span id="L273" class="lineno"><a class="lineno" href="#L273">273</a></span>
-<span id="L274" class="lineno"><a class="lineno" href="#L274">274</a></span>
-<span id="L275" class="lineno"><a class="lineno" href="#L275">275</a></span>
-<span id="L276" class="lineno"><a class="lineno" href="#L276">276</a></span>
-<span id="L277" class="lineno"><a class="lineno" href="#L277">277</a></span>
 </pre></td>
 <td class="table-code"><pre><span class="line-precise" title="No Anys on this line!">from __future__ import annotations</span>
 <span class="line-empty" title="No Anys on this line!"></span>
@@ -516,14 +512,10 @@ Explicit (x4)">            return type(self) == type(other)</span>
 <span class="line-precise" title="No Anys on this line!">            SentenceRange(),</span>
 <span class="line-empty" title="No Anys on this line!">        ]</span>
 <span class="line-precise" title="No Anys on this line!">        for range_type in ranges_by_magnitude:</span>
-<span class="line-precise" title="No Anys on this line!">            self_range_count = (</span>
 <span class="line-precise" title="Any Types on this line: 
-Omitted Generics (x2)">                self.constituent_ranges.get(range_type, 0)</span>
-<span class="line-empty" title="No Anys on this line!">            )</span>
-<span class="line-precise" title="No Anys on this line!">            other_range_count = (</span>
+Omitted Generics (x2)">            self_range_count = self.constituent_ranges.get(range_type, 0)</span>
 <span class="line-precise" title="Any Types on this line: 
-Omitted Generics (x2)">                other.constituent_ranges.get(range_type, 0)</span>
-<span class="line-empty" title="No Anys on this line!">            )</span>
+Omitted Generics (x2)">            other_range_count = other.constituent_ranges.get(range_type, 0)</span>
 <span class="line-precise" title="No Anys on this line!">            if self_range_count &lt; other_range_count:</span>
 <span class="line-precise" title="No Anys on this line!">                return True</span>
 <span class="line-precise" title="No Anys on this line!">            elif self_range_count &gt; other_range_count:</span>

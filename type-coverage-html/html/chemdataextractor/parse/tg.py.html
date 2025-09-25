@@ -109,13 +109,43 @@
 <span id="L99" class="lineno"><a class="lineno" href="#L99">99</a></span>
 <span id="L100" class="lineno"><a class="lineno" href="#L100">100</a></span>
 <span id="L101" class="lineno"><a class="lineno" href="#L101">101</a></span>
+<span id="L102" class="lineno"><a class="lineno" href="#L102">102</a></span>
+<span id="L103" class="lineno"><a class="lineno" href="#L103">103</a></span>
+<span id="L104" class="lineno"><a class="lineno" href="#L104">104</a></span>
+<span id="L105" class="lineno"><a class="lineno" href="#L105">105</a></span>
+<span id="L106" class="lineno"><a class="lineno" href="#L106">106</a></span>
+<span id="L107" class="lineno"><a class="lineno" href="#L107">107</a></span>
+<span id="L108" class="lineno"><a class="lineno" href="#L108">108</a></span>
+<span id="L109" class="lineno"><a class="lineno" href="#L109">109</a></span>
+<span id="L110" class="lineno"><a class="lineno" href="#L110">110</a></span>
+<span id="L111" class="lineno"><a class="lineno" href="#L111">111</a></span>
+<span id="L112" class="lineno"><a class="lineno" href="#L112">112</a></span>
+<span id="L113" class="lineno"><a class="lineno" href="#L113">113</a></span>
+<span id="L114" class="lineno"><a class="lineno" href="#L114">114</a></span>
+<span id="L115" class="lineno"><a class="lineno" href="#L115">115</a></span>
+<span id="L116" class="lineno"><a class="lineno" href="#L116">116</a></span>
+<span id="L117" class="lineno"><a class="lineno" href="#L117">117</a></span>
+<span id="L118" class="lineno"><a class="lineno" href="#L118">118</a></span>
+<span id="L119" class="lineno"><a class="lineno" href="#L119">119</a></span>
+<span id="L120" class="lineno"><a class="lineno" href="#L120">120</a></span>
+<span id="L121" class="lineno"><a class="lineno" href="#L121">121</a></span>
 </pre></td>
 <td class="table-code"><pre><span class="line-empty" title="No Anys on this line!">"""</span>
 <span class="line-empty" title="No Anys on this line!">Glass transition temperature parser.</span>
 <span class="line-empty" title="No Anys on this line!"></span>
+<span class="line-empty" title="No Anys on this line!">Provides parsing capabilities for glass transition temperature measurements,</span>
+<span class="line-empty" title="No Anys on this line!">including temperature values, units, and compound associations.</span>
 <span class="line-empty" title="No Anys on this line!">"""</span>
 <span class="line-empty" title="No Anys on this line!"></span>
+<span class="line-precise" title="No Anys on this line!">from __future__ import annotations</span>
+<span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">import logging</span>
+<span class="line-precise" title="No Anys on this line!">from collections.abc import Generator</span>
+<span class="line-precise" title="No Anys on this line!">from typing import TYPE_CHECKING</span>
+<span class="line-precise" title="No Anys on this line!">from typing import Any</span>
+<span class="line-empty" title="No Anys on this line!"></span>
+<span class="line-precise" title="No Anys on this line!">if TYPE_CHECKING:</span>
+<span class="line-precise" title="No Anys on this line!">    from ..model.base import BaseModel</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">from ..utils import first</span>
 <span class="line-precise" title="No Anys on this line!">from .actions import merge</span>
@@ -138,98 +168,76 @@
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="Any Types on this line: 
-Error (x1)">prefix = (</span>
+Unannotated (x1)">prefix = (</span>
 <span class="line-any" title="Any Types on this line: 
-Error (x7)
-Unannotated (x1)">    Optional(I("a")).hide()</span>
+Unannotated (x5)">    Optional(I("a")).hide()</span>
 <span class="line-any" title="Any Types on this line: 
-Error (x2)">    + (</span>
+Unannotated (x2)">    + (</span>
 <span class="line-any" title="Any Types on this line: 
-Error (x6)
-Unannotated (x3)">        Optional(lbrct) + W("Tg") + Optional(rbrct)</span>
+Unannotated (x6)">        Optional(lbrct) + W("Tg") + Optional(rbrct)</span>
 <span class="line-any" title="Any Types on this line: 
-Error (x2)
-Unannotated (x1)">        | I("glass")</span>
+Unannotated (x2)">        | I("glass")</span>
 <span class="line-any" title="Any Types on this line: 
-Error (x1)
 Unannotated (x1)">        + Optional(I("transition"))</span>
 <span class="line-any" title="Any Types on this line: 
-Error (x1)
-Unannotated (x7)">        + Optional(I("temperature") | I("range") | (I("temp") + I(".")))</span>
+Unannotated (x4)">        + Optional(I("temperature") | I("range") | (I("temp") + I(".")))</span>
 <span class="line-any" title="Any Types on this line: 
-Error (x2)
-Unannotated (x6)">        | W("transition") + Optional(I("temperature") | I("range") | I("temp."))</span>
+Unannotated (x4)">        | W("transition") + Optional(I("temperature") | I("range") | I("temp."))</span>
 <span class="line-empty" title="No Anys on this line!">    ).hide()</span>
 <span class="line-any" title="Any Types on this line: 
-Error (x1)
-Unannotated (x5)">    + Optional(lbrct + W("Tg") + rbrct)</span>
+Unannotated (x3)">    + Optional(lbrct + W("Tg") + rbrct)</span>
 <span class="line-any" title="Any Types on this line: 
-Error (x3)
-Unannotated (x9)">    + Optional(W("=") | I("of") | I("was") | I("is") | I("at")).hide()</span>
+Unannotated (x5)">    + Optional(W("=") | I("of") | I("was") | I("is") | I("at")).hide()</span>
 <span class="line-any" title="Any Types on this line: 
-Error (x3)">    + Optional(</span>
+Unannotated (x1)">    + Optional(</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x11)
-Error (x1)">        I("in") + I("the") + I("range") + Optional(I("of"))</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x1)">        | I("about")</span>
+Unannotated (x8)">        I("in") + I("the") + I("range") + Optional(I("of"))</span>
+<span class="line-precise" title="No Anys on this line!">        | I("about")</span>
 <span class="line-precise" title="No Anys on this line!">        | ("around")</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x1)">        | I("ca")</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x1)">        | I("ca.")</span>
+<span class="line-precise" title="No Anys on this line!">        | I("ca")</span>
+<span class="line-precise" title="No Anys on this line!">        | I("ca.")</span>
 <span class="line-empty" title="No Anys on this line!">    ).hide()</span>
 <span class="line-empty" title="No Anys on this line!">)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x3)">delim = R(r"^[:;\.,]$")</span>
+<span class="line-precise" title="No Anys on this line!">delim = R(r"^[:;\.,]$")</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!"># TODO: Consider allowing degree symbol to be optional. The prefix should be restrictive enough to stop false positives.</span>
 <span class="line-any" title="Any Types on this line: 
-Error (x8)
-Unannotated (x10)">units = (W("°") + Optional(R(r"^[CFK]\.?$")) | W(r"K\.?") | W("°C"))("units").add_action(merge)</span>
+Unannotated (x8)">units = (W("°") + Optional(R(r"^[CFK]\.?$")) | W(r"K\.?") | W("°C"))("units").add_action(merge)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x2)">value = value_element()(None)</span>
 <span class="line-any" title="Any Types on this line: 
-Error (x6)
-Unannotated (x8)">temp_range = (Optional(R(r"^[\-–−]$")) + value)("value").add_action(merge)</span>
+Unannotated (x7)">temp_range = (Optional(R(r"^[\-–−]$")) + value)("value").add_action(merge)</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x9)">temp_value = value("value").add_action(merge)</span>
+Unannotated (x5)">temp_value = value("value").add_action(merge)</span>
 <span class="line-any" title="Any Types on this line: 
-Error (x12)
-Unannotated (x3)">temp = Optional(lbrct).hide() + (temp_range | temp_value)("value") + Optional(rbrct).hide()</span>
+Unannotated (x9)">temp = Optional(lbrct).hide() + (temp_range | temp_value)("value") + Optional(rbrct).hide()</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="Any Types on this line: 
-Error (x11)">tg = (prefix + Optional(delim).hide() + temp + units)("tg")</span>
+Unannotated (x9)">tg = (prefix + Optional(delim).hide() + temp + units)("tg")</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x11)
-Error (x1)">bracket_any = lbrct + OneOrMore(Not(tg) + Not(rbrct) + Any()) + rbrct</span>
+Unannotated (x9)">bracket_any = lbrct + OneOrMore(Not(tg) + Not(rbrct) + Any()) + rbrct</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="Any Types on this line: 
-Error (x2)">cem_tg_phrase = (</span>
+Unannotated (x2)">cem_tg_phrase = (</span>
 <span class="line-any" title="Any Types on this line: 
-Error (x8)
-Unannotated (x1)">    Optional(cem)</span>
+Unannotated (x9)">    Optional(cem)</span>
 <span class="line-any" title="Any Types on this line: 
-Error (x3)
 Unannotated (x1)">    + Optional(I("having")).hide()</span>
 <span class="line-any" title="Any Types on this line: 
-Error (x3)">    + Optional(delim).hide()</span>
+Unannotated (x1)">    + Optional(delim).hide()</span>
 <span class="line-any" title="Any Types on this line: 
-Error (x3)
-Unannotated (x1)">    + Optional(bracket_any).hide()</span>
+Unannotated (x2)">    + Optional(bracket_any).hide()</span>
 <span class="line-any" title="Any Types on this line: 
-Error (x3)">    + Optional(delim).hide()</span>
+Unannotated (x1)">    + Optional(delim).hide()</span>
 <span class="line-any" title="Any Types on this line: 
-Error (x1)
 Unannotated (x1)">    + Optional(lbrct)</span>
 <span class="line-any" title="Any Types on this line: 
-Error (x1)">    + tg</span>
+Unannotated (x1)">    + tg</span>
 <span class="line-any" title="Any Types on this line: 
-Error (x1)
 Unannotated (x1)">    + Optional(rbrct)</span>
 <span class="line-precise" title="No Anys on this line!">)("tg_phrase")</span>
 <span class="line-empty" title="No Anys on this line!"></span>
@@ -238,52 +246,61 @@ Unannotated (x2)">obtained_tg_phrase = (</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x7)">    (cem | chemical_label)</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x7)">    + (I("is") | I("are") | I("was")).hide()</span>
+Unannotated (x4)">    + (I("is") | I("are") | I("was")).hide()</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x7)">    + (I("measured") | I("obtained") | I("yielded")).hide()</span>
+Unannotated (x4)">    + (I("measured") | I("obtained") | I("yielded")).hide()</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x8)
-Error (x1)">    + ZeroOrMore(Not(tg) + Not(cem) + Any()).hide()</span>
+Unannotated (x7)">    + ZeroOrMore(Not(tg) + Not(cem) + Any()).hide()</span>
 <span class="line-any" title="Any Types on this line: 
-Error (x1)">    + tg</span>
+Unannotated (x1)">    + tg</span>
 <span class="line-precise" title="No Anys on this line!">)("tg_phrase")</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="Any Types on this line: 
-Error (x3)
-Unannotated (x1)">tg_phrase = cem_tg_phrase | obtained_tg_phrase</span>
+Unannotated (x4)">tg_phrase = cem_tg_phrase | obtained_tg_phrase</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">class TgParser(BaseParser):</span>
-<span class="line-empty" title="No Anys on this line!">    """"""</span>
+<span class="line-empty" title="No Anys on this line!">    """Parser for glass transition temperature measurements."""</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="Any Types on this line: 
-Error (x2)">    root = tg_phrase</span>
+Unannotated (x2)">    root = tg_phrase</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-any" title="No Anys on this line!">    def interpret(self, result, start, end):</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x6)">        compound = self.model.fields["compound"].model_class()</span>
+Explicit (x1)">    def interpret(self, result: Any, start: int, end: int) -&gt; Generator[BaseModel, None, None]:</span>
+<span class="line-empty" title="No Anys on this line!">        """Interpret parsed glass transition temperature results.</span>
+<span class="line-empty" title="No Anys on this line!"></span>
+<span class="line-empty" title="No Anys on this line!">        Args:</span>
+<span class="line-empty" title="No Anys on this line!">            result: Parsed result containing glass transition data</span>
+<span class="line-empty" title="No Anys on this line!">            start: Starting position in text</span>
+<span class="line-empty" title="No Anys on this line!">            end: Ending position in text</span>
+<span class="line-empty" title="No Anys on this line!"></span>
+<span class="line-empty" title="No Anys on this line!">        Yields:</span>
+<span class="line-empty" title="No Anys on this line!">            BaseModel instances containing glass transition temperature data</span>
+<span class="line-empty" title="No Anys on this line!">        """</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x3)">        glass_transition = self.model(</span>
+Error (x5)
+Omitted Generics (x2)">        compound = self.model.fields["compound"].model_class()</span>
+<span class="line-imprecise" title="Any Types on this line: 
+Error (x2)">        glass_transition = self.model(</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x4)
-Omitted Generics (x2)">            value=first(result.xpath("./tg/value/text()")),</span>
+Explicit (x6)">            value=first(result.xpath("./tg/value/text()")),</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x4)
-Omitted Generics (x2)">            units=first(result.xpath("./tg/units/text()")),</span>
+Explicit (x6)">            units=first(result.xpath("./tg/units/text()")),</span>
 <span class="line-empty" title="No Anys on this line!">        )</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x5)
-Omitted Generics (x2)">        cem_el = first(result.xpath("./cem"))</span>
+Explicit (x7)">        cem_el = first(result.xpath("./cem"))</span>
+<span class="line-imprecise" title="Any Types on this line: 
+Explicit (x1)">        if cem_el is not None:</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x1)">        if cem_el is not None:</span>
+Explicit (x3)
+Error (x2)">            compound.names = cem_el.xpath("./name/text()")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x5)">            compound.names = cem_el.xpath("./name/text()")</span>
+Explicit (x3)
+Error (x2)">            compound.labels = cem_el.xpath("./label/text()")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x5)">            compound.labels = cem_el.xpath("./label/text()")</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x3)">        glass_transition.compound = compound</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x1)">        yield glass_transition</span>
+Error (x3)">        glass_transition.compound = compound</span>
+<span class="line-imprecise" title="Any Types on this line: 
+Error (x1)">        yield glass_transition</span>
 </pre></td>
 </tr></tbody>
 </table>

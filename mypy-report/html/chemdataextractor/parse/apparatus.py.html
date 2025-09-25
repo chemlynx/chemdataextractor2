@@ -101,14 +101,46 @@
 <span id="L91" class="lineno"><a class="lineno" href="#L91">91</a></span>
 <span id="L92" class="lineno"><a class="lineno" href="#L92">92</a></span>
 <span id="L93" class="lineno"><a class="lineno" href="#L93">93</a></span>
+<span id="L94" class="lineno"><a class="lineno" href="#L94">94</a></span>
+<span id="L95" class="lineno"><a class="lineno" href="#L95">95</a></span>
+<span id="L96" class="lineno"><a class="lineno" href="#L96">96</a></span>
+<span id="L97" class="lineno"><a class="lineno" href="#L97">97</a></span>
+<span id="L98" class="lineno"><a class="lineno" href="#L98">98</a></span>
+<span id="L99" class="lineno"><a class="lineno" href="#L99">99</a></span>
+<span id="L100" class="lineno"><a class="lineno" href="#L100">100</a></span>
+<span id="L101" class="lineno"><a class="lineno" href="#L101">101</a></span>
+<span id="L102" class="lineno"><a class="lineno" href="#L102">102</a></span>
+<span id="L103" class="lineno"><a class="lineno" href="#L103">103</a></span>
+<span id="L104" class="lineno"><a class="lineno" href="#L104">104</a></span>
+<span id="L105" class="lineno"><a class="lineno" href="#L105">105</a></span>
+<span id="L106" class="lineno"><a class="lineno" href="#L106">106</a></span>
+<span id="L107" class="lineno"><a class="lineno" href="#L107">107</a></span>
+<span id="L108" class="lineno"><a class="lineno" href="#L108">108</a></span>
+<span id="L109" class="lineno"><a class="lineno" href="#L109">109</a></span>
+<span id="L110" class="lineno"><a class="lineno" href="#L110">110</a></span>
+<span id="L111" class="lineno"><a class="lineno" href="#L111">111</a></span>
+<span id="L112" class="lineno"><a class="lineno" href="#L112">112</a></span>
+<span id="L113" class="lineno"><a class="lineno" href="#L113">113</a></span>
+<span id="L114" class="lineno"><a class="lineno" href="#L114">114</a></span>
+<span id="L115" class="lineno"><a class="lineno" href="#L115">115</a></span>
 </pre></td>
 <td class="table-code"><pre><span class="line-empty" title="No Anys on this line!">"""</span>
 <span class="line-empty" title="No Anys on this line!">Parser for sentences that provide contextual information, such as apparatus, solvent, and temperature.</span>
 <span class="line-empty" title="No Anys on this line!"></span>
+<span class="line-empty" title="No Anys on this line!">Provides parsing capabilities for scientific instrument and apparatus identification,</span>
+<span class="line-empty" title="No Anys on this line!">including brands, models, and instrument types used in experimental procedures.</span>
 <span class="line-empty" title="No Anys on this line!">"""</span>
+<span class="line-empty" title="No Anys on this line!"></span>
+<span class="line-precise" title="No Anys on this line!">from __future__ import annotations</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">import logging</span>
 <span class="line-precise" title="No Anys on this line!">import re</span>
+<span class="line-precise" title="No Anys on this line!">from collections.abc import Generator</span>
+<span class="line-precise" title="No Anys on this line!">from typing import TYPE_CHECKING</span>
+<span class="line-precise" title="No Anys on this line!">from typing import Any</span>
+<span class="line-empty" title="No Anys on this line!"></span>
+<span class="line-precise" title="No Anys on this line!">if TYPE_CHECKING:</span>
+<span class="line-precise" title="No Anys on this line!">    from ..model.base import BaseModel</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="No Anys on this line!">from lxml import etree</span>
 <span class="line-empty" title="No Anys on this line!"></span>
@@ -131,129 +163,113 @@
 Unannotated (x2)">dt = T("DT")</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x6)">apparatus_type = R(r"^\d{2,}$") + W("MHz")</span>
+Unannotated (x2)">apparatus_type = R(r"^\d{2,}$") + W("MHz")</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">brands = (</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x13)">    I("HORIBA") + I("Jobin") + I("Yvon")</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x1)">    | I("Hitachi")</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x1)">    | I("Bruker")</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x1)">    | I("Cary")</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x1)">    | I("Jeol")</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x1)">    | I("PerkinElmer")</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x1)">    | I("Agilent")</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x1)">    | I("Shimadzu")</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x1)">    | I("Varian")</span>
+Unannotated (x10)">    I("HORIBA") + I("Jobin") + I("Yvon")</span>
+<span class="line-precise" title="No Anys on this line!">    | I("Hitachi")</span>
+<span class="line-precise" title="No Anys on this line!">    | I("Bruker")</span>
+<span class="line-precise" title="No Anys on this line!">    | I("Cary")</span>
+<span class="line-precise" title="No Anys on this line!">    | I("Jeol")</span>
+<span class="line-precise" title="No Anys on this line!">    | I("PerkinElmer")</span>
+<span class="line-precise" title="No Anys on this line!">    | I("Agilent")</span>
+<span class="line-precise" title="No Anys on this line!">    | I("Shimadzu")</span>
+<span class="line-precise" title="No Anys on this line!">    | I("Varian")</span>
 <span class="line-empty" title="No Anys on this line!">)</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">models = (</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x12)">    I("FluoroMax-4")</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x1)">    | I("F-7000")</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x1)">    | I("AVANCE")</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x1)">    | I("Digital")</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x3)">    | R(r"\d\d\d+")</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x1)">    | I("UV–vis-NIR")</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x1)">    | I("Mercury")</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x1)">    | I("Avatar")</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x1)">    | I("thermonicolet")</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x1)">    | I("pulsed")</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x1)">    | I("Fourier")</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x1)">    | I("transform")</span>
+Unannotated (x11)">    I("FluoroMax-4")</span>
+<span class="line-precise" title="No Anys on this line!">    | I("F-7000")</span>
+<span class="line-precise" title="No Anys on this line!">    | I("AVANCE")</span>
+<span class="line-precise" title="No Anys on this line!">    | I("Digital")</span>
+<span class="line-precise" title="No Anys on this line!">    | R(r"\d\d\d+")</span>
+<span class="line-precise" title="No Anys on this line!">    | I("UV–vis-NIR")</span>
+<span class="line-precise" title="No Anys on this line!">    | I("Mercury")</span>
+<span class="line-precise" title="No Anys on this line!">    | I("Avatar")</span>
+<span class="line-precise" title="No Anys on this line!">    | I("thermonicolet")</span>
+<span class="line-precise" title="No Anys on this line!">    | I("pulsed")</span>
+<span class="line-precise" title="No Anys on this line!">    | I("Fourier")</span>
+<span class="line-precise" title="No Anys on this line!">    | I("transform")</span>
 <span class="line-empty" title="No Anys on this line!">)</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">instrument = (</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x7)">    I("spectrofluorimeter")</span>
+Unannotated (x6)">    I("spectrofluorimeter")</span>
+<span class="line-precise" title="No Anys on this line!">    | I("spectrophotometer")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x1)">    | I("spectrophotometer")</span>
-<span class="line-any" title="Any Types on this line: 
-Error (x2)
 Unannotated (x2)">    | Optional(I("fluorescence")) + I("spectrometer")</span>
 <span class="line-any" title="Any Types on this line: 
-Error (x2)
 Unannotated (x2)">    | Optional(I("nmr")) + I("workstation")</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x1)">    | W("NMR")</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x1)">    | I("instrument")</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x1)">    | I("spectrometer")</span>
+<span class="line-precise" title="No Anys on this line!">    | W("NMR")</span>
+<span class="line-precise" title="No Anys on this line!">    | I("instrument")</span>
+<span class="line-precise" title="No Anys on this line!">    | I("spectrometer")</span>
 <span class="line-empty" title="No Anys on this line!">)</span>
 <span class="line-any" title="Any Types on this line: 
-Error (x1)">apparatus = (</span>
+Unannotated (x1)">apparatus = (</span>
 <span class="line-any" title="Any Types on this line: 
-Error (x5)">    (</span>
+Unannotated (x5)">    (</span>
 <span class="line-any" title="Any Types on this line: 
-Error (x4)
-Unannotated (x3)">        ZeroOrMore(T("JJ"))</span>
+Unannotated (x7)">        ZeroOrMore(T("JJ"))</span>
 <span class="line-any" title="Any Types on this line: 
-Error (x1)
-Unannotated (x1)">        + Optional(apparatus_type)</span>
+Unannotated (x2)">        + Optional(apparatus_type)</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x8)">        + OneOrMore(T("NNP") | T("NN") | brands)</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x16)">        + ZeroOrMore(T("NNP") | T("NN") | T("HYPH") | T("CD") | brands | models)</span>
 <span class="line-any" title="Any Types on this line: 
-Error (x1)
-Unannotated (x1)">        + Optional(instrument)</span>
+Unannotated (x2)">        + Optional(instrument)</span>
 <span class="line-precise" title="No Anys on this line!">    )("apparatus")</span>
 <span class="line-precise" title="No Anys on this line!">    .add_action(join)</span>
-<span class="line-precise" title="Any Types on this line: 
-Unannotated (x4)">    .add_action(fix_whitespace)</span>
+<span class="line-precise" title="No Anys on this line!">    .add_action(fix_whitespace)</span>
 <span class="line-empty" title="No Anys on this line!">)</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x3)">apparatus_blacklist = R(</span>
+<span class="line-precise" title="No Anys on this line!">apparatus_blacklist = R(</span>
 <span class="line-precise" title="No Anys on this line!">    "^(following|usual|equation|standard|accepted|method|point|temperature|melting|boiling)$",</span>
 <span class="line-precise" title="No Anys on this line!">    re.I,</span>
 <span class="line-empty" title="No Anys on this line!">)</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">apparatus_phrase = (</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x10)">    (W("with") | W("using") | W("on")).hide()</span>
+Unannotated (x7)">    (W("with") | W("using") | W("on")).hide()</span>
 <span class="line-any" title="Any Types on this line: 
-Error (x3)">    + Optional(dt).hide()</span>
+Unannotated (x1)">    + Optional(dt).hide()</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">    + Not(apparatus_blacklist)</span>
 <span class="line-any" title="Any Types on this line: 
-Error (x1)">    + apparatus</span>
+Unannotated (x1)">    + apparatus</span>
 <span class="line-empty" title="No Anys on this line!">)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">class ApparatusParser(BaseSentenceParser):</span>
+<span class="line-empty" title="No Anys on this line!">    """Parser for scientific apparatus and instrument identification."""</span>
+<span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x2)">    root = apparatus_phrase</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-any" title="No Anys on this line!">    def interpret(self, result, start, end):</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x5)
-Unimported (x1)">        log.debug(etree.tostring(result))</span>
+Explicit (x1)">    def interpret(self, result: Any, start: int, end: int) -&gt; Generator[BaseModel, None, None]:</span>
+<span class="line-empty" title="No Anys on this line!">        """Interpret parsed apparatus results.</span>
+<span class="line-empty" title="No Anys on this line!"></span>
+<span class="line-empty" title="No Anys on this line!">        Args:</span>
+<span class="line-empty" title="No Anys on this line!">            result: Parsed result containing apparatus data</span>
+<span class="line-empty" title="No Anys on this line!">            start: Starting position in text</span>
+<span class="line-empty" title="No Anys on this line!">            end: Ending position in text</span>
+<span class="line-empty" title="No Anys on this line!"></span>
+<span class="line-empty" title="No Anys on this line!">        Yields:</span>
+<span class="line-empty" title="No Anys on this line!">            BaseModel instances containing apparatus information</span>
+<span class="line-empty" title="No Anys on this line!">        """</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x7)
-Omitted Generics (x2)">        apparatus = self.model(name=first(result.xpath("./text()")))</span>
+Unimported (x3)
+Explicit (x1)">        log.debug(etree.tostring(result))</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x5)">        log.debug(apparatus.serialize())</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x1)">        yield apparatus</span>
+Error (x2)
+Explicit (x6)">        apparatus = self.model(name=first(result.xpath("./text()")))</span>
+<span class="line-imprecise" title="Any Types on this line: 
+Explicit (x2)
+Error (x2)">        log.debug(apparatus.serialize())</span>
+<span class="line-imprecise" title="Any Types on this line: 
+Error (x1)">        yield apparatus</span>
 </pre></td>
 </tr></tbody>
 </table>

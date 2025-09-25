@@ -548,21 +548,35 @@
 <span id="L538" class="lineno"><a class="lineno" href="#L538">538</a></span>
 <span id="L539" class="lineno"><a class="lineno" href="#L539">539</a></span>
 <span id="L540" class="lineno"><a class="lineno" href="#L540">540</a></span>
+<span id="L541" class="lineno"><a class="lineno" href="#L541">541</a></span>
+<span id="L542" class="lineno"><a class="lineno" href="#L542">542</a></span>
+<span id="L543" class="lineno"><a class="lineno" href="#L543">543</a></span>
+<span id="L544" class="lineno"><a class="lineno" href="#L544">544</a></span>
+<span id="L545" class="lineno"><a class="lineno" href="#L545">545</a></span>
+<span id="L546" class="lineno"><a class="lineno" href="#L546">546</a></span>
+<span id="L547" class="lineno"><a class="lineno" href="#L547">547</a></span>
+<span id="L548" class="lineno"><a class="lineno" href="#L548">548</a></span>
 </pre></td>
-<td class="table-code"><pre><span class="line-empty" title="No Anys on this line!">"""_summary_</span>
-<span class="line-empty" title="No Anys on this line!">This module contains the implementation of a BERT-CRF tagger for named entity recognition (NER) using the ChemDataExtractor library.</span>
-<span class="line-empty" title="No Anys on this line!">It includes the configuration class `BertCrfConfig`, the tagger class `BertCrfTagger`, and the model class `BertCrfModel`.</span>
-<span class="line-empty" title="No Anys on this line!">The tagger class is responsible for processing and tagging sentences, while the model class defines the BERT-CRF architecture.</span>
+<td class="table-code"><pre><span class="line-empty" title="No Anys on this line!">"""BERT-CRF Named Entity Recognition Tagger.</span>
+<span class="line-empty" title="No Anys on this line!"></span>
+<span class="line-empty" title="No Anys on this line!">This module contains the implementation of a BERT-CRF tagger for named entity recognition (NER)</span>
+<span class="line-empty" title="No Anys on this line!">using the ChemDataExtractor library. It includes the configuration class `BertCrfConfig`,</span>
+<span class="line-empty" title="No Anys on this line!">the tagger class `BertCrfTagger`, and the model class `BertCrfModel`.</span>
+<span class="line-empty" title="No Anys on this line!"></span>
+<span class="line-empty" title="No Anys on this line!">The tagger class is responsible for processing and tagging sentences, while the model class</span>
+<span class="line-empty" title="No Anys on this line!">defines the BERT-CRF architecture.</span>
+<span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">Classes:</span>
 <span class="line-empty" title="No Anys on this line!">    BertCrfConfig: Configuration class for the BERT-CRF model.</span>
 <span class="line-empty" title="No Anys on this line!">    BertCrfTagger: Tagger class for named entity recognition using BERT-CRF.</span>
 <span class="line-empty" title="No Anys on this line!">    BertCrfModel: Model class defining the BERT-CRF architecture.</span>
-<span class="line-empty" title="No Anys on this line!">Functions:</span>
-<span class="line-empty" title="No Anys on this line!">    main: Main function to load the model, tokenize a sample sentence, and perform NER tagging.</span>
+<span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">Usage:</span>
-<span class="line-empty" title="No Anys on this line!">    To use this module, instantiate the `BertCrfTagger` class and call its `tag` or `batch_tag` methods with the input sentences.</span>
-<span class="line-empty" title="No Anys on this line!">    The `main` function provides an example of how to load the model and perform NER tagging on a sample sentence.</span>
+<span class="line-empty" title="No Anys on this line!">    To use this module, instantiate the `BertCrfTagger` class and call its `tag` or `batch_tag`</span>
+<span class="line-empty" title="No Anys on this line!">    methods with the input sentences.</span>
 <span class="line-empty" title="No Anys on this line!">"""</span>
+<span class="line-empty" title="No Anys on this line!"></span>
+<span class="line-precise" title="No Anys on this line!">from __future__ import annotations</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">import copy</span>
 <span class="line-precise" title="No Anys on this line!">import datetime</span>
@@ -1167,7 +1181,7 @@ Unannotated (x4)">            AutoConfig.from_pretrained(config.model_name_or_pa
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x3)">        self.num_tags = config.num_tags</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x3)">        self.tag_projection_layer = TimeDistributed(</span>
+Unannotated (x2)">        self.tag_projection_layer = TimeDistributed(</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x7)">            nn.Linear(self.bert_model.config.hidden_size, self.num_tags, bias=True)</span>
 <span class="line-empty" title="No Anys on this line!">        )</span>
@@ -1324,10 +1338,13 @@ Explicit (x1)">                if isinstance(output, torch.Tensor):</span>
 <span class="line-imprecise" title="Any Types on this line: 
 Error (x4)">                    output = output.detach().cpu().numpy()</span>
 <span class="line-any" title="Any Types on this line: 
-Error (x6)
+Error (x4)
 Unannotated (x2)
 Explicit (x9)
-Omitted Generics (x30)">                for instance_output, batch_element in zip(instance_separated_output, output, strict=False):</span>
+Omitted Generics (x30)">                for instance_output, batch_element in zip(</span>
+<span class="line-imprecise" title="Any Types on this line: 
+Error (x2)">                    instance_separated_output, output, strict=False</span>
+<span class="line-empty" title="No Anys on this line!">                ):</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x1)
 Error (x2)">                    instance_output[name] = batch_element</span>

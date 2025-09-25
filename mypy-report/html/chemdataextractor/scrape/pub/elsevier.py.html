@@ -399,8 +399,7 @@
 <span class="line-empty" title="No Anys on this line!">]</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">#: Substitutor that replaces ACS escape codes with the actual unicode character</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x1)">elsevier_substitute = Substitutor(CHAR_REPLACEMENTS)</span>
+<span class="line-precise" title="No Anys on this line!">elsevier_substitute = Substitutor(CHAR_REPLACEMENTS)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">class ElsevierSearchDocument(Entity):</span>
@@ -446,10 +445,8 @@ Unannotated (x2)">    entity = ElsevierSearchDocument</span>
 Unannotated (x5)">    caption = StringField('dd[id^="labelCaption"]')</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x5)">    image_url = StringField('a[class="S_C_full_size"]::attr("data-src")')</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x1)">    process_caption = Chain(elsevier_substitute, normalize)</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x1)">    process_image_url = LAdd("http://sciencedirect.com")</span>
+<span class="line-precise" title="No Anys on this line!">    process_caption = Chain(elsevier_substitute, normalize)</span>
+<span class="line-precise" title="No Anys on this line!">    process_image_url = LAdd("http://sciencedirect.com")</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">class ElsevierTableData(Entity):</span>
@@ -470,10 +467,8 @@ Unannotated (x5)">    column_headings = StringField("th", all=True)</span>
 Unannotated (x4)">    data = EntityField(ElsevierTableData, "tbody", all=True)</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x5)">    caption = StringField('div[class="caption"]', all=True)</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x1)">    process_title = Chain(elsevier_substitute, normalize)</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x1)">    process_title = Chain(elsevier_substitute, normalize)</span>
+<span class="line-precise" title="No Anys on this line!">    process_title = Chain(elsevier_substitute, normalize)</span>
+<span class="line-precise" title="No Anys on this line!">    process_title = Chain(elsevier_substitute, normalize)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">class ElsevierHtmlDocument(DocumentEntity):</span>
@@ -586,8 +581,7 @@ Unannotated (x5)">    citations = StringField("bib-reference", all=True)</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x4)">    tables = EntityField(ElsevierXmlTable, "table", all=True)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x4)">    process_abstract = Chain(LStrip(), RStrip(), LStrip("Abstract"))</span>
+<span class="line-precise" title="No Anys on this line!">    process_abstract = Chain(LStrip(), RStrip(), LStrip("Abstract"))</span>
 </pre></td>
 </tr></tbody>
 </table>

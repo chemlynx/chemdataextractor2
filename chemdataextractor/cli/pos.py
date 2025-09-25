@@ -142,9 +142,9 @@ def train(ctx, output, corpus, clusters):
                     genia_sents[i][j] = (token, "NN")  # Typo?
                 elif tag == "PP":
                     genia_sents[i][j] = (token, "PRP")  # Typo?
-                elif tag == "" and token == ")":
+                elif tag == "" and token == ")":  # nosec B105
                     genia_sents[i][j] = (token, "-RRB-")  # Typo?
-                elif tag == "" and token == "IFN-gamma":
+                elif tag == "" and token == "IFN-gamma":  # nosec B105
                     genia_sents[i][j] = (token, "NN")  # Typo?
                 elif "|" in tag:
                     genia_sents[i][j] = (
@@ -241,9 +241,9 @@ def train_perceptron(ctx, output, corpus, clusters):
                     genia_sents[i][j] = (token, "NN")  # Typo?
                 elif tag == "PP":
                     genia_sents[i][j] = (token, "PRP")  # Typo?
-                elif tag == "" and token == ")":
+                elif tag == "" and token == ")":  # nosec B105
                     genia_sents[i][j] = (token, "-RRB-")  # Typo?
-                elif tag == "" and token == "IFN-gamma":
+                elif tag == "" and token == "IFN-gamma":  # nosec B105
                     genia_sents[i][j] = (token, "NN")  # Typo?
                 elif "|" in tag:
                     genia_sents[i][j] = (

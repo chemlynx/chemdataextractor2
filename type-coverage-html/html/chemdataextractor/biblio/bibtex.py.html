@@ -218,17 +218,45 @@
 <span id="L208" class="lineno"><a class="lineno" href="#L208">208</a></span>
 <span id="L209" class="lineno"><a class="lineno" href="#L209">209</a></span>
 <span id="L210" class="lineno"><a class="lineno" href="#L210">210</a></span>
+<span id="L211" class="lineno"><a class="lineno" href="#L211">211</a></span>
+<span id="L212" class="lineno"><a class="lineno" href="#L212">212</a></span>
+<span id="L213" class="lineno"><a class="lineno" href="#L213">213</a></span>
+<span id="L214" class="lineno"><a class="lineno" href="#L214">214</a></span>
+<span id="L215" class="lineno"><a class="lineno" href="#L215">215</a></span>
+<span id="L216" class="lineno"><a class="lineno" href="#L216">216</a></span>
+<span id="L217" class="lineno"><a class="lineno" href="#L217">217</a></span>
+<span id="L218" class="lineno"><a class="lineno" href="#L218">218</a></span>
+<span id="L219" class="lineno"><a class="lineno" href="#L219">219</a></span>
+<span id="L220" class="lineno"><a class="lineno" href="#L220">220</a></span>
+<span id="L221" class="lineno"><a class="lineno" href="#L221">221</a></span>
+<span id="L222" class="lineno"><a class="lineno" href="#L222">222</a></span>
+<span id="L223" class="lineno"><a class="lineno" href="#L223">223</a></span>
+<span id="L224" class="lineno"><a class="lineno" href="#L224">224</a></span>
+<span id="L225" class="lineno"><a class="lineno" href="#L225">225</a></span>
+<span id="L226" class="lineno"><a class="lineno" href="#L226">226</a></span>
+<span id="L227" class="lineno"><a class="lineno" href="#L227">227</a></span>
+<span id="L228" class="lineno"><a class="lineno" href="#L228">228</a></span>
 </pre></td>
 <td class="table-code"><pre><span class="line-empty" title="No Anys on this line!">"""</span>
 <span class="line-empty" title="No Anys on this line!">BibTeX parser.</span>
 <span class="line-empty" title="No Anys on this line!"></span>
+<span class="line-empty" title="No Anys on this line!">Provides comprehensive BibTeX parsing functionality to convert BibTeX data</span>
+<span class="line-empty" title="No Anys on this line!">into structured Python dictionaries or JSON format.</span>
 <span class="line-empty" title="No Anys on this line!">"""</span>
+<span class="line-empty" title="No Anys on this line!"></span>
+<span class="line-precise" title="No Anys on this line!">from __future__ import annotations</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">import json</span>
 <span class="line-precise" title="No Anys on this line!">import re</span>
 <span class="line-precise" title="No Anys on this line!">from collections import OrderedDict</span>
+<span class="line-precise" title="No Anys on this line!">from collections.abc import Iterator</span>
+<span class="line-precise" title="No Anys on this line!">from typing import TYPE_CHECKING</span>
+<span class="line-precise" title="No Anys on this line!">from typing import Any</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">from ..text.latex import latex_to_unicode</span>
+<span class="line-empty" title="No Anys on this line!"></span>
+<span class="line-precise" title="No Anys on this line!">if TYPE_CHECKING:</span>
+<span class="line-precise" title="No Anys on this line!">    pass</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">class BibtexParser:</span>
@@ -246,7 +274,8 @@
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">    """</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-any" title="No Anys on this line!">    def __init__(self, data, **kwargs):</span>
+<span class="line-any" title="Any Types on this line: 
+Explicit (x1)">    def __init__(self, data: str, **kwargs: Any) -&gt; None:</span>
 <span class="line-empty" title="No Anys on this line!">        """Initialize BibtexParser with data.</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">        Optional metadata passed as keyword arguments will be included in the JSON output.</span>
@@ -259,240 +288,195 @@
 <span class="line-empty" title="No Anys on this line!">            bib = BibtexParser(data, created=unicode(datetime.utcnow()), owner='mcs07')</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">        """</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">        self.data = data</span>
+<span class="line-precise" title="No Anys on this line!">        self.data: str = data</span>
 <span class="line-imprecise" title="Any Types on this line: 
-Unannotated (x2)">        self.meta = kwargs</span>
-<span class="line-any" title="No Anys on this line!">        self._token = None</span>
-<span class="line-any" title="No Anys on this line!">        self.token_type = None</span>
-<span class="line-any" title="Any Types on this line: 
-Omitted Generics (x4)">        self._tokens = re.compile(r'([^\s"\'#%@{}()=,]+|\s|"|\'|#|%|@|{|}|\(|\)|=|,)').finditer(</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x1)">            self.data</span>
-<span class="line-empty" title="No Anys on this line!">        )</span>
-<span class="line-any" title="No Anys on this line!">        self.mode = None</span>
-<span class="line-precise" title="No Anys on this line!">        self.definitions = {}</span>
+Explicit (x2)">        self.meta: dict[str, Any] = kwargs</span>
+<span class="line-precise" title="No Anys on this line!">        self._token: str | None = None</span>
+<span class="line-precise" title="No Anys on this line!">        self.token_type: str | None = None</span>
 <span class="line-precise" title="Any Types on this line: 
-Omitted Generics (x25)">        self.records = OrderedDict()</span>
+Omitted Generics (x4)">        self._tokens: Iterator[re.Match[str]] = re.compile(</span>
+<span class="line-precise" title="No Anys on this line!">            r'([^\s"\'#%@{}()=,]+|\s|"|\'|#|%|@|{|}|\(|\)|=|,)'</span>
+<span class="line-precise" title="No Anys on this line!">        ).finditer(self.data)</span>
+<span class="line-precise" title="No Anys on this line!">        self.mode: str | None = None</span>
+<span class="line-precise" title="No Anys on this line!">        self.definitions: dict[str, str] = {}</span>
+<span class="line-imprecise" title="Any Types on this line: 
+Explicit (x2)
+Omitted Generics (x25)">        self.records: OrderedDict[str, dict[str, Any]] = OrderedDict()</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">        # Key name normalizations</span>
 <span class="line-precise" title="No Anys on this line!">        self.keynorms = {</span>
-<span class="line-any" title="No Anys on this line!">            "keyw": "keyword",</span>
-<span class="line-any" title="No Anys on this line!">            "keywords": "keyword",</span>
-<span class="line-any" title="No Anys on this line!">            "authors": "author",</span>
-<span class="line-any" title="No Anys on this line!">            "editors": "editor",</span>
-<span class="line-any" title="No Anys on this line!">            "url": "link",</span>
-<span class="line-any" title="No Anys on this line!">            "urls": "link",</span>
-<span class="line-any" title="No Anys on this line!">            "links": "link",</span>
-<span class="line-any" title="No Anys on this line!">            "subjects": "subject",</span>
+<span class="line-precise" title="No Anys on this line!">            "keyw": "keyword",</span>
+<span class="line-precise" title="No Anys on this line!">            "keywords": "keyword",</span>
+<span class="line-precise" title="No Anys on this line!">            "authors": "author",</span>
+<span class="line-precise" title="No Anys on this line!">            "editors": "editor",</span>
+<span class="line-precise" title="No Anys on this line!">            "url": "link",</span>
+<span class="line-precise" title="No Anys on this line!">            "urls": "link",</span>
+<span class="line-precise" title="No Anys on this line!">            "links": "link",</span>
+<span class="line-precise" title="No Anys on this line!">            "subjects": "subject",</span>
 <span class="line-empty" title="No Anys on this line!">        }</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-any" title="No Anys on this line!">    def _next_token(self, skipws=True):</span>
+<span class="line-precise" title="No Anys on this line!">    def _next_token(self, skipws: bool = True) -&gt; str:</span>
 <span class="line-empty" title="No Anys on this line!">        """Increment _token to the next token and return it."""</span>
-<span class="line-any" title="Any Types on this line: 
-Omitted Generics (x6)
-Unannotated (x1)">        self._token = next(self._tokens).group(0)</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x5)">        return self._next_token() if skipws and self._token.isspace() else self._token</span>
+<span class="line-precise" title="Any Types on this line: 
+Omitted Generics (x6)">        self._token = next(self._tokens).group(0)</span>
+<span class="line-precise" title="No Anys on this line!">        return self._next_token() if skipws and self._token.isspace() else self._token</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-any" title="No Anys on this line!">    def parse(self):</span>
+<span class="line-precise" title="No Anys on this line!">    def parse(self) -&gt; None:</span>
 <span class="line-empty" title="No Anys on this line!">        """Parse self.data and store the parsed BibTeX to self.records."""</span>
-<span class="line-any" title="No Anys on this line!">        while True:</span>
+<span class="line-precise" title="No Anys on this line!">        while True:</span>
 <span class="line-empty" title="No Anys on this line!">            try:</span>
 <span class="line-empty" title="No Anys on this line!">                # TODO: If self._next_token() == '%' skip to newline?</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x4)">                if self._next_token() == "@":</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">                    self._parse_entry()</span>
+<span class="line-precise" title="No Anys on this line!">                if self._next_token() == "@":</span>
+<span class="line-precise" title="No Anys on this line!">                    self._parse_entry()</span>
 <span class="line-precise" title="No Anys on this line!">            except StopIteration:</span>
-<span class="line-any" title="No Anys on this line!">                break</span>
+<span class="line-precise" title="No Anys on this line!">                break</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-any" title="No Anys on this line!">    def _parse_entry(self):</span>
+<span class="line-precise" title="No Anys on this line!">    def _parse_entry(self) -&gt; None:</span>
 <span class="line-empty" title="No Anys on this line!">        """Parse an entry."""</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x6)">        entry_type = self._next_token().lower()</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">        if entry_type == "string":</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            self._parse_string()</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x1)">        elif entry_type not in ["comment", "preamble"]:</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x4)">            self._parse_record(entry_type)</span>
+<span class="line-precise" title="No Anys on this line!">        entry_type = self._next_token().lower()</span>
+<span class="line-precise" title="No Anys on this line!">        if entry_type == "string":</span>
+<span class="line-precise" title="No Anys on this line!">            self._parse_string()</span>
+<span class="line-precise" title="No Anys on this line!">        elif entry_type not in ["comment", "preamble"]:</span>
+<span class="line-precise" title="No Anys on this line!">            self._parse_record(entry_type)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-any" title="No Anys on this line!">    def _parse_string(self):</span>
+<span class="line-precise" title="No Anys on this line!">    def _parse_string(self) -&gt; None:</span>
 <span class="line-empty" title="No Anys on this line!">        """Parse a string entry and store the definition."""</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x3)">        if self._next_token() in ["{", "("]:</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x3)">            field = self._parse_field()</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x1)">            if field:</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x6)">                self.definitions[field[0]] = field[1]</span>
+<span class="line-precise" title="No Anys on this line!">        if self._next_token() in ["{", "("]:</span>
+<span class="line-precise" title="No Anys on this line!">            field = self._parse_field()</span>
+<span class="line-precise" title="No Anys on this line!">            if field:</span>
+<span class="line-precise" title="No Anys on this line!">                self.definitions[field[0]] = field[1]</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-any" title="No Anys on this line!">    def _parse_record(self, record_type):</span>
+<span class="line-precise" title="No Anys on this line!">    def _parse_record(self, record_type: str) -&gt; None:</span>
 <span class="line-empty" title="No Anys on this line!">        """Parse a record."""</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x3)">        if self._next_token() in ["{", "("]:</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x4)">            key = self._next_token()</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x7)">            self.records[key] = {"id": key, "type": record_type.lower()}</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x4)">            if self._next_token() == ",":</span>
-<span class="line-any" title="No Anys on this line!">                while True:</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x3)">                    field = self._parse_field()</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x1)">                    if field:</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x6)">                        k, v = field[0], field[1]</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x1)">                        if k in self.keynorms:</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">                            k = self.keynorms[k]</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">                        if k == "pages":</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x6)">                            v = v.replace(" ", "").replace("--", "-")</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x5)">                        if k == "author" or k == "editor":</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x5)">                            v = self.parse_names(v)</span>
+<span class="line-precise" title="No Anys on this line!">        if self._next_token() in ["{", "("]:</span>
+<span class="line-precise" title="No Anys on this line!">            key = self._next_token()</span>
+<span class="line-imprecise" title="Any Types on this line: 
+Explicit (x1)">            self.records[key] = {"id": key, "type": record_type.lower()}</span>
+<span class="line-precise" title="No Anys on this line!">            if self._next_token() == ",":</span>
+<span class="line-precise" title="No Anys on this line!">                while True:</span>
+<span class="line-precise" title="No Anys on this line!">                    field = self._parse_field()</span>
+<span class="line-precise" title="No Anys on this line!">                    if field:</span>
+<span class="line-precise" title="No Anys on this line!">                        k, v = field[0], field[1]</span>
+<span class="line-precise" title="No Anys on this line!">                        if k in self.keynorms:</span>
+<span class="line-precise" title="No Anys on this line!">                            k = self.keynorms[k]</span>
+<span class="line-precise" title="No Anys on this line!">                        if k == "pages":</span>
+<span class="line-precise" title="No Anys on this line!">                            v = v.replace(" ", "").replace("--", "-")</span>
+<span class="line-precise" title="No Anys on this line!">                        if k == "author" or k == "editor":</span>
+<span class="line-precise" title="No Anys on this line!">                            v = self.parse_names(v)</span>
 <span class="line-empty" title="No Anys on this line!">                        # Recapitalizing the title generally causes more problems than it solves</span>
 <span class="line-empty" title="No Anys on this line!">                        # elif k == 'title':</span>
 <span class="line-empty" title="No Anys on this line!">                        #     v = latex_to_unicode(v, capitalize='title')</span>
 <span class="line-empty" title="No Anys on this line!">                        else:</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x6)">                            v = latex_to_unicode(v)</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x6)">                        self.records[key][k] = v</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">                    if self._token != ",":</span>
-<span class="line-any" title="No Anys on this line!">                        break</span>
+<span class="line-precise" title="No Anys on this line!">                            v = latex_to_unicode(v)</span>
+<span class="line-imprecise" title="Any Types on this line: 
+Explicit (x2)">                        self.records[key][k] = v</span>
+<span class="line-precise" title="No Anys on this line!">                    if self._token != ",":  # nosec B105</span>
+<span class="line-precise" title="No Anys on this line!">                        break</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-any" title="No Anys on this line!">    def _parse_field(self):</span>
+<span class="line-precise" title="No Anys on this line!">    def _parse_field(self) -&gt; tuple[str, str] | None:</span>
 <span class="line-empty" title="No Anys on this line!">        """Parse a Field."""</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x4)">        name = self._next_token()</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x4)">        if self._next_token() == "=":</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x3)">            value = self._parse_value()</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            return name, value</span>
+<span class="line-precise" title="No Anys on this line!">        name = self._next_token()</span>
+<span class="line-precise" title="No Anys on this line!">        if self._next_token() == "=":</span>
+<span class="line-precise" title="No Anys on this line!">            value = self._parse_value()</span>
+<span class="line-precise" title="No Anys on this line!">            return name, value</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-any" title="No Anys on this line!">    def _parse_value(self):</span>
+<span class="line-precise" title="No Anys on this line!">    def _parse_value(self) -&gt; str:</span>
 <span class="line-empty" title="No Anys on this line!">        """Parse a value. Digits, definitions, and the contents of double quotes or curly brackets."""</span>
 <span class="line-precise" title="No Anys on this line!">        val = []</span>
-<span class="line-any" title="No Anys on this line!">        while True:</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x4)">            t = self._next_token()</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            if t == '"':</span>
-<span class="line-any" title="No Anys on this line!">                brac_counter = 0</span>
-<span class="line-any" title="No Anys on this line!">                while True:</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x4)">                    t = self._next_token(skipws=False)</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">                    if t == "{":</span>
-<span class="line-any" title="No Anys on this line!">                        brac_counter += 1</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">                    if t == "}":</span>
-<span class="line-any" title="No Anys on this line!">                        brac_counter -= 1</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x3)">                    if t == '"' and brac_counter &lt;= 0:</span>
-<span class="line-any" title="No Anys on this line!">                        break</span>
+<span class="line-precise" title="No Anys on this line!">        while True:</span>
+<span class="line-precise" title="No Anys on this line!">            t = self._next_token()</span>
+<span class="line-precise" title="No Anys on this line!">            if t == '"':</span>
+<span class="line-precise" title="No Anys on this line!">                brac_counter = 0</span>
+<span class="line-precise" title="No Anys on this line!">                while True:</span>
+<span class="line-precise" title="No Anys on this line!">                    t = self._next_token(skipws=False)</span>
+<span class="line-precise" title="No Anys on this line!">                    if t == "{":</span>
+<span class="line-precise" title="No Anys on this line!">                        brac_counter += 1</span>
+<span class="line-precise" title="No Anys on this line!">                    if t == "}":</span>
+<span class="line-precise" title="No Anys on this line!">                        brac_counter -= 1</span>
+<span class="line-precise" title="No Anys on this line!">                    if t == '"' and brac_counter &lt;= 0:</span>
+<span class="line-precise" title="No Anys on this line!">                        break</span>
 <span class="line-empty" title="No Anys on this line!">                    else:</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x3)">                        val.append(t)</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            elif t == "{":</span>
-<span class="line-any" title="No Anys on this line!">                brac_counter = 0</span>
-<span class="line-any" title="No Anys on this line!">                while True:</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x4)">                    t = self._next_token(skipws=False)</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">                    if t == "{":</span>
-<span class="line-any" title="No Anys on this line!">                        brac_counter += 1</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">                    if t == "}":</span>
-<span class="line-any" title="No Anys on this line!">                        brac_counter -= 1</span>
-<span class="line-any" title="No Anys on this line!">                    if brac_counter &lt; 0:</span>
-<span class="line-any" title="No Anys on this line!">                        break</span>
+<span class="line-precise" title="No Anys on this line!">                        val.append(t)</span>
+<span class="line-precise" title="No Anys on this line!">            elif t == "{":</span>
+<span class="line-precise" title="No Anys on this line!">                brac_counter = 0</span>
+<span class="line-precise" title="No Anys on this line!">                while True:</span>
+<span class="line-precise" title="No Anys on this line!">                    t = self._next_token(skipws=False)</span>
+<span class="line-precise" title="No Anys on this line!">                    if t == "{":</span>
+<span class="line-precise" title="No Anys on this line!">                        brac_counter += 1</span>
+<span class="line-precise" title="No Anys on this line!">                    if t == "}":</span>
+<span class="line-precise" title="No Anys on this line!">                        brac_counter -= 1</span>
+<span class="line-precise" title="No Anys on this line!">                    if brac_counter &lt; 0:</span>
+<span class="line-precise" title="No Anys on this line!">                        break</span>
 <span class="line-empty" title="No Anys on this line!">                    else:</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x3)">                        val.append(t)</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x1)">            elif re.match(r"\w", t):</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x13)
+<span class="line-precise" title="No Anys on this line!">                        val.append(t)</span>
+<span class="line-precise" title="No Anys on this line!">            elif re.match(r"\w", t):</span>
+<span class="line-precise" title="Any Types on this line: 
 Omitted Generics (x2)">                val.extend([self.definitions.get(t, t), " "])</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x3)">            elif t.isdigit():</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x3)">                val.append([t, " "])</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            elif t == "#":</span>
-<span class="line-any" title="No Anys on this line!">                pass</span>
+<span class="line-precise" title="No Anys on this line!">            elif t.isdigit():</span>
+<span class="line-precise" title="No Anys on this line!">                val.append([t, " "])</span>
+<span class="line-precise" title="No Anys on this line!">            elif t == "#":</span>
+<span class="line-precise" title="No Anys on this line!">                pass</span>
 <span class="line-empty" title="No Anys on this line!">            else:</span>
-<span class="line-any" title="No Anys on this line!">                break</span>
+<span class="line-precise" title="No Anys on this line!">                break</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x1)">        value = " ".join("".join(val).split())</span>
+<span class="line-precise" title="No Anys on this line!">        value = " ".join("".join(val).split())</span>
 <span class="line-precise" title="No Anys on this line!">        return value</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">    @classmethod</span>
-<span class="line-any" title="No Anys on this line!">    def parse_names(cls, names):</span>
+<span class="line-precise" title="No Anys on this line!">    def parse_names(cls, names: str) -&gt; list[str]:</span>
 <span class="line-empty" title="No Anys on this line!">        """Parse a string of names separated by "and" like in a BibTeX authors field."""</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x6)">        names = [latex_to_unicode(n) for n in re.split(r"\sand\s(?=[^{}]*(?:\{|$))", names) if n]</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x1)">        return names</span>
+<span class="line-precise" title="No Anys on this line!">        names = [latex_to_unicode(n) for n in re.split(r"\sand\s(?=[^{}]*(?:\{|$))", names) if n]</span>
+<span class="line-precise" title="No Anys on this line!">        return names</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">    @property</span>
-<span class="line-any" title="No Anys on this line!">    def size(self):</span>
+<span class="line-precise" title="No Anys on this line!">    def size(self) -&gt; int:</span>
 <span class="line-empty" title="No Anys on this line!">        """Return the number of records parsed."""</span>
 <span class="line-imprecise" title="Any Types on this line: 
-Unannotated (x2)">        return len(self.records)</span>
+Explicit (x1)">        return len(self.records)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">    @property</span>
-<span class="line-any" title="No Anys on this line!">    def records_list(self):</span>
+<span class="line-imprecise" title="Any Types on this line: 
+Explicit (x1)">    def records_list(self) -&gt; list[dict[str, Any]]:</span>
 <span class="line-empty" title="No Anys on this line!">        """Return the records as a list of dictionaries."""</span>
 <span class="line-imprecise" title="Any Types on this line: 
-Unannotated (x7)
+Explicit (x4)
 Omitted Generics (x3)">        return list(self.records.values())</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">    @property</span>
-<span class="line-any" title="No Anys on this line!">    def metadata(self):</span>
+<span class="line-imprecise" title="Any Types on this line: 
+Explicit (x1)">    def metadata(self) -&gt; dict[str, Any]:</span>
 <span class="line-empty" title="No Anys on this line!">        """Return metadata for the parsed collection of records."""</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">        auto = {"records": self.size}</span>
+<span class="line-precise" title="No Anys on this line!">        auto = {"records": self.size}</span>
 <span class="line-imprecise" title="Any Types on this line: 
-Unannotated (x9)">        auto.update(self.meta)</span>
-<span class="line-imprecise" title="Any Types on this line: 
-Unannotated (x1)">        return auto</span>
+Explicit (x1)">        auto.update(self.meta)</span>
+<span class="line-precise" title="No Anys on this line!">        return auto</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">    @property</span>
-<span class="line-any" title="No Anys on this line!">    def json(self):</span>
+<span class="line-precise" title="No Anys on this line!">    def json(self) -&gt; str:</span>
 <span class="line-empty" title="No Anys on this line!">        """Return a list of records as a JSON string. Follows the BibJSON convention."""</span>
 <span class="line-any" title="Any Types on this line: 
 Explicit (x4)">        return json.dumps(</span>
-<span class="line-any" title="Any Types on this line: 
-Explicit (x2)
-Omitted Generics (x25)
-Unannotated (x7)">            OrderedDict([("metadata", self.metadata), ("records", self.records.values())])</span>
+<span class="line-imprecise" title="Any Types on this line: 
+Explicit (x6)
+Omitted Generics (x25)">            OrderedDict([("metadata", self.metadata), ("records", self.records.values())])</span>
 <span class="line-empty" title="No Anys on this line!">        )</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-any" title="No Anys on this line!">def parse_bibtex(data):</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x3)">    bib = BibtexParser(data)</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">    bib.parse()</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x1)">    return bib.records_list</span>
+<span class="line-imprecise" title="Any Types on this line: 
+Explicit (x1)">def parse_bibtex(data: str) -&gt; list[dict[str, Any]]:</span>
+<span class="line-empty" title="No Anys on this line!">    """Parse BibTeX data and return a list of records.</span>
+<span class="line-empty" title="No Anys on this line!"></span>
+<span class="line-empty" title="No Anys on this line!">    Args:</span>
+<span class="line-empty" title="No Anys on this line!">        data: BibTeX data string</span>
+<span class="line-empty" title="No Anys on this line!"></span>
+<span class="line-empty" title="No Anys on this line!">    Returns:</span>
+<span class="line-empty" title="No Anys on this line!">        List of parsed bibliography record dictionaries</span>
+<span class="line-empty" title="No Anys on this line!">    """</span>
+<span class="line-precise" title="Any Types on this line: 
+Explicit (x1)">    bib = BibtexParser(data)</span>
+<span class="line-precise" title="No Anys on this line!">    bib.parse()</span>
+<span class="line-imprecise" title="Any Types on this line: 
+Explicit (x1)">    return bib.records_list</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!"># TODO: Improvements to BibTexParser</span>

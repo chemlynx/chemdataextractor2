@@ -398,8 +398,6 @@
 <span id="L388" class="lineno"><a class="lineno" href="#L388">388</a></span>
 <span id="L389" class="lineno"><a class="lineno" href="#L389">389</a></span>
 <span id="L390" class="lineno"><a class="lineno" href="#L390">390</a></span>
-<span id="L391" class="lineno"><a class="lineno" href="#L391">391</a></span>
-<span id="L392" class="lineno"><a class="lineno" href="#L392">392</a></span>
 </pre></td>
 <td class="table-code"><pre><span class="line-empty" title="No Anys on this line!">"""</span>
 <span class="line-empty" title="No Anys on this line!">Commands for building a dictionary-based chemical named entity recognizer.</span>
@@ -518,9 +516,7 @@ Omitted Generics (x4)">BRACKET_RE = re.compile(r"^\(([^\(\)]+)\)$", re.I | re.U)
 <span class="line-empty" title="No Anys on this line!">}</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="Any Types on this line: 
-Omitted Generics (x4)">DOT_GREEK_RE = re.compile(</span>
-<span class="line-precise" title="No Anys on this line!">    r"\.({})\.".format("|".join(re.escape(s) for s in GREEK_WORDS)), re.U</span>
-<span class="line-empty" title="No Anys on this line!">)</span>
+Omitted Generics (x4)">DOT_GREEK_RE = re.compile(r"\.({})\.".format("|".join(re.escape(s) for s in GREEK_WORDS)), re.U)</span>
 <span class="line-precise" title="Any Types on this line: 
 Omitted Generics (x4)">GREEK_RE = re.compile(</span>
 <span class="line-precise" title="No Anys on this line!">    r"([\daA\W]|^)({})([\d\W]|$)".format("|".join(re.escape(s) for s in GREEK_WORDS)),</span>

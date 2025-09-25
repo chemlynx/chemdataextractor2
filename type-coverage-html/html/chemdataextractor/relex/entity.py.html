@@ -102,8 +102,6 @@
 <span id="L92" class="lineno"><a class="lineno" href="#L92">92</a></span>
 <span id="L93" class="lineno"><a class="lineno" href="#L93">93</a></span>
 <span id="L94" class="lineno"><a class="lineno" href="#L94">94</a></span>
-<span id="L95" class="lineno"><a class="lineno" href="#L95">95</a></span>
-<span id="L96" class="lineno"><a class="lineno" href="#L96">96</a></span>
 </pre></td>
 <td class="table-code"><pre><span class="line-empty" title="No Anys on this line!">"""</span>
 <span class="line-empty" title="No Anys on this line!">Entity objects for relationship extraction.</span>
@@ -116,8 +114,6 @@
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">import copy</span>
 <span class="line-precise" title="No Anys on this line!">from typing import TYPE_CHECKING</span>
-<span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-any" title="No Anys on this line!">import six</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">from ..parse import Group</span>
 <span class="line-precise" title="No Anys on this line!">from ..parse import join</span>
@@ -152,8 +148,7 @@ Unimported (x1)">    def __init__(</span>
 <span class="line-empty" title="No Anys on this line!">            start: Starting token index of the entity</span>
 <span class="line-empty" title="No Anys on this line!">            end: Ending token index of the entity</span>
 <span class="line-empty" title="No Anys on this line!">        """</span>
-<span class="line-any" title="Any Types on this line: 
-Unimported (x4)">        self.text = six.text_type(text)</span>
+<span class="line-precise" title="No Anys on this line!">        self.text = str(text)</span>
 <span class="line-precise" title="No Anys on this line!">        self.tag = tag</span>
 <span class="line-any" title="Any Types on this line: 
 Unimported (x5)">        self.parse_expression = copy.copy(parse_expression)</span>

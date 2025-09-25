@@ -244,7 +244,6 @@
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">import logging</span>
 <span class="line-precise" title="No Anys on this line!">from abc import abstractmethod</span>
-<span class="line-precise" title="No Anys on this line!">from abc import abstractproperty</span>
 <span class="line-precise" title="No Anys on this line!">from typing import TYPE_CHECKING</span>
 <span class="line-precise" title="No Anys on this line!">from typing import Any</span>
 <span class="line-empty" title="No Anys on this line!"></span>
@@ -294,7 +293,8 @@ Explicit (x1)">    allow_section_phrase: Any | None = None  # BaseParserElement<
 <span class="line-empty" title="No Anys on this line!">    that takes little time to process.</span>
 <span class="line-empty" title="No Anys on this line!">    """</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-empty" title="No Anys on this line!">    @abstractproperty</span>
+<span class="line-empty" title="No Anys on this line!">    @property</span>
+<span class="line-empty" title="No Anys on this line!">    @abstractmethod</span>
 <span class="line-any" title="Any Types on this line: 
 Explicit (x1)">    def root(self) -&gt; Any:</span>
 <span class="line-empty" title="No Anys on this line!">        """The root parsing element for this parser.</span>

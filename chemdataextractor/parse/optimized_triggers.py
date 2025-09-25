@@ -231,7 +231,7 @@ class FastTriggerMatcher:
                 token_strings.append(str(token))
 
         text = " ".join(token_strings).lower()
-        return hashlib.md5(text.encode()).hexdigest()[:16]
+        return hashlib.md5(text.encode(), usedforsecurity=False).hexdigest()[:16]
 
     def add_parser(self, parser: BaseParser) -> None:
         """Add parser to the matching system."""

@@ -409,7 +409,6 @@
 <span id="L399" class="lineno"><a class="lineno" href="#L399">399</a></span>
 <span id="L400" class="lineno"><a class="lineno" href="#L400">400</a></span>
 <span id="L401" class="lineno"><a class="lineno" href="#L401">401</a></span>
-<span id="L402" class="lineno"><a class="lineno" href="#L402">402</a></span>
 </pre></td>
 <td class="table-code"><pre><span class="line-empty" title="No Anys on this line!">"""</span>
 <span class="line-empty" title="No Anys on this line!">Commands for running evaluations.</span>
@@ -419,7 +418,7 @@
 <span class="line-precise" title="No Anys on this line!">import copy</span>
 <span class="line-precise" title="No Anys on this line!">import json</span>
 <span class="line-precise" title="No Anys on this line!">import logging</span>
-<span class="line-precise" title="No Anys on this line!">import os</span>
+<span class="line-precise" title="No Anys on this line!">from pathlib import Path</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">import click</span>
 <span class="line-empty" title="No Anys on this line!"></span>
@@ -447,7 +446,7 @@ Omitted Generics (x4)
 Explicit (x1)">@click.argument("input", type=click.File("r"))</span>
 <span class="line-any" title="No Anys on this line!">def run(input):</span>
 <span class="line-empty" title="No Anys on this line!">    """"""</span>
-<span class="line-empty" title="No Anys on this line!">    pub = os.path.basename(input.name).split(".", 1)[0]</span>
+<span class="line-empty" title="No Anys on this line!">    pub = Path(input.name).stem</span>
 <span class="line-empty" title="No Anys on this line!">    if pub == "rsc":</span>
 <span class="line-empty" title="No Anys on this line!">        reader = RscHtmlReader()</span>
 <span class="line-empty" title="No Anys on this line!">    elif pub == "acs":</span>
@@ -462,7 +461,8 @@ Explicit (x1)">@click.argument("input", type=click.File("r"))</span>
 <span class="line-empty" title="No Anys on this line!">    records = [</span>
 <span class="line-empty" title="No Anys on this line!">        record for record in records if record.keys() != ["names"] and record.keys() != ["labels"]</span>
 <span class="line-empty" title="No Anys on this line!">    ]</span>
-<span class="line-empty" title="No Anys on this line!">    with open(f"{os.path.splitext(input.name)[0]}-out.json", "w") as outf:</span>
+<span class="line-empty" title="No Anys on this line!">    output_path = Path(input.name).with_suffix("-out.json")</span>
+<span class="line-empty" title="No Anys on this line!">    with open(output_path, "w") as outf:</span>
 <span class="line-empty" title="No Anys on this line!">        json.dump(records, outf, indent=2)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!"></span>
@@ -807,23 +807,21 @@ Explicit (x11)">@evaluate.command()</span>
 <span class="line-any" title="No Anys on this line!">def compare():</span>
 <span class="line-empty" title="No Anys on this line!">    """"""</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-empty" title="No Anys on this line!">    edir = os.path.join(</span>
-<span class="line-empty" title="No Anys on this line!">        os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))),</span>
-<span class="line-empty" title="No Anys on this line!">        "data/cde-evaluation",</span>
-<span class="line-empty" title="No Anys on this line!">    )</span>
+<span class="line-empty" title="No Anys on this line!">    edir = Path(__file__).resolve().parents[3] / "data" / "cde-evaluation"</span>
 <span class="line-empty" title="No Anys on this line!">    for eval_name, transform in EVALS:</span>
 <span class="line-empty" title="No Anys on this line!">        print(f"Evaluation: {eval_name}")</span>
 <span class="line-empty" title="No Anys on this line!">        doc_count = 0</span>
 <span class="line-empty" title="No Anys on this line!">        tp, fp, fn = 0, 0, 0</span>
-<span class="line-empty" title="No Anys on this line!">        for filename in os.listdir(edir):</span>
-<span class="line-empty" title="No Anys on this line!">            filename = os.path.join(edir, filename)</span>
+<span class="line-empty" title="No Anys on this line!">        for file_path in edir.iterdir():</span>
+<span class="line-empty" title="No Anys on this line!">            filename = str(file_path)</span>
 <span class="line-empty" title="No Anys on this line!">            # print(filename)</span>
 <span class="line-empty" title="No Anys on this line!">            if filename.endswith("-out.json"):</span>
 <span class="line-empty" title="No Anys on this line!">                with open(filename) as outf:</span>
 <span class="line-empty" title="No Anys on this line!">                    out = json.load(outf)</span>
-<span class="line-empty" title="No Anys on this line!">                if not os.path.isfile(f"{filename[:-9]}-gold.json"):</span>
+<span class="line-empty" title="No Anys on this line!">                gold_file = Path(filename).with_name(Path(filename).stem[:-4] + "-gold.json")</span>
+<span class="line-empty" title="No Anys on this line!">                if not gold_file.is_file():</span>
 <span class="line-empty" title="No Anys on this line!">                    continue</span>
-<span class="line-empty" title="No Anys on this line!">                with open(f"{filename[:-9]}-gold.json") as goldf:</span>
+<span class="line-empty" title="No Anys on this line!">                with open(gold_file) as goldf:</span>
 <span class="line-empty" title="No Anys on this line!">                    gold = json.load(goldf)</span>
 <span class="line-empty" title="No Anys on this line!">                doctp, docfp, docfn = eval_document(gold, out, transform)</span>
 <span class="line-empty" title="No Anys on this line!">                doc_count += 1</span>

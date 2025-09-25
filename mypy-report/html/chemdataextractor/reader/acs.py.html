@@ -42,11 +42,27 @@
 <span id="L32" class="lineno"><a class="lineno" href="#L32">32</a></span>
 <span id="L33" class="lineno"><a class="lineno" href="#L33">33</a></span>
 <span id="L34" class="lineno"><a class="lineno" href="#L34">34</a></span>
+<span id="L35" class="lineno"><a class="lineno" href="#L35">35</a></span>
+<span id="L36" class="lineno"><a class="lineno" href="#L36">36</a></span>
+<span id="L37" class="lineno"><a class="lineno" href="#L37">37</a></span>
+<span id="L38" class="lineno"><a class="lineno" href="#L38">38</a></span>
+<span id="L39" class="lineno"><a class="lineno" href="#L39">39</a></span>
+<span id="L40" class="lineno"><a class="lineno" href="#L40">40</a></span>
+<span id="L41" class="lineno"><a class="lineno" href="#L41">41</a></span>
+<span id="L42" class="lineno"><a class="lineno" href="#L42">42</a></span>
+<span id="L43" class="lineno"><a class="lineno" href="#L43">43</a></span>
+<span id="L44" class="lineno"><a class="lineno" href="#L44">44</a></span>
+<span id="L45" class="lineno"><a class="lineno" href="#L45">45</a></span>
+<span id="L46" class="lineno"><a class="lineno" href="#L46">46</a></span>
 </pre></td>
 <td class="table-code"><pre><span class="line-empty" title="No Anys on this line!">"""</span>
 <span class="line-empty" title="No Anys on this line!">Readers for documents from the ACS.</span>
 <span class="line-empty" title="No Anys on this line!"></span>
+<span class="line-empty" title="No Anys on this line!">Provides specialized HTML reader for American Chemical Society (ACS) publications</span>
+<span class="line-empty" title="No Anys on this line!">with custom CSS selectors and cleaning rules.</span>
 <span class="line-empty" title="No Anys on this line!">"""</span>
+<span class="line-empty" title="No Anys on this line!"></span>
+<span class="line-precise" title="No Anys on this line!">from __future__ import annotations</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">from ..scrape.clean import Cleaner</span>
 <span class="line-precise" title="No Anys on this line!">from ..scrape.clean import clean</span>
@@ -73,13 +89,19 @@ Unannotated (x1)">clean_acs_html = Cleaner(kill_xpath='.//ul[@class="anchors"] |
 <span class="line-precise" title="No Anys on this line!">    citation_css = ".reference"</span>
 <span class="line-precise" title="No Anys on this line!">    ignore_css = 'a[href="JavaScript:void(0);"], a.ref sup'</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-any" title="No Anys on this line!">    def detect(self, fstring, fname=None):</span>
-<span class="line-empty" title="No Anys on this line!">        """"""</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x9)">        if fname and not (fname.endswith(".html") or fname.endswith(".htm")):</span>
-<span class="line-any" title="No Anys on this line!">            return False</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x1)">        return b'&lt;meta name="dc.Identifier" scheme="doi" content="10.1021/' in fstring</span>
+<span class="line-precise" title="No Anys on this line!">    def detect(self, fstring: str | bytes, fname: str | None = None) -&gt; bool:</span>
+<span class="line-empty" title="No Anys on this line!">        """Detect ACS HTML documents.</span>
+<span class="line-empty" title="No Anys on this line!"></span>
+<span class="line-empty" title="No Anys on this line!">        Args:</span>
+<span class="line-empty" title="No Anys on this line!">            fstring: Input data to check</span>
+<span class="line-empty" title="No Anys on this line!">            fname: Optional filename for format hints</span>
+<span class="line-empty" title="No Anys on this line!"></span>
+<span class="line-empty" title="No Anys on this line!">        Returns:</span>
+<span class="line-empty" title="No Anys on this line!">            True if this appears to be an ACS HTML document</span>
+<span class="line-empty" title="No Anys on this line!">        """</span>
+<span class="line-precise" title="No Anys on this line!">        if fname and not (fname.endswith(".html") or fname.endswith(".htm")):</span>
+<span class="line-precise" title="No Anys on this line!">            return False</span>
+<span class="line-precise" title="No Anys on this line!">        return b'&lt;meta name="dc.Identifier" scheme="doi" content="10.1021/' in fstring</span>
 </pre></td>
 </tr></tbody>
 </table>

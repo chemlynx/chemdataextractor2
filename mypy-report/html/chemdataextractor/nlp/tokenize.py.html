@@ -1979,6 +1979,13 @@
 <span id="L1969" class="lineno"><a class="lineno" href="#L1969">1969</a></span>
 <span id="L1970" class="lineno"><a class="lineno" href="#L1970">1970</a></span>
 <span id="L1971" class="lineno"><a class="lineno" href="#L1971">1971</a></span>
+<span id="L1972" class="lineno"><a class="lineno" href="#L1972">1972</a></span>
+<span id="L1973" class="lineno"><a class="lineno" href="#L1973">1973</a></span>
+<span id="L1974" class="lineno"><a class="lineno" href="#L1974">1974</a></span>
+<span id="L1975" class="lineno"><a class="lineno" href="#L1975">1975</a></span>
+<span id="L1976" class="lineno"><a class="lineno" href="#L1976">1976</a></span>
+<span id="L1977" class="lineno"><a class="lineno" href="#L1977">1977</a></span>
+<span id="L1978" class="lineno"><a class="lineno" href="#L1978">1978</a></span>
 </pre></td>
 <td class="table-code"><pre><span class="line-empty" title="No Anys on this line!">"""</span>
 <span class="line-empty" title="No Anys on this line!">Word and sentence tokenizers.</span>
@@ -3558,7 +3565,20 @@ Unannotated (x2)">            float(text)</span>
 <span class="line-any" title="No Anys on this line!">    def _is_saccharide_arrow(self, before, after):</span>
 <span class="line-empty" title="No Anys on this line!">        """Return True if the arrow is in a chemical name."""</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x27)">        return bool(before and after and before[-1].isdigit() and after[0].isdigit() and before.rstrip("0123456789").endswith("(") and after.lstrip("0123456789").startswith(")"))</span>
+Unannotated (x1)">        return bool(</span>
+<span class="line-any" title="Any Types on this line: 
+Unannotated (x6)">            before</span>
+<span class="line-any" title="Any Types on this line: 
+Unannotated (x1)">            and after</span>
+<span class="line-any" title="Any Types on this line: 
+Unannotated (x5)">            and before[-1].isdigit()</span>
+<span class="line-any" title="Any Types on this line: 
+Unannotated (x4)">            and after[0].isdigit()</span>
+<span class="line-any" title="Any Types on this line: 
+Unannotated (x5)">            and before.rstrip("0123456789").endswith("(")</span>
+<span class="line-any" title="Any Types on this line: 
+Unannotated (x5)">            and after.lstrip("0123456789").startswith(")")</span>
+<span class="line-empty" title="No Anys on this line!">        )</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="No Anys on this line!">    def _subspan(self, s, span, nextspan, additional_regex):</span>
 <span class="line-any" title="Any Types on this line: 
@@ -3874,9 +3894,9 @@ Unannotated (x2)">                if lowerafter == "nmr":</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">                    split = True  # Always split NMR off end</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x8)">                elif bracket_level(text) == 0 and (</span>
+Unannotated (x4)">                elif bracket_level(text) == 0 and (</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x15)">                    bracket_level(after) != 0 or bracket_level(before) != 0</span>
+Unannotated (x7)">                    bracket_level(after) != 0 or bracket_level(before) != 0</span>
 <span class="line-empty" title="No Anys on this line!">                ):</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">                    split = False  # Don't split if within brackets</span>

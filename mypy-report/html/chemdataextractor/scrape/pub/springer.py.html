@@ -280,8 +280,7 @@ Unannotated (x5)">    journal = StringField('meta[name="citation_journal_title"]
 <span class="line-empty" title="No Anys on this line!">    # figures = EntityField(ElsevierXmlImage, 'figure', all=True)</span>
 <span class="line-empty" title="No Anys on this line!">    # citations = StringField('//li[@class="Citation"]', xpath=True, all=True)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x1)">    process_html_url = RAdd(".html")</span>
+<span class="line-precise" title="No Anys on this line!">    process_html_url = RAdd(".html")</span>
 <span class="line-empty" title="No Anys on this line!">    # clean_headings = clean_springer_whitespace</span>
 <span class="line-empty" title="No Anys on this line!">    # clean_paragraphs = clean_springer_whitespace</span>
 <span class="line-empty" title="No Anys on this line!"></span>
@@ -300,8 +299,7 @@ Unannotated (x5)">    suffix = StringField("./suf", xpath=True, strip=True)</spa
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x5)">    email = StringField("./email", xpath=True, strip=True)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x1)">    process_email = Discard("")</span>
+<span class="line-precise" title="No Anys on this line!">    process_email = Discard("")</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">class SpringerXmlImage(Entity):</span>
@@ -395,18 +393,16 @@ Unannotated (x5)">    headings = StringField("/art/bdy//st", xpath=True, strip=T
 Unannotated (x5)">    paragraphs = StringField("/art/bdy//sec/p", xpath=True, strip=True, all=True)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">    clean_title = strip_springer_xml</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x3)">    clean_abstract = Chain(tidy_springer_references, strip_springer_abstract_xml)</span>
+<span class="line-precise" title="Any Types on this line: 
+Unannotated (x2)">    clean_abstract = Chain(tidy_springer_references, strip_springer_abstract_xml)</span>
 <span class="line-precise" title="No Anys on this line!">    clean_headings = strip_springer_xml</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x3)">    clean_paragraphs = Chain(tidy_springer_references, strip_springer_xml)</span>
+<span class="line-precise" title="Any Types on this line: 
+Unannotated (x2)">    clean_paragraphs = Chain(tidy_springer_references, strip_springer_xml)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">    process_abstract = normalize</span>
 <span class="line-precise" title="No Anys on this line!">    process_headings = normalize</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">    process_paragraphs = Chain(normalize, Discard(""))</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x3)">    process_license = Chain(LStrip("("), RStrip(")"))</span>
+<span class="line-precise" title="No Anys on this line!">    process_paragraphs = Chain(normalize, Discard(""))</span>
+<span class="line-precise" title="No Anys on this line!">    process_license = Chain(LStrip("("), RStrip(")"))</span>
 </pre></td>
 </tr></tbody>
 </table>

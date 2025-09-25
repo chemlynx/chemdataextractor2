@@ -89,7 +89,7 @@ class Pattern:
         elements = []
         prefix_tokens = self.elements["prefix"]["tokens"]
         for token in prefix_tokens:
-            if token == "<Blank>":
+            if token == "<Blank>":  # nosec B105
                 continue
             elements.append(I(token))
 
@@ -98,14 +98,14 @@ class Pattern:
         for middle in range(0, self.number_of_entities - 1):
             middle_tokens = self.elements["middle_" + str(middle + 1)]["tokens"]
             for token in middle_tokens:
-                if token == "<Blank>":
+                if token == "<Blank>":  # nosec B105
                     continue
                 elements.append(I(token))
             elements.append(self.entities[middle + 1].parse_expression)
 
         suffix_tokens = self.elements["suffix"]["tokens"]
         for token in suffix_tokens:
-            if token == "<Blank>":
+            if token == "<Blank>":  # nosec B105
                 continue
             elements.append(I(token))
 

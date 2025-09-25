@@ -143,6 +143,25 @@
 <span id="L133" class="lineno"><a class="lineno" href="#L133">133</a></span>
 <span id="L134" class="lineno"><a class="lineno" href="#L134">134</a></span>
 <span id="L135" class="lineno"><a class="lineno" href="#L135">135</a></span>
+<span id="L136" class="lineno"><a class="lineno" href="#L136">136</a></span>
+<span id="L137" class="lineno"><a class="lineno" href="#L137">137</a></span>
+<span id="L138" class="lineno"><a class="lineno" href="#L138">138</a></span>
+<span id="L139" class="lineno"><a class="lineno" href="#L139">139</a></span>
+<span id="L140" class="lineno"><a class="lineno" href="#L140">140</a></span>
+<span id="L141" class="lineno"><a class="lineno" href="#L141">141</a></span>
+<span id="L142" class="lineno"><a class="lineno" href="#L142">142</a></span>
+<span id="L143" class="lineno"><a class="lineno" href="#L143">143</a></span>
+<span id="L144" class="lineno"><a class="lineno" href="#L144">144</a></span>
+<span id="L145" class="lineno"><a class="lineno" href="#L145">145</a></span>
+<span id="L146" class="lineno"><a class="lineno" href="#L146">146</a></span>
+<span id="L147" class="lineno"><a class="lineno" href="#L147">147</a></span>
+<span id="L148" class="lineno"><a class="lineno" href="#L148">148</a></span>
+<span id="L149" class="lineno"><a class="lineno" href="#L149">149</a></span>
+<span id="L150" class="lineno"><a class="lineno" href="#L150">150</a></span>
+<span id="L151" class="lineno"><a class="lineno" href="#L151">151</a></span>
+<span id="L152" class="lineno"><a class="lineno" href="#L152">152</a></span>
+<span id="L153" class="lineno"><a class="lineno" href="#L153">153</a></span>
+<span id="L154" class="lineno"><a class="lineno" href="#L154">154</a></span>
 </pre></td>
 <td class="table-code"><pre><span class="line-empty" title="No Anys on this line!">"""</span>
 <span class="line-empty" title="No Anys on this line!">Readers for documents from Springer.</span>
@@ -181,13 +200,22 @@ Unannotated (x1)">clean_springer_html = Cleaner(fix_whitespace=True, strip_xpath
 <span class="line-precise" title="No Anys on this line!">    table_cell_css = "th, td"</span>
 <span class="line-precise" title="No Anys on this line!">    ignore_css = 'sub, sup, em[class^="EmphasisTypeItalic "], li[class="article-metrics__item"], div[class="CitationContent"]'</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-any" title="No Anys on this line!">    def detect(self, fstring, fname=None):</span>
-<span class="line-empty" title="No Anys on this line!">        """"""</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x9)">        if fname and not (fname.endswith(".html") or fname.endswith(".htm")):</span>
-<span class="line-any" title="No Anys on this line!">            return False</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x4)">        return bool(b'&lt;a class="footer-copyright_link" href="http://www.springernature.com"' in fstring or b'&lt;meta content="SpringerLink"' in fstring)</span>
+<span class="line-precise" title="No Anys on this line!">    def detect(self, fstring: str | bytes, fname: str | None = None) -&gt; bool:</span>
+<span class="line-empty" title="No Anys on this line!">        """Detect SpringerMaterials HTML documents.</span>
+<span class="line-empty" title="No Anys on this line!"></span>
+<span class="line-empty" title="No Anys on this line!">        Args:</span>
+<span class="line-empty" title="No Anys on this line!">            fstring: Input data to check</span>
+<span class="line-empty" title="No Anys on this line!">            fname: Optional filename for format hints</span>
+<span class="line-empty" title="No Anys on this line!"></span>
+<span class="line-empty" title="No Anys on this line!">        Returns:</span>
+<span class="line-empty" title="No Anys on this line!">            True if this appears to be a SpringerMaterials HTML document</span>
+<span class="line-empty" title="No Anys on this line!">        """</span>
+<span class="line-precise" title="No Anys on this line!">        if fname and not (fname.endswith(".html") or fname.endswith(".htm")):</span>
+<span class="line-precise" title="No Anys on this line!">            return False</span>
+<span class="line-precise" title="No Anys on this line!">        return bool(</span>
+<span class="line-precise" title="No Anys on this line!">            b'&lt;a class="footer-copyright_link" href="http://www.springernature.com"' in fstring</span>
+<span class="line-precise" title="No Anys on this line!">            or b'&lt;meta content="SpringerLink"' in fstring</span>
+<span class="line-empty" title="No Anys on this line!">        )</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="No Anys on this line!">    def _make_tree(self, fstring):</span>
 <span class="line-any" title="Any Types on this line: 
@@ -196,7 +224,7 @@ Unimported (x1)">        root = etree.fromstring(</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">            fstring,</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x7)
+Unannotated (x3)
 Unimported (x1)">            parser=HTMLParser(encoding=get_encoding(fstring, guesses="utf-8", is_html=True)),</span>
 <span class="line-empty" title="No Anys on this line!">        )</span>
 <span class="line-any" title="Any Types on this line: 
@@ -285,21 +313,25 @@ Unannotated (x2)">        fix_springer_table_whitespace,</span>
 <span class="line-empty" title="No Anys on this line!">                  div[class="EquationNumber"], footer'</span>
 <span class="line-empty" title="No Anys on this line!">    )</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-any" title="No Anys on this line!">    def detect(self, fstring, fname=None):</span>
-<span class="line-empty" title="No Anys on this line!">        """"""</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x9)">        if fname and not (fname.endswith(".html") or fname.endswith(".htm")):</span>
-<span class="line-any" title="No Anys on this line!">            return False</span>
+<span class="line-precise" title="No Anys on this line!">    def detect(self, fstring: str | bytes, fname: str | None = None) -&gt; bool:</span>
+<span class="line-empty" title="No Anys on this line!">        """Detect Springer HTML documents.</span>
+<span class="line-empty" title="No Anys on this line!"></span>
+<span class="line-empty" title="No Anys on this line!">        Args:</span>
+<span class="line-empty" title="No Anys on this line!">            fstring: Input data to check</span>
+<span class="line-empty" title="No Anys on this line!">            fname: Optional filename for format hints</span>
+<span class="line-empty" title="No Anys on this line!"></span>
+<span class="line-empty" title="No Anys on this line!">        Returns:</span>
+<span class="line-empty" title="No Anys on this line!">            True if this appears to be a Springer HTML document</span>
+<span class="line-empty" title="No Anys on this line!">        """</span>
+<span class="line-precise" title="No Anys on this line!">        if fname and not (fname.endswith(".html") or fname.endswith(".htm")):</span>
+<span class="line-precise" title="No Anys on this line!">            return False</span>
 <span class="line-empty" title="No Anys on this line!">        if (</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            b'&lt;meta content="Springer US" name="citation_publisher"' in fstring</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x1)">            or b'&lt;meta content="SpringerLink"' in fstring</span>
+<span class="line-precise" title="No Anys on this line!">            b'&lt;meta content="Springer US" name="citation_publisher"' in fstring</span>
+<span class="line-precise" title="No Anys on this line!">            or b'&lt;meta content="SpringerLink"' in fstring</span>
 <span class="line-empty" title="No Anys on this line!">        ):</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x1)">            print("springer HTML")</span>
-<span class="line-any" title="No Anys on this line!">            return True</span>
-<span class="line-any" title="No Anys on this line!">        return False</span>
+<span class="line-precise" title="No Anys on this line!">            print("springer HTML")</span>
+<span class="line-precise" title="No Anys on this line!">            return True</span>
+<span class="line-precise" title="No Anys on this line!">        return False</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="No Anys on this line!">    def _make_tree(self, fstring):</span>
 <span class="line-any" title="Any Types on this line: 
@@ -308,7 +340,7 @@ Unimported (x1)">        root = etree.fromstring(</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">            fstring,</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x7)
+Unannotated (x3)
 Unimported (x1)">            parser=HTMLParser(encoding=get_encoding(fstring, guesses="utf-8", is_html=True)),</span>
 <span class="line-empty" title="No Anys on this line!">        )</span>
 <span class="line-any" title="Any Types on this line: 

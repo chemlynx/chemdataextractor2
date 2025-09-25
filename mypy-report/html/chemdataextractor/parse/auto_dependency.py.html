@@ -547,6 +547,11 @@
 <span id="L537" class="lineno"><a class="lineno" href="#L537">537</a></span>
 <span id="L538" class="lineno"><a class="lineno" href="#L538">538</a></span>
 <span id="L539" class="lineno"><a class="lineno" href="#L539">539</a></span>
+<span id="L540" class="lineno"><a class="lineno" href="#L540">540</a></span>
+<span id="L541" class="lineno"><a class="lineno" href="#L541">541</a></span>
+<span id="L542" class="lineno"><a class="lineno" href="#L542">542</a></span>
+<span id="L543" class="lineno"><a class="lineno" href="#L543">543</a></span>
+<span id="L544" class="lineno"><a class="lineno" href="#L544">544</a></span>
 </pre></td>
 <td class="table-code"><pre><span class="line-empty" title="No Anys on this line!">"""</span>
 <span class="line-empty" title="No Anys on this line!">Parser for automatic parsing, without user-written parsing rules, implemeting the DepIE algorithm</span>
@@ -1057,9 +1062,18 @@ Unannotated (x6)">            chem_phrase.scan(sentence.tokens), subsentence=sen
 Unannotated (x1)">        chem_phrase_results = []</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x2)">        for result in unfiltered_chem_phrase_results:</span>
+<span class="line-empty" title="No Anys on this line!">            if (</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x17)
-Omitted Generics (x6)">            if isinstance(result.data, list) and result.data[0].tag == "compound" or not isinstance(result.data, list) and result.data.tag == "compound":</span>
+Unannotated (x5)
+Omitted Generics (x3)">                isinstance(result.data, list)</span>
+<span class="line-any" title="Any Types on this line: 
+Unannotated (x4)">                and result.data[0].tag == "compound"</span>
+<span class="line-any" title="Any Types on this line: 
+Unannotated (x4)
+Omitted Generics (x3)">                or not isinstance(result.data, list)</span>
+<span class="line-any" title="Any Types on this line: 
+Unannotated (x4)">                and result.data.tag == "compound"</span>
+<span class="line-empty" title="No Anys on this line!">            ):</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x4)">                chem_phrase_results.append(result)</span>
 <span class="line-any" title="Any Types on this line: 

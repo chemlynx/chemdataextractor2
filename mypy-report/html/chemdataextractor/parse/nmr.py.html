@@ -247,15 +247,38 @@
 <span id="L237" class="lineno"><a class="lineno" href="#L237">237</a></span>
 <span id="L238" class="lineno"><a class="lineno" href="#L238">238</a></span>
 <span id="L239" class="lineno"><a class="lineno" href="#L239">239</a></span>
+<span id="L240" class="lineno"><a class="lineno" href="#L240">240</a></span>
+<span id="L241" class="lineno"><a class="lineno" href="#L241">241</a></span>
+<span id="L242" class="lineno"><a class="lineno" href="#L242">242</a></span>
+<span id="L243" class="lineno"><a class="lineno" href="#L243">243</a></span>
+<span id="L244" class="lineno"><a class="lineno" href="#L244">244</a></span>
+<span id="L245" class="lineno"><a class="lineno" href="#L245">245</a></span>
+<span id="L246" class="lineno"><a class="lineno" href="#L246">246</a></span>
+<span id="L247" class="lineno"><a class="lineno" href="#L247">247</a></span>
+<span id="L248" class="lineno"><a class="lineno" href="#L248">248</a></span>
+<span id="L249" class="lineno"><a class="lineno" href="#L249">249</a></span>
+<span id="L250" class="lineno"><a class="lineno" href="#L250">250</a></span>
+<span id="L251" class="lineno"><a class="lineno" href="#L251">251</a></span>
+<span id="L252" class="lineno"><a class="lineno" href="#L252">252</a></span>
+<span id="L253" class="lineno"><a class="lineno" href="#L253">253</a></span>
+<span id="L254" class="lineno"><a class="lineno" href="#L254">254</a></span>
+<span id="L255" class="lineno"><a class="lineno" href="#L255">255</a></span>
 </pre></td>
 <td class="table-code"><pre><span class="line-empty" title="No Anys on this line!">"""</span>
 <span class="line-empty" title="No Anys on this line!">NMR text parser.</span>
 <span class="line-empty" title="No Anys on this line!"></span>
+<span class="line-empty" title="No Anys on this line!">Provides parsing capabilities for Nuclear Magnetic Resonance (NMR) spectroscopy data,</span>
+<span class="line-empty" title="No Anys on this line!">including chemical shifts, coupling constants, and peak multiplicities.</span>
 <span class="line-empty" title="No Anys on this line!">"""</span>
+<span class="line-empty" title="No Anys on this line!"></span>
+<span class="line-precise" title="No Anys on this line!">from __future__ import annotations</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">import copy</span>
 <span class="line-precise" title="No Anys on this line!">import logging</span>
 <span class="line-precise" title="No Anys on this line!">import re</span>
+<span class="line-precise" title="No Anys on this line!">from collections.abc import Generator</span>
+<span class="line-precise" title="No Anys on this line!">from typing import TYPE_CHECKING</span>
+<span class="line-precise" title="No Anys on this line!">from typing import Any</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">from ..utils import first</span>
 <span class="line-precise" title="No Anys on this line!">from .actions import fix_whitespace</span>
@@ -278,74 +301,56 @@
 <span class="line-precise" title="No Anys on this line!">from .elements import W</span>
 <span class="line-precise" title="No Anys on this line!">from .elements import ZeroOrMore</span>
 <span class="line-empty" title="No Anys on this line!"></span>
+<span class="line-precise" title="No Anys on this line!">if TYPE_CHECKING:</span>
+<span class="line-precise" title="No Anys on this line!">    from ..model.base import BaseModel</span>
+<span class="line-empty" title="No Anys on this line!"></span>
+<span class="line-empty" title="No Anys on this line!"># Type aliases for NMR parsing</span>
+<span class="line-precise" title="No Anys on this line!">TokenList = list[str]  # List of tokens</span>
+<span class="line-precise" title="No Anys on this line!">ParseResult = list[Any]  # List of XML elements from parsing</span>
+<span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">log = logging.getLogger(__name__)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x3)">number = R(r"^\d+(\.\d+)?$")</span>
+<span class="line-precise" title="No Anys on this line!">number = R(r"^\d+(\.\d+)?$")</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x4)">nucleus = (</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x29)">    (W("13C") + W("{") + W("1H") + W("}"))</span>
+Unannotated (x25)">    (W("13C") + W("{") + W("1H") + W("}"))</span>
+<span class="line-precise" title="No Anys on this line!">    | W("1H")</span>
+<span class="line-precise" title="No Anys on this line!">    | W("13C")</span>
+<span class="line-precise" title="No Anys on this line!">    | W("15N")</span>
+<span class="line-precise" title="No Anys on this line!">    | W("31P")</span>
+<span class="line-precise" title="No Anys on this line!">    | W("19F")</span>
+<span class="line-precise" title="No Anys on this line!">    | W("11B")</span>
+<span class="line-precise" title="No Anys on this line!">    | W("29Si")</span>
+<span class="line-precise" title="No Anys on this line!">    | W("17O")</span>
+<span class="line-precise" title="No Anys on this line!">    | W("73Ge")</span>
+<span class="line-precise" title="No Anys on this line!">    | W("195Pt")</span>
+<span class="line-precise" title="No Anys on this line!">    | W("33S")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x1)">    | W("1H")</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x1)">    | W("13C")</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x1)">    | W("15N")</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x1)">    | W("31P")</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x1)">    | W("19F")</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x1)">    | W("11B")</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x1)">    | W("29Si")</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x1)">    | W("17O")</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x1)">    | W("73Ge")</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x1)">    | W("195Pt")</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x1)">    | W("33S")</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x3)">    | W("13C{1H") + W("}")</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x1)">    | W("H1")</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x1)">    | W("C13")</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x1)">    | W("N15")</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x1)">    | W("P31")</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x1)">    | W("F19")</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x1)">    | W("B11")</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x1)">    | W("Si29")</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x1)">    | W("Ge73")</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x1)">    | W("Pt195")</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x1)">    | W("S33")</span>
-<span class="line-precise" title="Any Types on this line: 
-Unannotated (x4)">)("nucleus").add_action(merge)</span>
+Unannotated (x1)">    | W("13C{1H") + W("}")</span>
+<span class="line-precise" title="No Anys on this line!">    | W("H1")</span>
+<span class="line-precise" title="No Anys on this line!">    | W("C13")</span>
+<span class="line-precise" title="No Anys on this line!">    | W("N15")</span>
+<span class="line-precise" title="No Anys on this line!">    | W("P31")</span>
+<span class="line-precise" title="No Anys on this line!">    | W("F19")</span>
+<span class="line-precise" title="No Anys on this line!">    | W("B11")</span>
+<span class="line-precise" title="No Anys on this line!">    | W("Si29")</span>
+<span class="line-precise" title="No Anys on this line!">    | W("Ge73")</span>
+<span class="line-precise" title="No Anys on this line!">    | W("Pt195")</span>
+<span class="line-precise" title="No Anys on this line!">    | W("S33")</span>
+<span class="line-precise" title="No Anys on this line!">)("nucleus").add_action(merge)</span>
+<span class="line-empty" title="No Anys on this line!"></span>
+<span class="line-precise" title="No Anys on this line!">nmr_name = R(r"^N\.?M\.?R\.?\(?$", re.I).hide()</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x6)">nmr_name = R(r"^N\.?M\.?R\.?\(?$", re.I).hide()</span>
+Unannotated (x2)">nmr_name_with_nucleus = R(r"^(1H|13C)N\.?M\.?R\.?\(?$", re.I, group=1)("nucleus")</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x5)">nmr_name_with_nucleus = R(r"^(1H|13C)N\.?M\.?R\.?\(?$", re.I, group=1)("nucleus")</span>
+Unannotated (x5)">frequency = (number("value") + R("^M?Hz$")("units"))("frequency")</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x8)">frequency = (number("value") + R("^M?Hz$")("units"))("frequency")</span>
-<span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x6)">delim = R(r"^[;:,\./]$").hide()</span>
+<span class="line-precise" title="No Anys on this line!">delim = R(r"^[;:,\./]$").hide()</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">solvent = (</span>
@@ -354,124 +359,90 @@ Unannotated (x5)">    (</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x6)">        (nmr_solvent | chemical_name)</span>
 <span class="line-any" title="Any Types on this line: 
-Error (x1)
-Unannotated (x8)">        + Optional((R(r"^(\+|&amp;|and)$") | cc) + (nmr_solvent | chemical_name))</span>
+Unannotated (x6)">        + Optional((R(r"^(\+|&amp;|and)$") | cc) + (nmr_solvent | chemical_name))</span>
 <span class="line-any" title="Any Types on this line: 
-Error (x1)
-Unannotated (x5)">        + Optional(SkipTo(R(r"^([;:,\.\)]|at)$")))</span>
+Unannotated (x3)">        + Optional(SkipTo(R(r"^([;:,\.\)]|at)$")))</span>
 <span class="line-any" title="Any Types on this line: 
-Error (x3)
-Unannotated (x4)">        + Optional(Optional(delim) + I("solvent").hide())</span>
+Unannotated (x3)">        + Optional(Optional(delim) + I("solvent").hide())</span>
 <span class="line-precise" title="No Anys on this line!">    )("solvent")</span>
 <span class="line-precise" title="No Anys on this line!">    .add_action(join)</span>
-<span class="line-precise" title="Any Types on this line: 
-Unannotated (x4)">    .add_action(fix_whitespace)</span>
+<span class="line-precise" title="No Anys on this line!">    .add_action(fix_whitespace)</span>
 <span class="line-empty" title="No Anys on this line!">)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="Any Types on this line: 
-Error (x8)
-Unannotated (x9)">temp_value = (Optional(R(r"^[~∼\&lt;\&gt;]$")) + Optional(R(r"^[\-–−]$")) + R(r"^[\+\-–−]?\d+(\.\d+)?$"))(</span>
+Unannotated (x8)">temp_value = (Optional(R(r"^[~∼\&lt;\&gt;]$")) + Optional(R(r"^[\-–−]$")) + R(r"^[\+\-–−]?\d+(\.\d+)?$"))(</span>
 <span class="line-precise" title="No Anys on this line!">    "value"</span>
-<span class="line-precise" title="Any Types on this line: 
-Unannotated (x4)">).add_action(merge)</span>
+<span class="line-precise" title="No Anys on this line!">).add_action(merge)</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x13)">temp_word = (I("room") + R("^temp(erature)?$") | R(r"^r\.?t\.?$", re.I))("value").add_action(join)</span>
+Unannotated (x6)">temp_word = (I("room") + R("^temp(erature)?$") | R(r"^r\.?t\.?$", re.I))("value").add_action(join)</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x15)">temp_units = (W("°") + R("[CFK]") | W("K"))("units").add_action(merge)</span>
+Unannotated (x6)">temp_units = (W("°") + R("[CFK]") | W("K"))("units").add_action(merge)</span>
 <span class="line-any" title="Any Types on this line: 
-Error (x6)
-Unannotated (x7)">temperature = Optional(I("at").hide()) + Group((temp_value + temp_units) | temp_word)("temperature")</span>
+Unannotated (x10)">temperature = Optional(I("at").hide()) + Group((temp_value + temp_units) | temp_word)("temperature")</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-any" title="No Anys on this line!">def fix_nmr_peak_whitespace_error(tokens, start, result):</span>
-<span class="line-empty" title="No Anys on this line!">    """"""</span>
+<span class="line-precise" title="No Anys on this line!">def fix_nmr_peak_whitespace_error(</span>
+<span class="line-empty" title="No Anys on this line!">    tokens: TokenList, start: int, result: ParseResult</span>
+<span class="line-empty" title="No Anys on this line!">) -&gt; ParseResult:</span>
+<span class="line-empty" title="No Anys on this line!">    """Split comma-separated NMR peaks into individual peak elements."""</span>
+<span class="line-precise" title="No Anys on this line!">    new_result = []</span>
+<span class="line-precise" title="No Anys on this line!">    for e in result:</span>
+<span class="line-precise" title="No Anys on this line!">        shift = e.find("shift")</span>
+<span class="line-precise" title="No Anys on this line!">        if "," in shift.text:</span>
+<span class="line-precise" title="No Anys on this line!">            for peak_text in shift.text.split(","):</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x1)">    new_result = []</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">    for e in result:</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x4)">        shift = e.find("shift")</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">        if "," in shift.text:</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x5)">            for peak_text in shift.text.split(","):</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x3)
-Omitted Generics (x2)
 Explicit (x2)">                new_e = copy.deepcopy(e)</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x5)">                new_e.find("shift").text = peak_text</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x4)">                new_result.append(new_e)</span>
+<span class="line-precise" title="No Anys on this line!">                new_e.find("shift").text = peak_text</span>
+<span class="line-any" title="No Anys on this line!">                new_result.append(new_e)</span>
 <span class="line-empty" title="No Anys on this line!">        else:</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x4)">            new_result.append(e)</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x1)">    return new_result</span>
+<span class="line-any" title="No Anys on this line!">            new_result.append(e)</span>
+<span class="line-precise" title="No Anys on this line!">    return new_result</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-any" title="No Anys on this line!">def strip_delta(tokens, start, result):</span>
-<span class="line-empty" title="No Anys on this line!">    """"""</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">    for e in result:</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x4)">        for child in e.iter():</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x4)">            if child.text.startswith("δ"):</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x5)">                child.text = child.text[1:]</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x1)">    return result</span>
+<span class="line-precise" title="No Anys on this line!">def strip_delta(tokens: TokenList, start: int, result: ParseResult) -&gt; ParseResult:</span>
+<span class="line-empty" title="No Anys on this line!">    """Remove delta symbol (δ) from chemical shift values."""</span>
+<span class="line-precise" title="No Anys on this line!">    for e in result:</span>
+<span class="line-precise" title="No Anys on this line!">        for child in e.iter():</span>
+<span class="line-precise" title="No Anys on this line!">            if child.text.startswith("δ"):</span>
+<span class="line-precise" title="No Anys on this line!">                child.text = child.text[1:]</span>
+<span class="line-precise" title="No Anys on this line!">    return result</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="Any Types on this line: 
-Error (x4)">shift_range = (</span>
+Unannotated (x4)">shift_range = (</span>
 <span class="line-any" title="Any Types on this line: 
-Error (x2)
-Unannotated (x3)">    Optional(R(r"^[\-–−‒]$"))</span>
+Unannotated (x2)">    Optional(R(r"^[\-–−‒]$"))</span>
 <span class="line-empty" title="No Anys on this line!">    + (</span>
 <span class="line-any" title="Any Types on this line: 
-Error (x1)
-Unannotated (x3)">        R(r"^δ?[\+\-–−‒]?\d+(\.+\d+)?[\-–−‒]\d+(\.+\d+)?\.?$")</span>
+Unannotated (x1)">        R(r"^δ?[\+\-–−‒]?\d+(\.+\d+)?[\-–−‒]\d+(\.+\d+)?\.?$")</span>
 <span class="line-empty" title="No Anys on this line!">        | (</span>
 <span class="line-any" title="Any Types on this line: 
-Error (x2)
-Unannotated (x3)">            R(r"^[\+\-–−‒]?\d+(\.+\d+)?$")</span>
+Unannotated (x2)">            R(r"^[\+\-–−‒]?\d+(\.+\d+)?$")</span>
 <span class="line-any" title="Any Types on this line: 
-Error (x1)
-Unannotated (x3)">            + Optional(R(r"^[\-–−‒]$"))</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x3)">            + R(r"^[\+\-–−‒]?\d+(\.+\d+)?\.?$")</span>
+Unannotated (x1)">            + Optional(R(r"^[\-–−‒]$"))</span>
+<span class="line-precise" title="No Anys on this line!">            + R(r"^[\+\-–−‒]?\d+(\.+\d+)?\.?$")</span>
 <span class="line-empty" title="No Anys on this line!">        )</span>
 <span class="line-empty" title="No Anys on this line!">    )</span>
-<span class="line-precise" title="Any Types on this line: 
-Unannotated (x4)">)("shift").add_action(merge)</span>
+<span class="line-precise" title="No Anys on this line!">)("shift").add_action(merge)</span>
 <span class="line-any" title="Any Types on this line: 
-Error (x6)
 Unannotated (x6)">shift_value = (Optional(R(r"^[\-–−‒]$")) + R(r"^δ?[\+\-–−‒]?\d+(\.+\d+)?\.?$"))("shift").add_action(</span>
-<span class="line-precise" title="Any Types on this line: 
-Unannotated (x4)">    merge</span>
+<span class="line-precise" title="No Anys on this line!">    merge</span>
 <span class="line-empty" title="No Anys on this line!">)</span>
 <span class="line-any" title="Any Types on this line: 
-Error (x6)
 Unannotated (x6)">shift_error = (Optional(R(r"^[\-–−‒]$")) + R(r"^δ?[\+\-–−‒]?\d+(\.+\d+)?,\d+(\.+\d+)?\.?$"))(</span>
 <span class="line-precise" title="No Anys on this line!">    "shift"</span>
-<span class="line-precise" title="Any Types on this line: 
-Unannotated (x4)">).add_action(merge)</span>
+<span class="line-precise" title="No Anys on this line!">).add_action(merge)</span>
 <span class="line-any" title="Any Types on this line: 
-Error (x10)
-Unannotated (x8)">shift = (shift_range | shift_value | shift_error).add_action(strip_stop).add_action(strip_delta)</span>
+Unannotated (x10)">shift = (shift_range | shift_value | shift_error).add_action(strip_stop).add_action(strip_delta)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x3)">split = R(</span>
+<span class="line-precise" title="No Anys on this line!">split = R(</span>
 <span class="line-precise" title="No Anys on this line!">    "^(br?)?(s|S|d|D|t|T|q|Q|quint|sept|m|M|dd|ddd|dt|td|tt|br|bs|sb|h|ABq|broad|singlet|doublet|triplet|qua(rtet)?|quintet|septet|multiplet|multiple|peaks)$"</span>
 <span class="line-empty" title="No Anys on this line!">)</span>
 <span class="line-any" title="Any Types on this line: 
-Error (x6)
-Unannotated (x3)">multiplicity = (OneOrMore(split) + Optional(W("of") + split))("multiplicity").add_action(join)</span>
+Unannotated (x8)">multiplicity = (OneOrMore(split) + Optional(W("of") + split))("multiplicity").add_action(join)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x13)">coupling_value = (number + ZeroOrMore(R("^[,;&amp;]$") + number + Not(W("H"))))("value").add_action(</span>
+Unannotated (x9)">coupling_value = (number + ZeroOrMore(R("^[,;&amp;]$") + number + Not(W("H"))))("value").add_action(</span>
 <span class="line-precise" title="No Anys on this line!">    join</span>
 <span class="line-empty" title="No Anys on this line!">)</span>
 <span class="line-empty" title="No Anys on this line!"># coupling = ((R('^\d?J([HCNPFD\d,]*|cis|trans)$') + Optional(R('^[\-–−‒]$') + R('^[HCNPF\d]$')) + Optional('=')).hide() + coupling_value + Optional(W('Hz')('units')) + ZeroOrMore(R('^[,;&amp;]$').hide() + coupling_value + W('Hz')('units')))('coupling')</span>
@@ -480,131 +451,104 @@ Unannotated (x2)">coupling = (</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x5)">    (</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x6)">        R(r"^\d?J([HCNPFD\d,]*|cis|trans)$")</span>
+Unannotated (x3)">        R(r"^\d?J([HCNPFD\d,]*|cis|trans)$")</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x4)">        + ZeroOrMore(R(r"^J?([HCNPFD\d,]*|cis|trans)$"))</span>
+Unannotated (x1)">        + ZeroOrMore(R(r"^J?([HCNPFD\d,]*|cis|trans)$"))</span>
 <span class="line-any" title="Any Types on this line: 
-Error (x1)
-Unannotated (x7)">        + Optional(R(r"^[\-–−‒]$") + R(r"^[HCNPF\d]$"))</span>
+Unannotated (x2)">        + Optional(R(r"^[\-–−‒]$") + R(r"^[HCNPF\d]$"))</span>
 <span class="line-any" title="Any Types on this line: 
-Error (x1)">        + Optional("=")</span>
+Unannotated (x1)">        + Optional("=")</span>
 <span class="line-empty" title="No Anys on this line!">    ).hide()</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">    + coupling_value</span>
 <span class="line-any" title="Any Types on this line: 
-Error (x1)
 Unannotated (x2)">    + Optional(W("Hz")("units"))</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x11)">    + ZeroOrMore(R("^[,;&amp;]$").hide() + coupling_value + W("Hz")("units"))</span>
+Unannotated (x5)">    + ZeroOrMore(R("^[,;&amp;]$").hide() + coupling_value + W("Hz")("units"))</span>
 <span class="line-precise" title="No Anys on this line!">)("coupling")</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x14)">number = (R(r"^\d+(\.\d+)?[HCNPF]\.?$") | (R(r"^\d+(\.\d+)?$") + R(r"^[HCNPF]\.?$")))(</span>
+Unannotated (x5)">number = (R(r"^\d+(\.\d+)?[HCNPF]\.?$") | (R(r"^\d+(\.\d+)?$") + R(r"^[HCNPF]\.?$")))(</span>
 <span class="line-precise" title="No Anys on this line!">    "number"</span>
-<span class="line-precise" title="Any Types on this line: 
-Unannotated (x4)">).add_action(merge)</span>
+<span class="line-precise" title="No Anys on this line!">).add_action(merge)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="Any Types on this line: 
-Error (x4)">assignment_options = (</span>
+Unannotated (x4)">assignment_options = (</span>
 <span class="line-any" title="Any Types on this line: 
-Error (x1)
-Unannotated (x1)">    OneOrMore(</span>
+Unannotated (x2)">    OneOrMore(</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x6)">        R(r"([CNHOPS\-–−‒=]+\d*[A-Za-z]?′*)+")</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x1)">        | W("′")</span>
+Unannotated (x3)">        R(r"([CNHOPS\-–−‒=]+\d*[A-Za-z]?′*)+")</span>
+<span class="line-precise" title="No Anys on this line!">        | W("′")</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">        | chemical_name</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x3)">        | R(r"^(C?quat\.?|Ac|Ar|Ph|linker|bridge)$")</span>
+<span class="line-precise" title="No Anys on this line!">        | R(r"^(C?quat\.?|Ac|Ar|Ph|linker|bridge)$")</span>
 <span class="line-empty" title="No Anys on this line!">    )</span>
 <span class="line-any" title="Any Types on this line: 
-Error (x1)
-Unannotated (x5)">    + Optional(W("×") + R(r"^\d+$"))</span>
+Unannotated (x2)">    + Optional(W("×") + R(r"^\d+$"))</span>
 <span class="line-precise" title="No Anys on this line!">)("assignment").add_action(join)</span>
 <span class="line-any" title="Any Types on this line: 
-Error (x6)
 Unannotated (x6)">assignment = Optional(R(r"^\d{1,2}$")("number") + Optional(W("×")).hide()) + (</span>
 <span class="line-any" title="Any Types on this line: 
-Error (x3)
-Unannotated (x6)">    assignment_options + ZeroOrMore(T("CC").hide() + assignment_options)</span>
+Unannotated (x7)">    assignment_options + ZeroOrMore(T("CC").hide() + assignment_options)</span>
 <span class="line-empty" title="No Anys on this line!">)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x11)">note = (W("overlapped") | (W("×") + R(r"^\d+$")))("note").add_action(join)</span>
+Unannotated (x6)">note = (W("overlapped") | (W("×") + R(r"^\d+$")))("note").add_action(join)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="Any Types on this line: 
-Error (x7)
-Unannotated (x3)">peak_meta_options = multiplicity | coupling | number | assignment | note</span>
+Unannotated (x10)">peak_meta_options = multiplicity | coupling | number | assignment | note</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">peak_meta = (</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x7)">    W("(").hide()</span>
+Unannotated (x4)">    W("(").hide()</span>
 <span class="line-any" title="Any Types on this line: 
-Error (x1)">    + peak_meta_options</span>
+Unannotated (x1)">    + peak_meta_options</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x3)
-Error (x2)">    + ZeroOrMore(ZeroOrMore(delim) + peak_meta_options)</span>
+Unannotated (x4)">    + ZeroOrMore(ZeroOrMore(delim) + peak_meta_options)</span>
 <span class="line-any" title="Any Types on this line: 
-Error (x1)
 Unannotated (x1)">    + Optional(delim)</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x3)">    + W(")").hide()</span>
+<span class="line-precise" title="No Anys on this line!">    + W(")").hide()</span>
 <span class="line-empty" title="No Anys on this line!">)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="Any Types on this line: 
-Error (x5)
-Unannotated (x3)">delta = (R("^[δd][HCNPF]?$") + Optional(equals)).hide()</span>
+Unannotated (x5)">delta = (R("^[δd][HCNPF]?$") + Optional(equals)).hide()</span>
 <span class="line-any" title="Any Types on this line: 
-Error (x7)
-Unannotated (x8)">ppm = Optional(R(r"^[(\[]$")) + Optional(I("in")) + I("ppm") + Optional(R(r"^[)\]]$"))</span>
+Unannotated (x7)">ppm = Optional(R(r"^[(\[]$")) + Optional(I("in")) + I("ppm") + Optional(R(r"^[)\]]$"))</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="Any Types on this line: 
-Error (x1)">spectrum_meta = (</span>
+Unannotated (x1)">spectrum_meta = (</span>
 <span class="line-any" title="Any Types on this line: 
-Error (x5)
-Unannotated (x3)">    Optional(W("(").hide())</span>
+Unannotated (x5)">    Optional(W("(").hide())</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x5)
-Error (x2)">    + (frequency | solvent | delta | temperature)</span>
+Unannotated (x7)">    + (frequency | solvent | delta | temperature)</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x9)
-Error (x4)">    + ZeroOrMore(Optional(delim) + (frequency | solvent | I("ppm") | delta | temperature))</span>
+Unannotated (x11)">    + ZeroOrMore(Optional(delim) + (frequency | solvent | I("ppm") | delta | temperature))</span>
 <span class="line-any" title="Any Types on this line: 
-Error (x2)">    + Optional(temperature)</span>
+Unannotated (x2)">    + Optional(temperature)</span>
 <span class="line-any" title="Any Types on this line: 
-Error (x1)
-Unannotated (x3)">    + Optional(W(")").hide())</span>
+Unannotated (x1)">    + Optional(W(")").hide())</span>
 <span class="line-empty" title="No Anys on this line!">)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="Any Types on this line: 
-Error (x10)
-Unannotated (x3)">prelude_options = spectrum_meta | delta | delim | ppm.hide() | equals.hide()</span>
+Unannotated (x10)">prelude_options = spectrum_meta | delta | delim | ppm.hide() | equals.hide()</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x2)">prelude = (</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x10)
-Error (x3)">    (nucleus + Optional(R(r"^[\-–−‒]$")).hide() + nmr_name | nmr_name_with_nucleus)</span>
+Unannotated (x7)">    (nucleus + Optional(R(r"^[\-–−‒]$")).hide() + nmr_name | nmr_name_with_nucleus)</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x1)
-Error (x1)">    + ZeroOrMore(prelude_options)</span>
+Unannotated (x2)">    + ZeroOrMore(prelude_options)</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x7)
-Error (x2)">) | (R("^δ[HC]?$")("nucleus") + spectrum_meta + ZeroOrMore(prelude_options))</span>
+Unannotated (x6)">) | (R("^δ[HC]?$")("nucleus") + spectrum_meta + ZeroOrMore(prelude_options))</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="Any Types on this line: 
-Error (x16)
-Unannotated (x5)">peak = Optional(delta) + (shift + Not(R("^M?Hz$")) + Optional(ppm).hide() + Optional(peak_meta))(</span>
+Unannotated (x16)">peak = Optional(delta) + (shift + Not(R("^M?Hz$")) + Optional(ppm).hide() + Optional(peak_meta))(</span>
 <span class="line-precise" title="No Anys on this line!">    "peak"</span>
-<span class="line-precise" title="Any Types on this line: 
-Unannotated (x4)">).add_action(fix_nmr_peak_whitespace_error)</span>
+<span class="line-precise" title="No Anys on this line!">).add_action(fix_nmr_peak_whitespace_error)</span>
 <span class="line-any" title="Any Types on this line: 
-Error (x5)
-Unannotated (x8)">peaks = (peak + ZeroOrMore(ZeroOrMore(delim | W("and")).hide() + peak))("peaks")</span>
+Unannotated (x9)">peaks = (peak + ZeroOrMore(ZeroOrMore(delim | W("and")).hide() + peak))("peaks")</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x4)
-Error (x1)">nmr = (prelude + peaks)("nmr")</span>
+Unannotated (x5)">nmr = (prelude + peaks)("nmr")</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">class NmrParser(BaseSentenceParser):</span>
@@ -614,66 +558,57 @@ Error (x1)">nmr = (prelude + peaks)("nmr")</span>
 Unannotated (x2)">    root = nmr</span>
 <span class="line-precise" title="No Anys on this line!">    parse_full_sentence = True</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-any" title="No Anys on this line!">    def __init__(self):</span>
-<span class="line-any" title="No Anys on this line!">        pass</span>
-<span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-any" title="No Anys on this line!">    def interpret(self, result, start, end):</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x6)">        c = self.model.fields["compound"].model_class()</span>
+<span class="line-precise" title="No Anys on this line!">    def __init__(self) -&gt; None:</span>
+<span class="line-precise" title="No Anys on this line!">        pass</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x3)">        n = self.model(</span>
+Explicit (x1)">    def interpret(self, result: Any, start: int, end: int) -&gt; Generator[BaseModel, None, None]:</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x4)
-Omitted Generics (x2)">            nucleus=first(result.xpath("./nucleus/text()")),</span>
+Error (x5)
+Omitted Generics (x2)">        c = self.model.fields["compound"].model_class()</span>
+<span class="line-empty" title="No Anys on this line!"></span>
+<span class="line-imprecise" title="Any Types on this line: 
+Error (x2)">        n = self.model(</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x4)
-Omitted Generics (x2)">            solvent=first(result.xpath("./solvent/text()")),</span>
+Explicit (x6)">            nucleus=first(result.xpath("./nucleus/text()")),</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x4)
-Omitted Generics (x2)">            frequency=first(result.xpath("./frequency/value/text()")),</span>
+Explicit (x6)">            solvent=first(result.xpath("./solvent/text()")),</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x4)
-Omitted Generics (x2)">            frequency_units=first(result.xpath("./frequency/units/text()")),</span>
+Explicit (x6)">            frequency=first(result.xpath("./frequency/value/text()")),</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x4)
-Omitted Generics (x2)">            temperature=first(result.xpath("./temperature/value/text()")),</span>
+Explicit (x6)">            frequency_units=first(result.xpath("./frequency/units/text()")),</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x4)
-Omitted Generics (x2)">            temperature_units=first(result.xpath("./temperature/units/text()")),</span>
+Explicit (x6)">            temperature=first(result.xpath("./temperature/value/text()")),</span>
+<span class="line-any" title="Any Types on this line: 
+Explicit (x6)">            temperature_units=first(result.xpath("./temperature/units/text()")),</span>
 <span class="line-empty" title="No Anys on this line!">        )</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x6)">        peak_model = self.model.fields["peaks"].field.model_class</span>
+Error (x5)
+Omitted Generics (x2)">        peak_model = self.model.fields["peaks"].field.model_class</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x4)">        for peak_result in result.xpath("./peaks/peak"):</span>
+Explicit (x4)">        for peak_result in result.xpath("./peaks/peak"):</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x3)">            nmr_peak = peak_model(</span>
+Error (x3)">            nmr_peak = peak_model(</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x4)
-Omitted Generics (x2)">                shift=first(peak_result.xpath("./shift/text()")),</span>
+Explicit (x6)">                shift=first(peak_result.xpath("./shift/text()")),</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x4)
-Omitted Generics (x2)">                multiplicity=first(peak_result.xpath("./multiplicity/text()")),</span>
+Explicit (x6)">                multiplicity=first(peak_result.xpath("./multiplicity/text()")),</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x4)
-Omitted Generics (x2)">                coupling=first(peak_result.xpath("./coupling/value/text()")),</span>
+Explicit (x6)">                coupling=first(peak_result.xpath("./coupling/value/text()")),</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x4)
-Omitted Generics (x2)">                coupling_units=first(peak_result.xpath("./coupling/units/text()")),</span>
+Explicit (x6)">                coupling_units=first(peak_result.xpath("./coupling/units/text()")),</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x4)
-Omitted Generics (x2)">                number=first(peak_result.xpath("./number/text()")),</span>
+Explicit (x6)">                number=first(peak_result.xpath("./number/text()")),</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x4)
-Omitted Generics (x2)">                assignment=first(peak_result.xpath("./assignment/text()")),</span>
+Explicit (x6)">                assignment=first(peak_result.xpath("./assignment/text()")),</span>
 <span class="line-empty" title="No Anys on this line!">            )</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x5)">            n.peaks.append(nmr_peak)</span>
+Error (x5)">            n.peaks.append(nmr_peak)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x3)">        n.compound = c</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x1)">        yield n</span>
+Error (x3)">        n.compound = c</span>
+<span class="line-imprecise" title="Any Types on this line: 
+Error (x1)">        yield n</span>
 </pre></td>
 </tr></tbody>
 </table>

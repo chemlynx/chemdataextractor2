@@ -215,7 +215,7 @@ Unannotated (x3)">        self.parse_expression = self.generate_cde_parse_expres
 <span class="line-empty" title="No Anys on this line!">        elements = []</span>
 <span class="line-empty" title="No Anys on this line!">        prefix_tokens = self.elements["prefix"]["tokens"]</span>
 <span class="line-empty" title="No Anys on this line!">        for token in prefix_tokens:</span>
-<span class="line-empty" title="No Anys on this line!">            if token == "&lt;Blank&gt;":</span>
+<span class="line-empty" title="No Anys on this line!">            if token == "&lt;Blank&gt;":  # nosec B105</span>
 <span class="line-empty" title="No Anys on this line!">                continue</span>
 <span class="line-empty" title="No Anys on this line!">            elements.append(I(token))</span>
 <span class="line-empty" title="No Anys on this line!"></span>
@@ -224,14 +224,14 @@ Unannotated (x3)">        self.parse_expression = self.generate_cde_parse_expres
 <span class="line-empty" title="No Anys on this line!">        for middle in range(0, self.number_of_entities - 1):</span>
 <span class="line-empty" title="No Anys on this line!">            middle_tokens = self.elements["middle_" + str(middle + 1)]["tokens"]</span>
 <span class="line-empty" title="No Anys on this line!">            for token in middle_tokens:</span>
-<span class="line-empty" title="No Anys on this line!">                if token == "&lt;Blank&gt;":</span>
+<span class="line-empty" title="No Anys on this line!">                if token == "&lt;Blank&gt;":  # nosec B105</span>
 <span class="line-empty" title="No Anys on this line!">                    continue</span>
 <span class="line-empty" title="No Anys on this line!">                elements.append(I(token))</span>
 <span class="line-empty" title="No Anys on this line!">            elements.append(self.entities[middle + 1].parse_expression)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">        suffix_tokens = self.elements["suffix"]["tokens"]</span>
 <span class="line-empty" title="No Anys on this line!">        for token in suffix_tokens:</span>
-<span class="line-empty" title="No Anys on this line!">            if token == "&lt;Blank&gt;":</span>
+<span class="line-empty" title="No Anys on this line!">            if token == "&lt;Blank&gt;":  # nosec B105</span>
 <span class="line-empty" title="No Anys on this line!">                continue</span>
 <span class="line-empty" title="No Anys on this line!">            elements.append(I(token))</span>
 <span class="line-empty" title="No Anys on this line!"></span>

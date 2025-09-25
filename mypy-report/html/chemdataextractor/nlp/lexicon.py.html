@@ -275,11 +275,24 @@
 <span id="L265" class="lineno"><a class="lineno" href="#L265">265</a></span>
 <span id="L266" class="lineno"><a class="lineno" href="#L266">266</a></span>
 <span id="L267" class="lineno"><a class="lineno" href="#L267">267</a></span>
+<span id="L268" class="lineno"><a class="lineno" href="#L268">268</a></span>
+<span id="L269" class="lineno"><a class="lineno" href="#L269">269</a></span>
+<span id="L270" class="lineno"><a class="lineno" href="#L270">270</a></span>
+<span id="L271" class="lineno"><a class="lineno" href="#L271">271</a></span>
+<span id="L272" class="lineno"><a class="lineno" href="#L272">272</a></span>
+<span id="L273" class="lineno"><a class="lineno" href="#L273">273</a></span>
+<span id="L274" class="lineno"><a class="lineno" href="#L274">274</a></span>
+<span id="L275" class="lineno"><a class="lineno" href="#L275">275</a></span>
 </pre></td>
 <td class="table-code"><pre><span class="line-empty" title="No Anys on this line!">"""</span>
 <span class="line-empty" title="No Anys on this line!">Cache features of previously seen words.</span>
 <span class="line-empty" title="No Anys on this line!"></span>
+<span class="line-empty" title="No Anys on this line!">Provides lexicon classes for caching and analyzing word features,</span>
+<span class="line-empty" title="No Anys on this line!">including morphological, orthographic, and cluster-based features</span>
+<span class="line-empty" title="No Anys on this line!">for natural language processing tasks.</span>
 <span class="line-empty" title="No Anys on this line!">"""</span>
+<span class="line-empty" title="No Anys on this line!"></span>
+<span class="line-precise" title="No Anys on this line!">from __future__ import annotations</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">import logging</span>
 <span class="line-empty" title="No Anys on this line!"></span>
@@ -297,7 +310,7 @@
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">class Lexeme:</span>
-<span class="line-empty" title="No Anys on this line!">    """"""</span>
+<span class="line-empty" title="No Anys on this line!">    """Represents a word with cached morphological and orthographic features."""</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">    __slots__ = (</span>
 <span class="line-precise" title="No Anys on this line!">        "text",</span>
@@ -323,307 +336,236 @@
 <span class="line-precise" title="No Anys on this line!">        "cluster",</span>
 <span class="line-empty" title="No Anys on this line!">    )</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-any" title="No Anys on this line!">    def __init__(</span>
+<span class="line-precise" title="No Anys on this line!">    def __init__(</span>
 <span class="line-empty" title="No Anys on this line!">        self,</span>
-<span class="line-empty" title="No Anys on this line!">        text,</span>
-<span class="line-empty" title="No Anys on this line!">        normalized,</span>
-<span class="line-empty" title="No Anys on this line!">        lower,</span>
-<span class="line-empty" title="No Anys on this line!">        first,</span>
-<span class="line-empty" title="No Anys on this line!">        suffix,</span>
-<span class="line-empty" title="No Anys on this line!">        shape,</span>
-<span class="line-empty" title="No Anys on this line!">        length,</span>
-<span class="line-empty" title="No Anys on this line!">        upper_count,</span>
-<span class="line-empty" title="No Anys on this line!">        lower_count,</span>
-<span class="line-empty" title="No Anys on this line!">        digit_count,</span>
-<span class="line-empty" title="No Anys on this line!">        is_alpha,</span>
-<span class="line-empty" title="No Anys on this line!">        is_ascii,</span>
-<span class="line-empty" title="No Anys on this line!">        is_digit,</span>
-<span class="line-empty" title="No Anys on this line!">        is_lower,</span>
-<span class="line-empty" title="No Anys on this line!">        is_upper,</span>
-<span class="line-empty" title="No Anys on this line!">        is_title,</span>
-<span class="line-empty" title="No Anys on this line!">        is_punct,</span>
-<span class="line-empty" title="No Anys on this line!">        is_hyphenated,</span>
-<span class="line-empty" title="No Anys on this line!">        like_url,</span>
-<span class="line-empty" title="No Anys on this line!">        like_number,</span>
-<span class="line-empty" title="No Anys on this line!">        cluster,</span>
-<span class="line-empty" title="No Anys on this line!">    ):</span>
+<span class="line-empty" title="No Anys on this line!">        text: str,</span>
+<span class="line-empty" title="No Anys on this line!">        normalized: str,</span>
+<span class="line-empty" title="No Anys on this line!">        lower: str,</span>
+<span class="line-empty" title="No Anys on this line!">        first: str,</span>
+<span class="line-empty" title="No Anys on this line!">        suffix: str,</span>
+<span class="line-empty" title="No Anys on this line!">        shape: str,</span>
+<span class="line-empty" title="No Anys on this line!">        length: int,</span>
+<span class="line-empty" title="No Anys on this line!">        upper_count: int,</span>
+<span class="line-empty" title="No Anys on this line!">        lower_count: int,</span>
+<span class="line-empty" title="No Anys on this line!">        digit_count: int,</span>
+<span class="line-empty" title="No Anys on this line!">        is_alpha: bool,</span>
+<span class="line-empty" title="No Anys on this line!">        is_ascii: bool,</span>
+<span class="line-empty" title="No Anys on this line!">        is_digit: bool,</span>
+<span class="line-empty" title="No Anys on this line!">        is_lower: bool,</span>
+<span class="line-empty" title="No Anys on this line!">        is_upper: bool,</span>
+<span class="line-empty" title="No Anys on this line!">        is_title: bool,</span>
+<span class="line-empty" title="No Anys on this line!">        is_punct: bool,</span>
+<span class="line-empty" title="No Anys on this line!">        is_hyphenated: bool,</span>
+<span class="line-empty" title="No Anys on this line!">        like_url: bool,</span>
+<span class="line-empty" title="No Anys on this line!">        like_number: bool,</span>
+<span class="line-empty" title="No Anys on this line!">        cluster: str | None,</span>
+<span class="line-empty" title="No Anys on this line!">    ) -&gt; None:</span>
 <span class="line-empty" title="No Anys on this line!">        #: Original Lexeme text.</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">        self.text = text</span>
+<span class="line-precise" title="No Anys on this line!">        self.text = text</span>
 <span class="line-empty" title="No Anys on this line!">        #: The Brown Word Cluster for this Lexeme.</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">        self.cluster = cluster</span>
+<span class="line-precise" title="No Anys on this line!">        self.cluster = cluster</span>
 <span class="line-empty" title="No Anys on this line!">        #: Normalized text, using the Lexicon Normalizer.</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">        self.normalized = normalized</span>
+<span class="line-precise" title="No Anys on this line!">        self.normalized = normalized</span>
 <span class="line-empty" title="No Anys on this line!">        #: Lowercase text.</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">        self.lower = lower</span>
+<span class="line-precise" title="No Anys on this line!">        self.lower = lower</span>
 <span class="line-empty" title="No Anys on this line!">        #: First character.</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">        self.first = first</span>
+<span class="line-precise" title="No Anys on this line!">        self.first = first</span>
 <span class="line-empty" title="No Anys on this line!">        #: Three-character suffix</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">        self.suffix = suffix</span>
+<span class="line-precise" title="No Anys on this line!">        self.suffix = suffix</span>
 <span class="line-empty" title="No Anys on this line!">        #: Word shape. Derived by replacing every number with 'd', every greek letter with 'g', and every latin letter with 'X' or 'x' for uppercase and lowercase respectively.</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">        self.shape = shape</span>
+<span class="line-precise" title="No Anys on this line!">        self.shape = shape</span>
 <span class="line-empty" title="No Anys on this line!">        #: Lexeme length.</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">        self.length = length</span>
+<span class="line-precise" title="No Anys on this line!">        self.length = length</span>
 <span class="line-empty" title="No Anys on this line!">        #: Count of uppercase characters.</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">        self.upper_count = upper_count</span>
+<span class="line-precise" title="No Anys on this line!">        self.upper_count = upper_count</span>
 <span class="line-empty" title="No Anys on this line!">        #: Count of lowercase characters.</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">        self.lower_count = lower_count</span>
+<span class="line-precise" title="No Anys on this line!">        self.lower_count = lower_count</span>
 <span class="line-empty" title="No Anys on this line!">        #: Count of digits.</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">        self.digit_count = digit_count</span>
+<span class="line-precise" title="No Anys on this line!">        self.digit_count = digit_count</span>
 <span class="line-empty" title="No Anys on this line!">        #: Whether the text is entirely alphabetical characters.</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">        self.is_alpha = is_alpha</span>
+<span class="line-precise" title="No Anys on this line!">        self.is_alpha = is_alpha</span>
 <span class="line-empty" title="No Anys on this line!">        #: Whether the text is entirely ASCII characters.</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">        self.is_ascii = is_ascii</span>
+<span class="line-precise" title="No Anys on this line!">        self.is_ascii = is_ascii</span>
 <span class="line-empty" title="No Anys on this line!">        #: Whether the text is entirely digits.</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">        self.is_digit = is_digit</span>
+<span class="line-precise" title="No Anys on this line!">        self.is_digit = is_digit</span>
 <span class="line-empty" title="No Anys on this line!">        #: Whether the text is entirely lowercase.</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">        self.is_lower = is_lower</span>
+<span class="line-precise" title="No Anys on this line!">        self.is_lower = is_lower</span>
 <span class="line-empty" title="No Anys on this line!">        #: Whether the text is entirely uppercase.</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">        self.is_upper = is_upper</span>
+<span class="line-precise" title="No Anys on this line!">        self.is_upper = is_upper</span>
 <span class="line-empty" title="No Anys on this line!">        #: Whether the text is title cased.</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">        self.is_title = is_title</span>
+<span class="line-precise" title="No Anys on this line!">        self.is_title = is_title</span>
 <span class="line-empty" title="No Anys on this line!">        #: Whether the text is entirely punctuation characters.</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">        self.is_punct = is_punct</span>
+<span class="line-precise" title="No Anys on this line!">        self.is_punct = is_punct</span>
 <span class="line-empty" title="No Anys on this line!">        #: Whether the text is hyphenated.</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">        self.is_hyphenated = is_hyphenated</span>
+<span class="line-precise" title="No Anys on this line!">        self.is_hyphenated = is_hyphenated</span>
 <span class="line-empty" title="No Anys on this line!">        #: Whether the text looks like a URL.</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">        self.like_url = like_url</span>
+<span class="line-precise" title="No Anys on this line!">        self.like_url = like_url</span>
 <span class="line-empty" title="No Anys on this line!">        #: Whether the text looks like a number.</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">        self.like_number = like_number</span>
+<span class="line-precise" title="No Anys on this line!">        self.like_number = like_number</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">class Lexicon(metaclass=Singleton):</span>
-<span class="line-empty" title="No Anys on this line!">    """"""</span>
+<span class="line-empty" title="No Anys on this line!">    """Lexicon for caching word features and Brown word clusters."""</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">    #: The Normalizer for this Lexicon.</span>
-<span class="line-precise" title="Any Types on this line: 
-Unannotated (x8)">    normalizer = Normalizer()</span>
+<span class="line-precise" title="No Anys on this line!">    normalizer = Normalizer()</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">    #: Path to the Brown clusters model file for this Lexicon.</span>
-<span class="line-precise" title="No Anys on this line!">    clusters_path = None</span>
+<span class="line-precise" title="No Anys on this line!">    clusters_path: str | None = None</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-any" title="No Anys on this line!">    def __init__(self):</span>
-<span class="line-empty" title="No Anys on this line!">        """"""</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x1)">        self.lexemes = {}</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x1)">        self.clusters = {}</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x1)">        self._loaded_clusters = False</span>
+<span class="line-precise" title="No Anys on this line!">    def __init__(self) -&gt; None:</span>
+<span class="line-empty" title="No Anys on this line!">        """Initialize lexicon with empty caches."""</span>
+<span class="line-precise" title="No Anys on this line!">        self.lexemes: dict[str, Lexeme] = {}</span>
+<span class="line-precise" title="No Anys on this line!">        self.clusters: dict[str, str] = {}</span>
+<span class="line-precise" title="No Anys on this line!">        self._loaded_clusters = False</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-any" title="No Anys on this line!">    def __len__(self):</span>
+<span class="line-precise" title="No Anys on this line!">    def __len__(self) -&gt; int:</span>
 <span class="line-empty" title="No Anys on this line!">        """The current number of lexemes stored."""</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">        return len(self.lexemes)</span>
+<span class="line-precise" title="No Anys on this line!">        return len(self.lexemes)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-any" title="No Anys on this line!">    def add(self, text):</span>
+<span class="line-precise" title="No Anys on this line!">    def add(self, text: str) -&gt; None:</span>
 <span class="line-empty" title="No Anys on this line!">        """Add text to the lexicon.</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-empty" title="No Anys on this line!">        :param string text: The text to add.</span>
+<span class="line-empty" title="No Anys on this line!">        Args:</span>
+<span class="line-empty" title="No Anys on this line!">            text: The text to add.</span>
 <span class="line-empty" title="No Anys on this line!">        """</span>
 <span class="line-empty" title="No Anys on this line!">        # logging.debug('Adding to lexicon: %s' % text)</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">        if text not in self.lexemes:</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x4)">            normalized = self.normalized(text)</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x24)">            self.lexemes[text] = Lexeme(</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x1)">                text=text,</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x1)">                normalized=normalized,</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x3)">                lower=self.lower(normalized),</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x3)">                first=self.first(normalized),</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x3)">                suffix=self.suffix(normalized),</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x3)">                shape=self.shape(normalized),</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x3)">                length=self.length(normalized),</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x3)">                upper_count=self.upper_count(normalized),</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x3)">                lower_count=self.lower_count(normalized),</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x3)">                digit_count=self.digit_count(normalized),</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x3)">                is_alpha=self.is_alpha(normalized),</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x3)">                is_ascii=self.is_ascii(normalized),</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x3)">                is_digit=self.is_digit(normalized),</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x3)">                is_lower=self.is_lower(normalized),</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x3)">                is_upper=self.is_upper(normalized),</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x3)">                is_title=self.is_title(normalized),</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x3)">                is_punct=self.is_punct(normalized),</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x3)">                is_hyphenated=self.is_hyphenated(normalized),</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x3)">                like_url=self.like_url(normalized),</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x3)">                like_number=self.like_number(normalized),</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x3)">                cluster=self.cluster(normalized),</span>
+<span class="line-precise" title="No Anys on this line!">        if text not in self.lexemes:</span>
+<span class="line-precise" title="No Anys on this line!">            normalized = self.normalized(text)</span>
+<span class="line-precise" title="No Anys on this line!">            self.lexemes[text] = Lexeme(</span>
+<span class="line-precise" title="No Anys on this line!">                text=text,</span>
+<span class="line-precise" title="No Anys on this line!">                normalized=normalized,</span>
+<span class="line-precise" title="No Anys on this line!">                lower=self.lower(normalized),</span>
+<span class="line-precise" title="No Anys on this line!">                first=self.first(normalized),</span>
+<span class="line-precise" title="No Anys on this line!">                suffix=self.suffix(normalized),</span>
+<span class="line-precise" title="No Anys on this line!">                shape=self.shape(normalized),</span>
+<span class="line-precise" title="No Anys on this line!">                length=self.length(normalized),</span>
+<span class="line-precise" title="No Anys on this line!">                upper_count=self.upper_count(normalized),</span>
+<span class="line-precise" title="No Anys on this line!">                lower_count=self.lower_count(normalized),</span>
+<span class="line-precise" title="No Anys on this line!">                digit_count=self.digit_count(normalized),</span>
+<span class="line-precise" title="No Anys on this line!">                is_alpha=self.is_alpha(normalized),</span>
+<span class="line-precise" title="No Anys on this line!">                is_ascii=self.is_ascii(normalized),</span>
+<span class="line-precise" title="No Anys on this line!">                is_digit=self.is_digit(normalized),</span>
+<span class="line-precise" title="No Anys on this line!">                is_lower=self.is_lower(normalized),</span>
+<span class="line-precise" title="No Anys on this line!">                is_upper=self.is_upper(normalized),</span>
+<span class="line-precise" title="No Anys on this line!">                is_title=self.is_title(normalized),</span>
+<span class="line-precise" title="No Anys on this line!">                is_punct=self.is_punct(normalized),</span>
+<span class="line-precise" title="No Anys on this line!">                is_hyphenated=self.is_hyphenated(normalized),</span>
+<span class="line-precise" title="No Anys on this line!">                like_url=self.like_url(normalized),</span>
+<span class="line-precise" title="No Anys on this line!">                like_number=self.like_number(normalized),</span>
+<span class="line-precise" title="No Anys on this line!">                cluster=self.cluster(normalized),</span>
 <span class="line-empty" title="No Anys on this line!">            )</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-any" title="No Anys on this line!">    def __getitem__(self, text):</span>
+<span class="line-precise" title="No Anys on this line!">    def __getitem__(self, text: str) -&gt; Lexeme:</span>
 <span class="line-empty" title="No Anys on this line!">        """Return the requested lexeme from the Lexicon.</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-empty" title="No Anys on this line!">        :param string text: Text of the lexeme to retrieve.</span>
-<span class="line-empty" title="No Anys on this line!">        :rtype: Lexeme</span>
-<span class="line-empty" title="No Anys on this line!">        :returns: The requested Lexeme.</span>
+<span class="line-empty" title="No Anys on this line!">        Args:</span>
+<span class="line-empty" title="No Anys on this line!">            text: Text of the lexeme to retrieve.</span>
+<span class="line-empty" title="No Anys on this line!"></span>
+<span class="line-empty" title="No Anys on this line!">        Returns:</span>
+<span class="line-empty" title="No Anys on this line!">            The requested Lexeme.</span>
 <span class="line-empty" title="No Anys on this line!">        """</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x3)">        self.add(text)</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x3)">        return self.lexemes[text]</span>
+<span class="line-precise" title="No Anys on this line!">        self.add(text)</span>
+<span class="line-precise" title="No Anys on this line!">        return self.lexemes[text]</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-any" title="No Anys on this line!">    def cluster(self, text):</span>
-<span class="line-empty" title="No Anys on this line!">        """"""</span>
+<span class="line-precise" title="No Anys on this line!">    def cluster(self, text: str) -&gt; str | None:</span>
+<span class="line-empty" title="No Anys on this line!">        """Get Brown word cluster for text."""</span>
+<span class="line-precise" title="No Anys on this line!">        if not self._loaded_clusters and self.clusters_path:</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x3)">        if not self._loaded_clusters and self.clusters_path:</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x5)">            self.clusters = load_model(self.clusters_path)</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x1)">            self._loaded_clusters = True</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x4)">        return self.clusters.get(text, None)</span>
+Unannotated (x3)">            self.clusters = load_model(self.clusters_path)</span>
+<span class="line-precise" title="No Anys on this line!">            self._loaded_clusters = True</span>
+<span class="line-precise" title="Any Types on this line: 
+Omitted Generics (x2)">        return self.clusters.get(text, None)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-any" title="No Anys on this line!">    def normalized(self, text):</span>
-<span class="line-empty" title="No Anys on this line!">        """"""</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x3)">        return self.normalizer(text)</span>
+<span class="line-precise" title="No Anys on this line!">    def normalized(self, text: str) -&gt; str:</span>
+<span class="line-empty" title="No Anys on this line!">        """Get normalized text."""</span>
+<span class="line-precise" title="No Anys on this line!">        return self.normalizer(text)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-any" title="No Anys on this line!">    def lower(self, text):</span>
-<span class="line-empty" title="No Anys on this line!">        """"""</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x3)">        return text.lower()</span>
+<span class="line-precise" title="No Anys on this line!">    def lower(self, text: str) -&gt; str:</span>
+<span class="line-empty" title="No Anys on this line!">        """Get lowercase text."""</span>
+<span class="line-precise" title="No Anys on this line!">        return text.lower()</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-any" title="No Anys on this line!">    def first(self, text):</span>
-<span class="line-empty" title="No Anys on this line!">        """"""</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">        return text[:1]</span>
+<span class="line-precise" title="No Anys on this line!">    def first(self, text: str) -&gt; str:</span>
+<span class="line-empty" title="No Anys on this line!">        """Get first character."""</span>
+<span class="line-precise" title="No Anys on this line!">        return text[:1]</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-any" title="No Anys on this line!">    def suffix(self, text):</span>
-<span class="line-empty" title="No Anys on this line!">        """"""</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x3)">        return text[-3:]</span>
+<span class="line-precise" title="No Anys on this line!">    def suffix(self, text: str) -&gt; str:</span>
+<span class="line-empty" title="No Anys on this line!">        """Get three-character suffix."""</span>
+<span class="line-precise" title="No Anys on this line!">        return text[-3:]</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-any" title="No Anys on this line!">    def shape(self, text):</span>
-<span class="line-empty" title="No Anys on this line!">        """"""</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x4)">        return word_shape(text)</span>
+<span class="line-precise" title="No Anys on this line!">    def shape(self, text: str) -&gt; str:</span>
+<span class="line-empty" title="No Anys on this line!">        """Get word shape."""</span>
+<span class="line-precise" title="No Anys on this line!">        return word_shape(text)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-any" title="No Anys on this line!">    def length(self, text):</span>
-<span class="line-empty" title="No Anys on this line!">        """"""</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">        return len(text)</span>
+<span class="line-precise" title="No Anys on this line!">    def length(self, text: str) -&gt; int:</span>
+<span class="line-empty" title="No Anys on this line!">        """Get text length."""</span>
+<span class="line-precise" title="No Anys on this line!">        return len(text)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-any" title="No Anys on this line!">    def digit_count(self, text):</span>
-<span class="line-empty" title="No Anys on this line!">        """"""</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x6)
+<span class="line-precise" title="No Anys on this line!">    def digit_count(self, text: str) -&gt; int:</span>
+<span class="line-empty" title="No Anys on this line!">        """Count digit characters."""</span>
+<span class="line-precise" title="Any Types on this line: 
 Omitted Generics (x6)
 Explicit (x8)">        return sum(c.isdigit() for c in text)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-any" title="No Anys on this line!">    def upper_count(self, text):</span>
-<span class="line-empty" title="No Anys on this line!">        """"""</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x6)
+<span class="line-precise" title="No Anys on this line!">    def upper_count(self, text: str) -&gt; int:</span>
+<span class="line-empty" title="No Anys on this line!">        """Count uppercase characters."""</span>
+<span class="line-precise" title="Any Types on this line: 
 Omitted Generics (x6)
 Explicit (x8)">        return sum(c.isupper() for c in text)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-any" title="No Anys on this line!">    def lower_count(self, text):</span>
-<span class="line-empty" title="No Anys on this line!">        """"""</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x6)
+<span class="line-precise" title="No Anys on this line!">    def lower_count(self, text: str) -&gt; int:</span>
+<span class="line-empty" title="No Anys on this line!">        """Count lowercase characters."""</span>
+<span class="line-precise" title="Any Types on this line: 
 Omitted Generics (x6)
 Explicit (x8)">        return sum(c.islower() for c in text)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-any" title="No Anys on this line!">    def is_alpha(self, text):</span>
-<span class="line-empty" title="No Anys on this line!">        """"""</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x3)">        return text.isalpha()</span>
+<span class="line-precise" title="No Anys on this line!">    def is_alpha(self, text: str) -&gt; bool:</span>
+<span class="line-empty" title="No Anys on this line!">        """Check if text is entirely alphabetical."""</span>
+<span class="line-precise" title="No Anys on this line!">        return text.isalpha()</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-any" title="No Anys on this line!">    def is_ascii(self, text):</span>
-<span class="line-empty" title="No Anys on this line!">        """"""</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x4)">        return is_ascii(text)</span>
+<span class="line-precise" title="No Anys on this line!">    def is_ascii(self, text: str) -&gt; bool:</span>
+<span class="line-empty" title="No Anys on this line!">        """Check if text is entirely ASCII."""</span>
+<span class="line-precise" title="No Anys on this line!">        return is_ascii(text)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-any" title="No Anys on this line!">    def is_digit(self, text):</span>
-<span class="line-empty" title="No Anys on this line!">        """"""</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x3)">        return text.isdigit()</span>
+<span class="line-precise" title="No Anys on this line!">    def is_digit(self, text: str) -&gt; bool:</span>
+<span class="line-empty" title="No Anys on this line!">        """Check if text is entirely digits."""</span>
+<span class="line-precise" title="No Anys on this line!">        return text.isdigit()</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-any" title="No Anys on this line!">    def is_lower(self, text):</span>
-<span class="line-empty" title="No Anys on this line!">        """"""</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x3)">        return text.islower()</span>
+<span class="line-precise" title="No Anys on this line!">    def is_lower(self, text: str) -&gt; bool:</span>
+<span class="line-empty" title="No Anys on this line!">        """Check if text is entirely lowercase."""</span>
+<span class="line-precise" title="No Anys on this line!">        return text.islower()</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-any" title="No Anys on this line!">    def is_upper(self, text):</span>
-<span class="line-empty" title="No Anys on this line!">        """"""</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x3)">        return text.isupper()</span>
+<span class="line-precise" title="No Anys on this line!">    def is_upper(self, text: str) -&gt; bool:</span>
+<span class="line-empty" title="No Anys on this line!">        """Check if text is entirely uppercase."""</span>
+<span class="line-precise" title="No Anys on this line!">        return text.isupper()</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-any" title="No Anys on this line!">    def is_title(self, text):</span>
-<span class="line-empty" title="No Anys on this line!">        """"""</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x3)">        return text.istitle()</span>
+<span class="line-precise" title="No Anys on this line!">    def is_title(self, text: str) -&gt; bool:</span>
+<span class="line-empty" title="No Anys on this line!">        """Check if text is title cased."""</span>
+<span class="line-precise" title="No Anys on this line!">        return text.istitle()</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-any" title="No Anys on this line!">    def is_punct(self, text):</span>
-<span class="line-empty" title="No Anys on this line!">        """"""</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x4)">        return is_punct(text)</span>
+<span class="line-precise" title="No Anys on this line!">    def is_punct(self, text: str) -&gt; bool:</span>
+<span class="line-empty" title="No Anys on this line!">        """Check if text is entirely punctuation."""</span>
+<span class="line-precise" title="No Anys on this line!">        return is_punct(text)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-any" title="No Anys on this line!">    def is_hyphenated(self, text):</span>
-<span class="line-empty" title="No Anys on this line!">        """"""</span>
+<span class="line-precise" title="No Anys on this line!">    def is_hyphenated(self, text: str) -&gt; bool:</span>
+<span class="line-empty" title="No Anys on this line!">        """Check if text is hyphenated."""</span>
 <span class="line-empty" title="No Anys on this line!">        # TODO: What about '--'?</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x4)">        return "-" in text and text != "-"</span>
+<span class="line-precise" title="No Anys on this line!">        return "-" in text and text != "-"</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-any" title="No Anys on this line!">    def like_url(self, text):</span>
-<span class="line-empty" title="No Anys on this line!">        """"""</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x4)">        return like_url(text)</span>
+<span class="line-precise" title="No Anys on this line!">    def like_url(self, text: str) -&gt; bool:</span>
+<span class="line-empty" title="No Anys on this line!">        """Check if text looks like a URL."""</span>
+<span class="line-precise" title="No Anys on this line!">        return like_url(text)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-any" title="No Anys on this line!">    def like_number(self, text):</span>
-<span class="line-empty" title="No Anys on this line!">        """"""</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x4)">        return like_number(text)</span>
+<span class="line-precise" title="No Anys on this line!">    def like_number(self, text: str) -&gt; bool:</span>
+<span class="line-empty" title="No Anys on this line!">        """Check if text looks like a number."""</span>
+<span class="line-precise" title="No Anys on this line!">        return like_number(text)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">class ChemLexicon(Lexicon):</span>
 <span class="line-empty" title="No Anys on this line!">    """A Lexicon that is pre-configured with a Chemistry-aware Normalizer and Brown word clusters derived from a</span>
 <span class="line-empty" title="No Anys on this line!">    chemistry corpus."""</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-precise" title="Any Types on this line: 
-Unannotated (x8)">    normalizer = ChemNormalizer()</span>
+<span class="line-precise" title="No Anys on this line!">    normalizer = ChemNormalizer()</span>
 <span class="line-precise" title="No Anys on this line!">    clusters_path = "models/clusters_chem1500-1.0.pickle"</span>
 </pre></td>
 </tr></tbody>

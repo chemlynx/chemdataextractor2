@@ -102,11 +102,27 @@
 <span id="L92" class="lineno"><a class="lineno" href="#L92">92</a></span>
 <span id="L93" class="lineno"><a class="lineno" href="#L93">93</a></span>
 <span id="L94" class="lineno"><a class="lineno" href="#L94">94</a></span>
+<span id="L95" class="lineno"><a class="lineno" href="#L95">95</a></span>
+<span id="L96" class="lineno"><a class="lineno" href="#L96">96</a></span>
+<span id="L97" class="lineno"><a class="lineno" href="#L97">97</a></span>
+<span id="L98" class="lineno"><a class="lineno" href="#L98">98</a></span>
+<span id="L99" class="lineno"><a class="lineno" href="#L99">99</a></span>
+<span id="L100" class="lineno"><a class="lineno" href="#L100">100</a></span>
+<span id="L101" class="lineno"><a class="lineno" href="#L101">101</a></span>
+<span id="L102" class="lineno"><a class="lineno" href="#L102">102</a></span>
+<span id="L103" class="lineno"><a class="lineno" href="#L103">103</a></span>
+<span id="L104" class="lineno"><a class="lineno" href="#L104">104</a></span>
+<span id="L105" class="lineno"><a class="lineno" href="#L105">105</a></span>
+<span id="L106" class="lineno"><a class="lineno" href="#L106">106</a></span>
 </pre></td>
 <td class="table-code"><pre><span class="line-empty" title="No Anys on this line!">"""</span>
 <span class="line-empty" title="No Anys on this line!">Readers for NLM Journal Archiving and Interchange DTD XML files. (i.e. from PubMed Central)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
+<span class="line-empty" title="No Anys on this line!">Provides specialized XML reader for National Library of Medicine (NLM) JATS format</span>
+<span class="line-empty" title="No Anys on this line!">with comprehensive element type definitions and cleaning rules.</span>
 <span class="line-empty" title="No Anys on this line!">"""</span>
+<span class="line-empty" title="No Anys on this line!"></span>
+<span class="line-precise" title="No Anys on this line!">from __future__ import annotations</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">from ..scrape.clean import clean</span>
 <span class="line-precise" title="No Anys on this line!">from ..scrape.pub.nlm import space_labels</span>
@@ -189,19 +205,23 @@ Unannotated (x4)">    cleaners = [clean, tidy_nlm_references, space_labels]</spa
 <span class="line-precise" title="No Anys on this line!">        "{http://www.w3.org/1998/math/mathml}mn",</span>
 <span class="line-empty" title="No Anys on this line!">    }</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-any" title="No Anys on this line!">    def detect(self, fstring, fname=None):</span>
-<span class="line-empty" title="No Anys on this line!">        """"""</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x9)">        if fname and not (fname.endswith(".xml") or fname.endswith(".nxml")):</span>
-<span class="line-any" title="No Anys on this line!">            return False</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x1)">        if b'xmlns="http://jats.nlm.nih.gov/ns/archiving' in fstring:</span>
-<span class="line-any" title="No Anys on this line!">            return True</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x1)">        if b"JATS-archivearticle1.dtd" in fstring:</span>
-<span class="line-any" title="No Anys on this line!">            return True</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x1)">        return b"-//NLM//DTD JATS" in fstring</span>
+<span class="line-precise" title="No Anys on this line!">    def detect(self, fstring: str | bytes, fname: str | None = None) -&gt; bool:</span>
+<span class="line-empty" title="No Anys on this line!">        """Detect NLM XML documents.</span>
+<span class="line-empty" title="No Anys on this line!"></span>
+<span class="line-empty" title="No Anys on this line!">        Args:</span>
+<span class="line-empty" title="No Anys on this line!">            fstring: Input data to check</span>
+<span class="line-empty" title="No Anys on this line!">            fname: Optional filename for format hints</span>
+<span class="line-empty" title="No Anys on this line!"></span>
+<span class="line-empty" title="No Anys on this line!">        Returns:</span>
+<span class="line-empty" title="No Anys on this line!">            True if this appears to be an NLM XML document</span>
+<span class="line-empty" title="No Anys on this line!">        """</span>
+<span class="line-precise" title="No Anys on this line!">        if fname and not (fname.endswith(".xml") or fname.endswith(".nxml")):</span>
+<span class="line-precise" title="No Anys on this line!">            return False</span>
+<span class="line-precise" title="No Anys on this line!">        if b'xmlns="http://jats.nlm.nih.gov/ns/archiving' in fstring:</span>
+<span class="line-precise" title="No Anys on this line!">            return True</span>
+<span class="line-precise" title="No Anys on this line!">        if b"JATS-archivearticle1.dtd" in fstring:</span>
+<span class="line-precise" title="No Anys on this line!">            return True</span>
+<span class="line-precise" title="No Anys on this line!">        return b"-//NLM//DTD JATS" in fstring</span>
 </pre></td>
 </tr></tbody>
 </table>

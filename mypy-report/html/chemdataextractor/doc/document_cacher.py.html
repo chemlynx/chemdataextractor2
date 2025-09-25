@@ -215,10 +215,12 @@
 <span id="L205" class="lineno"><a class="lineno" href="#L205">205</a></span>
 <span id="L206" class="lineno"><a class="lineno" href="#L206">206</a></span>
 <span id="L207" class="lineno"><a class="lineno" href="#L207">207</a></span>
+<span id="L208" class="lineno"><a class="lineno" href="#L208">208</a></span>
+<span id="L209" class="lineno"><a class="lineno" href="#L209">209</a></span>
 </pre></td>
 <td class="table-code"><pre><span class="line-precise" title="No Anys on this line!">import json</span>
-<span class="line-precise" title="No Anys on this line!">import os</span>
 <span class="line-precise" title="No Anys on this line!">import shutil</span>
+<span class="line-precise" title="No Anys on this line!">from pathlib import Path</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">from .text import RichToken</span>
 <span class="line-precise" title="No Anys on this line!">from .text import Subsentence</span>
@@ -246,9 +248,9 @@ Unannotated (x1)">    return document_configuration</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x2)">        self.cache_location = cache_location</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x1)">        if not os.path.isdir(self.cache_location):</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x1)">            os.makedirs(self.cache_location)</span>
+Unannotated (x1)">        cache_path = Path(self.cache_location)</span>
+<span class="line-precise" title="No Anys on this line!">        if not cache_path.is_dir():</span>
+<span class="line-any" title="No Anys on this line!">            cache_path.mkdir(parents=True, exist_ok=True)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="No Anys on this line!">    def cache_document(</span>
 <span class="line-empty" title="No Anys on this line!">        self,</span>
@@ -267,13 +269,14 @@ Unannotated (x1)">            tags = ["ner_tag", "pos_tag"]</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x5)">        document_configuration = get_document_configuration(document)</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x5)">        cache_location_root = os.path.join(self.cache_location, self._safe_document_id(document_id))</span>
-<span class="line-precise" title="No Anys on this line!">        if not os.path.isdir(cache_location_root):</span>
-<span class="line-precise" title="No Anys on this line!">            os.makedirs(cache_location_root)</span>
+Unannotated (x6)">        cache_location_root = str(Path(self.cache_location) / self._safe_document_id(document_id))</span>
+<span class="line-precise" title="No Anys on this line!">        cache_root_path = Path(cache_location_root)</span>
+<span class="line-precise" title="No Anys on this line!">        if not cache_root_path.is_dir():</span>
+<span class="line-any" title="No Anys on this line!">            cache_root_path.mkdir(parents=True, exist_ok=True)</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">        elif overwrite_cache:</span>
 <span class="line-precise" title="No Anys on this line!">            shutil.rmtree(cache_location_root)</span>
-<span class="line-precise" title="No Anys on this line!">            os.makedirs(cache_location_root)</span>
+<span class="line-any" title="No Anys on this line!">            cache_root_path.mkdir(parents=True, exist_ok=True)</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">        elif not overwrite_cache:</span>
 <span class="line-precise" title="No Anys on this line!">            raise AttributeError(</span>
@@ -392,10 +395,10 @@ Unannotated (x1)">                f.write(str(indices) + "\n")</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x5)">        document_configuration = get_document_configuration(document)</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x5)">        cache_location_root = os.path.join(self.cache_location, self._safe_document_id(document_id))</span>
+Unannotated (x6)">        cache_location_root = str(Path(self.cache_location) / self._safe_document_id(document_id))</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">        # Check cache looks good</span>
-<span class="line-precise" title="No Anys on this line!">        if not os.path.isdir(cache_location_root):</span>
+<span class="line-precise" title="No Anys on this line!">        if not Path(cache_location_root).is_dir():</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">            raise AttributeError(f"{document_id} is not cached")</span>
 <span class="line-empty" title="No Anys on this line!"></span>
@@ -545,19 +548,19 @@ Unannotated (x5)">        return document_id.replace(".", "🔥").replace("/", "
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="No Anys on this line!">    def _document_config_path(self, cache_location_root):</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x1)">        return os.path.join(cache_location_root, "configuration.json")</span>
+Unannotated (x1)">        return str(Path(cache_location_root) / "configuration.json")</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="No Anys on this line!">    def _document_subsentence_cache_path(self, cache_location_root):</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x1)">        return os.path.join(cache_location_root, "subsentences.txt")</span>
+Unannotated (x1)">        return str(Path(cache_location_root) / "subsentences.txt")</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="No Anys on this line!">    def _document_tokenizer_cache_path(self, cache_location_root, tokenizer):</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x4)">        return os.path.join(cache_location_root, "tokenizer__" + tokenizer + ".txt")</span>
+Unannotated (x2)">        return str(Path(cache_location_root) / f"tokenizer__{tokenizer}.txt")</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="No Anys on this line!">    def _document_tag_cache_path(self, cache_location_root, tag):</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x4)">        return os.path.join(cache_location_root, "tag__" + tag + ".txt")</span>
+Unannotated (x2)">        return str(Path(cache_location_root) / f"tag__{tag}.txt")</span>
 </pre></td>
 </tr></tbody>
 </table>

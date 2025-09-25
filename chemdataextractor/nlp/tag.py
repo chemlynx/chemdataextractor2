@@ -365,8 +365,8 @@ class AveragedPerceptron:
 
     def load(self, path):
         """Load the pickled model weights."""
-        with open(path, "rb") as fin:
-            self.weights = pickle.load(fin)
+        from ..data import safe_pickle_load
+        self.weights = safe_pickle_load(path)
 
 
 class ApTagger(BaseTagger, metaclass=ABCMeta):

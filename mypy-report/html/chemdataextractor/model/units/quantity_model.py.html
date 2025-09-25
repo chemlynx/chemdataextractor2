@@ -426,6 +426,8 @@
 <span id="L416" class="lineno"><a class="lineno" href="#L416">416</a></span>
 <span id="L417" class="lineno"><a class="lineno" href="#L417">417</a></span>
 <span id="L418" class="lineno"><a class="lineno" href="#L418">418</a></span>
+<span id="L419" class="lineno"><a class="lineno" href="#L419">419</a></span>
+<span id="L420" class="lineno"><a class="lineno" href="#L420">420</a></span>
 </pre></td>
 <td class="table-code"><pre><span class="line-empty" title="No Anys on this line!">"""</span>
 <span class="line-empty" title="No Anys on this line!">Base types for making quantity models.</span>
@@ -871,8 +873,10 @@ Unannotated (x2)">        if other.error is not None:</span>
 Unannotated (x5)">            min_other_value = min_other_value - other.error</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x5)">            max_other_value = max_other_value + other.error</span>
+<span class="line-precise" title="No Anys on this line!">        return bool(</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x7)">        return bool(min_converted_value &lt;= max_other_value or max_converted_value &gt;= min_other_value)</span>
+Unannotated (x7)">            min_converted_value &lt;= max_other_value or max_converted_value &gt;= min_other_value</span>
+<span class="line-empty" title="No Anys on this line!">        )</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="No Anys on this line!">    def is_superset(self, other):</span>
 <span class="line-any" title="Any Types on this line: 

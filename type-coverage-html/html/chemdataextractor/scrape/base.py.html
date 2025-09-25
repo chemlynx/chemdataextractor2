@@ -254,7 +254,6 @@
 <span class="line-precise" title="No Anys on this line!">import logging</span>
 <span class="line-precise" title="No Anys on this line!">from abc import ABCMeta</span>
 <span class="line-precise" title="No Anys on this line!">from abc import abstractmethod</span>
-<span class="line-precise" title="No Anys on this line!">from abc import abstractproperty</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="No Anys on this line!">import requests</span>
 <span class="line-empty" title="No Anys on this line!"></span>
@@ -288,7 +287,8 @@ Unannotated (x3)">        self.http = self.create_session()</span>
 <span class="line-empty" title="No Anys on this line!">            .lower()</span>
 <span class="line-empty" title="No Anys on this line!">        )</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-empty" title="No Anys on this line!">    @abstractproperty</span>
+<span class="line-empty" title="No Anys on this line!">    @property</span>
+<span class="line-empty" title="No Anys on this line!">    @abstractmethod</span>
 <span class="line-any" title="No Anys on this line!">    def entity(self):</span>
 <span class="line-empty" title="No Anys on this line!">        """The Entity to scrape."""</span>
 <span class="line-any" title="No Anys on this line!">        pass</span>
@@ -381,28 +381,20 @@ Unannotated (x3)">        self.http = self.create_session()</span>
 <span class="line-empty" title="No Anys on this line!">    """Metaclass for Entity."""</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="No Anys on this line!">    def __new__(mcs, name, bases, attrs):</span>
-<span class="line-precise" title="No Anys on this line!">        fields = {}</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x5)">        for attr_name, attr_value in attrs.items():</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x8)">            if isinstance(attr_value, BaseField):</span>
+<span class="line-unanalyzed" title="No Anys on this line!">        fields = {}</span>
+<span class="line-unanalyzed" title="No Anys on this line!">        for attr_name, attr_value in attrs.items():</span>
+<span class="line-unanalyzed" title="No Anys on this line!">            if isinstance(attr_value, BaseField):</span>
 <span class="line-empty" title="No Anys on this line!">                # Set the name attribute on the field to the attribute name on the Entity</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x1)">                attr_value.name = str(attr_name)</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">                fields[attr_name] = attr_value</span>
+<span class="line-unanalyzed" title="No Anys on this line!">                attr_value.name = str(attr_name)</span>
+<span class="line-unanalyzed" title="No Anys on this line!">                fields[attr_name] = attr_value</span>
 <span class="line-empty" title="No Anys on this line!">        # attrs['fields'] = fields</span>
 <span class="line-empty" title="No Anys on this line!">        # Set default _meta values, then update with any custom definitions from meta</span>
 <span class="line-empty" title="No Anys on this line!">        # attrs['_meta'] = {'root': None}</span>
 <span class="line-empty" title="No Anys on this line!">        # attrs['_meta'].update(attrs.pop('meta', {}))</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x3)">        cls = super().__new__(mcs, name, bases, attrs)</span>
-<span class="line-any" title="Any Types on this line: 
-Error (x4)">        cls.fields = cls.fields.copy()</span>
-<span class="line-any" title="Any Types on this line: 
-Error (x3)
-Unannotated (x1)">        cls.fields.update(fields)</span>
-<span class="line-precise" title="No Anys on this line!">        return cls</span>
+<span class="line-unanalyzed" title="No Anys on this line!">        cls = super().__new__(mcs, name, bases, attrs)</span>
+<span class="line-unanalyzed" title="No Anys on this line!">        cls.fields = cls.fields.copy()</span>
+<span class="line-unanalyzed" title="No Anys on this line!">        cls.fields.update(fields)</span>
+<span class="line-unanalyzed" title="No Anys on this line!">        return cls</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">class BaseField(metaclass=ABCMeta):</span>

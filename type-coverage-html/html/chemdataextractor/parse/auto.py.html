@@ -565,6 +565,14 @@
 <span id="L555" class="lineno"><a class="lineno" href="#L555">555</a></span>
 <span id="L556" class="lineno"><a class="lineno" href="#L556">556</a></span>
 <span id="L557" class="lineno"><a class="lineno" href="#L557">557</a></span>
+<span id="L558" class="lineno"><a class="lineno" href="#L558">558</a></span>
+<span id="L559" class="lineno"><a class="lineno" href="#L559">559</a></span>
+<span id="L560" class="lineno"><a class="lineno" href="#L560">560</a></span>
+<span id="L561" class="lineno"><a class="lineno" href="#L561">561</a></span>
+<span id="L562" class="lineno"><a class="lineno" href="#L562">562</a></span>
+<span id="L563" class="lineno"><a class="lineno" href="#L563">563</a></span>
+<span id="L564" class="lineno"><a class="lineno" href="#L564">564</a></span>
+<span id="L565" class="lineno"><a class="lineno" href="#L565">565</a></span>
 </pre></td>
 <td class="table-code"><pre><span class="line-empty" title="No Anys on this line!">"""</span>
 <span class="line-empty" title="No Anys on this line!">Parser for automatic parsing, without user-written parsing rules.</span>
@@ -683,7 +691,7 @@ Explicit (x2)">    for element in dimensions.units_dict:</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x2)">    return (</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x12)">        R(pattern=units_regex) + ZeroOrMore(R(pattern=units_regex) | R(pattern=units_regex2))</span>
+Unannotated (x3)">        R(pattern=units_regex) + ZeroOrMore(R(pattern=units_regex) | R(pattern=units_regex2))</span>
 <span class="line-precise" title="Any Types on this line: 
 Unannotated (x4)">    ).add_action(_clean_units_results)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
@@ -819,7 +827,7 @@ Error (x3)">        category_regex += "(" + element.pattern + ")|"</span>
 <span class="line-precise" title="No Anys on this line!">    category_regex = category_regex[:-1]</span>
 <span class="line-precise" title="No Anys on this line!">    category_regex += "$"</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x10)">    return (R(pattern=category_regex))("raw_value").add_action(merge)</span>
+Unannotated (x3)">    return (R(pattern=category_regex))("raw_value").add_action(merge)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">def match_dimensions_of(model: BaseModel) -&gt; ParserFunction:</span>
@@ -1209,16 +1217,20 @@ Unannotated (x4)">            entities.append(specifier)</span>
 <span class="line-empty" title="No Anys on this line!">        # the optional, user-defined, entities of the model are added, they are tagged with the name of the field</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x3)">        for field in self.model.fields:</span>
+<span class="line-empty" title="No Anys on this line!">            if (</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            if field not in [</span>
-<span class="line-any" title="No Anys on this line!">                "raw_value",</span>
-<span class="line-any" title="No Anys on this line!">                "raw_units",</span>
-<span class="line-any" title="No Anys on this line!">                "value",</span>
-<span class="line-any" title="No Anys on this line!">                "units",</span>
-<span class="line-any" title="No Anys on this line!">                "error",</span>
-<span class="line-any" title="No Anys on this line!">                "specifier",</span>
+Unannotated (x2)">                field</span>
+<span class="line-empty" title="No Anys on this line!">                not in [</span>
+<span class="line-any" title="No Anys on this line!">                    "raw_value",</span>
+<span class="line-any" title="No Anys on this line!">                    "raw_units",</span>
+<span class="line-any" title="No Anys on this line!">                    "value",</span>
+<span class="line-any" title="No Anys on this line!">                    "units",</span>
+<span class="line-any" title="No Anys on this line!">                    "error",</span>
+<span class="line-any" title="No Anys on this line!">                    "specifier",</span>
+<span class="line-empty" title="No Anys on this line!">                ]</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x6)">            ] and self.model.__getattribute__(self.model, field).parse_expression is not None:</span>
+Unannotated (x6)">                and self.model.__getattribute__(self.model, field).parse_expression is not None</span>
+<span class="line-empty" title="No Anys on this line!">            ):</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x3)">                entities.append(</span>
 <span class="line-any" title="Any Types on this line: 
@@ -1276,7 +1288,7 @@ Unannotated (x1)">            labels = NoMatch()</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x2)">        entities = [labels]</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x3)">        no_value_element = W("NoValue")("raw_value")</span>
+Unannotated (x2)">        no_value_element = W("NoValue")("raw_value")</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">        if hasattr(self.model, "dimensions") and not self.model.dimensions:</span>
@@ -1313,8 +1325,7 @@ Unimported (x4)
 Omitted Generics (x1)
 Error (x1)">                self.model.specifier.parse_expression("specifier")</span>
 <span class="line-any" title="Any Types on this line: 
-Error (x1)
-Unannotated (x1)">                + Optional(W("/"))</span>
+Error (x1)">                + Optional(W("/"))</span>
 <span class="line-any" title="Any Types on this line: 
 Error (x1)">                + Optional(unit_element)</span>
 <span class="line-empty" title="No Anys on this line!">            )</span>
@@ -1344,17 +1355,21 @@ Unimported (x1)">            entities.append(specifier)</span>
 <span class="line-imprecise" title="Any Types on this line: 
 Error (x2)
 Omitted Generics (x1)">        for field in self.model.fields:</span>
+<span class="line-empty" title="No Anys on this line!">            if (</span>
 <span class="line-imprecise" title="Any Types on this line: 
-Error (x1)">            if field not in [</span>
-<span class="line-precise" title="No Anys on this line!">                "raw_value",</span>
-<span class="line-precise" title="No Anys on this line!">                "raw_units",</span>
-<span class="line-precise" title="No Anys on this line!">                "value",</span>
-<span class="line-precise" title="No Anys on this line!">                "units",</span>
-<span class="line-precise" title="No Anys on this line!">                "error",</span>
-<span class="line-precise" title="No Anys on this line!">                "specifier",</span>
+Error (x1)">                field</span>
+<span class="line-empty" title="No Anys on this line!">                not in [</span>
+<span class="line-precise" title="No Anys on this line!">                    "raw_value",</span>
+<span class="line-precise" title="No Anys on this line!">                    "raw_units",</span>
+<span class="line-precise" title="No Anys on this line!">                    "value",</span>
+<span class="line-precise" title="No Anys on this line!">                    "units",</span>
+<span class="line-precise" title="No Anys on this line!">                    "error",</span>
+<span class="line-precise" title="No Anys on this line!">                    "specifier",</span>
+<span class="line-empty" title="No Anys on this line!">                ]</span>
 <span class="line-any" title="Any Types on this line: 
 Explicit (x3)
-Error (x1)">            ] and self.model.__getattribute__(self.model, field).parse_expression is not None:</span>
+Error (x1)">                and self.model.__getattribute__(self.model, field).parse_expression is not None</span>
+<span class="line-empty" title="No Anys on this line!">            ):</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x2)">                entities.append(</span>
 <span class="line-any" title="Any Types on this line: 

@@ -360,6 +360,7 @@
 <span id="L350" class="lineno"><a class="lineno" href="#L350">350</a></span>
 <span id="L351" class="lineno"><a class="lineno" href="#L351">351</a></span>
 <span id="L352" class="lineno"><a class="lineno" href="#L352">352</a></span>
+<span id="L353" class="lineno"><a class="lineno" href="#L353">353</a></span>
 </pre></td>
 <td class="table-code"><pre><span class="line-empty" title="No Anys on this line!">"""</span>
 <span class="line-empty" title="No Anys on this line!">Document elements.</span>
@@ -375,7 +376,7 @@
 <span class="line-precise" title="No Anys on this line!">import logging</span>
 <span class="line-precise" title="No Anys on this line!">import operator</span>
 <span class="line-precise" title="No Anys on this line!">from abc import ABCMeta</span>
-<span class="line-precise" title="No Anys on this line!">from abc import abstractproperty</span>
+<span class="line-precise" title="No Anys on this line!">from abc import abstractmethod</span>
 <span class="line-precise" title="No Anys on this line!">from typing import TYPE_CHECKING</span>
 <span class="line-precise" title="No Anys on this line!">from typing import Any</span>
 <span class="line-empty" title="No Anys on this line!"></span>
@@ -482,7 +483,8 @@ Explicit (x1)">    def __init__(</span>
 <span class="line-empty" title="No Anys on this line!">        # except TypeError:</span>
 <span class="line-empty" title="No Anys on this line!">        #     self._document = document</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-empty" title="No Anys on this line!">    @abstractproperty</span>
+<span class="line-empty" title="No Anys on this line!">    @property</span>
+<span class="line-empty" title="No Anys on this line!">    @abstractmethod</span>
 <span class="line-precise" title="No Anys on this line!">    def records(self) -&gt; ModelList[BaseModel]:</span>
 <span class="line-empty" title="No Anys on this line!">        """All records found in this Element.</span>
 <span class="line-empty" title="No Anys on this line!"></span>

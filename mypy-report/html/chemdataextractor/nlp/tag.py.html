@@ -627,6 +627,24 @@
 <span id="L617" class="lineno"><a class="lineno" href="#L617">617</a></span>
 <span id="L618" class="lineno"><a class="lineno" href="#L618">618</a></span>
 <span id="L619" class="lineno"><a class="lineno" href="#L619">619</a></span>
+<span id="L620" class="lineno"><a class="lineno" href="#L620">620</a></span>
+<span id="L621" class="lineno"><a class="lineno" href="#L621">621</a></span>
+<span id="L622" class="lineno"><a class="lineno" href="#L622">622</a></span>
+<span id="L623" class="lineno"><a class="lineno" href="#L623">623</a></span>
+<span id="L624" class="lineno"><a class="lineno" href="#L624">624</a></span>
+<span id="L625" class="lineno"><a class="lineno" href="#L625">625</a></span>
+<span id="L626" class="lineno"><a class="lineno" href="#L626">626</a></span>
+<span id="L627" class="lineno"><a class="lineno" href="#L627">627</a></span>
+<span id="L628" class="lineno"><a class="lineno" href="#L628">628</a></span>
+<span id="L629" class="lineno"><a class="lineno" href="#L629">629</a></span>
+<span id="L630" class="lineno"><a class="lineno" href="#L630">630</a></span>
+<span id="L631" class="lineno"><a class="lineno" href="#L631">631</a></span>
+<span id="L632" class="lineno"><a class="lineno" href="#L632">632</a></span>
+<span id="L633" class="lineno"><a class="lineno" href="#L633">633</a></span>
+<span id="L634" class="lineno"><a class="lineno" href="#L634">634</a></span>
+<span id="L635" class="lineno"><a class="lineno" href="#L635">635</a></span>
+<span id="L636" class="lineno"><a class="lineno" href="#L636">636</a></span>
+<span id="L637" class="lineno"><a class="lineno" href="#L637">637</a></span>
 </pre></td>
 <td class="table-code"><pre><span class="line-empty" title="No Anys on this line!">#!/usr/bin/env python</span>
 <span class="line-empty" title="No Anys on this line!">"""</span>
@@ -731,34 +749,47 @@ Unimported (x2)">    @deprecated(</span>
 <span class="line-precise" title="No Anys on this line!">        deprecated_in="2.1",</span>
 <span class="line-precise" title="No Anys on this line!">        details="Deprecated in conjunction with the deprecation of the legacy_tag function. Please write equivalent functionality to use RichTokens.",</span>
 <span class="line-empty" title="No Anys on this line!">    )</span>
-<span class="line-any" title="No Anys on this line!">    def tag_sents(self, sentences):</span>
-<span class="line-empty" title="No Anys on this line!">        """Apply the ``tag`` method to each sentence in ``sentences``."""</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x5)">        return [self.legacy_tag(s) for s in sentences]</span>
+<span class="line-precise" title="No Anys on this line!">    def tag_sents(self, sentences: list[TokenList]) -&gt; list[TaggedSentence]:</span>
+<span class="line-empty" title="No Anys on this line!">        """Apply the ``tag`` method to each sentence in ``sentences``.</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-any" title="No Anys on this line!">    def evaluate(self, gold):</span>
-<span class="line-empty" title="No Anys on this line!">        """Evaluate the accuracy of this tagger using a gold standard corpus.</span>
+<span class="line-empty" title="No Anys on this line!">        Args:</span>
+<span class="line-empty" title="No Anys on this line!">            sentences: List of sentences to tag</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-empty" title="No Anys on this line!">        :param list(list(tuple(str, str))) gold: The list of tagged sentences to score the tagger on.</span>
-<span class="line-empty" title="No Anys on this line!">        :returns: Tagger accuracy value.</span>
-<span class="line-empty" title="No Anys on this line!">        :rtype: float</span>
+<span class="line-empty" title="No Anys on this line!">        Returns:</span>
+<span class="line-empty" title="No Anys on this line!">            List of tagged sentences</span>
 <span class="line-empty" title="No Anys on this line!">        """</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x9)">        tagged_sents = self.tag_sents([w for (w, t) in sent] for sent in gold)</span>
+Error (x2)">        return [self.legacy_tag(s) for s in sentences]</span>
+<span class="line-empty" title="No Anys on this line!"></span>
+<span class="line-precise" title="No Anys on this line!">    def evaluate(self, gold: list[TaggedSentence]) -&gt; float:</span>
+<span class="line-empty" title="No Anys on this line!">        """Evaluate the accuracy of this tagger using a gold standard corpus.</span>
+<span class="line-empty" title="No Anys on this line!"></span>
+<span class="line-empty" title="No Anys on this line!">        Args:</span>
+<span class="line-empty" title="No Anys on this line!">            gold: The list of tagged sentences to score the tagger on</span>
+<span class="line-empty" title="No Anys on this line!"></span>
+<span class="line-empty" title="No Anys on this line!">        Returns:</span>
+<span class="line-empty" title="No Anys on this line!">            Tagger accuracy value</span>
+<span class="line-empty" title="No Anys on this line!">        """</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x3)
+Unimported (x3)">        tagged_sents = self.tag_sents([w for (w, t) in sent] for sent in gold)</span>
+<span class="line-precise" title="Any Types on this line: 
 Omitted Generics (x6)
 Explicit (x8)">        gold_tokens = sum(gold, [])</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x3)
+Unimported (x3)
 Omitted Generics (x6)
-Explicit (x8)">        test_tokens = sum(tagged_sents, [])</span>
+Explicit (x8)
+Error (x1)">        test_tokens = sum(tagged_sents, [])</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x14)
 Omitted Generics (x36)
-Explicit (x17)">        accuracy = float(sum(x == y for x, y in zip(gold_tokens, test_tokens, strict=False))) / len(test_tokens)</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x1)">        return accuracy</span>
+Explicit (x17)
+Unimported (x5)
+Error (x1)">        accuracy = float(sum(x == y for x, y in zip(gold_tokens, test_tokens, strict=False))) / len(</span>
+<span class="line-imprecise" title="Any Types on this line: 
+Error (x1)
+Unimported (x1)">            test_tokens</span>
+<span class="line-empty" title="No Anys on this line!">        )</span>
+<span class="line-precise" title="No Anys on this line!">        return accuracy</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">    def can_tag(self, tag_type: str) -&gt; bool:</span>
 <span class="line-empty" title="No Anys on this line!">        """Check if this tagger can tag the given tag type.</span>
@@ -804,35 +835,40 @@ Unannotated (x1)">        return accuracy</span>
 <span class="line-precise" title="No Anys on this line!">    tag_type = ""</span>
 <span class="line-precise" title="No Anys on this line!">    taggers = []</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-any" title="No Anys on this line!">    def __init__(self, *args, **kwargs):</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x3)">        super().__init__(*args, **kwargs)</span>
+Unannotated (x2)">    def __init__(self, *args, **kwargs) -&gt; None:</span>
+<span class="line-imprecise" title="Any Types on this line: 
+Unannotated (x2)">        super().__init__(*args, **kwargs)</span>
+<span class="line-precise" title="No Anys on this line!">        taggers_dict = {}</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x1)">        taggers_dict = {}</span>
+Unannotated (x5)">        for i, tagger in enumerate(self.taggers):</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x4)
-Omitted Generics (x2)">        for i, tagger in enumerate(self.taggers):</span>
+Unannotated (x3)">            if tagger.tag_type == self.tag_type:</span>
+<span class="line-precise" title="No Anys on this line!">                tag_type = "_" + self.tag_type + "_" + str(i)</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x4)">            if tagger.tag_type == self.tag_type:</span>
+Unannotated (x2)">                tagger.tag_type = tag_type</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x7)">                tag_type = "_" + self.tag_type + "_" + str(i)</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x3)">                tagger.tag_type = tag_type</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x3)">                taggers_dict[tag_type] = tagger</span>
+Unannotated (x2)">                taggers_dict[tag_type] = tagger</span>
 <span class="line-empty" title="No Anys on this line!">            else:</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x4)">                taggers_dict[tagger.tag_type] = tagger</span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-imprecise" title="Any Types on this line: 
 Unannotated (x2)">        self.taggers_dict = taggers_dict</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">        self.taggers_dict[self.tag_type] = self</span>
+<span class="line-imprecise" title="Any Types on this line: 
+Unannotated (x1)">        self.taggers_dict[self.tag_type] = self</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-any" title="No Anys on this line!">    def tag_for_type(self, tokens, tag_type):</span>
+<span class="line-precise" title="No Anys on this line!">    def tag_for_type(self, tokens: TokenList, tag_type: str) -&gt; TaggedSentence:</span>
 <span class="line-empty" title="No Anys on this line!">        """</span>
 <span class="line-empty" title="No Anys on this line!">        This method will be called if the EnsembleTagger has previously</span>
 <span class="line-empty" title="No Anys on this line!">        claimed that it can tag the given tag type via the :meth:`~chemdataextractor.nlp.tag.EnsembleTagger.can_tag` method. The appropriate</span>
 <span class="line-empty" title="No Anys on this line!">        tagger within EnsembleTagger is called and the results returned.</span>
+<span class="line-empty" title="No Anys on this line!"></span>
+<span class="line-empty" title="No Anys on this line!">        Args:</span>
+<span class="line-empty" title="No Anys on this line!">            tokens: List of tokens to tag</span>
+<span class="line-empty" title="No Anys on this line!">            tag_type: Type of tags to apply</span>
+<span class="line-empty" title="No Anys on this line!"></span>
+<span class="line-empty" title="No Anys on this line!">        Returns:</span>
+<span class="line-empty" title="No Anys on this line!">            List of tagged tokens</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">        .. note::</span>
 <span class="line-empty" title="No Anys on this line!">            This method can handle having legacy taggers mixed in with</span>
@@ -844,14 +880,15 @@ Unannotated (x2)">        self.taggers_dict[self.tag_type] = self</span>
 <span class="line-empty" title="No Anys on this line!">        :rtype: list(tuple(~chemdataextractor.doc.text.RichToken, obj))</span>
 <span class="line-empty" title="No Anys on this line!">        """</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x4)">        tagger = self.taggers_dict[tag_type]</span>
+Unannotated (x3)">        tagger = self.taggers_dict[tag_type]</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">        if hasattr(tagger, "tag"):</span>
+Unannotated (x1)">        if hasattr(tagger, "tag"):</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x4)">            return tagger.tag(tokens)</span>
+Unannotated (x3)">            return tagger.tag(tokens)</span>
 <span class="line-empty" title="No Anys on this line!">        else:</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x7)">            return tagger.legacy_tag([token.text for token in tokens])</span>
+Unannotated (x3)
+Error (x1)">            return tagger.legacy_tag([token.text for token in tokens])</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="No Anys on this line!">    def batch_tag_for_type(self, sents, tag_type):</span>
 <span class="line-empty" title="No Anys on this line!">        """</span>
@@ -1075,13 +1112,10 @@ Omitted Generics (x18)">            return pickle.dump(dict(self.weights), fout)
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="No Anys on this line!">    def load(self, path):</span>
 <span class="line-empty" title="No Anys on this line!">        """Load the pickled model weights."""</span>
+<span class="line-precise" title="No Anys on this line!">        from ..data import safe_pickle_load</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x3)
-Unimported (x7)
-Explicit (x1)">        with open(path, "rb") as fin:</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x3)
-Explicit (x2)">            self.weights = pickle.load(fin)</span>
+Explicit (x1)">        self.weights = safe_pickle_load(path)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">class ApTagger(BaseTagger, metaclass=ABCMeta):</span>

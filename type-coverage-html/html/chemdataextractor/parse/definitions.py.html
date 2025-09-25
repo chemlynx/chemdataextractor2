@@ -63,11 +63,11 @@
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">#: Greek symbols</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x5)">greek_symbols = R("[\u0370-\u03ff\u1f00-\u1fff]")("specifier")</span>
+Unannotated (x2)">greek_symbols = R("[\u0370-\u03ff\u1f00-\u1fff]")("specifier")</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">#: Critical temperature e.g. Tc, Tmax, etc</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x5)">critical_temperature = R("T[C|c|N|n|max|on|1-2|A-Z]")("specifier")</span>
+Unannotated (x2)">critical_temperature = R("T[C|c|N|n|max|on|1-2|A-Z]")("specifier")</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">#: Possible definition specifiers</span>
 <span class="line-any" title="Any Types on this line: 
@@ -79,14 +79,12 @@ Unannotated (x2)">definition_phrase_1 = (</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x22)">    OneOrMore(T("JJ") | T("NN") | T("NNP") | T("HYPH") | T("VBG"))("phrase").add_action(join)</span>
 <span class="line-any" title="Any Types on this line: 
-Error (x1)">    + Optional(delim)</span>
+Unannotated (x1)">    + Optional(delim)</span>
 <span class="line-any" title="Any Types on this line: 
-Error (x1)
 Unannotated (x1)">    + Optional(rbrct)</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x1)">    + specifier_options</span>
 <span class="line-any" title="Any Types on this line: 
-Error (x1)
 Unannotated (x1)">    + Optional(rbrct)</span>
 <span class="line-precise" title="No Anys on this line!">)("definition")</span>
 <span class="line-empty" title="No Anys on this line!"></span>

@@ -97,6 +97,37 @@
 <span id="L87" class="lineno"><a class="lineno" href="#L87">87</a></span>
 <span id="L88" class="lineno"><a class="lineno" href="#L88">88</a></span>
 <span id="L89" class="lineno"><a class="lineno" href="#L89">89</a></span>
+<span id="L90" class="lineno"><a class="lineno" href="#L90">90</a></span>
+<span id="L91" class="lineno"><a class="lineno" href="#L91">91</a></span>
+<span id="L92" class="lineno"><a class="lineno" href="#L92">92</a></span>
+<span id="L93" class="lineno"><a class="lineno" href="#L93">93</a></span>
+<span id="L94" class="lineno"><a class="lineno" href="#L94">94</a></span>
+<span id="L95" class="lineno"><a class="lineno" href="#L95">95</a></span>
+<span id="L96" class="lineno"><a class="lineno" href="#L96">96</a></span>
+<span id="L97" class="lineno"><a class="lineno" href="#L97">97</a></span>
+<span id="L98" class="lineno"><a class="lineno" href="#L98">98</a></span>
+<span id="L99" class="lineno"><a class="lineno" href="#L99">99</a></span>
+<span id="L100" class="lineno"><a class="lineno" href="#L100">100</a></span>
+<span id="L101" class="lineno"><a class="lineno" href="#L101">101</a></span>
+<span id="L102" class="lineno"><a class="lineno" href="#L102">102</a></span>
+<span id="L103" class="lineno"><a class="lineno" href="#L103">103</a></span>
+<span id="L104" class="lineno"><a class="lineno" href="#L104">104</a></span>
+<span id="L105" class="lineno"><a class="lineno" href="#L105">105</a></span>
+<span id="L106" class="lineno"><a class="lineno" href="#L106">106</a></span>
+<span id="L107" class="lineno"><a class="lineno" href="#L107">107</a></span>
+<span id="L108" class="lineno"><a class="lineno" href="#L108">108</a></span>
+<span id="L109" class="lineno"><a class="lineno" href="#L109">109</a></span>
+<span id="L110" class="lineno"><a class="lineno" href="#L110">110</a></span>
+<span id="L111" class="lineno"><a class="lineno" href="#L111">111</a></span>
+<span id="L112" class="lineno"><a class="lineno" href="#L112">112</a></span>
+<span id="L113" class="lineno"><a class="lineno" href="#L113">113</a></span>
+<span id="L114" class="lineno"><a class="lineno" href="#L114">114</a></span>
+<span id="L115" class="lineno"><a class="lineno" href="#L115">115</a></span>
+<span id="L116" class="lineno"><a class="lineno" href="#L116">116</a></span>
+<span id="L117" class="lineno"><a class="lineno" href="#L117">117</a></span>
+<span id="L118" class="lineno"><a class="lineno" href="#L118">118</a></span>
+<span id="L119" class="lineno"><a class="lineno" href="#L119">119</a></span>
+<span id="L120" class="lineno"><a class="lineno" href="#L120">120</a></span>
 </pre></td>
 <td class="table-code"><pre><span class="line-empty" title="No Anys on this line!">"""</span>
 <span class="line-empty" title="No Anys on this line!">chemdataextractor.reader.springerjats</span>
@@ -104,13 +135,24 @@
 <span class="line-empty" title="No Anys on this line!">~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~</span>
 <span class="line-empty" title="No Anys on this line!">Springer XML reader for the JATS format</span>
 <span class="line-empty" title="No Anys on this line!"></span>
+<span class="line-empty" title="No Anys on this line!">Provides specialized XML reader for Springer JATS format documents</span>
+<span class="line-empty" title="No Anys on this line!">with comprehensive metadata parsing and element extraction.</span>
+<span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">author: Shu Huang &lt;sh2009@cam.ac.uk&gt;</span>
 <span class="line-empty" title="No Anys on this line!">"""</span>
+<span class="line-empty" title="No Anys on this line!"></span>
+<span class="line-precise" title="No Anys on this line!">from __future__ import annotations</span>
+<span class="line-empty" title="No Anys on this line!"></span>
+<span class="line-precise" title="No Anys on this line!">from typing import TYPE_CHECKING</span>
+<span class="line-precise" title="No Anys on this line!">from typing import Any</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">from ..doc.meta import MetaData</span>
 <span class="line-precise" title="No Anys on this line!">from ..scrape.clean import Cleaner</span>
 <span class="line-precise" title="No Anys on this line!">from ..scrape.clean import clean</span>
 <span class="line-precise" title="No Anys on this line!">from .markup import XmlReader</span>
+<span class="line-empty" title="No Anys on this line!"></span>
+<span class="line-precise" title="No Anys on this line!">if TYPE_CHECKING:</span>
+<span class="line-any" title="No Anys on this line!">    from lxml.html import HtmlElement</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!"># XML stripper that removes the tags around numbers in chemical formulas</span>
 <span class="line-any" title="Any Types on this line: 
@@ -151,73 +193,93 @@ Unannotated (x1)">strip_spr_xml = Cleaner(</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">    ignore_css = "tex-math, label, table"</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-any" title="No Anys on this line!">    def detect(self, fstring, fname=None):</span>
-<span class="line-empty" title="No Anys on this line!">        """Springer document detection based on string found in xml"""</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x5)">        if fname and not fname.endswith(".xml"):</span>
-<span class="line-any" title="No Anys on this line!">            return False</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x1)">        return b'dtd-version="1.2"' in fstring</span>
+<span class="line-precise" title="No Anys on this line!">    def detect(self, fstring: str | bytes, fname: str | None = None) -&gt; bool:</span>
+<span class="line-empty" title="No Anys on this line!">        """Springer document detection based on string found in xml.</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-any" title="No Anys on this line!">    def _parse_metadata(self, el, refs, specials):</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x5)">        title = self._css(self.metadata_title_css, el)</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x5)">        authors = self._css(self.metadata_author_css, el)</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x5)">        publisher = self._css(self.metadata_publisher_css, el)</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x5)">        journal = self._css(self.metadata_journal_css, el)</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x5)">        day = self._css(self.metadata_day_css, el)</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x5)">        month = self._css(self.metadata_month_css, el)</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x5)">        year = self._css(self.metadata_year_css, el)</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x5)">        volume = self._css(self.metadata_volume_css, el)</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x5)">        issue = self._css(self.metadata_issue_css, el)</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x5)">        firstpage = self._css(self.metadata_firstpage_css, el)</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x5)">        lastpage = self._css(self.metadata_lastpage_css, el)</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x5)">        doi = self._css(self.metadata_doi_css, el)</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x13)">        month = "0" + month[0].text if len(month[0].text) == 1 else month[0].text</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x13)">        day = "0" + day[0].text if len(day[0].text) == 1 else day[0].text</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x8)">        date = year[0].text + month + day</span>
+<span class="line-empty" title="No Anys on this line!">        Args:</span>
+<span class="line-empty" title="No Anys on this line!">            fstring: Input data to check</span>
+<span class="line-empty" title="No Anys on this line!">            fname: Optional filename for format hints</span>
+<span class="line-empty" title="No Anys on this line!"></span>
+<span class="line-empty" title="No Anys on this line!">        Returns:</span>
+<span class="line-empty" title="No Anys on this line!">            True if this appears to be a Springer JATS XML document</span>
+<span class="line-empty" title="No Anys on this line!">        """</span>
+<span class="line-precise" title="No Anys on this line!">        if fname and not fname.endswith(".xml"):</span>
+<span class="line-precise" title="No Anys on this line!">            return False</span>
+<span class="line-precise" title="No Anys on this line!">        return b'dtd-version="1.2"' in fstring</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x1)">        metadata = {</span>
+Unimported (x1)
+Explicit (x2)">    def _parse_metadata(</span>
+<span class="line-empty" title="No Anys on this line!">        self, el: HtmlElement, refs: dict[str, Any], specials: dict[str, Any]</span>
+<span class="line-empty" title="No Anys on this line!">    ) -&gt; list[MetaData]:</span>
+<span class="line-empty" title="No Anys on this line!">        """Parse metadata from Springer JATS document.</span>
+<span class="line-empty" title="No Anys on this line!"></span>
+<span class="line-empty" title="No Anys on this line!">        Args:</span>
+<span class="line-empty" title="No Anys on this line!">            el: Root element containing metadata</span>
+<span class="line-empty" title="No Anys on this line!">            refs: Reference mapping dictionary</span>
+<span class="line-empty" title="No Anys on this line!">            specials: Special elements mapping dictionary</span>
+<span class="line-empty" title="No Anys on this line!"></span>
+<span class="line-empty" title="No Anys on this line!">        Returns:</span>
+<span class="line-empty" title="No Anys on this line!">            List containing single MetaData object</span>
+<span class="line-empty" title="No Anys on this line!">        """</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x4)">            "_title": title[0].text if title else None,</span>
+Unimported (x5)">        title = self._css(self.metadata_title_css, el)</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x5)">            "_authors": [i.text for i in authors] if authors else None,</span>
+Unimported (x5)">        authors = self._css(self.metadata_author_css, el)</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x4)">            "_publisher": publisher[0].text if publisher else None,</span>
+Unimported (x5)">        publisher = self._css(self.metadata_publisher_css, el)</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x4)">            "_journal": journal[0].text if journal else None,</span>
+Unimported (x5)">        journal = self._css(self.metadata_journal_css, el)</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            "_date": date if date else None,</span>
+Unimported (x5)">        day = self._css(self.metadata_day_css, el)</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x4)">            "_volume": volume[0].text if volume else None,</span>
+Unimported (x5)">        month = self._css(self.metadata_month_css, el)</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x4)">            "_issue": issue[0].text if issue else None,</span>
+Unimported (x5)">        year = self._css(self.metadata_year_css, el)</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x4)">            "_firstpage": firstpage[0].text if firstpage else None,</span>
+Unimported (x5)">        volume = self._css(self.metadata_volume_css, el)</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x4)">            "_lastpage": lastpage[0].text if lastpage else None,</span>
+Unimported (x5)">        issue = self._css(self.metadata_issue_css, el)</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x4)">            "_doi": doi[0].text if doi else None,</span>
+Unimported (x5)">        firstpage = self._css(self.metadata_firstpage_css, el)</span>
+<span class="line-any" title="Any Types on this line: 
+Unimported (x5)">        lastpage = self._css(self.metadata_lastpage_css, el)</span>
+<span class="line-any" title="Any Types on this line: 
+Unimported (x5)">        doi = self._css(self.metadata_doi_css, el)</span>
+<span class="line-any" title="Any Types on this line: 
+Unimported (x11)">        month = "0" + month[0].text if len(month[0].text) == 1 else month[0].text</span>
+<span class="line-any" title="Any Types on this line: 
+Unimported (x11)">        day = "0" + day[0].text if len(day[0].text) == 1 else day[0].text</span>
+<span class="line-any" title="Any Types on this line: 
+Unimported (x8)">        date = year[0].text + month + day</span>
+<span class="line-empty" title="No Anys on this line!"></span>
+<span class="line-imprecise" title="Any Types on this line: 
+Unimported (x2)">        metadata = {</span>
+<span class="line-any" title="Any Types on this line: 
+Unimported (x4)">            "_title": title[0].text if title else None,</span>
+<span class="line-any" title="Any Types on this line: 
+Unimported (x5)">            "_authors": [i.text for i in authors] if authors else None,</span>
+<span class="line-any" title="Any Types on this line: 
+Unimported (x4)">            "_publisher": publisher[0].text if publisher else None,</span>
+<span class="line-any" title="Any Types on this line: 
+Unimported (x4)">            "_journal": journal[0].text if journal else None,</span>
+<span class="line-any" title="Any Types on this line: 
+Unimported (x2)">            "_date": date if date else None,</span>
+<span class="line-any" title="Any Types on this line: 
+Unimported (x4)">            "_volume": volume[0].text if volume else None,</span>
+<span class="line-any" title="Any Types on this line: 
+Unimported (x4)">            "_issue": issue[0].text if issue else None,</span>
+<span class="line-any" title="Any Types on this line: 
+Unimported (x4)">            "_firstpage": firstpage[0].text if firstpage else None,</span>
+<span class="line-any" title="Any Types on this line: 
+Unimported (x4)">            "_lastpage": lastpage[0].text if lastpage else None,</span>
+<span class="line-any" title="Any Types on this line: 
+Unimported (x4)">            "_doi": doi[0].text if doi else None,</span>
 <span class="line-empty" title="No Anys on this line!">        }</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x4)">        meta = MetaData(metadata)</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x1)">        return [meta]</span>
+Unannotated (x1)
+Unimported (x2)">        meta = MetaData(metadata)</span>
+<span class="line-precise" title="No Anys on this line!">        return [meta]</span>
 </pre></td>
 </tr></tbody>
 </table>

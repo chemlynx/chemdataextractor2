@@ -123,7 +123,7 @@ class BibtexParser:
                         else:
                             v = latex_to_unicode(v)
                         self.records[key][k] = v
-                    if self._token != ",":
+                    if self._token != ",":  # nosec B105
                         break
 
     def _parse_field(self) -> tuple[str, str] | None:

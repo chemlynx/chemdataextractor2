@@ -2566,6 +2566,8 @@
 <span id="L2556" class="lineno"><a class="lineno" href="#L2556">2556</a></span>
 <span id="L2557" class="lineno"><a class="lineno" href="#L2557">2557</a></span>
 <span id="L2558" class="lineno"><a class="lineno" href="#L2558">2558</a></span>
+<span id="L2559" class="lineno"><a class="lineno" href="#L2559">2559</a></span>
+<span id="L2560" class="lineno"><a class="lineno" href="#L2560">2560</a></span>
 </pre></td>
 <td class="table-code"><pre><span class="line-empty" title="No Anys on this line!">"""</span>
 <span class="line-empty" title="No Anys on this line!">Named entity recognition (NER) for Chemical entity mentions (CEM).</span>
@@ -4722,7 +4724,9 @@
 <span class="line-empty" title="No Anys on this line!">    """</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-imprecise" title="Any Types on this line: 
-Explicit (x1)">    def __init__(self, text: str, pos_tag: str, prefetched_tags: dict[str, Any] | None = None) -&gt; None:</span>
+Explicit (x1)">    def __init__(</span>
+<span class="line-precise" title="No Anys on this line!">        self, text: str, pos_tag: str, prefetched_tags: dict[str, Any] | None = None</span>
+<span class="line-empty" title="No Anys on this line!">    ) -&gt; None:</span>
 <span class="line-precise" title="No Anys on this line!">        self.pos_tag = pos_tag</span>
 <span class="line-precise" title="No Anys on this line!">        self.text = text</span>
 <span class="line-imprecise" title="Any Types on this line: 
@@ -4852,87 +4856,56 @@ Explicit (x4)">        token = tokens[i].text</span>
 <span class="line-any" title="Any Types on this line: 
 Explicit (x4)">        tag = tokens[i][POS_TAG_TYPE]</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)
 Explicit (x1)">        w = self.lexicon[token]</span>
 <span class="line-precise" title="No Anys on this line!">        features = [</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            f"w.shape={w.shape}",</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            f"w.normalized={w.normalized}",</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            f"w.lower={w.lower}",</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            f"w.length={w.length}",</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            f"w.digit_count={w.digit_count}",</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            f"w.upper_count={w.upper_count}",</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            f"w.lower_count={w.lower_count}",</span>
+<span class="line-precise" title="No Anys on this line!">            f"w.shape={w.shape}",</span>
+<span class="line-precise" title="No Anys on this line!">            f"w.normalized={w.normalized}",</span>
+<span class="line-precise" title="No Anys on this line!">            f"w.lower={w.lower}",</span>
+<span class="line-precise" title="No Anys on this line!">            f"w.length={w.length}",</span>
+<span class="line-precise" title="No Anys on this line!">            f"w.digit_count={w.digit_count}",</span>
+<span class="line-precise" title="No Anys on this line!">            f"w.upper_count={w.upper_count}",</span>
+<span class="line-precise" title="No Anys on this line!">            f"w.lower_count={w.lower_count}",</span>
 <span class="line-any" title="Any Types on this line: 
 Explicit (x1)">            f"w.tag={tag}",</span>
 <span class="line-empty" title="No Anys on this line!">        ]</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">        if w.like_number:</span>
+<span class="line-precise" title="No Anys on this line!">        if w.like_number:</span>
 <span class="line-precise" title="No Anys on this line!">            features.append("w.like_number")</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">        elif w.is_punct:</span>
+<span class="line-precise" title="No Anys on this line!">        elif w.is_punct:</span>
 <span class="line-precise" title="No Anys on this line!">            features.append("w.is_punct")</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">        elif w.like_url:</span>
+<span class="line-precise" title="No Anys on this line!">        elif w.like_url:</span>
 <span class="line-precise" title="No Anys on this line!">            features.append("w.like_url")</span>
 <span class="line-empty" title="No Anys on this line!">        else:</span>
 <span class="line-precise" title="No Anys on this line!">            features.extend(</span>
 <span class="line-empty" title="No Anys on this line!">                [</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x3)">                    f"w.suffix1={w.lower[-1:]}",</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x3)">                    f"w.suffix2={w.lower[-2:]}",</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x3)">                    f"w.suffix3={w.lower[-3:]}",</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x3)">                    f"w.suffix4={w.lower[-4:]}",</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x3)">                    f"w.suffix5={w.lower[-5:]}",</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x3)">                    f"w.prefix1={w.lower[:1]}",</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x3)">                    f"w.prefix2={w.lower[:2]}",</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x3)">                    f"w.prefix3={w.lower[:3]}",</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x3)">                    f"w.prefix4={w.lower[:4]}",</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x3)">                    f"w.prefix5={w.lower[:5]}",</span>
+<span class="line-precise" title="No Anys on this line!">                    f"w.suffix1={w.lower[-1:]}",</span>
+<span class="line-precise" title="No Anys on this line!">                    f"w.suffix2={w.lower[-2:]}",</span>
+<span class="line-precise" title="No Anys on this line!">                    f"w.suffix3={w.lower[-3:]}",</span>
+<span class="line-precise" title="No Anys on this line!">                    f"w.suffix4={w.lower[-4:]}",</span>
+<span class="line-precise" title="No Anys on this line!">                    f"w.suffix5={w.lower[-5:]}",</span>
+<span class="line-precise" title="No Anys on this line!">                    f"w.prefix1={w.lower[:1]}",</span>
+<span class="line-precise" title="No Anys on this line!">                    f"w.prefix2={w.lower[:2]}",</span>
+<span class="line-precise" title="No Anys on this line!">                    f"w.prefix3={w.lower[:3]}",</span>
+<span class="line-precise" title="No Anys on this line!">                    f"w.prefix4={w.lower[:4]}",</span>
+<span class="line-precise" title="No Anys on this line!">                    f"w.prefix5={w.lower[:5]}",</span>
 <span class="line-empty" title="No Anys on this line!">                ]</span>
 <span class="line-empty" title="No Anys on this line!">            )</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            if w.is_alpha:</span>
+<span class="line-precise" title="No Anys on this line!">            if w.is_alpha:</span>
 <span class="line-precise" title="No Anys on this line!">                features.append("w.is_alpha")</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            elif w.is_hyphenated:</span>
+<span class="line-precise" title="No Anys on this line!">            elif w.is_hyphenated:</span>
 <span class="line-precise" title="No Anys on this line!">                features.append("w.is_hyphenated")</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            if w.is_upper:</span>
+<span class="line-precise" title="No Anys on this line!">            if w.is_upper:</span>
 <span class="line-precise" title="No Anys on this line!">                features.append("w.is_upper")</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            elif w.is_lower:</span>
+<span class="line-precise" title="No Anys on this line!">            elif w.is_lower:</span>
 <span class="line-precise" title="No Anys on this line!">                features.append("w.is_lower")</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            elif w.is_title:</span>
+<span class="line-precise" title="No Anys on this line!">            elif w.is_title:</span>
 <span class="line-precise" title="No Anys on this line!">                features.append("w.is_title")</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x3)">        if self.clusters and w.cluster:</span>
+<span class="line-precise" title="No Anys on this line!">        if self.clusters and w.cluster:</span>
 <span class="line-precise" title="No Anys on this line!">            features.extend(</span>
 <span class="line-empty" title="No Anys on this line!">                [</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x3)">                    f"w.cluster4={w.cluster[:4]}",</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x3)">                    f"w.cluster6={w.cluster[:6]}",</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x3)">                    f"w.cluster10={w.cluster[:10]}",</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x3)">                    f"w.cluster20={w.cluster[:20]}",</span>
+<span class="line-precise" title="No Anys on this line!">                    f"w.cluster4={w.cluster[:4]}",</span>
+<span class="line-precise" title="No Anys on this line!">                    f"w.cluster6={w.cluster[:6]}",</span>
+<span class="line-precise" title="No Anys on this line!">                    f"w.cluster10={w.cluster[:10]}",</span>
+<span class="line-precise" title="No Anys on this line!">                    f"w.cluster20={w.cluster[:20]}",</span>
 <span class="line-empty" title="No Anys on this line!">                ]</span>
 <span class="line-empty" title="No Anys on this line!">            )</span>
 <span class="line-empty" title="No Anys on this line!">        # Add features for previous tokens if present</span>
@@ -4942,34 +4915,24 @@ Explicit (x4)">            p1token = tokens[i - 1].text</span>
 <span class="line-any" title="Any Types on this line: 
 Explicit (x4)">            p1tag = tokens[i - 1][POS_TAG_TYPE]</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)
 Explicit (x1)">            p1 = self.lexicon[p1token]</span>
 <span class="line-precise" title="No Anys on this line!">            features.extend(</span>
 <span class="line-empty" title="No Anys on this line!">                [</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">                    f"p1.lower={p1.lower}",</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">                    f"p1.shape={p1.shape}",</span>
+<span class="line-precise" title="No Anys on this line!">                    f"p1.lower={p1.lower}",</span>
+<span class="line-precise" title="No Anys on this line!">                    f"p1.shape={p1.shape}",</span>
 <span class="line-any" title="Any Types on this line: 
 Explicit (x1)">                    f"p1.tag={p1tag}",</span>
 <span class="line-empty" title="No Anys on this line!">                ]</span>
 <span class="line-empty" title="No Anys on this line!">            )</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x8)">            if not (p1.like_number or p1.is_punct or p1.like_url):</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x3)">                features.append(f"p1:suffix3={p1.lower[-3:]}")</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x3)">            if self.clusters and p1.cluster:</span>
+<span class="line-precise" title="No Anys on this line!">            if not (p1.like_number or p1.is_punct or p1.like_url):</span>
+<span class="line-precise" title="No Anys on this line!">                features.append(f"p1:suffix3={p1.lower[-3:]}")</span>
+<span class="line-precise" title="No Anys on this line!">            if self.clusters and p1.cluster:</span>
 <span class="line-precise" title="No Anys on this line!">                features.extend(</span>
 <span class="line-empty" title="No Anys on this line!">                    [</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x3)">                        f"p1.cluster4={p1.cluster[:4]}",</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x3)">                        f"p1.cluster6={p1.cluster[:6]}",</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x3)">                        f"p1.cluster10={p1.cluster[:10]}",</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x3)">                        f"p1.cluster20={p1.cluster[:20]}",</span>
+<span class="line-precise" title="No Anys on this line!">                        f"p1.cluster4={p1.cluster[:4]}",</span>
+<span class="line-precise" title="No Anys on this line!">                        f"p1.cluster6={p1.cluster[:6]}",</span>
+<span class="line-precise" title="No Anys on this line!">                        f"p1.cluster10={p1.cluster[:10]}",</span>
+<span class="line-precise" title="No Anys on this line!">                        f"p1.cluster20={p1.cluster[:20]}",</span>
 <span class="line-empty" title="No Anys on this line!">                    ]</span>
 <span class="line-empty" title="No Anys on this line!">                )</span>
 <span class="line-precise" title="No Anys on this line!">            if i &gt; 1:</span>
@@ -4978,30 +4941,22 @@ Explicit (x4)">                p2token = tokens[i - 2].text</span>
 <span class="line-any" title="Any Types on this line: 
 Explicit (x4)">                p2tag = tokens[i - 2][POS_TAG_TYPE]</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)
 Explicit (x1)">                p2 = self.lexicon[p2token]</span>
 <span class="line-precise" title="No Anys on this line!">                features.extend(</span>
 <span class="line-empty" title="No Anys on this line!">                    [</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">                        f"p2.lower={p2.lower}",</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">                        f"p2.shape={p2.shape}",</span>
+<span class="line-precise" title="No Anys on this line!">                        f"p2.lower={p2.lower}",</span>
+<span class="line-precise" title="No Anys on this line!">                        f"p2.shape={p2.shape}",</span>
 <span class="line-any" title="Any Types on this line: 
 Explicit (x1)">                        f"p2.tag={p2tag}",</span>
 <span class="line-empty" title="No Anys on this line!">                    ]</span>
 <span class="line-empty" title="No Anys on this line!">                )</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x3)">                if self.clusters and p2.cluster:</span>
+<span class="line-precise" title="No Anys on this line!">                if self.clusters and p2.cluster:</span>
 <span class="line-precise" title="No Anys on this line!">                    features.extend(</span>
 <span class="line-empty" title="No Anys on this line!">                        [</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x3)">                            f"p2.cluster4={p2.cluster[:4]}",</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x3)">                            f"p2.cluster6={p2.cluster[:6]}",</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x3)">                            f"p2.cluster10={p2.cluster[:10]}",</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x3)">                            f"p2.cluster20={p2.cluster[:20]}",</span>
+<span class="line-precise" title="No Anys on this line!">                            f"p2.cluster4={p2.cluster[:4]}",</span>
+<span class="line-precise" title="No Anys on this line!">                            f"p2.cluster6={p2.cluster[:6]}",</span>
+<span class="line-precise" title="No Anys on this line!">                            f"p2.cluster10={p2.cluster[:10]}",</span>
+<span class="line-precise" title="No Anys on this line!">                            f"p2.cluster20={p2.cluster[:20]}",</span>
 <span class="line-empty" title="No Anys on this line!">                        ]</span>
 <span class="line-empty" title="No Anys on this line!">                    )</span>
 <span class="line-empty" title="No Anys on this line!">        # Add features for next tokens if present</span>
@@ -5013,34 +4968,24 @@ Explicit (x4)">            n1token = tokens[i + 1].text</span>
 <span class="line-any" title="Any Types on this line: 
 Explicit (x4)">            n1tag = tokens[i + 1][POS_TAG_TYPE]</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)
 Explicit (x1)">            n1 = self.lexicon[n1token]</span>
 <span class="line-precise" title="No Anys on this line!">            features.extend(</span>
 <span class="line-empty" title="No Anys on this line!">                [</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">                    f"n1.lower={n1.lower}",</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">                    f"n1.shape={n1.shape}",</span>
+<span class="line-precise" title="No Anys on this line!">                    f"n1.lower={n1.lower}",</span>
+<span class="line-precise" title="No Anys on this line!">                    f"n1.shape={n1.shape}",</span>
 <span class="line-any" title="Any Types on this line: 
 Explicit (x1)">                    f"n1.tag={n1tag}",</span>
 <span class="line-empty" title="No Anys on this line!">                ]</span>
 <span class="line-empty" title="No Anys on this line!">            )</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x8)">            if not (n1.like_number or n1.is_punct or n1.like_url):</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x3)">                features.append(f"n1.suffix3={n1.lower[-3:]}")</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x3)">            if self.clusters and n1.cluster:</span>
+<span class="line-precise" title="No Anys on this line!">            if not (n1.like_number or n1.is_punct or n1.like_url):</span>
+<span class="line-precise" title="No Anys on this line!">                features.append(f"n1.suffix3={n1.lower[-3:]}")</span>
+<span class="line-precise" title="No Anys on this line!">            if self.clusters and n1.cluster:</span>
 <span class="line-precise" title="No Anys on this line!">                features.extend(</span>
 <span class="line-empty" title="No Anys on this line!">                    [</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x3)">                        f"n1.cluster4={n1.cluster[:4]}",</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x3)">                        f"n1.cluster6={n1.cluster[:6]}",</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x3)">                        f"n1.cluster10={n1.cluster[:10]}",</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x3)">                        f"n1.cluster20={n1.cluster[:20]}",</span>
+<span class="line-precise" title="No Anys on this line!">                        f"n1.cluster4={n1.cluster[:4]}",</span>
+<span class="line-precise" title="No Anys on this line!">                        f"n1.cluster6={n1.cluster[:6]}",</span>
+<span class="line-precise" title="No Anys on this line!">                        f"n1.cluster10={n1.cluster[:10]}",</span>
+<span class="line-precise" title="No Anys on this line!">                        f"n1.cluster20={n1.cluster[:20]}",</span>
 <span class="line-empty" title="No Anys on this line!">                    ]</span>
 <span class="line-empty" title="No Anys on this line!">                )</span>
 <span class="line-precise" title="No Anys on this line!">            if i &lt; end - 1:</span>
@@ -5049,30 +4994,22 @@ Explicit (x4)">                n2token = tokens[i + 2].text</span>
 <span class="line-any" title="Any Types on this line: 
 Explicit (x4)">                n2tag = tokens[i + 2][POS_TAG_TYPE]</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)
 Explicit (x1)">                n2 = self.lexicon[n2token]</span>
 <span class="line-precise" title="No Anys on this line!">                features.extend(</span>
 <span class="line-empty" title="No Anys on this line!">                    [</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">                        f"n2.lower={n2.lower}",</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">                        f"n2.shape={n2.shape}",</span>
+<span class="line-precise" title="No Anys on this line!">                        f"n2.lower={n2.lower}",</span>
+<span class="line-precise" title="No Anys on this line!">                        f"n2.shape={n2.shape}",</span>
 <span class="line-any" title="Any Types on this line: 
 Explicit (x1)">                        f"n2.tag={n2tag}",</span>
 <span class="line-empty" title="No Anys on this line!">                    ]</span>
 <span class="line-empty" title="No Anys on this line!">                )</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x3)">                if self.clusters and n2.cluster:</span>
+<span class="line-precise" title="No Anys on this line!">                if self.clusters and n2.cluster:</span>
 <span class="line-precise" title="No Anys on this line!">                    features.extend(</span>
 <span class="line-empty" title="No Anys on this line!">                        [</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x3)">                            f"n2.cluster4={n2.cluster[:4]}",</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x3)">                            f"n2.cluster6={n2.cluster[:6]}",</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x3)">                            f"n2.cluster10={n2.cluster[:10]}",</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x3)">                            f"n2.cluster20={n2.cluster[:20]}",</span>
+<span class="line-precise" title="No Anys on this line!">                            f"n2.cluster4={n2.cluster[:4]}",</span>
+<span class="line-precise" title="No Anys on this line!">                            f"n2.cluster6={n2.cluster[:6]}",</span>
+<span class="line-precise" title="No Anys on this line!">                            f"n2.cluster10={n2.cluster[:10]}",</span>
+<span class="line-precise" title="No Anys on this line!">                            f"n2.cluster20={n2.cluster[:20]}",</span>
 <span class="line-empty" title="No Anys on this line!">                        ]</span>
 <span class="line-empty" title="No Anys on this line!">                    )</span>
 <span class="line-precise" title="No Anys on this line!">        if i == 0:</span>
@@ -5151,23 +5088,22 @@ Explicit (x1)">    def legacy_tag(self, tokens: list[tuple[str, str]]) -&gt; lis
 <span class="line-empty" title="No Anys on this line!">        """</span>
 <span class="line-precise" title="No Anys on this line!">        pseudo_rich_tokens = []</span>
 <span class="line-precise" title="No Anys on this line!">        all_prefetched_tags = {}</span>
+<span class="line-imprecise" title="Any Types on this line: 
+Unannotated (x1)">        for tag_type in self.taggers_dict:</span>
+<span class="line-precise" title="No Anys on this line!">            if tag_type != self.tag_type:</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">        for tag_type in self.taggers_dict:</span>
+Unannotated (x3)">                tagger = self.taggers_dict[tag_type]</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            if tag_type != self.tag_type:</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x4)">                tagger = self.taggers_dict[tag_type]</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x9)">                all_prefetched_tags[tag_type] = [el[1] for el in tagger.legacy_tag(tokens)]</span>
+Unannotated (x7)">                all_prefetched_tags[tag_type] = [el[1] for el in tagger.legacy_tag(tokens)]</span>
 <span class="line-precise" title="No Anys on this line!">        for index, token in enumerate(tokens):</span>
 <span class="line-precise" title="No Anys on this line!">            prefetched_tags = {}</span>
+<span class="line-imprecise" title="Any Types on this line: 
+Unannotated (x4)">            for key, value in all_prefetched_tags.items():</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x8)">            for key, value in all_prefetched_tags.items():</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x5)">                prefetched_tags[key] = value[index]</span>
+Unannotated (x3)">                prefetched_tags[key] = value[index]</span>
 <span class="line-imprecise" title="Any Types on this line: 
 Explicit (x1)
-Unannotated (x2)">            pseudo_rich_tokens.append(_CompatibilityToken(token[0], token[1], prefetched_tags))</span>
+Unannotated (x1)">            pseudo_rich_tokens.append(_CompatibilityToken(token[0], token[1], prefetched_tags))</span>
 <span class="line-imprecise" title="Any Types on this line: 
 Explicit (x4)">        tagged = self.tag(pseudo_rich_tokens)</span>
 <span class="line-precise" title="No Anys on this line!">        processed = []</span>
@@ -5186,14 +5122,12 @@ Explicit (x2)">    def tag(self, tokens: list[Any]) -&gt; list[tuple[Any, str | 
 <span class="line-imprecise" title="Any Types on this line: 
 Explicit (x1)">        tags = [None] * len(tokens)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">        for tag_type in self.taggers_dict:</span>
+<span class="line-imprecise" title="Any Types on this line: 
+Unannotated (x1)">        for tag_type in self.taggers_dict:</span>
 <span class="line-empty" title="No Anys on this line!">            # tag_gen = tagger.tag(tokens) if isinstance(tagger, CrfCemTagger) else tagger.tag(just_tokens)</span>
+<span class="line-precise" title="No Anys on this line!">            if tag_type != self.tag_type:</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            if tag_type != self.tag_type:</span>
-<span class="line-any" title="Any Types on this line: 
-Explicit (x5)
-Unannotated (x1)">                tagger_tags = [token[tag_type] for token in tokens]</span>
+Explicit (x5)">                tagger_tags = [token[tag_type] for token in tokens]</span>
 <span class="line-any" title="Any Types on this line: 
 Explicit (x5)">                for i, newtag in enumerate(tagger_tags):</span>
 <span class="line-any" title="Any Types on this line: 
@@ -5211,18 +5145,15 @@ Explicit (x3)">                    elif newtag == "B-CM" and (tags[i] is None or
 Explicit (x4)">            token = tokens[i].text</span>
 <span class="line-empty" title="No Anys on this line!">            # pos = tokens[i][POS_TAG_TYPE]</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)
 Explicit (x1)">            lex = self.lexicon[token]</span>
 <span class="line-precise" title="No Anys on this line!">            nexttag = tags[i + 1] if i &lt; len(tags) - 1 else None</span>
 <span class="line-empty" title="No Anys on this line!">            # Trim disallowed first tokens</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            if tag == "B-CM" and lex.lower in STRIP_START:</span>
+<span class="line-precise" title="No Anys on this line!">            if tag == "B-CM" and lex.lower in STRIP_START:</span>
 <span class="line-precise" title="No Anys on this line!">                tags[i] = None</span>
 <span class="line-precise" title="No Anys on this line!">                if nexttag == "I-CM":</span>
 <span class="line-precise" title="No Anys on this line!">                    tags[i + 1] = "B-CM"</span>
 <span class="line-empty" title="No Anys on this line!">            # Trim disallowed final tokens</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            if nexttag is None and lex.lower in STRIP_END:</span>
+<span class="line-precise" title="No Anys on this line!">            if nexttag is None and lex.lower in STRIP_END:</span>
 <span class="line-precise" title="No Anys on this line!">                tags[i] = None</span>
 <span class="line-empty" title="No Anys on this line!">        # Filter certain entities</span>
 <span class="line-precise" title="No Anys on this line!">        for i, tag in enumerate(tags):</span>
@@ -5231,74 +5162,57 @@ Explicit (x4)">            token = tokens[i].text</span>
 <span class="line-empty" title="No Anys on this line!">            # pos = tokens[i][POS_TAG_TYPE]</span>
 <span class="line-precise" title="No Anys on this line!">            if tag == "B-CM":</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x3)
 Explicit (x1)">                entity_tokens = [self.lexicon[token].lower]</span>
 <span class="line-precise" title="No Anys on this line!">                end_i = i + 1</span>
 <span class="line-precise" title="No Anys on this line!">                for j, subsequent in enumerate(tags[i + 1 :]):</span>
 <span class="line-precise" title="No Anys on this line!">                    if subsequent == "I-CM":</span>
 <span class="line-precise" title="No Anys on this line!">                        end_i += 1</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x4)
 Explicit (x3)">                        entity_tokens.append(self.lexicon[tokens[i + j + 1].text].lower)</span>
 <span class="line-empty" title="No Anys on this line!">                    else:</span>
 <span class="line-precise" title="No Anys on this line!">                        break</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">                # Fix combined '1H NMR' on end  # TODO: Also 13C, etc.?</span>
 <span class="line-empty" title="No Anys on this line!">                if (</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x3)">                    len(entity_tokens) &gt; 2</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x3)">                    and entity_tokens[-1] == "nmr"</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x3)">                    and entity_tokens[-2] == "1h"</span>
+<span class="line-precise" title="No Anys on this line!">                    len(entity_tokens) &gt; 2</span>
+<span class="line-precise" title="No Anys on this line!">                    and entity_tokens[-1] == "nmr"</span>
+<span class="line-precise" title="No Anys on this line!">                    and entity_tokens[-2] == "1h"</span>
 <span class="line-empty" title="No Anys on this line!">                ):</span>
 <span class="line-precise" title="No Anys on this line!">                    tags[end_i - 2] = "B-CM"</span>
 <span class="line-precise" title="No Anys on this line!">                    tags[end_i - 1] = None</span>
-<span class="line-imprecise" title="Any Types on this line: 
-Unannotated (x3)">                    entity_tokens = entity_tokens[:-2]</span>
+<span class="line-precise" title="No Anys on this line!">                    entity_tokens = entity_tokens[:-2]</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-imprecise" title="Any Types on this line: 
-Unannotated (x1)">                entity = " ".join(entity_tokens)</span>
+<span class="line-precise" title="No Anys on this line!">                entity = " ".join(entity_tokens)</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x7)">                if any(e in STOP_TOKENS for e in entity_tokens) or self._in_stoplist(entity):</span>
+Unannotated (x4)">                if any(e in STOP_TOKENS for e in entity_tokens) or self._in_stoplist(entity):</span>
 <span class="line-precise" title="No Anys on this line!">                    tags[i:end_i] = [None] * (end_i - i)</span>
 <span class="line-empty" title="No Anys on this line!">                else:</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x6)">                    bl = bracket_level(entity)</span>
+<span class="line-precise" title="No Anys on this line!">                    bl = bracket_level(entity)</span>
 <span class="line-empty" title="No Anys on this line!">                    # Try and add on brackets in neighbouring tokens if they form part of the name</span>
 <span class="line-empty" title="No Anys on this line!">                    # TODO: Check bracket type matches before adding on</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x10)
 Explicit (x4)">                    if bl == 1 and len(tokens) &gt; end_i and bracket_level(tokens[end_i].text) == -1:</span>
 <span class="line-empty" title="No Anys on this line!">                        # print('BLADJUST: %s - %s' % (entity, tokens[end_i][0]))</span>
 <span class="line-precise" title="No Anys on this line!">                        tags[end_i] = "I-CM"</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x10)
 Explicit (x3)">                    elif bl == -1 and i &gt; 0 and bracket_level(tokens[i - 1].text) == 1:</span>
 <span class="line-empty" title="No Anys on this line!">                        # print('BLADJUST: %s - %s' % (tokens[i-1][0], entity))</span>
 <span class="line-precise" title="No Anys on this line!">                        tags[i - 1] = "B-CM"</span>
 <span class="line-precise" title="No Anys on this line!">                        tags[i] = "I-CM"</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x6)">                    elif bracket_level(entity) != 0:</span>
+<span class="line-precise" title="No Anys on this line!">                    elif bracket_level(entity) != 0:</span>
 <span class="line-empty" title="No Anys on this line!">                        # Filter entities that overall don't have balanced brackets</span>
 <span class="line-precise" title="No Anys on this line!">                        tags[i:end_i] = [None] * (end_i - i)</span>
 <span class="line-empty" title="No Anys on this line!">                    else:</span>
 <span class="line-empty" title="No Anys on this line!">                        # Remove bracketed alphanumeric from end</span>
-<span class="line-imprecise" title="Any Types on this line: 
-Unannotated (x1)">                        if (</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x3)">                            len(entity_tokens) &gt;= 4</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x3)">                            and entity_tokens[-1] == ")"</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x3)">                            and entity_tokens[-3] == "("</span>
+<span class="line-precise" title="No Anys on this line!">                        if (</span>
+<span class="line-precise" title="No Anys on this line!">                            len(entity_tokens) &gt;= 4</span>
+<span class="line-precise" title="No Anys on this line!">                            and entity_tokens[-1] == ")"</span>
+<span class="line-precise" title="No Anys on this line!">                            and entity_tokens[-3] == "("</span>
 <span class="line-precise" title="No Anys on this line!">                        ) and re.match(</span>
 <span class="line-precise" title="No Anys on this line!">                            r"^(\d{1,2}[A-Za-z]?|I|II|III|IV|V|VI|VII|VIII|IX)$",</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">                            entity_tokens[-2],</span>
+<span class="line-precise" title="No Anys on this line!">                            entity_tokens[-2],</span>
 <span class="line-empty" title="No Anys on this line!">                        ):</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">                            log.debug("Removing %s from end of CEM", entity_tokens[-2])</span>
+<span class="line-precise" title="No Anys on this line!">                            log.debug("Removing %s from end of CEM", entity_tokens[-2])</span>
 <span class="line-precise" title="No Anys on this line!">                            tags[end_i - 3 : end_i] = [None, None, None]</span>
 <span class="line-imprecise" title="Any Types on this line: 
 Explicit (x13)

@@ -172,73 +172,46 @@ Unimported (x2)">        strip_tags(e, "*")</span>
 Unimported (x2)">        return [E(result[0].tag, " ".join(texts))]</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-any" title="No Anys on this line!">def merge(tokens, start, result):</span>
+<span class="line-precise" title="No Anys on this line!">def merge(tokens: TokenList, start: int, result: ParseResult) -&gt; ParseResult:</span>
 <span class="line-empty" title="No Anys on this line!">    """Join tokens into a single string with no spaces."""</span>
+<span class="line-precise" title="No Anys on this line!">    texts = []</span>
+<span class="line-precise" title="No Anys on this line!">    if len(result) &gt; 0:</span>
+<span class="line-precise" title="No Anys on this line!">        for e in result:</span>
+<span class="line-precise" title="No Anys on this line!">            for child in e.iter():</span>
+<span class="line-precise" title="No Anys on this line!">                if child.text is not None:</span>
+<span class="line-any" title="No Anys on this line!">                    texts.append(child.text)</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x1)">    texts = []</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x3)">    if len(result) &gt; 0:</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">        for e in result:</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x4)">            for child in e.iter():</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">                if child.text is not None:</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x5)">                    texts.append(child.text)</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x7)
-Unimported (x1)">        return [E(result[0].tag, "".join(texts))]</span>
+Unimported (x2)">        return [E(result[0].tag, "".join(texts))]</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-any" title="No Anys on this line!">def strip_stop(tokens, start, result):</span>
+<span class="line-precise" title="No Anys on this line!">def strip_stop(tokens: TokenList, start: int, result: ParseResult) -&gt; ParseResult:</span>
 <span class="line-empty" title="No Anys on this line!">    """Remove trailing full stop from tokens."""</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">    for e in result:</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x4)">        for child in e.iter():</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x4)">            if child.text.endswith("."):</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x6)">                child.text = child.text[:-1]</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x1)">    return result</span>
+<span class="line-precise" title="No Anys on this line!">    for e in result:</span>
+<span class="line-precise" title="No Anys on this line!">        for child in e.iter():</span>
+<span class="line-precise" title="No Anys on this line!">            if child.text.endswith("."):</span>
+<span class="line-precise" title="No Anys on this line!">                child.text = child.text[:-1]</span>
+<span class="line-precise" title="No Anys on this line!">    return result</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-any" title="No Anys on this line!">def fix_whitespace(tokens, start, result):</span>
+<span class="line-precise" title="No Anys on this line!">def fix_whitespace(tokens: TokenList, start: int, result: ParseResult) -&gt; ParseResult:</span>
 <span class="line-empty" title="No Anys on this line!">    """Fix whitespace around hyphens and commas. Can be used to remove whitespace tokenization artefacts."""</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">    for e in result:</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x4)">        for child in e.iter():</span>
+<span class="line-precise" title="No Anys on this line!">    for e in result:</span>
+<span class="line-precise" title="No Anys on this line!">        for child in e.iter():</span>
 <span class="line-empty" title="No Anys on this line!">            # if check added by Juraj, it has to exist</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            if child.text:</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x6)">                child.text = child.text.replace(" , ", ", ")</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x1)">                for hyphen in HYPHENS:</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x14)">                    child.text = child.text.replace(f" {hyphen} ", f"{hyphen}")</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x5)">                child.text = re.sub(r"- (.) -", r"-\1-", child.text)</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x6)">                child.text = child.text.replace(" -", "-")</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x8)">                child.text = child.text.replace(" : ", ":").replace(" ) ", ")")</span>
+<span class="line-precise" title="No Anys on this line!">            if child.text:</span>
+<span class="line-precise" title="No Anys on this line!">                child.text = child.text.replace(" , ", ", ")</span>
+<span class="line-precise" title="No Anys on this line!">                for hyphen in HYPHENS:</span>
+<span class="line-precise" title="No Anys on this line!">                    child.text = child.text.replace(f" {hyphen} ", f"{hyphen}")</span>
+<span class="line-precise" title="No Anys on this line!">                child.text = re.sub(r"- (.) -", r"-\1-", child.text)</span>
+<span class="line-precise" title="No Anys on this line!">                child.text = child.text.replace(" -", "-")</span>
+<span class="line-precise" title="No Anys on this line!">                child.text = child.text.replace(" : ", ":").replace(" ) ", ")")</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x8)">                child.text = child.text.replace(" ( ", "(").replace(" ) ", ")")</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x6)">                child.text = child.text.replace(" / ", "/")</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x8)">                child.text = child.text.replace(" [ ", "[").replace(" ] ", "]")</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x8)">                child.text = child.text.replace("( ", "(").replace(" )", ")")</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x8)">                child.text = child.text.replace("[ ", "[").replace(" ]", "]")</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x1)">    return result</span>
+<span class="line-precise" title="No Anys on this line!">                child.text = child.text.replace(" ( ", "(").replace(" ) ", ")")</span>
+<span class="line-precise" title="No Anys on this line!">                child.text = child.text.replace(" / ", "/")</span>
+<span class="line-precise" title="No Anys on this line!">                child.text = child.text.replace(" [ ", "[").replace(" ] ", "]")</span>
+<span class="line-precise" title="No Anys on this line!">                child.text = child.text.replace("( ", "(").replace(" )", ")")</span>
+<span class="line-precise" title="No Anys on this line!">                child.text = child.text.replace("[ ", "[").replace(" ]", "]")</span>
+<span class="line-precise" title="No Anys on this line!">    return result</span>
 </pre></td>
 </tr></tbody>
 </table>

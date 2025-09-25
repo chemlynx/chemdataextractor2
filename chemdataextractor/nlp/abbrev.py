@@ -220,7 +220,7 @@ class AbbreviationDetector:
         # long = ' '.join(tokens)
         spaced_tokens = []
         for i, token in enumerate(tokens):
-            if token != "-":
+            if token != "-":  # nosec B105
                 spaced_tokens += [token, " "]
             else:
                 if i != 0 and spaced_tokens[-1] == " ":

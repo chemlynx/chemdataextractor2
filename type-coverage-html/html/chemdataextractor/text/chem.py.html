@@ -776,11 +776,47 @@
 <span id="L766" class="lineno"><a class="lineno" href="#L766">766</a></span>
 <span id="L767" class="lineno"><a class="lineno" href="#L767">767</a></span>
 <span id="L768" class="lineno"><a class="lineno" href="#L768">768</a></span>
+<span id="L769" class="lineno"><a class="lineno" href="#L769">769</a></span>
+<span id="L770" class="lineno"><a class="lineno" href="#L770">770</a></span>
+<span id="L771" class="lineno"><a class="lineno" href="#L771">771</a></span>
+<span id="L772" class="lineno"><a class="lineno" href="#L772">772</a></span>
+<span id="L773" class="lineno"><a class="lineno" href="#L773">773</a></span>
+<span id="L774" class="lineno"><a class="lineno" href="#L774">774</a></span>
+<span id="L775" class="lineno"><a class="lineno" href="#L775">775</a></span>
+<span id="L776" class="lineno"><a class="lineno" href="#L776">776</a></span>
+<span id="L777" class="lineno"><a class="lineno" href="#L777">777</a></span>
+<span id="L778" class="lineno"><a class="lineno" href="#L778">778</a></span>
+<span id="L779" class="lineno"><a class="lineno" href="#L779">779</a></span>
+<span id="L780" class="lineno"><a class="lineno" href="#L780">780</a></span>
+<span id="L781" class="lineno"><a class="lineno" href="#L781">781</a></span>
+<span id="L782" class="lineno"><a class="lineno" href="#L782">782</a></span>
+<span id="L783" class="lineno"><a class="lineno" href="#L783">783</a></span>
+<span id="L784" class="lineno"><a class="lineno" href="#L784">784</a></span>
+<span id="L785" class="lineno"><a class="lineno" href="#L785">785</a></span>
+<span id="L786" class="lineno"><a class="lineno" href="#L786">786</a></span>
+<span id="L787" class="lineno"><a class="lineno" href="#L787">787</a></span>
+<span id="L788" class="lineno"><a class="lineno" href="#L788">788</a></span>
+<span id="L789" class="lineno"><a class="lineno" href="#L789">789</a></span>
+<span id="L790" class="lineno"><a class="lineno" href="#L790">790</a></span>
+<span id="L791" class="lineno"><a class="lineno" href="#L791">791</a></span>
+<span id="L792" class="lineno"><a class="lineno" href="#L792">792</a></span>
+<span id="L793" class="lineno"><a class="lineno" href="#L793">793</a></span>
+<span id="L794" class="lineno"><a class="lineno" href="#L794">794</a></span>
+<span id="L795" class="lineno"><a class="lineno" href="#L795">795</a></span>
+<span id="L796" class="lineno"><a class="lineno" href="#L796">796</a></span>
+<span id="L797" class="lineno"><a class="lineno" href="#L797">797</a></span>
+<span id="L798" class="lineno"><a class="lineno" href="#L798">798</a></span>
+<span id="L799" class="lineno"><a class="lineno" href="#L799">799</a></span>
+<span id="L800" class="lineno"><a class="lineno" href="#L800">800</a></span>
 </pre></td>
 <td class="table-code"><pre><span class="line-empty" title="No Anys on this line!">"""</span>
 <span class="line-empty" title="No Anys on this line!">Chemistry text handling tools.</span>
 <span class="line-empty" title="No Anys on this line!"></span>
+<span class="line-empty" title="No Anys on this line!">Provides chemistry-specific text processing utilities including element names,</span>
+<span class="line-empty" title="No Anys on this line!">chemical formula parsing, and stereochemistry indicators.</span>
 <span class="line-empty" title="No Anys on this line!">"""</span>
+<span class="line-empty" title="No Anys on this line!"></span>
+<span class="line-precise" title="No Anys on this line!">from __future__ import annotations</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">import re</span>
 <span class="line-empty" title="No Anys on this line!"></span>
@@ -1527,36 +1563,57 @@ Omitted Generics (x4)">SMILES_RE = re.compile(</span>
 <span class="line-empty" title="No Anys on this line!">)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-any" title="No Anys on this line!">def extract_inchis(s):</span>
-<span class="line-empty" title="No Anys on this line!">    """Return a list of InChI identifiers extracted from the string."""</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x6)">    return [t for t in s.split() if INCHI_RE.match(t)]</span>
+<span class="line-precise" title="No Anys on this line!">def extract_inchis(s: str) -&gt; list[str]:</span>
+<span class="line-empty" title="No Anys on this line!">    """Return a list of InChI identifiers extracted from the string.</span>
+<span class="line-empty" title="No Anys on this line!"></span>
+<span class="line-empty" title="No Anys on this line!">    Args:</span>
+<span class="line-empty" title="No Anys on this line!">        s: Input string to search</span>
+<span class="line-empty" title="No Anys on this line!"></span>
+<span class="line-empty" title="No Anys on this line!">    Returns:</span>
+<span class="line-empty" title="No Anys on this line!">        List of InChI identifiers found</span>
+<span class="line-empty" title="No Anys on this line!">    """</span>
+<span class="line-precise" title="No Anys on this line!">    return [t for t in s.split() if INCHI_RE.match(t)]</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-any" title="No Anys on this line!">def extract_inchikeys(s):</span>
-<span class="line-empty" title="No Anys on this line!">    """Return a list of InChIKey identifiers extracted from the string."""</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x6)">    return [t for t in s.split() if INCHIKEY_RE.match(t)]</span>
+<span class="line-precise" title="No Anys on this line!">def extract_inchikeys(s: str) -&gt; list[str]:</span>
+<span class="line-empty" title="No Anys on this line!">    """Return a list of InChIKey identifiers extracted from the string.</span>
+<span class="line-empty" title="No Anys on this line!"></span>
+<span class="line-empty" title="No Anys on this line!">    Args:</span>
+<span class="line-empty" title="No Anys on this line!">        s: Input string to search</span>
+<span class="line-empty" title="No Anys on this line!"></span>
+<span class="line-empty" title="No Anys on this line!">    Returns:</span>
+<span class="line-empty" title="No Anys on this line!">        List of InChIKey identifiers found</span>
+<span class="line-empty" title="No Anys on this line!">    """</span>
+<span class="line-precise" title="No Anys on this line!">    return [t for t in s.split() if INCHIKEY_RE.match(t)]</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-any" title="No Anys on this line!">def extract_cas(s):</span>
-<span class="line-empty" title="No Anys on this line!">    """Return a list of CAS identifiers extracted from the string."""</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x6)">    return [t for t in s.split() if CAS_RE.match(t)]</span>
+<span class="line-precise" title="No Anys on this line!">def extract_cas(s: str) -&gt; list[str]:</span>
+<span class="line-empty" title="No Anys on this line!">    """Return a list of CAS identifiers extracted from the string.</span>
+<span class="line-empty" title="No Anys on this line!"></span>
+<span class="line-empty" title="No Anys on this line!">    Args:</span>
+<span class="line-empty" title="No Anys on this line!">        s: Input string to search</span>
+<span class="line-empty" title="No Anys on this line!"></span>
+<span class="line-empty" title="No Anys on this line!">    Returns:</span>
+<span class="line-empty" title="No Anys on this line!">        List of CAS identifiers found</span>
+<span class="line-empty" title="No Anys on this line!">    """</span>
+<span class="line-precise" title="No Anys on this line!">    return [t for t in s.split() if CAS_RE.match(t)]</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-any" title="No Anys on this line!">def extract_smiles(s):</span>
-<span class="line-empty" title="No Anys on this line!">    """Return a list of SMILES identifiers extracted from the string."""</span>
+<span class="line-precise" title="No Anys on this line!">def extract_smiles(s: str) -&gt; list[str]:</span>
+<span class="line-empty" title="No Anys on this line!">    """Return a list of SMILES identifiers extracted from the string.</span>
+<span class="line-empty" title="No Anys on this line!"></span>
+<span class="line-empty" title="No Anys on this line!">    Args:</span>
+<span class="line-empty" title="No Anys on this line!">        s: Input string to search</span>
+<span class="line-empty" title="No Anys on this line!"></span>
+<span class="line-empty" title="No Anys on this line!">    Returns:</span>
+<span class="line-empty" title="No Anys on this line!">        List of SMILES identifiers found</span>
+<span class="line-empty" title="No Anys on this line!">    """</span>
 <span class="line-empty" title="No Anys on this line!">    # TODO: This still gets a lot of false positives.</span>
 <span class="line-precise" title="No Anys on this line!">    smiles = []</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x4)">    for t in s.split():</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x15)">        if len(t) &gt; 2 and SMILES_RE.match(t) and not t.endswith(".") and bracket_level(t) == 0:</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x3)">            smiles.append(t)</span>
-<span class="line-imprecise" title="Any Types on this line: 
-Unannotated (x1)">    return smiles</span>
+<span class="line-precise" title="No Anys on this line!">    for t in s.split():</span>
+<span class="line-precise" title="No Anys on this line!">        if len(t) &gt; 2 and SMILES_RE.match(t) and not t.endswith(".") and bracket_level(t) == 0:</span>
+<span class="line-precise" title="No Anys on this line!">            smiles.append(t)</span>
+<span class="line-precise" title="No Anys on this line!">    return smiles</span>
 </pre></td>
 </tr></tbody>
 </table>

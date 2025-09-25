@@ -311,6 +311,10 @@
 <span id="L301" class="lineno"><a class="lineno" href="#L301">301</a></span>
 <span id="L302" class="lineno"><a class="lineno" href="#L302">302</a></span>
 <span id="L303" class="lineno"><a class="lineno" href="#L303">303</a></span>
+<span id="L304" class="lineno"><a class="lineno" href="#L304">304</a></span>
+<span id="L305" class="lineno"><a class="lineno" href="#L305">305</a></span>
+<span id="L306" class="lineno"><a class="lineno" href="#L306">306</a></span>
+<span id="L307" class="lineno"><a class="lineno" href="#L307">307</a></span>
 </pre></td>
 <td class="table-code"><pre><span class="line-empty" title="No Anys on this line!">"""</span>
 <span class="line-empty" title="No Anys on this line!">Base types for dimensions and units.</span>
@@ -438,7 +442,7 @@ Unannotated (x2)">            return super().__setattr__(key, value)</span>
 <span class="line-any" title="Any Types on this line: 
 Error (x4)">        for unit, power in self._standard_units.items():</span>
 <span class="line-any" title="Any Types on this line: 
-Error (x10)">            product_unit = unit ** power if not product_unit else product_unit * unit ** power</span>
+Error (x10)">            product_unit = unit**power if not product_unit else product_unit * unit**power</span>
 <span class="line-imprecise" title="Any Types on this line: 
 Error (x1)">        return product_unit</span>
 <span class="line-empty" title="No Anys on this line!"></span>
@@ -532,9 +536,15 @@ Unannotated (x1)">            dimensions[new_key] = 1.0</span>
 Unannotated (x2)">        if other._dimensions is not None:</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x6)">            for key, value in other._dimensions.items():</span>
+<span class="line-empty" title="No Anys on this line!">                if (</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x4)
-Explicit (x4)">                if self._dimensions is not None and key in self._dimensions or type(self) == type(key):</span>
+Unannotated (x1)">                    self._dimensions is not None</span>
+<span class="line-any" title="Any Types on this line: 
+Unannotated (x2)">                    and key in self._dimensions</span>
+<span class="line-any" title="Any Types on this line: 
+Explicit (x4)
+Unannotated (x1)">                    or type(self) == type(key)</span>
+<span class="line-empty" title="No Anys on this line!">                ):</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x4)">                    dimensions[key] += value</span>
 <span class="line-any" title="Any Types on this line: 

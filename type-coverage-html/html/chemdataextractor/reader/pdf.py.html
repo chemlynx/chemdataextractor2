@@ -150,13 +150,62 @@
 <span id="L140" class="lineno"><a class="lineno" href="#L140">140</a></span>
 <span id="L141" class="lineno"><a class="lineno" href="#L141">141</a></span>
 <span id="L142" class="lineno"><a class="lineno" href="#L142">142</a></span>
+<span id="L143" class="lineno"><a class="lineno" href="#L143">143</a></span>
+<span id="L144" class="lineno"><a class="lineno" href="#L144">144</a></span>
+<span id="L145" class="lineno"><a class="lineno" href="#L145">145</a></span>
+<span id="L146" class="lineno"><a class="lineno" href="#L146">146</a></span>
+<span id="L147" class="lineno"><a class="lineno" href="#L147">147</a></span>
+<span id="L148" class="lineno"><a class="lineno" href="#L148">148</a></span>
+<span id="L149" class="lineno"><a class="lineno" href="#L149">149</a></span>
+<span id="L150" class="lineno"><a class="lineno" href="#L150">150</a></span>
+<span id="L151" class="lineno"><a class="lineno" href="#L151">151</a></span>
+<span id="L152" class="lineno"><a class="lineno" href="#L152">152</a></span>
+<span id="L153" class="lineno"><a class="lineno" href="#L153">153</a></span>
+<span id="L154" class="lineno"><a class="lineno" href="#L154">154</a></span>
+<span id="L155" class="lineno"><a class="lineno" href="#L155">155</a></span>
+<span id="L156" class="lineno"><a class="lineno" href="#L156">156</a></span>
+<span id="L157" class="lineno"><a class="lineno" href="#L157">157</a></span>
+<span id="L158" class="lineno"><a class="lineno" href="#L158">158</a></span>
+<span id="L159" class="lineno"><a class="lineno" href="#L159">159</a></span>
+<span id="L160" class="lineno"><a class="lineno" href="#L160">160</a></span>
+<span id="L161" class="lineno"><a class="lineno" href="#L161">161</a></span>
+<span id="L162" class="lineno"><a class="lineno" href="#L162">162</a></span>
+<span id="L163" class="lineno"><a class="lineno" href="#L163">163</a></span>
+<span id="L164" class="lineno"><a class="lineno" href="#L164">164</a></span>
+<span id="L165" class="lineno"><a class="lineno" href="#L165">165</a></span>
+<span id="L166" class="lineno"><a class="lineno" href="#L166">166</a></span>
+<span id="L167" class="lineno"><a class="lineno" href="#L167">167</a></span>
+<span id="L168" class="lineno"><a class="lineno" href="#L168">168</a></span>
+<span id="L169" class="lineno"><a class="lineno" href="#L169">169</a></span>
+<span id="L170" class="lineno"><a class="lineno" href="#L170">170</a></span>
+<span id="L171" class="lineno"><a class="lineno" href="#L171">171</a></span>
+<span id="L172" class="lineno"><a class="lineno" href="#L172">172</a></span>
+<span id="L173" class="lineno"><a class="lineno" href="#L173">173</a></span>
+<span id="L174" class="lineno"><a class="lineno" href="#L174">174</a></span>
+<span id="L175" class="lineno"><a class="lineno" href="#L175">175</a></span>
+<span id="L176" class="lineno"><a class="lineno" href="#L176">176</a></span>
+<span id="L177" class="lineno"><a class="lineno" href="#L177">177</a></span>
+<span id="L178" class="lineno"><a class="lineno" href="#L178">178</a></span>
+<span id="L179" class="lineno"><a class="lineno" href="#L179">179</a></span>
+<span id="L180" class="lineno"><a class="lineno" href="#L180">180</a></span>
+<span id="L181" class="lineno"><a class="lineno" href="#L181">181</a></span>
+<span id="L182" class="lineno"><a class="lineno" href="#L182">182</a></span>
+<span id="L183" class="lineno"><a class="lineno" href="#L183">183</a></span>
+<span id="L184" class="lineno"><a class="lineno" href="#L184">184</a></span>
+<span id="L185" class="lineno"><a class="lineno" href="#L185">185</a></span>
 </pre></td>
 <td class="table-code"><pre><span class="line-empty" title="No Anys on this line!">"""</span>
 <span class="line-empty" title="No Anys on this line!">PDF document reader.</span>
 <span class="line-empty" title="No Anys on this line!"></span>
+<span class="line-empty" title="No Anys on this line!">Provides functionality to parse PDF documents using pdfminer and convert them</span>
+<span class="line-empty" title="No Anys on this line!">into structured ChemDataExtractor Document objects.</span>
 <span class="line-empty" title="No Anys on this line!">"""</span>
 <span class="line-empty" title="No Anys on this line!"></span>
+<span class="line-precise" title="No Anys on this line!">from __future__ import annotations</span>
+<span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">import io</span>
+<span class="line-precise" title="No Anys on this line!">from typing import TYPE_CHECKING</span>
+<span class="line-precise" title="No Anys on this line!">from typing import Any</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">from pdfminer.converter import PDFPageAggregator</span>
 <span class="line-precise" title="No Anys on this line!">from pdfminer.layout import LAParams</span>
@@ -169,77 +218,96 @@
 <span class="line-precise" title="No Anys on this line!">from pdfminer.pdfpage import PDFPage</span>
 <span class="line-precise" title="No Anys on this line!">from pdfminer.pdfparser import PDFParser</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-precise" title="No Anys on this line!">from ..doc.document import Document</span>
 <span class="line-precise" title="No Anys on this line!">from ..doc.text import Paragraph</span>
 <span class="line-precise" title="No Anys on this line!">from ..errors import ReaderError</span>
 <span class="line-precise" title="No Anys on this line!">from .base import BaseReader</span>
 <span class="line-empty" title="No Anys on this line!"></span>
+<span class="line-precise" title="No Anys on this line!">if TYPE_CHECKING:</span>
+<span class="line-precise" title="No Anys on this line!">    from ..doc.document import Document</span>
+<span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">class PdfReader(BaseReader):</span>
-<span class="line-empty" title="No Anys on this line!">    """"""</span>
+<span class="line-empty" title="No Anys on this line!">    """Reader for PDF documents using pdfminer.</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-any" title="No Anys on this line!">    def detect(self, fstring, fname=None):</span>
-<span class="line-empty" title="No Anys on this line!">        """"""</span>
+<span class="line-empty" title="No Anys on this line!">    Extracts text content from PDF files and organizes it into paragraphs</span>
+<span class="line-empty" title="No Anys on this line!">    and other document elements.</span>
+<span class="line-empty" title="No Anys on this line!">    """</span>
+<span class="line-empty" title="No Anys on this line!"></span>
+<span class="line-precise" title="No Anys on this line!">    def detect(self, fstring: str | bytes, fname: str | None = None) -&gt; bool:</span>
+<span class="line-empty" title="No Anys on this line!">        """Detect PDF documents.</span>
+<span class="line-empty" title="No Anys on this line!"></span>
+<span class="line-empty" title="No Anys on this line!">        Args:</span>
+<span class="line-empty" title="No Anys on this line!">            fstring: Input data to check</span>
+<span class="line-empty" title="No Anys on this line!">            fname: Optional filename for format hints</span>
+<span class="line-empty" title="No Anys on this line!"></span>
+<span class="line-empty" title="No Anys on this line!">        Returns:</span>
+<span class="line-empty" title="No Anys on this line!">            True if this appears to be a PDF document</span>
+<span class="line-empty" title="No Anys on this line!">        """</span>
+<span class="line-precise" title="No Anys on this line!">        return not (fname and not fname.endswith(".pdf"))</span>
+<span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x5)">        return not (fname and not fname.endswith(".pdf"))</span>
+Explicit (x1)">    def _process_layout(self, layout: Any) -&gt; list[Paragraph]:</span>
+<span class="line-empty" title="No Anys on this line!">        """Process an LTPage layout and return a list of elements.</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-any" title="No Anys on this line!">    def _process_layout(self, layout):</span>
-<span class="line-empty" title="No Anys on this line!">        """Process an LTPage layout and return a list of elements."""</span>
+<span class="line-empty" title="No Anys on this line!">        Args:</span>
+<span class="line-empty" title="No Anys on this line!">            layout: PDF layout object from pdfminer</span>
+<span class="line-empty" title="No Anys on this line!"></span>
+<span class="line-empty" title="No Anys on this line!">        Returns:</span>
+<span class="line-empty" title="No Anys on this line!">            List of Paragraph elements extracted from the layout</span>
+<span class="line-empty" title="No Anys on this line!">        """</span>
 <span class="line-empty" title="No Anys on this line!">        # Here we just group text into paragraphs</span>
+<span class="line-precise" title="No Anys on this line!">        elements = []</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x1)">        elements = []</span>
+Explicit (x2)">        for lt_obj in layout:</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">        for lt_obj in layout:</span>
+Explicit (x1)">            if isinstance(lt_obj, LTTextBox | LTTextLine):</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x3)">            if isinstance(lt_obj, LTTextBox | LTTextLine):</span>
+Unannotated (x2)">                elements.append(Paragraph(lt_obj.get_text().strip()))</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x8)">                elements.append(Paragraph(lt_obj.get_text().strip()))</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            elif isinstance(lt_obj, LTFigure):</span>
+Explicit (x1)">            elif isinstance(lt_obj, LTFigure):</span>
 <span class="line-empty" title="No Anys on this line!">                # Recursive...</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x5)">                elements.extend(self._process_layout(lt_obj))</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x1)">        return elements</span>
+Explicit (x1)">                elements.extend(self._process_layout(lt_obj))</span>
+<span class="line-precise" title="No Anys on this line!">        return elements</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-any" title="No Anys on this line!">    def parse(self, fstring):</span>
+<span class="line-precise" title="No Anys on this line!">    def parse(self, fstring: str | bytes) -&gt; Document:</span>
+<span class="line-empty" title="No Anys on this line!">        """Parse PDF input and return a Document.</span>
+<span class="line-empty" title="No Anys on this line!"></span>
+<span class="line-empty" title="No Anys on this line!">        Args:</span>
+<span class="line-empty" title="No Anys on this line!">            fstring: PDF file data as bytes</span>
+<span class="line-empty" title="No Anys on this line!"></span>
+<span class="line-empty" title="No Anys on this line!">        Returns:</span>
+<span class="line-empty" title="No Anys on this line!">            Document with text content organized into paragraphs</span>
+<span class="line-empty" title="No Anys on this line!"></span>
+<span class="line-empty" title="No Anys on this line!">        Raises:</span>
+<span class="line-empty" title="No Anys on this line!">            ReaderError: If PDF parsing fails</span>
+<span class="line-empty" title="No Anys on this line!">        """</span>
+<span class="line-empty" title="No Anys on this line!">        # Import here to avoid circular imports</span>
+<span class="line-precise" title="No Anys on this line!">        from ..doc.document import Document</span>
+<span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">        try:</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x3)">            f = io.BytesIO(fstring)</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x3)">            parser = PDFParser(f)</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x3)">            document = PDFDocument(parser)</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            if not document.is_extractable:</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x1)
+<span class="line-precise" title="No Anys on this line!">            if isinstance(fstring, str):</span>
+<span class="line-precise" title="No Anys on this line!">                fstring = fstring.encode("utf-8")</span>
+<span class="line-precise" title="No Anys on this line!">            f = io.BytesIO(fstring)</span>
+<span class="line-precise" title="No Anys on this line!">            parser = PDFParser(f)</span>
+<span class="line-precise" title="No Anys on this line!">            document = PDFDocument(parser)</span>
+<span class="line-precise" title="No Anys on this line!">            if not document.is_extractable:</span>
+<span class="line-precise" title="Any Types on this line: 
 Explicit (x1)">                raise ReaderError("PDF text extraction not allowed")</span>
+<span class="line-precise" title="No Anys on this line!">            rsrcmgr = PDFResourceManager()</span>
+<span class="line-precise" title="No Anys on this line!">            laparams = LAParams()</span>
+<span class="line-precise" title="No Anys on this line!">            device = PDFPageAggregator(rsrcmgr, laparams=laparams)</span>
+<span class="line-precise" title="No Anys on this line!">            interpreter = PDFPageInterpreter(rsrcmgr, device)</span>
+<span class="line-precise" title="No Anys on this line!">            elements = []</span>
+<span class="line-precise" title="No Anys on this line!">            for page in PDFPage.create_pages(document):</span>
+<span class="line-precise" title="No Anys on this line!">                interpreter.process_page(page)</span>
+<span class="line-precise" title="No Anys on this line!">                layout = device.get_result()</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            rsrcmgr = PDFResourceManager()</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x2)">            laparams = LAParams()</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x4)">            device = PDFPageAggregator(rsrcmgr, laparams=laparams)</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x4)">            interpreter = PDFPageInterpreter(rsrcmgr, device)</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x1)">            elements = []</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x4)">            for page in PDFPage.create_pages(document):</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x4)">                interpreter.process_page(page)</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x4)">                layout = device.get_result()</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x6)">                elements.extend(self._process_layout(layout))</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x2)
+Explicit (x1)">                elements.extend(self._process_layout(layout))</span>
+<span class="line-precise" title="Any Types on this line: 
 Explicit (x1)">            return Document(*elements)</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x1)">        except Exception as e:</span>
-<span class="line-any" title="Any Types on this line: 
-Unannotated (x2)
+<span class="line-precise" title="No Anys on this line!">        except Exception as e:</span>
+<span class="line-precise" title="Any Types on this line: 
 Explicit (x1)">            raise ReaderError(e)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!"></span>

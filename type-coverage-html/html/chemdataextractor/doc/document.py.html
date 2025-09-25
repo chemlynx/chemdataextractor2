@@ -1151,6 +1151,13 @@
 <span id="L1141" class="lineno"><a class="lineno" href="#L1141">1141</a></span>
 <span id="L1142" class="lineno"><a class="lineno" href="#L1142">1142</a></span>
 <span id="L1143" class="lineno"><a class="lineno" href="#L1143">1143</a></span>
+<span id="L1144" class="lineno"><a class="lineno" href="#L1144">1144</a></span>
+<span id="L1145" class="lineno"><a class="lineno" href="#L1145">1145</a></span>
+<span id="L1146" class="lineno"><a class="lineno" href="#L1146">1146</a></span>
+<span id="L1147" class="lineno"><a class="lineno" href="#L1147">1147</a></span>
+<span id="L1148" class="lineno"><a class="lineno" href="#L1148">1148</a></span>
+<span id="L1149" class="lineno"><a class="lineno" href="#L1149">1149</a></span>
+<span id="L1150" class="lineno"><a class="lineno" href="#L1150">1150</a></span>
 </pre></td>
 <td class="table-code"><pre><span class="line-empty" title="No Anys on this line!">"""</span>
 <span class="line-empty" title="No Anys on this line!">Document model.</span>
@@ -1166,7 +1173,7 @@
 <span class="line-precise" title="No Anys on this line!">import json</span>
 <span class="line-precise" title="No Anys on this line!">import logging</span>
 <span class="line-precise" title="No Anys on this line!">from abc import ABCMeta</span>
-<span class="line-precise" title="No Anys on this line!">from abc import abstractproperty</span>
+<span class="line-precise" title="No Anys on this line!">from abc import abstractmethod</span>
 <span class="line-precise" title="No Anys on this line!">from typing import TYPE_CHECKING</span>
 <span class="line-precise" title="No Anys on this line!">from typing import Any</span>
 <span class="line-precise" title="No Anys on this line!">from typing import BinaryIO</span>
@@ -1253,7 +1260,8 @@
 <span class="line-empty" title="No Anys on this line!">        """</span>
 <span class="line-precise" title="No Anys on this line!">        return len(self.elements)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-empty" title="No Anys on this line!">    @abstractproperty</span>
+<span class="line-empty" title="No Anys on this line!">    @property</span>
+<span class="line-empty" title="No Anys on this line!">    @abstractmethod</span>
 <span class="line-precise" title="No Anys on this line!">    def elements(self) -&gt; list[BaseElement]:</span>
 <span class="line-empty" title="No Anys on this line!">        """Return a list of document elements.</span>
 <span class="line-empty" title="No Anys on this line!"></span>
@@ -1262,7 +1270,8 @@
 <span class="line-empty" title="No Anys on this line!">        """</span>
 <span class="line-empty" title="No Anys on this line!">        return []</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-empty" title="No Anys on this line!">    @abstractproperty</span>
+<span class="line-empty" title="No Anys on this line!">    @property</span>
+<span class="line-empty" title="No Anys on this line!">    @abstractmethod</span>
 <span class="line-any" title="No Anys on this line!">    def records(self):</span>
 <span class="line-empty" title="No Anys on this line!">        """Chemical records that have been parsed from this Document.</span>
 <span class="line-empty" title="No Anys on this line!"></span>
@@ -1519,7 +1528,8 @@ Omitted Generics (x2)">    def from_string(</span>
 <span class="line-empty" title="No Anys on this line!">            This method expects a byte string, not a unicode string.</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">        Example:</span>
-<span class="line-empty" title="No Anys on this line!">            &gt;&gt;&gt; contents = open('paper.html', 'rb').read()</span>
+<span class="line-empty" title="No Anys on this line!">            &gt;&gt;&gt; with open('paper.html', 'rb') as f:</span>
+<span class="line-empty" title="No Anys on this line!">            ...     contents = f.read()</span>
 <span class="line-empty" title="No Anys on this line!">            &gt;&gt;&gt; doc = Document.from_string(contents)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">        Raises:</span>
@@ -2342,15 +2352,19 @@ Error (x2)">            html_lines.append(element._repr_html_())</span>
 <span class="line-precise" title="No Anys on this line!">        for element in elements:</span>
 <span class="line-any" title="No Anys on this line!">            if element.elements is not None:</span>
 <span class="line-precise" title="No Anys on this line!">                elements.extend(element.elements)</span>
+<span class="line-empty" title="No Anys on this line!">            if (</span>
+<span class="line-any" title="No Anys on this line!">                hasattr(element, "tokens")</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x1)
-Error (x1)">            if hasattr(element, "tokens") and tagger in element.taggers and (</span>
+Error (x1)">                and tagger in element.taggers</span>
+<span class="line-empty" title="No Anys on this line!">                and (</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x1)">                len(element.tokens)</span>
+Unannotated (x1)">                    len(element.tokens)</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x7)">                and isinstance(element.tokens[0], RichToken)</span>
+Unannotated (x7)">                    and isinstance(element.tokens[0], RichToken)</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x4)">                and tag_type not in element.tokens[0]._tags</span>
+Unannotated (x4)">                    and tag_type not in element.tokens[0]._tags</span>
+<span class="line-empty" title="No Anys on this line!">                )</span>
 <span class="line-empty" title="No Anys on this line!">            ):</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x3)">                all_tokens.append(element.tokens)</span>

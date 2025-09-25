@@ -2923,7 +2923,7 @@ Omitted Generics (x3)">    def get_confidence(</span>
 <span class="line-empty" title="No Anys on this line!">        key: str | list[str],</span>
 <span class="line-precise" title="No Anys on this line!">        default_confidence: float | None = None,</span>
 <span class="line-precise" title="Any Types on this line: 
-Unannotated (x2)">        pooling_method: Callable = min_value</span>
+Unannotated (x2)">        pooling_method: Callable = min_value,</span>
 <span class="line-empty" title="No Anys on this line!">    ) -&gt; float | None:</span>
 <span class="line-precise" title="Any Types on this line: 
 Omitted Generics (x3)">        if not isinstance(key, list):</span>
@@ -3005,10 +3005,8 @@ Explicit (x3)">                    return attribute.set_confidence(key[1:], valu
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="Any Types on this line: 
 Omitted Generics (x3)">    def total_confidence(</span>
-<span class="line-empty" title="No Anys on this line!">        self,</span>
 <span class="line-precise" title="Any Types on this line: 
-Unannotated (x2)">        pooling_method: Callable = min_value,</span>
-<span class="line-precise" title="No Anys on this line!">        _account_for_merging: bool = False</span>
+Unannotated (x2)">        self, pooling_method: Callable = min_value, _account_for_merging: bool = False</span>
 <span class="line-empty" title="No Anys on this line!">    ) -&gt; float:</span>
 <span class="line-precise" title="No Anys on this line!">        if "self" in self._confidences and self._confidences["self"] is not None:</span>
 <span class="line-precise" title="No Anys on this line!">            return self._confidences["self"]</span>
@@ -3250,14 +3248,14 @@ Unimported (x3)
 Omitted Generics (x4)">                            cls.fields[field].parse_expression = cls.fields[</span>
 <span class="line-precise" title="No Anys on this line!">                                field</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x3)">                            ].parse_expression | W(str(definition["specifier"]))</span>
+Unannotated (x2)">                            ].parse_expression | W(str(definition["specifier"]))</span>
 <span class="line-empty" title="No Anys on this line!">                        else:</span>
 <span class="line-any" title="Any Types on this line: 
 Unimported (x3)
 Omitted Generics (x4)">                            cls.fields[field].parse_expression = cls.fields[</span>
 <span class="line-precise" title="No Anys on this line!">                                field</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x3)">                            ].parse_expression | I(str(definition["specifier"]))</span>
+Unannotated (x2)">                            ].parse_expression | I(str(definition["specifier"]))</span>
 <span class="line-empty" title="No Anys on this line!">        return</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">    @property</span>
@@ -4543,7 +4541,7 @@ Omitted Generics (x1)
 Unannotated (x2)">        return json.dumps(self.serialize(), *args, **kwargs)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-imprecise" title="Any Types on this line: 
-Omitted Generics (x1)">    def merge_contextual(self, distance: ContextualRange = None) -&gt; Modellist[ModelT]:</span>
+Omitted Generics (x2)">    def merge_contextual(self, distance: ContextualRange = None) -&gt; ModelList[ModelT]:</span>
 <span class="line-empty" title="No Anys on this line!">        """Perform contextual merging on compatible models in the list.</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">        Args:</span>
@@ -4579,14 +4577,16 @@ Omitted Generics (x2)">            for j in range(i + 1, len(self.models)):</spa
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-imprecise" title="Any Types on this line: 
 Omitted Generics (x4)">                other_model = self.models[j]</span>
+<span class="line-empty" title="No Anys on this line!">                if (</span>
 <span class="line-imprecise" title="Any Types on this line: 
 Error (x2)
-Omitted Generics (x1)">                if hasattr(current_model, "merge_contextual") and hasattr(</span>
+Omitted Generics (x1)">                    hasattr(current_model, "merge_contextual")</span>
 <span class="line-imprecise" title="Any Types on this line: 
-Omitted Generics (x1)">                    other_model, "can_merge_with"</span>
+Omitted Generics (x1)">                    and hasattr(other_model, "can_merge_with")</span>
 <span class="line-any" title="Any Types on this line: 
 Error (x2)
-Omitted Generics (x2)">                ) and current_model.can_merge_with(other_model):</span>
+Omitted Generics (x2)">                    and current_model.can_merge_with(other_model)</span>
+<span class="line-empty" title="No Anys on this line!">                ):</span>
 <span class="line-any" title="Any Types on this line: 
 Unannotated (x2)
 Omitted Generics (x2)">                    if current_model.merge_contextual(other_model, distance):</span>
@@ -4595,8 +4595,8 @@ Omitted Generics (x2)">                    if current_model.merge_contextual(oth
 <span class="line-imprecise" title="Any Types on this line: 
 Omitted Generics (x3)">            merged_models.append(current_model)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-any" title="Any Types on this line: 
-Omitted Generics (x1)">        return ModelList(merged_models)</span>
+<span class="line-imprecise" title="Any Types on this line: 
+Omitted Generics (x4)">        return ModelList(merged_models)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="No Anys on this line!">    def remove_subsets(self, strict=False):</span>
 <span class="line-empty" title="No Anys on this line!">        """</span>

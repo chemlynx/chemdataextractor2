@@ -135,7 +135,7 @@ class Evaluate:
     def eval(self):
         """Evaluates the corpus"""
         with open("results.txt", "w", encoding="utf-8") as f:
-                for n_paper, doc in enumerate(documents(self.folder)):
+            for n_paper, doc in enumerate(documents(self.folder)):
                 # if loaded from pickle, eval will start where left of
                 if n_paper <= self.n_paper and self.n_paper >= 0:
                     continue
