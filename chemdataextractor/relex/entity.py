@@ -10,8 +10,6 @@ from __future__ import annotations
 import copy
 from typing import TYPE_CHECKING
 
-import six
-
 from ..parse import Group
 from ..parse import join
 
@@ -42,7 +40,7 @@ class Entity:
             start: Starting token index of the entity
             end: Ending token index of the entity
         """
-        self.text = six.text_type(text)
+        self.text = str(text)
         self.tag = tag
         self.parse_expression = copy.copy(parse_expression)
         self.parse_expression.set_name(None)

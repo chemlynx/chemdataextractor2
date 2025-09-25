@@ -28,7 +28,9 @@ class CsspHtmlReader(HtmlReader):
     heading_css = "h3, h4, h5, h6"
     citation_css = "#csm-article-part-lead_ref > p, #csm-article-part-other_refs > p"
 
-    def _parse_table_footnotes(self, fns: list[HtmlElement], refs: dict[str, Any], specials: dict[str, Any]) -> list[Footnote]:
+    def _parse_table_footnotes(
+        self, fns: list[HtmlElement], refs: dict[str, Any], specials: dict[str, Any]
+    ) -> list[Footnote]:
         """Override to account for awkward CSSP table footnotes.
 
         Args:

@@ -9,6 +9,7 @@ Test USPTO reader.
 import logging
 import os
 import unittest
+from pathlib import Path
 
 from chemdataextractor import Document
 from chemdataextractor.reader import UsptoXmlReader
@@ -24,24 +25,24 @@ class TestUsptoReader(unittest.TestCase):
         """Test UsptoXmlReader can detect a USPTO XML document."""
         r = UsptoXmlReader()
         fname = "US06840965B2.xml"
-        f = open(os.path.join(os.path.dirname(__file__), "data", "uspto", fname), "rb")
-        content = f.read()
+        with open(Path(__file__).parent / "data" / "uspto" / fname, "rb") as f:
+            content = f.read()
         self.assertEqual(r.detect(content, fname=fname), True)
 
     def test_direct_usage(self):
         """Test UsptoXmlReader used directly to parse file."""
         r = UsptoXmlReader()
         fname = "US06840965B2.xml"
-        f = open(os.path.join(os.path.dirname(__file__), "data", "uspto", fname), "rb")
-        content = f.read()
-        d = r.readstring(content)
+        with open(Path(__file__).parent / "data" / "uspto" / fname, "rb") as f:
+            content = f.read()
+            d = r.readstring(content)
         self.assertEqual(len(d.elements), 112)
 
     def test_document_usage(self):
         """Test UsptoXmlReader used via Document.from_file."""
         fname = "US06840965B2.xml"
-        f = open(os.path.join(os.path.dirname(__file__), "data", "uspto", fname), "rb")
-        d = Document.from_file(f, readers=[UsptoXmlReader()])
+        with open(Path(__file__).parent / "data" / "uspto" / fname, "rb") as f:
+            d = Document.from_file(f, readers=[UsptoXmlReader()])
         self.assertEqual(len(d.elements), 112)
 
 

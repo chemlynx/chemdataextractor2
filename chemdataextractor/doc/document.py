@@ -342,7 +342,8 @@ class Document(BaseDocument):
             This method expects a byte string, not a unicode string.
 
         Example:
-            >>> contents = open('paper.html', 'rb').read()
+            >>> with open('paper.html', 'rb') as f:
+            ...     contents = f.read()
             >>> doc = Document.from_string(contents)
 
         Raises:

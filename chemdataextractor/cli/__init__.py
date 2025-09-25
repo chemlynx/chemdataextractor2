@@ -18,6 +18,15 @@ import click
 
 from .. import __version__
 from ..doc import Document
+from . import cem
+from . import chemdner
+from . import cluster
+from . import config
+from . import data
+from . import dict
+from . import evaluate
+from . import pos
+from . import tokenize
 
 log = logging.getLogger(__name__)
 
@@ -90,16 +99,6 @@ def read(ctx: builtins.dict[str, Any], input: BinaryIO, output: TextIO) -> None:
     for element in doc.elements:
         output.write(f"{element.__class__.__name__} : {str(element)}\n=====\n")
 
-
-from . import cem
-from . import chemdner
-from . import cluster
-from . import config
-from . import data
-from . import dict
-from . import evaluate
-from . import pos
-from . import tokenize
 
 cli.add_command(cluster.cluster_cli)
 cli.add_command(config.config_cli)

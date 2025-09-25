@@ -13,13 +13,6 @@ from collections.abc import Generator
 from typing import TYPE_CHECKING
 from typing import Any
 
-if TYPE_CHECKING:
-    from ..model.base import BaseModel
-
-# Type aliases for IR parsing
-TokenList = list[str]  # List of tokens
-ParseResult = list[Any]  # List of XML elements from parsing
-
 from lxml.builder import E
 
 from ..utils import first
@@ -37,6 +30,13 @@ from .elements import R
 from .elements import T
 from .elements import W
 from .elements import ZeroOrMore
+
+if TYPE_CHECKING:
+    from ..model.base import BaseModel
+
+# Type aliases for IR parsing
+TokenList = list[str]  # List of tokens
+ParseResult = list[Any]  # List of XML elements from parsing
 
 log = logging.getLogger(__name__)
 

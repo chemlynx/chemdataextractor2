@@ -224,10 +224,10 @@ https://stackoverflow.com/questions/25145817/ellipsis-truncation-on-module-attri
 to ensure that any values that are too long are truncated in the documentation.
 """
 
-from sphinx.ext.autodoc import SUPPRESS
-from sphinx.ext.autodoc import DataDocumenter
-from sphinx.ext.autodoc import ModuleLevelDocumenter
-from sphinx.util.inspect import object_description
+from sphinx.ext.autodoc import SUPPRESS  # noqa: E402
+from sphinx.ext.autodoc import DataDocumenter  # noqa: E402
+from sphinx.ext.autodoc import ModuleLevelDocumenter  # noqa: E402
+from sphinx.util.inspect import object_description  # noqa: E402
 
 
 def add_directive_header(self, sig):

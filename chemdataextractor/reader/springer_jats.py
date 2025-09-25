@@ -75,7 +75,9 @@ class SpringerJatsReader(XmlReader):
             return False
         return b'dtd-version="1.2"' in fstring
 
-    def _parse_metadata(self, el: HtmlElement, refs: dict[str, Any], specials: dict[str, Any]) -> list[MetaData]:
+    def _parse_metadata(
+        self, el: HtmlElement, refs: dict[str, Any], specials: dict[str, Any]
+    ) -> list[MetaData]:
         """Parse metadata from Springer JATS document.
 
         Args:

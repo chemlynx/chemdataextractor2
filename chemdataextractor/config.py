@@ -6,6 +6,7 @@ Config file reader/writer.
 import os
 from collections.abc import Iterator
 from collections.abc import MutableMapping
+from pathlib import Path
 from typing import Any
 
 import appdirs
@@ -59,11 +60,10 @@ class Config(MutableMapping[str, Any]):
             self._path = os.environ.get("CHEMDATAEXTRACTOR_CONFIG")
         # Use OS-dependent config directory given by appdirs
         if not self._path:
-            self._path = os.path.join(
-                appdirs.user_config_dir("ChemDataExtractor"),
-                "chemdataextractor.yml",
+            self._path = str(
+                Path(appdirs.user_config_dir("ChemDataExtractor")) / "chemdataextractor.yml"
             )
-        if os.path.isfile(self.path):
+        if Path(self.path).is_file():
             with open(self.path, encoding="utf8") as f:
                 self._data = yaml.safe_load(f) or {}
 
@@ -76,9 +76,8 @@ class Config(MutableMapping[str, Any]):
 
     def _flush(self) -> None:
         """Save the contents of data to the file on disk. You should not need to call this manually."""
-        d = os.path.dirname(self.path)
-        if not os.path.isdir(d):
-            os.makedirs(d)
+        path_obj = Path(self.path)
+        path_obj.parent.mkdir(parents=True, exist_ok=True)
         with open(self.path, "w", encoding="utf8") as f:
             yaml.safe_dump(self._data, f, default_flow_style=False, encoding=None)
 

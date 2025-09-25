@@ -31,17 +31,17 @@ type ValueList = list[float]  # List of extracted values
 type UnitString = str  # String representation of units
 type MagnitudeDict = dict[Any, float]  # Magnitude multipliers
 
-import contextlib
+import contextlib  # noqa: E402
 
-from ..utils import memoize
-from .actions import join
-from .actions import merge
-from .common import lbrct
-from .common import rbrct
-from .elements import I
-from .elements import Optional
-from .elements import R
-from .elements import W
+from ..utils import memoize  # noqa: E402
+from .actions import join  # noqa: E402
+from .actions import merge  # noqa: E402
+from .common import lbrct  # noqa: E402
+from .common import rbrct  # noqa: E402
+from .elements import I  # noqa: E402
+from .elements import Optional  # noqa: E402
+from .elements import R  # noqa: E402
+from .elements import W  # noqa: E402
 
 log = logging.getLogger(__name__)
 

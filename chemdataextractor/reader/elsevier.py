@@ -200,7 +200,9 @@ class ElsevierXmlReader(XmlReader):
             return False
         return b'xmlns="http://www.elsevier.com/xml/svapi/article/dtd"' in fstring
 
-    def _parse_metadata(self, el: HtmlElement, refs: dict[str, Any], specials: dict[str, Any]) -> list[MetaData]:
+    def _parse_metadata(
+        self, el: HtmlElement, refs: dict[str, Any], specials: dict[str, Any]
+    ) -> list[MetaData]:
         title = self._css(self.metadata_title_css, el)
         authors = self._css(self.metadata_author_css, el)
         publisher = self._css(self.metadata_publisher_css, el)
@@ -236,7 +238,9 @@ class ElsevierXmlReader(XmlReader):
         meta = MetaData(metadata)
         return [meta]
 
-    def _parse_table_rows(self, els: list[HtmlElement], refs: dict[str, Any], specials: dict[str, Any]) -> list[list[Cell]]:
+    def _parse_table_rows(
+        self, els: list[HtmlElement], refs: dict[str, Any], specials: dict[str, Any]
+    ) -> list[list[Cell]]:
         """Parse Elsevier table rows with CALS table model support.
 
         Args:

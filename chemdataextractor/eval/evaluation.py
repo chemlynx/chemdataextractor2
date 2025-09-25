@@ -13,8 +13,8 @@ Both must be satisfied.
 
 To continue the evaluation if interrupted::
 
-    pickle_file = open("evaluation.pickle", "rb")
-    tg_eval = pickle.load(pickle_file)
+    with open("evaluation.pickle", "rb") as pickle_file:
+        tg_eval = pickle.load(pickle_file)
     tg_eval.eval()
     tg_eval.print_results()
 
@@ -27,6 +27,7 @@ import os
 import pickle
 import sys
 import webbrowser
+from pathlib import Path
 from pprint import pprint
 
 from .. import Document
@@ -51,13 +52,13 @@ sys.stdout = Logger()
 
 def documents(folder):
     """Yields CDE documents for a given folder"""
-    for _i, filename in enumerate(sorted(os.listdir(folder))):
-        if filename[0] != ".":
-            file_path = os.path.join(folder, filename)
+    folder_path = Path(folder)
+    for file_path in sorted(folder_path.iterdir()):
+        if not file_path.name.startswith("."):
             fb = open(file_path, "rb")
             doc = Document.from_file(fb)
             fb.close()
-            yield doc, file_path
+            yield doc, str(file_path)
 
 
 def records(cde_doc, models):
@@ -90,7 +91,7 @@ class Evaluate:
         self.models = models
         self.n_papers_limit = n_papers_limit
         self.n_records_limit = n_records_limit
-        self.n_papers = len(os.listdir(folder))
+        self.n_papers = len(list(Path(folder).iterdir()))
 
         # number of paper that was last evaluated
         self.n_paper = -1
@@ -133,161 +134,159 @@ class Evaluate:
 
     def eval(self):
         """Evaluates the corpus"""
-        f = open("results.txt", "w", encoding="utf-8")
-        for n_paper, doc in enumerate(documents(self.folder)):
-            # if loaded from pickle, eval will start where left of
-            if n_paper <= self.n_paper and self.n_paper >= 0:
-                continue
+        with open("results.txt", "w", encoding="utf-8") as f:
+                for n_paper, doc in enumerate(documents(self.folder)):
+                # if loaded from pickle, eval will start where left of
+                if n_paper <= self.n_paper and self.n_paper >= 0:
+                    continue
 
-            print(f"Paper {n_paper}/{self.n_papers}")
-            print(f"DOI:       {doc[0].metadata.doi}")
-            print(f"Journal:   {doc[0].metadata.journal}")
-            print(f"Publisher: {doc[0].metadata.publisher}")
-            print(f"PDF Url:   {doc[0].metadata.pdf_url}")
-            print(f"HTML Url:  {doc[0].metadata.html_url}")
+                print(f"Paper {n_paper}/{self.n_papers}")
+                print(f"DOI:       {doc[0].metadata.doi}")
+                print(f"Journal:   {doc[0].metadata.journal}")
+                print(f"Publisher: {doc[0].metadata.publisher}")
+                print(f"PDF Url:   {doc[0].metadata.pdf_url}")
+                print(f"HTML Url:  {doc[0].metadata.html_url}")
 
-            doc_opened = False
-            for record in records(doc[0], self.models):
-                if record.is_unidentified:
-                    self.n_unidentified += 1
-                if not record.is_unidentified:
-                    self.n_records += 1
+                doc_opened = False
+                for record in records(doc[0], self.models):
+                    if record.is_unidentified:
+                        self.n_unidentified += 1
+                    if not record.is_unidentified:
+                        self.n_records += 1
 
-                    print(f"Record {self.n_records}: \n")
-                    pprint(record.serialize())
-                    print(f"    Method:  {record.record_method}")
-                    print(f"    Updated: {record.updated}")
+                        print(f"Record {self.n_records}: \n")
+                        pprint(record.serialize())
+                        print(f"    Method:  {record.record_method}")
+                        print(f"    Updated: {record.updated}")
 
-                    if not doc_opened and self.show_website:
-                        webbrowser.open(doc[0].metadata.html_url)
-                        doc_opened = True
-                    if self._automated:
-                        input_cw = 0
-                    else:
-                        input_cw = input(
-                            "    Correct (0)   OR   Correct and duplicate (1)   OR   Wrong (2)   OR   SKIP (3)?"
-                        )
-                        try:
-                            input_cw = int(input_cw)
-                        except ValueError:
+                        if not doc_opened and self.show_website:
+                            webbrowser.open(doc[0].metadata.html_url)
+                            doc_opened = True
+                        if self._automated:
+                            input_cw = 0
+                        else:
                             input_cw = input(
                                 "    Correct (0)   OR   Correct and duplicate (1)   OR   Wrong (2)   OR   SKIP (3)?"
                             )
-                            input_cw = int(input_cw)
-                            print(f"         {input_cw}")
+                            try:
+                                input_cw = int(input_cw)
+                            except ValueError:
+                                input_cw = input(
+                                    "    Correct (0)   OR   Correct and duplicate (1)   OR   Wrong (2)   OR   SKIP (3)?"
+                                )
+                                input_cw = int(input_cw)
+                                print(f"         {input_cw}")
 
-                    if input_cw == 0:
-                        self.nc += 1
+                        if input_cw == 0:
+                            self.nc += 1
 
-                        if record.record_method == "AutoSentenceParser":
-                            self.nc_autosentence += 1
-                        elif (
-                            record.record_method == "QuantityModelTemplateParser"
-                            or record.record_method == "MultiQuantityModelTemplateParser"
-                        ):
-                            self.nc_template += 1
-                        elif record.record_method == "Snowball":
-                            self.nc_snowball += 1
-                        elif record.record_method == "AutoTableParser":
-                            self.nc_table += 1
+                            if record.record_method == "AutoSentenceParser":
+                                self.nc_autosentence += 1
+                            elif (
+                                record.record_method == "QuantityModelTemplateParser"
+                                or record.record_method == "MultiQuantityModelTemplateParser"
+                            ):
+                                self.nc_template += 1
+                            elif record.record_method == "Snowball":
+                                self.nc_snowball += 1
+                            elif record.record_method == "AutoTableParser":
+                                self.nc_table += 1
 
-                        if record.updated:
-                            self.nc_definition += 1
-                            # print(doc[0].definitions)
+                            if record.updated:
+                                self.nc_definition += 1
+                                # print(doc[0].definitions)
 
-                    if input_cw == 1:
-                        self.ncd += 1
+                        if input_cw == 1:
+                            self.ncd += 1
 
-                        if record.record_method == "AutoSentenceParser":
-                            self.ncd_autosentence += 1
-                        elif (
-                            record.record_method == "QuantityModelTemplateParser"
-                            or record.record_method == "MultiQuantityModelTemplateParser"
-                        ):
-                            self.ncd_template += 1
-                        elif record.record_method == "Snowball":
-                            self.ncd_snowball += 1
-                        elif record.record_method == "AutoTableParser":
-                            self.ncd_table += 1
+                            if record.record_method == "AutoSentenceParser":
+                                self.ncd_autosentence += 1
+                            elif (
+                                record.record_method == "QuantityModelTemplateParser"
+                                or record.record_method == "MultiQuantityModelTemplateParser"
+                            ):
+                                self.ncd_template += 1
+                            elif record.record_method == "Snowball":
+                                self.ncd_snowball += 1
+                            elif record.record_method == "AutoTableParser":
+                                self.ncd_table += 1
 
-                        if record.updated:
-                            self.ncd_definition += 1
+                            if record.updated:
+                                self.ncd_definition += 1
 
-                    if input_cw == 2:
-                        self.nw += 1
+                        if input_cw == 2:
+                            self.nw += 1
 
-                        input_w = input(
-                            "    CER (1), AutoSentence (2), AutoTemplate (3), Snowball (4), Table (5), Definition update (6), Interdependency resolution (7), Other (8)? "
-                        )
-                        try:
-                            input_w = int(input_w)
-                        except ValueError:
                             input_w = input(
                                 "    CER (1), AutoSentence (2), AutoTemplate (3), Snowball (4), Table (5), Definition update (6), Interdependency resolution (7), Other (8)? "
                             )
-                            input_w = int(input_w)
-                        print(f"         {input_w}")
-
-                        if input_w == 1:
-                            self.nw_cer += 1
-                        elif input_w == 2:
-                            self.nw_autosentence += 1
-                        elif input_w == 3:
-                            self.nw_template += 1
-                        elif input_w == 4:
-                            self.nw_snowball += 1
-                        elif input_w == 5:
-                            self.nw_table += 1
-                        elif input_w == 6:
-                            self.nw_definition += 1
-                        elif input_w == 7:
-                            self.nw_interdependency += 1
-                        elif input_w == 8:
-                            self.nw_other += 1
-
-                        if input_w == 5:
-                            for table in doc[0].tables:
-                                print(table.tde_table)
-                                table.tde_table.print()
-                                print(table.tde_table.history)
-
-                            input_w_table = input("    TDE (1) or CDE (2)?")
                             try:
-                                input_w_table = int(input_w_table)
+                                input_w = int(input_w)
                             except ValueError:
+                                input_w = input(
+                                    "    CER (1), AutoSentence (2), AutoTemplate (3), Snowball (4), Table (5), Definition update (6), Interdependency resolution (7), Other (8)? "
+                                )
+                                input_w = int(input_w)
+                            print(f"         {input_w}")
+
+                            if input_w == 1:
+                                self.nw_cer += 1
+                            elif input_w == 2:
+                                self.nw_autosentence += 1
+                            elif input_w == 3:
+                                self.nw_template += 1
+                            elif input_w == 4:
+                                self.nw_snowball += 1
+                            elif input_w == 5:
+                                self.nw_table += 1
+                            elif input_w == 6:
+                                self.nw_definition += 1
+                            elif input_w == 7:
+                                self.nw_interdependency += 1
+                            elif input_w == 8:
+                                self.nw_other += 1
+
+                            if input_w == 5:
+                                for table in doc[0].tables:
+                                    print(table.tde_table)
+                                    table.tde_table.print()
+                                    print(table.tde_table.history)
+
                                 input_w_table = input("    TDE (1) or CDE (2)?")
-                                input_w_table = int(input_w_table)
-                            print(f"         {input_w_table}")
+                                try:
+                                    input_w_table = int(input_w_table)
+                                except ValueError:
+                                    input_w_table = input("    TDE (1) or CDE (2)?")
+                                    input_w_table = int(input_w_table)
+                                print(f"         {input_w_table}")
 
-                            if input_w_table == 1:
-                                self.nw_table_tde += 1
-                            elif input_w_table == 2:
-                                self.nw_table_cde += 1
+                                if input_w_table == 1:
+                                    self.nw_table_tde += 1
+                                elif input_w_table == 2:
+                                    self.nw_table_cde += 1
 
-                        if input_w == 8:
-                            input_w_other = input("    Describe: ")
-                            self.w_other.append(input_w_other)
-                            print(f"             {input_w_other}")
+                            if input_w == 8:
+                                input_w_other = input("    Describe: ")
+                                self.w_other.append(input_w_other)
+                                print(f"             {input_w_other}")
 
-                    if input_cw == 3:
-                        continue
+                        if input_cw == 3:
+                            continue
+
+                    if self.limits_reached:
+                        break
+
+                self.n_paper = n_paper
+                with open("evaluation.pickle", "wb") as pickling_file:
+                    pickle.dump(self, pickling_file)
+                f.seek(0)
+                f.truncate()
+                self.print_results(destination=f)
+                f.flush()
 
                 if self.limits_reached:
                     break
-
-            self.n_paper = n_paper
-            pickling_file = open("evaluation.pickle", "wb")
-            pickle.dump(self, pickling_file)
-            pickling_file.close()
-            f.seek(0)
-            f.truncate()
-            self.print_results(destination=f)
-            f.flush()
-
-            if self.limits_reached:
-                break
-            print("")
-        f.close()
+                print("")
 
     @property
     def limits_reached(self):

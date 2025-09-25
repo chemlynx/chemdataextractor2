@@ -2,6 +2,8 @@
 
 import logging
 
+from .doc.document import Document
+
 __title__ = "ChemDataExtractor"
 __version__ = "2.4.0"
 __author__ = "Matt Swain, Callum Court, Edward Beard, Juraj Mavracic and Taketomo Isazawa"
@@ -17,5 +19,3 @@ logging.basicConfig(
     format="%(levelname)-10s in %(filename)-20s--> %(message)s",
     handlers=[logging.FileHandler("log.txt", mode="w", encoding="utf-8")],
 )
-
-from .doc.document import Document

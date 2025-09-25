@@ -395,7 +395,9 @@ ISSN_RE = re.compile(r"^\d{4}-\d{3}[\dX]$", re.U)
 CONTROL_RE = re.compile("[^\u0020-\ud7ff\u0009\u000a\u000d\ue000-\ufffd\u10000-\u10ffFF]+")
 
 
-def get_encoding(input_string: bytes | str, guesses: list[str] | None = None, is_html: bool = False) -> str | None:
+def get_encoding(
+    input_string: bytes | str, guesses: list[str] | None = None, is_html: bool = False
+) -> str | None:
     """Return the encoding of a byte string. Uses bs4 UnicodeDammit.
 
     Args:

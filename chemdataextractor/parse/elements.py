@@ -20,9 +20,9 @@ from collections.abc import Callable
 from collections.abc import Generator
 from copy import deepcopy
 from functools import lru_cache
+from re import Pattern
 from typing import TYPE_CHECKING
 from typing import Any
-from typing import Optional
 
 from lxml.builder import E
 
@@ -219,7 +219,9 @@ class BaseParserElement:
         new.name = name
         return new
 
-    def scan(self, tokens: list[tuple[str, str]], max_matches: int = sys.maxsize, overlap: bool = False) -> Generator[tuple[Any, int, int], None, None]:
+    def scan(
+        self, tokens: list[tuple[str, str]], max_matches: int = sys.maxsize, overlap: bool = False
+    ) -> Generator[tuple[Any, int, int], None, None]:
         """
         Scans for matches in given tokens.
 
@@ -253,7 +255,9 @@ class BaseParserElement:
                 else:
                     i += 1
 
-    def parse(self, tokens: list[tuple[str, str]], i: int, actions: bool = True) -> tuple[list[Any], int]:
+    def parse(
+        self, tokens: list[tuple[str, str]], i: int, actions: bool = True
+    ) -> tuple[list[Any], int]:
         """
         Parse given tokens and return results
 
@@ -390,11 +394,11 @@ class NoMatch(BaseParserElement):
 class Word(BaseParserElement):
     """Match token text exactly. Case-sensitive."""
 
-    def __init__(self, match):
+    def __init__(self, match: str) -> None:
         super().__init__()
-        self.match = match
+        self.match: str = match
 
-    def _parse_tokens(self, tokens, i, actions=True):
+    def _parse_tokens(self, tokens: list[tuple[str, str]], i: int, actions: bool = True) -> tuple[list[Any], int]:
         token_text = tokens[i][0]
         if token_text == self.match:
             return [E(self.name or safe_name(tokens[i][1]), token_text)], i + 1
@@ -423,10 +427,10 @@ class Tag(BaseParserElement):
 class IWord(Word):
     """Case-insensitive match token text."""
 
-    def __init__(self, match):
+    def __init__(self, match: str) -> None:
         super().__init__(match.lower())
 
-    def _parse_tokens(self, tokens, i, actions=True):
+    def _parse_tokens(self, tokens: list[tuple[str, str]], i: int, actions: bool = True) -> tuple[list[Any], int]:
         token_text = tokens[i][0]
         if token_text.lower() == self.match:
             return [E(self.name or safe_name(tokens[i][1]), tokens[i][0])], i + 1
@@ -441,19 +445,19 @@ class Regex(BaseParserElement):
     providing significant speedups in parser element creation.
     """
 
-    def __init__(self, pattern, flags=0, group=None):
+    def __init__(self, pattern: str | Pattern[str], flags: int = 0, group: int | None = None) -> None:
         super().__init__()
         if isinstance(pattern, str):
             # Use cached compilation for string patterns
-            self.regex = _compile_regex(pattern, flags)
-            self.pattern = pattern
+            self.regex: Pattern[str] = _compile_regex(pattern, flags)
+            self.pattern: str = pattern
         else:
             # Use pre-compiled pattern as-is
-            self.regex = pattern
-            self.pattern = pattern.pattern
-        self.group = group
+            self.regex: Pattern[str] = pattern
+            self.pattern: str = pattern.pattern
+        self.group: int | None = group
 
-    def _parse_tokens(self, tokens, i, actions=True):
+    def _parse_tokens(self, tokens: list[tuple[str, str]], i: int, actions: bool = True) -> tuple[list[Any], int]:
         token_text = tokens[i][0]
         result = self.regex.search(token_text)
         if result:

@@ -113,7 +113,9 @@ class UsptoXmlReader(XmlReader):
         # TODO: Other DTDs
         return False
 
-    def _parse_table(self, el: HtmlElement, refs: dict[str, Any], specials: dict[str, Any]) -> list[Table]:
+    def _parse_table(
+        self, el: HtmlElement, refs: dict[str, Any], specials: dict[str, Any]
+    ) -> list[Table]:
         """Parse USPTO table structure with complex cell handling.
 
         Args:
@@ -202,7 +204,9 @@ class UsptoXmlReader(XmlReader):
         )
         return [tab]
 
-    def _parse_table_rows(self, els: list[HtmlElement], refs: dict[str, Any], specials: dict[str, Any]) -> list[list[Cell]]:
+    def _parse_table_rows(
+        self, els: list[HtmlElement], refs: dict[str, Any], specials: dict[str, Any]
+    ) -> list[list[Cell]]:
         """Parse table rows with cell spanning support.
 
         Args:
@@ -239,7 +243,9 @@ class UsptoXmlReader(XmlReader):
         rows = [r for r in rows if any(r)]
         return rows
 
-    def _parse_table_footnotes(self, fns: list[HtmlElement], refs: dict[str, Any], specials: dict[str, Any]) -> list[Footnote]:
+    def _parse_table_footnotes(
+        self, fns: list[HtmlElement], refs: dict[str, Any], specials: dict[str, Any]
+    ) -> list[Footnote]:
         """Parse table footnotes.
 
         Args:

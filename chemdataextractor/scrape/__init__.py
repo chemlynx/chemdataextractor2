@@ -93,31 +93,31 @@ INLINE_ELEMENTS = {
 }
 
 
-from .clean import Cleaner
-from .clean import clean
-from .clean import clean_html
-from .clean import clean_markup
-from .entity import DocumentEntity
-from .entity import Entity
-from .entity import EntityList
-from .fields import BoolField
-from .fields import DateTimeField
-from .fields import EntityField
-from .fields import FloatField
-from .fields import IntField
-from .fields import StringField
-from .fields import UrlField
-from .pub.elsevier import ElsevierHtmlDocument
-from .pub.elsevier import ElsevierXmlDocument
-from .pub.nlm import NlmXmlDocument
-from .pub.rsc import RscHtmlDocument
-from .pub.springer import SpringerXmlDocument
-from .scraper import GetRequester
-from .scraper import HtmlFormat
-from .scraper import PostRequester
-from .scraper import RssScraper
-from .scraper import SearchScraper
-from .scraper import UrlScraper
-from .scraper import XmlFormat
-from .selector import Selector
-from .selector import SelectorList
+from .clean import Cleaner  # noqa: E402
+from .clean import clean  # noqa: E402
+from .clean import clean_html  # noqa: E402
+from .clean import clean_markup  # noqa: E402
+from .entity import DocumentEntity  # noqa: E402
+from .entity import Entity  # noqa: E402
+from .entity import EntityList  # noqa: E402
+from .fields import BoolField  # noqa: E402
+from .fields import DateTimeField  # noqa: E402
+from .fields import EntityField  # noqa: E402
+from .fields import FloatField  # noqa: E402
+from .fields import IntField  # noqa: E402
+from .fields import StringField  # noqa: E402
+from .fields import UrlField  # noqa: E402
+from .pub.elsevier import ElsevierHtmlDocument  # noqa: E402
+from .pub.elsevier import ElsevierXmlDocument  # noqa: E402
+from .pub.nlm import NlmXmlDocument  # noqa: E402
+from .pub.rsc import RscHtmlDocument  # noqa: E402
+from .pub.springer import SpringerXmlDocument  # noqa: E402
+from .scraper import GetRequester  # noqa: E402
+from .scraper import HtmlFormat  # noqa: E402
+from .scraper import PostRequester  # noqa: E402
+from .scraper import RssScraper  # noqa: E402
+from .scraper import SearchScraper  # noqa: E402
+from .scraper import UrlScraper  # noqa: E402
+from .scraper import XmlFormat  # noqa: E402
+from .selector import Selector  # noqa: E402
+from .selector import SelectorList  # noqa: E402

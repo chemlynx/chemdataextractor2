@@ -8,6 +8,7 @@ Test the Document class.
 
 import logging
 import unittest
+from pathlib import Path
 
 from chemdataextractor.doc.document import Document
 from chemdataextractor.nlp.tag import BaseTagger
@@ -111,8 +112,8 @@ class TestDocument(unittest.TestCase):
         self.assertEqual(defs, expected)
 
     def test_doc_meta(self):
-        f = open("tests/data/elsevier/j.jnoncrysol.2017.07.006.xml", "rb")
-        d = Document.from_file(f)
+        with open(Path(__file__).parent / "data" / "elsevier" / "j.jnoncrysol.2017.07.006.xml", "rb") as f:
+            d = Document.from_file(f)
         result = d.metadata.serialize()
         expected = {
             "MetaData": {

@@ -9,16 +9,14 @@ from __future__ import annotations
 
 import copy
 import logging
-import os
 import pickle
 from itertools import combinations
 from itertools import product
-from os.path import basename
+from pathlib import Path
 from typing import TYPE_CHECKING
 from typing import Any
 
 import numpy as np
-import six
 
 from ..doc.document import Document
 from ..doc.text import Sentence
@@ -137,27 +135,26 @@ class Snowball(BaseSentenceParser):
             self -- A Snowball Instance
         """
 
-        f = open(path, "rb")
-        return pickle.load(f)
+        with open(path, "rb") as f:
+            return pickle.load(f)
 
     def save(self):
         """Write all snowball settings to file for loading later"""
-        save_dir = self.save_dir
-        if not os.path.exists(save_dir):
-            os.makedirs(save_dir)
+        save_path = Path(self.save_dir)
+        save_path.mkdir(parents=True, exist_ok=True)
 
-        with open(save_dir + self.save_file_name + ".pkl", "wb") as f:
+        with open(save_path / f"{self.save_file_name}.pkl", "wb") as f:
             pickle.dump(self, f)
 
-        with open(save_dir + self.save_file_name + "_clusters.txt", "w+", encoding="utf-8") as f:
-            s = "Cluster set contains " + six.text_type(len(self.clusters)) + " clusters."
+        with open(save_path / f"{self.save_file_name}_clusters.txt", "w+", encoding="utf-8") as f:
+            s = "Cluster set contains " + str(len(self.clusters)) + " clusters."
             f.write(s + "\n")
             for c in self.clusters:
                 s = (
                     "Cluster "
-                    + six.text_type(c.label)
+                    + str(c.label)
                     + " contains "
-                    + six.text_type(len(c.phrases))
+                    + str(len(c.phrases))
                     + " phrases"
                 )
                 f.write(s + "\n")
@@ -166,30 +163,30 @@ class Snowball(BaseSentenceParser):
                 f.write("The cluster centroid pattern is: ")
                 p = c.pattern
                 f.write(
-                    six.text_type(p.to_string())
+                    str(p.to_string())
                     + " with confidence score "
-                    + six.text_type(p.confidence)
+                    + str(p.confidence)
                     + "\n"
                 )
 
-        with open(save_dir + self.save_file_name + "_patterns.txt", "w+", encoding="utf-8") as f:
+        with open(save_path / f"{self.save_file_name}_patterns.txt", "w+", encoding="utf-8") as f:
             for c in self.clusters:
                 p = c.pattern
                 f.write(
-                    six.text_type(p.to_string())
+                    str(p.to_string())
                     + " with confidence score "
                     + str(p.confidence)
                     + "\n\n"
                 )
 
-        with open(save_dir + self.save_file_name + "_relations.txt", "w+", encoding="utf-8") as wf:
+        with open(save_path / f"{self.save_file_name}_relations.txt", "w+", encoding="utf-8") as wf:
             for c in self.clusters:
                 for phrase in c.phrases:
                     for relation in phrase.relations:
                         wf.write(
-                            six.text_type(relation)
+                            str(relation)
                             + " Confidence:  "
-                            + six.text_type(relation.confidence)
+                            + str(relation.confidence)
                             + "\n"
                         )
 
@@ -208,11 +205,11 @@ class Snowball(BaseSentenceParser):
             corpus {str or list} -- path to a corpus of documents or list of training sentences
         """
         if isinstance(corpus, str):
-            corpus_list = os.listdir(corpus)
-            for i, file_name in enumerate(corpus_list[skip:]):
-                print(f"{i + skip + 1}/{len(corpus_list)}:", " ", file_name)
-                f = os.path.join(corpus, file_name)
-                self.train_from_file(f)
+            corpus_path = Path(corpus)
+            corpus_files = list(corpus_path.iterdir())
+            for i, file_path in enumerate(corpus_files[skip:]):
+                print(f"{i + skip + 1}/{len(corpus_files)}:", " ", file_path.name)
+                self.train_from_file(file_path)
         else:
             assert isinstance(corpus, list)
             for s in corpus[skip:]:
@@ -228,17 +225,14 @@ class Snowball(BaseSentenceParser):
         Arguments:
             f {str} -- the file path to parse
         """
-        f = open(filename, "rb")
-        d = Document().from_file(f)
+        with open(filename, "rb") as f:
+            d = Document().from_file(f)
 
         # if 'train_from_document' found any candidates, print the file to a log so that
         # files used for training are saved automatically
-        f_log = open("snowball_training_set.txt", "a")
-        if self.train_from_document(d):
-            print(basename(filename), file=f_log)
-        f_log.close()
-        f.close()
-        return
+        with open("snowball_training_set.txt", "a") as f_log:
+            if self.train_from_document(d):
+                print(Path(filename).name, file=f_log)
 
     def train_from_document(self, d):
         """Train Snowball from a Document object
@@ -279,7 +273,7 @@ class Snowball(BaseSentenceParser):
                 candidate_dict[str(i)] = candidate
                 print("Candidate " + str(i) + " " + str(candidate) + "\n")
 
-            res = six.moves.input("...: ").replace(" ", "")
+            res = input("...: ").replace(" ", "")
             if res:
                 chosen_candidate_idx = res.split(",")
                 chosen_candidates = []
@@ -636,9 +630,7 @@ class Snowball(BaseSentenceParser):
                 return None
 
             field_data = {}
-            for subfield_name, subfield in six.iteritems(
-                field.model_class.fields
-            ):  # compound, names
+            for subfield_name, subfield in field.model_class.fields.items():  # compound, names
                 data = self._get_data(subfield_name, subfield, field_result)
                 if data is not None:
                     field_data.update(data)
@@ -732,7 +724,7 @@ class Snowball(BaseSentenceParser):
                 raw_value = relation_data[model_name]["raw_value"]
                 model_data.update({"raw_value": raw_value})
 
-            for field_name, field in six.iteritems(model.fields):
+            for field_name, field in model.fields.items():
                 if field_name not in [
                     "raw_value",
                     "raw_units",

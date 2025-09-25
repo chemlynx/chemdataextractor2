@@ -10,7 +10,6 @@ from typing import Any
 from typing import NamedTuple
 
 import torch
-from overrides import overrides
 
 
 class TimeDistributed(torch.nn.Module):
@@ -34,7 +33,9 @@ class TimeDistributed(torch.nn.Module):
         super().__init__()
         self._module = module
 
-    def forward(self, *inputs: torch.Tensor, pass_through: list[str] | None = None, **kwargs: Any) -> torch.Tensor:
+    def forward(
+        self, *inputs: torch.Tensor, pass_through: list[str] | None = None, **kwargs: Any
+    ) -> torch.Tensor:
         pass_through = pass_through or []
 
         reshaped_inputs = [self._reshape_tensor(input_tensor) for input_tensor in inputs]

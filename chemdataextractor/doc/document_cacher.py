@@ -1,6 +1,7 @@
 import json
 import os
 import shutil
+from pathlib import Path
 
 from .text import RichToken
 from .text import Subsentence
@@ -21,8 +22,9 @@ def get_document_configuration(document):
 class PlainTextCacher:
     def __init__(self, cache_location):
         self.cache_location = cache_location
-        if not os.path.isdir(self.cache_location):
-            os.makedirs(self.cache_location)
+        cache_path = Path(self.cache_location)
+        if not cache_path.is_dir():
+            cache_path.mkdir(parents=True, exist_ok=True)
 
     def cache_document(
         self,
@@ -37,12 +39,13 @@ class PlainTextCacher:
 
         # Save document configuration
         document_configuration = get_document_configuration(document)
-        cache_location_root = os.path.join(self.cache_location, self._safe_document_id(document_id))
-        if not os.path.isdir(cache_location_root):
-            os.makedirs(cache_location_root)
+        cache_location_root = str(Path(self.cache_location) / self._safe_document_id(document_id))
+        cache_root_path = Path(cache_location_root)
+        if not cache_root_path.is_dir():
+            cache_root_path.mkdir(parents=True, exist_ok=True)
         elif overwrite_cache:
             shutil.rmtree(cache_location_root)
-            os.makedirs(cache_location_root)
+            cache_root_path.mkdir(parents=True, exist_ok=True)
         elif not overwrite_cache:
             raise AttributeError(
                 "{document_id} is already cached! Enable overwrite_cache to overwrite the previous cache."
@@ -108,10 +111,10 @@ class PlainTextCacher:
     def hydrate_document(self, document, document_id, tags=None):
         # Add in all the tags, tokenisation for a document.
         document_configuration = get_document_configuration(document)
-        cache_location_root = os.path.join(self.cache_location, self._safe_document_id(document_id))
+        cache_location_root = str(Path(self.cache_location) / self._safe_document_id(document_id))
 
         # Check cache looks good
-        if not os.path.isdir(cache_location_root):
+        if not Path(cache_location_root).is_dir():
             raise AttributeError(f"{document_id} is not cached")
 
         with open(self._document_config_path(cache_location_root)) as f:
@@ -195,13 +198,13 @@ class PlainTextCacher:
         return document_id.replace(".", "🔥").replace("/", "😅")
 
     def _document_config_path(self, cache_location_root):
-        return os.path.join(cache_location_root, "configuration.json")
+        return str(Path(cache_location_root) / "configuration.json")
 
     def _document_subsentence_cache_path(self, cache_location_root):
-        return os.path.join(cache_location_root, "subsentences.txt")
+        return str(Path(cache_location_root) / "subsentences.txt")
 
     def _document_tokenizer_cache_path(self, cache_location_root, tokenizer):
-        return os.path.join(cache_location_root, "tokenizer__" + tokenizer + ".txt")
+        return str(Path(cache_location_root) / f"tokenizer__{tokenizer}.txt")
 
     def _document_tag_cache_path(self, cache_location_root, tag):
-        return os.path.join(cache_location_root, "tag__" + tag + ".txt")
+        return str(Path(cache_location_root) / f"tag__{tag}.txt")

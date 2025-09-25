@@ -9,6 +9,7 @@ import logging
 import os
 from collections.abc import Callable
 from collections.abc import Iterable
+from pathlib import Path
 from typing import Any
 from typing import TypeVar
 
@@ -76,8 +77,4 @@ def first(el: list[T]) -> T | None:
 
 def ensure_dir(path: str) -> None:
     """Ensure a directory exists."""
-    try:
-        os.makedirs(path)
-    except OSError as e:
-        if e.errno != errno.EEXIST:
-            raise
+    Path(path).mkdir(parents=True, exist_ok=True)

@@ -85,7 +85,7 @@ class PdfReader(BaseReader):
 
         try:
             if isinstance(fstring, str):
-                fstring = fstring.encode('utf-8')
+                fstring = fstring.encode("utf-8")
             f = io.BytesIO(fstring)
             parser = PDFParser(f)
             document = PDFDocument(parser)

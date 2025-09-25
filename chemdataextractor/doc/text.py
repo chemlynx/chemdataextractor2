@@ -99,9 +99,7 @@ class BaseText(BaseElement):
             raise TypeError("Text must be a unicode string")
         super().__init__(**kwargs)
         self._text = text
-        self.word_tokenizer = (
-            word_tokenizer if word_tokenizer is not None else self.word_tokenizer
-        )
+        self.word_tokenizer = word_tokenizer if word_tokenizer is not None else self.word_tokenizer
         self.lexicon = lexicon if lexicon is not None else self.lexicon
         self.abbreviation_detector = (
             abbreviation_detector
@@ -275,9 +273,7 @@ class Text(collections.abc.Sequence, BaseText):
             **kwargs,
         )
         self.sentence_tokenizer = (
-            sentence_tokenizer
-            if sentence_tokenizer is not None
-            else self.sentence_tokenizer
+            sentence_tokenizer if sentence_tokenizer is not None else self.sentence_tokenizer
         )
 
     def __getitem__(self, index):
@@ -417,20 +413,14 @@ class Text(collections.abc.Sequence, BaseText):
         """
         Return a list of tagged definitions for each sentence in this text passage
         """
-        return [
-            definition for sent in self.sentences for definition in sent.definitions
-        ]
+        return [definition for sent in self.sentences for definition in sent.definitions]
 
     @property
     def chemical_definitions(self):
         """
         Return a list of tagged definitions for each sentence in this text passage
         """
-        return [
-            definition
-            for sent in self.sentences
-            for definition in sent.chemical_definitions
-        ]
+        return [definition for sent in self.sentences for definition in sent.chemical_definitions]
 
     @property
     @deprecated(
@@ -470,26 +460,19 @@ class Text(collections.abc.Sequence, BaseText):
                 forwards_index = index + offset
                 distance = offset * SentenceRange()
                 merge_candidates.extend(
-                    [
-                        (distance, record)
-                        for record in records_by_sentence[backwards_index]
-                    ]
+                    [(distance, record) for record in records_by_sentence[backwards_index]]
                 )
 
                 if backwards_index >= 0:
                     merge_candidates.extend(
-                        (distance, record)
-                        for record in records_by_sentence[backwards_index]
+                        (distance, record) for record in records_by_sentence[backwards_index]
                     )
                 if forwards_index < num_sentences:
                     merge_candidates.extend(
-                        (distance, record)
-                        for record in records_by_sentence[forwards_index]
+                        (distance, record) for record in records_by_sentence[forwards_index]
                     )
                 offset += 1
-            self._resolve_contextual(
-                sent_records, sort_merge_candidates(merge_candidates)
-            )
+            self._resolve_contextual(sent_records, sort_merge_candidates(merge_candidates))
 
         # Don't sort these records as this encodes where they were found in the paragraph
         records = ModelList(
@@ -587,9 +570,7 @@ class Caption(Text):
 
     @property
     def definitions(self):
-        return [
-            definition for sent in self.sentences for definition in sent.definitions
-        ]
+        return [definition for sent in self.sentences for definition in sent.definitions]
 
 
 class Sentence(BaseText):
@@ -673,9 +654,7 @@ class Sentence(BaseText):
     def tokens(self):
         tokens = self.word_tokenizer.get_word_tokens(self)
         for token in tokens:
-            token.text = "".join(
-                ch for ch in token.text if unicodedata.category(ch)[0] != "C"
-            )
+            token.text = "".join(ch for ch in token.text if unicodedata.category(ch)[0] != "C")
         return tokens
 
     def _tokens_for_spans(self, spans):
@@ -737,19 +716,13 @@ class Sentence(BaseText):
         if self.abbreviation_detector:
             # log.debug('Detecting abbreviations')
             ners = self.unprocessed_ner_tags
-            for abbr_span, long_span in self.abbreviation_detector.detect_spans(
-                self.raw_tokens
-            ):
+            for abbr_span, long_span in self.abbreviation_detector.detect_spans(self.raw_tokens):
                 abbr = self.raw_tokens[abbr_span[0] : abbr_span[1]]
                 long = self.raw_tokens[long_span[0] : long_span[1]]
                 # Check if long is entirely tagged as one named entity type
                 long_tags = ners[long_span[0] : long_span[1]]
                 unique_tags = {tag[2:] for tag in long_tags if tag is not None}
-                tag = (
-                    long_tags[0][2:]
-                    if None not in long_tags and len(unique_tags) == 1
-                    else None
-                )
+                tag = long_tags[0][2:] if None not in long_tags and len(unique_tags) == 1 else None
                 abbreviations.append((abbr, long, tag))
         return abbreviations
 
@@ -853,15 +826,10 @@ class Sentence(BaseText):
 
             # Do splits
             split_spans = []
-            comps = list(
-                regex_span_tokenize(currenttext, r"(-|\+|\)?-to-\(?|···|/|\s)")
-            )
+            comps = list(regex_span_tokenize(currenttext, r"(-|\+|\)?-to-\(?|···|/|\s)"))
             if len(comps) > 1:
                 for split in SPLITS:
-                    if all(
-                        re.search(split, currenttext[comp[0] : comp[1]])
-                        for comp in comps
-                    ):
+                    if all(re.search(split, currenttext[comp[0] : comp[1]]) for comp in comps):
                         # print('%s splitting %s' % (currenttext, [currenttext[comp[0]:comp[1]] for comp in comps]))
                         for comp in comps:
                             span = Span(
@@ -1044,9 +1012,7 @@ class Sentence(BaseText):
             *sorted(
                 cleaned_records,
                 key=lambda el: (
-                    el.total_confidence()
-                    if el.total_confidence() is not None
-                    else -10000
+                    el.total_confidence() if el.total_confidence() is not None else -10000
                 ),
                 reverse=True,
             )
@@ -1103,9 +1069,7 @@ class Subsentence(Sentence):
             for parser in model.parsers:
                 if parser in skip_parsers:
                     continue
-                if hasattr(parser, "parse_sentence") or hasattr(
-                    parser, "batch_parse_sentences"
-                ):
+                if hasattr(parser, "parse_sentence") or hasattr(parser, "batch_parse_sentences"):
                     if (
                         parser.parse_full_sentence != self.is_full_sentence
                     ) and not self._is_only_subsentence:
@@ -1115,8 +1079,7 @@ class Subsentence(Sentence):
                     if (
                         parser not in skip_parsers
                         and hasattr(parser, "_batch_parsed_records_dict")
-                        and id(self.parent_sentence)
-                        in parser._batch_parsed_records_dict
+                        and id(self.parent_sentence) in parser._batch_parsed_records_dict
                     ):
                         parser_records.extend(
                             parser._batch_parsed_records_dict[id(self.parent_sentence)]
@@ -1144,9 +1107,7 @@ class Subsentence(Sentence):
                             for seen_record in records:
                                 if isinstance(seen_record, Compound) and (
                                     not set(record.names).isdisjoint(seen_record.names)
-                                    or not set(record.labels).isdisjoint(
-                                        seen_record.labels
-                                    )
+                                    or not set(record.labels).isdisjoint(seen_record.labels)
                                 ):
                                     seen_record.names = sorted(
                                         set(seen_record.names).union(record.names)
@@ -1160,9 +1121,7 @@ class Subsentence(Sentence):
                                     found = True
                             if found:
                                 continue
-                        elif (
-                            hasattr(record, "compound") and record.compound is not None
-                        ):
+                        elif hasattr(record, "compound") and record.compound is not None:
                             seen_labels.update(record.compound.labels)
                         records.append(record)
         i = 0
@@ -1218,12 +1177,8 @@ class Cell(Sentence):
         cell.row_categories = tde_cell[1]
         cell.col_categories = tde_cell[2]
         cell.data_sent = Sentence(cell.data)
-        cell.row_categories_sents = [
-            Sentence(cell_text) for cell_text in cell.row_categories
-        ]
-        cell.col_categories_sents = [
-            Sentence(cell_text) for cell_text in cell.col_categories
-        ]
+        cell.row_categories_sents = [Sentence(cell_text) for cell_text in cell.row_categories]
+        cell.col_categories_sents = [Sentence(cell_text) for cell_text in cell.col_categories]
         cell.is_tde_cell = True
         cell.document = document
 
@@ -1234,9 +1189,7 @@ class Cell(Sentence):
         span_offset = (
             tokens[-1].end + 1
         )  # a cursor to help getting the span location correct when extending the token list
-        separator_token = RichToken(
-            separator, span_offset, span_offset + 4, cls.lexicon, cell
-        )
+        separator_token = RichToken(separator, span_offset, span_offset + 4, cls.lexicon, cell)
         span_offset = separator_token.end + 1
         tokens.append(separator_token)
 
@@ -1246,18 +1199,14 @@ class Cell(Sentence):
                 token.end = token.end + span_offset
                 tokens.append(token)
             span_offset = tokens[-1].end + 1
-            cell_separator = RichToken(
-                separator, span_offset, span_offset + 4, cls.lexicon, cell
-            )
+            cell_separator = RichToken(separator, span_offset, span_offset + 4, cls.lexicon, cell)
             tokens.append(cell_separator)
 
         if cell.row_categories_sents:
             tokens = tokens[:-1]
             span_offset = tokens[-1].end + 1
 
-        separator_token = RichToken(
-            separator, span_offset, span_offset + 4, cls.lexicon, cell
-        )
+        separator_token = RichToken(separator, span_offset, span_offset + 4, cls.lexicon, cell)
         span_offset = separator_token.end + 1
 
         tokens.append(separator_token)
@@ -1267,9 +1216,7 @@ class Cell(Sentence):
                 token.end = token.end + span_offset
                 tokens.append(token)
             span_offset = tokens[-1].end + 1
-            cell_separator = RichToken(
-                separator, span_offset, span_offset + 4, cls.lexicon, cell
-            )
+            cell_separator = RichToken(separator, span_offset, span_offset + 4, cls.lexicon, cell)
             tokens.append(cell_separator)
 
         if cell.col_categories_sents:
@@ -1328,11 +1275,7 @@ class Span:
         """Span objects are equal if the source text is equal, and the start and end indices are equal."""
         if not isinstance(other, self.__class__):
             return False
-        return (
-            self.text == other.text
-            and self.start == other.start
-            and self.end == other.end
-        )
+        return self.text == other.text and self.start == other.start and self.end == other.end
 
     def __ne__(self, other):
         return not self == other

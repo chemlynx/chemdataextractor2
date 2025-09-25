@@ -14,7 +14,9 @@ from typing import Any
 CoordinatedGroup = namedtuple("CoordinatedGroup", ["root", "content"])
 
 
-def _add(subsentences: list[Any], coordinated_group: CoordinatedGroup, prev_location: int, min_index: int) -> list[Any]:
+def _add(
+    subsentences: list[Any], coordinated_group: CoordinatedGroup, prev_location: int, min_index: int
+) -> list[Any]:
     if len(subsentences) != len(coordinated_group.content):
         raise AttributeError(
             "To perform add, there should be an equal number of coordinated clauses and subsentences."
@@ -33,7 +35,9 @@ def _add(subsentences: list[Any], coordinated_group: CoordinatedGroup, prev_loca
     return added_subsentences
 
 
-def _multiply(subsentences: list[Any], coordinated_group: CoordinatedGroup, prev_location: int, min_index: int) -> list[Any]:
+def _multiply(
+    subsentences: list[Any], coordinated_group: CoordinatedGroup, prev_location: int, min_index: int
+) -> list[Any]:
     mul_subsentences = []
     for subsentence in subsentences:
         for coordinated_content in coordinated_group.content:
@@ -209,7 +213,9 @@ class SubsentenceExtractor:
 
         return subsentence_tokens
 
-    def _find_coordinated_group(self, root_index: int, dependencies: Any, next_root: int | None = None) -> CoordinatedGroup | None:
+    def _find_coordinated_group(
+        self, root_index: int, dependencies: Any, next_root: int | None = None
+    ) -> CoordinatedGroup | None:
         phrase_roots = [root_index]
         for index, dependency in enumerate(dependencies):
             if dependency.relation == "conj" and dependency.head.index == root_index:
@@ -314,7 +320,9 @@ class SubsentenceExtractor:
 
         return new_coordinated_graphs
 
-    def _remove_unneeded_head(self, coordinated_graphs: list[Any], unneeded: str = "nummod") -> list[Any]:
+    def _remove_unneeded_head(
+        self, coordinated_graphs: list[Any], unneeded: str = "nummod"
+    ) -> list[Any]:
         unneeded_count = 0
         for coordinated_graph in coordinated_graphs:
             for dependency in coordinated_graph:

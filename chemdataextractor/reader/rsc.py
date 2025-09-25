@@ -96,7 +96,9 @@ class RscHtmlReader(HtmlReader):
     figure_download_link_css = "img::attr(src)"
     ignore_css = '.table_caption + table, .left_head, sup span.sup_ref, small sup a, a[href^="#fn"], .PMedLink'
 
-    def _parse_table_footnotes(self, fns: list[HtmlElement], refs: dict[str, Any], specials: dict[str, Any]) -> list[Footnote]:
+    def _parse_table_footnotes(
+        self, fns: list[HtmlElement], refs: dict[str, Any], specials: dict[str, Any]
+    ) -> list[Footnote]:
         """Override to account for awkward RSC table footnotes.
 
         Args:

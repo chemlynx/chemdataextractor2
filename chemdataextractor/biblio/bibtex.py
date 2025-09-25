@@ -10,6 +10,7 @@ from __future__ import annotations
 import json
 import re
 from collections import OrderedDict
+from collections.abc import Iterator
 from typing import TYPE_CHECKING
 from typing import Any
 
@@ -51,9 +52,9 @@ class BibtexParser:
         self.meta: dict[str, Any] = kwargs
         self._token: str | None = None
         self.token_type: str | None = None
-        self._tokens: Iterator[re.Match[str]] = re.compile(r'([^\s"\'#%@{}()=,]+|\s|"|\'|#|%|@|{|}|\(|\)|=|,)').finditer(
-            self.data
-        )
+        self._tokens: Iterator[re.Match[str]] = re.compile(
+            r'([^\s"\'#%@{}()=,]+|\s|"|\'|#|%|@|{|}|\(|\)|=|,)'
+        ).finditer(self.data)
         self.mode: str | None = None
         self.definitions: dict[str, str] = {}
         self.records: OrderedDict[str, dict[str, Any]] = OrderedDict()

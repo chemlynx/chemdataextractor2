@@ -1868,7 +1868,7 @@ class ModelList[ModelT](MutableSequence[ModelT]):
         """
         return json.dumps(self.serialize(), *args, **kwargs)
 
-    def merge_contextual(self, distance: ContextualRange = None) -> Modellist[ModelT]:
+    def merge_contextual(self, distance: ContextualRange = None) -> ModelList[ModelT]:
         """Perform contextual merging on compatible models in the list.
 
         Args:

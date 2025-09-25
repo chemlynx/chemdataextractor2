@@ -8,6 +8,7 @@ import os
 import pickle
 import tarfile
 import zipfile
+from pathlib import Path
 
 import appdirs
 import requests
@@ -76,7 +77,7 @@ class Package:
 
     def local_exists(self):
         """"""
-        return bool(os.path.exists(self.local_path))
+        return Path(self.local_path).exists()
 
     def download(self, force=False):
         if self.custom_download is not None:
@@ -87,13 +88,13 @@ class Package:
     def default_download(self, force=False):
         """"""
         log.debug("Considering %s", self.remote_path)
-        ensure_dir(os.path.dirname(self.local_path))
+        ensure_dir(str(Path(self.local_path).parent))
         r = requests.get(self.remote_path, stream=True)
         r.raise_for_status()
         # Check if already downloaded
         if self.local_exists():
             # Skip if existing, unless the file has changed
-            if not force and os.path.getsize(self.local_path) == int(
+            if not force and Path(self.local_path).stat().st_size == int(
                 r.headers.get("content-length")
             ):
                 log.debug("Skipping existing: %s", self.local_path)
@@ -114,11 +115,11 @@ class Package:
         if self.unzip:
             with zipfile.ZipFile(download_path, "r") as f:
                 f.extractall(self.local_path)
-            os.remove(download_path)
+            Path(download_path).unlink()
         elif self.untar:
             with tarfile.open(download_path, "r:gz") as f:
                 f.extractall(self.local_path)
-            os.remove(download_path)
+            Path(download_path).unlink()
         return True
 
     def __repr__(self):
@@ -136,13 +137,13 @@ def get_data_dir():
 
 def find_data(path, warn=True, get_data=True):
     """Return the absolute path to a data file within the data directory."""
-    full_path = os.path.join(get_data_dir(), path)
-    if AUTO_DOWNLOAD and get_data and not os.path.exists(full_path):
+    full_path = str(Path(get_data_dir()) / path)
+    if AUTO_DOWNLOAD and get_data and not Path(full_path).exists():
         for package in PACKAGES:
             if package.path == path:
                 package.download()
                 break
-    elif warn and not os.path.exists(full_path):
+    elif warn and not Path(full_path).exists():
         for package in PACKAGES:
             if path == package.path:
                 log.warn(f"{path} doesn't exist. Run `cde data download` to get it.")

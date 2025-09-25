@@ -14,13 +14,6 @@ from collections.abc import Generator
 from typing import TYPE_CHECKING
 from typing import Any
 
-if TYPE_CHECKING:
-    from ..model.base import BaseModel
-
-# Type aliases for NMR parsing
-TokenList = list[str]  # List of tokens
-ParseResult = list[Any]  # List of XML elements from parsing
-
 from ..utils import first
 from .actions import fix_whitespace
 from .actions import join
@@ -41,6 +34,13 @@ from .elements import SkipTo
 from .elements import T
 from .elements import W
 from .elements import ZeroOrMore
+
+if TYPE_CHECKING:
+    from ..model.base import BaseModel
+
+# Type aliases for NMR parsing
+TokenList = list[str]  # List of tokens
+ParseResult = list[Any]  # List of XML elements from parsing
 
 log = logging.getLogger(__name__)
 
@@ -100,7 +100,9 @@ temp_units = (W("°") + R("[CFK]") | W("K"))("units").add_action(merge)
 temperature = Optional(I("at").hide()) + Group((temp_value + temp_units) | temp_word)("temperature")
 
 
-def fix_nmr_peak_whitespace_error(tokens: TokenList, start: int, result: ParseResult) -> ParseResult:
+def fix_nmr_peak_whitespace_error(
+    tokens: TokenList, start: int, result: ParseResult
+) -> ParseResult:
     """Split comma-separated NMR peaks into individual peak elements."""
     new_result = []
     for e in result:

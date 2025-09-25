@@ -94,7 +94,14 @@ class LxmlReader(BaseReader, metaclass=ABCMeta):
     #: Inline elements
     inline_elements = INLINE_ELEMENTS
 
-    def _parse_element_r(self, el: HtmlElement, specials: dict[str, Any], refs: dict[str, Any], id: str | None = None, element_cls: type[Text] = Paragraph) -> list[Text]:
+    def _parse_element_r(
+        self,
+        el: HtmlElement,
+        specials: dict[str, Any],
+        refs: dict[str, Any],
+        id: str | None = None,
+        element_cls: type[Text] = Paragraph,
+    ) -> list[Text]:
         """Recursively parse HTML/XML element and its children into a list of Document elements."""
         elements = []
         if el.tag in {etree.Comment, etree.ProcessingInstruction}:
@@ -141,7 +148,13 @@ class LxmlReader(BaseReader, metaclass=ABCMeta):
                     elements.append(element_cls(str(child.tail), id=id))
         return elements
 
-    def _parse_element(self, el: HtmlElement, specials: dict[str, Any] | None = None, refs: dict[str, Any] | None = None, element_cls: type[Text] = Paragraph) -> list[Text]:
+    def _parse_element(
+        self,
+        el: HtmlElement,
+        specials: dict[str, Any] | None = None,
+        refs: dict[str, Any] | None = None,
+        element_cls: type[Text] = Paragraph,
+    ) -> list[Text]:
         """"""
         if specials is None:
             specials = {}
@@ -158,7 +171,13 @@ class LxmlReader(BaseReader, metaclass=ABCMeta):
                 final_elements.append(element)
         return final_elements
 
-    def _parse_text(self, el: HtmlElement, refs: dict[str, Any] | None = None, specials: dict[str, Any] | None = None, element_cls: type[Text] = Paragraph) -> list[Text]:
+    def _parse_text(
+        self,
+        el: HtmlElement,
+        refs: dict[str, Any] | None = None,
+        specials: dict[str, Any] | None = None,
+        element_cls: type[Text] = Paragraph,
+    ) -> list[Text]:
         """Like _parse_element but ensure a single element."""
         if specials is None:
             specials = {}
@@ -181,7 +200,9 @@ class LxmlReader(BaseReader, metaclass=ABCMeta):
     def _parse_figure_links(self, el: HtmlElement) -> list[str]:
         return self._css(self.figure_download_link_css, el)
 
-    def _parse_figure(self, el: HtmlElement, refs: dict[str, Any], specials: dict[str, Any]) -> list[Figure]:
+    def _parse_figure(
+        self, el: HtmlElement, refs: dict[str, Any], specials: dict[str, Any]
+    ) -> list[Figure]:
         caps = self._css(self.figure_caption_css, el)
 
         label_css = self._css(self.figure_label_css, el)
@@ -196,7 +217,9 @@ class LxmlReader(BaseReader, metaclass=ABCMeta):
         fig = Figure(caption, label=label, links=links)
         return [fig]
 
-    def _parse_table_rows(self, els: list[HtmlElement], refs: dict[str, Any], specials: dict[str, Any]) -> list[list[Cell]]:
+    def _parse_table_rows(
+        self, els: list[HtmlElement], refs: dict[str, Any], specials: dict[str, Any]
+    ) -> list[list[Cell]]:
         hdict = {}
         for row, tr in enumerate(els):
             colnum = 0
@@ -223,7 +246,9 @@ class LxmlReader(BaseReader, metaclass=ABCMeta):
         rows = [r for r in rows if any(r)]
         return rows
 
-    def _parse_table_footnotes(self, fns: list[HtmlElement], refs: dict[str, Any], specials: dict[str, Any]) -> list[Footnote]:
+    def _parse_table_footnotes(
+        self, fns: list[HtmlElement], refs: dict[str, Any], specials: dict[str, Any]
+    ) -> list[Footnote]:
         return [
             self._parse_text(fn, refs=refs, specials=specials, element_cls=Footnote)[0]
             for fn in fns
@@ -249,7 +274,9 @@ class LxmlReader(BaseReader, metaclass=ABCMeta):
     #     tab = Table(caption, headings=hrows, rows=rows, footnotes=footnotes, id=el.get('id', None))
     #     return [tab]
 
-    def _parse_table(self, el: HtmlElement, refs: dict[str, Any], specials: dict[str, Any]) -> list[Table]:
+    def _parse_table(
+        self, el: HtmlElement, refs: dict[str, Any], specials: dict[str, Any]
+    ) -> list[Table]:
         caption_css = self._css(self.table_caption_css, el)
         caption = (
             self._parse_text(caption_css[0], refs=refs, specials=specials, element_cls=Caption)[0]
@@ -271,7 +298,9 @@ class LxmlReader(BaseReader, metaclass=ABCMeta):
 
         return [table]
 
-    def _parse_metadata(self, el: HtmlElement, refs: dict[str, Any], specials: dict[str, Any]) -> list[MetaData]:
+    def _parse_metadata(
+        self, el: HtmlElement, refs: dict[str, Any], specials: dict[str, Any]
+    ) -> list[MetaData]:
         title = self._css(self.metadata_title_css, el)
         authors = self._css(self.metadata_author_css, el)
         publisher = self._css(self.metadata_publisher_css, el)

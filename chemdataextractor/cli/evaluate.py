@@ -7,6 +7,7 @@ import copy
 import json
 import logging
 import os
+from pathlib import Path
 
 import click
 
@@ -28,7 +29,7 @@ def evaluate(ctx):
 @click.argument("input", type=click.File("r"))
 def run(input):
     """"""
-    pub = os.path.basename(input.name).split(".", 1)[0]
+    pub = Path(input.name).stem
     if pub == "rsc":
         reader = RscHtmlReader()
     elif pub == "acs":
@@ -43,7 +44,8 @@ def run(input):
     records = [
         record for record in records if record.keys() != ["names"] and record.keys() != ["labels"]
     ]
-    with open(f"{os.path.splitext(input.name)[0]}-out.json", "w") as outf:
+    output_path = Path(input.name).with_suffix("-out.json")
+    with open(output_path, "w") as outf:
         json.dump(records, outf, indent=2)
 
 
@@ -369,23 +371,21 @@ EVALS = [
 def compare():
     """"""
 
-    edir = os.path.join(
-        os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))),
-        "data/cde-evaluation",
-    )
+    edir = Path(__file__).resolve().parents[3] / "data" / "cde-evaluation"
     for eval_name, transform in EVALS:
         print(f"Evaluation: {eval_name}")
         doc_count = 0
         tp, fp, fn = 0, 0, 0
-        for filename in os.listdir(edir):
-            filename = os.path.join(edir, filename)
+        for file_path in edir.iterdir():
+            filename = str(file_path)
             # print(filename)
             if filename.endswith("-out.json"):
                 with open(filename) as outf:
                     out = json.load(outf)
-                if not os.path.isfile(f"{filename[:-9]}-gold.json"):
+                gold_file = Path(filename).with_name(Path(filename).stem[:-4] + "-gold.json")
+                if not gold_file.is_file():
                     continue
-                with open(f"{filename[:-9]}-gold.json") as goldf:
+                with open(gold_file) as goldf:
                     gold = json.load(goldf)
                 doctp, docfp, docfn = eval_document(gold, out, transform)
                 doc_count += 1

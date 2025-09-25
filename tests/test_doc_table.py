@@ -5,6 +5,7 @@ Test the Table Document element and simple Table autoparsers.
 
 import logging
 import unittest
+from pathlib import Path
 
 from chemdataextractor.doc import Caption
 from chemdataextractor.doc import Document
@@ -1404,9 +1405,8 @@ class TestTable(unittest.TestCase):
         """
         Tests the addition of the caption compound to table records without a compound
         """
-        f = open("tests/data/tables/j.commatsci.2018.02.056.xml", "rb")
-        doc = Document.from_file(f, readers=[ElsevierXmlReader()])
-        f.close()
+        with open(Path(__file__).parent / "data" / "tables" / "j.commatsci.2018.02.056.xml", "rb") as f:
+            doc = Document.from_file(f, readers=[ElsevierXmlReader()])
         table = doc.tables[0]
         table.models = [InteratomicDistance]
         result = []
@@ -1456,9 +1456,8 @@ class TestTable(unittest.TestCase):
         Tests the retrieval of 'unidentified' records (records that need to have a compound but the compound is the
         only missing field.
         """
-        f = open("tests/data/tables/j.commatsci.2018.02.056_2.xml", "rb")
-        doc = Document.from_file(f, readers=[ElsevierXmlReader()])
-        f.close()
+        with open(Path(__file__).parent / "data" / "tables" / "j.commatsci.2018.02.056_2.xml", "rb") as f:
+            doc = Document.from_file(f, readers=[ElsevierXmlReader()])
         table = doc.tables[0]
         table.models = [InteratomicDistance]
         result = []
@@ -1516,9 +1515,8 @@ class TestTable(unittest.TestCase):
         Tests the retrieval of 'unidentified' records (records that need to have a compound but the compound is the
         only missing field. This should return no unidentified records
         """
-        f = open("tests/data/tables/j.commatsci.2018.02.056.xml", "rb")
-        doc = Document.from_file(f, readers=[ElsevierXmlReader()])
-        f.close()
+        with open(Path(__file__).parent / "data" / "tables" / "j.commatsci.2018.02.056.xml", "rb") as f:
+            doc = Document.from_file(f, readers=[ElsevierXmlReader()])
         table = doc.tables[0]
         table.models = [InteratomicDistance]
         result = []
@@ -1572,8 +1570,8 @@ class TestTable(unittest.TestCase):
             CompoundHeadingParser(),
             ChemicalLabelParser(),
         ]
-        f = open("tests/data/tables/table_test.html", "rb")
-        d = Document.from_file(f, readers=[SpringerHtmlReader()])
+        with open(Path(__file__).parent / "data" / "tables" / "table_test.html", "rb") as f:
+            d = Document.from_file(f, readers=[SpringerHtmlReader()])
         d.models = [CurieTemperature, NeelTemperature]
         for table in d.tables:
             print(table.tde_table)
