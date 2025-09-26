@@ -1,0 +1,149 @@
+{
+  "summary": {
+    "total_compounds": 34,
+    "document_length": 71585,
+    "total_sentences": 559,
+    "file_path": "/home/dave/code/papers/D5OB00672D.html"
+  },
+  "compounds_with_positions": [
+    {
+      "standard_data": {
+        "Compound": {
+          "names": [
+            "Oleic acid"
+          ],
+          "labels": [
+            "1"
+          ]
+        }
+      },
+      "position_metadata": {
+        "positions": [
+          {
+            "name": "Oleic acid",
+            "start_pos": 16962,
+            "end_pos": 16972,
+            "sentence_index": 94,
+            "sentence_text": "This assay has been effectively employed to identify ligands such as retinoids and oleic acid as lig...",
+            "local_start": 83,
+            "local_end": 93
+          },
+          {
+            "name": "Oleic acid",
+            "start_pos": 17000,
+            "end_pos": 17010,
+            "sentence_index": 94,
+            "sentence_text": "This assay has been effectively employed to identify ligands such as retinoids and oleic acid as lig...",
+            "local_start": 121,
+            "local_end": 131
+          },
+          {
+            "name": "Oleic acid",
+            "start_pos": 17339,
+            "end_pos": 17349,
+            "sentence_index": 95,
+            "sentence_text": "Many compounds showed improved potency and efficacy in recruiting RIP140 when compared to oleic acid...",
+            "local_start": 90,
+            "local_end": 100
+          },
+          {
+            "name": "Oleic acid",
+            "start_pos": 18181,
+            "end_pos": 18191,
+            "sentence_index": 100,
+            "sentence_text": "The unsubstituted phenyl ring showed a modest increase in potency and reduced efficacy compared to o...",
+            "local_start": 99,
+            "local_end": 109
+          }
+        ],
+        "total_occurrences": 4
+      }
+    },
+    {
+      "standard_data": {
+        "Compound": {
+          "names": [
+            "BE4117"
+          ],
+          "labels": [
+            "11",
+            "2"
+          ]
+        }
+      },
+      "position_metadata": {
+        "positions": [
+          {
+            "name": "BE4117",
+            "start_pos": 18194,
+            "end_pos": 18200,
+            "sentence_index": 100,
+            "sentence_text": "The unsubstituted phenyl ring showed a modest increase in potency and reduced efficacy compared to o...",
+            "local_start": 112,
+            "local_end": 118
+          },
+          {
+            "name": "BE4117",
+            "start_pos": 21006,
+            "end_pos": 21012,
+            "sentence_index": 117,
+            "sentence_text": "A para - fluoro substitution at position 3 of the quinazolinone ring ( BE4123 , EC50 = 7.005 μM ) re...",
+            "local_start": 144,
+            "local_end": 150
+          },
+          {
+            "name": "BE4117",
+            "start_pos": 33675,
+            "end_pos": 33681,
+            "sentence_index": 190,
+            "sentence_text": "( E ) - 2 - ( 3 - Oxo - 3 - phenylprop - 1 - en - 1 - yl ) - 3 - phenylquinazolin -4 ( 3H ) - one ( ...",
+            "local_start": 100,
+            "local_end": 106
+          }
+        ],
+        "total_occurrences": 3
+      }
+    },
+    {
+      "standard_data": {
+        "Compound": {
+          "names": [
+            "BE4120"
+          ],
+          "labels": [
+            "12",
+            "3"
+          ]
+        }
+      },
+      "position_metadata": {
+        "positions": [
+          {
+            "name": "BE4120",
+            "start_pos": 18377,
+            "end_pos": 18383,
+            "sentence_index": 102,
+            "sentence_text": "A para - methyl group slightly decreased activity ( BE4120 , EC50 = 5.052 μM ) , while the bulkier p...",
+            "local_start": 52,
+            "local_end": 58
+          },
+          {
+            "name": "BE4120",
+            "start_pos": 34400,
+            "end_pos": 34406,
+            "sentence_index": 193,
+            "sentence_text": "( E ) - 2 - ( 3 - Oxo - 3 - ( p - tolyl ) prop - 1 - en - 1 - yl ) - 3 - phenylquinazolin -4 ( 3H ) ...",
+            "local_start": 108,
+            "local_end": 114
+          }
+        ],
+        "total_occurrences": 2
+      }
+    }
+  ],
+  "_document_artifact": {
+    "preprocessed_text": "View PDF VersionPrevious ArticleNext Article Open Access Article This Open Access Article is licensed under a Creative Commons Attribution - Non Commercial 3.0 Unported Licence DOI : 10.1039 / D5OB00672D ( Paper ) Org . Biomol . Chem . , 2025 , 23 , 7298 - 7313 Iodine - promoted oxidative cross - coupling for the synthesis of ( E ) - 2 - ( 3 - oxo - 3 - phenylprop - 1 - en - 1 - yl ) - 3 - phenylquinazolin -4 ( 3H ) - one via C – H activation : development of synthetic TLX agonists † Lingaiah Maram abc , Puhan Zhao abc , Thomas Koelblen de , Lamees Hegazy bc , Thomas P . Burris de and Bahaa Elgendy * abc aDepartment of Anesthesiology , Washington University in St Louis , St Louis , MO , USA . E - mail : belgendy @ wustl . edu bCenter for Clinical Pharmacology , Washington University School of Medicine and University of Health Sciences and Pharmacy , St Louis , MO 63110 , USA cDepartment of Pharmaceutical and Administrative Sciences , University of Health Sciences and Pharmacy , St Louis , MO 63110 , USA dUniversity of Florida Genetics Institute , University of Florida School of Medicine , Gainesville , FL , USA eUniversity of Florida College of Pharmacy , Department of Cellular and Systems Pharmacology , Gainesville , FL USA Received 24th April 2025 , Accepted 10th July 2025 First published on 11th July 2025 Abstract We report the development of an efficient iodine - promoted oxidative cross - coupling reaction for the synthesis of ( E ) - 2 - ( 3 - oxo - 3 - phenylprop - 1 - en - 1 - yl ) - 3 - phenylquinazolin -4 ( 3H ) - one derivatives . This novel methodology facilitates the coupling of methyl ketones with 2 - methyl - 3 - arylquinazolin -4 ( 3H ) - ones under mild conditions , delivering high selectivity and excellent yields . The reaction offers a significant advancement in constructing highly conjugated systems , providing a streamlined and sustainable alternative to traditional synthetic approaches . Beyond the innovative chemistry , the synthesized compounds demonstrated agonistic activity for TLX , an orphan nuclear receptor crucial for neural stem cell proliferation , development , and disease . These findings highlight the dual importance of the methodology in enabling sustainable synthesis and the biological relevance of the resulting compounds as potential therapeutic tools . Introduction Quinazolinones are bicyclic nitrogen - containing heterocyclic compounds characterized by a fused pyrimidine ring system at the 4 ′ and 8 ′ positions of the benzene ring . These compounds have attracted considerable attention in organic and medicinal chemistry due to their broad spectrum of pharmacological activities.1 – 5 Quinazolinone heterocycles play a crucial role in various biological processes and have been widely recognized for their therapeutic potential , demonstrating antihypertensive , antimicrobial , anti - hyperlipidemic , anti - inflammatory , and anti - convulsant activities.6,7 Furthermore , several quinazolinone derivatives have been investigated for their antitumor chemotherapeutic properties.8,9 Natural quinazolinone - based compounds exhibit remarkable physiological activities . For instance , rutaecarpine ( 1 ) , a natural alkaloid , has been found to inhibit cyclooxygenase -2 ( COX -2 ) , thereby exerting anti - inflammatory effects.10 – 12 Similarly , luotonin A ( 2 ) , another quinazolinone - containing alkaloid , has demonstrated cytotoxic activity against the murine leukemia P338 cell line.13,14 The β - indoloquinazolinone alkaloid bouchardatine ( 3 ) has been identified as a potential adipogenesis inhibitor , highlighting its role in metabolic regulation.15 Moreover , the quinazolinone - based drug idelalisib ( 4 ) has been approved for the treatment of chronic lymphocytic leukemia ( CLL ).16 – 18 Additionally , norquinadoline A ( 5 ) exhibits antiviral activity and cloroqualone ( 6 ) act as antitussive , further emphasizing the therapeutic significance of quinazolinone derivatives in drug discovery and development.19 In addition to these promising compounds , a diverse array of natural and synthetic quinazolinone derivatives has demonstrated a wide range of biological activities , including anticonvulsant , antidiabetic , sedative , and analgesic properties . These multifaceted pharmacological effects further underscore the therapeutic versatility of quinazolinone - based compounds . Fig . 1 highlights some notable examples of quinazolinone derivatives with significant medicinal potential.1 Quinazolin -4 ( 3H ) - one derivatives constitute a privileged class of nitrogen - containing heterocycles , known for their diverse pharmacological profiles . Among these , 2 - methyl - 3 - arylquinazolin -4 ( 3H ) - ones have garnered considerable attention due to the synthetic versatility conferred by the reactive C -2 methyl group and the electronic tunability of the C -3 aryl moiety . These scaffolds serve as valuable intermediates in the synthesis of structurally complex and biologically\n\n... [TRUNCATED - full length: 71585 chars]",
+    "sentence_count": 559,
+    "truncated": true
+  }
+}

@@ -1,0 +1,45 @@
+{
+  "summary": {
+    "total_compounds": 12,
+    "document_length": 41922,
+    "total_sentences": 384,
+    "file_path": "tests/data/relex/curie_training_set/c2jm33712f.html"
+  },
+  "compounds_with_positions": [
+    {
+      "standard_data": {
+        "Compound": {
+          "names": ["Co", "cobalt"]
+        }
+      },
+      "position_metadata": {
+        "positions": [
+          {
+            "name": "Co",
+            "start_pos": 1247,
+            "end_pos": 1249,
+            "sentence_index": 23,
+            "sentence_text": "The synthesis of Co nanoparticles was carried out using...",
+            "local_start": 17,
+            "local_end": 19
+          },
+          {
+            "name": "cobalt",
+            "start_pos": 2891,
+            "end_pos": 2897,
+            "sentence_index": 67,
+            "sentence_text": "The cobalt precursor was dissolved in toluene under inert atmosphere.",
+            "local_start": 4,
+            "local_end": 10
+          }
+        ],
+        "total_occurrences": 2
+      }
+    }
+  ],
+  "_document_artifact": {
+    "preprocessed_text": "Cobalt nanoparticles synthesized by thermal decomposition route in toluene and in toluene/hexadecylamine mixture...",
+    "sentence_count": 384,
+    "truncated": true
+  }
+}

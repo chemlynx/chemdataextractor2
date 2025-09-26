@@ -30,7 +30,7 @@ class SafePickleUnpickler(pickle.Unpickler):
 
     # Modules that are considered safe for ChemDataExtractor models
     SAFE_MODULES = frozenset({
-        'builtins', 'collections', 'copy_reg', 'copyreg', '_codecs', 'encodings',
+        'builtins', '__builtin__', 'collections', 'copy_reg', 'copyreg', '_codecs', 'encodings',
         'numpy', 'numpy.core', 'numpy.core.multiarray', 'numpy.core.numeric',
         'sklearn', 'sklearn.base', 'sklearn.feature_extraction', 'sklearn.linear_model',
         'nltk', 'nltk.tokenize', 'nltk.tokenize.punkt',
@@ -88,7 +88,7 @@ class SafePickleUnpickler(pickle.Unpickler):
         # Allow specific safe module+class combinations for well-known safe modules
         if module in self.SAFE_MODULES:
             # Be very restrictive even for "safe" modules - only allow data types, not functions
-            if module == 'builtins' and name not in {
+            if module in ('builtins', '__builtin__') and name not in {
                 'dict', 'list', 'tuple', 'set', 'frozenset', 'str', 'bytes',
                 'int', 'float', 'bool', 'NoneType', 'complex', 'slice', 'range'
             }:

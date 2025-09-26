@@ -28,11 +28,11 @@ class TestDocument(unittest.TestCase):
         doc.models = [Compound]
         cacher = PlainTextCacher(test_cache_location)
         print("Shambala")
-        cacher.cache_document(doc, "test_cache", overwrite_cache=True)
+        cacher.cache_document(doc, "test_doc", overwrite_cache=True)
 
         cached_document = Document.from_file(full_path)
         cached_document.models = [Compound]
-        cached_document = cacher.hydrate_document(cached_document, "test_cache")
+        cached_document = cacher.hydrate_document(cached_document, "test_doc")
 
         for sentence1, sentence2 in zip(doc.sentences, cached_document.sentences, strict=False):
             tokens1 = sentence1.tokens
