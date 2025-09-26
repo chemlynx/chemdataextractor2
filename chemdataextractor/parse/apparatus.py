@@ -46,6 +46,9 @@ brands = (
     | I("Agilent")
     | I("Shimadzu")
     | I("Varian")
+    | I("Reach Devices")
+    | I("Waters")
+    | I("Micromass")
 )
 models = (
     I("FluoroMax-4")
@@ -82,7 +85,7 @@ apparatus = (
     .add_action(fix_whitespace)
 )
 apparatus_blacklist = R(
-    "^(following|usual|equation|standard|accepted|method|point|temperature|melting|boiling)$",
+    "^(following|usual|equation|standard|accepted|method|point|temperature|melting|boiling|H2O|water|solvent|solution|THF|DMF|DMSO|acetone|methanol|ethanol|chloroform|benzene|mixing)$",
     re.I,
 )
 apparatus_phrase = (
@@ -98,7 +101,9 @@ class ApparatusParser(BaseSentenceParser):
 
     root = apparatus_phrase
 
-    def interpret(self, result: Any, start: int, end: int) -> Generator[BaseModel, None, None]:
+    def interpret(
+        self, result: Any, start: int, end: int
+    ) -> Generator[BaseModel, None, None]:
         """Interpret parsed apparatus results.
 
         Args:
