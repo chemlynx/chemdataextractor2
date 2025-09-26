@@ -1133,6 +1133,214 @@ class BaseModel(metaclass=ModelMeta):
         """
         return other.is_superset(self)
 
+    def _is_merge_allowed(
+        self, field: Any, field_name: str, other: BaseModel, distance: ContextualRange
+    ) -> bool:
+        """Check if merging is allowed for a specific field."""
+        return (
+            field.contextual
+            and not field.never_merge
+            and not self[field_name]
+            and other
+            and distance <= self.contextual_range(field_name)
+            and distance > self.no_merge_range(field_name)
+        )
+
+    def _is_field_compatible_with_model_type(self, field: Any, other: BaseModel) -> bool:
+        """Check if a field is compatible with a model type for merging."""
+        return (
+            hasattr(field, "model_class")
+            and isinstance(other, field.model_class)
+            and not field.never_merge
+        )
+
+    def _is_field_compatible_with_model_list_type(self, field: Any, other: BaseModel) -> bool:
+        """Check if a field is compatible with a model list type for merging."""
+        return (
+            hasattr(field, "field")
+            and hasattr(field.field, "model_class")
+            and isinstance(other, field.field.model_class)
+        )
+
+    def _merge_model_list_field(
+        self, field_name: str, field: Any, other: BaseModel, distance: ContextualRange
+    ) -> bool:
+        """Merge other model into a list field."""
+        if self._is_merge_allowed(field, field_name, other, distance):
+            log.debug(field_name)
+            self[field_name] = [other]
+            return True
+        return False
+
+    def _merge_model_field_with_existing(
+        self, field_name: str, field: Any, other: BaseModel, distance: ContextualRange
+    ) -> bool:
+        """Merge into an existing partial model field."""
+        if (
+            self[field_name] is not None
+            and field.contextual
+            and not self[field_name].contextual_fulfilled
+            and distance <= self.contextual_range(field_name)
+            and distance > self.no_merge_range(field_name)
+        ):
+            log.debug("reconciling model classes")
+            return self[field_name].merge_contextual(other)
+        return False
+
+    def _merge_model_field_empty(
+        self, field_name: str, field: Any, other: BaseModel, distance: ContextualRange
+    ) -> bool:
+        """Merge into an empty model field."""
+        if self._is_merge_allowed(field, field_name, other, distance):
+            log.debug(field_name)
+            self[field_name] = copy.copy(other)
+            return True
+        return False
+
+    def _merge_same_type_models(self, other: BaseModel, distance: ContextualRange) -> bool:
+        """Merge fields from models of the same type."""
+        did_merge = False
+        for field_name, field in self.fields.items():
+            if (
+                field.contextual
+                and not field.never_merge
+                and not self[field_name]
+                and other.get(field_name, None)
+                and distance <= self.contextual_range(field_name)
+                and distance > self.no_merge_range(field_name)
+            ):
+                self[field_name] = other[field_name]
+                self.merge_confidence(other, field_name)
+                did_merge = True
+        return did_merge
+
+    def _merge_different_type_models(self, other: BaseModel, distance: ContextualRange) -> bool:
+        """Merge fields from models of different types."""
+        if type(other) not in type(self).flatten():
+            return False
+
+        did_merge = False
+        for field_name, field in self.fields.items():
+            # Handle model list fields (ListType[ModelType])
+            if self._is_field_compatible_with_model_list_type(field, other):
+                log.debug("model class list case")
+                if self._merge_model_list_field(field_name, field, other, distance):
+                    did_merge = True
+
+            # Handle model fields (ModelType)
+            elif self._is_field_compatible_with_model_type(field, other):
+                # Try merging into existing partial record first
+                if self._merge_model_field_with_existing(
+                    field_name, field, other, distance
+                ) or self._merge_model_field_empty(field_name, field, other, distance):
+                    did_merge = True
+
+        return did_merge
+
+    def _is_merge_all_allowed(
+        self, field: Any, field_name: str, other: BaseModel, distance: ContextualRange
+    ) -> bool:
+        """Check if merge_all is allowed for a specific field (no contextual requirement)."""
+        return (
+            not field.never_merge
+            and not self[field_name]
+            and other
+            and distance > self.no_merge_range(field_name)
+        )
+
+    def _merge_all_model_list_field(
+        self, field_name: str, field: Any, other: BaseModel, distance: ContextualRange
+    ) -> bool:
+        """Merge other model into a list field for merge_all (handles existing list too)."""
+        if self[field_name] and distance > self.no_merge_range(field_name):
+            # Merge into existing list elements
+            did_merge = False
+            for el in self[field_name]:
+                if el.merge_all(other):
+                    did_merge = True
+            return did_merge
+        elif self._is_merge_all_allowed(field, field_name, other, distance):
+            # Create new list with the model
+            log.debug(field_name)
+            self[field_name] = [copy.copy(other)]
+            return True
+        return False
+
+    def _merge_all_model_field(
+        self, field_name: str, field: Any, other: BaseModel, distance: ContextualRange
+    ) -> bool:
+        """Merge other model into a model field for merge_all (handles existing field too)."""
+        if self[field_name] and distance > self.no_merge_range(field_name):
+            # Merge into existing model
+            return self[field_name].merge_all(other)
+        elif self._is_merge_all_allowed(field, field_name, other, distance):
+            # Set the field to a copy of the model
+            log.debug(field_name)
+            self[field_name] = copy.copy(other)
+            return True
+        return False
+
+    def _merge_all_same_type_models(self, other: BaseModel, distance: ContextualRange) -> bool:
+        """Merge all compatible fields from models of the same type."""
+        did_merge = False
+        for field_name, field in self.fields.items():
+            if (
+                not self[field_name]
+                and other.get(field_name, None)
+                and not field.never_merge
+                and distance > self.no_merge_range(field_name)
+            ):
+                self[field_name] = other[field_name]
+                self.merge_confidence(other, field_name)
+                did_merge = True
+        return did_merge
+
+    def _merge_all_different_type_models(self, other: BaseModel, distance: ContextualRange) -> bool:
+        """Merge all compatible fields from models of different types."""
+        if type(other) not in type(self).flatten():
+            return False
+
+        did_merge = False
+        for field_name, field in self.fields.items():
+            # Handle model list fields (ListType[ModelType])
+            if self._is_field_compatible_with_model_list_type(field, other):
+                log.debug("model list case")
+                if self._merge_all_model_list_field(field_name, field, other, distance):
+                    did_merge = True
+
+            # Handle model fields (ModelType)
+            elif self._is_field_compatible_with_model_type(field, other):
+                log.debug("model class case")
+                if self._merge_all_model_field(field_name, field, other, distance):
+                    did_merge = True
+
+        return did_merge
+
+    def _finalize_merge(
+        self, other: BaseModel, did_merge: bool, should_keep_both_records: bool
+    ) -> bool:
+        """Finalize the merge operation and return the result."""
+        self._consolidate_binding()
+        if did_merge:
+            self._contextual_merge_count += 1
+            if "self" in other._confidences:
+                self.merge_confidence(other, "self")
+            if should_keep_both_records:
+                did_merge = False
+        return did_merge
+
+    def _finalize_merge_all(
+        self, other: BaseModel, did_merge: bool, should_keep_both_records: bool
+    ) -> bool:
+        """Finalize the merge_all operation and return the result."""
+        self._consolidate_binding()
+        if did_merge:
+            if "self" in other._confidences:
+                self.merge_confidence(other, "self")
+            if should_keep_both_records:
+                did_merge = False
+        return did_merge
+
     def merge_contextual(
         self, other: BaseModel, distance: ContextualRange = SentenceRange()
     ) -> bool:
@@ -1168,90 +1376,25 @@ class BaseModel(metaclass=ModelMeta):
 
         log.debug(self.serialize())
         log.debug(other.serialize())
-        did_merge = False
-        should_keep_both_records = self._should_keep_both_records(other)
+
+        # Early exit conditions
         if self.contextual_fulfilled:
-            return self
-        if self._binding_compatible(other):
-            # Merging in a model of a different type
-            _compatible = False
-            if type(self) == type(other) and self._compatible(other):
-                _compatible = True
-            if type(self) != type(other):
-                if type(other) not in type(self).flatten():
-                    # If the type of the other is not part of the flattened model,
-                    # no point trying to merge
-                    return False
-                for field_name, field in self.fields.items():
-                    if (
-                        hasattr(field, "field")
-                        and hasattr(field.field, "model_class")
-                        and isinstance(other, field.field.model_class)
-                    ):
-                        log.debug("model class list case")
-                        # Basic merging in of lists/sets of models by just creating a list with one element
-                        if (
-                            not field.never_merge
-                            and field.contextual
-                            and not self[field_name]
-                            and other
-                            and distance <= self.contextual_range(field_name)
-                            and distance > self.no_merge_range(field_name)
-                        ):
-                            log.debug(field_name)
-                            self[field_name] = [other]
-                            # self.merge_confidence(other, field_name)
-                            did_merge = True
-                    elif (
-                        hasattr(field, "model_class")
-                        and isinstance(other, field.model_class)
-                        and not field.never_merge
-                    ):
-                        # Merging when there already exists a partial record
-                        if (
-                            self[field_name] is not None
-                            and field.contextual
-                            and not self[field_name].contextual_fulfilled
-                            and distance <= self.contextual_range(field_name)
-                            and distance > self.no_merge_range(field_name)
-                        ):
-                            log.debug("reconciling model classes")
-                            if self[field_name].merge_contextual(other):
-                                did_merge = True
-                        # Merging when there is no partial record
-                        elif (
-                            field.contextual
-                            and not self[field_name]
-                            and other
-                            and distance <= self.contextual_range(field_name)
-                            and distance > self.no_merge_range(field_name)
-                        ):
-                            log.debug(field_name)
-                            self[field_name] = copy.copy(other)
-                            # self.merge_confidence(other, field_name)
-                            did_merge = True
-            # Case when merging two records of the same type
-            elif self._compatible(other):
-                for field_name, field in self.fields.items():
-                    if (
-                        field.contextual
-                        and not field.never_merge
-                        and not self[field_name]
-                        and other.get(field_name, None)
-                        and distance <= self.contextual_range(field_name)
-                        and distance > self.no_merge_range(field_name)
-                    ):
-                        self[field_name] = other[field_name]
-                        self.merge_confidence(other, field_name)
-                        did_merge = True
-        self._consolidate_binding()
-        if did_merge:
-            self._contextual_merge_count += 1
-            if "self" in other._confidences:
-                self.merge_confidence(other, "self")
-            if should_keep_both_records:
-                did_merge = False
-        return did_merge
+            return False  # Fixed: was incorrectly returning self
+
+        if not self._binding_compatible(other):
+            return False
+
+        should_keep_both_records = self._should_keep_both_records(other)
+        did_merge = False
+
+        # Handle same-type model merging
+        if type(self) == type(other) and self._compatible(other):
+            did_merge = self._merge_same_type_models(other, distance)
+        # Handle different-type model merging
+        else:
+            did_merge = self._merge_different_type_models(other, distance)
+
+        return self._finalize_merge(other, did_merge, should_keep_both_records)
 
     def contextual_range(self, field_name: str) -> ContextualRange:
         """Get the contextual range for a field.
@@ -1305,69 +1448,21 @@ class BaseModel(metaclass=ModelMeta):
 
         log.debug(self.serialize())
         log.debug(other.serialize())
-        did_merge = False
+
+        if not self._binding_compatible(other):
+            return False
+
         should_keep_both_records = self._should_keep_both_records(other)
-        if self._binding_compatible(other):
-            if type(self) != type(other):
-                if type(other) not in type(self).flatten():
-                    # If the type of the other is not part of the flattened model,
-                    # no point trying to merge
-                    return False
-                for field_name, field in self.fields.items():
-                    if (
-                        hasattr(field, "field")
-                        and hasattr(field.field, "model_class")
-                        and isinstance(other, field.field.model_class)
-                        and not field.never_merge
-                    ):
-                        log.debug("model list case")
-                        if self[field_name] and distance > self.no_merge_range(field_name):
-                            for el in self[field_name]:
-                                if el.merge_all(other):
-                                    did_merge = True
-                        elif (
-                            not self[field_name]
-                            and other
-                            and distance > self.no_merge_range(field_name)
-                        ):
-                            log.debug(field_name)
-                            self[field_name] = [copy.copy(other)]
-                            did_merge = True
-                    elif (
-                        hasattr(field, "model_class")
-                        and isinstance(other, field.model_class)
-                        and not field.never_merge
-                    ):
-                        log.debug("model class case")
-                        if self[field_name] and distance > self.no_merge_range(field_name):
-                            if self[field_name].merge_all(other):
-                                did_merge = True
-                        elif (
-                            not self[field_name]
-                            and other
-                            and distance > self.no_merge_range(field_name)
-                        ):
-                            log.debug(field_name)
-                            self[field_name] = copy.copy(other)
-                            did_merge = True
-            elif self._compatible(other):
-                for field_name, field in self.fields.items():
-                    if (
-                        not self[field_name]
-                        and other.get(field_name, None)
-                        and not field.never_merge
-                        and distance > self.no_merge_range(field_name)
-                    ):
-                        did_merge = True
-                        self[field_name] = other[field_name]
-                        self.merge_confidence(other, field_name)
-        self._consolidate_binding()
-        if did_merge:
-            if "self" in other._confidences:
-                self.merge_confidence(other, "self")
-            if should_keep_both_records:
-                did_merge = False
-        return did_merge
+        did_merge = False
+
+        # Handle same-type model merging
+        if type(self) == type(other) and self._compatible(other):
+            did_merge = self._merge_all_same_type_models(other, distance)
+        # Handle different-type model merging
+        else:
+            did_merge = self._merge_all_different_type_models(other, distance)
+
+        return self._finalize_merge_all(other, did_merge, should_keep_both_records)
 
     def merge_confidence(self, other: BaseModel, field_name: str) -> None:
         """Merge confidence values for a specific field.
