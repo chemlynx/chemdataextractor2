@@ -23,7 +23,6 @@ The latest results are updated in 1results.txt`.
 
 """
 
-import os
 import pickle
 import sys
 import webbrowser

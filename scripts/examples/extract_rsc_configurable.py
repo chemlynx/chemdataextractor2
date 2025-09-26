@@ -136,9 +136,7 @@ def extract_configurable_data(file_path, selected_models, model_keys):
     # Show BERT warning if needed
     bert_models = [key for key in model_keys if key in BERT_DEPENDENT_MODELS]
     if bert_models:
-        print(
-            f"⏳ Note: {bert_models} require BERT CRF initialization (may take 2-3 minutes)"
-        )
+        print(f"⏳ Note: {bert_models} require BERT CRF initialization (may take 2-3 minutes)")
 
     # Extract records
     print("\n🔍 Extracting records...")
@@ -309,9 +307,7 @@ def main():
     print("  ''         - Use default models")
 
     # Get user input (or use default for script execution)
-    model_input = input(
-        "\n📝 Enter model selection (or press Enter for default): "
-    ).strip()
+    model_input = input("\n📝 Enter model selection (or press Enter for default): ").strip()
 
     if not model_input:
         model_input = "default"

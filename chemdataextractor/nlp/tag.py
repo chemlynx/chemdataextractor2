@@ -366,6 +366,7 @@ class AveragedPerceptron:
     def load(self, path):
         """Load the pickled model weights."""
         from ..data import safe_pickle_load
+
         self.weights = safe_pickle_load(path)
 
 

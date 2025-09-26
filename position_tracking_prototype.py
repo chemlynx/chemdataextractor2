@@ -35,8 +35,7 @@ class PositionTracker:
 
         for sent_idx, sentence in enumerate(self.document.sentences):
             sentence_text = " ".join(
-                token.text if hasattr(token, "text") else str(token)
-                for token in sentence.tokens
+                token.text if hasattr(token, "text") else str(token) for token in sentence.tokens
             )
 
             # Store sentence information
@@ -123,9 +122,7 @@ def extract_with_positions(html_file, max_compounds=5):
     with open(html_file, "rb") as f:
         doc = Document.from_file(f, readers=[HtmlReader()])
 
-    print(
-        f"   Document loaded: {len(doc.elements)} elements, {len(list(doc.sentences))} sentences"
-    )
+    print(f"   Document loaded: {len(doc.elements)} elements, {len(list(doc.sentences))} sentences")
 
     # Set up compound extraction
     doc.models = [Compound]
@@ -159,7 +156,7 @@ def extract_with_positions(html_file, max_compounds=5):
 
     # Process each compound (limit for demo)
     for i, compound in enumerate(compounds[:max_compounds]):
-        print(f"   Processing compound {i+1}/{min(len(compounds), max_compounds)}...")
+        print(f"   Processing compound {i + 1}/{min(len(compounds), max_compounds)}...")
 
         # Get standard serialization
         standard_data = compound.serialize()
@@ -179,9 +176,7 @@ def extract_with_positions(html_file, max_compounds=5):
         enhanced_results["compounds_with_positions"].append(enhanced_record)
 
     if len(compounds) > max_compounds:
-        print(
-            f"   Note: Showing first {max_compounds} compounds out of {len(compounds)} total"
-        )
+        print(f"   Note: Showing first {max_compounds} compounds out of {len(compounds)} total")
 
     return enhanced_results
 
@@ -198,9 +193,7 @@ def print_position_demo(results):
     print(f"📝 Document length: {summary['document_length']:,} characters")
     print(f"📑 Total sentences: {summary['total_sentences']}")
 
-    print(
-        f"\n🔍 POSITION DETAILS (showing {len(results['compounds_with_positions'])} compounds):"
-    )
+    print(f"\n🔍 POSITION DETAILS (showing {len(results['compounds_with_positions'])} compounds):")
 
     for i, compound in enumerate(results["compounds_with_positions"], 1):
         standard = compound["standard_data"]["Compound"]
@@ -217,12 +210,8 @@ def print_position_demo(results):
         print(f"      Positions found: {len(positions)}")
 
         for j, pos in enumerate(positions[:3]):  # Show first 3 positions
-            print(
-                f"        {j+1}. '{pos['name']}' at chars {pos['start_pos']}-{pos['end_pos']}"
-            )
-            print(
-                f"           Sentence {pos['sentence_index']}: {pos['sentence_text']}"
-            )
+            print(f"        {j + 1}. '{pos['name']}' at chars {pos['start_pos']}-{pos['end_pos']}")
+            print(f"           Sentence {pos['sentence_index']}: {pos['sentence_text']}")
 
         if len(positions) > 3:
             print(f"        ... and {len(positions) - 3} more occurrences")

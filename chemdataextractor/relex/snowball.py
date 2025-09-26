@@ -135,6 +135,7 @@ class Snowball(BaseSentenceParser):
             self -- A Snowball Instance
         """
         from ..data import safe_pickle_load
+
         return safe_pickle_load(path)
 
     def save(self):
@@ -149,45 +150,24 @@ class Snowball(BaseSentenceParser):
             s = "Cluster set contains " + str(len(self.clusters)) + " clusters."
             f.write(s + "\n")
             for c in self.clusters:
-                s = (
-                    "Cluster "
-                    + str(c.label)
-                    + " contains "
-                    + str(len(c.phrases))
-                    + " phrases"
-                )
+                s = "Cluster " + str(c.label) + " contains " + str(len(c.phrases)) + " phrases"
                 f.write(s + "\n")
                 for phrase in c.phrases:
                     f.write("\t " + phrase.full_sentence + "\n")
                 f.write("The cluster centroid pattern is: ")
                 p = c.pattern
-                f.write(
-                    str(p.to_string())
-                    + " with confidence score "
-                    + str(p.confidence)
-                    + "\n"
-                )
+                f.write(str(p.to_string()) + " with confidence score " + str(p.confidence) + "\n")
 
         with open(save_path / f"{self.save_file_name}_patterns.txt", "w+", encoding="utf-8") as f:
             for c in self.clusters:
                 p = c.pattern
-                f.write(
-                    str(p.to_string())
-                    + " with confidence score "
-                    + str(p.confidence)
-                    + "\n\n"
-                )
+                f.write(str(p.to_string()) + " with confidence score " + str(p.confidence) + "\n\n")
 
         with open(save_path / f"{self.save_file_name}_relations.txt", "w+", encoding="utf-8") as wf:
             for c in self.clusters:
                 for phrase in c.phrases:
                     for relation in phrase.relations:
-                        wf.write(
-                            str(relation)
-                            + " Confidence:  "
-                            + str(relation.confidence)
-                            + "\n"
-                        )
+                        wf.write(str(relation) + " Confidence:  " + str(relation.confidence) + "\n")
 
         return
 

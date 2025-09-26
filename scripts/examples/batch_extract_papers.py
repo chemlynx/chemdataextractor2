@@ -5,7 +5,6 @@ Processes all HTML files in /home/dave/code/papers and saves results with timest
 """
 
 import json
-import os
 import sys
 from datetime import datetime
 from pathlib import Path
@@ -249,7 +248,7 @@ def print_batch_summary(processed_files, failed_files, model_keys):
     print(f"❌ Failed to process: {len(failed_files)} files")
 
     if processed_files:
-        print(f"\n📊 TOTAL RECORDS ACROSS ALL FILES:")
+        print("\n📊 TOTAL RECORDS ACROSS ALL FILES:")
         total_counts = {}
         for key in model_keys:
             total_counts[key] = 0
@@ -265,7 +264,7 @@ def print_batch_summary(processed_files, failed_files, model_keys):
                 print(f"  {key:<20}: {total_count} records total")
 
     if failed_files:
-        print(f"\n❌ Failed files:")
+        print("\n❌ Failed files:")
         for file_path in failed_files:
             print(f"  • {file_path.name}")
 

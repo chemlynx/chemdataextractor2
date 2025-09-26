@@ -398,7 +398,9 @@ class Word(BaseParserElement):
         super().__init__()
         self.match: str = match
 
-    def _parse_tokens(self, tokens: list[tuple[str, str]], i: int, actions: bool = True) -> tuple[list[Any], int]:
+    def _parse_tokens(
+        self, tokens: list[tuple[str, str]], i: int, actions: bool = True
+    ) -> tuple[list[Any], int]:
         token_text = tokens[i][0]
         if token_text == self.match:
             return [E(self.name or safe_name(tokens[i][1]), token_text)], i + 1
@@ -430,7 +432,9 @@ class IWord(Word):
     def __init__(self, match: str) -> None:
         super().__init__(match.lower())
 
-    def _parse_tokens(self, tokens: list[tuple[str, str]], i: int, actions: bool = True) -> tuple[list[Any], int]:
+    def _parse_tokens(
+        self, tokens: list[tuple[str, str]], i: int, actions: bool = True
+    ) -> tuple[list[Any], int]:
         token_text = tokens[i][0]
         if token_text.lower() == self.match:
             return [E(self.name or safe_name(tokens[i][1]), tokens[i][0])], i + 1
@@ -445,7 +449,9 @@ class Regex(BaseParserElement):
     providing significant speedups in parser element creation.
     """
 
-    def __init__(self, pattern: str | Pattern[str], flags: int = 0, group: int | None = None) -> None:
+    def __init__(
+        self, pattern: str | Pattern[str], flags: int = 0, group: int | None = None
+    ) -> None:
         super().__init__()
         if isinstance(pattern, str):
             # Use cached compilation for string patterns
@@ -457,7 +463,9 @@ class Regex(BaseParserElement):
             self.pattern: str = pattern.pattern
         self.group: int | None = group
 
-    def _parse_tokens(self, tokens: list[tuple[str, str]], i: int, actions: bool = True) -> tuple[list[Any], int]:
+    def _parse_tokens(
+        self, tokens: list[tuple[str, str]], i: int, actions: bool = True
+    ) -> tuple[list[Any], int]:
         token_text = tokens[i][0]
         result = self.regex.search(token_text)
         if result:

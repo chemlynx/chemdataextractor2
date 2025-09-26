@@ -29,40 +29,79 @@ class SafePickleUnpickler(pickle.Unpickler):
     """
 
     # Modules that are considered safe for ChemDataExtractor models
-    SAFE_MODULES = frozenset({
-        'builtins', '__builtin__', 'collections', 'copy_reg', 'copyreg', '_codecs', 'encodings',
-        'numpy', 'numpy.core', 'numpy.core.multiarray', 'numpy.core.numeric',
-        'sklearn', 'sklearn.base', 'sklearn.feature_extraction', 'sklearn.linear_model',
-        'nltk', 'nltk.tokenize', 'nltk.tokenize.punkt',
-        'pycrfsuite', 'python_crfsuite',
-        # Note: __main__ removed for security - no arbitrary classes from main module
-    })
+    SAFE_MODULES = frozenset(
+        {
+            "builtins",
+            "__builtin__",
+            "collections",
+            "copy_reg",
+            "copyreg",
+            "_codecs",
+            "encodings",
+            "numpy",
+            "numpy.core",
+            "numpy.core.multiarray",
+            "numpy.core.numeric",
+            "sklearn",
+            "sklearn.base",
+            "sklearn.feature_extraction",
+            "sklearn.linear_model",
+            "nltk",
+            "nltk.tokenize",
+            "nltk.tokenize.punkt",
+            "pycrfsuite",
+            "python_crfsuite",
+            # Note: __main__ removed for security - no arbitrary classes from main module
+        }
+    )
 
     # Specific safe classes (module.class format)
-    SAFE_CLASSES = frozenset({
-        # Built-in types
-        'builtins.dict', 'builtins.list', 'builtins.tuple', 'builtins.set', 'builtins.frozenset',
-        'builtins.str', 'builtins.bytes', 'builtins.int', 'builtins.float', 'builtins.bool',
-        'builtins.NoneType', 'builtins.complex', 'builtins.slice', 'builtins.range',
-
-        # Collections
-        'collections.defaultdict', 'collections.OrderedDict', 'collections.Counter',
-        'collections.deque', 'collections.namedtuple',
-
-        # NumPy (common in ML models)
-        'numpy.ndarray', 'numpy.dtype', 'numpy.matrix', 'numpy.int64', 'numpy.float64',
-        'numpy.int32', 'numpy.float32', 'numpy.bool_', 'numpy.str_',
-
-        # Sklearn (used for CRF and other ML models)
-        'sklearn.linear_model.LogisticRegression', 'sklearn.feature_extraction.DictVectorizer',
-        'sklearn.base.BaseEstimator', 'sklearn.base.TransformerMixin',
-
-        # CRF Suite (for chemical entity recognition)
-        'pycrfsuite.Tagger', 'pycrfsuite.Trainer',
-
-        # NLTK (for tokenization models)
-        'nltk.tokenize.punkt.PunktSentenceTokenizer', 'nltk.tokenize.punkt.PunktParameters',
-    })
+    SAFE_CLASSES = frozenset(
+        {
+            # Built-in types
+            "builtins.dict",
+            "builtins.list",
+            "builtins.tuple",
+            "builtins.set",
+            "builtins.frozenset",
+            "builtins.str",
+            "builtins.bytes",
+            "builtins.int",
+            "builtins.float",
+            "builtins.bool",
+            "builtins.NoneType",
+            "builtins.complex",
+            "builtins.slice",
+            "builtins.range",
+            # Collections
+            "collections.defaultdict",
+            "collections.OrderedDict",
+            "collections.Counter",
+            "collections.deque",
+            "collections.namedtuple",
+            # NumPy (common in ML models)
+            "numpy.ndarray",
+            "numpy.dtype",
+            "numpy.matrix",
+            "numpy.int64",
+            "numpy.float64",
+            "numpy.int32",
+            "numpy.float32",
+            "numpy.bool_",
+            "numpy.str_",
+            # Sklearn (used for CRF and other ML models)
+            "sklearn.linear_model.LogisticRegression",
+            "sklearn.feature_extraction.DictVectorizer",
+            "sklearn.base.BaseEstimator",
+            "sklearn.base.TransformerMixin",
+            # CRF Suite (for chemical entity recognition)
+            "pycrfsuite.Tagger",
+            "pycrfsuite.Trainer",
+            # NLTK (for tokenization models)
+            "nltk.tokenize.punkt.PunktSentenceTokenizer",
+            "nltk.tokenize.punkt.PunktParameters",
+        }
+    )
 
     def find_class(self, module: str, name: str) -> Any:
         """
@@ -88,9 +127,21 @@ class SafePickleUnpickler(pickle.Unpickler):
         # Allow specific safe module+class combinations for well-known safe modules
         if module in self.SAFE_MODULES:
             # Be very restrictive even for "safe" modules - only allow data types, not functions
-            if module in ('builtins', '__builtin__') and name not in {
-                'dict', 'list', 'tuple', 'set', 'frozenset', 'str', 'bytes',
-                'int', 'float', 'bool', 'NoneType', 'complex', 'slice', 'range'
+            if module in ("builtins", "__builtin__") and name not in {
+                "dict",
+                "list",
+                "tuple",
+                "set",
+                "frozenset",
+                "str",
+                "bytes",
+                "int",
+                "float",
+                "bool",
+                "NoneType",
+                "complex",
+                "slice",
+                "range",
             }:
                 log.warning(f"Rejected builtins function/class: {full_name}")
                 raise pickle.UnpicklingError(f"Unsafe builtins class rejected: {full_name}")
