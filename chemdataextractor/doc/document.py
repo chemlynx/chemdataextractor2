@@ -137,13 +137,16 @@ class Document(BaseDocument):
         >>> compounds = [r for r in records if isinstance(r, Compound)]
     """
 
-    def __init__(self, *elements: ElementInput, **kwargs: Any) -> None:
+    def __init__(self, *elements: ElementInput, restrict_pre_abstract: bool = True, **kwargs: Any) -> None:
         """Initialize a Document manually by passing document elements.
 
         Strings and byte strings are automatically wrapped into Paragraph elements.
 
         Args:
             *elements: Document elements (Paragraph, Heading, Table, etc.) or strings
+            restrict_pre_abstract: If True, automatically exclude extraction models from
+                elements before the abstract section to avoid extracting author names,
+                dates, and metadata as chemical compounds. Default is True.
             **kwargs: Additional configuration options:
                 - config: Config file for the Document
                 - models: List of models for data extraction
@@ -168,6 +171,7 @@ class Document(BaseDocument):
             self._elements.append(element)
         # Configuration
         self.config: Config = kwargs.get("config", Config())
+        self.restrict_pre_abstract: bool = restrict_pre_abstract
 
         # Model configuration
         if "models" in kwargs:
@@ -226,12 +230,72 @@ class Document(BaseDocument):
     def models(self, value: list[type[BaseModel]]) -> None:
         """Set the models for extraction and propagate to all elements.
 
+        If restrict_pre_abstract is True, automatically excludes all extraction
+        models from elements before the abstract section to prevent extracting
+        author names, dates, and metadata as chemical compounds.
+
         Args:
             value: List of model classes to use for extraction
         """
         self._models = value
-        for element in self.elements:
-            element.models = value
+
+        if self.restrict_pre_abstract:
+            self._apply_models_with_pre_abstract_restriction(value)
+        else:
+            # Original behavior - apply models to all elements
+            for element in self.elements:
+                element.models = value
+
+    def _find_abstract_index(self) -> int:
+        """Find the index of the abstract section in the document.
+
+        Searches for elements containing 'abstract' or 'summary' in their text.
+
+        Returns:
+            Index of the abstract section, or a conservative fallback if not found
+        """
+        from .text import Heading, Title  # Import here to avoid circular imports
+
+        for i, element in enumerate(self.elements):
+            if isinstance(element, (Heading, Title)):
+                text = element.text.lower().strip()
+                if any(keyword in text for keyword in ['abstract', 'summary']):
+                    log.debug(f"Found abstract at element {i}: '{element.text[:50]}...'")
+                    return i
+
+        # Fallback: assume first 10 elements are pre-content
+        fallback_index = min(10, len(self.elements))
+        log.debug(f"No abstract section found - using fallback index {fallback_index}")
+        return fallback_index
+
+    def _apply_models_with_pre_abstract_restriction(self, models: list[type[BaseModel]]) -> None:
+        """Apply models with automatic pre-abstract restriction.
+
+        Elements before the abstract get empty models to prevent extracting
+        author names, dates, and metadata as chemical compounds.
+
+        Args:
+            models: List of model classes to apply to post-abstract elements
+        """
+        abstract_index = self._find_abstract_index()
+
+        pre_abstract_count = 0
+        post_abstract_count = 0
+
+        for i, element in enumerate(self.elements):
+            if i < abstract_index:
+                # Before abstract: no extraction models
+                element.models = []
+                pre_abstract_count += 1
+            else:
+                # At/after abstract: full models
+                element.models = models
+                post_abstract_count += 1
+
+        log.info(
+            f"Applied pre-abstract restriction: {pre_abstract_count} elements restricted, "
+            f"{post_abstract_count} elements with full extraction (abstract at index {abstract_index})"
+        )
 
     @classmethod
     def from_file(
@@ -239,6 +303,7 @@ class Document(BaseDocument):
         f: FileInput,
         fname: str | None = None,
         readers: list[BaseReader] | None = None,
+        restrict_pre_abstract: bool = True,
     ) -> Self:
         """Create a Document from a file with automatic format detection.
 
@@ -259,6 +324,9 @@ class Document(BaseDocument):
                 - Force a specific reader for known formats
                 - Skip expensive readers for performance
                 - Handle edge cases with custom readers
+            restrict_pre_abstract: If True, automatically exclude extraction models from
+                elements before the abstract section to avoid extracting author names,
+                dates, and metadata as chemical compounds. Default is True.
 
         Returns:
             A Document instance containing structured elements ready for data extraction.
@@ -316,10 +384,20 @@ class Document(BaseDocument):
         """
         if isinstance(f, str):
             with open(f, "rb") as file:
-                return cls.from_string(file.read(), fname=fname or f, readers=readers)
+                return cls.from_string(
+                    file.read(),
+                    fname=fname or f,
+                    readers=readers,
+                    restrict_pre_abstract=restrict_pre_abstract
+                )
         if not fname and hasattr(f, "name"):
             fname = f.name
-        return cls.from_string(f.read(), fname=fname, readers=readers)
+        return cls.from_string(
+            f.read(),
+            fname=fname,
+            readers=readers,
+            restrict_pre_abstract=restrict_pre_abstract
+        )
 
     @classmethod
     def from_string(
@@ -327,6 +405,7 @@ class Document(BaseDocument):
         fstring: bytes,
         fname: str | None = None,
         readers: list[BaseReader] | None = None,
+        restrict_pre_abstract: bool = True,
     ) -> Self:
         """Create a Document from a byte string containing file contents.
 
@@ -334,6 +413,9 @@ class Document(BaseDocument):
             fstring: A byte string containing the contents of a file
             fname: Optional filename to help determine file format
             readers: Optional list of readers to use. If not set, will try all default readers
+            restrict_pre_abstract: If True, automatically exclude extraction models from
+                elements before the abstract section to avoid extracting author names,
+                dates, and metadata as chemical compounds. Default is True.
 
         Returns:
             A new Document instance created from the byte string
@@ -363,6 +445,8 @@ class Document(BaseDocument):
                 continue
             try:
                 d = reader.readstring(fstring)
+                # Set the restriction parameter on the created document
+                d.restrict_pre_abstract = restrict_pre_abstract
                 log.debug(f"Parsed document with {reader.__class__.__name__}")
                 return d
             except ReaderError:
