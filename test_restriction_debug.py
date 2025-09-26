@@ -4,11 +4,17 @@ Debug why compounds are still being extracted from restricted elements.
 """
 
 import sys
-sys.path.insert(0, '/home/dave/code/ChemDataExtractor2')
+
+sys.path.insert(0, "/home/dave/code/ChemDataExtractor2")
 
 from chemdataextractor import Document
-from chemdataextractor.doc.text import Title, Heading, Paragraph
-from chemdataextractor.model.model import Compound, MeltingPoint, Apparatus
+from chemdataextractor.doc.text import Heading
+from chemdataextractor.doc.text import Paragraph
+from chemdataextractor.doc.text import Title
+from chemdataextractor.model.model import Apparatus
+from chemdataextractor.model.model import Compound
+from chemdataextractor.model.model import MeltingPoint
+
 
 def debug_element_extraction():
     """Debug extraction from individual elements."""
@@ -44,6 +50,7 @@ def debug_element_extraction():
     for record in abstract_records:
         print(f"    - {type(record).__name__}: {record.serialize()}")
 
+
 def debug_document_level_merging():
     """Debug if document-level merging is causing compounds to appear."""
 
@@ -55,7 +62,7 @@ def debug_document_level_merging():
         Title("Synthesis of Novel CuSO4 Complexes"),
         Paragraph("Authors: Dr. John Smith"),
         Heading("Abstract"),
-        Paragraph("We synthesized CuSO4 complexes using H2O.")
+        Paragraph("We synthesized CuSO4 complexes using H2O."),
     )
 
     # Set document models
@@ -81,7 +88,7 @@ def debug_document_level_merging():
     all_records = list(doc.records)
     compounds = [r for r in all_records if isinstance(r, Compound)]
 
-    print(f"\nDocument-level extraction results:")
+    print("\nDocument-level extraction results:")
     print(f"  Total records: {len(all_records)}")
     print(f"  Compounds: {len(compounds)}")
 
@@ -89,13 +96,14 @@ def debug_document_level_merging():
         print(f"    - {compound.serialize()}")
 
     # Check individual element records
-    print(f"\nElement-by-element breakdown:")
+    print("\nElement-by-element breakdown:")
     for i, element in enumerate(doc.elements):
         element_records = list(element.records)
         element_compounds = [r for r in element_records if isinstance(r, Compound)]
         print(f"  Element {i} ({type(element).__name__}): {len(element_compounds)} compounds")
         for compound in element_compounds:
             print(f"    - {compound.serialize()}")
+
 
 def main():
     print("🐛 Debugging Compound Restriction Issues")
@@ -107,5 +115,6 @@ def main():
     # Test document-level merging
     debug_document_level_merging()
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     main()

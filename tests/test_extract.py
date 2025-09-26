@@ -114,7 +114,9 @@ class TestExtract(unittest.TestCase):
             {"Apparatus": {"name": "HORIBA F-7000 spectrofluorimeter"}},
             {
                 "MeltingPoint": {
-                    "apparatus": {"Apparatus": {"name": "HORIBA F-7000 spectrofluorimeter"}},
+                    "apparatus": {
+                        "Apparatus": {"name": "HORIBA F-7000 spectrofluorimeter"}
+                    },
                     "compound": {
                         "Compound": {
                             "names": [
@@ -145,6 +147,219 @@ class TestExtract(unittest.TestCase):
         r2 = p2.records[0]
         r2.merge_contextual(r1)
         self.assertTrue(r2._compatible(r1))
+
+    def test_melting_point_heading_salt_with_abstract(self):
+        """Enhanced version of test_melting_point_heading_salt with Abstract heading to test pre-abstract restriction."""
+        d = Document(
+            Heading("Abstract"),  # Added Abstract heading
+            Paragraph(
+                "We demonstrate a novel apprach to palladium catalysed hydrogenation of compounds "
+            ),
+            Heading("D. Synthesis of 4-Amino-2-(3-thienyl)phenol Hydrochloride"),
+            Paragraph(
+                "3 g (13.5 mmoles) of 4-nitro-2-(3-thienyl)phenol was dissolved in 40 mL of ethanol and hydrogenated at 25° C. in the presence of 600 mg of a palladium—active carbon catalyst (10%). After the theoretically required amount of hydrogen had been absorbed, the catalyst was filtered off. Following concentration in a rotary evaporator, the reaction mixture was poured onto 20 mL of cold diethyl ether. The precipitated product was filtered off and dried."
+            ),
+            Paragraph(
+                "This gave 1.95 g (75% of the theoretical) of 4-amino-2-(3-thienyl)phenol hydrochloride with a melting point of 130-132° C."
+            ),
+        )
+        d.models = [Compound, MeltingPoint]
+        expected = [
+            {"Compound": {"names": ["palladium"]}},
+            {"Compound": {"names": ["4-nitro-2-(3-thienyl)phenol"]}},
+            {"Compound": {"names": ["ethanol"]}},
+            {"Compound": {"names": ["carbon"]}},
+            {"Compound": {"names": ["hydrogen"]}},
+            {"Compound": {"names": ["diethyl ether"]}},
+            {
+                "Compound": {
+                    "names": [
+                        "4-Amino-2-(3-thienyl)phenol Hydrochloride",
+                        "4-amino-2-(3-thienyl)phenol hydrochloride",
+                    ],
+                    "roles": ["product"],
+                }
+            },
+            {
+                "MeltingPoint": {
+                    "compound": {
+                        "Compound": {
+                            "names": [
+                                "4-Amino-2-(3-thienyl)phenol Hydrochloride",
+                                "4-amino-2-(3-thienyl)phenol hydrochloride",
+                            ],
+                            "roles": ["product"],
+                        }
+                    },
+                    "raw_units": "°C",
+                    "raw_value": "130-132",
+                    "units": "Celsius^(1.0)",
+                    "value": [130.0, 132.0],
+                }
+            },
+        ]
+        self.assertCountEqual(expected, d.records.serialize())
+
+    def test_parse_control_character_with_abstract(self):
+        """Enhanced version of test_parse_control_character with Abstract heading to test pre-abstract restriction."""
+        d = Document(
+            Heading("Abstract"),  # Added Abstract heading
+            Paragraph("Yielding 2,4,6-trinitrotoluene,\n m.p. 20 \x0eC."),
+        )
+        d.models = [Compound]
+        expected = [{"Compound": {"names": ["2,4,6-trinitrotoluene"]}}]
+        self.assertCountEqual(expected, d.records.serialize())
+
+    def test_merge_contextual_with_abstract(self):
+        """Enhanced version of test_merge_contextual with Abstract heading to test pre-abstract restriction."""
+        d = Document(
+            Heading("Abstract"),  # Added Abstract heading
+            Paragraph(
+                "We demonstrate a novel apprach to palladium catalysed hydrogenation of compounds "
+            ),
+            Heading("D. Synthesis of 4-Amino-2-(3-thienyl)phenol Hydrochloride"),
+            Paragraph(
+                "3 g (13.5 mmoles) of 4-nitro-2-(3-thienyl)phenol was dissolved in 40 mL of ethanol and hydrogenated at 25° C. in the presence of 600 mg of a palladium—active carbon catalyst (10%). After the theoretically required amount of hydrogen had been absorbed, the catalyst was filtered off. Following concentration in a rotary evaporator, the reaction mixture was poured onto 20 mL of cold diethyl ether. The precipitated product was filtered off and dried."
+            ),
+            Paragraph(
+                "This gave 1.95 g (75% of the theoretical) of 4-amino-2-(3-thienyl)phenol hydrochloride with a melting point of 130-132° C as measured with the HORIBA F-7000 spectrofluorimeter."
+            ),
+        )
+        d.models = [Compound, MeltingPoint, Apparatus]
+        expected = [
+            {"Compound": {"names": ["palladium"]}},
+            {"Compound": {"names": ["4-nitro-2-(3-thienyl)phenol"]}},
+            {"Compound": {"names": ["ethanol"]}},
+            {"Compound": {"names": ["carbon"]}},
+            {"Compound": {"names": ["hydrogen"]}},
+            {"Compound": {"names": ["diethyl ether"]}},
+            {
+                "Compound": {
+                    "names": [
+                        "4-Amino-2-(3-thienyl)phenol Hydrochloride",
+                        "4-amino-2-(3-thienyl)phenol hydrochloride",
+                    ],
+                    "roles": ["product"],
+                }
+            },
+            {"Apparatus": {"name": "HORIBA F-7000 spectrofluorimeter"}},
+            {
+                "MeltingPoint": {
+                    "apparatus": {
+                        "Apparatus": {"name": "HORIBA F-7000 spectrofluorimeter"}
+                    },
+                    "compound": {
+                        "Compound": {
+                            "names": [
+                                "4-Amino-2-(3-thienyl)phenol Hydrochloride",
+                                "4-amino-2-(3-thienyl)phenol hydrochloride",
+                            ],
+                            "roles": ["product"],
+                        }
+                    },
+                    "raw_units": "°C",
+                    "raw_value": "130-132",
+                    "units": "Celsius^(1.0)",
+                    "value": [130.0, 132.0],
+                }
+            },
+        ]
+        self.assertCountEqual(expected, d.records.serialize())
+
+    def test_melting_point_heading_salt_with_introduction(self):
+        """Test pre-abstract restriction fallback to Introduction heading."""
+        d = Document(
+            Heading("Introduction"),  # Introduction heading (no Abstract)
+            Heading("D. Synthesis of 4-Amino-2-(3-thienyl)phenol Hydrochloride"),
+            Paragraph(
+                "3 g (13.5 mmoles) of 4-nitro-2-(3-thienyl)phenol was dissolved in 40 mL of ethanol and hydrogenated at 25° C. in the presence of 600 mg of a palladium—active carbon catalyst (10%). After the theoretically required amount of hydrogen had been absorbed, the catalyst was filtered off. Following concentration in a rotary evaporator, the reaction mixture was poured onto 20 mL of cold diethyl ether. The precipitated product was filtered off and dried."
+            ),
+            Paragraph(
+                "This gave 1.95 g (75% of the theoretical) of 4-amino-2-(3-thienyl)phenol hydrochloride with a melting point of 130-132° C."
+            ),
+        )
+        d.models = [Compound, MeltingPoint]
+        expected = [
+            {"Compound": {"names": ["4-nitro-2-(3-thienyl)phenol"]}},
+            {"Compound": {"names": ["ethanol"]}},
+            {"Compound": {"names": ["palladium"]}},
+            {"Compound": {"names": ["carbon"]}},
+            {"Compound": {"names": ["hydrogen"]}},
+            {"Compound": {"names": ["diethyl ether"]}},
+            {
+                "Compound": {
+                    "names": [
+                        "4-amino-2-(3-thienyl)phenol hydrochloride",
+                    ],
+                    "roles": ["product"],
+                }
+            },
+            {
+                "MeltingPoint": {
+                    "compound": {
+                        "Compound": {
+                            "names": [
+                                "4-amino-2-(3-thienyl)phenol hydrochloride",
+                            ],
+                            "roles": ["product"],
+                        }
+                    },
+                    "raw_units": "°C",
+                    "raw_value": "130-132",
+                    "units": "Celsius^(1.0)",
+                    "value": [130.0, 132.0],
+                }
+            },
+        ]
+        self.assertCountEqual(expected, d.records.serialize())
+
+    def test_no_restriction_fallback(self):
+        """Test pre-abstract restriction fallback to no restriction when neither Abstract nor Introduction found."""
+        d = Document(
+            Heading("D. Synthesis of 4-Amino-2-(3-thienyl)phenol Hydrochloride"),
+            Paragraph(
+                "3 g (13.5 mmoles) of 4-nitro-2-(3-thienyl)phenol was dissolved in 40 mL of ethanol and hydrogenated at 25° C. in the presence of 600 mg of a palladium—active carbon catalyst (10%). After the theoretically required amount of hydrogen had been absorbed, the catalyst was filtered off. Following concentration in a rotary evaporator, the reaction mixture was poured onto 20 mL of cold diethyl ether. The precipitated product was filtered off and dried."
+            ),
+            Paragraph(
+                "This gave 1.95 g (75% of the theoretical) of 4-amino-2-(3-thienyl)phenol hydrochloride with a melting point of 130-132° C."
+            ),
+        )
+        d.models = [Compound, MeltingPoint]
+        expected = [
+            {"Compound": {"names": ["4-nitro-2-(3-thienyl)phenol"]}},
+            {"Compound": {"names": ["ethanol"]}},
+            {"Compound": {"names": ["palladium"]}},
+            {"Compound": {"names": ["carbon"]}},
+            {"Compound": {"names": ["hydrogen"]}},
+            {"Compound": {"names": ["diethyl ether"]}},
+            {
+                "Compound": {
+                    "names": [
+                        "4-Amino-2-(3-thienyl)phenol Hydrochloride",
+                        "4-amino-2-(3-thienyl)phenol hydrochloride",
+                    ],
+                    "roles": ["product"],
+                }
+            },
+            {
+                "MeltingPoint": {
+                    "compound": {
+                        "Compound": {
+                            "names": [
+                                "4-Amino-2-(3-thienyl)phenol Hydrochloride",
+                                "4-amino-2-(3-thienyl)phenol hydrochloride",
+                            ],
+                            "roles": ["product"],
+                        }
+                    },
+                    "raw_units": "°C",
+                    "raw_value": "130-132",
+                    "units": "Celsius^(1.0)",
+                    "value": [130.0, 132.0],
+                }
+            },
+        ]
+        self.assertCountEqual(expected, d.records.serialize())
 
 
 if __name__ == "__main__":

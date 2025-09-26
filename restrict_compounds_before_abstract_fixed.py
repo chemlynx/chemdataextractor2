@@ -5,11 +5,17 @@ Handles model dependencies correctly to avoid extracting dates, author names, et
 """
 
 import sys
-sys.path.insert(0, '/home/dave/code/ChemDataExtractor2')
+
+sys.path.insert(0, "/home/dave/code/ChemDataExtractor2")
 
 from chemdataextractor import Document
-from chemdataextractor.doc.text import Title, Heading, Paragraph, Footnote
-from chemdataextractor.model.model import Compound, MeltingPoint, Apparatus
+from chemdataextractor.doc.text import Heading
+from chemdataextractor.doc.text import Paragraph
+from chemdataextractor.doc.text import Title
+from chemdataextractor.model.model import Apparatus
+from chemdataextractor.model.model import Compound
+from chemdataextractor.model.model import MeltingPoint
+
 
 def restrict_compounds_before_abstract(doc, include_title_compounds=False):
     """
@@ -37,7 +43,7 @@ def restrict_compounds_before_abstract(doc, include_title_compounds=False):
             text = element.text.lower().strip()
 
             # Look for abstract indicators
-            if any(keyword in text for keyword in ['abstract', 'summary']):
+            if any(keyword in text for keyword in ["abstract", "summary"]):
                 abstract_found = True
                 abstract_index = i
                 print(f"📋 Found abstract at element {i}: '{element.text[:50]}...'")
@@ -48,7 +54,7 @@ def restrict_compounds_before_abstract(doc, include_title_compounds=False):
         abstract_index = min(10, len(doc.elements))  # Fallback
 
     # Analyze model dependencies
-    print(f"\n🔍 Analyzing model dependencies:")
+    print("\n🔍 Analyzing model dependencies:")
     original_models = doc.models
 
     models_needing_compound = []
@@ -58,12 +64,14 @@ def restrict_compounds_before_abstract(doc, include_title_compounds=False):
         dependencies = list(model.flatten(include_inferred=False))
         if Compound in dependencies:
             models_needing_compound.append(model)
-            print(f"  ⚠️  {model.__name__} depends on Compound: {[m.__name__ for m in dependencies]}")
+            print(
+                f"  ⚠️  {model.__name__} depends on Compound: {[m.__name__ for m in dependencies]}"
+            )
         else:
             safe_models.append(model)
             print(f"  ✅ {model.__name__} is safe: {[m.__name__ for m in dependencies]}")
 
-    print(f"\n📊 Dependency Analysis:")
+    print("\n📊 Dependency Analysis:")
     print(f"  Models requiring Compound: {[m.__name__ for m in models_needing_compound]}")
     print(f"  Models safe to use: {[m.__name__ for m in safe_models]}")
 
@@ -89,18 +97,21 @@ def restrict_compounds_before_abstract(doc, include_title_compounds=False):
 
                 element_type = type(element).__name__
                 restricted_models = [m.__name__ for m in safe_models]
-                print(f"🚫 Pre-abstract {element_type}: '{element.text[:50]}...' (models: {restricted_models})")
+                print(
+                    f"🚫 Pre-abstract {element_type}: '{element.text[:50]}...' (models: {restricted_models})"
+                )
 
         else:
             # At or after abstract - allow full extraction
             post_abstract_count += 1
             element.models = original_models
 
-    print(f"\n📊 Configuration Summary:")
+    print("\n📊 Configuration Summary:")
     print(f"  • Pre-abstract elements: {pre_abstract_count} (restricted models)")
     if include_title_compounds:
         print(f"  • Title elements with compounds: {title_compound_count}")
     print(f"  • Post-abstract elements: {post_abstract_count} (full extraction)")
+
 
 def test_fixed_restriction():
     """Test the fixed restriction functionality."""
@@ -109,7 +120,8 @@ def test_fixed_restriction():
     print("=" * 70)
 
     # Create a sample document structure
-    from chemdataextractor.doc.text import Paragraph, Title, Heading
+    from chemdataextractor.doc.text import Heading
+    from chemdataextractor.doc.text import Title
 
     doc = Document(
         Title("Synthesis of Novel CuSO4 Complexes Using H2O Solvent"),
@@ -117,11 +129,17 @@ def test_fixed_restriction():
         Paragraph("Received: 15 March 2023; Accepted: 20 April 2023"),
         Paragraph("Keywords: copper, sulfate, CuCl2, synthesis"),
         Heading("Abstract"),
-        Paragraph("We report the synthesis of CuSO4 complexes using H2O as solvent. The reaction with NaCl produced interesting results."),
+        Paragraph(
+            "We report the synthesis of CuSO4 complexes using H2O as solvent. The reaction with NaCl produced interesting results."
+        ),
         Heading("Introduction"),
-        Paragraph("Chemical synthesis of CuSO4 has been studied extensively. Previous work with FeCl3 showed similar patterns."),
+        Paragraph(
+            "Chemical synthesis of CuSO4 has been studied extensively. Previous work with FeCl3 showed similar patterns."
+        ),
         Heading("Experimental"),
-        Paragraph("CuSO4 (99% purity) was dissolved in H2O. Addition of NaCl resulted in precipitation.")
+        Paragraph(
+            "CuSO4 (99% purity) was dissolved in H2O. Addition of NaCl resulted in precipitation."
+        ),
     )
 
     # Set up models
@@ -129,7 +147,7 @@ def test_fixed_restriction():
     print(f"Document models: {[m.__name__ for m in doc.models]}")
 
     # Apply restriction
-    print(f"\n🔬 Applying compound restriction (excluding title)...")
+    print("\n🔬 Applying compound restriction (excluding title)...")
     restrict_compounds_before_abstract(doc, include_title_compounds=False)
 
     # Extract and analyze
@@ -137,17 +155,28 @@ def test_fixed_restriction():
     compounds = [r for r in all_records if isinstance(r, Compound)]
     melting_points = [r for r in all_records if isinstance(r, MeltingPoint)]
 
-    print(f"\n📊 Extraction Results:")
+    print("\n📊 Extraction Results:")
     print(f"  Total records: {len(all_records)}")
     print(f"  Compounds: {len(compounds)}")
     print(f"  Melting Points: {len(melting_points)}")
 
-    print(f"\n🧪 Compounds found:")
+    print("\n🧪 Compounds found:")
     for i, compound in enumerate(compounds, 1):
         print(f"    {i}. {compound.serialize()}")
 
     # Check if problematic compounds were avoided
-    problematic_names = ['March', 'April', 'John', 'Smith', 'Sarah', 'Johnson', 'Dr', '15', '20', '2023']
+    problematic_names = [
+        "March",
+        "April",
+        "John",
+        "Smith",
+        "Sarah",
+        "Johnson",
+        "Dr",
+        "15",
+        "20",
+        "2023",
+    ]
     found_problematic = []
 
     for compound in compounds:
@@ -155,28 +184,30 @@ def test_fixed_restriction():
             if any(prob in str(name) for prob in problematic_names):
                 found_problematic.append(name)
 
-    print(f"\n🎯 Quality Check:")
+    print("\n🎯 Quality Check:")
     if found_problematic:
         print(f"⚠️  Found potentially problematic compounds: {found_problematic}")
     else:
-        print(f"✅ No problematic author names/dates detected as compounds")
+        print("✅ No problematic author names/dates detected as compounds")
 
     return len(found_problematic) == 0
+
 
 def test_with_title_compounds():
     """Test with title compounds included."""
 
-    print(f"\n" + "=" * 70)
+    print("\n" + "=" * 70)
     print("🧪 Testing WITH Title Compounds Included")
     print("=" * 70)
 
-    from chemdataextractor.doc.text import Paragraph, Title, Heading
+    from chemdataextractor.doc.text import Heading
+    from chemdataextractor.doc.text import Title
 
     doc = Document(
         Title("Synthesis of Novel CuSO4 Complexes"),
         Paragraph("Authors: Dr. John Smith"),
         Heading("Abstract"),
-        Paragraph("We synthesized CuSO4 complexes.")
+        Paragraph("We synthesized CuSO4 complexes."),
     )
 
     doc.models = [Compound, MeltingPoint, Apparatus]
@@ -186,10 +217,11 @@ def test_with_title_compounds():
 
     compounds = [r for r in doc.records if isinstance(r, Compound)]
 
-    print(f"\n📊 Results with title compounds:")
+    print("\n📊 Results with title compounds:")
     print(f"  Compounds: {len(compounds)}")
     for i, compound in enumerate(compounds, 1):
         print(f"    {i}. {compound.serialize()}")
+
 
 def main():
     """Main function demonstrating the FIXED compound restriction."""
@@ -204,7 +236,7 @@ def main():
     # Test with title compounds
     test_with_title_compounds()
 
-    print(f"\n" + "=" * 80)
+    print("\n" + "=" * 80)
     print("🎯 SOLUTION SUMMARY")
     print("=" * 80)
     print("""
@@ -224,5 +256,6 @@ restrict_compounds_before_abstract(doc, include_title_compounds=False)
 
     return success
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     main()

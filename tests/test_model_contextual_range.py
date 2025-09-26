@@ -181,6 +181,163 @@ class TestContextualRange(unittest.TestCase):
         ]
         self.parse_document_1(expected)
 
+    def parse_document_1_with_abstract(self, expected):
+        """Enhanced version of parse_document_1 with Abstract heading to test pre-abstract restriction."""
+        doc = Document(
+            Title("Boiling behaviour"),
+            Heading("H2O investigation"),
+            Heading("Abstract"),  # Added Abstract heading
+            Paragraph(
+                "It's great, and we investigate how H2O behaves in this paper. Stay hydrated!"
+            ),
+            Heading("Methodology"),
+            Paragraph("What do you expect here?"),
+            Heading("Results"),
+            Paragraph("It has a boiling temperature of 373K. What a surprise!"),
+        )
+        doc.models = [BoilingPoint]
+        for el in doc.elements:
+            print(el.records.serialize())
+        print(doc.records.serialize())
+        self.assertCountEqual(expected, doc.records.serialize())
+
+    def test_contextual_range_during_parsing_with_abstract(self):
+        """Enhanced version of test_contextual_range_during_parsing with Abstract heading."""
+        expected = [
+            {
+                "BoilingPoint": {
+                    "raw_value": "373",
+                    "raw_units": "K",
+                    "value": [373.0],
+                    "units": "Kelvin^(1.0)",
+                    "specifier": "boiling",
+                }
+            }
+        ]
+        self.parse_document_1_with_abstract(expected)
+
+    def test_contextual_range_during_parsing_2_with_abstract(self):
+        """Enhanced version of test_contextual_range_during_parsing_2 with Abstract heading."""
+        BoilingPoint.compound.contextual_range = 2 * SectionRange() + 10 * ParagraphRange()
+        expected = [
+            {
+                "BoilingPoint": {
+                    "raw_value": "373",
+                    "raw_units": "K",
+                    "value": [373.0],
+                    "units": "Kelvin^(1.0)",
+                    "specifier": "boiling",
+                    "compound": {"Compound": {"names": ["H2O"]}},
+                }
+            }
+        ]
+        self.parse_document_1_with_abstract(expected)
+
+    def test_contextual_range_during_parsing_3_with_abstract(self):
+        """Enhanced version of test_contextual_range_during_parsing_3 with Abstract heading."""
+        BoilingPoint.compound.contextual_range = DocumentRange()
+        expected = [
+            {
+                "BoilingPoint": {
+                    "raw_value": "373",
+                    "raw_units": "K",
+                    "value": [373.0],
+                    "units": "Kelvin^(1.0)",
+                    "specifier": "boiling",
+                    "compound": {"Compound": {"names": ["H2O"]}},
+                }
+            }
+        ]
+        self.parse_document_1_with_abstract(expected)
+
+    def parse_document_1_with_introduction(self, expected):
+        """Version of parse_document_1 with Introduction heading to test introduction fallback."""
+        doc = Document(
+            Title("Boiling behaviour"),
+            Heading("H2O investigation"),
+            Paragraph(
+                "It's great, and we investigate how H2O behaves in this paper. Stay hydrated!"
+            ),
+            Heading("Introduction"),  # Added Introduction heading (no Abstract)
+            Paragraph("What do you expect here?"),
+            Heading("Results"),
+            Paragraph("It has a boiling temperature of 373K. What a surprise!"),
+        )
+        doc.models = [BoilingPoint]
+        for el in doc.elements:
+            print(el.records.serialize())
+        print(doc.records.serialize())
+        self.assertCountEqual(expected, doc.records.serialize())
+        BoilingPoint.compound.contextual_range = SentenceRange()
+
+    def test_contextual_range_during_parsing_with_introduction(self):
+        """Test contextual range during parsing with Introduction heading (fallback from Abstract)."""
+        expected = [
+            {
+                "BoilingPoint": {
+                    "raw_value": "373",
+                    "raw_units": "K",
+                    "value": [373.0],
+                    "units": "Kelvin^(1.0)",
+                    "specifier": "boiling",
+                }
+            }
+        ]
+        self.parse_document_1_with_introduction(expected)
+
+    def test_contextual_range_during_parsing_2_with_introduction(self):
+        """Test contextual range during parsing with Introduction heading and extended range."""
+        BoilingPoint.compound.contextual_range = 2 * SectionRange() + 10 * ParagraphRange()
+        expected = [
+            {
+                "BoilingPoint": {
+                    "raw_value": "373",
+                    "raw_units": "K",
+                    "value": [373.0],
+                    "units": "Kelvin^(1.0)",
+                    "specifier": "boiling",
+                }
+            }
+        ]
+        self.parse_document_1_with_introduction(expected)
+
+    def parse_document_1_no_restriction(self, expected):
+        """Version of parse_document_1 with no Abstract or Introduction to test no restriction fallback."""
+        doc = Document(
+            Title("Boiling behaviour"),
+            Heading("H2O investigation"),
+            Paragraph(
+                "It's great, and we investigate how H2O behaves in this paper. Stay hydrated!"
+            ),
+            Heading("Methodology"),
+            Paragraph("What do you expect here?"),
+            Heading("Results"),
+            Paragraph("It has a boiling temperature of 373K. What a surprise!"),
+        )
+        doc.models = [BoilingPoint]
+        for el in doc.elements:
+            print(el.records.serialize())
+        print(doc.records.serialize())
+        self.assertCountEqual(expected, doc.records.serialize())
+        BoilingPoint.compound.contextual_range = SentenceRange()
+
+    def test_contextual_range_no_restriction_fallback(self):
+        """Test contextual range with no Abstract or Introduction (should parse whole document)."""
+        BoilingPoint.compound.contextual_range = 2 * SectionRange() + 10 * ParagraphRange()
+        expected = [
+            {
+                "BoilingPoint": {
+                    "raw_value": "373",
+                    "raw_units": "K",
+                    "value": [373.0],
+                    "units": "Kelvin^(1.0)",
+                    "specifier": "boiling",
+                    "compound": {"Compound": {"names": ["H2O"]}},
+                }
+            }
+        ]
+        self.parse_document_1_no_restriction(expected)
+
 
 if __name__ == "__main__":
     unittest.main()

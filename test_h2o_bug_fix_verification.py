@@ -5,11 +5,16 @@ This tests the specific scenarios the user reported from batch extraction.
 """
 
 import sys
-sys.path.insert(0, '/home/dave/code/ChemDataExtractor2')
+
+sys.path.insert(0, "/home/dave/code/ChemDataExtractor2")
 
 from chemdataextractor import Document
-from chemdataextractor.doc.text import Paragraph, Sentence
-from chemdataextractor.model.model import Compound, MeltingPoint, Apparatus
+from chemdataextractor.doc.text import Paragraph
+from chemdataextractor.doc.text import Sentence
+from chemdataextractor.model.model import Apparatus
+from chemdataextractor.model.model import Compound
+from chemdataextractor.model.model import MeltingPoint
+
 
 def test_h2o_water_blacklist():
     """Test that H2O and water are now properly blacklisted from apparatus parsing"""
@@ -41,20 +46,32 @@ def test_h2o_water_blacklist():
         if apparatus_results:
             for j, apparatus in enumerate(apparatus_results):
                 app_data = apparatus.serialize()
-                print(f"    {j+1}. {app_data}")
+                print(f"    {j + 1}. {app_data}")
 
                 # Check for solvent names in apparatus
                 app_name = str(app_data).lower()
-                solvent_names = ['h2o', 'water', 'thf', 'dmf', 'dmso', 'acetone', 'methanol', 'ethanol', 'chloroform', 'benzene']
+                solvent_names = [
+                    "h2o",
+                    "water",
+                    "thf",
+                    "dmf",
+                    "dmso",
+                    "acetone",
+                    "methanol",
+                    "ethanol",
+                    "chloroform",
+                    "benzene",
+                ]
 
                 for solvent in solvent_names:
                     if solvent in app_name:
                         print(f"    ⚠️  SOLVENT '{solvent}' STILL IN APPARATUS!")
                         return False
         else:
-            print(f"    ✅ No apparatus detected (correct!)")
+            print("    ✅ No apparatus detected (correct!)")
 
     return True
+
 
 def test_document_level_melting_points():
     """Test document-level extraction to ensure no H2O apparatus contamination"""
@@ -85,20 +102,21 @@ def test_document_level_melting_points():
 
         for j, mp in enumerate(melting_points):
             mp_data = mp.serialize()
-            print(f"    MP {j+1}: {mp_data}")
+            print(f"    MP {j + 1}: {mp_data}")
 
             # Check if apparatus field has H2O/water contamination
-            if hasattr(mp, 'apparatus') and mp.apparatus:
+            if hasattr(mp, "apparatus") and mp.apparatus:
                 app_data = str(mp.apparatus.serialize()).lower()
-                if 'h2o' in app_data or 'water' in app_data:
+                if "h2o" in app_data or "water" in app_data:
                     print(f"      🐛 H2O/WATER CONTAMINATION: {mp.apparatus.serialize()}")
                     bug_found = True
                 else:
                     print(f"      ✅ Clean apparatus: {mp.apparatus.serialize()}")
             else:
-                print(f"      ✅ No apparatus field (or H2O correctly in compound field)")
+                print("      ✅ No apparatus field (or H2O correctly in compound field)")
 
     return not bug_found
+
 
 def test_legitimate_apparatus_still_work():
     """Test that legitimate apparatus detection still works after the fix"""
@@ -126,12 +144,13 @@ def test_legitimate_apparatus_still_work():
 
         if apparatus_results:
             for j, apparatus in enumerate(apparatus_results):
-                print(f"    {j+1}. {apparatus.serialize()}")
-                print(f"    ✅ Legitimate apparatus detected correctly")
+                print(f"    {j + 1}. {apparatus.serialize()}")
+                print("    ✅ Legitimate apparatus detected correctly")
         else:
-            print(f"    ⚠️  Expected apparatus but none found")
+            print("    ⚠️  Expected apparatus but none found")
 
     return len(apparatus_results) > 0
+
 
 def main():
     print("🧪 H2O Apparatus Bug Fix Verification")
@@ -167,7 +186,9 @@ def main():
     except Exception as e:
         print(f"❌ Test failed: {e}")
         import traceback
+
         traceback.print_exc()
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     main()

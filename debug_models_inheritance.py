@@ -4,11 +4,15 @@ Debug why setting models on Title elements doesn't work.
 """
 
 import sys
-sys.path.insert(0, '/home/dave/code/ChemDataExtractor2')
+
+sys.path.insert(0, "/home/dave/code/ChemDataExtractor2")
 
 from chemdataextractor import Document
-from chemdataextractor.doc.text import Title, Heading, Paragraph
-from chemdataextractor.model.model import Compound, MeltingPoint, Apparatus
+from chemdataextractor.doc.text import Title
+from chemdataextractor.model.model import Apparatus
+from chemdataextractor.model.model import Compound
+from chemdataextractor.model.model import MeltingPoint
+
 
 def debug_models_setting():
     """Debug the models property behavior."""
@@ -27,16 +31,16 @@ def debug_models_setting():
     doc = Document(title)
     doc.models = [Compound, MeltingPoint, Apparatus]
 
-    print(f"\nAfter doc.models = [Compound, MeltingPoint, Apparatus]:")
+    print("\nAfter doc.models = [Compound, MeltingPoint, Apparatus]:")
     print(f"  doc.models: {[m.__name__ for m in doc.models]}")
     print(f"  title.models: {[m.__name__ for m in title.models]}")
     print(f"  title._models: {getattr(title, '_models', 'NOT SET')}")
 
     # Try to override title models
-    print(f"\nTrying to set title.models = [MeltingPoint, Apparatus]")
+    print("\nTrying to set title.models = [MeltingPoint, Apparatus]")
     title.models = [MeltingPoint, Apparatus]
 
-    print(f"After setting:")
+    print("After setting:")
     print(f"  title.models: {[m.__name__ for m in title.models]}")
     print(f"  title._models: {[m.__name__ for m in title._models]}")
 
@@ -44,7 +48,7 @@ def debug_models_setting():
     print(f"  title._streamlined_models: {[m.__name__ for m in title._streamlined_models]}")
 
     # Test extraction
-    print(f"\nTesting extraction:")
+    print("\nTesting extraction:")
     records = list(title.records)
     compounds = [r for r in records if isinstance(r, Compound)]
     print(f"  Records found: {len(records)}")
@@ -52,6 +56,7 @@ def debug_models_setting():
 
     for compound in compounds:
         print(f"    - {compound.serialize()}")
+
 
 def debug_title_default_behavior():
     """Check if Title has special default behavior."""
@@ -67,12 +72,13 @@ def debug_title_default_behavior():
     print(f"  Title._models: {getattr(title, '_models', 'NOT SET')}")
 
     # Check if Title overrides anything
-    import inspect
     print(f"  Title class methods: {[m for m in dir(title) if 'model' in m.lower()]}")
 
     # Check parent class
     from chemdataextractor.doc.text import Text
+
     print(f"  Text class methods: {[m for m in dir(Text) if 'model' in m.lower()]}")
+
 
 def debug_force_empty_models():
     """Try to force empty models on Title."""
@@ -100,6 +106,7 @@ def debug_force_empty_models():
     records = list(title.records)
     print(f"  Records with empty models: {len(records)}")
 
+
 def main():
     print("🐛 Debugging Models Inheritance and Setting")
     print("=" * 80)
@@ -108,5 +115,6 @@ def main():
     debug_title_default_behavior()
     debug_force_empty_models()
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     main()

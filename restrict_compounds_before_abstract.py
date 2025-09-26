@@ -5,11 +5,17 @@ This helps avoid extracting dates, author names, and other metadata as compounds
 """
 
 import sys
-sys.path.insert(0, '/home/dave/code/ChemDataExtractor2')
+
+sys.path.insert(0, "/home/dave/code/ChemDataExtractor2")
 
 from chemdataextractor import Document
-from chemdataextractor.doc.text import Title, Heading, Paragraph, Footnote
-from chemdataextractor.model.model import Compound, MeltingPoint, Apparatus
+from chemdataextractor.doc.text import Heading
+from chemdataextractor.doc.text import Paragraph
+from chemdataextractor.doc.text import Title
+from chemdataextractor.model.model import Apparatus
+from chemdataextractor.model.model import Compound
+from chemdataextractor.model.model import MeltingPoint
+
 
 def restrict_compounds_before_abstract(doc, include_title_compounds=False):
     """
@@ -34,7 +40,7 @@ def restrict_compounds_before_abstract(doc, include_title_compounds=False):
             text = element.text.lower().strip()
 
             # Look for abstract indicators
-            if any(keyword in text for keyword in ['abstract', 'summary']):
+            if any(keyword in text for keyword in ["abstract", "summary"]):
                 abstract_found = True
                 abstract_index = i
                 print(f"📋 Found abstract at element {i}: '{element.text[:50]}...'")
@@ -42,7 +48,9 @@ def restrict_compounds_before_abstract(doc, include_title_compounds=False):
 
     if not abstract_found:
         print("⚠️  No abstract section found - will restrict compounds from first 10 elements")
-        abstract_index = min(10, len(doc.elements))  # Fallback: assume first 10 elements are pre-content
+        abstract_index = min(
+            10, len(doc.elements)
+        )  # Fallback: assume first 10 elements are pre-content
 
     # Configure models for each element
     pre_abstract_count = 0
@@ -68,7 +76,9 @@ def restrict_compounds_before_abstract(doc, include_title_compounds=False):
                 element.models = filtered_models
 
                 element_type = type(element).__name__
-                print(f"🚫 Pre-abstract {element_type}: '{element.text[:50]}...' (compounds disabled)")
+                print(
+                    f"🚫 Pre-abstract {element_type}: '{element.text[:50]}...' (compounds disabled)"
+                )
 
         else:
             # At or after abstract - allow full extraction
@@ -78,11 +88,12 @@ def restrict_compounds_before_abstract(doc, include_title_compounds=False):
                 # If no models set, use document default
                 element.models = doc.models
 
-    print(f"\n📊 Configuration Summary:")
+    print("\n📊 Configuration Summary:")
     print(f"  • Pre-abstract elements: {pre_abstract_count} (compounds disabled)")
     if include_title_compounds:
         print(f"  • Title elements with compounds: {title_compound_count}")
     print(f"  • Post-abstract elements: {post_abstract_count} (full extraction)")
+
 
 def test_restriction_functionality():
     """Test the restriction functionality with a sample document."""
@@ -91,7 +102,8 @@ def test_restriction_functionality():
     print("=" * 60)
 
     # Create a sample document structure
-    from chemdataextractor.doc.text import Paragraph, Title, Heading
+    from chemdataextractor.doc.text import Heading
+    from chemdataextractor.doc.text import Title
 
     doc = Document(
         Title("Synthesis of Novel CuSO4 Complexes Using H2O Solvent"),
@@ -99,11 +111,17 @@ def test_restriction_functionality():
         Paragraph("Received: 15 March 2023; Accepted: 20 April 2023"),
         Paragraph("Keywords: copper, sulfate, CuCl2, synthesis"),
         Heading("Abstract"),
-        Paragraph("We report the synthesis of CuSO4 complexes using H2O as solvent. The reaction with NaCl produced interesting results."),
+        Paragraph(
+            "We report the synthesis of CuSO4 complexes using H2O as solvent. The reaction with NaCl produced interesting results."
+        ),
         Heading("Introduction"),
-        Paragraph("Chemical synthesis of CuSO4 has been studied extensively. Previous work with FeCl3 showed similar patterns."),
+        Paragraph(
+            "Chemical synthesis of CuSO4 has been studied extensively. Previous work with FeCl3 showed similar patterns."
+        ),
         Heading("Experimental"),
-        Paragraph("CuSO4 (99% purity) was dissolved in H2O. Addition of NaCl resulted in precipitation.")
+        Paragraph(
+            "CuSO4 (99% purity) was dissolved in H2O. Addition of NaCl resulted in precipitation."
+        ),
     )
 
     # Set up models
@@ -111,14 +129,14 @@ def test_restriction_functionality():
     print(f"Document models: {[m.__name__ for m in doc.models]}")
 
     # Test without title compound extraction
-    print(f"\n🔬 Test 1: Restrict compounds before abstract (excluding title)")
+    print("\n🔬 Test 1: Restrict compounds before abstract (excluding title)")
     restrict_compounds_before_abstract(doc, include_title_compounds=False)
 
     # Extract and analyze
     all_records = list(doc.records)
     compounds = [r for r in all_records if isinstance(r, Compound)]
 
-    print(f"\nExtraction Results:")
+    print("\nExtraction Results:")
     print(f"  Total records: {len(all_records)}")
     print(f"  Compounds found: {len(compounds)}")
 
@@ -126,7 +144,7 @@ def test_restriction_functionality():
         print(f"    {i}. {compound.serialize()}")
 
     # Check if problematic compounds were avoided
-    problematic_names = ['March', 'April', 'John', 'Smith', 'Sarah', 'Johnson', 'Dr']
+    problematic_names = ["March", "April", "John", "Smith", "Sarah", "Johnson", "Dr"]
     found_problematic = []
 
     for compound in compounds:
@@ -137,7 +155,8 @@ def test_restriction_functionality():
     if found_problematic:
         print(f"⚠️  Found potentially problematic compounds: {found_problematic}")
     else:
-        print(f"✅ No problematic author names/dates detected as compounds")
+        print("✅ No problematic author names/dates detected as compounds")
+
 
 def apply_to_real_document(file_path, include_title_compounds=False):
     """Apply compound restriction to a real document file."""
@@ -147,7 +166,7 @@ def apply_to_real_document(file_path, include_title_compounds=False):
 
     try:
         # Load document
-        with open(file_path, 'rb') as f:
+        with open(file_path, "rb") as f:
             doc = Document.from_file(f)
 
         print(f"Document loaded: {len(doc.elements)} elements")
@@ -161,7 +180,7 @@ def apply_to_real_document(file_path, include_title_compounds=False):
         # Extract compounds
         compounds = [r for r in doc.records if isinstance(r, Compound)]
 
-        print(f"\n📊 Extraction Results:")
+        print("\n📊 Extraction Results:")
         print(f"  Compounds found: {len(compounds)}")
 
         # Show first few compounds
@@ -177,6 +196,7 @@ def apply_to_real_document(file_path, include_title_compounds=False):
         print(f"❌ Error processing document: {e}")
         return []
 
+
 def main():
     """Main function demonstrating the compound restriction functionality."""
 
@@ -187,7 +207,7 @@ def main():
     # Test with sample document
     test_restriction_functionality()
 
-    print(f"\n" + "=" * 80)
+    print("\n" + "=" * 80)
     print("💡 Usage Examples:")
     print("=" * 80)
 
@@ -205,5 +225,6 @@ restrict_compounds_before_abstract(doc, include_title_compounds=False)
 compounds = [r for r in doc.records if isinstance(r, Compound)]
 """)
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     main()

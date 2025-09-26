@@ -514,62 +514,135 @@ class PersonName(dict[str, str]):
             self[prop] = self._clean(" ".join(res))
         return tokens
 
-    def _parse(self, fullname: str) -> None:
-        """Perform the parsing."""
-        n = " ".join(fullname.split()).strip(",")
-        if not n:
-            return
-        comps = [p.strip() for p in n.split(",")]
-        if len(comps) > 1 and not all(self._is_suffix(comp) for comp in comps[1:]):
-            vlj = []
-            while True:
-                vlj.append(comps.pop(0))
-                if not self._is_suffix(comps[0]):
-                    break
-            ltokens = self._tokenize(vlj)
-            ltokens = self._strip(ltokens, self._is_prefix, "prefix")
-            ltokens = self._strip(ltokens, self._is_suffix, "suffix", True)
-            self["lastname"] = self._clean(" ".join(ltokens), capitalize="name")
-        tokens = self._tokenize(comps)
-        tokens = self._strip(tokens, self._is_title, "title")
-        if "lastname" not in self:
-            tokens = self._strip(tokens, self._is_suffix, "suffix", True)
+    def _normalize_input(self, fullname: str) -> str:
+        """Normalize input by collapsing whitespace and stripping commas."""
+        return " ".join(fullname.split()).strip(",")
+
+    def _is_empty_input(self, normalized_name: str) -> bool:
+        """Check if the normalized input is empty."""
+        return not normalized_name
+
+    def _split_on_commas(self, normalized_name: str) -> list[str]:
+        """Split name on commas and strip whitespace from components."""
+        return [p.strip() for p in normalized_name.split(",")]
+
+    def _has_suffix_sequence(self, components: list[str]) -> bool:
+        """Check if components[1:] are all suffixes."""
+        return len(components) > 1 and not all(self._is_suffix(comp) for comp in components[1:])
+
+    def _extract_lastname_from_comma_format(
+        self, components: list[str]
+    ) -> tuple[str | None, list[str]]:
+        """Extract lastname from comma-separated format with suffix handling."""
+        if not self._has_suffix_sequence(components):
+            return None, components
+
+        vlj = []
+        comps_copy = components.copy()
+        while True:
+            vlj.append(comps_copy.pop(0))
+            if not comps_copy or not self._is_suffix(comps_copy[0]):
+                break
+
+        ltokens = self._tokenize(vlj)
+        ltokens = self._strip(ltokens, self._is_prefix, "prefix")
+        ltokens = self._strip(ltokens, self._is_suffix, "suffix", True)
+        lastname = self._clean(" ".join(ltokens), capitalize="name")
+
+        return lastname, comps_copy
+
+    def _find_prefix_positions(self, tokens: list[str]) -> list[int]:
+        """Find positions of prefix tokens using von particle logic."""
+        if "prefix" in self:
+            return []
+
         voni = []
         end = len(tokens) - 1
-        if "prefix" not in self:
-            for i, token in enumerate(reversed(tokens)):
-                if self._is_prefix(token):
-                    if (i == 0 and end > 0) or ("lastname" not in self and i != end):
-                        voni.append(end - i)
-                else:
-                    if (i == 0 and "lastname" in self) or voni:
-                        break
-        if voni:
-            if "lastname" not in self:
-                self["lastname"] = self._clean(" ".join(tokens[voni[0] + 1 :]), capitalize="name")
-            self["prefix"] = self._clean(" ".join(tokens[voni[-1] : voni[0] + 1]))
-            tokens = tokens[: voni[-1]]
+
+        for i, token in enumerate(reversed(tokens)):
+            if self._is_prefix(token):
+                if (i == 0 and end > 0) or ("lastname" not in self and i != end):
+                    voni.append(end - i)
+            else:
+                if (i == 0 and "lastname" in self) or voni:
+                    break
+
+        return voni
+
+    def _extract_prefix_and_lastname(
+        self, tokens: list[str]
+    ) -> tuple[str | None, str | None, list[str]]:
+        """Extract prefix and lastname from tokens, returning remaining tokens."""
+        # If no tokens left, nothing to extract
+        if not tokens:
+            return None, None, tokens
+
+        voni = self._find_prefix_positions(tokens)
+
+        if not voni:
+            # No prefix found, extract lastname from end if needed
+            lastname = None
+            if "lastname" not in self and tokens:
+                lastname = self._clean(tokens.pop(), capitalize="name")
+            return None, lastname, tokens
+
+        # Extract prefix and lastname
+        if "lastname" not in self:
+            lastname = self._clean(" ".join(tokens[voni[0] + 1 :]), capitalize="name")
         else:
-            if "lastname" not in self:
-                self["lastname"] = self._clean(tokens.pop(), capitalize="name")
+            lastname = None
+
+        prefix = self._clean(" ".join(tokens[voni[-1] : voni[0] + 1]))
+        remaining_tokens = tokens[: voni[-1]]
+
+        return prefix, lastname, remaining_tokens
+
+    def _extract_nickname(self, tokens: list[str]) -> tuple[str | None, list[str]]:
+        """Extract nickname enclosed in quotes, returning nickname and remaining tokens."""
+        if not tokens:
+            return None, tokens
+
+        nicki = []
+        for i, token in enumerate(tokens):
+            if token[0] in QUOTES:
+                for j, token2 in enumerate(tokens[i:]):
+                    if token2[-1] in QUOTES:
+                        nicki = range(i, i + j + 1)
+                        break
+
+        if not nicki:
+            return None, tokens
+
+        nickname_text = " ".join(tokens[nicki[0] : nicki[-1] + 1]).strip("".join(QUOTES))
+        nickname = self._clean(nickname_text, capitalize="name")
+
+        # Remove nickname tokens from the list
+        tokens_copy = tokens.copy()
+        tokens_copy[nicki[0] : nicki[-1] + 1] = []
+
+        return nickname, tokens_copy
+
+    def _extract_name_components(
+        self, tokens: list[str]
+    ) -> tuple[str | None, str | None, str | None]:
+        """Extract firstname, nickname, and middlename from remaining tokens."""
+        firstname = None
+        nickname = None
+        middlename = None
+
         if tokens:
-            self["firstname"] = self._clean(tokens.pop(0), capitalize="name")
+            firstname = self._clean(tokens.pop(0), capitalize="name")
+
         if tokens:
-            nicki = []
-            for i, token in enumerate(tokens):
-                if token[0] in QUOTES:
-                    for j, token2 in enumerate(tokens[i:]):
-                        if token2[-1] in QUOTES:
-                            nicki = range(i, i + j + 1)
-                            break
-            if nicki:
-                self["nickname"] = self._clean(
-                    " ".join(tokens[nicki[0] : nicki[-1] + 1]).strip("".join(QUOTES)),
-                    capitalize="name",
-                )
-                tokens[nicki[0] : nicki[-1] + 1] = []
+            nickname, tokens = self._extract_nickname(tokens)
+
         if tokens:
-            self["middlename"] = self._clean(" ".join(tokens), capitalize="name")
+            middlename = self._clean(" ".join(tokens), capitalize="name")
+
+        return firstname, nickname, middlename
+
+    def _assemble_fullname(self) -> None:
+        """Assemble the fullname from individual components."""
         namelist = []
         for attr in [
             "title",
@@ -583,3 +656,41 @@ class PersonName(dict[str, str]):
             if attr in self:
                 namelist.append(f'"{self[attr]}"' if attr == "nickname" else self[attr])
         self["fullname"] = " ".join(namelist)
+
+    def _parse(self, fullname: str) -> None:
+        """Parse a full name into components using a structured pipeline."""
+        # Phase 1: Input normalization and early exit
+        normalized_name = self._normalize_input(fullname)
+        if self._is_empty_input(normalized_name):
+            return
+
+        # Phase 2: Handle comma-separated format (lastname extraction)
+        components = self._split_on_commas(normalized_name)
+        lastname, remaining_components = self._extract_lastname_from_comma_format(components)
+        if lastname:
+            self["lastname"] = lastname
+
+        # Phase 3: Token processing and title/suffix stripping
+        tokens = self._tokenize(remaining_components)
+        tokens = self._strip(tokens, self._is_title, "title")
+        if "lastname" not in self:
+            tokens = self._strip(tokens, self._is_suffix, "suffix", True)
+
+        # Phase 4: Prefix and lastname extraction
+        prefix, extracted_lastname, tokens = self._extract_prefix_and_lastname(tokens)
+        if prefix:
+            self["prefix"] = prefix
+        if extracted_lastname:
+            self["lastname"] = extracted_lastname
+
+        # Phase 5: Name component extraction
+        firstname, nickname, middlename = self._extract_name_components(tokens)
+        if firstname:
+            self["firstname"] = firstname
+        if nickname:
+            self["nickname"] = nickname
+        if middlename:
+            self["middlename"] = middlename
+
+        # Phase 6: Assemble final fullname
+        self._assemble_fullname()

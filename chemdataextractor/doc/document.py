@@ -137,7 +137,9 @@ class Document(BaseDocument):
         >>> compounds = [r for r in records if isinstance(r, Compound)]
     """
 
-    def __init__(self, *elements: ElementInput, restrict_pre_abstract: bool = True, **kwargs: Any) -> None:
+    def __init__(
+        self, *elements: ElementInput, restrict_pre_abstract: bool = True, **kwargs: Any
+    ) -> None:
         """Initialize a Document manually by passing document elements.
 
         Strings and byte strings are automatically wrapped into Paragraph elements.
@@ -250,23 +252,36 @@ class Document(BaseDocument):
         """Find the index of the abstract section in the document.
 
         Searches for elements containing 'abstract' or 'summary' in their text.
+        If not found, looks for 'introduction' heading.
+        If neither found, returns index that allows parsing the whole document.
 
         Returns:
-            Index of the abstract section, or a conservative fallback if not found
+            Index of the abstract/introduction section, or len(elements) to parse whole document
         """
-        from .text import Heading, Title  # Import here to avoid circular imports
+        from .text import Heading  # Import here to avoid circular imports
+        from .text import Title  # Import here to avoid circular imports
 
+        # First priority: Look for Abstract or Summary
         for i, element in enumerate(self.elements):
             if isinstance(element, (Heading, Title)):
                 text = element.text.lower().strip()
-                if any(keyword in text for keyword in ['abstract', 'summary']):
+                if any(keyword in text for keyword in ["abstract", "summary"]):
                     log.debug(f"Found abstract at element {i}: '{element.text[:50]}...'")
                     return i
 
-        # Fallback: assume first 10 elements are pre-content
-        fallback_index = min(10, len(self.elements))
-        log.debug(f"No abstract section found - using fallback index {fallback_index}")
-        return fallback_index
+        # Second priority: Look for Introduction
+        for i, element in enumerate(self.elements):
+            if isinstance(element, (Heading, Title)):
+                text = element.text.lower().strip()
+                if "introduction" in text:
+                    log.debug(
+                        f"No abstract found, using introduction at element {i}: '{element.text[:50]}...'"
+                    )
+                    return i
+
+        # Third priority: No abstract or introduction found - parse whole document
+        log.debug("No abstract or introduction found - parsing whole document (no restriction)")
+        return len(self.elements)  # This will make all elements post-"abstract"
 
     def _apply_models_with_pre_abstract_restriction(self, models: list[type[BaseModel]]) -> None:
         """Apply models with automatic pre-abstract restriction.
@@ -282,19 +297,32 @@ class Document(BaseDocument):
         pre_abstract_count = 0
         post_abstract_count = 0
 
-        for i, element in enumerate(self.elements):
-            if i < abstract_index:
-                # Before abstract: no extraction models
-                element.models = []
-                pre_abstract_count += 1
-            else:
-                # At/after abstract: full models
+        # Special case: if abstract_index >= len(elements), parse whole document
+        if abstract_index >= len(self.elements):
+            # No restriction - apply models to all elements
+            for element in self.elements:
                 element.models = models
                 post_abstract_count += 1
+        else:
+            # Normal restriction logic
+            for i, element in enumerate(self.elements):
+                if i < abstract_index:
+                    # Before abstract: no extraction models
+                    element.models = []
+                    pre_abstract_count += 1
+                else:
+                    # At/after abstract: full models
+                    element.models = models
+                    post_abstract_count += 1
+
+        if abstract_index < len(self.elements):
+            section_type = "abstract/introduction"
+        else:
+            section_type = "whole document (no restriction)"
 
         log.info(
             f"Applied pre-abstract restriction: {pre_abstract_count} elements restricted, "
-            f"{post_abstract_count} elements with full extraction (abstract at index {abstract_index})"
+            f"{post_abstract_count} elements with full extraction ({section_type} at index {abstract_index})"
         )
 
     @classmethod
@@ -388,15 +416,12 @@ class Document(BaseDocument):
                     file.read(),
                     fname=fname or f,
                     readers=readers,
-                    restrict_pre_abstract=restrict_pre_abstract
+                    restrict_pre_abstract=restrict_pre_abstract,
                 )
         if not fname and hasattr(f, "name"):
             fname = f.name
         return cls.from_string(
-            f.read(),
-            fname=fname,
-            readers=readers,
-            restrict_pre_abstract=restrict_pre_abstract
+            f.read(), fname=fname, readers=readers, restrict_pre_abstract=restrict_pre_abstract
         )
 
     @classmethod

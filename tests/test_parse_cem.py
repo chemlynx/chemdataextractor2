@@ -593,6 +593,113 @@ class TestParseDocument(unittest.TestCase):
             ],
         )  # example-3?
 
+    def test_consecutive_headings_with_abstract(self):
+        """Enhanced version of test_consecutive_headings with Abstract heading to test pre-abstract restriction."""
+        d = Document(
+            Heading("Preparation of 2-Amino-3-methoxy-5-chloropyridine"),
+            Heading("Example 3"),
+            Heading("Abstract"),  # Added Abstract heading
+            Paragraph(
+                "The solid is suspended in hexanes, stirred and filtered to give the product as a bright yellow solid. (MP 93-94° C.)."
+            ),
+        )
+        d.models = [Compound]
+        results = [r.serialize() for r in d.records]
+        # With Abstract heading, only the paragraph should be processed
+        self.assertEqual(
+            results,
+            [
+                {"Compound": {"names": ["hexanes"]}},
+            ],
+        )
+
+    def test_consecutive_headings2_with_abstract(self):
+        """Enhanced version of test_consecutive_headings2 with Abstract heading to test pre-abstract restriction."""
+        d = Document(
+            Heading("Example-3"),
+            Heading("Preparation of 5-Bromo-6-pentadecyl-2-hydroxybenzoic acid (DBAA)"),
+            Heading("Abstract"),  # Added Abstract heading
+            Paragraph(
+                "The product had a melting point of 70-75° C. and has structural formula VII."
+            ),
+        )
+        d.models = [Compound, MeltingPoint]
+        results = [r.serialize() for r in d.records]
+        # With Abstract heading, only the paragraph should be processed
+        self.assertCountEqual(
+            results,
+            [
+                {
+                    "MeltingPoint": {
+                        "units": "Celsius^(1.0)",
+                        "value": [70.0, 75.0],
+                        "raw_value": "70-75",
+                        "raw_units": "°C",
+                        "compound": {"Compound": {"labels": ["VII"], "roles": ["formula"]}},
+                    }
+                },
+                {"Compound": {"labels": ["VII"], "roles": ["formula"]}},
+            ],
+        )
+
+    def test_consecutive_headings_with_introduction(self):
+        """Test pre-abstract restriction fallback to Introduction heading."""
+        d = Document(
+            Heading("Example-3"),
+            Heading("Preparation of 5-Bromo-6-pentadecyl-2-hydroxybenzoic acid (DBAA)"),
+            Heading("Introduction"),  # Introduction heading (no Abstract)
+            Paragraph(
+                "The product had a melting point of 70-75° C. and has structural formula VII."
+            ),
+        )
+        d.models = [Compound, MeltingPoint]
+        results = [r.serialize() for r in d.records]
+        # With Introduction heading, only the paragraph should be processed
+        self.assertCountEqual(
+            results,
+            [
+                {
+                    "MeltingPoint": {
+                        "units": "Celsius^(1.0)",
+                        "value": [70.0, 75.0],
+                        "raw_value": "70-75",
+                        "raw_units": "°C",
+                        "compound": {"Compound": {"labels": ["VII"], "roles": ["formula"]}},
+                    }
+                },
+                {"Compound": {"labels": ["VII"], "roles": ["formula"]}},
+            ],
+        )
+
+    def test_no_restriction_fallback_cem(self):
+        """Test pre-abstract restriction fallback to no restriction when neither Abstract nor Introduction found."""
+        d = Document(
+            Heading("Example-3"),
+            Heading("Preparation of 5-Bromo-6-pentadecyl-2-hydroxybenzoic acid (DBAA)"),
+            Paragraph(
+                "The product had a melting point of 70-75° C. and has structural formula VII."
+            ),
+        )
+        d.models = [Compound, MeltingPoint]
+        results = [r.serialize() for r in d.records]
+        # With no Abstract or Introduction, all elements should be processed
+        self.assertCountEqual(
+            results,
+            [
+                {"Compound": {"names": ["5-Bromo-6-pentadecyl-2-hydroxybenzoic acid"], "labels": ["DBAA"], "roles": ["compound"]}},
+                {
+                    "MeltingPoint": {
+                        "units": "Celsius^(1.0)",
+                        "value": [70.0, 75.0],
+                        "raw_value": "70-75",
+                        "raw_units": "°C",
+                        "compound": {"Compound": {"labels": ["VII"], "roles": ["formula"]}},
+                    }
+                },
+                {"Compound": {"labels": ["VII"], "roles": ["formula"]}},
+            ],
+        )
+
 
 if __name__ == "__main__":
     unittest.main()

@@ -1,0 +1,37 @@
+#!/bin/bash
+
+# Quick test runner with various optimizations
+
+# Default to no coverage, short output
+export PYTEST_DISABLE_PLUGIN_AUTOLOAD=1
+export PYTHONDONTWRITEBYTECODE=1
+
+# Parse arguments
+if [ "$1" = "--collect" ]; then
+    echo "🔍 Collecting tests (bypassing config)..."
+    PYTEST_IGNORE_COLLECT_ERRORS=1 uv run pytest --collect-only --override-ini="addopts=" -q "$2"
+elif [ "$1" = "--fast" ]; then
+    echo "⚡ Running fast test (bypassing config)..."
+    uv run pytest --override-ini="addopts=" --tb=short -v "$2"
+elif [ "$1" = "--unit" ]; then
+    echo "🧪 Running unit test (bypassing config)..."
+    uv run pytest --override-ini="addopts=" --tb=short -v -s "$2"
+elif [ "$1" = "--debug" ]; then
+    echo "🐛 Running debug test (bypassing config)..."
+    uv run pytest --override-ini="addopts=" --tb=long -v -s --capture=no "$2"
+else
+    echo "Usage: ./quick-test [--collect|--fast|--unit|--debug] <test_pattern>"
+    echo ""
+    echo "Examples:"
+    echo "  ./quick-test --collect tests/test_extract.py"
+    echo "  ./quick-test --fast tests/test_extract.py::TestExtract::test_melting_point_heading_salt"
+    echo "  ./quick-test --unit tests/test_extract.py::TestExtract::test_melting_point_heading_salt"
+    echo "  ./quick-test --debug tests/test_extract.py::TestExtract::test_melting_point_heading_salt"
+    echo ""
+    echo "Optimizations:"
+    echo "  - No coverage collection (huge speedup)"
+    echo "  - Disabled plugin autoload"
+    echo "  - No .pyc file generation"
+    echo "  - Short traceback format"
+    exit 1
+fi
